@@ -1059,7 +1059,7 @@ class DotsRepresentation (Representation):
         GL.glUseProgram(self.shader_program)
         #1*self.height dot_size
         #GL.glLineWidth(40/abs(self.glCore.dist_cam_zrp))
-        GL.glPointSize(0.3*height/abs(self.glCore.dist_cam_zrp)) # dot size not included yet
+        GL.glPointSize(1.5*height/abs(self.glCore.dist_cam_zrp)) # dot size not included yet
         self.glCore.load_matrices(self.shader_program, self.visObj.model_mat)
         self.glCore.load_fog(self.shader_program)
         GL.glBindVertexArray(self.vao)

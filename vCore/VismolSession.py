@@ -115,11 +115,18 @@ class ShowHideVisMol:
             #               A T O M S 
             else:
                 if _type == 'nonbonded':
-                    if show:
-                        atom.nonbonded = True
+                    
+                    if len(atom.bonds) != 0:
+                        pass
                     else:
-                        atom.nonbonded = False
-
+                        if show:
+                            atom.nonbonded = True
+                        else:
+                            atom.nonbonded = False
+                    #else:
+                    #    atom.nonbonded = True
+                    print(atom.name, atom.nonbonded)
+                
                 if _type == 'dots':
                     if show:
                         atom.dots = True
@@ -184,13 +191,6 @@ class ShowHideVisMol:
                 #----------------------------------------------------------------   
                 
                 if vobject.representations[_type] is None:
-                    #print(vobject.representations[_type])
-                    #if indexes_bonds == []:
-                    #    pass
-                    #
-                    #
-                    #else:
-                    #print(indexes_bonds)
                     rep  = SticksRepresentation    (name    = _type, 
                                                     active  = True, 
                                                     _type   = 'mol', 
@@ -198,9 +198,7 @@ class ShowHideVisMol:
                                                     glCore  = self.glwidget.vm_widget,
                                                     indexes = indexes_bonds)
                                                     
-                    vobject.representations[rep.name] = rep 
-                    #print(vobject.representations[_type])
-                
+                    vobject.representations[rep.name] = rep               
                 else:
 
                     if indexes_bonds == []:
@@ -209,7 +207,6 @@ class ShowHideVisMol:
                     
                     else:
                         indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)
-                        #print (indexes_bonds)
                         vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
                         vobject.representations[_type].active = True
                 
@@ -223,13 +220,14 @@ class ShowHideVisMol:
                     indexes = []
                     
                     for atom in vobject.atoms:
-                        
                         if atom.dots:
                             index = vobject.atoms.index(atom)
                             indexes.append(index)
                         else:
                             pass
+                        
 
+                                
                     if vobject.representations[_type] is None:
                         #print(vobject.representations[_type])
                         rep  = DotsRepresentation    (name    = _type, 
@@ -255,7 +253,39 @@ class ShowHideVisMol:
 
 
                 if _type == 'nonbonded':
-                    pass
+                    print('show nonbonded')
+                    indexes = []
+                    
+                    for atom in vobject.atoms:
+                        #print(atom.name, atom.index, atom.nonbonded)
+                        if atom.nonbonded:
+                            index = vobject.atoms.index(atom)
+                            indexes.append(index)
+                        else:
+                            pass
+
+                    if vobject.representations[_type] is None:
+                        #print(vobject.representations[_type])
+                        rep  = NonBondedRepresentation    (name    = _type, 
+                                                           active  = True, 
+                                                           _type   = 'mol', 
+                                                           visObj  = vobject, 
+                                                           glCore  = self.glwidget.vm_widget,
+                                                           indexes = indexes)
+                                                        
+                        vobject.representations[rep.name] = rep 
+                    
+                    else:
+
+                        if indexes  == []:
+                            vobject.representations[_type].active = False
+                            pass
+                        
+                        else:
+                            indexes = np.array(indexes, dtype=np.uint32)
+                            #print (indexes)
+                            vobject.representations[_type].define_new_indexes_to_VBO ( indexes)
+                            vobject.representations[_type].active = True                
                 
                 if  _type == 'spheres':
                     
@@ -839,6 +869,14 @@ class VisMolSession (ShowHideVisMol):
             def menu_show_sticks (_):
                 """ Function doc """
                 self.show_or_hide( _type = 'sticks', show = True)
+            
+            def menu_show_nonbonded (_):
+                """ Function doc """
+                self.show_or_hide( _type = 'nonbonded', show = True)
+            
+            def menu_hide_nonbonded (_):
+                """ Function doc """
+                self.show_or_hide( _type = 'nonbonded', show = False)
 
             def menu_hide_sticks (_):
                 """ Function doc """
@@ -851,6 +889,14 @@ class VisMolSession (ShowHideVisMol):
             def menu_hide_spheres (_):
                 """ Function doc """
                 self.show_or_hide( _type = 'spheres', show = False)
+            
+            def menu_show_dots (_):
+                """ Function doc """
+                self.show_or_hide( _type = 'dots', show = True)
+
+            def menu_hide_dots (_):
+                """ Function doc """
+                self.show_or_hide( _type = 'dots', show = False)
 
 
             sele_menu = { 
@@ -867,9 +913,10 @@ class VisMolSession (ShowHideVisMol):
                                             'lines'         : ['MenuItem', menu_show_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
+                                            'dots'          : ['MenuItem', menu_show_dots],
                                             'dynamic bonds' : ['MenuItem', dynamic_test],
                                             'separator2'    : ['separator', None],
-                                            'nonbonded'     : ['MenuItem', None],
+                                            'nonbonded'     : ['MenuItem', menu_show_nonbonded],
                     
                                            }
                                ],
@@ -880,7 +927,9 @@ class VisMolSession (ShowHideVisMol):
                                             'lines'    : ['MenuItem', menu_hide_lines],
                                             'sticks'   : ['MenuItem', menu_hide_sticks],
                                             'spheres'  : ['MenuItem', menu_hide_spheres],
-                                            'nonbonded': ['MenuItem', None],
+                                            'dots'     : ['MenuItem', menu_hide_dots],
+                                            'separator2'    : ['separator', None],
+                                            'nonbonded': ['MenuItem', menu_hide_nonbonded],
                                             }
                                 ],
                     

@@ -228,6 +228,13 @@ class VismolObject:
         
         if auto_find_bonded_and_nonbonded:
             self.find_bonded_and_nonbonded_atoms(atoms)
+            
+            
+            # you must assign the nonbonded attribute = True to atoms that are not bonded.
+            for index in self.non_bonded_atoms:
+                print (index, self.atoms[index].name,  self.atoms[index].nonbonded)
+                self.atoms[index].nonbonded = True
+            
             self._get_center_of_mass()
         
         else:
@@ -755,8 +762,12 @@ class VismolObject:
             
         for atom in self.atoms:
             if atom.bonds == []:
+                
                 self.non_bonded_atoms.append(atom.index)
+                atom.nonbonded = False
             else:
+                # you must assign the nonbonded attribute = True to atoms that are not bonded.
+                atom.nonbonded = True
                 pass
                 
 
@@ -765,8 +776,9 @@ class VismolObject:
         #print(atoms)
         bonds_full_indexes, bonds_pair_of_indexes, NB_indexes_list = cdist.generete_full_NB_and_Bonded_lists(atoms)
         #print (bonds_full_indexes, bonds_pair_of_indexes)
-        self.non_bonded_atoms  = NB_indexes_list
         
+        self.non_bonded_atoms  = NB_indexes_list
+       
         self._generate_atomtree_structure()
         
         self._generate_color_vectors()
