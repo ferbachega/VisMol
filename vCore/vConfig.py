@@ -205,6 +205,7 @@ class VisMolConfig:
                     'Mt' : [ 109, [0.920000, 0.000000, 0.150000], [179,   0, 179], [230,   0,  46],  1.600000 , 0.000000 , 1.700000 ],#                                                          0.01 ],
                     'Xx' : [ 0,   [0.070000, 0.500000, 0.700000], [179,   0, 179], [235,   0,  38],  1.000000 , 0.000000 , 0.000000 ],#                                                          0.01 ],
                     'X'  : [ 0,   [0.070000, 0.500000, 0.700000], [179,   0, 179], [235,   0,  38],  1.000000 , 0.000000 , 0.000000 ],#                                                          0.01 ]
+                    'pK' : [ 0,   [1.000000, 1.00000,  0.000000], [179,   0, 179], [235,   0,  38],  1.000000 , 0.000000 , 0.000000 ],#                                                          0.01 ]
                     }
         
         self.ATOM_TYPES_list = self.ATOM_TYPES.keys()
@@ -332,7 +333,7 @@ class VisMolConfig:
                                                                                          
                                                                                          
                                   'dot_size'                   : 20                    ,  
-                                  'dot_type'                   : 0                    ,  # 0 - square    1 - rounded
+                                  'dot_type'                   : 1                    ,  # 0 - square    1 - rounded
                                   'dot_sel_size'               : 1.5                  , 
                                                                                          
                                   'line_width'                 : 2                    ,  
@@ -352,7 +353,7 @@ class VisMolConfig:
                                                                                                                
                                   'sphere_type'                : 0                    ,  # 0 - real spheres    1 - impostors 
                                   'sphere_scale'               : 0.85                 ,  # Scale size for real spheres
-                                  'sphere_quality'             : 2                    ,  # Quality for real spheres - 1 if default
+                                  'sphere_quality'             : 1                    ,  # Quality for real spheres - 1 if default
                                   'impostor_type'              : 1                    ,  # Quality for real spheres - 1 if default
                                                                                          
                                                                                          

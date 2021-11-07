@@ -163,16 +163,28 @@ def get_atom_list_from_mol2_frame (raw_atoms, frame = True, gridsize = 3, at =  
 
 
             at_symbol  = at.get_symbol(at_name)
+            
             #at_symbol= line[5].split('.')
             #at_symbol= at_symbol[0]
-            cov_rad  = at.get_cov_rad (at_symbol)
+            #cov_rad  = at.get_cov_rad (at_symbol)
 
 
 
-            gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
+            #gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
             #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
-            atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
-
+            #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+            
+            atoms.append({
+                          'index'      : index      , 
+                          'name'       : at_name    , 
+                          'resi'       : at_resi    , 
+                          'resn'       : at_resn    , 
+                          'chain'      : at_ch      , 
+                          'symbol'     : at_symbol  , 
+                          'occupancy'  : at_occup   , 
+                          'bfactor'    : at_bfactor , 
+                          'charge'     : at_charge   
+                          })
 
 
             #atoms.append([index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch])

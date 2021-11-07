@@ -255,7 +255,7 @@ def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3
         
         at_resn  = res_names[index]
         at_resi  = res_indexes[index]
-        at_chain = 'X'
+        at_ch    = 'X'
         
         at_occup   = 0.0     #occupancy
         at_bfactor = 0.0
@@ -267,13 +267,24 @@ def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3
         #    at_symbol = at.ATOM_TYPES_BY_ATOMICNUMBER[at_numbers[index]]
         #else:
         at_symbol = at.get_symbol(at_name)
-        cov_rad   = at.get_cov_rad (at_symbol)
-        gridpos   = [0,0,0]
+        #cov_rad   = at.get_cov_rad (at_symbol)
+        #gridpos   = [0,0,0]
         
 
-        atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_chain, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+        #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_chain, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
         #print([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_chain, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
-
+        atoms.append({
+                      'index'      : index      , 
+                      'name'       : at_name    , 
+                      'resi'       : at_resi    , 
+                      'resn'       : at_resn    , 
+                      'chain'      : at_ch      , 
+                      'symbol'     : at_symbol  , 
+                      'occupancy'  : at_occup   , 
+                      'bfactor'    : at_bfactor , 
+                      'charge'     : at_charge   
+                      })
+            
     #print (total_bonds)
 
     

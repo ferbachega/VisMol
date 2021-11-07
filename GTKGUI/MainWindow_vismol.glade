@@ -2,119 +2,6 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
-  <object class="GtkWindow">
-    <property name="can_focus">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkNotebook" id="notebook1">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <child>
-          <object class="GtkPaned" id="paned3">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <child>
-              <object class="GtkGLArea">
-                <property name="visible">True</property>
-                <property name="app_paintable">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="resize">False</property>
-                <property name="shrink">True</property>
-              </packing>
-            </child>
-          </object>
-        </child>
-        <child type="tab">
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Viewer</property>
-          </object>
-          <packing>
-            <property name="tab_fill">False</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child type="tab">
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child type="tab">
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkWindow">
-    <property name="can_focus">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkPaned" id="paned1">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="halign">baseline</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkNotebook" id="notebook2">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="tab_pos">left</property>
-            <child>
-              <object class="GtkPaned" id="paned2">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="tab_fill">False</property>
-              </packing>
-            </child>
-            <child type="tab">
-              <object class="GtkLabel" id="label4">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Viewer</property>
-              </object>
-              <packing>
-                <property name="tab_fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child type="tab">
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child type="tab">
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="resize">True</property>
-            <property name="shrink">True</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -217,6 +104,12 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkSeparatorMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="imagemenuitem3">
                         <property name="label">gtk-save</property>
                         <property name="visible">True</property>
@@ -232,6 +125,20 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="separatormenuitem2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Export As ...</property>
+                        <property name="use_underline">True</property>
                       </object>
                     </child>
                     <child>
@@ -304,10 +211,34 @@
               </object>
             </child>
             <child>
+              <object class="GtkMenuItem">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Selection</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+            <child>
               <object class="GtkMenuItem" id="menuitem3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_View</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Simulation</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Analysis</property>
                 <property name="use_underline">True</property>
               </object>
             </child>
@@ -332,14 +263,6 @@
                     </child>
                   </object>
                 </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem5">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">menuitem5</property>
-                <property name="use_underline">True</property>
               </object>
             </child>
           </object>
@@ -529,47 +452,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkBox" id="box3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="spacing">4</property>
-                        <child>
-                          <object class="GtkToggleButton" id="togglebutton1">
-                            <property name="label" translatable="yes">viewing</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="label3">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">label</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkComboBox" id="combobox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -581,6 +464,19 @@
                   <object class="GtkSeparatorToolItem" id="separator3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolItem">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>

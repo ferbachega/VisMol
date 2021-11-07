@@ -156,9 +156,23 @@ def load_aux_file (infile = None, vismolSession =  None, gridsize = 3):
             at_symbol = at_name
             cov_rad   = at.get_cov_rad (at_name)
             gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]     
-            atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+            #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
             
-            print ([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+            #print ([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+            atoms.append({
+                          'index'      : index      , 
+                          'name'       : at_name    , 
+                          'resi'       : at_resi    , 
+                          'resn'       : at_resn    , 
+                          'chain'      : at_ch      , 
+                          'symbol'     : at_symbol  , 
+                          'occupancy'  : at_occup   , 
+                          'bfactor'    : at_bfactor , 
+                          'charge'     : at_charge   
+                          })
+            
+            
+            
             index += 1
             #print (atom, frame[i], frame[i+1], frame[i+2])
             i+=3 

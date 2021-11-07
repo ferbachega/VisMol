@@ -28,8 +28,9 @@ from gi.repository import Gtk, Gdk
 #import os
 
 from vCore.VismolSession  import VisMolSession
-from GTKGUI  import VismolMain 
-
+#from GTKGUI               import VismolMain 
+from easyhybrid.GUI       import EasyHybridMainWindow
+#from easyhybrid.GUI       import LabelWindow
 
 
 '''
@@ -211,31 +212,19 @@ def main():
             }
 
     '''
-    
-    
-    
-    
-    
-    
-    
-    #vismolSession.insert_glmenu(bg_menu = menu)
     vismolSession.insert_glmenu()
+    window = EasyHybridMainWindow(vismolSession)
+    #window.connect("destroy", Gtk.main_quit)
+    #window.show_all()
+    Gtk.main()
     
     
-    args =  sys.argv
-    print  (args)
-    filein = args[-1]
-    
-    if len(args) >= 2:
-            filein = args[-1]
-    else:
-        filein = None
-   
-    gui            = VismolMain.VismolMainWindow(vismolSession = vismolSession, filein =  filein)
-    
-
-    
-    return 0
+    #print ('ops')
+    ##vismolSession.insert_glmenu(bg_menu = menu)
+    #vismolSession.insert_glmenu()
+    #gui            = MainWindow(vismolSession)
+    #gui.run()
+    #print ('ops')
 
 if __name__ == '__main__':
     main()

@@ -665,6 +665,8 @@ void main()
     if (dist > 0.5)
         discard;
     
+    float dist2 = length(gl_PointCoord.xy - vec2(0.4,0.4));
+    float sphere_factor = pow( 1.025 - dist2 , 1.75 ); 
     
     //if(dist>=fog_start){
     //    float fog_factor = (fog_end-dist)/(fog_end-fog_start);
@@ -673,7 +675,8 @@ void main()
     //else{
     //   out_color = vec4(v_color, 1.0);    
     //}
-    out_color = vec4(v_color, 1.0);
+    //out_color = vec4(v_color, 1.0);
+    out_color = vec4(v_color * sphere_factor, 1.0);
 }
 """
 

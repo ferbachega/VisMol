@@ -112,6 +112,7 @@
 vertex_shader_picking_dots = """
 #version 330
 
+precision highp float;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 uniform mat4 proj_mat;
@@ -138,6 +139,7 @@ void main(){
     if (dist > 0.6)
         discard;
     gl_FragColor = vec4(index_color,1.0);
+    //gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 }
 
 """

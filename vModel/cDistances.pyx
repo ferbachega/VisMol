@@ -633,7 +633,21 @@ cpdef _generete_NB_list_from_TrueFalse_list(list NB_TrueFalse_list):
 
 
 cpdef generete_full_NB_and_Bonded_lists(atoms):
+    '''
+    atoms = [] it's a list
     
+    list element = [atom.index-1    ,    # 0
+                    atom.name       ,    # 1
+                    atom.cov_rad    ,    # 2
+                    np.array(coods) ,    # 3
+                    atom.resi       ,    # 4
+                    atom.resn       ,    # 5
+                    atom.chain      ,    # 6
+                    atom.symbol     ,    # 7
+                    []              ,    # 8
+                    gridpos         ]
+    
+    '''
     #----------------------------------------------------------------------------------------------
     #                                Pairwise grid elements
     #----------------------------------------------------------------------------------------------
@@ -700,5 +714,465 @@ cpdef generete_full_NB_and_Bonded_lists(atoms):
     NB_indices_list = _generete_NB_list_from_TrueFalse_list(NB_TrueFalse_list)
     print ('NB atoms                :', len(NB_indices_list))
     #-----------------------------------------------------------------------------------------------------------------------------------------------
+
+    #for atom in atoms:
+    #    print(atom)
+
+    return bonds_full_indices, bonds_pair_of_indices, NB_indices_list
+
+
+
+
+
+
+
+
+
+
+
+
+cpdef tuple _generate_connections_into_a_grid_element_2 (list list_of_atoms         , 
+                                                         list atoms                 , 
+                                                         list bonds_pair_of_indices ,  #indices of connected atoms
+                                                         list bonds_full_indices    ,
+                                                         list non_bonded_list       ): #pairs_of_
+    """
+        Calculate the distances and bonds 
+        between atoms within a single element 
+        of the atomic grid
+        
+                  |-------|-------|-------|
+                  |       |       |       |
+                  |       |       |       |
+                  |       |       |       |
+                  |-------|-atoms-|-------|
+                  |       |       |       |
+                  |       | i<->j |       |
+                  |       |       |       |
+                  |-------|-------|-------|
+                  |       |       |       |
+                  |       |       |       |
+                  |       |       |       |
+                  |-------|-------|-------|
+    
+    
+    
+    atoms = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]
+            each elemte is a list contain required data.
+    
+    
+    bonds_pair_of_indices [[a,b],[b,c], ...] where a and b are indices. 
+    returns a list of pair of indices "bonds_pair_of_indices"
+    
+    """
+
+    cdef int i
+    cdef int j
+    cdef int size
+    cdef int index_i
+
+    cdef double atom_ix
+    cdef double atom_iy
+    cdef double atom_iz
+    cdef double cov_rad_i, cov_rad_j
+    
+    cdef double r_ij
+    cdef double dX
+    cdef double dY
+    cdef double dZ
+
+    size =  len(atoms)
+    
+    cdef int list_index = 0 
+    
+    for i in list_of_atoms[:-1]:
+        atom_ix   = atoms[i][3][0]
+        atom_iy   = atoms[i][3][1]    
+        atom_iz   = atoms[i][3][2]
+        cov_rad_i = atoms[i][2]
+        index_i   = atoms[i][0]
+        
+        list_index+= 1
+        
+        for j in list_of_atoms[list_index:]:    
+            if i == j:
+                pass
+            
+            else:
+                dX              = (atom_ix - atoms[j][3][0])**2
+                dY              = (atom_iy - atoms[j][3][1])**2
+                dZ              = (atom_iz - atoms[j][3][2])**2
+                
+                cov_rad_j       = atoms[j][2]
+                
+                cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.4
+                
+                
+                if (dX > cov_rad_ij_sqrt or 
+                    dY > cov_rad_ij_sqrt or 
+                    dZ > cov_rad_ij_sqrt):
+                    pass
+
+                else:
+                    r_ij = (dX + dY + dZ)
+                    if r_ij <= cov_rad_ij_sqrt:
+                        pass
+                        bonds_pair_of_indices.append([index_i , atoms[j][0]])
+                        
+                        bonds_full_indices.append  (index_i               )
+                        bonds_full_indices.append  (atoms[j][0]           )                 
+                        
+                        atoms[i][8].append  (atoms[j][0]           )
+                        atoms[j][8].append  (atoms[i][0]           )
+                        
+                        non_bonded_list[index_i    ] = False
+                        non_bonded_list[atoms[j][0]] = False
+
+                    
+                    else:
+                        pass
+
+    return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
+
+cpdef tuple _generate_connections_between_grid_elements_2 (list lits_of_atoms1       , 
+                                                        list lits_of_atoms2       , 
+                                                        list atoms                , 
+                                                        list bonds_pair_of_indices,  #indices of connected atoms
+                                                        list bonds_full_indices   ,
+                                                        list non_bonded_list      ):
+    """
+   
+    Calculate the distances and connections 
+    between atoms from different elements 
+    of the atomic grid
+    
+                |-------|-------|-------|
+                |       |       |       |
+                |       |       |       |
+                |       |       |       |
+                |-------|-atoms1|-------|
+                |       |   i   |       |
+                |       |    \  |       |
+                |       |     \ |       |
+                |-------|------\|-atoms2|
+                |       |       \       |
+                |       |       |\      |
+                |       |       | j     |
+                |-------|-------|-------|
+    
+    
+    atoms1 = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]
+    
+    atoms2 = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]
+
+    bonds_pair_of_indices [[a,b],[b,c], ...] where a and b are indices. 
+    returns a list of pair of indices "bonds_pair_of_indices"
+    """
+    
+
+        
+    cdef int i
+    cdef int j
+    cdef int size1, size2
+    cdef int index_i
+    cdef double atom_ix
+    cdef double atom_iy
+    cdef double atom_iz
+    cdef double cov_rad_i, cov_rad_j
+    cdef double r_ij
+    cdef double dX
+    cdef double dY
+    cdef double dZ
+    #size1 =  len(atoms1)
+    #size2 =  len(atoms2)
+    
+    
+    if lits_of_atoms1 == lits_of_atoms2:
+        pass
+    else:
+        for i in lits_of_atoms1:   
+            atom_ix   = atoms[i][3][0]
+            atom_iy   = atoms[i][3][1]    
+            atom_iz   = atoms[i][3][2]
+            cov_rad_i = atoms[i][2]
+            index_i   = atoms[i][0]
+
+            for j in lits_of_atoms2:    
+                index_j = atoms[j][0]
+                #if 
+                
+                dX              = (atom_ix - atoms[j][3][0])**2
+                dY              = (atom_iy - atoms[j][3][1])**2
+                dZ              = (atom_iz - atoms[j][3][2])**2
+
+                cov_rad_j       = atoms[j][2]
+                cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
+                
+                if (dX > cov_rad_ij_sqrt or 
+                    dY > cov_rad_ij_sqrt or 
+                    dZ > cov_rad_ij_sqrt):
+                    pass
+
+                else:
+                    
+                    r_ij = (dX + dY + dZ)
+                    
+                    if r_ij <= cov_rad_ij_sqrt:
+                        bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
+                        
+                        bonds_full_indices.append   (index_i                )
+                        bonds_full_indices.append   (atoms[j][0]            )                 
+                        
+                        atoms[i][8].append   (atoms[j][0]            )
+                        atoms[j][8].append   (atoms[i][0]            )
+
+                        non_bonded_list[index_i    ] = False
+                        non_bonded_list[atoms[j][0]] = False
+
+
+    return atoms, bonds_full_indices, bonds_pair_of_indices, non_bonded_list
+
+
+cpdef list _determine_the_paired_atomic_grid_elements_2 (atomic_grid):
+    '''
+    There is also an array vOff that specifies the offsets of each of the 14 neighbor
+    cells. The array covers half the neighboring cells, together with the cell itself; its
+    size and contents are specified as
+    
+    {{0,0,0}, {1,0,0}, {1,1,0}, {0,1,0}, {-1,1,0}, {0,0,1},
+    {1,0,1}, {1,1,1}, {0,1,1}, {-1,1,1}, {-1,0,1},
+    {-1,-1,1}, {0,-1,1}, {1,-1,1}}
+    
+    
+                                |-------|-------|-------| 
+                                |\\\\\\\|\\\\\\\|\\\\\\\| 
+                                |\\\\\\\|\\\\\\\|\\\\\\\| 
+                                |-1,1,1 | 0,1,1 | 1,1,1 | 
+                                |-------|-------|-------| 
+                                |\\\\\\\|\\\\\\\|\\\\\\\|
+                                |\\\\\\\|\\\\\\\|\\\\\\\|
+                                |-1,0,1 | 0,0,1 | 1,0,1 |
+                                |-------|-------|-------|
+                                |\\\\\\\|\\\\\\\|\\\\\\\|
+                                |\\\\\\\|\\\\\\\|\\\\\\\|
+                                |-1,-1,1| 0,-1,1| 1,-1,1|
+                                |-------|-------|-------|
+        
+        |-------|-------|-------| 
+        |\\\\\\\|\\\\\\\|\\\\\\\| 
+        |\\\\\\\|\\\\\\\|\\\\\\\| 
+        |-1,1,0 | 0,1,0 | 1,1,0 | 
+        |-------|-------|-------| 
+        |       |XXXXXXX|\\\\\\\|
+        |       |XXXXXXX|\\\\\\\|
+        |-1,0,0 | 0,0,0 | 1,0,0 |
+        |-------|-------|-------|
+        |       |       |       |
+        |       |       |       |
+        |-1,-1,0| 0,-1,0| 1,-1,0|
+        |-------|-------|-------|
+    
+    always. the combination between {0,0,0} and some element of the list (\\\\\\) 
+    
+    returns a list contain lists of atoms [[atoms1],atoms2], ...]
+
+    '''
+    cdef list pair_of_sectors2
+    cdef list grid_offset
+    #cdef list element
+    #cdef list offset_element
+    
+    #initial = time.time()
+    
+    pair_of_sectors2 = []
+    grid_offset = [
+                             #[ 1,-1, 0],
+                             #[ 0,-1, 0],
+                             #[-1,-1, 0],
+                             #[-1, 0, 0],
+                   [ 0, 0, 0], 
+                   [ 1, 0, 0], 
+                   [ 1, 1, 0], 
+                   [ 0, 1, 0], 
+                   [-1, 1, 0], 
+                   [ 0, 0, 1],
+                   [ 1, 0, 1], 
+                   [ 1, 1, 1], 
+                   [ 0, 1, 1], 
+                   [-1, 1, 1], 
+                   [-1, 0, 1],
+                   [-1,-1, 1], 
+                   [ 0,-1, 1], 
+                   [ 1,-1, 1]
+                   ]
+    done = []
+    for element in atomic_grid.keys():
+        for offset_element in  grid_offset:              
+            
+            element1  = (element[0], 
+                         element[1], 
+                         element[2])
+                          
+            element2  = (element[0]+offset_element[0], 
+                         element[1]+offset_element[1], 
+                         element[2]+offset_element[2]) 
+                    
+            if element2 in atomic_grid:                        
+                pair_of_sectors2.append([atomic_grid[element1],
+                                         atomic_grid[element2]])
+                
+                #if [element1, element2] in done or [element2, element1] in done:
+                #    #print ('already in the list:'[element1, element2])
+                #    pass
+                #
+                #
+                #else:
+                #    done.append([element1, element2])
+                #    pair_of_sectors2.append([atomic_grid[element1],
+                #                             atomic_grid[element2]])
+                #    
+                #    #print([element1, element2])
+
+    return pair_of_sectors2
+
+cpdef dict _build_the_atomic_grid_2 (list atoms, list gridsize,  int frame):
+    """  fucntion build_atomic_grid
+    
+    This function organizes the atoms in their respective position 
+    of the grid (atomic grid) - Nescessary to calculate distances between 
+    atoms in different elements of the grid
+    
+    self.grid_size = is the size of a grid element - size of a sector
+    
+    
+              atomic grid
+              
+        |-------|-------|-------| |
+        |       | grid  |       | |
+        |       |element|       | | grid_size
+        |-1,1,0 | 0,1,0 | 1,1,0 | |
+        |-------|-------|-------| |
+        |       |       |       |
+        |       |       |       |
+        |-1,0,0 | 0,0,0 | 1,0,0 |
+        |-------|-------|-------|
+        |       |       |       |
+        |       |       |       |
+        |-1,-1,0| 0,-1,0| 1,-1,0|
+        |-------|-------|-------|
+                         -------
+                        grid_size
+    
+    
+    grid element = list of atoms
+    """
+    #int grid_size
+    cdef dict  atomic_grid = {}
+    
+    for atom in atoms:
+        gridpos = atom.get_grid_position (gridsize, frame)
+        
+        a = gridpos[0]
+        b = gridpos[1]
+        c = gridpos[2]
+        
+        if (a,b,c) in atomic_grid:
+            atomic_grid[(a,b,c)].append(atom.index-1)
+        else:
+            atomic_grid[(a,b,c)] = []
+            atomic_grid[(a,b,c)].append(atom.index-1)
+    return atomic_grid
+
+cpdef generete_full_NB_and_Bonded_lists_2(atoms = [], gridsize = 3, frame = 0):
+    '''
+    atoms = [] it's a list of atom objects
+    
+    list element = [atom.index-1    ,    # 0
+                    atom.name       ,    # 1
+                    atom.cov_rad    ,    # 2
+                    np.array(coods) ,    # 3
+                    atom.resi       ,    # 4
+                    atom.resn       ,    # 5
+                    atom.chain      ,    # 6
+                    atom.symbol     ,    # 7
+                    []              ,    # 8
+                    gridpos         ]
+    
+    '''
+    #----------------------------------------------------------------------------------------------
+    #                                Pairwise grid elements
+    #----------------------------------------------------------------------------------------------
+
+    #--------------------------------------------------------------#
+    initial       = time.time()                                    #
+    #--------------------------------------------------------------#
+    bonds_full_indices, bonds_pair_of_indices = [], []
+
+    atomic_grid               = _build_the_atomic_grid_2(atoms, gridsize, frame)
+    
+    pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements_2(atomic_grid)
+    
+    NB_TrueFalse_list         = [True]*len(atoms)
+    
+    
+    
+    #--------------------------------------------------------------#
+    final = time.time()                                            #
+    print ('building grid elements  : ', final - initial, '\n')#
+    #--------------------------------------------------------------#
+    #print (non_bonded_list)
+    print ('Total number of Atoms   :', len(atoms)                 )
+    print ('Number of grid elements :', len(atomic_grid)           )
+    print ('Pairs                   :', len(pairs_of_grid_elements))
+
+    #----------------------------------------------------------------------------------------------
+    
+    
+    '''
+    #-----------------------------------------------------------------------------------------------------------------------------------------------
+    #                                                B O N D S
+    #-----------------------------------------------------------------------------------------------------------------------------------------------
+    '''
+    #---------------------------------------------------------------#
+    initial       = time.time()
+    #---------------------------------------------------------------#
+
+    #'''
+    for list_of_atoms in atomic_grid.values():
+        #print (len(atoms))
+        atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           , 
+                                                                                                                         atoms                   , 
+                                                                                                                         bonds_pair_of_indices   , 
+                                                                                                                         bonds_full_indices      ,
+                                                                                                                         NB_TrueFalse_list       )    
+    #'''
+    #'''
+    for pair_of_grid_elements in pairs_of_grid_elements:
+        atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],
+                                                                                                                          pair_of_grid_elements[1],
+                                                                                                                          atoms                   ,
+                                                                                                                          bonds_pair_of_indices   , 
+                                                                                                                          bonds_full_indices      ,
+                                                                                                                          NB_TrueFalse_list           )
+    #'''
+
+    print ('Bonds                   :', len(bonds_pair_of_indices))
+    #--------------------------------------------------------------#
+    final = time.time()                                            #
+    print ('Bonds calcultation time : ', final - initial, '\n')    #
+    #--------------------------------------------------------------#
+    #-----------------------------------------------------------------------------------------------------------------------------------------------
+    
+    '''
+    #-----------------------------------------------------------------------------------------------------------------------------------------------
+    #                                                  N B Atoms
+    #-----------------------------------------------------------------------------------------------------------------------------------------------
+    '''
+    NB_indices_list = _generete_NB_list_from_TrueFalse_list(NB_TrueFalse_list)
+    print ('NB atoms                :', len(NB_indices_list))
+    #-----------------------------------------------------------------------------------------------------------------------------------------------
+
+    #for atom in atoms:
+    #    print(atom)
 
     return bonds_full_indices, bonds_pair_of_indices, NB_indices_list

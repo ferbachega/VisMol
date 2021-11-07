@@ -3,12 +3,15 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "PDBFiles",
+        "include_dirs": [
+            "/usr/lib/python3/dist-packages/numpy/core/include"
+        ],
+        "name": "vBabel.PDBFiles",
         "sources": [
-            "PDBFiles.pyx"
+            "vBabel/PDBFiles.pyx"
         ]
     },
-    "module_name": "PDBFiles"
+    "module_name": "vBabel.PDBFiles"
 }
 END: Cython Metadata */
 
@@ -602,8 +605,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__PDBFiles
-#define __PYX_HAVE_API__PDBFiles
+#define __PYX_HAVE__vBabel__PDBFiles
+#define __PYX_HAVE_API__vBabel__PDBFiles
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -813,22 +816,22 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "PDBFiles.pyx",
+  "vBabel/PDBFiles.pyx",
 };
 
 /*--- Type declarations ---*/
-struct __pyx_opt_args_8PDBFiles_load_pdb_file;
-struct __pyx_opt_args_8PDBFiles_get_list_of_atoms_from_rawframe;
-struct __pyx_opt_args_8PDBFiles_get_list_of_frames_from_pdb_rawframes;
+struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file;
+struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe;
+struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes;
 
-/* "PDBFiles.pyx":10
+/* "vBabel/PDBFiles.pyx":10
  * from pprint import pprint
  * 
  * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
-struct __pyx_opt_args_8PDBFiles_load_pdb_file {
+struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file {
   int __pyx_n;
   PyObject *infile;
   PyObject *gridsize;
@@ -836,27 +839,27 @@ struct __pyx_opt_args_8PDBFiles_load_pdb_file {
   PyObject *frames_only;
 };
 
-/* "PDBFiles.pyx":92
+/* "vBabel/PDBFiles.pyx":92
  * 
  * 
  * cpdef get_list_of_atoms_from_rawframe(rawframe, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
- * 
+ * ATOM    338 H12Z DLPA    4      -9.100   1.858  -3.000  1.00  0.00      MEMB
  */
-struct __pyx_opt_args_8PDBFiles_get_list_of_atoms_from_rawframe {
+struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe {
   int __pyx_n;
   PyObject *gridsize;
   PyObject *at;
 };
 
-/* "PDBFiles.pyx":194
+/* "vBabel/PDBFiles.pyx":184
  * 
  * 
  * cpdef get_list_of_frames_from_pdb_rawframes (rawframes = None):             # <<<<<<<<<<<<<<
  *     """ Function doc """
  *     n_processor = multiprocessing.cpu_count()
  */
-struct __pyx_opt_args_8PDBFiles_get_list_of_frames_from_pdb_rawframes {
+struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes {
   int __pyx_n;
   PyObject *rawframes;
 };
@@ -1289,10 +1292,10 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -1320,20 +1323,18 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'PDBFiles' */
-static PyObject *__pyx_f_8PDBFiles_load_pdb_file(int __pyx_skip_dispatch, struct __pyx_opt_args_8PDBFiles_load_pdb_file *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8PDBFiles_get_list_of_atoms_from_rawframe *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(int __pyx_skip_dispatch, struct __pyx_opt_args_8PDBFiles_get_list_of_frames_from_pdb_rawframes *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *, int __pyx_skip_dispatch); /*proto*/
-#define __Pyx_MODULE_NAME "PDBFiles"
-extern int __pyx_module_is_main_PDBFiles;
-int __pyx_module_is_main_PDBFiles = 0;
+/* Module declarations from 'vBabel.PDBFiles' */
+static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes(int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_get_pdb_frame_coordinates(PyObject *, int __pyx_skip_dispatch); /*proto*/
+#define __Pyx_MODULE_NAME "vBabel.PDBFiles"
+extern int __pyx_module_is_main_vBabel__PDBFiles;
+int __pyx_module_is_main_vBabel__PDBFiles = 0;
 
-/* Implementation of 'PDBFiles' */
+/* Implementation of 'vBabel.PDBFiles' */
 static PyObject *__pyx_builtin_open;
 static const char __pyx_k_r[] = "r";
-static const char __pyx_k_MG[] = "MG";
-static const char __pyx_k_Mg[] = "Mg";
 static const char __pyx_k__2[] = "\n";
 static const char __pyx_k_at[] = "at";
 static const char __pyx_k_np[] = "np";
@@ -1349,37 +1350,44 @@ static const char __pyx_k_name[] = "name";
 static const char __pyx_k_open[] = "open";
 static const char __pyx_k_path[] = "path";
 static const char __pyx_k_read[] = "read";
+static const char __pyx_k_resi[] = "resi";
+static const char __pyx_k_resn[] = "resn";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_time[] = "time";
 static const char __pyx_k_array[] = "array";
 static const char __pyx_k_atoms[] = "atoms";
+static const char __pyx_k_chain[] = "chain";
 static const char __pyx_k_dtype[] = "dtype";
 static const char __pyx_k_enter[] = "__enter__";
+static const char __pyx_k_index[] = "index";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_split[] = "split";
 static const char __pyx_k_strip[] = "strip";
 static const char __pyx_k_ENDMDL[] = "ENDMDL";
 static const char __pyx_k_HETATM[] = "HETATM";
+static const char __pyx_k_charge[] = "charge";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_infile[] = "infile";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pprint[] = "pprint";
+static const char __pyx_k_symbol[] = "symbol";
+static const char __pyx_k_vModel[] = "vModel";
+static const char __pyx_k_bfactor[] = "bfactor";
 static const char __pyx_k_float32[] = "float32";
 static const char __pyx_k_vConfig[] = "vConfig";
 static const char __pyx_k_basename[] = "basename";
 static const char __pyx_k_gridsize[] = "gridsize";
 static const char __pyx_k_rawframe[] = "rawframe";
-static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_cpu_count[] = "cpu_count";
+static const char __pyx_k_occupancy[] = "occupancy";
 static const char __pyx_k_rawframes[] = "rawframes";
 static const char __pyx_k_ATOM_TYPES[] = "ATOM_TYPES";
 static const char __pyx_k_atom_types[] = "atom_types";
 static const char __pyx_k_get_symbol[] = "get_symbol";
 static const char __pyx_k_trajectory[] = "trajectory";
 static const char __pyx_k_frames_only[] = "frames_only";
-static const char __pyx_k_get_cov_rad[] = "get_cov_rad";
 static const char __pyx_k_VismolObject[] = "VismolObject";
-static const char __pyx_k_VISMOL_vModel[] = "vModel";
+static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_multiprocessing[] = "multiprocessing";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_get_pdb_frame_coordinates[] = "get_pdb_frame_coordinates";
@@ -1388,11 +1396,7 @@ static PyObject *__pyx_n_s_ATOM_TYPES;
 static PyObject *__pyx_n_s_END;
 static PyObject *__pyx_n_s_ENDMDL;
 static PyObject *__pyx_n_s_HETATM;
-static PyObject *__pyx_n_s_MG;
-static PyObject *__pyx_n_s_Mg;
 static PyObject *__pyx_n_s_Pool;
-static PyObject *__pyx_n_s_VISMOL_vModel;
-static PyObject *__pyx_n_s_vismolSession;
 static PyObject *__pyx_n_s_VismolObject;
 static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_n_s_array;
@@ -1400,6 +1404,9 @@ static PyObject *__pyx_n_s_at;
 static PyObject *__pyx_n_s_atom_types;
 static PyObject *__pyx_n_s_atoms;
 static PyObject *__pyx_n_s_basename;
+static PyObject *__pyx_n_s_bfactor;
+static PyObject *__pyx_n_s_chain;
+static PyObject *__pyx_n_s_charge;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cpu_count;
 static PyObject *__pyx_n_s_dtype;
@@ -1407,11 +1414,11 @@ static PyObject *__pyx_n_s_enter;
 static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_float32;
 static PyObject *__pyx_n_s_frames_only;
-static PyObject *__pyx_n_s_get_cov_rad;
 static PyObject *__pyx_n_s_get_pdb_frame_coordinates;
 static PyObject *__pyx_n_s_get_symbol;
 static PyObject *__pyx_n_s_gridsize;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_infile;
 static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_main;
@@ -1421,6 +1428,7 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
+static PyObject *__pyx_n_s_occupancy;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_path;
@@ -1429,16 +1437,21 @@ static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_rawframe;
 static PyObject *__pyx_n_s_rawframes;
 static PyObject *__pyx_n_s_read;
+static PyObject *__pyx_n_s_resi;
+static PyObject *__pyx_n_s_resn;
 static PyObject *__pyx_n_s_split;
 static PyObject *__pyx_n_s_strip;
+static PyObject *__pyx_n_s_symbol;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_trajectory;
 static PyObject *__pyx_n_s_vConfig;
-static PyObject *__pyx_pf_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_frames_only); /* proto */
-static PyObject *__pyx_pf_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframe, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at); /* proto */
-static PyObject *__pyx_pf_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframes); /* proto */
-static PyObject *__pyx_pf_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame); /* proto */
+static PyObject *__pyx_n_s_vModel;
+static PyObject *__pyx_n_s_vismolSession;
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_frames_only); /* proto */
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframe, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at); /* proto */
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframes); /* proto */
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame); /* proto */
 static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_split = {0, &__pyx_n_s_split, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -1470,9 +1483,10 @@ static PyObject *__pyx_slice__10;
 static PyObject *__pyx_slice__11;
 static PyObject *__pyx_slice__12;
 static PyObject *__pyx_slice__13;
+static PyObject *__pyx_slice__14;
 /* Late includes */
 
-/* "PDBFiles.pyx":10
+/* "vBabel/PDBFiles.pyx":10
  * from pprint import pprint
  * 
  * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):             # <<<<<<<<<<<<<<
@@ -1480,8 +1494,8 @@ static PyObject *__pyx_slice__13;
  * 
  */
 
-static PyObject *__pyx_pw_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_8PDBFiles_load_pdb_file *__pyx_optional_args) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file *__pyx_optional_args) {
   PyObject *__pyx_v_infile = ((PyObject *)Py_None);
   PyObject *__pyx_v_gridsize = ((PyObject *)__pyx_int_3);
   PyObject *__pyx_v_vismolSession = ((PyObject *)Py_None);
@@ -1507,8 +1521,8 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   int __pyx_t_10;
-  struct __pyx_opt_args_8PDBFiles_get_list_of_frames_from_pdb_rawframes __pyx_t_11;
-  struct __pyx_opt_args_8PDBFiles_get_list_of_atoms_from_rawframe __pyx_t_12;
+  struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes __pyx_t_11;
+  struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe __pyx_t_12;
   PyObject *__pyx_t_13 = NULL;
   __Pyx_RefNannySetupContext("load_pdb_file", 0);
   if (__pyx_optional_args) {
@@ -1526,7 +1540,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
     }
   }
 
-  /* "PDBFiles.pyx":28
+  /* "vBabel/PDBFiles.pyx":28
  *     #                                P D B     P A R S E R
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types             # <<<<<<<<<<<<<<
@@ -1541,7 +1555,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_v_at = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "PDBFiles.pyx":29
+  /* "vBabel/PDBFiles.pyx":29
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as pdb_file:             # <<<<<<<<<<<<<<
@@ -1594,7 +1608,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_pdb_file = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "PDBFiles.pyx":30
+          /* "vBabel/PDBFiles.pyx":30
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as pdb_file:
  *         pdbtext = pdb_file.read()             # <<<<<<<<<<<<<<
@@ -1621,7 +1635,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_pdbtext = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "PDBFiles.pyx":31
+          /* "vBabel/PDBFiles.pyx":31
  *     with open(infile, 'r') as pdb_file:
  *         pdbtext = pdb_file.read()
  *         if 'ENDMDL' in pdbtext:             # <<<<<<<<<<<<<<
@@ -1632,7 +1646,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_t_10 = (__pyx_t_9 != 0);
           if (__pyx_t_10) {
 
-            /* "PDBFiles.pyx":32
+            /* "vBabel/PDBFiles.pyx":32
  *         pdbtext = pdb_file.read()
  *         if 'ENDMDL' in pdbtext:
  *             rawframes = pdbtext.split('ENDMDL')             # <<<<<<<<<<<<<<
@@ -1659,7 +1673,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
             __pyx_v_rawframes = __pyx_t_4;
             __pyx_t_4 = 0;
 
-            /* "PDBFiles.pyx":31
+            /* "vBabel/PDBFiles.pyx":31
  *     with open(infile, 'r') as pdb_file:
  *         pdbtext = pdb_file.read()
  *         if 'ENDMDL' in pdbtext:             # <<<<<<<<<<<<<<
@@ -1669,7 +1683,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
             goto __pyx_L13;
           }
 
-          /* "PDBFiles.pyx":35
+          /* "vBabel/PDBFiles.pyx":35
  *         else:
  *             #pass
  *             rawframes = pdbtext.split('END')             # <<<<<<<<<<<<<<
@@ -1699,7 +1713,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           }
           __pyx_L13:;
 
-          /* "PDBFiles.pyx":40
+          /* "vBabel/PDBFiles.pyx":40
  * 
  * 
  *         frames    = get_list_of_frames_from_pdb_rawframes (rawframes = rawframes)             # <<<<<<<<<<<<<<
@@ -1708,12 +1722,12 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
  */
           __pyx_t_11.__pyx_n = 1;
           __pyx_t_11.rawframes = __pyx_v_rawframes;
-          __pyx_t_4 = __pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(0, &__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L7_error)
+          __pyx_t_4 = __pyx_f_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes(0, &__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_4);
           __pyx_v_frames = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "PDBFiles.pyx":42
+          /* "vBabel/PDBFiles.pyx":42
  *         frames    = get_list_of_frames_from_pdb_rawframes (rawframes = rawframes)
  * 
  *         if frames_only:             # <<<<<<<<<<<<<<
@@ -1723,7 +1737,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_frames_only); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 42, __pyx_L7_error)
           if (__pyx_t_10) {
 
-            /* "PDBFiles.pyx":43
+            /* "vBabel/PDBFiles.pyx":43
  * 
  *         if frames_only:
  *             return frames             # <<<<<<<<<<<<<<
@@ -1735,7 +1749,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
             __pyx_r = __pyx_v_frames;
             goto __pyx_L11_try_return;
 
-            /* "PDBFiles.pyx":42
+            /* "vBabel/PDBFiles.pyx":42
  *         frames    = get_list_of_frames_from_pdb_rawframes (rawframes = rawframes)
  * 
  *         if frames_only:             # <<<<<<<<<<<<<<
@@ -1744,7 +1758,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
  */
           }
 
-          /* "PDBFiles.pyx":45
+          /* "vBabel/PDBFiles.pyx":45
  *             return frames
  *         else:
  *             pass             # <<<<<<<<<<<<<<
@@ -1754,7 +1768,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           /*else*/ {
           }
 
-          /* "PDBFiles.pyx":47
+          /* "vBabel/PDBFiles.pyx":47
  *             pass
  * 
  *         n    = 0             # <<<<<<<<<<<<<<
@@ -1764,7 +1778,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           __Pyx_INCREF(__pyx_int_0);
           __pyx_v_n = __pyx_int_0;
 
-          /* "PDBFiles.pyx":48
+          /* "vBabel/PDBFiles.pyx":48
  * 
  *         n    = 0
  *         atoms = []             # <<<<<<<<<<<<<<
@@ -1776,7 +1790,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_atoms = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "PDBFiles.pyx":49
+          /* "vBabel/PDBFiles.pyx":49
  *         n    = 0
  *         atoms = []
  *         while atoms == []:             # <<<<<<<<<<<<<<
@@ -1792,7 +1806,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             if (!__pyx_t_10) break;
 
-            /* "PDBFiles.pyx":50
+            /* "vBabel/PDBFiles.pyx":50
  *         atoms = []
  *         while atoms == []:
  *             atoms     = get_list_of_atoms_from_rawframe(rawframes[n], gridsize, at =  at)             # <<<<<<<<<<<<<<
@@ -1804,13 +1818,13 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
             __pyx_t_12.__pyx_n = 2;
             __pyx_t_12.gridsize = __pyx_v_gridsize;
             __pyx_t_12.at = __pyx_v_at;
-            __pyx_t_4 = __pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(__pyx_t_1, 0, &__pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L7_error)
+            __pyx_t_4 = __pyx_f_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe(__pyx_t_1, 0, &__pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __Pyx_DECREF_SET(__pyx_v_atoms, __pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "PDBFiles.pyx":51
+            /* "vBabel/PDBFiles.pyx":51
  *         while atoms == []:
  *             atoms     = get_list_of_atoms_from_rawframe(rawframes[n], gridsize, at =  at)
  *             n += 1             # <<<<<<<<<<<<<<
@@ -1823,7 +1837,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
             __pyx_t_4 = 0;
           }
 
-          /* "PDBFiles.pyx":29
+          /* "vBabel/PDBFiles.pyx":29
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as pdb_file:             # <<<<<<<<<<<<<<
@@ -1841,7 +1855,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         /*except:*/ {
-          __Pyx_AddTraceback("PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          __Pyx_AddTraceback("vBabel.PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
           if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_1, &__pyx_t_2) < 0) __PYX_ERR(0, 29, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_GOTREF(__pyx_t_1);
@@ -1924,12 +1938,12 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
     __pyx_L20:;
   }
 
-  /* "PDBFiles.pyx":56
+  /* "vBabel/PDBFiles.pyx":56
  *     #-------------------------------------------------------------------------------------------
  * 
  *     name = os.path.basename(infile)             # <<<<<<<<<<<<<<
- *     vismol_object  = VismolObject.VismolObject(name        = name,
- *                                                atoms       = atoms,
+ *     vismol_object  = VismolObject.VismolObject(name            = name,
+ *                                                atoms           = atoms,
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1957,11 +1971,11 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_v_name = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "PDBFiles.pyx":57
+  /* "vBabel/PDBFiles.pyx":57
  * 
  *     name = os.path.basename(infile)
- *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
- *                                                atoms       = atoms,
+ *     vismol_object  = VismolObject.VismolObject(name            = name,             # <<<<<<<<<<<<<<
+ *                                                atoms           = atoms,
  *                                                vismolSession   = vismolSession,
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
@@ -1973,40 +1987,40 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "PDBFiles.pyx":58
+  /* "vBabel/PDBFiles.pyx":58
  *     name = os.path.basename(infile)
- *     vismol_object  = VismolObject.VismolObject(name        = name,
- *                                                atoms       = atoms,             # <<<<<<<<<<<<<<
+ *     vismol_object  = VismolObject.VismolObject(name            = name,
+ *                                                atoms           = atoms,             # <<<<<<<<<<<<<<
  *                                                vismolSession   = vismolSession,
- *                                                trajectory  = frames)
+ *                                                trajectory      = frames)
  */
   if (unlikely(!__pyx_v_atoms)) { __Pyx_RaiseUnboundLocalError("atoms"); __PYX_ERR(0, 58, __pyx_L1_error) }
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atoms, __pyx_v_atoms) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "PDBFiles.pyx":59
- *     vismol_object  = VismolObject.VismolObject(name        = name,
- *                                                atoms       = atoms,
+  /* "vBabel/PDBFiles.pyx":59
+ *     vismol_object  = VismolObject.VismolObject(name            = name,
+ *                                                atoms           = atoms,
  *                                                vismolSession   = vismolSession,             # <<<<<<<<<<<<<<
- *                                                trajectory  = frames)
+ *                                                trajectory      = frames)
  *     '''
  */
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "PDBFiles.pyx":60
- *                                                atoms       = atoms,
+  /* "vBabel/PDBFiles.pyx":60
+ *                                                atoms           = atoms,
  *                                                vismolSession   = vismolSession,
- *                                                trajectory  = frames)             # <<<<<<<<<<<<<<
+ *                                                trajectory      = frames)             # <<<<<<<<<<<<<<
  *     '''
  *     #-------------------------------------------------------------------------------------------
  */
   if (unlikely(!__pyx_v_frames)) { __Pyx_RaiseUnboundLocalError("frames"); __PYX_ERR(0, 60, __pyx_L1_error) }
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_trajectory, __pyx_v_frames) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "PDBFiles.pyx":57
+  /* "vBabel/PDBFiles.pyx":57
  * 
  *     name = os.path.basename(infile)
- *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
- *                                                atoms       = atoms,
+ *     vismol_object  = VismolObject.VismolObject(name            = name,             # <<<<<<<<<<<<<<
+ *                                                atoms           = atoms,
  *                                                vismolSession   = vismolSession,
  */
   __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
@@ -2016,7 +2030,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_v_vismol_object = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "PDBFiles.pyx":85
+  /* "vBabel/PDBFiles.pyx":85
  * 
  *     #-------------------------------------------------------------------------------------------
  *     return vismol_object             # <<<<<<<<<<<<<<
@@ -2028,7 +2042,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_r = __pyx_v_vismol_object;
   goto __pyx_L0;
 
-  /* "PDBFiles.pyx":10
+  /* "vBabel/PDBFiles.pyx":10
  * from pprint import pprint
  * 
  * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):             # <<<<<<<<<<<<<<
@@ -2042,7 +2056,7 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_at);
@@ -2060,9 +2074,9 @@ static PyObject *__pyx_f_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_di
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8PDBFiles_load_pdb_file[] = " Function doc \n\n    gridsize =\n\n    The longest covalent bond I can find is the bismuth-iodine single bond.\n    The order of bond lengths is single > double > triple.\n    The largest atoms should form the longest covalent bonds. \n    So we look at atoms in the lower right corner of the Periodic Table.\n    The most likely candidates are Pb, Bi, and I.\n    The experimental bond lengths are:\n    Bi-I = 281 pm; Pb-I = 279 pm; I-I = 266.5 pm.\n    So the polar covalent Bi-I bond is the longest covalent measured so far.\n\n    ";
-static PyObject *__pyx_pw_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vBabel_8PDBFiles_load_pdb_file[] = " Function doc \n\n    gridsize =\n\n    The longest covalent bond I can find is the bismuth-iodine single bond.\n    The order of bond lengths is single > double > triple.\n    The largest atoms should form the longest covalent bonds. \n    So we look at atoms in the lower right corner of the Periodic Table.\n    The most likely candidates are Pb, Bi, and I.\n    The experimental bond lengths are:\n    Bi-I = 281 pm; Pb-I = 279 pm; I-I = 266.5 pm.\n    So the polar covalent Bi-I bond is the longest covalent measured so far.\n\n    ";
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_infile = 0;
   PyObject *__pyx_v_gridsize = 0;
   PyObject *__pyx_v_vismolSession = 0;
@@ -2144,22 +2158,22 @@ static PyObject *__pyx_pw_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObjec
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("load_pdb_file", 0, 0, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8PDBFiles_load_pdb_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vismolSession, __pyx_v_frames_only);
+  __pyx_r = __pyx_pf_6vBabel_8PDBFiles_load_pdb_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vismolSession, __pyx_v_frames_only);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_frames_only) {
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_frames_only) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_8PDBFiles_load_pdb_file __pyx_t_2;
+  struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file __pyx_t_2;
   __Pyx_RefNannySetupContext("load_pdb_file", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 4;
@@ -2167,7 +2181,7 @@ static PyObject *__pyx_pf_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_2.gridsize = __pyx_v_gridsize;
   __pyx_t_2.vismolSession = __pyx_v_vismolSession;
   __pyx_t_2.frames_only = __pyx_v_frames_only;
-  __pyx_t_1 = __pyx_f_8PDBFiles_load_pdb_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8PDBFiles_load_pdb_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2176,7 +2190,7 @@ static PyObject *__pyx_pf_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.load_pdb_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2184,24 +2198,23 @@ static PyObject *__pyx_pf_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "PDBFiles.pyx":92
+/* "vBabel/PDBFiles.pyx":92
  * 
  * 
  * cpdef get_list_of_atoms_from_rawframe(rawframe, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
- * 
+ * ATOM    338 H12Z DLPA    4      -9.100   1.858  -3.000  1.00  0.00      MEMB
  */
 
-static PyObject *__pyx_pw_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__pyx_v_rawframe, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_8PDBFiles_get_list_of_atoms_from_rawframe *__pyx_optional_args) {
-  PyObject *__pyx_v_gridsize = ((PyObject *)__pyx_int_3);
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__pyx_v_rawframe, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe *__pyx_optional_args) {
   PyObject *__pyx_v_at = ((PyObject *)Py_None);
   PyObject *__pyx_v_pdb_file_lines = NULL;
   PyObject *__pyx_v_atoms = NULL;
   int __pyx_v_index;
   PyObject *__pyx_v_line = NULL;
   PyObject *__pyx_v_at_name = NULL;
-  PyObject *__pyx_v_at_pos = NULL;
+  CYTHON_UNUSED PyObject *__pyx_v_at_pos = NULL;
   PyObject *__pyx_v_at_resi = NULL;
   PyObject *__pyx_v_at_resn = NULL;
   PyObject *__pyx_v_at_ch = NULL;
@@ -2209,8 +2222,6 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
   double __pyx_v_at_occup;
   double __pyx_v_at_bfactor;
   double __pyx_v_at_charge;
-  PyObject *__pyx_v_cov_rad = NULL;
-  PyObject *__pyx_v_gridpos = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2228,22 +2239,19 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
   int __pyx_t_13;
   __Pyx_RefNannySetupContext("get_list_of_atoms_from_rawframe", 0);
   if (__pyx_optional_args) {
-    if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_gridsize = __pyx_optional_args->gridsize;
-      if (__pyx_optional_args->__pyx_n > 1) {
-        __pyx_v_at = __pyx_optional_args->at;
-      }
+    if (__pyx_optional_args->__pyx_n > 1) {
+      __pyx_v_at = __pyx_optional_args->at;
     }
   }
 
-  /* "PDBFiles.pyx":135
+  /* "vBabel/PDBFiles.pyx":136
  *     """
  * 
  *     pdb_file_lines  = rawframe.split('\n')             # <<<<<<<<<<<<<<
  *     atoms           = []
  *     cdef int index           = 0
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_rawframe, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_rawframe, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2257,25 +2265,25 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_kp_s__2) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_kp_s__2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_pdb_file_lines = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":136
+  /* "vBabel/PDBFiles.pyx":137
  * 
  *     pdb_file_lines  = rawframe.split('\n')
  *     atoms           = []             # <<<<<<<<<<<<<<
  *     cdef int index           = 0
  *     for line in pdb_file_lines:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_atoms = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":137
+  /* "vBabel/PDBFiles.pyx":138
  *     pdb_file_lines  = rawframe.split('\n')
  *     atoms           = []
  *     cdef int index           = 0             # <<<<<<<<<<<<<<
@@ -2284,37 +2292,37 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
  */
   __pyx_v_index = 0;
 
-  /* "PDBFiles.pyx":138
+  /* "vBabel/PDBFiles.pyx":139
  *     atoms           = []
  *     cdef int index           = 0
  *     for line in pdb_file_lines:             # <<<<<<<<<<<<<<
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
- *             #try:
+ *             at_name    = line[12:16].strip()
  */
   if (likely(PyList_CheckExact(__pyx_v_pdb_file_lines)) || PyTuple_CheckExact(__pyx_v_pdb_file_lines)) {
     __pyx_t_1 = __pyx_v_pdb_file_lines; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_pdb_file_lines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_pdb_file_lines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 139, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -2324,7 +2332,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 138, __pyx_L1_error)
+          else __PYX_ERR(0, 139, __pyx_L1_error)
         }
         break;
       }
@@ -2333,33 +2341,33 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
     __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "PDBFiles.pyx":139
+    /* "vBabel/PDBFiles.pyx":140
  *     cdef int index           = 0
  *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':             # <<<<<<<<<<<<<<
- *             #try:
  *             at_name    = line[12:16].strip()
+ *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  */
-    __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 4, NULL, NULL, &__pyx_slice__3, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 4, NULL, NULL, &__pyx_slice__3, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_ATOM, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_ATOM, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (!__pyx_t_7) {
     } else {
       __pyx_t_6 = __pyx_t_7;
       goto __pyx_L6_bool_binop_done;
     }
-    __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 6, NULL, NULL, &__pyx_slice__4, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 6, NULL, NULL, &__pyx_slice__4, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_HETATM, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_t_2, __pyx_n_s_HETATM, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_6 = __pyx_t_7;
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_6) {
 
-      /* "PDBFiles.pyx":141
+      /* "vBabel/PDBFiles.pyx":141
+ *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
- *             #try:
  *             at_name    = line[12:16].strip()             # <<<<<<<<<<<<<<
  *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  * 
@@ -2387,8 +2395,8 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
       __Pyx_XDECREF_SET(__pyx_v_at_name, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "PDBFiles.pyx":142
- *             #try:
+      /* "vBabel/PDBFiles.pyx":142
+ *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
  *             at_name    = line[12:16].strip()
  *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])             # <<<<<<<<<<<<<<
  * 
@@ -2444,12 +2452,12 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
       __Pyx_XDECREF_SET(__pyx_v_at_pos, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "PDBFiles.pyx":144
+      /* "vBabel/PDBFiles.pyx":144
  *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  * 
  *             at_resi    = int(line[22:27])             # <<<<<<<<<<<<<<
  *             at_resn    = line[17:20].strip()
- *             at_ch      = line[21]
+ *             at_ch      = line[20:22]
  */
       __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line, 22, 27, NULL, NULL, &__pyx_slice__9, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
@@ -2459,11 +2467,11 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
       __Pyx_XDECREF_SET(__pyx_v_at_resi, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "PDBFiles.pyx":145
+      /* "vBabel/PDBFiles.pyx":145
  * 
  *             at_resi    = int(line[22:27])
  *             at_resn    = line[17:20].strip()             # <<<<<<<<<<<<<<
- *             at_ch      = line[21]
+ *             at_ch      = line[20:22]
  * 
  */
       __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line, 17, 20, NULL, NULL, &__pyx_slice__10, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
@@ -2489,38 +2497,38 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
       __Pyx_XDECREF_SET(__pyx_v_at_resn, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "PDBFiles.pyx":146
+      /* "vBabel/PDBFiles.pyx":146
  *             at_resi    = int(line[22:27])
  *             at_resn    = line[17:20].strip()
- *             at_ch      = line[21]             # <<<<<<<<<<<<<<
+ *             at_ch      = line[20:22]             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_line, 21, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 20, 22, NULL, NULL, &__pyx_slice__11, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_at_ch, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "PDBFiles.pyx":149
+      /* "vBabel/PDBFiles.pyx":149
  * 
  * 
  *             at_symbol  = line[70:]             # <<<<<<<<<<<<<<
- *             #print ('at_symbol raw ',at_symbol )
  *             at_symbol  = at_symbol.strip()
+ * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 70, 0, NULL, NULL, &__pyx_slice__11, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 70, 0, NULL, NULL, &__pyx_slice__12, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_at_symbol, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "PDBFiles.pyx":151
- *             at_symbol  = line[70:]
- *             #print ('at_symbol raw ',at_symbol )
- *             at_symbol  = at_symbol.strip()             # <<<<<<<<<<<<<<
- *             #print ('at_symbol raw2 ',at_symbol )
+      /* "vBabel/PDBFiles.pyx":150
  * 
+ *             at_symbol  = line[70:]
+ *             at_symbol  = at_symbol.strip()             # <<<<<<<<<<<<<<
+ * 
+ *             if at_symbol in at.ATOM_TYPES.keys():
  */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_at_symbol, __pyx_n_s_strip); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_at_symbol, __pyx_n_s_strip); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 150, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_2 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -2534,63 +2542,22 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
       }
       __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF_SET(__pyx_v_at_symbol, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "PDBFiles.pyx":154
- *             #print ('at_symbol raw2 ',at_symbol )
- * 
- *             if at_symbol == 'MG':             # <<<<<<<<<<<<<<
- *                 at_symbol = 'Mg'
- *             else:
- */
-      __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_v_at_symbol, __pyx_n_s_MG, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
-      if (__pyx_t_6) {
-
-        /* "PDBFiles.pyx":155
- * 
- *             if at_symbol == 'MG':
- *                 at_symbol = 'Mg'             # <<<<<<<<<<<<<<
- *             else:
- *                 pass
- */
-        __Pyx_INCREF(__pyx_n_s_Mg);
-        __Pyx_DECREF_SET(__pyx_v_at_symbol, __pyx_n_s_Mg);
-
-        /* "PDBFiles.pyx":154
- *             #print ('at_symbol raw2 ',at_symbol )
- * 
- *             if at_symbol == 'MG':             # <<<<<<<<<<<<<<
- *                 at_symbol = 'Mg'
- *             else:
- */
-        goto __pyx_L8;
-      }
-
-      /* "PDBFiles.pyx":157
- *                 at_symbol = 'Mg'
- *             else:
- *                 pass             # <<<<<<<<<<<<<<
- * 
- * 
- */
-      /*else*/ {
-      }
-      __pyx_L8:;
-
-      /* "PDBFiles.pyx":160
- * 
+      /* "vBabel/PDBFiles.pyx":152
+ *             at_symbol  = at_symbol.strip()
  * 
  *             if at_symbol in at.ATOM_TYPES.keys():             # <<<<<<<<<<<<<<
- *                 #print ('at_symbol if ',at_symbol )
  *                 pass
+ *             else:
  */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_ATOM_TYPES); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 160, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_ATOM_TYPES); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_keys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_8 = NULL;
@@ -2605,25 +2572,25 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
       }
       __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_v_at_symbol, __pyx_t_3, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
+      __pyx_t_6 = (__Pyx_PySequence_ContainsTF(__pyx_v_at_symbol, __pyx_t_3, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_7 = (__pyx_t_6 != 0);
       if (__pyx_t_7) {
-        goto __pyx_L9;
+        goto __pyx_L8;
       }
 
-      /* "PDBFiles.pyx":165
+      /* "vBabel/PDBFiles.pyx":155
+ *                 pass
  *             else:
- *                 #print ('at_symbol else1 ',at_symbol )
  *                 at_symbol  = at.get_symbol(at_name)             # <<<<<<<<<<<<<<
- *                 #print ('at_symbol else2 ',at_symbol )
  * 
+ *             at_occup   = float(line[54:60])   #occupancy
  */
       /*else*/ {
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_symbol); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_symbol); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __pyx_t_8 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2637,213 +2604,185 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
         }
         __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_v_at_name) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_at_name);
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
+        if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF_SET(__pyx_v_at_symbol, __pyx_t_3);
         __pyx_t_3 = 0;
       }
-      __pyx_L9:;
+      __pyx_L8:;
 
-      /* "PDBFiles.pyx":170
- *             #print('at_symbol',at_name, at_symbol)
+      /* "vBabel/PDBFiles.pyx":157
+ *                 at_symbol  = at.get_symbol(at_name)
  * 
  *             at_occup   = float(line[54:60])   #occupancy             # <<<<<<<<<<<<<<
  *             at_bfactor = float(line[60:66])
  *             at_charge  = 0.0
  */
-      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 54, 60, NULL, NULL, &__pyx_slice__12, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 54, 60, NULL, NULL, &__pyx_slice__13, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_12 = __Pyx_PyObject_AsDouble(__pyx_t_3); if (unlikely(__pyx_t_12 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_AsDouble(__pyx_t_3); if (unlikely(__pyx_t_12 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 157, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_at_occup = __pyx_t_12;
 
-      /* "PDBFiles.pyx":171
+      /* "vBabel/PDBFiles.pyx":158
  * 
  *             at_occup   = float(line[54:60])   #occupancy
  *             at_bfactor = float(line[60:66])             # <<<<<<<<<<<<<<
  *             at_charge  = 0.0
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 60, 66, NULL, NULL, &__pyx_slice__13, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line, 60, 66, NULL, NULL, &__pyx_slice__14, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_12 = __Pyx_PyObject_AsDouble(__pyx_t_3); if (unlikely(__pyx_t_12 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_AsDouble(__pyx_t_3); if (unlikely(__pyx_t_12 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_v_at_bfactor = __pyx_t_12;
 
-      /* "PDBFiles.pyx":172
+      /* "vBabel/PDBFiles.pyx":159
  *             at_occup   = float(line[54:60])   #occupancy
  *             at_bfactor = float(line[60:66])
  *             at_charge  = 0.0             # <<<<<<<<<<<<<<
  * 
- *             cov_rad  = at.get_cov_rad (at_symbol)
+ *             #cov_rad  = at.get_cov_rad (at_symbol)
  */
       __pyx_v_at_charge = 0.0;
 
-      /* "PDBFiles.pyx":174
- *             at_charge  = 0.0
- * 
- *             cov_rad  = at.get_cov_rad (at_symbol)             # <<<<<<<<<<<<<<
- *             gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
- *             #ocupan   = float(line[54:60])
+      /* "vBabel/PDBFiles.pyx":164
+ *             #gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
+ *             atoms.append({
+ *                           'index'      : index      ,             # <<<<<<<<<<<<<<
+ *                           'name'       : at_name    ,
+ *                           'resi'       : at_resi    ,
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_cov_rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_8 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_8);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_v_at_symbol) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_at_symbol);
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_NewPresized(9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_index, __pyx_t_2) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_cov_rad, __pyx_t_3);
-      __pyx_t_3 = 0;
 
-      /* "PDBFiles.pyx":175
- * 
- *             cov_rad  = at.get_cov_rad (at_symbol)
- *             gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]             # <<<<<<<<<<<<<<
- *             #ocupan   = float(line[54:60])
- *             #bfactor  = float(line[60:66])
+      /* "vBabel/PDBFiles.pyx":165
+ *             atoms.append({
+ *                           'index'      : index      ,
+ *                           'name'       : at_name    ,             # <<<<<<<<<<<<<<
+ *                           'resi'       : at_resi    ,
+ *                           'resn'       : at_resn    ,
  */
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_at_pos, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_v_gridsize); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_v_at_name) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+
+      /* "vBabel/PDBFiles.pyx":166
+ *                           'index'      : index      ,
+ *                           'name'       : at_name    ,
+ *                           'resi'       : at_resi    ,             # <<<<<<<<<<<<<<
+ *                           'resn'       : at_resn    ,
+ *                           'chain'      : at_ch      ,
+ */
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_resi, __pyx_v_at_resi) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+
+      /* "vBabel/PDBFiles.pyx":167
+ *                           'name'       : at_name    ,
+ *                           'resi'       : at_resi    ,
+ *                           'resn'       : at_resn    ,             # <<<<<<<<<<<<<<
+ *                           'chain'      : at_ch      ,
+ *                           'symbol'     : at_symbol  ,
+ */
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_resn, __pyx_v_at_resn) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+
+      /* "vBabel/PDBFiles.pyx":168
+ *                           'resi'       : at_resi    ,
+ *                           'resn'       : at_resn    ,
+ *                           'chain'      : at_ch      ,             # <<<<<<<<<<<<<<
+ *                           'symbol'     : at_symbol  ,
+ *                           'occupancy'  : at_occup   ,
+ */
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_chain, __pyx_v_at_ch) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+
+      /* "vBabel/PDBFiles.pyx":169
+ *                           'resn'       : at_resn    ,
+ *                           'chain'      : at_ch      ,
+ *                           'symbol'     : at_symbol  ,             # <<<<<<<<<<<<<<
+ *                           'occupancy'  : at_occup   ,
+ *                           'bfactor'    : at_bfactor ,
+ */
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_symbol, __pyx_v_at_symbol) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+
+      /* "vBabel/PDBFiles.pyx":170
+ *                           'chain'      : at_ch      ,
+ *                           'symbol'     : at_symbol  ,
+ *                           'occupancy'  : at_occup   ,             # <<<<<<<<<<<<<<
+ *                           'bfactor'    : at_bfactor ,
+ *                           'charge'     : at_charge
+ */
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_at_occup); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_occupancy, __pyx_t_2) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "vBabel/PDBFiles.pyx":171
+ *                           'symbol'     : at_symbol  ,
+ *                           'occupancy'  : at_occup   ,
+ *                           'bfactor'    : at_bfactor ,             # <<<<<<<<<<<<<<
+ *                           'charge'     : at_charge
+ *                           })
+ */
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_at_bfactor); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bfactor, __pyx_t_2) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "vBabel/PDBFiles.pyx":172
+ *                           'occupancy'  : at_occup   ,
+ *                           'bfactor'    : at_bfactor ,
+ *                           'charge'     : at_charge             # <<<<<<<<<<<<<<
+ *                           })
+ * 
+ */
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_at_charge); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_charge, __pyx_t_2) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "vBabel/PDBFiles.pyx":163
+ *             #cov_rad  = at.get_cov_rad (at_symbol)
+ *             #gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
+ *             atoms.append({             # <<<<<<<<<<<<<<
+ *                           'index'      : index      ,
+ *                           'name'       : at_name    ,
+ */
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_atoms, __pyx_t_3); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 163, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_at_pos, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_v_gridsize); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_at_pos, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_8, __pyx_v_gridsize); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyNumber_Int(__pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 175, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __Pyx_GIVEREF(__pyx_t_3);
-      PyList_SET_ITEM(__pyx_t_11, 0, __pyx_t_3);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyList_SET_ITEM(__pyx_t_11, 1, __pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_8);
-      PyList_SET_ITEM(__pyx_t_11, 2, __pyx_t_8);
-      __pyx_t_3 = 0;
-      __pyx_t_2 = 0;
-      __pyx_t_8 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_gridpos, ((PyObject*)__pyx_t_11));
-      __pyx_t_11 = 0;
 
-      /* "PDBFiles.pyx":180
+      /* "vBabel/PDBFiles.pyx":176
  * 
- *                             #0      1        2        3       4        5        6       7       8       9       10          11        12
- *             atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])             # <<<<<<<<<<<<<<
- *             #atoms.append([index, at_name, cov_rad,  None, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
- *             #print (index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge )
- */
-      __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_at_occup); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_at_bfactor); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_10 = PyFloat_FromDouble(__pyx_v_at_charge); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_9 = PyList_New(13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_GIVEREF(__pyx_t_11);
-      PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_11);
-      __Pyx_INCREF(__pyx_v_at_name);
-      __Pyx_GIVEREF(__pyx_v_at_name);
-      PyList_SET_ITEM(__pyx_t_9, 1, __pyx_v_at_name);
-      __Pyx_INCREF(__pyx_v_cov_rad);
-      __Pyx_GIVEREF(__pyx_v_cov_rad);
-      PyList_SET_ITEM(__pyx_t_9, 2, __pyx_v_cov_rad);
-      __Pyx_INCREF(__pyx_v_at_pos);
-      __Pyx_GIVEREF(__pyx_v_at_pos);
-      PyList_SET_ITEM(__pyx_t_9, 3, __pyx_v_at_pos);
-      __Pyx_INCREF(__pyx_v_at_resi);
-      __Pyx_GIVEREF(__pyx_v_at_resi);
-      PyList_SET_ITEM(__pyx_t_9, 4, __pyx_v_at_resi);
-      __Pyx_INCREF(__pyx_v_at_resn);
-      __Pyx_GIVEREF(__pyx_v_at_resn);
-      PyList_SET_ITEM(__pyx_t_9, 5, __pyx_v_at_resn);
-      __Pyx_INCREF(__pyx_v_at_ch);
-      __Pyx_GIVEREF(__pyx_v_at_ch);
-      PyList_SET_ITEM(__pyx_t_9, 6, __pyx_v_at_ch);
-      __Pyx_INCREF(__pyx_v_at_symbol);
-      __Pyx_GIVEREF(__pyx_v_at_symbol);
-      PyList_SET_ITEM(__pyx_t_9, 7, __pyx_v_at_symbol);
-      __Pyx_GIVEREF(__pyx_t_8);
-      PyList_SET_ITEM(__pyx_t_9, 8, __pyx_t_8);
-      __Pyx_INCREF(__pyx_v_gridpos);
-      __Pyx_GIVEREF(__pyx_v_gridpos);
-      PyList_SET_ITEM(__pyx_t_9, 9, __pyx_v_gridpos);
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyList_SET_ITEM(__pyx_t_9, 10, __pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_3);
-      PyList_SET_ITEM(__pyx_t_9, 11, __pyx_t_3);
-      __Pyx_GIVEREF(__pyx_t_10);
-      PyList_SET_ITEM(__pyx_t_9, 12, __pyx_t_10);
-      __pyx_t_11 = 0;
-      __pyx_t_8 = 0;
-      __pyx_t_2 = 0;
-      __pyx_t_3 = 0;
-      __pyx_t_10 = 0;
-      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_atoms, __pyx_t_9); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 180, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-      /* "PDBFiles.pyx":183
- *             #atoms.append([index, at_name, cov_rad,  None, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
- *             #print (index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge )
+ * 
  *             index += 1             # <<<<<<<<<<<<<<
- *             #except:
- *             #    pass
+ * 
+ *     return atoms
  */
       __pyx_v_index = (__pyx_v_index + 1);
 
-      /* "PDBFiles.pyx":139
+      /* "vBabel/PDBFiles.pyx":140
  *     cdef int index           = 0
  *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':             # <<<<<<<<<<<<<<
- *             #try:
  *             at_name    = line[12:16].strip()
+ *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  */
     }
 
-    /* "PDBFiles.pyx":138
+    /* "vBabel/PDBFiles.pyx":139
  *     atoms           = []
  *     cdef int index           = 0
  *     for line in pdb_file_lines:             # <<<<<<<<<<<<<<
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
- *             #try:
+ *             at_name    = line[12:16].strip()
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":188
- *                 #print(line)
- *     #print('atoms:', atoms)
+  /* "vBabel/PDBFiles.pyx":178
+ *             index += 1
+ * 
  *     return atoms             # <<<<<<<<<<<<<<
  * 
  * 
@@ -2853,12 +2792,12 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
   __pyx_r = __pyx_v_atoms;
   goto __pyx_L0;
 
-  /* "PDBFiles.pyx":92
+  /* "vBabel/PDBFiles.pyx":92
  * 
  * 
  * cpdef get_list_of_atoms_from_rawframe(rawframe, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
- * 
+ * ATOM    338 H12Z DLPA    4      -9.100   1.858  -3.000  1.00  0.00      MEMB
  */
 
   /* function exit code */
@@ -2870,7 +2809,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("PDBFiles.get_list_of_atoms_from_rawframe", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_list_of_atoms_from_rawframe", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_pdb_file_lines);
@@ -2882,17 +2821,15 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(PyObject *__p
   __Pyx_XDECREF(__pyx_v_at_resn);
   __Pyx_XDECREF(__pyx_v_at_ch);
   __Pyx_XDECREF(__pyx_v_at_symbol);
-  __Pyx_XDECREF(__pyx_v_cov_rad);
-  __Pyx_XDECREF(__pyx_v_gridpos);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8PDBFiles_2get_list_of_atoms_from_rawframe[] = " Function doc \n\nATOM      1  N   THR A   1      -1.820  24.919  -5.344  1.00  0.00           N  \nATOM      2  CA  THR A   1      -1.256  24.379  -4.074  1.00  0.00           C  \nATOM     61  CB  ILE A   4      -7.386  -0.466   0.343  1.00  0.00           C  \nATOM  16     HO2 GLC  1       2.188   -0.704  0.939   1.00  300.00          H 0.0000   \nATOM     27  NH1 ARG A   5      68.029  23.029  29.719  1.00 38.75           N1+\n\niCode = \"\"\n( serial       ,\n  name         ,\n  altLoc       ,\n  resName      ,\n  chainID      ,\n  resSeq       ,\n  u00          ,\n  u11          ,\n  u22          ,\n  u01          ,\n  u02          ,\n  u12          ,\n  segID        ,\n  atomicNumber ,\n  formalCharge ) = self._ParseFixedFormatLine ( line                    ,\n                                                (  6, 11, int  , None ) ,\n                                                ( 12, 16, None , \"\"   ) ,\n                                                ( 16, 17, None , \"\"   ) ,\n                                                ( 17, 20, None , \"\"   ) ,\n                                                ( 21, 22, None , \"\"   ) ,\n                                                ( 22, 27, int  , None ) ,\n                                                ( 28, 35, float, None ) ,\n                                                ( 35, 42, float, None ) ,\n                                                ( 42, 49, float, None ) ,\n                                                ( 49, 56, float, None ) ,\n                                                ( 56, 63, float, None ) ,\n                                                ( 63, 70, float, None ) ,\n                                                ( 72, 76, None , \"\"   ) ,\n                                                ( 76, 78, PeriodicTable.AtomicNumberFromSymbol, -1 ) ,\n                                                ( 78, 80, None , \"\"   ) )\n\n    ";
-static PyObject *__pyx_pw_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vBabel_8PDBFiles_2get_list_of_atoms_from_rawframe[] = " Function doc \nATOM    338 H12Z DLPA    4      -9.100   1.858  -3.000  1.00  0.00      MEMB\n\nATOM      1  N   THR A   1      -1.820  24.919  -5.344  1.00  0.00           N  \nATOM      2  CA  THR A   1      -1.256  24.379  -4.074  1.00  0.00           C  \nATOM     61  CB  ILE A   4      -7.386  -0.466   0.343  1.00  0.00           C  \nATOM  16     HO2 GLC  1       2.188   -0.704  0.939   1.00  300.00          H 0.0000   \nATOM     27  NH1 ARG A   5      68.029  23.029  29.719  1.00 38.75           N1+\n\niCode = \"\"\n( serial       ,\n  name         ,\n  altLoc       ,\n  resName      ,\n  chainID      ,\n  resSeq       ,\n  u00          ,\n  u11          ,\n  u22          ,\n  u01          ,\n  u02          ,\n  u12          ,\n  segID        ,\n  atomicNumber ,\n  formalCharge ) = self._ParseFixedFormatLine ( line                    ,\n                                                (  6, 11, int  , None ) ,\n                                                ( 12, 16, None , \"\"   ) ,\n                                                ( 16, 17, None , \"\"   ) ,\n                                                ( 17, 20, None , \"\"   ) ,\n                                                ( 21, 22, None , \"\"   ) ,\n                                                ( 22, 27, int  , None ) ,\n                                                ( 28, 35, float, None ) ,\n                                                ( 35, 42, float, None ) ,\n                                                ( 42, 49, float, None ) ,\n                                                ( 49, 56, float, None ) ,\n                                                ( 56, 63, float, None ) ,\n                                                ( 63, 70, float, None ) ,\n                                                ( 72, 76, None , \"\"   ) ,\n                                                ( 76, 78, PeriodicTable.AtomicNumberFromSymbol, -1 ) ,\n                                                ( 78, 8""0, None , \"\"   ) )\n\n    ";
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_rawframe = 0;
   PyObject *__pyx_v_gridsize = 0;
   PyObject *__pyx_v_at = 0;
@@ -2957,28 +2894,28 @@ static PyObject *__pyx_pw_8PDBFiles_3get_list_of_atoms_from_rawframe(PyObject *_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("get_list_of_atoms_from_rawframe", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 92, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("PDBFiles.get_list_of_atoms_from_rawframe", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_list_of_atoms_from_rawframe", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8PDBFiles_2get_list_of_atoms_from_rawframe(__pyx_self, __pyx_v_rawframe, __pyx_v_gridsize, __pyx_v_at);
+  __pyx_r = __pyx_pf_6vBabel_8PDBFiles_2get_list_of_atoms_from_rawframe(__pyx_self, __pyx_v_rawframe, __pyx_v_gridsize, __pyx_v_at);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframe, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at) {
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframe, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_8PDBFiles_get_list_of_atoms_from_rawframe __pyx_t_2;
+  struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe __pyx_t_2;
   __Pyx_RefNannySetupContext("get_list_of_atoms_from_rawframe", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
   __pyx_t_2.at = __pyx_v_at;
-  __pyx_t_1 = __pyx_f_8PDBFiles_get_list_of_atoms_from_rawframe(__pyx_v_rawframe, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8PDBFiles_get_list_of_atoms_from_rawframe(__pyx_v_rawframe, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2987,7 +2924,7 @@ static PyObject *__pyx_pf_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUS
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PDBFiles.get_list_of_atoms_from_rawframe", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_list_of_atoms_from_rawframe", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2995,7 +2932,7 @@ static PyObject *__pyx_pf_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUS
   return __pyx_r;
 }
 
-/* "PDBFiles.pyx":194
+/* "vBabel/PDBFiles.pyx":184
  * 
  * 
  * cpdef get_list_of_frames_from_pdb_rawframes (rawframes = None):             # <<<<<<<<<<<<<<
@@ -3003,8 +2940,8 @@ static PyObject *__pyx_pf_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUS
  *     n_processor = multiprocessing.cpu_count()
  */
 
-static PyObject *__pyx_pw_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_8PDBFiles_get_list_of_frames_from_pdb_rawframes *__pyx_optional_args) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes *__pyx_optional_args) {
   PyObject *__pyx_v_rawframes = ((PyObject *)Py_None);
   PyObject *__pyx_v_n_processor = NULL;
   PyObject *__pyx_v_pool = NULL;
@@ -3031,16 +2968,16 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
     }
   }
 
-  /* "PDBFiles.pyx":196
+  /* "vBabel/PDBFiles.pyx":186
  * cpdef get_list_of_frames_from_pdb_rawframes (rawframes = None):
  *     """ Function doc """
  *     n_processor = multiprocessing.cpu_count()             # <<<<<<<<<<<<<<
  *     pool        = multiprocessing.Pool(n_processor)
  *     frames      = pool.map(get_pdb_frame_coordinates, rawframes)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_multiprocessing); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_multiprocessing); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_cpu_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_cpu_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3055,22 +2992,22 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_n_processor = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":197
+  /* "vBabel/PDBFiles.pyx":187
  *     """ Function doc """
  *     n_processor = multiprocessing.cpu_count()
  *     pool        = multiprocessing.Pool(n_processor)             # <<<<<<<<<<<<<<
  *     frames      = pool.map(get_pdb_frame_coordinates, rawframes)
  *     framesout   = []
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_multiprocessing); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_multiprocessing); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_Pool); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_Pool); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -3085,22 +3022,22 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_n_processor) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_n_processor);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_pool = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":198
+  /* "vBabel/PDBFiles.pyx":188
  *     n_processor = multiprocessing.cpu_count()
  *     pool        = multiprocessing.Pool(n_processor)
  *     frames      = pool.map(get_pdb_frame_coordinates, rawframes)             # <<<<<<<<<<<<<<
  *     framesout   = []
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_pool, __pyx_n_s_map); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_pool, __pyx_n_s_map); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_get_pdb_frame_coordinates); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_get_pdb_frame_coordinates); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -3117,7 +3054,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_rawframes};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3126,14 +3063,14 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_rawframes};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 188, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3144,7 +3081,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
     __Pyx_GIVEREF(__pyx_v_rawframes);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_rawframes);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -3152,19 +3089,19 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   __pyx_v_frames = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":199
+  /* "vBabel/PDBFiles.pyx":189
  *     pool        = multiprocessing.Pool(n_processor)
  *     frames      = pool.map(get_pdb_frame_coordinates, rawframes)
  *     framesout   = []             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_framesout = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":202
+  /* "vBabel/PDBFiles.pyx":192
  * 
  * 
  *     for frame in frames:             # <<<<<<<<<<<<<<
@@ -3175,26 +3112,26 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
     __pyx_t_1 = __pyx_v_frames; __Pyx_INCREF(__pyx_t_1); __pyx_t_7 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_7 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_frames); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __pyx_t_7 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_frames); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 192, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_8)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 192, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 202, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 192, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -3204,7 +3141,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 202, __pyx_L1_error)
+          else __PYX_ERR(0, 192, __pyx_L1_error)
         }
         break;
       }
@@ -3213,43 +3150,43 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
     __Pyx_XDECREF_SET(__pyx_v_frame, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "PDBFiles.pyx":203
+    /* "vBabel/PDBFiles.pyx":193
  * 
  *     for frame in frames:
  *         if frame:             # <<<<<<<<<<<<<<
  *             frame = np.array(frame, dtype=np.float32)
  *             framesout.append(frame)
  */
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_frame); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 203, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_frame); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
     if (__pyx_t_9) {
 
-      /* "PDBFiles.pyx":204
+      /* "vBabel/PDBFiles.pyx":194
  *     for frame in frames:
  *         if frame:
  *             frame = np.array(frame, dtype=np.float32)             # <<<<<<<<<<<<<<
  *             framesout.append(frame)
  *         else:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_v_frame);
       __Pyx_GIVEREF(__pyx_v_frame);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_frame);
-      __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3257,16 +3194,16 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
       __Pyx_DECREF_SET(__pyx_v_frame, __pyx_t_10);
       __pyx_t_10 = 0;
 
-      /* "PDBFiles.pyx":205
+      /* "vBabel/PDBFiles.pyx":195
  *         if frame:
  *             frame = np.array(frame, dtype=np.float32)
  *             framesout.append(frame)             # <<<<<<<<<<<<<<
  *         else:
  *             pass
  */
-      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_framesout, __pyx_v_frame); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 205, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_framesout, __pyx_v_frame); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 195, __pyx_L1_error)
 
-      /* "PDBFiles.pyx":203
+      /* "vBabel/PDBFiles.pyx":193
  * 
  *     for frame in frames:
  *         if frame:             # <<<<<<<<<<<<<<
@@ -3276,7 +3213,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
       goto __pyx_L5;
     }
 
-    /* "PDBFiles.pyx":207
+    /* "vBabel/PDBFiles.pyx":197
  *             framesout.append(frame)
  *         else:
  *             pass             # <<<<<<<<<<<<<<
@@ -3287,7 +3224,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
     }
     __pyx_L5:;
 
-    /* "PDBFiles.pyx":202
+    /* "vBabel/PDBFiles.pyx":192
  * 
  * 
  *     for frame in frames:             # <<<<<<<<<<<<<<
@@ -3297,7 +3234,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":209
+  /* "vBabel/PDBFiles.pyx":199
  *             pass
  * 
  *     return framesout             # <<<<<<<<<<<<<<
@@ -3309,7 +3246,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   __pyx_r = __pyx_v_framesout;
   goto __pyx_L0;
 
-  /* "PDBFiles.pyx":194
+  /* "vBabel/PDBFiles.pyx":184
  * 
  * 
  * cpdef get_list_of_frames_from_pdb_rawframes (rawframes = None):             # <<<<<<<<<<<<<<
@@ -3325,7 +3262,7 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("PDBFiles.get_list_of_frames_from_pdb_rawframes", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_list_of_frames_from_pdb_rawframes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_n_processor);
@@ -3339,9 +3276,9 @@ static PyObject *__pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(CYTHON_
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8PDBFiles_4get_list_of_frames_from_pdb_rawframes[] = " Function doc ";
-static PyObject *__pyx_pw_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vBabel_8PDBFiles_4get_list_of_frames_from_pdb_rawframes[] = " Function doc ";
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_rawframes = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -3368,7 +3305,7 @@ static PyObject *__pyx_pw_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_list_of_frames_from_pdb_rawframes") < 0)) __PYX_ERR(0, 194, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_list_of_frames_from_pdb_rawframes") < 0)) __PYX_ERR(0, 184, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3382,29 +3319,29 @@ static PyObject *__pyx_pw_8PDBFiles_5get_list_of_frames_from_pdb_rawframes(PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_list_of_frames_from_pdb_rawframes", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 194, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_list_of_frames_from_pdb_rawframes", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 184, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("PDBFiles.get_list_of_frames_from_pdb_rawframes", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_list_of_frames_from_pdb_rawframes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(__pyx_self, __pyx_v_rawframes);
+  __pyx_r = __pyx_pf_6vBabel_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(__pyx_self, __pyx_v_rawframes);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframes) {
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframes) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_8PDBFiles_get_list_of_frames_from_pdb_rawframes __pyx_t_2;
+  struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes __pyx_t_2;
   __Pyx_RefNannySetupContext("get_list_of_frames_from_pdb_rawframes", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.rawframes = __pyx_v_rawframes;
-  __pyx_t_1 = __pyx_f_8PDBFiles_get_list_of_frames_from_pdb_rawframes(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3413,7 +3350,7 @@ static PyObject *__pyx_pf_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHO
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PDBFiles.get_list_of_frames_from_pdb_rawframes", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_list_of_frames_from_pdb_rawframes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3421,7 +3358,7 @@ static PyObject *__pyx_pf_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHO
   return __pyx_r;
 }
 
-/* "PDBFiles.pyx":215
+/* "vBabel/PDBFiles.pyx":205
  * 
  * 
  * cpdef get_pdb_frame_coordinates (str frame):             # <<<<<<<<<<<<<<
@@ -3429,8 +3366,8 @@ static PyObject *__pyx_pf_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHO
  *     #print ('\nstarting: parse_pdb - building atom list')
  */
 
-static PyObject *__pyx_pw_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_self, PyObject *__pyx_v_frame); /*proto*/
-static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_frame, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_self, PyObject *__pyx_v_frame); /*proto*/
+static PyObject *__pyx_f_6vBabel_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_frame, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_pdb_file_lines = NULL;
   PyObject *__pyx_v_frame_coordinates = NULL;
   PyObject *__pyx_v_line = NULL;
@@ -3446,31 +3383,31 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("get_pdb_frame_coordinates", 0);
 
-  /* "PDBFiles.pyx":219
+  /* "vBabel/PDBFiles.pyx":209
  *     #print ('\nstarting: parse_pdb - building atom list')
  *     #initial          = time.time()
  *     pdb_file_lines    = frame.split('\n')             # <<<<<<<<<<<<<<
  * 
  *     #cdef float *frame_coordinates
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_frame, __pyx_kp_s__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_frame, __pyx_kp_s__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_pdb_file_lines = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":222
+  /* "vBabel/PDBFiles.pyx":212
  * 
  *     #cdef float *frame_coordinates
  *     frame_coordinates = []             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_frame_coordinates = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":225
+  /* "vBabel/PDBFiles.pyx":215
  * 
  * 
  *     for line in pdb_file_lines:             # <<<<<<<<<<<<<<
@@ -3481,26 +3418,26 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
     __pyx_t_1 = __pyx_v_pdb_file_lines; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_pdb_file_lines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_pdb_file_lines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 225, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 225, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 215, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 225, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 215, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 225, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -3510,7 +3447,7 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 225, __pyx_L1_error)
+          else __PYX_ERR(0, 215, __pyx_L1_error)
         }
         break;
       }
@@ -3519,76 +3456,76 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
     __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "PDBFiles.pyx":226
+    /* "vBabel/PDBFiles.pyx":216
  * 
  *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':             # <<<<<<<<<<<<<<
  *             #at_name  = line[12:16].strip()
  *             frame_coordinates.append(float(line[30:38]))
  */
-    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 4, NULL, NULL, &__pyx_slice__3, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 4, NULL, NULL, &__pyx_slice__3, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_ATOM, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_ATOM, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (!__pyx_t_6) {
     } else {
       __pyx_t_5 = __pyx_t_6;
       goto __pyx_L6_bool_binop_done;
     }
-    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 6, NULL, NULL, &__pyx_slice__4, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 6, NULL, NULL, &__pyx_slice__4, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_HETATM, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_6 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_HETATM, Py_EQ)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = __pyx_t_6;
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "PDBFiles.pyx":228
+      /* "vBabel/PDBFiles.pyx":218
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
  *             #at_name  = line[12:16].strip()
  *             frame_coordinates.append(float(line[30:38]))             # <<<<<<<<<<<<<<
  *             frame_coordinates.append(float(line[38:46]))
  *             frame_coordinates.append(float(line[46:54]))
  */
-      __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 30, 38, NULL, NULL, &__pyx_slice__6, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 30, 38, NULL, NULL, &__pyx_slice__6, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __Pyx_PyNumber_Float(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyNumber_Float(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame_coordinates, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame_coordinates, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "PDBFiles.pyx":229
+      /* "vBabel/PDBFiles.pyx":219
  *             #at_name  = line[12:16].strip()
  *             frame_coordinates.append(float(line[30:38]))
  *             frame_coordinates.append(float(line[38:46]))             # <<<<<<<<<<<<<<
  *             frame_coordinates.append(float(line[46:54]))
  *             #at_pos   = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  */
-      __pyx_t_7 = __Pyx_PyObject_GetSlice(__pyx_v_line, 38, 46, NULL, NULL, &__pyx_slice__7, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetSlice(__pyx_v_line, 38, 46, NULL, NULL, &__pyx_slice__7, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_4 = __Pyx_PyNumber_Float(__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyNumber_Float(__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 219, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame_coordinates, __pyx_t_4); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 229, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame_coordinates, __pyx_t_4); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 219, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "PDBFiles.pyx":230
+      /* "vBabel/PDBFiles.pyx":220
  *             frame_coordinates.append(float(line[30:38]))
  *             frame_coordinates.append(float(line[38:46]))
  *             frame_coordinates.append(float(line[46:54]))             # <<<<<<<<<<<<<<
  *             #at_pos   = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  * 
  */
-      __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 46, 54, NULL, NULL, &__pyx_slice__8, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_line, 46, 54, NULL, NULL, &__pyx_slice__8, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __Pyx_PyNumber_Float(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyNumber_Float(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 220, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame_coordinates, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 230, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame_coordinates, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 220, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "PDBFiles.pyx":226
+      /* "vBabel/PDBFiles.pyx":216
  * 
  *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':             # <<<<<<<<<<<<<<
@@ -3597,7 +3534,7 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
  */
     }
 
-    /* "PDBFiles.pyx":225
+    /* "vBabel/PDBFiles.pyx":215
  * 
  * 
  *     for line in pdb_file_lines:             # <<<<<<<<<<<<<<
@@ -3607,18 +3544,18 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":235
+  /* "vBabel/PDBFiles.pyx":225
  *     #frame_coordinates = np.array(frame_coordinates, dtype=np.float32)
  * 
  *     if len(frame_coordinates) == 0:             # <<<<<<<<<<<<<<
  *         return False
  *     else:
  */
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_frame_coordinates); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_frame_coordinates); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 225, __pyx_L1_error)
   __pyx_t_5 = ((__pyx_t_2 == 0) != 0);
   if (__pyx_t_5) {
 
-    /* "PDBFiles.pyx":236
+    /* "vBabel/PDBFiles.pyx":226
  * 
  *     if len(frame_coordinates) == 0:
  *         return False             # <<<<<<<<<<<<<<
@@ -3630,7 +3567,7 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "PDBFiles.pyx":235
+    /* "vBabel/PDBFiles.pyx":225
  *     #frame_coordinates = np.array(frame_coordinates, dtype=np.float32)
  * 
  *     if len(frame_coordinates) == 0:             # <<<<<<<<<<<<<<
@@ -3639,7 +3576,7 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
  */
   }
 
-  /* "PDBFiles.pyx":238
+  /* "vBabel/PDBFiles.pyx":228
  *         return False
  *     else:
  *         return frame_coordinates             # <<<<<<<<<<<<<<
@@ -3651,7 +3588,7 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
     goto __pyx_L0;
   }
 
-  /* "PDBFiles.pyx":215
+  /* "vBabel/PDBFiles.pyx":205
  * 
  * 
  * cpdef get_pdb_frame_coordinates (str frame):             # <<<<<<<<<<<<<<
@@ -3664,7 +3601,7 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("PDBFiles.get_pdb_frame_coordinates", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_pdb_frame_coordinates", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_pdb_file_lines);
@@ -3676,14 +3613,14 @@ static PyObject *__pyx_f_8PDBFiles_get_pdb_frame_coordinates(PyObject *__pyx_v_f
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_self, PyObject *__pyx_v_frame); /*proto*/
-static char __pyx_doc_8PDBFiles_6get_pdb_frame_coordinates[] = " Function doc ";
-static PyObject *__pyx_pw_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_self, PyObject *__pyx_v_frame) {
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_self, PyObject *__pyx_v_frame); /*proto*/
+static char __pyx_doc_6vBabel_8PDBFiles_6get_pdb_frame_coordinates[] = " Function doc ";
+static PyObject *__pyx_pw_6vBabel_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_self, PyObject *__pyx_v_frame) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_pdb_frame_coordinates (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frame), (&PyString_Type), 1, "frame", 1))) __PYX_ERR(0, 215, __pyx_L1_error)
-  __pyx_r = __pyx_pf_8PDBFiles_6get_pdb_frame_coordinates(__pyx_self, ((PyObject*)__pyx_v_frame));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frame), (&PyString_Type), 1, "frame", 1))) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6vBabel_8PDBFiles_6get_pdb_frame_coordinates(__pyx_self, ((PyObject*)__pyx_v_frame));
 
   /* function exit code */
   goto __pyx_L0;
@@ -3694,13 +3631,13 @@ static PyObject *__pyx_pw_8PDBFiles_7get_pdb_frame_coordinates(PyObject *__pyx_s
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame) {
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_pdb_frame_coordinates", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_8PDBFiles_get_pdb_frame_coordinates(__pyx_v_frame, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8PDBFiles_get_pdb_frame_coordinates(__pyx_v_frame, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3709,7 +3646,7 @@ static PyObject *__pyx_pf_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyO
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PDBFiles.get_pdb_frame_coordinates", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.PDBFiles.get_pdb_frame_coordinates", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3718,10 +3655,10 @@ static PyObject *__pyx_pf_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyO
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"load_pdb_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8PDBFiles_1load_pdb_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8PDBFiles_load_pdb_file},
-  {"get_list_of_atoms_from_rawframe", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8PDBFiles_3get_list_of_atoms_from_rawframe, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8PDBFiles_2get_list_of_atoms_from_rawframe},
-  {"get_list_of_frames_from_pdb_rawframes", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8PDBFiles_5get_list_of_frames_from_pdb_rawframes, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8PDBFiles_4get_list_of_frames_from_pdb_rawframes},
-  {"get_pdb_frame_coordinates", (PyCFunction)__pyx_pw_8PDBFiles_7get_pdb_frame_coordinates, METH_O, __pyx_doc_8PDBFiles_6get_pdb_frame_coordinates},
+  {"load_pdb_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vBabel_8PDBFiles_load_pdb_file},
+  {"get_list_of_atoms_from_rawframe", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vBabel_8PDBFiles_3get_list_of_atoms_from_rawframe, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vBabel_8PDBFiles_2get_list_of_atoms_from_rawframe},
+  {"get_list_of_frames_from_pdb_rawframes", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vBabel_8PDBFiles_5get_list_of_frames_from_pdb_rawframes, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vBabel_8PDBFiles_4get_list_of_frames_from_pdb_rawframes},
+  {"get_pdb_frame_coordinates", (PyCFunction)__pyx_pw_6vBabel_8PDBFiles_7get_pdb_frame_coordinates, METH_O, __pyx_doc_6vBabel_8PDBFiles_6get_pdb_frame_coordinates},
   {0, 0, 0, 0}
 };
 
@@ -3772,11 +3709,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_END, __pyx_k_END, sizeof(__pyx_k_END), 0, 0, 1, 1},
   {&__pyx_n_s_ENDMDL, __pyx_k_ENDMDL, sizeof(__pyx_k_ENDMDL), 0, 0, 1, 1},
   {&__pyx_n_s_HETATM, __pyx_k_HETATM, sizeof(__pyx_k_HETATM), 0, 0, 1, 1},
-  {&__pyx_n_s_MG, __pyx_k_MG, sizeof(__pyx_k_MG), 0, 0, 1, 1},
-  {&__pyx_n_s_Mg, __pyx_k_Mg, sizeof(__pyx_k_Mg), 0, 0, 1, 1},
   {&__pyx_n_s_Pool, __pyx_k_Pool, sizeof(__pyx_k_Pool), 0, 0, 1, 1},
-  {&__pyx_n_s_VISMOL_vModel, __pyx_k_VISMOL_vModel, sizeof(__pyx_k_VISMOL_vModel), 0, 0, 1, 1},
-  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
   {&__pyx_n_s_VismolObject, __pyx_k_VismolObject, sizeof(__pyx_k_VismolObject), 0, 0, 1, 1},
   {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
@@ -3784,6 +3717,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_atom_types, __pyx_k_atom_types, sizeof(__pyx_k_atom_types), 0, 0, 1, 1},
   {&__pyx_n_s_atoms, __pyx_k_atoms, sizeof(__pyx_k_atoms), 0, 0, 1, 1},
   {&__pyx_n_s_basename, __pyx_k_basename, sizeof(__pyx_k_basename), 0, 0, 1, 1},
+  {&__pyx_n_s_bfactor, __pyx_k_bfactor, sizeof(__pyx_k_bfactor), 0, 0, 1, 1},
+  {&__pyx_n_s_chain, __pyx_k_chain, sizeof(__pyx_k_chain), 0, 0, 1, 1},
+  {&__pyx_n_s_charge, __pyx_k_charge, sizeof(__pyx_k_charge), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_cpu_count, __pyx_k_cpu_count, sizeof(__pyx_k_cpu_count), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
@@ -3791,11 +3727,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_float32, __pyx_k_float32, sizeof(__pyx_k_float32), 0, 0, 1, 1},
   {&__pyx_n_s_frames_only, __pyx_k_frames_only, sizeof(__pyx_k_frames_only), 0, 0, 1, 1},
-  {&__pyx_n_s_get_cov_rad, __pyx_k_get_cov_rad, sizeof(__pyx_k_get_cov_rad), 0, 0, 1, 1},
   {&__pyx_n_s_get_pdb_frame_coordinates, __pyx_k_get_pdb_frame_coordinates, sizeof(__pyx_k_get_pdb_frame_coordinates), 0, 0, 1, 1},
   {&__pyx_n_s_get_symbol, __pyx_k_get_symbol, sizeof(__pyx_k_get_symbol), 0, 0, 1, 1},
   {&__pyx_n_s_gridsize, __pyx_k_gridsize, sizeof(__pyx_k_gridsize), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_infile, __pyx_k_infile, sizeof(__pyx_k_infile), 0, 0, 1, 1},
   {&__pyx_n_s_keys, __pyx_k_keys, sizeof(__pyx_k_keys), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -3805,6 +3741,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
+  {&__pyx_n_s_occupancy, __pyx_k_occupancy, sizeof(__pyx_k_occupancy), 0, 0, 1, 1},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
@@ -3813,12 +3750,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_rawframe, __pyx_k_rawframe, sizeof(__pyx_k_rawframe), 0, 0, 1, 1},
   {&__pyx_n_s_rawframes, __pyx_k_rawframes, sizeof(__pyx_k_rawframes), 0, 0, 1, 1},
   {&__pyx_n_s_read, __pyx_k_read, sizeof(__pyx_k_read), 0, 0, 1, 1},
+  {&__pyx_n_s_resi, __pyx_k_resi, sizeof(__pyx_k_resi), 0, 0, 1, 1},
+  {&__pyx_n_s_resn, __pyx_k_resn, sizeof(__pyx_k_resn), 0, 0, 1, 1},
   {&__pyx_n_s_split, __pyx_k_split, sizeof(__pyx_k_split), 0, 0, 1, 1},
   {&__pyx_n_s_strip, __pyx_k_strip, sizeof(__pyx_k_strip), 0, 0, 1, 1},
+  {&__pyx_n_s_symbol, __pyx_k_symbol, sizeof(__pyx_k_symbol), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_trajectory, __pyx_k_trajectory, sizeof(__pyx_k_trajectory), 0, 0, 1, 1},
   {&__pyx_n_s_vConfig, __pyx_k_vConfig, sizeof(__pyx_k_vConfig), 0, 0, 1, 1},
+  {&__pyx_n_s_vModel, __pyx_k_vModel, sizeof(__pyx_k_vModel), 0, 0, 1, 1},
+  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -3832,7 +3774,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "PDBFiles.pyx":29
+  /* "vBabel/PDBFiles.pyx":29
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as pdb_file:             # <<<<<<<<<<<<<<
@@ -3843,23 +3785,23 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "PDBFiles.pyx":139
+  /* "vBabel/PDBFiles.pyx":140
  *     cdef int index           = 0
  *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':             # <<<<<<<<<<<<<<
- *             #try:
  *             at_name    = line[12:16].strip()
+ *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  */
-  __pyx_slice__3 = PySlice_New(Py_None, __pyx_int_4, Py_None); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_slice__3 = PySlice_New(Py_None, __pyx_int_4, Py_None); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__3);
   __Pyx_GIVEREF(__pyx_slice__3);
-  __pyx_slice__4 = PySlice_New(Py_None, __pyx_int_6, Py_None); if (unlikely(!__pyx_slice__4)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_slice__4 = PySlice_New(Py_None, __pyx_int_6, Py_None); if (unlikely(!__pyx_slice__4)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__4);
   __Pyx_GIVEREF(__pyx_slice__4);
 
-  /* "PDBFiles.pyx":141
+  /* "vBabel/PDBFiles.pyx":141
+ *     for line in pdb_file_lines:
  *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
- *             #try:
  *             at_name    = line[12:16].strip()             # <<<<<<<<<<<<<<
  *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  * 
@@ -3868,8 +3810,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__5);
   __Pyx_GIVEREF(__pyx_slice__5);
 
-  /* "PDBFiles.pyx":142
- *             #try:
+  /* "vBabel/PDBFiles.pyx":142
+ *         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
  *             at_name    = line[12:16].strip()
  *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])             # <<<<<<<<<<<<<<
  * 
@@ -3885,60 +3827,71 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__8);
   __Pyx_GIVEREF(__pyx_slice__8);
 
-  /* "PDBFiles.pyx":144
+  /* "vBabel/PDBFiles.pyx":144
  *             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
  * 
  *             at_resi    = int(line[22:27])             # <<<<<<<<<<<<<<
  *             at_resn    = line[17:20].strip()
- *             at_ch      = line[21]
+ *             at_ch      = line[20:22]
  */
   __pyx_slice__9 = PySlice_New(__pyx_int_22, __pyx_int_27, Py_None); if (unlikely(!__pyx_slice__9)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__9);
   __Pyx_GIVEREF(__pyx_slice__9);
 
-  /* "PDBFiles.pyx":145
+  /* "vBabel/PDBFiles.pyx":145
  * 
  *             at_resi    = int(line[22:27])
  *             at_resn    = line[17:20].strip()             # <<<<<<<<<<<<<<
- *             at_ch      = line[21]
+ *             at_ch      = line[20:22]
  * 
  */
   __pyx_slice__10 = PySlice_New(__pyx_int_17, __pyx_int_20, Py_None); if (unlikely(!__pyx_slice__10)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__10);
   __Pyx_GIVEREF(__pyx_slice__10);
 
-  /* "PDBFiles.pyx":149
+  /* "vBabel/PDBFiles.pyx":146
+ *             at_resi    = int(line[22:27])
+ *             at_resn    = line[17:20].strip()
+ *             at_ch      = line[20:22]             # <<<<<<<<<<<<<<
  * 
  * 
- *             at_symbol  = line[70:]             # <<<<<<<<<<<<<<
- *             #print ('at_symbol raw ',at_symbol )
- *             at_symbol  = at_symbol.strip()
  */
-  __pyx_slice__11 = PySlice_New(__pyx_int_70, Py_None, Py_None); if (unlikely(!__pyx_slice__11)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_slice__11 = PySlice_New(__pyx_int_20, __pyx_int_22, Py_None); if (unlikely(!__pyx_slice__11)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__11);
   __Pyx_GIVEREF(__pyx_slice__11);
 
-  /* "PDBFiles.pyx":170
- *             #print('at_symbol',at_name, at_symbol)
+  /* "vBabel/PDBFiles.pyx":149
+ * 
+ * 
+ *             at_symbol  = line[70:]             # <<<<<<<<<<<<<<
+ *             at_symbol  = at_symbol.strip()
+ * 
+ */
+  __pyx_slice__12 = PySlice_New(__pyx_int_70, Py_None, Py_None); if (unlikely(!__pyx_slice__12)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__12);
+  __Pyx_GIVEREF(__pyx_slice__12);
+
+  /* "vBabel/PDBFiles.pyx":157
+ *                 at_symbol  = at.get_symbol(at_name)
  * 
  *             at_occup   = float(line[54:60])   #occupancy             # <<<<<<<<<<<<<<
  *             at_bfactor = float(line[60:66])
  *             at_charge  = 0.0
  */
-  __pyx_slice__12 = PySlice_New(__pyx_int_54, __pyx_int_60, Py_None); if (unlikely(!__pyx_slice__12)) __PYX_ERR(0, 170, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__12);
-  __Pyx_GIVEREF(__pyx_slice__12);
+  __pyx_slice__13 = PySlice_New(__pyx_int_54, __pyx_int_60, Py_None); if (unlikely(!__pyx_slice__13)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__13);
+  __Pyx_GIVEREF(__pyx_slice__13);
 
-  /* "PDBFiles.pyx":171
+  /* "vBabel/PDBFiles.pyx":158
  * 
  *             at_occup   = float(line[54:60])   #occupancy
  *             at_bfactor = float(line[60:66])             # <<<<<<<<<<<<<<
  *             at_charge  = 0.0
  * 
  */
-  __pyx_slice__13 = PySlice_New(__pyx_int_60, __pyx_int_66, Py_None); if (unlikely(!__pyx_slice__13)) __PYX_ERR(0, 171, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__13);
-  __Pyx_GIVEREF(__pyx_slice__13);
+  __pyx_slice__14 = PySlice_New(__pyx_int_60, __pyx_int_66, Py_None); if (unlikely(!__pyx_slice__14)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__14);
+  __Pyx_GIVEREF(__pyx_slice__14);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4206,14 +4159,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_PDBFiles) {
+  if (__pyx_module_is_main_vBabel__PDBFiles) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "PDBFiles")) {
-      if (unlikely(PyDict_SetItemString(modules, "PDBFiles", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "vBabel.PDBFiles")) {
+      if (unlikely(PyDict_SetItemString(modules, "vBabel.PDBFiles", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -4234,7 +4187,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "PDBFiles.pyx":1
+  /* "vBabel/PDBFiles.pyx":1
  * import os             # <<<<<<<<<<<<<<
  * import time
  * import multiprocessing
@@ -4244,7 +4197,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":2
+  /* "vBabel/PDBFiles.pyx":2
  * import os
  * import time             # <<<<<<<<<<<<<<
  * import multiprocessing
@@ -4255,7 +4208,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":3
+  /* "vBabel/PDBFiles.pyx":3
  * import os
  * import time
  * import multiprocessing             # <<<<<<<<<<<<<<
@@ -4267,7 +4220,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_multiprocessing, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":4
+  /* "vBabel/PDBFiles.pyx":4
  * import time
  * import multiprocessing
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -4279,7 +4232,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":7
+  /* "vBabel/PDBFiles.pyx":7
  * #import vModel.atom_types as at
  * #import vModel.cDistances as cdist
  * from   vModel import VismolObject             # <<<<<<<<<<<<<<
@@ -4291,7 +4244,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_VismolObject);
   __Pyx_GIVEREF(__pyx_n_s_VismolObject);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_VismolObject);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_VISMOL_vModel, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_vModel, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
@@ -4300,7 +4253,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PDBFiles.pyx":8
+  /* "vBabel/PDBFiles.pyx":8
  * #import vModel.cDistances as cdist
  * from   vModel import VismolObject
  * from pprint import pprint             # <<<<<<<<<<<<<<
@@ -4321,7 +4274,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PDBFiles.pyx":1
+  /* "vBabel/PDBFiles.pyx":1
  * import os             # <<<<<<<<<<<<<<
  * import time
  * import multiprocessing
@@ -4339,11 +4292,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init PDBFiles", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init vBabel.PDBFiles", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init PDBFiles");
+    PyErr_SetString(PyExc_ImportError, "init vBabel.PDBFiles");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -5943,37 +5896,6 @@ bad:
 }
 
 /* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
-}
-
-/* CIntToPy */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -6000,6 +5922,37 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
         return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
                                      little, !is_unsigned);
     }
 }

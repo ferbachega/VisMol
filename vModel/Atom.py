@@ -4,24 +4,24 @@
 class Atom:
     """ Class doc """
     
-    def __init__ (self, name         ='Xx',
-                        index        =None, 
-                        symbol       =None, 
+    def __init__ (self, name         = 'Xx',
+                        index        = None, 
+                        symbol       = None, 
                         pos          = None, 
                         resi         = None, 
                         resn         = None, 
                         chain        = ''  , 
                         atom_id      = 0   , 
-                        residue      = 'X',
+                        residue      = 'X' ,
                         
-                        occupancy    = 0.0,
-                        bfactor      = 0.0, 
-                        charge       = 0.0,
-						bonds_indexes= [] ,
+                        occupancy    = 0.0 ,
+                        bfactor      = 0.0 , 
+                        charge       = 0.0 ,
+						bonds_indexes= []  ,
                         Vobject      = None):
  
-        if pos is None:
-            pos = np.array([0.0, 0.0, 0.0])
+        #if pos is None:
+        #    pos = np.array([0.0, 0.0, 0.0])
 		
         
         self.pos        = pos     # - coordinates of the first frame
@@ -85,6 +85,11 @@ class Atom:
         self.surface        = False
         self.bonds_indexes  = bonds_indexes
         self.bonds          = []
+
+        
+        #self.sphere_data    = self.get_sphere_data(self.symbol)
+        
+
     
     def coords (self, frame = None):
         """ Function doc """
@@ -144,6 +149,18 @@ class Atom:
                     else:
                         self.symbol = 'Xx'
     '''
+
+    def get_grid_position (self, gridsize = 3, frame = None):
+        """ Function doc """
+        coords = self.coords (frame)
+        gridpos  = [int(coords[0]/gridsize), int(coords[1]/gridsize), int(coords[2]/gridsize)]
+        return gridpos
+
+    
+    def get_cov_rad (self):
+        """ Function doc """
+        return self.cov_rad 
+
     def get_color (self):
         """ Function doc """
         #self.at = Vobject.vismolSession.vConfig.atom_types
@@ -167,8 +184,15 @@ class Atom:
         self.Vobject.vismolSession.atom_dic_id[pickedID] = self
     
     
+    #def get_sphere_gata (self, symbol):
+    #    """ Function doc """
+        
+        
     
     
     
     
     
+
+
+        

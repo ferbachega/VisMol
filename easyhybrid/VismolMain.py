@@ -26,10 +26,10 @@ class VismolMainWindow ( ):
             pass
 
 
-    def __init__ (self, vismolSession = None, filein =  None):
+    def __init__ (self, vismolSession = None):
         """ Class initialiser """
         self.builder = Gtk.Builder()
-        self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/MainWindow_vismol.glade'))
+        self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/MainWindow.glade'))
         self.builder.connect_signals(self)
         self.window = self.builder.get_object('window1')
         self.window.set_default_size(800, 600)                          
@@ -160,9 +160,7 @@ class VismolMainWindow ( ):
         
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
-        
-        if filein:
-            self.vismolSession.load(filein)
+
         Gtk.main()
 
     def run (self):

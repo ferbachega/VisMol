@@ -115,7 +115,20 @@ cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):
         #bfactor  = float(line[60:66])
 
                         #0      1        2        3       4        5        6       7       8       9       10          11        12      
-        atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+        #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+        atoms.append({
+                      'index'      : index      , 
+                      'name'       : at_name    , 
+                      'resi'       : at_resi    , 
+                      'resn'       : at_resn    , 
+                      'chain'      : at_ch      , 
+                      'symbol'     : at_symbol  , 
+                      'occupancy'  : at_occup   , 
+                      'bfactor'    : at_bfactor , 
+                      'charge'     : at_charge   
+                      })
+        
+        
         #print (index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge )
         index += 1
 

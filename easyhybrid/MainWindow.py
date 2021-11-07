@@ -4,15 +4,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 
-class VismolStatusBar (Gtk.Statusbar):
-    """ Class doc """
-    
-    def __init__ (self, vismolSession = None):
-        """ Class initialiser """
-        
-        pass
-        self.vismolSession = vismolSession
-        self.statusbar = Gtk.Statusbar()
+
 
 class VismolGoToAtomWindow2(Gtk.Window):
     def OpenWindow (self):
@@ -242,7 +234,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         self.Visible    =  False
         
         self.residue_liststore = Gtk.ListStore(bool, int, str, str, int)
-        self.atom_liststore    = Gtk.ListStore(bool, int, str, str, int, int, )
+        self.atom_liststore    = Gtk.ListStore(bool, int, str, str, int, int)
         self.residue_filter    = False
 
 
@@ -560,7 +552,6 @@ class VismolSelectionTypeBox(Gtk.Box):
     
     def __init__ (self, vismolSession = None):
         """ Class initialiser """
-        Gtk.Box.__init__(self)
         #self.set_orientation(Gtk.Orientation.VERTICAL)
         #self.set_orientation(Gtk.Orientation.HORIZONTAL)
         #self.set_spacing(5)

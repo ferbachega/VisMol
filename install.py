@@ -36,7 +36,7 @@ text += 'VISMOL_HOME={} ; export VISMOL_HOME\n'.format(env)
 text += '# . Additional paths.\n'
 text += 'VISMOL_GLCORE=$VISMOL_HOME/glCore                                    ; export VISMOL_GLCORE\n'
 text += 'VISMOL_GLWIDGET=$VISMOL_HOME/glWidget                                ; export VISMOL_GLWIDGET\n' 
-text += 'PYTHONPATH=$VISMOL_HOME ; export PYTHONPATH\n'
+#text += 'PYTHONPATH=$VISMOL_HOME ; export PYTHONPATH\n'
 
 envfile.write(text)
 

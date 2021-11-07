@@ -3,12 +3,15 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "GROFiles",
+        "include_dirs": [
+            "/usr/lib/python3/dist-packages/numpy/core/include"
+        ],
+        "name": "vBabel.GROFiles",
         "sources": [
-            "GROFiles.pyx"
+            "vBabel/GROFiles.pyx"
         ]
     },
-    "module_name": "GROFiles"
+    "module_name": "vBabel.GROFiles"
 }
 END: Cython Metadata */
 
@@ -602,8 +605,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__GROFiles
-#define __PYX_HAVE_API__GROFiles
+#define __PYX_HAVE__vBabel__GROFiles
+#define __PYX_HAVE_API__vBabel__GROFiles
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -813,35 +816,35 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "GROFiles.pyx",
+  "vBabel/GROFiles.pyx",
 };
 
 /*--- Type declarations ---*/
-struct __pyx_opt_args_8GROFiles_load_gro_file;
-struct __pyx_opt_args_8GROFiles_get_atom_info_from_raw_line;
+struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file;
+struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line;
 
-/* "GROFiles.pyx":10
+/* "vBabel/GROFiles.pyx":10
  * from pprint import pprint
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
-struct __pyx_opt_args_8GROFiles_load_gro_file {
+struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file {
   int __pyx_n;
   PyObject *infile;
   PyObject *gridsize;
   PyObject *vismolSession;
 };
 
-/* "GROFiles.pyx":80
+/* "vBabel/GROFiles.pyx":80
  * 
  * 
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
  *     #try:
  *     atoms           = []
  */
-struct __pyx_opt_args_8GROFiles_get_atom_info_from_raw_line {
+struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line {
   int __pyx_n;
   PyObject *gridsize;
   PyObject *at;
@@ -1263,14 +1266,14 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'GROFiles' */
-static PyObject *__pyx_f_8GROFiles_load_gro_file(int __pyx_skip_dispatch, struct __pyx_opt_args_8GROFiles_load_gro_file *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8GROFiles_get_atom_info_from_raw_line *__pyx_optional_args); /*proto*/
-#define __Pyx_MODULE_NAME "GROFiles"
-extern int __pyx_module_is_main_GROFiles;
-int __pyx_module_is_main_GROFiles = 0;
+/* Module declarations from 'vBabel.GROFiles' */
+static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line *__pyx_optional_args); /*proto*/
+#define __Pyx_MODULE_NAME "vBabel.GROFiles"
+extern int __pyx_module_is_main_vBabel__GROFiles;
+int __pyx_module_is_main_vBabel__GROFiles = 0;
 
-/* Implementation of 'GROFiles' */
+/* Implementation of 'vBabel.GROFiles' */
 static PyObject *__pyx_builtin_open;
 static const char __pyx_k_X[] = "X";
 static const char __pyx_k_r[] = "r";
@@ -1282,36 +1285,42 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_open[] = "open";
 static const char __pyx_k_path[] = "path";
+static const char __pyx_k_resi[] = "resi";
+static const char __pyx_k_resn[] = "resn";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_time[] = "time";
 static const char __pyx_k_array[] = "array";
 static const char __pyx_k_atoms[] = "atoms";
+static const char __pyx_k_chain[] = "chain";
 static const char __pyx_k_dtype[] = "dtype";
 static const char __pyx_k_enter[] = "__enter__";
+static const char __pyx_k_index[] = "index";
 static const char __pyx_k_lines[] = "lines";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_strip[] = "strip";
+static const char __pyx_k_charge[] = "charge";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_infile[] = "infile";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pprint[] = "pprint";
+static const char __pyx_k_symbol[] = "symbol";
+static const char __pyx_k_vModel[] = "vModel";
+static const char __pyx_k_bfactor[] = "bfactor";
 static const char __pyx_k_float32[] = "float32";
 static const char __pyx_k_vConfig[] = "vConfig";
 static const char __pyx_k_basename[] = "basename";
 static const char __pyx_k_gridsize[] = "gridsize";
-static const char __pyx_k_vismolSession[] = "vismolSession";
+static const char __pyx_k_occupancy[] = "occupancy";
 static const char __pyx_k_readlines[] = "readlines";
 static const char __pyx_k_atom_types[] = "atom_types";
 static const char __pyx_k_get_symbol[] = "get_symbol";
 static const char __pyx_k_trajectory[] = "trajectory";
 static const char __pyx_k_get_cov_rad[] = "get_cov_rad";
 static const char __pyx_k_VismolObject[] = "VismolObject";
-static const char __pyx_k_VISMOL_vModel[] = "vModel";
+static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_multiprocessing[] = "multiprocessing";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_auto_find_bonded_and_nonbonded[] = "auto_find_bonded_and_nonbonded";
-static PyObject *__pyx_n_s_VISMOL_vModel;
-static PyObject *__pyx_n_s_vismolSession;
 static PyObject *__pyx_n_s_VismolObject;
 static PyObject *__pyx_n_s_X;
 static PyObject *__pyx_n_s_array;
@@ -1320,6 +1329,9 @@ static PyObject *__pyx_n_s_atom_types;
 static PyObject *__pyx_n_s_atoms;
 static PyObject *__pyx_n_s_auto_find_bonded_and_nonbonded;
 static PyObject *__pyx_n_s_basename;
+static PyObject *__pyx_n_s_bfactor;
+static PyObject *__pyx_n_s_chain;
+static PyObject *__pyx_n_s_charge;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_enter;
@@ -1329,6 +1341,7 @@ static PyObject *__pyx_n_s_get_cov_rad;
 static PyObject *__pyx_n_s_get_symbol;
 static PyObject *__pyx_n_s_gridsize;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_infile;
 static PyObject *__pyx_n_s_lines;
 static PyObject *__pyx_n_s_main;
@@ -1337,19 +1350,25 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
+static PyObject *__pyx_n_s_occupancy;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_pprint;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_readlines;
+static PyObject *__pyx_n_s_resi;
+static PyObject *__pyx_n_s_resn;
 static PyObject *__pyx_n_s_strip;
+static PyObject *__pyx_n_s_symbol;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_trajectory;
 static PyObject *__pyx_n_s_vConfig;
-static PyObject *__pyx_pf_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession); /* proto */
-static PyObject *__pyx_pf_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lines, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at); /* proto */
+static PyObject *__pyx_n_s_vModel;
+static PyObject *__pyx_n_s_vismolSession;
+static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession); /* proto */
+static PyObject *__pyx_pf_6vBabel_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lines, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
@@ -1370,7 +1389,7 @@ static PyObject *__pyx_slice__6;
 static PyObject *__pyx_slice__7;
 /* Late includes */
 
-/* "GROFiles.pyx":10
+/* "vBabel/GROFiles.pyx":10
  * from pprint import pprint
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
@@ -1378,8 +1397,8 @@ static PyObject *__pyx_slice__7;
  * 
  */
 
-static PyObject *__pyx_pw_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_8GROFiles_load_gro_file *__pyx_optional_args) {
+static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file *__pyx_optional_args) {
   PyObject *__pyx_v_infile = ((PyObject *)Py_None);
   PyObject *__pyx_v_vismolSession = ((PyObject *)Py_None);
   PyObject *__pyx_v_at = NULL;
@@ -1400,7 +1419,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  struct __pyx_opt_args_8GROFiles_get_atom_info_from_raw_line __pyx_t_9;
+  struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line __pyx_t_9;
   PyObject *(*__pyx_t_10)(PyObject *);
   PyObject *__pyx_t_11 = NULL;
   PyObject *__pyx_t_12 = NULL;
@@ -1416,7 +1435,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
     }
   }
 
-  /* "GROFiles.pyx":28
+  /* "vBabel/GROFiles.pyx":28
  *     #                                P D B     P A R S E R
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types             # <<<<<<<<<<<<<<
@@ -1431,7 +1450,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_v_at = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "GROFiles.pyx":29
+  /* "vBabel/GROFiles.pyx":29
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as gro_file:             # <<<<<<<<<<<<<<
@@ -1484,7 +1503,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_gro_file = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "GROFiles.pyx":31
+          /* "vBabel/GROFiles.pyx":31
  *     with open(infile, 'r') as gro_file:
  * 
  *         grotext = gro_file.readlines()             # <<<<<<<<<<<<<<
@@ -1511,7 +1530,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_grotext = __pyx_t_4;
           __pyx_t_4 = 0;
 
-          /* "GROFiles.pyx":33
+          /* "vBabel/GROFiles.pyx":33
  *         grotext = gro_file.readlines()
  * 
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)             # <<<<<<<<<<<<<<
@@ -1521,7 +1540,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_t_9.__pyx_n = 2;
           __pyx_t_9.gridsize = __pyx_int_3;
           __pyx_t_9.at = __pyx_v_at;
-          __pyx_t_4 = __pyx_f_8GROFiles_get_atom_info_from_raw_line(__pyx_v_grotext, 0, &__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L7_error)
+          __pyx_t_4 = __pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(__pyx_v_grotext, 0, &__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_4);
           if ((likely(PyTuple_CheckExact(__pyx_t_4))) || (PyList_CheckExact(__pyx_t_4))) {
             PyObject* sequence = __pyx_t_4;
@@ -1574,7 +1593,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_frame = __pyx_t_2;
           __pyx_t_2 = 0;
 
-          /* "GROFiles.pyx":34
+          /* "vBabel/GROFiles.pyx":34
  * 
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)
  *         frame = np.array(frame, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -1608,7 +1627,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
           __Pyx_DECREF_SET(__pyx_v_frame, __pyx_t_11);
           __pyx_t_11 = 0;
 
-          /* "GROFiles.pyx":35
+          /* "vBabel/GROFiles.pyx":35
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)
  *         frame = np.array(frame, dtype=np.float32)
  *         frames = [frame]             # <<<<<<<<<<<<<<
@@ -1623,7 +1642,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
           __pyx_v_frames = ((PyObject*)__pyx_t_11);
           __pyx_t_11 = 0;
 
-          /* "GROFiles.pyx":29
+          /* "vBabel/GROFiles.pyx":29
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as gro_file:             # <<<<<<<<<<<<<<
@@ -1642,7 +1661,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         /*except:*/ {
-          __Pyx_AddTraceback("GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
           if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_1, &__pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_GOTREF(__pyx_t_1);
@@ -1705,7 +1724,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
     __pyx_L18:;
   }
 
-  /* "GROFiles.pyx":46
+  /* "vBabel/GROFiles.pyx":46
  *     ##-------------------------------------------------------------------------------------------
  *     #
  *     name = os.path.basename(infile)             # <<<<<<<<<<<<<<
@@ -1738,7 +1757,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_v_name = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "GROFiles.pyx":47
+  /* "vBabel/GROFiles.pyx":47
  *     #
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
@@ -1754,7 +1773,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "GROFiles.pyx":48
+  /* "vBabel/GROFiles.pyx":48
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,             # <<<<<<<<<<<<<<
@@ -1764,7 +1783,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   if (unlikely(!__pyx_v_atoms)) { __Pyx_RaiseUnboundLocalError("atoms"); __PYX_ERR(0, 48, __pyx_L1_error) }
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_atoms, __pyx_v_atoms) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "GROFiles.pyx":49
+  /* "vBabel/GROFiles.pyx":49
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,
  *                                                vismolSession   = vismolSession,             # <<<<<<<<<<<<<<
@@ -1773,7 +1792,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
  */
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "GROFiles.pyx":50
+  /* "vBabel/GROFiles.pyx":50
  *                                                atoms       = atoms,
  *                                                vismolSession   = vismolSession,
  *                                                trajectory  = frames,             # <<<<<<<<<<<<<<
@@ -1783,7 +1802,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   if (unlikely(!__pyx_v_frames)) { __Pyx_RaiseUnboundLocalError("frames"); __PYX_ERR(0, 50, __pyx_L1_error) }
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_trajectory, __pyx_v_frames) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "GROFiles.pyx":51
+  /* "vBabel/GROFiles.pyx":51
  *                                                vismolSession   = vismolSession,
  *                                                trajectory  = frames,
  *                                                auto_find_bonded_and_nonbonded = True)             # <<<<<<<<<<<<<<
@@ -1792,7 +1811,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
  */
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_auto_find_bonded_and_nonbonded, Py_True) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "GROFiles.pyx":47
+  /* "vBabel/GROFiles.pyx":47
  *     #
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
@@ -1806,7 +1825,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_v_vismol_object = __pyx_t_11;
   __pyx_t_11 = 0;
 
-  /* "GROFiles.pyx":76
+  /* "vBabel/GROFiles.pyx":76
  * 
  *     #-------------------------------------------------------------------------------------------
  *     return vismol_object             # <<<<<<<<<<<<<<
@@ -1818,7 +1837,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   __pyx_r = __pyx_v_vismol_object;
   goto __pyx_L0;
 
-  /* "GROFiles.pyx":10
+  /* "vBabel/GROFiles.pyx":10
  * from pprint import pprint
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
@@ -1833,7 +1852,7 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_at);
@@ -1850,9 +1869,9 @@ static PyObject *__pyx_f_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_di
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8GROFiles_load_gro_file[] = " Function doc \n\n    gridsize =\n\n    The longest covalent bond I can find is the bismuth-iodine single bond.\n    The order of bond lengths is single > double > triple.\n    The largest atoms should form the longest covalent bonds. \n    So we look at atoms in the lower right corner of the Periodic Table.\n    The most likely candidates are Pb, Bi, and I.\n    The experimental bond lengths are:\n    Bi-I = 281 pm; Pb-I = 279 pm; I-I = 266.5 pm.\n    So the polar covalent Bi-I bond is the longest covalent measured so far.\n\n    ";
-static PyObject *__pyx_pw_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vBabel_8GROFiles_load_gro_file[] = " Function doc \n\n    gridsize =\n\n    The longest covalent bond I can find is the bismuth-iodine single bond.\n    The order of bond lengths is single > double > triple.\n    The largest atoms should form the longest covalent bonds. \n    So we look at atoms in the lower right corner of the Periodic Table.\n    The most likely candidates are Pb, Bi, and I.\n    The experimental bond lengths are:\n    Bi-I = 281 pm; Pb-I = 279 pm; I-I = 266.5 pm.\n    So the polar covalent Bi-I bond is the longest covalent measured so far.\n\n    ";
+static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_infile = 0;
   PyObject *__pyx_v_gridsize = 0;
   PyObject *__pyx_v_vismolSession = 0;
@@ -1921,29 +1940,29 @@ static PyObject *__pyx_pw_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObjec
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("load_gro_file", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8GROFiles_load_gro_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vismolSession);
+  __pyx_r = __pyx_pf_6vBabel_8GROFiles_load_gro_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vismolSession);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession) {
+static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_8GROFiles_load_gro_file __pyx_t_2;
+  struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file __pyx_t_2;
   __Pyx_RefNannySetupContext("load_gro_file", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 3;
   __pyx_t_2.infile = __pyx_v_infile;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
   __pyx_t_2.vismolSession = __pyx_v_vismolSession;
-  __pyx_t_1 = __pyx_f_8GROFiles_load_gro_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_load_gro_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1952,7 +1971,7 @@ static PyObject *__pyx_pf_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1960,7 +1979,7 @@ static PyObject *__pyx_pf_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "GROFiles.pyx":80
+/* "vBabel/GROFiles.pyx":80
  * 
  * 
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
@@ -1968,8 +1987,8 @@ static PyObject *__pyx_pf_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_
  *     atoms           = []
  */
 
-static PyObject *__pyx_pw_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v_lines, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_8GROFiles_get_atom_info_from_raw_line *__pyx_optional_args) {
+static PyObject *__pyx_pw_6vBabel_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v_lines, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line *__pyx_optional_args) {
   PyObject *__pyx_v_gridsize = ((PyObject *)__pyx_int_3);
   PyObject *__pyx_v_at = ((PyObject *)Py_None);
   PyObject *__pyx_v_atoms = NULL;
@@ -1989,8 +2008,8 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   double __pyx_v_at_occup;
   double __pyx_v_at_bfactor;
   double __pyx_v_at_charge;
-  PyObject *__pyx_v_cov_rad = NULL;
-  PyObject *__pyx_v_gridpos = NULL;
+  CYTHON_UNUSED PyObject *__pyx_v_cov_rad = NULL;
+  CYTHON_UNUSED PyObject *__pyx_v_gridpos = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2014,7 +2033,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     }
   }
 
-  /* "GROFiles.pyx":82
+  /* "vBabel/GROFiles.pyx":82
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):
  *     #try:
  *     atoms           = []             # <<<<<<<<<<<<<<
@@ -2026,7 +2045,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   __pyx_v_atoms = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "GROFiles.pyx":83
+  /* "vBabel/GROFiles.pyx":83
  *     #try:
  *     atoms           = []
  *     index           = 0             # <<<<<<<<<<<<<<
@@ -2036,7 +2055,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_index = __pyx_int_0;
 
-  /* "GROFiles.pyx":84
+  /* "vBabel/GROFiles.pyx":84
  *     atoms           = []
  *     index           = 0
  *     size            = int(lines[1])             # <<<<<<<<<<<<<<
@@ -2051,7 +2070,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   __pyx_v_size = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "GROFiles.pyx":85
+  /* "vBabel/GROFiles.pyx":85
  *     index           = 0
  *     size            = int(lines[1])
  *     frame           = []             # <<<<<<<<<<<<<<
@@ -2063,7 +2082,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   __pyx_v_frame = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "GROFiles.pyx":86
+  /* "vBabel/GROFiles.pyx":86
  *     size            = int(lines[1])
  *     frame           = []
  *     for line in lines[2:size+2]:             # <<<<<<<<<<<<<<
@@ -2118,7 +2137,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "GROFiles.pyx":87
+    /* "vBabel/GROFiles.pyx":87
  *     frame           = []
  *     for line in lines[2:size+2]:
  *         at_resi    = int(line[0:5])             # <<<<<<<<<<<<<<
@@ -2133,7 +2152,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_at_resi, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":89
+    /* "vBabel/GROFiles.pyx":89
  *         at_resi    = int(line[0:5])
  * 
  *         at_resn    = line[5:10].strip()             # <<<<<<<<<<<<<<
@@ -2163,7 +2182,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_at_resn, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":91
+    /* "vBabel/GROFiles.pyx":91
  *         at_resn    = line[5:10].strip()
  * 
  *         at_name    = line[10:15].strip()             # <<<<<<<<<<<<<<
@@ -2193,7 +2212,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_at_name, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":95
+    /* "vBabel/GROFiles.pyx":95
  *         #index      = int(line[15:20])
  * 
  *         x          =float(line[20:28])*10             # <<<<<<<<<<<<<<
@@ -2206,7 +2225,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_x = (__pyx_t_7 * 10.0);
 
-    /* "GROFiles.pyx":96
+    /* "vBabel/GROFiles.pyx":96
  * 
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10             # <<<<<<<<<<<<<<
@@ -2219,7 +2238,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_y = (__pyx_t_7 * 10.0);
 
-    /* "GROFiles.pyx":97
+    /* "vBabel/GROFiles.pyx":97
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10             # <<<<<<<<<<<<<<
@@ -2232,7 +2251,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_z = (__pyx_t_7 * 10.0);
 
-    /* "GROFiles.pyx":98
+    /* "vBabel/GROFiles.pyx":98
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10
  *         frame.append(x)             # <<<<<<<<<<<<<<
@@ -2244,7 +2263,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":99
+    /* "vBabel/GROFiles.pyx":99
  *         z          =float(line[36:44])*10
  *         frame.append(x)
  *         frame.append(y)             # <<<<<<<<<<<<<<
@@ -2256,7 +2275,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 99, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":100
+    /* "vBabel/GROFiles.pyx":100
  *         frame.append(x)
  *         frame.append(y)
  *         frame.append(z)             # <<<<<<<<<<<<<<
@@ -2268,7 +2287,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":101
+    /* "vBabel/GROFiles.pyx":101
  *         frame.append(y)
  *         frame.append(z)
  *         at_pos     = np.array([x,y,z])             # <<<<<<<<<<<<<<
@@ -2316,7 +2335,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_at_pos, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":103
+    /* "vBabel/GROFiles.pyx":103
  *         at_pos     = np.array([x,y,z])
  * 
  *         at_ch      = 'X'             # <<<<<<<<<<<<<<
@@ -2326,7 +2345,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_INCREF(__pyx_n_s_X);
     __Pyx_XDECREF_SET(__pyx_v_at_ch, __pyx_n_s_X);
 
-    /* "GROFiles.pyx":105
+    /* "vBabel/GROFiles.pyx":105
  *         at_ch      = 'X'
  * 
  *         at_symbol  = at.get_symbol(at_name)             # <<<<<<<<<<<<<<
@@ -2353,7 +2372,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_at_symbol, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":108
+    /* "vBabel/GROFiles.pyx":108
  * 
  * 
  *         at_occup   = 0.0   #occupancy             # <<<<<<<<<<<<<<
@@ -2362,7 +2381,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
  */
     __pyx_v_at_occup = 0.0;
 
-    /* "GROFiles.pyx":109
+    /* "vBabel/GROFiles.pyx":109
  * 
  *         at_occup   = 0.0   #occupancy
  *         at_bfactor = 0.0             # <<<<<<<<<<<<<<
@@ -2371,7 +2390,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
  */
     __pyx_v_at_bfactor = 0.0;
 
-    /* "GROFiles.pyx":110
+    /* "vBabel/GROFiles.pyx":110
  *         at_occup   = 0.0   #occupancy
  *         at_bfactor = 0.0
  *         at_charge  = 0.0             # <<<<<<<<<<<<<<
@@ -2380,7 +2399,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
  */
     __pyx_v_at_charge = 0.0;
 
-    /* "GROFiles.pyx":112
+    /* "vBabel/GROFiles.pyx":112
  *         at_charge  = 0.0
  * 
  *         cov_rad  = at.get_cov_rad (at_symbol)             # <<<<<<<<<<<<<<
@@ -2407,7 +2426,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_cov_rad, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "GROFiles.pyx":113
+    /* "vBabel/GROFiles.pyx":113
  * 
  *         cov_rad  = at.get_cov_rad (at_symbol)
  *         gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]             # <<<<<<<<<<<<<<
@@ -2452,78 +2471,121 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
     __Pyx_XDECREF_SET(__pyx_v_gridpos, ((PyObject*)__pyx_t_10));
     __pyx_t_10 = 0;
 
-    /* "GROFiles.pyx":118
- * 
- *                         #0      1        2        3       4        5        6       7       8       9       10          11        12
- *         atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])             # <<<<<<<<<<<<<<
- *         #print (index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge )
- *         index += 1
+    /* "vBabel/GROFiles.pyx":120
+ *         #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+ *         atoms.append({
+ *                       'index'      : index      ,             # <<<<<<<<<<<<<<
+ *                       'name'       : at_name    ,
+ *                       'resi'       : at_resi    ,
  */
-    __pyx_t_10 = PyList_New(0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyDict_NewPresized(9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_occup); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 118, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_at_bfactor); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 118, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_at_charge); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_9 = PyList_New(13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 118, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_INCREF(__pyx_v_index);
-    __Pyx_GIVEREF(__pyx_v_index);
-    PyList_SET_ITEM(__pyx_t_9, 0, __pyx_v_index);
-    __Pyx_INCREF(__pyx_v_at_name);
-    __Pyx_GIVEREF(__pyx_v_at_name);
-    PyList_SET_ITEM(__pyx_t_9, 1, __pyx_v_at_name);
-    __Pyx_INCREF(__pyx_v_cov_rad);
-    __Pyx_GIVEREF(__pyx_v_cov_rad);
-    PyList_SET_ITEM(__pyx_t_9, 2, __pyx_v_cov_rad);
-    __Pyx_INCREF(__pyx_v_at_pos);
-    __Pyx_GIVEREF(__pyx_v_at_pos);
-    PyList_SET_ITEM(__pyx_t_9, 3, __pyx_v_at_pos);
-    __Pyx_INCREF(__pyx_v_at_resi);
-    __Pyx_GIVEREF(__pyx_v_at_resi);
-    PyList_SET_ITEM(__pyx_t_9, 4, __pyx_v_at_resi);
-    __Pyx_INCREF(__pyx_v_at_resn);
-    __Pyx_GIVEREF(__pyx_v_at_resn);
-    PyList_SET_ITEM(__pyx_t_9, 5, __pyx_v_at_resn);
-    __Pyx_INCREF(__pyx_v_at_ch);
-    __Pyx_GIVEREF(__pyx_v_at_ch);
-    PyList_SET_ITEM(__pyx_t_9, 6, __pyx_v_at_ch);
-    __Pyx_INCREF(__pyx_v_at_symbol);
-    __Pyx_GIVEREF(__pyx_v_at_symbol);
-    PyList_SET_ITEM(__pyx_t_9, 7, __pyx_v_at_symbol);
-    __Pyx_GIVEREF(__pyx_t_10);
-    PyList_SET_ITEM(__pyx_t_9, 8, __pyx_t_10);
-    __Pyx_INCREF(__pyx_v_gridpos);
-    __Pyx_GIVEREF(__pyx_v_gridpos);
-    PyList_SET_ITEM(__pyx_t_9, 9, __pyx_v_gridpos);
-    __Pyx_GIVEREF(__pyx_t_11);
-    PyList_SET_ITEM(__pyx_t_9, 10, __pyx_t_11);
-    __Pyx_GIVEREF(__pyx_t_6);
-    PyList_SET_ITEM(__pyx_t_9, 11, __pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_5);
-    PyList_SET_ITEM(__pyx_t_9, 12, __pyx_t_5);
-    __pyx_t_10 = 0;
-    __pyx_t_11 = 0;
-    __pyx_t_6 = 0;
-    __pyx_t_5 = 0;
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_atoms, __pyx_t_9); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 118, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_index, __pyx_v_index) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
 
-    /* "GROFiles.pyx":120
- *         atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+    /* "vBabel/GROFiles.pyx":121
+ *         atoms.append({
+ *                       'index'      : index      ,
+ *                       'name'       : at_name    ,             # <<<<<<<<<<<<<<
+ *                       'resi'       : at_resi    ,
+ *                       'resn'       : at_resn    ,
+ */
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_name, __pyx_v_at_name) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+
+    /* "vBabel/GROFiles.pyx":122
+ *                       'index'      : index      ,
+ *                       'name'       : at_name    ,
+ *                       'resi'       : at_resi    ,             # <<<<<<<<<<<<<<
+ *                       'resn'       : at_resn    ,
+ *                       'chain'      : at_ch      ,
+ */
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_resi, __pyx_v_at_resi) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+
+    /* "vBabel/GROFiles.pyx":123
+ *                       'name'       : at_name    ,
+ *                       'resi'       : at_resi    ,
+ *                       'resn'       : at_resn    ,             # <<<<<<<<<<<<<<
+ *                       'chain'      : at_ch      ,
+ *                       'symbol'     : at_symbol  ,
+ */
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_resn, __pyx_v_at_resn) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+
+    /* "vBabel/GROFiles.pyx":124
+ *                       'resi'       : at_resi    ,
+ *                       'resn'       : at_resn    ,
+ *                       'chain'      : at_ch      ,             # <<<<<<<<<<<<<<
+ *                       'symbol'     : at_symbol  ,
+ *                       'occupancy'  : at_occup   ,
+ */
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_chain, __pyx_v_at_ch) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+
+    /* "vBabel/GROFiles.pyx":125
+ *                       'resn'       : at_resn    ,
+ *                       'chain'      : at_ch      ,
+ *                       'symbol'     : at_symbol  ,             # <<<<<<<<<<<<<<
+ *                       'occupancy'  : at_occup   ,
+ *                       'bfactor'    : at_bfactor ,
+ */
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_symbol, __pyx_v_at_symbol) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+
+    /* "vBabel/GROFiles.pyx":126
+ *                       'chain'      : at_ch      ,
+ *                       'symbol'     : at_symbol  ,
+ *                       'occupancy'  : at_occup   ,             # <<<<<<<<<<<<<<
+ *                       'bfactor'    : at_bfactor ,
+ *                       'charge'     : at_charge
+ */
+    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_occup); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_occupancy, __pyx_t_11) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+    /* "vBabel/GROFiles.pyx":127
+ *                       'symbol'     : at_symbol  ,
+ *                       'occupancy'  : at_occup   ,
+ *                       'bfactor'    : at_bfactor ,             # <<<<<<<<<<<<<<
+ *                       'charge'     : at_charge
+ *                       })
+ */
+    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_bfactor); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_bfactor, __pyx_t_11) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+    /* "vBabel/GROFiles.pyx":128
+ *                       'occupancy'  : at_occup   ,
+ *                       'bfactor'    : at_bfactor ,
+ *                       'charge'     : at_charge             # <<<<<<<<<<<<<<
+ *                       })
+ * 
+ */
+    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_charge); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_charge, __pyx_t_11) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+    /* "vBabel/GROFiles.pyx":119
+ *                         #0      1        2        3       4        5        6       7       8       9       10          11        12
+ *         #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
+ *         atoms.append({             # <<<<<<<<<<<<<<
+ *                       'index'      : index      ,
+ *                       'name'       : at_name    ,
+ */
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_atoms, __pyx_t_10); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "vBabel/GROFiles.pyx":133
+ * 
  *         #print (index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge )
  *         index += 1             # <<<<<<<<<<<<<<
  * 
  *     return atoms, frame
  */
-    __pyx_t_9 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 120, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_DECREF_SET(__pyx_v_index, __pyx_t_9);
-    __pyx_t_9 = 0;
+    __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF_SET(__pyx_v_index, __pyx_t_10);
+    __pyx_t_10 = 0;
 
-    /* "GROFiles.pyx":86
+    /* "vBabel/GROFiles.pyx":86
  *     size            = int(lines[1])
  *     frame           = []
  *     for line in lines[2:size+2]:             # <<<<<<<<<<<<<<
@@ -2533,7 +2595,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "GROFiles.pyx":122
+  /* "vBabel/GROFiles.pyx":135
  *         index += 1
  * 
  *     return atoms, frame             # <<<<<<<<<<<<<<
@@ -2541,7 +2603,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_atoms);
   __Pyx_GIVEREF(__pyx_v_atoms);
@@ -2553,7 +2615,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "GROFiles.pyx":80
+  /* "vBabel/GROFiles.pyx":80
  * 
  * 
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
@@ -2570,7 +2632,7 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_atoms);
@@ -2592,8 +2654,8 @@ static PyObject *__pyx_f_8GROFiles_get_atom_info_from_raw_line(PyObject *__pyx_v
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6vBabel_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6vBabel_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_lines = 0;
   PyObject *__pyx_v_gridsize = 0;
   PyObject *__pyx_v_at = 0;
@@ -2658,28 +2720,28 @@ static PyObject *__pyx_pw_8GROFiles_3get_atom_info_from_raw_line(PyObject *__pyx
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("get_atom_info_from_raw_line", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 80, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8GROFiles_2get_atom_info_from_raw_line(__pyx_self, __pyx_v_lines, __pyx_v_gridsize, __pyx_v_at);
+  __pyx_r = __pyx_pf_6vBabel_8GROFiles_2get_atom_info_from_raw_line(__pyx_self, __pyx_v_lines, __pyx_v_gridsize, __pyx_v_at);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lines, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at) {
+static PyObject *__pyx_pf_6vBabel_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lines, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_8GROFiles_get_atom_info_from_raw_line __pyx_t_2;
+  struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line __pyx_t_2;
   __Pyx_RefNannySetupContext("get_atom_info_from_raw_line", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
   __pyx_t_2.at = __pyx_v_at;
-  __pyx_t_1 = __pyx_f_8GROFiles_get_atom_info_from_raw_line(__pyx_v_lines, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(__pyx_v_lines, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2688,7 +2750,7 @@ static PyObject *__pyx_pf_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED P
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vBabel.GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2697,8 +2759,8 @@ static PyObject *__pyx_pf_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED P
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"load_gro_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8GROFiles_1load_gro_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8GROFiles_load_gro_file},
-  {"get_atom_info_from_raw_line", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_8GROFiles_3get_atom_info_from_raw_line, METH_VARARGS|METH_KEYWORDS, 0},
+  {"load_gro_file", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vBabel_8GROFiles_1load_gro_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vBabel_8GROFiles_load_gro_file},
+  {"get_atom_info_from_raw_line", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vBabel_8GROFiles_3get_atom_info_from_raw_line, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -2744,8 +2806,6 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_VISMOL_vModel, __pyx_k_VISMOL_vModel, sizeof(__pyx_k_VISMOL_vModel), 0, 0, 1, 1},
-  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
   {&__pyx_n_s_VismolObject, __pyx_k_VismolObject, sizeof(__pyx_k_VismolObject), 0, 0, 1, 1},
   {&__pyx_n_s_X, __pyx_k_X, sizeof(__pyx_k_X), 0, 0, 1, 1},
   {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
@@ -2754,6 +2814,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_atoms, __pyx_k_atoms, sizeof(__pyx_k_atoms), 0, 0, 1, 1},
   {&__pyx_n_s_auto_find_bonded_and_nonbonded, __pyx_k_auto_find_bonded_and_nonbonded, sizeof(__pyx_k_auto_find_bonded_and_nonbonded), 0, 0, 1, 1},
   {&__pyx_n_s_basename, __pyx_k_basename, sizeof(__pyx_k_basename), 0, 0, 1, 1},
+  {&__pyx_n_s_bfactor, __pyx_k_bfactor, sizeof(__pyx_k_bfactor), 0, 0, 1, 1},
+  {&__pyx_n_s_chain, __pyx_k_chain, sizeof(__pyx_k_chain), 0, 0, 1, 1},
+  {&__pyx_n_s_charge, __pyx_k_charge, sizeof(__pyx_k_charge), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
@@ -2763,6 +2826,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_symbol, __pyx_k_get_symbol, sizeof(__pyx_k_get_symbol), 0, 0, 1, 1},
   {&__pyx_n_s_gridsize, __pyx_k_gridsize, sizeof(__pyx_k_gridsize), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_infile, __pyx_k_infile, sizeof(__pyx_k_infile), 0, 0, 1, 1},
   {&__pyx_n_s_lines, __pyx_k_lines, sizeof(__pyx_k_lines), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -2771,17 +2835,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
+  {&__pyx_n_s_occupancy, __pyx_k_occupancy, sizeof(__pyx_k_occupancy), 0, 0, 1, 1},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_pprint, __pyx_k_pprint, sizeof(__pyx_k_pprint), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_readlines, __pyx_k_readlines, sizeof(__pyx_k_readlines), 0, 0, 1, 1},
+  {&__pyx_n_s_resi, __pyx_k_resi, sizeof(__pyx_k_resi), 0, 0, 1, 1},
+  {&__pyx_n_s_resn, __pyx_k_resn, sizeof(__pyx_k_resn), 0, 0, 1, 1},
   {&__pyx_n_s_strip, __pyx_k_strip, sizeof(__pyx_k_strip), 0, 0, 1, 1},
+  {&__pyx_n_s_symbol, __pyx_k_symbol, sizeof(__pyx_k_symbol), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_trajectory, __pyx_k_trajectory, sizeof(__pyx_k_trajectory), 0, 0, 1, 1},
   {&__pyx_n_s_vConfig, __pyx_k_vConfig, sizeof(__pyx_k_vConfig), 0, 0, 1, 1},
+  {&__pyx_n_s_vModel, __pyx_k_vModel, sizeof(__pyx_k_vModel), 0, 0, 1, 1},
+  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -2795,7 +2865,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "GROFiles.pyx":29
+  /* "vBabel/GROFiles.pyx":29
  *     #-------------------------------------------------------------------------------------------
  *     at  =  vismolSession.vConfig.atom_types
  *     with open(infile, 'r') as gro_file:             # <<<<<<<<<<<<<<
@@ -2806,7 +2876,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "GROFiles.pyx":87
+  /* "vBabel/GROFiles.pyx":87
  *     frame           = []
  *     for line in lines[2:size+2]:
  *         at_resi    = int(line[0:5])             # <<<<<<<<<<<<<<
@@ -2817,7 +2887,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
 
-  /* "GROFiles.pyx":89
+  /* "vBabel/GROFiles.pyx":89
  *         at_resi    = int(line[0:5])
  * 
  *         at_resn    = line[5:10].strip()             # <<<<<<<<<<<<<<
@@ -2828,7 +2898,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__3);
   __Pyx_GIVEREF(__pyx_slice__3);
 
-  /* "GROFiles.pyx":91
+  /* "vBabel/GROFiles.pyx":91
  *         at_resn    = line[5:10].strip()
  * 
  *         at_name    = line[10:15].strip()             # <<<<<<<<<<<<<<
@@ -2839,7 +2909,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__4);
   __Pyx_GIVEREF(__pyx_slice__4);
 
-  /* "GROFiles.pyx":95
+  /* "vBabel/GROFiles.pyx":95
  *         #index      = int(line[15:20])
  * 
  *         x          =float(line[20:28])*10             # <<<<<<<<<<<<<<
@@ -2850,7 +2920,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__5);
   __Pyx_GIVEREF(__pyx_slice__5);
 
-  /* "GROFiles.pyx":96
+  /* "vBabel/GROFiles.pyx":96
  * 
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10             # <<<<<<<<<<<<<<
@@ -2861,7 +2931,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__6);
   __Pyx_GIVEREF(__pyx_slice__6);
 
-  /* "GROFiles.pyx":97
+  /* "vBabel/GROFiles.pyx":97
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10             # <<<<<<<<<<<<<<
@@ -3130,14 +3200,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_GROFiles) {
+  if (__pyx_module_is_main_vBabel__GROFiles) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "GROFiles")) {
-      if (unlikely(PyDict_SetItemString(modules, "GROFiles", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "vBabel.GROFiles")) {
+      if (unlikely(PyDict_SetItemString(modules, "vBabel.GROFiles", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -3158,7 +3228,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "GROFiles.pyx":1
+  /* "vBabel/GROFiles.pyx":1
  * import os             # <<<<<<<<<<<<<<
  * import time
  * import multiprocessing
@@ -3168,7 +3238,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "GROFiles.pyx":2
+  /* "vBabel/GROFiles.pyx":2
  * import os
  * import time             # <<<<<<<<<<<<<<
  * import multiprocessing
@@ -3179,7 +3249,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "GROFiles.pyx":3
+  /* "vBabel/GROFiles.pyx":3
  * import os
  * import time
  * import multiprocessing             # <<<<<<<<<<<<<<
@@ -3191,7 +3261,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_multiprocessing, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "GROFiles.pyx":4
+  /* "vBabel/GROFiles.pyx":4
  * import time
  * import multiprocessing
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -3203,7 +3273,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "GROFiles.pyx":7
+  /* "vBabel/GROFiles.pyx":7
  * #import vModel.atom_types as at
  * #import vModel.cDistances as cdist
  * from   vModel import VismolObject             # <<<<<<<<<<<<<<
@@ -3215,7 +3285,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_VismolObject);
   __Pyx_GIVEREF(__pyx_n_s_VismolObject);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_VismolObject);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_VISMOL_vModel, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_vModel, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
@@ -3224,7 +3294,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "GROFiles.pyx":8
+  /* "vBabel/GROFiles.pyx":8
  * #import vModel.cDistances as cdist
  * from   vModel import VismolObject
  * from pprint import pprint             # <<<<<<<<<<<<<<
@@ -3245,7 +3315,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "GROFiles.pyx":1
+  /* "vBabel/GROFiles.pyx":1
  * import os             # <<<<<<<<<<<<<<
  * import time
  * import multiprocessing
@@ -3263,11 +3333,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init GROFiles", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init vBabel.GROFiles", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init GROFiles");
+    PyErr_SetString(PyExc_ImportError, "init vBabel.GROFiles");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

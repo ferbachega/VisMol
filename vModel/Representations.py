@@ -274,7 +274,7 @@ class LinesRepresentation (Representation):
 
         self.shader_program     = self.glCore.shader_programs[self.name]
         self.sel_shader_program = self.glCore.shader_programs[self.name+'_sel']
-        
+        print(self.visObj.index_bonds,self.visObj.frames[0], self.visObj.colors )
         indexes = np.array(self.visObj.index_bonds,dtype=np.uint32)
         coords  = self.visObj.frames[0]
         colors  = self.visObj.colors
@@ -319,7 +319,7 @@ class LinesRepresentation (Representation):
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            
+            #print(self.visObj.name)
             #self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
             GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
 
@@ -342,7 +342,7 @@ class LinesRepresentation (Representation):
         line_width = self.visObj.vismolSession.vConfig.gl_parameters['line_width_selection'] 
         GL.glEnable(GL.GL_DEPTH_TEST)
         GL.glUseProgram(self.sel_shader_program)
-        GL.glLineWidth(line_width)
+        GL.glLineWidth(line_width*5)
 
         self.glCore.load_matrices(self.sel_shader_program, self.visObj.model_mat)
         GL.glBindVertexArray(self.sel_vao)
@@ -1215,6 +1215,7 @@ class SpheresRepresentation (Representation):
         self.frames = []
         frame =0
         #for frame in range(len(self.visObj.frames)-1):
+        
         for a, atom in enumerate( self.atoms ):
             pos = atom.coords (frame)
             #print (pos, atom.index, frame)
@@ -1237,6 +1238,7 @@ class SpheresRepresentation (Representation):
 
         self.coords  = np.array(coords, dtype=np.float32)
         self.frames.append(self.coords)
+        
         self.centers = np.array(centers, dtype=np.float32)
         self.centers_list.append(self.centers)
         self.colors  = np.array(colors, dtype=np.float32)

@@ -5,4 +5,3 @@ VISMOL_HOME=/home/fernando/programs/VisMol ; export VISMOL_HOME
 # . Additional paths.
 VISMOL_GLCORE=$VISMOL_HOME/glCore                                    ; export VISMOL_GLCORE
 VISMOL_GLWIDGET=$VISMOL_HOME/glWidget                                ; export VISMOL_GLWIDGET
-PYTHONPATH=$VISMOL_HOME ; export PYTHONPATH

@@ -382,6 +382,16 @@ class VisMolGLCore():
                         visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, -self.scroll]))
                     if down:
                         visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, self.scroll]))
+                
+                for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                    visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                    if visObj:
+                        if up:
+                            visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, -self.scroll]))
+                        if down:
+                            visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, self.scroll]))
+            
+            
             else:
                 for visObj in self.vismolSession.vismol_objects:
                     if visObj.editing:
@@ -389,6 +399,17 @@ class VisMolGLCore():
                             visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, -self.scroll]))
                         if down:
                             visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, self.scroll]))
+                
+                ## same as the lines above but now using the geometric representations (dotted lines and so)
+                for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                    visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                    if visObj:
+                        if visObj.editing:
+                            if up:
+                                visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, -self.scroll]))
+                            if down:
+                                visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, self.scroll]))
+        
         else:
             pos_z = self.glcamera.get_position()[2]
             if up:
@@ -436,10 +457,26 @@ class VisMolGLCore():
                 for visObj in self.vismolSession.vismol_objects:
                     if visObj.editing:
                         visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, rot_mat)
+                
+                for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                    visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                    if visObj:
+                        if visObj.editing:
+                            visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, rot_mat)
+            
             else:
                 self.model_mat = mop.my_glMultiplyMatricesf(self.model_mat, rot_mat)
                 for visObj in self.vismolSession.vismol_objects:
                     visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, rot_mat)
+
+                for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                    visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                    if visObj:
+                        visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, rot_mat)
+                        #print(visObj)
+
+            
+            
             # Axis operations, this code only affects the gizmo axis
             if not self.editing_mols:
                 self.axis.model_mat = mop.my_glTranslatef(self.axis.model_mat, -self.axis.zrp)
@@ -471,11 +508,24 @@ class VisMolGLCore():
             self.model_mat = mop.my_glMultiplyMatricesf(self.model_mat, pan_mat)
             for visObj in self.vismolSession.vismol_objects:
                 visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, pan_mat)
+            
+            for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                if visObj:
+                    visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, pan_mat)
             self.zero_reference_point = mop.get_xyz_coords(self.model_mat)
+        
         else:
             for visObj in self.vismolSession.vismol_objects:
                 if visObj.editing:
                     visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, pan_mat)
+            for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                if visObj:
+                    if visObj.editing:
+                        visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, pan_mat)
+
+
         self.drag_pos_x = px
         self.drag_pos_y = py
         self.drag_pos_z = pz
@@ -571,11 +621,7 @@ class VisMolGLCore():
                         else:
                             # only shows the representation if representations[rep_name].active = True
                             if visObj.representations[rep_name].active:
-                                #print(rep_name,visObj.representations[rep_name].active)
                                 visObj.representations[rep_name].draw_representation()
-                                #visObj.representations['ribbons'].draw_representation()
-                                #print('draw_representation',rep_name)
-                                #visObj.representations[rep_name].draw_background_sel_representation()
                             else:
                                 pass
 
@@ -589,6 +635,19 @@ class VisMolGLCore():
             #print('self.vismolSession._picking_selection_mode')
             self._draw_picking_label()
 
+            #print(self.vismolSession.vismol_geometric_object_dic.keys())
+            for rep_name in self.vismolSession.vismol_geometric_object_dic.keys():
+                #print(self.vismolSession.vismol_geometric_object_dic[rep_name]) 
+                if self.vismolSession.vismol_geometric_object_dic[rep_name]:
+                    
+                    if self.vismolSession.vismol_geometric_object_dic[rep_name].representations['dotted_lines'].active:                 
+                        #print(rep_name,self.vismolSession.vismol_geometric_object_dic[rep_name].representations['dotted_lines'].active)
+                        self.vismolSession.vismol_geometric_object_dic[rep_name].representations['dotted_lines'].draw_representation()
+                    else:
+                        pass
+
+
+        
         else:
             for visObj in self.vismolSession.selections[self.vismolSession.current_selection].selected_objects:
                 '''
@@ -600,17 +659,11 @@ class VisMolGLCore():
                 
                 '''#Extracting the indexes for each vismol_object that was selected'''
                 indexes = self.vismolSession.selections[self.vismolSession.current_selection].selected_objects[visObj]
-                
-                #print(indexes)
-                #print(type(self.vismolSession.selections[self.vismolSession.current_selection].selected_objects[visObj]))
-                #print(self.vismolSession.selections[self.vismolSession.current_selection].selected_objects)
-                
+                print(type(indexes), indexes)
+               
                 size =  self.vConfig.gl_parameters['dot_sel_size']
                 GL.glPointSize(size*self.height/(abs(self.dist_cam_zrp))/2)
-                #print (visObj, visObj.non_bonded_atoms)
-                
-                #print ('line 522')
-                #GL.glPointSize(15)
+
                 GL.glUseProgram(self.picking_dots_program)
                 GL.glEnable(GL.GL_VERTEX_PROGRAM_POINT_SIZE)
                 self.load_matrices(self.picking_dots_program, visObj.model_mat)
@@ -756,6 +809,22 @@ class VisMolGLCore():
                                                                 linesShaders.shader_type[line_type]['sel_fragment_shader'],
                                                                 linesShaders.shader_type[line_type]['sel_geometry_shader'])
                                                                       
+
+    def _create_dotted_line_shaders (self, _type = 0):
+        # L I N E S 
+        
+        line_type = 3
+
+        self.shader_programs['dotted_lines']      = self.load_shaders(linesShaders.shader_type[line_type]['vertex_shader'  ], 
+                                                                      linesShaders.shader_type[line_type]['fragment_shader'], 
+                                                                      linesShaders.shader_type[line_type]['geometry_shader'])
+        
+      
+
+        self.shader_programs['dotted_lines_sel'] = self.load_shaders( linesShaders.shader_type[line_type]['sel_vertex_shader'  ],
+                                                                      linesShaders.shader_type[line_type]['sel_fragment_shader'],
+                                                                      linesShaders.shader_type[line_type]['sel_geometry_shader'])
+
 
     def _create_ribbon_shaders (self, _type = 0):
         # L I N E S 
@@ -937,6 +1006,7 @@ class VisMolGLCore():
 
         #-------------------------------------------------------------------------------------
         self._create_line_shaders()
+        self._create_dotted_line_shaders()
         self._create_nonbonded_shaders()
         self._create_ribbon_shaders ()
         #-------------------------------------------------------------------------------------
@@ -1287,12 +1357,7 @@ class VisMolGLCore():
             
             if self.modified_view:
                 pass
-            #    GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, visObj.dot_buffers[0])
-            #    GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, visObj.dot_indexes.itemsize*int(len(visObj.dot_indexes)), visObj.dot_indexes, GL.GL_DYNAMIC_DRAW)
-            #    GL.glDrawElements(GL.GL_POINTS, int(len(visObj.dot_indexes)), GL.GL_UNSIGNED_INT, None)
-            #    GL.glBindVertexArray(0)
-            #    GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0)
-            #    self.modified_view = False
+
             else:
                 frame = self._safe_frame_exchange(visObj)
 
@@ -1548,6 +1613,12 @@ class VisMolGLCore():
                 to_move = unit_vec * step
                 for visObj in self.vismolSession.vismol_objects:
                     visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, -to_move)
+                
+                for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                    visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                    if visObj:
+                        visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, -to_move)
+                
                 # WARNING: Method only works with GTK!!!
                 self.parent_widget.get_window().invalidate_rect(None, False)
                 self.parent_widget.get_window().process_updates(False)
@@ -1556,6 +1627,13 @@ class VisMolGLCore():
             for visObj in self.vismolSession.vismol_objects:
                 model_pos = visObj.model_mat.T.dot(pos)[:3]
                 visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, -model_pos)
+            
+            for key in self.vismolSession.vismol_geometric_object_dic.keys():
+                visObj = self.vismolSession.vismol_geometric_object_dic[key]
+                if visObj:
+                    model_pos = visObj.model_mat.T.dot(pos)[:3]
+                    visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, -model_pos)            
+            
             self.queue_draw()
         return True
     

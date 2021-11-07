@@ -24,6 +24,7 @@
 
 import numpy as np
 import vModel.Vectors as LA
+from vModel import VismolObject
 
 class VisMolPickingSelection:
     """ Class doc """
@@ -33,11 +34,8 @@ class VisMolPickingSelection:
         self.picking_selections_list = [None]*4
         self.picking_selections_list_index = []
         self.vismolSession = vismolSession
-        #self.picking_selection_coordinates = []
-        #self.selected_atoms_coords   = []
-        #self.selected_objects        = {}
 
-
+    
     def _generate_picking_selection_coordinates (self):
         """ Function doc """
         pass
@@ -49,6 +47,9 @@ class VisMolPickingSelection:
         #                
         #        rep.draw_selected(atom, coord, [0.83, 0.48, 1])
         #        rep.draw_numbers(atom, i+1, coord)
+    
+    
+    
     
     def selection_function_picking (self, selected):
         """ Function doc """
@@ -80,6 +81,7 @@ class VisMolPickingSelection:
                     name1 = atom1.name
                     name2 = atom2.name
                     print ('atom',name1, 'atom',name2,  dist)
+                    
             
             c += 1
         
@@ -87,40 +89,122 @@ class VisMolPickingSelection:
         atom2 = self.picking_selections_list[1]
         atom3 = self.picking_selections_list[2]
         atom4 = self.picking_selections_list[3]
+        print(atom1,atom2,atom3,atom4)
+        #self.refresh_pk1pk2_representations( vobj_label ='pk1pk2', atom1 = atom1, atom2 = atom2)
+        
+        if atom1 and atom2:
+            #print ('line 95')
+            self.refresh_pk1pk2_representations( vobj_label =  'pk1pk2',
+                                                      atom1 = atom1    , 
+                                                      atom2 = atom2    )
+            self.vismolSession.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  True
+            if atom3:
+                xyz1 = atom1.coords()
+                xyz2 = atom2.coords()
+                xyz3 = atom3.coords()
+                
+                xyz1 = [ xyz1[0] - xyz2[0], xyz1[1] - xyz2[1],   xyz1[2] - xyz2[2]]
+                xyz3 = [ xyz3[0] - xyz2[0], xyz3[1] - xyz2[1],   xyz3[2] - xyz2[2]]
+
+                angle = LA.angle(xyz1, xyz3)
+                print ('Angle: ', angle*57.297)
+                text =  'Angle: '+ str( angle*57.297)
+                self.vismolSession.main_session.statusbar_main.push(1,text)
+                if atom4:
+                    xyz4 = atom4.coords()
+                    angle = LA.dihedral(xyz1, xyz2, xyz3, xyz4)
+                    print ('Dihedral: ', angle*57.297)
+        
+        else:
+            #print(self.vismolSession.vismol_geometric_object_dic['pk1pk2'],self.vismolSession.vismol_geometric_object_dic['pk1pk2'].active )
+            if self.vismolSession.vismol_geometric_object_dic['pk1pk2']:
+                print('120')
+                self.vismolSession.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  False
+                                                                            
+                                                                            
+        if atom2 and atom3:                                                 
+            #print ('line 95')                                              
+            self.refresh_pk1pk2_representations( vobj_label = 'pk2pk3' ,    
+                                                      atom1 = atom2    ,    
+                                                      atom2 = atom3    )    
+            self.vismolSession.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  True
+        else:
+            print('128')
+            if self.vismolSession.vismol_geometric_object_dic['pk2pk3']:
+                self.vismolSession.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  False
+                                                                            
+                                                                            
+        if atom3 and atom4:                                                 
+            self.refresh_pk1pk2_representations( vobj_label =  'pk3pk4',    
+                                                      atom1 = atom3    ,    
+                                                      atom2 = atom4    )    
+            self.vismolSession.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  True
+
+        else:
+            if self.vismolSession.vismol_geometric_object_dic['pk3pk4']:
+                self.vismolSession.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  False
+
+    
+    def refresh_pk1pk2_representations( self, vobj_label ='pk1pk2',
+                                               atom1 = None   , 
+                                               atom2 = None   ):
+        print('bulding vobject_picking line 121')
+
+        xyz1 = atom1.coords()
+        xyz2 = atom2.coords()
+        frame = np.array(xyz1 + xyz2, dtype=np.float32)
+        
+        if self.vismolSession.vismol_geometric_object_dic[vobj_label]:
+            print('bulding vobject_picking line 125')
+            self.vismolSession.vismol_geometric_object_dic[vobj_label].frames = [frame]
+            print('bulding vobject_picking line 133')
+            self.vismolSession.vismol_geometric_object_dic[vobj_label].representations['dotted_lines']._make_gl_vao_and_vbos()
+            self.vismolSession.vismol_geometric_object_dic[vobj_label].active = True
+        else:
+            print('bulding vobject_picking line 131')
+            atoms = []
+            atoms.append({
+                          'index'      : 0             , 
+                          'name'       : 'pK'           , 
+                          'resi'       : ''            , 
+                          'resn'       : ''            , 
+                          'chain'      : ''            , 
+                          'symbol'     : 'pK'           , 
+                          'occupancy'  : 00.00         , 
+                          'bfactor'    : 0.00          , 
+                          'charge'     : 0.00           
+                          })
+
+            atoms.append({
+                          'index'      : 1     , 
+                          'name'       : 'pK'   , 
+                          'resi'       : ''    , 
+                          'resn'       : ''    , 
+                          'chain'      : ''    , 
+                          'symbol'     : 'pK'   , 
+                          'occupancy'  : 00.00 , 
+                          'bfactor'    : 0.00  , 
+                          'charge'     : 0.00   
+                          })
+            
+            frame = np.array(xyz1 + xyz2, dtype=np.float32)
+            print('bulding vobject_picking line 161')
+            self.vobject_picking = VismolObject.VismolObject(name                           = 'UNK'              , 
+                                                             atoms                          = atoms              ,
+                                                             vismolSession                  = self.vismolSession , 
+                                                             trajectory                     = [frame],
+                                                             bonds_pair_of_indexes          = [[0,1]] , 
+                                                             auto_find_bonded_and_nonbonded = False)
+            
+            self.vobject_picking.active = True
+            self.vobject_picking.set_model_matrix(self.vismolSession.glwidget.vm_widget.model_mat)
+            
+            self.vobject_picking.create_new_representation(rtype = 'dotted_lines')
+            self.vismolSession.vismol_geometric_object_dic[vobj_label] = self.vobject_picking
+            print('bulding vobject_picking line 174')
+
         
         
-        print('\n\nAngles:')
-        if atom1 and atom2 and atom3:
-            xyz1 = atom1.coords()
-            xyz2 = atom2.coords()
-            xyz3 = atom3.coords()
-            print(
-                  xyz1, 
-                  xyz2, 
-                  xyz3, 
-                 )
-            xyz1 = [ xyz1[0] - xyz2[0], xyz1[1] - xyz2[1],   xyz1[2] - xyz2[2]]
-            xyz3 = [ xyz3[0] - xyz2[0], xyz3[1] - xyz2[1],   xyz3[2] - xyz2[2]]
-            #print(
-            #      xyz1, 
-            #      xyz3, 
-            #     )
-            angle = LA.angle(xyz1, xyz3)
-            print ('Angle: ', angle*57.297)
-        
-
-        print('\n\nDihedral:')
-        if atom1 and atom2 and atom3:
-            p0 = atom1.coords()
-            p1 = atom2.coords()
-            p2 = atom3.coords()
-            p3 = atom4.coords()
-            angle = LA.dihedral(p0, p1, p2, p3)
-            print ('Angle: ', angle*57.297)
-
-
-
-
 
 
 class VisMolViewingSelection:

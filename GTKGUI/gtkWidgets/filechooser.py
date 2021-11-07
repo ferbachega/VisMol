@@ -31,12 +31,12 @@ from gi.repository import Gtk, Gdk
 class FileChooser:
     """ Class doc """
     
-    def __init__ (self, main_window = None):
+    def __init__ (self, main_window = None ):
         """ Class initialiser """
         self.main_window = main_window
 
     
-    def open (self):
+    def open (self, select_multiple = False, filter_type = None):
 
         """ Function doc """
         #main = gtkmain
@@ -45,24 +45,37 @@ class FileChooser:
         
         chooser = Gtk.FileChooserDialog("Open File...", main,0,
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                                        Gtk.STOCK_OK, Gtk.ResponseType.OK))
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        #GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER
+        if select_multiple:
+            chooser.set_select_multiple(True)
+            response = chooser.run()
+            if response == Gtk.ResponseType.OK:
+                filenames = chooser.get_filenames()
+            chooser.destroy()
+            return filenames
+            
+            
+            
+        else:
+            if filter_type:
+                chooser.add_filter(filter_type)
+            else:
+                filter = Gtk.FileFilter()  
+                filter.set_name("PDB files - *.pdb")
 
-        filter = Gtk.FileFilter()  
-        filter.set_name("PDB files - *.pdb")
-        #
-        filter.add_mime_type("PDB files")
-        filter.add_pattern("*.pdb")
-        #
-        chooser.add_filter(filter)
-        filter = Gtk.FileFilter()
-        filter.set_name("All files")
-        filter.add_pattern("*")
-        #
-        chooser.add_filter(filter)  
+                filter.add_mime_type("PDB files")
+                filter.add_pattern("*.pdb")
+                #
+                chooser.add_filter(filter)
+                filter = Gtk.FileFilter()
+                filter.set_name("All files")
+                filter.add_pattern("*")
+                #
+                chooser.add_filter(filter)  
 
-        response = chooser.run()
-        if response == Gtk.ResponseType.OK:
-            filename = chooser.get_filename()
-        chooser.destroy()
-        return filename
-        #print (filename)
+            response = chooser.run()
+            if response == Gtk.ResponseType.OK:
+                filename = chooser.get_filename()
+            chooser.destroy()
+            return filename

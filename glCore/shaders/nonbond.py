@@ -1,6 +1,7 @@
 
 vertex_shader_non_bonded = """
 #version 330
+precision highp float;
 
 uniform mat4 model_mat;
 uniform mat4 view_mat;
@@ -30,6 +31,7 @@ void main(){
 """
 geometry_shader_non_bonded = """
 #version 330
+precision highp float;
 
 const float xyz_offset = 0.5;
 
@@ -83,6 +85,7 @@ void main(){
 """
 fragment_shader_non_bonded = """
 #version 330
+precision highp float;
 
 uniform vec4 fog_color;
 uniform float fog_start;
@@ -111,6 +114,7 @@ void main(){
 
 sel_vertex_shader_non_bonded = """
 #version 330
+precision highp float;
 
 uniform mat4 model_mat;
 uniform mat4 view_mat;
@@ -140,6 +144,7 @@ void main(){
 """
 sel_geometry_shader_non_bonded = """
 #version 330
+precision highp float;
 
 const float xyz_offset = 0.5;
 
@@ -186,6 +191,7 @@ void main(){
 """
 sel_fragment_shader_non_bonded = """
 #version 330
+precision highp float;
 
 in vec3 frag_color;
 
