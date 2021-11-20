@@ -25,7 +25,7 @@
   <object class="GtkImage" id="image14">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/.icon_single_point_24x24.png</property>
+    <property name="pixbuf">icons/icon_single_point1.2.png</property>
   </object>
   <object class="GtkImage" id="image15">
     <property name="visible">True</property>
@@ -60,7 +60,7 @@
   <object class="GtkImage" id="image24">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/icon_show_cell_pb.png</property>
+    <property name="pixbuf">icons/icon_pDynamo_selections2.2.png</property>
   </object>
   <object class="GtkImage" id="image25">
     <property name="visible">True</property>
@@ -76,6 +76,11 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="pixbuf">icons/icon_save_as.png</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/icon_scan_24x24.png</property>
   </object>
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
@@ -337,6 +342,7 @@
                     <property name="label" translatable="yes">save</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image3</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -350,6 +356,7 @@
                     <property name="label" translatable="yes">save as</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image4</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -434,12 +441,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="toolbutton11">
+                  <object class="GtkToolButton" id="toolbutton_setup_QCModel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">toolbutton9</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image25</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -472,12 +480,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton">
+                  <object class="GtkToolButton" id="toolbutton_energy">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">__glade_unnamed_7</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image14</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -485,12 +494,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton">
+                  <object class="GtkToolButton" id="toolbutton_geometry_optimization">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">__glade_unnamed_8</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image15</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -518,6 +528,19 @@
                     <property name="label" translatable="yes">__glade_unnamed_10</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image12</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">__glade_unnamed_8</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_widget">image5</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

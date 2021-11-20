@@ -112,7 +112,7 @@ class ShowHideVisMol:
                         atom.sticks = True        
                     else:         
                         atom.sticks = False 
-
+                        #print(atom.index, atom.name, atom.sticks)
            
             #               A T O M S 
             else:
@@ -149,7 +149,183 @@ class ShowHideVisMol:
 
 
 
+    def show_or_hide_by_object (self, _type = 'lines', vobject = None,  selection_table = [], show = True):
+        """ Function doc """
+        atoms = []
+        
+        for atom_index in selection_table:
+            atoms.append(vobject.atoms[atom_index])
+        self.change_attributes_for_selected_atoms (_type = _type , 
+                                                   atoms = atoms,  
+                                                    show = show)
+        
+        if _type in ['lines','sticks','ribbons']:
+            #----------------------------------------------------------------   
+            
+            indexes_bonds = []
+            
+            for bond in vobject.bonds:
+                
+                if _type == 'lines':
+                    
+                    if bond.atom_i.lines  and  bond.atom_j.lines:
+                        indexes_bonds.append(bond.atom_index_i)
+                        indexes_bonds.append(bond.atom_index_j)
+                    else:
+                        pass
+                
+                if _type == 'sticks':
+                    #print('bond.atom_i.sticks',bond.atom_i.sticks ,  bond.atom_j.sticks)
+                    if bond.atom_i.sticks  and  bond.atom_j.sticks:
+                        indexes_bonds.append(bond.atom_index_i)
+                        indexes_bonds.append(bond.atom_index_j)
+                    else:
+                        pass
+            
+            if vobject.representations[_type] is None:
+                print (_type, indexes_bonds)
+                if indexes_bonds == []:
+                    pass
+                else:
+                    rep  = SticksRepresentation    (name    = _type, 
+                                                    active  = True, 
+                                                    _type   = 'mol', 
+                                                    visObj  = vobject, 
+                                                    glCore  = self.glwidget.vm_widget,
+                                                    indexes = indexes_bonds)
+                                                    
+                    vobject.representations[rep.name] = rep               
+            else:
 
+                if indexes_bonds == []:
+                    vobject.representations[_type].active = False
+                    pass
+                
+                else:
+                    indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)
+                    vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
+                    vobject.representations[_type].active = True
+
+        else:   
+            
+            indexes = []
+            if _type == 'dots':
+                indexes = []
+                
+                for atom in vobject.atoms:
+                    if atom.dots:
+                        index = vobject.atoms.index(atom)
+                        indexes.append(index)
+                    else:
+                        pass
+                    
+
+                #indexes = np.array(indexes, dtype=np.uint32)
+                if vobject.representations[_type] is None:
+                    #print(vobject.representations[_type])
+                    
+                    rep  = DotsRepresentation    (name    = _type, 
+                                                  active  = True, 
+                                                  _type   = 'mol', 
+                                                  visObj  = vobject, 
+                                                  glCore  = self.glwidget.vm_widget,
+                                                  indexes = indexes)
+                                                    
+                    vobject.representations[rep.name] = rep 
+                
+                else:
+
+                    if indexes  == []:
+                        vobject.representations[_type].active = False
+                        pass
+                    
+                    else:
+                        indexes = np.array(indexes, dtype=np.uint32)
+                        #print ('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii    dots', indexes)
+                        vobject.representations[_type].define_new_indexes_to_VBO ( indexes)
+                        vobject.representations[_type].active = True
+
+
+            if _type == 'nonbonded':
+                print('show nonbonded')
+                indexes = []
+                
+                for atom in vobject.atoms:
+                    #print(atom.name, atom.index, atom.nonbonded)
+                    if atom.nonbonded:
+                        index = vobject.atoms.index(atom)
+                        indexes.append(index)
+                    else:
+                        pass
+
+                if vobject.representations[_type] is None:
+                    #print(vobject.representations[_type])
+                    rep  = NonBondedRepresentation    (name    = _type, 
+                                                       active  = True, 
+                                                       _type   = 'mol', 
+                                                       visObj  = vobject, 
+                                                       glCore  = self.glwidget.vm_widget,
+                                                       indexes = indexes)
+                                                    
+                    vobject.representations[rep.name] = rep 
+                
+                else:
+
+                    if indexes  == []:
+                        vobject.representations[_type].active = False
+                        pass
+                    
+                    else:
+                        indexes = np.array(indexes, dtype=np.uint32)
+                        #print (indexes)
+                        vobject.representations[_type].define_new_indexes_to_VBO ( indexes)
+                        vobject.representations[_type].active = True                
+            
+            if  _type == 'spheres':
+                
+                atoms2spheres = []
+                for atom in vobject.atoms:
+                    if atom.spheres:
+                        atoms2spheres.append(atom)
+                        index = vobject.atoms.index(atom)
+                        #indexes.append(atom.index-1)
+                        indexes.append(index)
+                    else:                   
+                        pass
+
+
+
+                if vobject.representations['spheres'] is None:
+                    #print(vobject.representations[_type])
+                    if atoms2spheres !=[]:
+                        rep  = SpheresRepresentation    (name    = _type, 
+                                                         active  = True, 
+                                                         _type   = 'mol', 
+                                                         visObj  = vobject, 
+                                                         glCore  = self.glwidget.vm_widget,
+                                                         atoms   = atoms2spheres
+                                                         )
+                        
+                        #print ('len', len(atoms2spheres))
+                        rep._create_sphere_data()                                
+                        vobject.representations[rep.name] = rep 
+                    else:
+                        pass
+                    #print(vobject.representations[_type])
+                else:
+                    if atoms2spheres == []:
+                        vobject.representations[_type].active = False
+                        #self.glwidget.queue_draw()
+                        pass
+
+                    else:
+                        vobject.representations[_type].atoms = atoms2spheres
+                        vobject.representations[_type]._create_sphere_data() 
+                        vobject.representations[_type]._update_sphere_data_to_VBOs ()                               
+                        vobject.representations[_type].active = True
+                        #self.glwidget.queue_draw()
+                #self.glwidget.queue_draw()
+        self.glwidget.queue_draw()
 
     def show_or_hide (self, _type = 'lines', selection = None,  show = True ):
         """ Function doc """
@@ -159,7 +335,7 @@ class ShowHideVisMol:
             pass
         else:
             selection = self.selections[self.current_selection]
-        
+            print('\n\nselection', self.selections[self.current_selection],'\n\n')
         
         self.change_attributes_for_selected_atoms (_type = _type , 
                                                    atoms = selection.selected_atoms,  
@@ -185,6 +361,7 @@ class ShowHideVisMol:
                             pass
                     
                     if _type == 'sticks':
+                        #print('bond.atom_i.sticks',bond.atom_i.sticks ,  bond.atom_j.sticks)
                         if bond.atom_i.sticks  and  bond.atom_j.sticks:
                             indexes_bonds.append(bond.atom_index_i)
                             indexes_bonds.append(bond.atom_index_j)
@@ -193,14 +370,18 @@ class ShowHideVisMol:
                 #----------------------------------------------------------------   
                 
                 if vobject.representations[_type] is None:
-                    rep  = SticksRepresentation    (name    = _type, 
-                                                    active  = True, 
-                                                    _type   = 'mol', 
-                                                    visObj  = vobject, 
-                                                    glCore  = self.glwidget.vm_widget,
-                                                    indexes = indexes_bonds)
-                                                    
-                    vobject.representations[rep.name] = rep               
+                    print (_type, indexes_bonds)
+                    if indexes_bonds == []:
+                        pass
+                    else:
+                        rep  = SticksRepresentation    (name    = _type, 
+                                                        active  = True, 
+                                                        _type   = 'mol', 
+                                                        visObj  = vobject, 
+                                                        glCore  = self.glwidget.vm_widget,
+                                                        indexes = indexes_bonds)
+                                                        
+                        vobject.representations[rep.name] = rep               
                 else:
 
                     if indexes_bonds == []:
@@ -306,19 +487,20 @@ class ShowHideVisMol:
 
                     if vobject.representations['spheres'] is None:
                         #print(vobject.representations[_type])
- 
-                        rep  = SpheresRepresentation    (name    = _type, 
-                                                         active  = True, 
-                                                         _type   = 'mol', 
-                                                         visObj  = vobject, 
-                                                         glCore  = self.glwidget.vm_widget,
-                                                         atoms   = atoms2spheres
-                                                         )
-                        
-                        #print ('len', len(atoms2spheres))
-                        rep._create_sphere_data()                                
-                        vobject.representations[rep.name] = rep 
-                        
+                        if atoms2spheres !=[]:
+                            rep  = SpheresRepresentation    (name    = _type, 
+                                                             active  = True, 
+                                                             _type   = 'mol', 
+                                                             visObj  = vobject, 
+                                                             glCore  = self.glwidget.vm_widget,
+                                                             atoms   = atoms2spheres
+                                                             )
+                            
+                            #print ('len', len(atoms2spheres))
+                            rep._create_sphere_data()                                
+                            vobject.representations[rep.name] = rep 
+                        else:
+                            pass
                         #print(vobject.representations[_type])
                     else:
                         if atoms2spheres == []:
@@ -902,8 +1084,77 @@ class VisMolSession (ShowHideVisMol):
             def menu_hide_dots (_):
                 """ Function doc """
                 self.show_or_hide( _type = 'dots', show = False)
+            
+            def set_as_qc_atoms (_):
+                """ Function doc """
+                selection         = self.selections[self.current_selection]
+                
+                self.main_session.pDynamo_session.selection_qc_table = []
+                
+                for atom in selection.selected_atoms:
+                    print(atom.index-1, atom.name, atom.resn)
+                    self.main_session.pDynamo_session.selection_qc_table.append(atom.index -1)
+                print('selection_qc',self.main_session.pDynamo_session.selection_qc_table )
+                self.main_session.run_dialog_set_QC_atoms()
 
+            def set_as_free_atoms (_):
+                """ Function doc """
+                selection         = self.selections[self.current_selection]
+                
+                # these are the new atoms to bet set as fixed
+                freelist = []                
+                for atom in selection.selected_atoms:
+                    print(atom.index-1, atom.name, atom.resn)
+                    freelist.append(atom.index -1)
+                    atom.get_color()  
+                #----------------------------------------------
+                a = set(self.main_session.pDynamo_session.selection_fixed_table)
+                b = set(freelist)
+                
+                c = a - b
+                
+                print (a)
+                print (b)
+                #Combining with list that the already exists  
+                fixedlist =  set(self.main_session.pDynamo_session.selection_fixed_table) -set(freelist)
+                #guarantee that the atom index appears only once in the list
+                fixedlist = list(c) 
+                print (fixedlist)
+                #sending to pDynamo
+                refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                if refresh:
+                    self.glwidget.vm_widget.queue_draw()
+                #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
 
+            def set_as_fixed_atoms (_):
+                """ Function doc """
+                selection         = self.selections[self.current_selection]
+                
+                # these are the new atoms to bet set as fixed
+                fixedlist = []                
+                for atom in selection.selected_atoms:
+                    print(atom.index-1, atom.name, atom.resn)
+                    fixedlist.append(atom.index -1)
+                #print('selection_free',fixedlist )
+                #----------------------------------------------
+                
+                #Combining with list that the already exists  
+                fixedlist = fixedlist + self.main_session.pDynamo_session.selection_fixed_table
+                #guarantee that the atom index appears only once in the list
+                fixedlist = list(set(fixedlist)) 
+                
+                #sending to pDynamo
+                refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                if refresh:
+                    self.glwidget.vm_widget.queue_draw()
+                #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
+            
+            def invert_selection (_):
+                """ Function doc """
+                print('self.selections[self.current_selection].invert_selection()')
+                self.selections[self.current_selection].invert_selection()
+            
+            
             sele_menu = { 
                     'header' : ['MenuItem', None],
                     
@@ -938,6 +1189,7 @@ class VisMolSession (ShowHideVisMol):
                                             }
                                 ],
                     
+                    'Invert Selection':['MenuItem', invert_selection],
                     
                     'separator2':['separator', None],
 
@@ -965,6 +1217,18 @@ class VisMolSession (ShowHideVisMol):
                     
                                            }
                                ],
+                    
+                    'separator3':['separator', None],
+                    
+                    'Set as QC atoms'      :  ['MenuItem', set_as_qc_atoms],
+                    
+                    'separator4':['separator', None],
+
+                    'Set as fixed atoms'   :  ['MenuItem', set_as_fixed_atoms],
+                    'Set as free atoms'   :  ['MenuItem', set_as_free_atoms],
+                    
+                    'separator5':['separator', None],
+
                     
                     'Label Mode':  ['submenu' , {
                                             'Atom'         : [
@@ -1201,8 +1465,12 @@ class VisMolSession (ShowHideVisMol):
             #self.vismol_objects[-1].generate_indexesresentations (reps_list = self.indexes)
             #print (self.vismol_objects[-1].representations)
 
+            #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
+            #self.vismol_objects[-1].representations[rep.name] = rep
+            
             #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
             #self.vismol_objects[-1].representations[rep.name] = rep
+            
             self.vismol_objects[-1].create_new_representation (rtype = 'lines')
             #rep  = LinesRepresentation (name = 'lines', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
             #self.vismol_objects[-1].representations[rep.name] = rep
@@ -1213,6 +1481,8 @@ class VisMolSession (ShowHideVisMol):
             if autocenter:
                 print(self.vismol_objects[-1].mass_center)
                 self.glwidget.vm_widget.center_on_coordinates(self.vismol_objects[-1], self.vismol_objects[-1].mass_center)
+            else:
+                self.glwidget.vm_widget.queue_draw()
             self.gtk_widgets_update ()
 
 
@@ -1596,6 +1866,30 @@ class VisMolSession (ShowHideVisMol):
         """ Function doc """
         self.vismol_objects[index].editing = not self.vismol_objects[index].editing
         #self.glwidget.queue_draw()
+    
+    def set_color_by_index (self, vismol_object = None, indexes = [ ], color = [0.9, 0.9, 0.9] ):
+        """ Function doc """
+        #selection         = self.selections[self.current_selection]
+        
+        #fixedlist = []
+        for atom_index in indexes:
+            vismol_object.atoms[atom_index].color = color    
+
+        vismol_object._generate_color_vectors ( do_colors         = True,
+                                                do_colors_idx     = False,
+                                                do_colors_raindow = False,
+                                                do_vdw_dot_sizes  = False,
+                                                do_cov_dot_sizes  = False,
+                                               )
+        self.glwidget.vm_widget.queue_draw()
+        for rep  in vismol_object.representations.keys():
+            if vismol_object.representations[rep]:
+                vismol_object.representations[rep]._set_colors_to_buffer()
+        
+        return True
+
+
+        #refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
     
     def set_frame (self, frame = 0):
         """ Function doc """

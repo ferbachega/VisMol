@@ -334,19 +334,64 @@ class VisMolViewingSelection:
         
         self._build_selection_buffer ()
         print ('selected atoms: ',len(self.selected_atoms))
+    
 
+    def unselecting_by_indexes (self, vismol_object = None, indexes = []):
+        """ Function doc """
+        print (indexes)
+        #for atom in vismol_object.atoms:
+        
+        if vismol_object:
+            for i in indexes:
+                vismol_object.atoms[i].selected = False
+        
+        else:
+            for vismol_object in self.vismolSession.vismol_objects:
+                if indexes:
+                    for i in indexes:
+                        vismol_object.atoms[i].selected = False
+                else:
+                    for i in range(0, len(vismol_object.atoms)):
+                        vismol_object.atoms[i].selected = False
+                
+                
+        self._build_selection_buffer()
+        #self.active = True
+        self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
 
     def selecting_by_indexes (self, vismol_object = None, indexes = []):
         """ Function doc """
         print (indexes)
         #for atom in vismol_object.atoms:
         for i in indexes:
-            vismol_object.atoms[i-1].selected = True
+            vismol_object.atoms[i].selected = True
         
         self._build_selection_buffer()
         #self.active = True
         self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
+    
+    def invert_selection (self, vismol_object = None):
+        """ not workign """
+        if vismol_object:
+            for atom in vismol_object.atoms:
+                if atom.selected:
+                    atom.selected = False
+                else:
+                    atom.selected = True
         
+        else:
+            for vismol_object in self.vismolSession.vismol_objects:
+                for atom in vismol_object.atoms:
+                    if atom.selected:
+                        print (atom.name, atom.selected)
+                        atom.selected = False
+                    else:
+                        atom.selected = True
+            
+        self._build_selection_buffer()
+        #self.active = True
+        self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
+    
     def _build_selection_buffer (self):
         """ Function doc """
         self.selected_atoms = []
@@ -360,7 +405,7 @@ class VisMolViewingSelection:
                     pass
         
         
-    def _clear_selection_buffer (self,  selected_atom):
+    def _clear_selection_buffer (self,  selected_atom = None):
         ''' If the object selection is disabled, 
         all atoms in the system will be set to False '''
 
@@ -376,7 +421,10 @@ class VisMolViewingSelection:
         #------------------------------------------------""
 
     def selection_function_viewing (self, selected, _type = None):
-        #print (selected)
+     
+        '''
+        Takes a selected atom and passes it to the appropriate selection function.
+        '''        
         
         if _type:
             selection_mode2 = _type
@@ -403,23 +451,7 @@ class VisMolViewingSelection:
             self.active = True
         
         
-        
-        
-        '''
-        else:
-            if self._selection_mode == 'atom':
-                self.selecting_by_atom (selected)
-            
-            elif self._selection_mode == 'residue':
-                self.selecting_by_residue (selected)
 
-            elif self._selection_mode == 'chain':
-                self.selecting_by_chain (selected)
-            else:
-                pass
-            
-            self.active = True
-        '''
         self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
     
     def build_selected_atoms_coords_and_selected_objects_from_selected_atoms (self):

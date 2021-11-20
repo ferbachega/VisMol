@@ -108,7 +108,23 @@ class Representation:
         GL.glVertexAttribPointer(att_size, 1, GL.GL_FLOAT, GL.GL_FALSE, dot_sizes.itemsize, ctypes.c_void_p(0))
         #GL.glDisableVertexAttribArray(att_size)
         return size_vbo
-
+    
+    
+    def _set_colors_to_buffer (self, col_vbo = True):
+        """ Function doc """
+        frame = self.visObj.colors
+        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
+        
+        if col_vbo:
+            GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+                            self.col_vbo    )
+            
+            GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+                            frame.nbytes      ,
+                            frame             , 
+                            GL.GL_STATIC_DRAW)   
+        else:
+            pass
 
     def _set_coordinates_to_buffer (self, coord_vbo = True, sel_coord_vbo = True):
         ''' This function assigns the coordinates to 
@@ -577,7 +593,7 @@ class SticksRepresentation (Representation):
         self.sel_shader_program = None
         
         if indexes == []:
-            self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
+            self.indexes = np.array([], dtype=np.uint32)
         else:
             self.indexes = np.array(indexes, dtype=np.uint32)
             

@@ -659,7 +659,7 @@ class VisMolGLCore():
                 
                 '''#Extracting the indexes for each vismol_object that was selected'''
                 indexes = self.vismolSession.selections[self.vismolSession.current_selection].selected_objects[visObj]
-                print(type(indexes), indexes)
+                #print(type(indexes), indexes)
                
                 size =  self.vConfig.gl_parameters['dot_sel_size']
                 GL.glPointSize(size*self.height/(abs(self.dist_cam_zrp))/2)

@@ -62,10 +62,10 @@ class FileChooser:
                 chooser.add_filter(filter_type)
             else:
                 filter = Gtk.FileFilter()  
-                filter.set_name("PDB files - *.pdb")
+                filter.set_name("PKL files - *.pkl")
 
-                filter.add_mime_type("PDB files")
-                filter.add_pattern("*.pdb")
+                filter.add_mime_type("PKL files")
+                filter.add_pattern("*.pkl")
                 #
                 chooser.add_filter(filter)
                 filter = Gtk.FileFilter()

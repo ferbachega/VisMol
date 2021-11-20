@@ -86,7 +86,7 @@ class Atom:
         self.bonds_indexes  = bonds_indexes
         self.bonds          = []
 
-        
+        self.isfree         = True
         #self.sphere_data    = self.get_sphere_data(self.symbol)
         
 

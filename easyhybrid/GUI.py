@@ -63,7 +63,7 @@ class EasyHybridImportANewSystemWindow(Gtk.Window):
             
             self.window.show_all()                                               
             self.builder.connect_signals(self)                                   
-            self.builder.get_object('gtkbox_OPLS_folderchoose').hide()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
 
             self.Visible  =  True
             
@@ -119,29 +119,29 @@ NOTE: You can include more than one parameter file if needed.'''
         self.treeview.set_model(self.residue_liststore)
             
         if fftype == 0: #AMBER
-            self.builder.get_object('gtkbox_OPLS_folderchoose').hide()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
             self.builder.get_object('gtk_label_fftype').set_text(self.amber_txt)
  
             
         if fftype == 1: # "CHARMM":
-            self.builder.get_object('gtkbox_OPLS_folderchoose').hide()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
             self.builder.get_object('gtk_label_fftype').set_text(self.charmm_txt)
 
             
         if fftype == 10: #"GROMACS":
-            self.builder.get_object('gtkbox_OPLS_folderchoose').hide()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
             self.builder.get_object('gtk_label_fftype').set_text(self.gmx_txt)
 
             
         if fftype == 2:#"OPLS":
-            self.builder.get_object('gtkbox_OPLS_folderchoose').show()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').show()
             self.builder.get_object('gtk_label_fftype').set_text(self.OPLS_txt)
             
         if fftype == 3: #"pDynamo files(*.pkl,*.yaml)":
-            self.builder.get_object('gtkbox_OPLS_folderchoose').hide()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
             
         if fftype == 4: #"Other(*.pdb,*.xyz,*.mol2...)":
-            self.builder.get_object('gtkbox_OPLS_folderchoose').hide()
+            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
 
 
     def filetype_parser(self, filein, systemtype):
@@ -209,7 +209,7 @@ NOTE: You can include more than one parameter file if needed.'''
             filetype = self.filetype_parser( _file, systemtype)
             self.residue_liststore.append(list([_file, filetype, '10' ]))
         self.treeview.set_model(self.residue_liststore)
-        
+        self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
         print(self.files)
 
 
@@ -218,16 +218,6 @@ NOTE: You can include more than one parameter file if needed.'''
         
         if button == self.builder.get_object('ok_button_import_a_new_system'):
             print('ok_button_import_a_new_system')
-            self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin, system_type)
-            self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
-
-            vismol_object = self.easyhybrid_main.pDynamo_session.build_vismol_object_from_pDynamo_system (name = 'new_sys')
-            vismol_object.set_model_matrix(self.easyhybrid_main.vismolSession.glwidget.vm_widget.model_mat)
-            vismol_object.active = True
-            vismol_object._get_center_of_mass(frame = 0)
-            self.easyhybrid_main.vismolSession.add_vismol_object_to_vismol_session (rep = True, vismol_object = vismol_object, autocenter =  True)
-    
-                
             #self.on_button1_clicked_create_new_project(button)
             #self.dialog.hide()
         if button == self.builder.get_object('cancel_button_import_a_new_system'):
@@ -238,31 +228,237 @@ NOTE: You can include more than one parameter file if needed.'''
         print('ok_button_import_a_new_system')
         systemtype = self.system_types_combo.get_active()
         self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(self.files, systemtype)
-        self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
+        
+        #if systemtype == 2:
+        #    self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
+        
+        print ('systemtype',systemtype, self.files )
+        #self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
         name =  self.builder.get_object('entry_system_name').get_text()
         
         vismol_object = self.easyhybrid_main.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
-        vismol_object.set_model_matrix(self.easyhybrid_main.vismolSession.glwidget.vm_widget.model_mat)
-        vismol_object.active = True
-        vismol_object._get_center_of_mass(frame = 0)
-        self.easyhybrid_main.vismolSession.add_vismol_object_to_vismol_session (rep = True, vismol_object = vismol_object, autocenter =  True)        
         self.CloseWindow(button, data  = None)
+
+
+
+
+
+class EasyHybridSetupQCModelWindow:
+    """ Class doc """
+    
+    def __init__(self, main = None):
+        """ Class initialiser """
+        self.easyhybrid_main     = main
+        self.Visible             =  False        
         
+        self.methods_liststore = Gtk.ListStore(str, str, str)
+        
+        self.method_id    = 0    # 0 for am1, 1 for pm3  and...
+        self.charge       = 0
+        self.multiplicity = 1
+        self.restricted   = True
+        
+        self.adjustment_charge = Gtk.Adjustment(value=0,
+                                           lower=-100,
+                                           upper=100,
+                                           step_increment=1,
+                                           page_increment=1,
+                                           page_size=0)
+        
+        self.adjustment_multiplicity = Gtk.Adjustment(value=1,
+                                           lower=1,
+                                           upper=100,
+                                           step_increment=1,
+                                           page_increment=1,
+                                           page_size=0)
+        
+        self.methods_id_dictionary = {
+                                      0 : 'am1'     ,
+                                      1 : 'am1dphot',
+                                      2 : 'pm3'     ,
+                                      3 : 'pm6'     ,
+                                      4 : 'mndo'    ,
+                                
+                                      }
+        
+        
+        
+    def OpenWindow (self):
+        """ Function doc """
+        if self.Visible  ==  False:
+            self.builder = Gtk.Builder()
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_QCSetup_window.glade'))
+            self.builder.connect_signals(self)
+            
+            self.window = self.builder.get_object('SetupQCModelWindow')
+            self.window.set_keep_above(True)
+            #self.window.set_border_width(10)
+            #self.window.set_default_size(500, 370)  
+
+            
+            '''--------------------------------------------------------------------------------------------'''
+            self.methods_type_store = Gtk.ListStore(str)
+            methods_types = [
+                "am1",
+                "am1dphot",
+                "pm3",
+                "pm6",
+                "mndo",
+                "ab initio - ORCA",
+                "DFT / DFTB",
+                ]
+            for method_type in methods_types:
+                self.methods_type_store.append([method_type])
+                print (method_type)
+            
+            self.methods_combo = self.builder.get_object('QCModel_methods_combobox')
+            self.methods_combo.connect("changed", self.on_name_combo_changed)
+            self.methods_combo.set_model(self.methods_type_store)
+            renderer_text = Gtk.CellRendererText()
+            self.methods_combo.pack_start(renderer_text, True)
+            self.methods_combo.add_attribute(renderer_text, "text", 0)
+            self.methods_combo.set_active(self.method_id)
+            '''--------------------------------------------------------------------------------------------'''
+
+
+            self.spinbutton_charge       = self.builder.get_object('spinbutton_charge'      )
+            self.spinbutton_multiplicity = self.builder.get_object('spinbutton_multiplicity')
+            self.spinbutton_charge      .set_adjustment(self.adjustment_charge)
+            self.spinbutton_multiplicity.set_adjustment(self.adjustment_multiplicity)
+            
+            self.window.show_all()                                               
+            self.builder.connect_signals(self)                                   
+
+            self.Visible  =  True
+            #self.builder.get_object('dftp_setup_box').hide()
+            #self.builder.get_object('orca_setup_box').hide()
+
+    def CloseWindow (self, button, data  = None):
+        """ Function doc """
+        #self.BackUpWindowData()
+        self.window.destroy()
+        self.Visible    =  False
+        print('self.Visible',self.Visible)
+    
+            #----------------------------------------------------------------
+    def on_spian_button_change (self, widget):
+        """ Function doc """
+        self.charge       = self.spinbutton_charge.get_value_as_int()
+        self.multiplicity = self.spinbutton_multiplicity.get_value_as_int()
+        
+        
+    def on_name_combo_changed (self, combobox):
+        """ Function doc """
+        self.method_id = self.builder.get_object('QCModel_methods_combobox').get_active()
+    
+    def on_button_ok (self, button):
+        """ Function doc """
+        print(button)
+        #charge         = self.spinbutton_charge.get_value_as_int()
+        #multiplicity   = self.spinbutton_multiplicity.get_value_as_int()
+        print('\n\ncharge'  , self.charge      )
+        print('multiplicity', self.multiplicity)
+        print('method_id'   , self.method_id   )
+        
+        if self.builder.get_object('radio_button_restricted').get_active():
+            print("%s is active" % (self.builder.get_object('radio_button_restricted').get_label()))
+            self.restricted = True
+        else:
+            print("%s is not active" % (self.builder.get_object('radio_button_restricted').get_label()))
+            self.restricted = False
+        
+        
+        parameters = {
+                    'charge'       : self.charge      ,
+                    'multiplicity' : self.multiplicity,
+                    'method'       : self.methods_id_dictionary[self.method_id]   ,
+                    'restricted'   : self.restricted  ,
+                    
+                     
+                     }
+        
+        
+        #print(parameters)
+        
+        self.easyhybrid_main.pDynamo_session.define_a_new_qcmodel(parameters =parameters)
+        
+        
+        #self.easyhybrid_main.vismolSession.
+        
+        self.window.destroy()
+        self.Visible    =  False
+   
+class EasyHybridDialogSetQCAtoms(Gtk.Dialog):
+    def __init__(self, parent):
+        super().__init__(title="New QC list", transient_for=parent, flags=0)
+        self.add_buttons(
+            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_YES, Gtk.ResponseType.YES
+        )
+
+        self.set_default_size(150, 100)
+
+        label = Gtk.Label(label="A new quantum region has been defined. Would you like to set up your QC parameters now?")
+
+        box = self.get_content_area()
+        box.add(label)
+        self.show_all()
+
+
+class EasyHybridDialogEnergy(Gtk.Dialog):
+    def __init__(self, parent, energy = None):
+        super().__init__(title="Energy Dialog", transient_for=parent, flags=0)
+        self.add_buttons(
+             Gtk.STOCK_OK, Gtk.ResponseType.OK
+        )
+
+        self.set_default_size(300, 100)
+
+        label = Gtk.Label(label="Energy = {0:.5f} (KJ/mol)".format(energy))
+
+        box = self.get_content_area()
+        box.add(label)
+        self.show_all()
+
 class EasyHybridMainWindow ( ):
     """ Class doc """
 
+    def run_dialog_set_QC_atoms (self, _type = None):
+        """ Function doc """
+        dialog = EasyHybridDialogSetQCAtoms(self.window)
+        response = dialog.run()
+
+        if response == Gtk.ResponseType.YES:
+            print("The OK button was clicked")
+            self.setup_QCModel_window.OpenWindow()
+        elif response == Gtk.ResponseType.CANCEL:
+            print("The Cancel button was clicked")
+
+        dialog.destroy()
+    
     def gtk_load_files (self, button):
         filename = self.filechooser.open()
         
         if filename:
-            self.pDynamo_session.load_a_new_pDynamo_system (filein = filename)
-            self.pDynamo_session.get_bonds_from_pDynamo_system()
+            files = {'coordinates': filename}
+            systemtype = 3
+            self.pDynamo_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
+           
+            print ('systemtype',systemtype,files )
+            name =  self.pDynamo_session.system.label
             
-            vismol_object = self.pDynamo_session.build_vismol_object_from_pDynamo_system (name = filename)
-            vismol_object.set_model_matrix(self.vismolSession.glwidget.vm_widget.model_mat)
-            vismol_object.active = True
-            vismol_object._get_center_of_mass(frame = 0)
-            self.vismolSession.add_vismol_object_to_vismol_session (rep = True, vismol_object = vismol_object, autocenter =  True)
+            vismol_object = self.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
+            
+            
+            
+            
+            #self.pDynamo_session.load_a_new_pDynamo_system (filein = filename)
+            #self.pDynamo_session.get_bonds_from_pDynamo_system()
+            #
+            #vismol_object = self.pDynamo_session.build_vismol_object_from_pDynamo_system (name = filename)
+            #vismol_object.set_model_matrix(self.vismolSession.glwidget.vm_widget.model_mat)
+            #vismol_object.active = True
+            #vismol_object._get_center_of_mass(frame = 0)
+            #self.vismolSession.add_vismol_object_to_vismol_session (rep = True, vismol_object = vismol_object, autocenter =  True)
             
             
             #self.vismolSession.load(filename)
@@ -412,11 +608,11 @@ class EasyHybridMainWindow ( ):
         
         '''#- - - - - - - - - - - -  pDynamo - - - - - - - - - - - - - - -#'''
         
-        self.pDynamo_session = pDynamoSession(vismol_session = vismolSession)
+        self.pDynamo_session = pDynamoSession(vismolSession = vismolSession)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
-        self.NewSystemWindow = EasyHybridImportANewSystemWindow(main = self)
-        
+        self.NewSystemWindow      = EasyHybridImportANewSystemWindow(main = self)
+        self.setup_QCModel_window = EasyHybridSetupQCModelWindow(main = self)
 
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
@@ -435,10 +631,24 @@ class EasyHybridMainWindow ( ):
             #self.dialog_import_a_new_systen.run()
             #self.dialog_import_a_new_systen.hide()
             self.NewSystemWindow.OpenWindow()
+        
+        if button  == self.builder.get_object('toolbutton_energy'):
+            energy = self.pDynamo_session.get_energy()
+            print(energy)
+            dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
+            response = dialog.run()
+            dialog.destroy()
             
-            #self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_widgets.glade'))
-            #self.builder.get_object('QCSetupDialog').run()
-    
+        if button  == self.builder.get_object('toolbutton_setup_QCModel'):
+            #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.pDynamo_session, self)
+            #self.dialog_import_a_new_systen.run()
+            #self.dialog_import_a_new_systen.hide()
+            #self.NewSystemWindow.OpenWindow()
+            self.setup_QCModel_window.OpenWindow()
+        if button  == self.builder.get_object('toolbutton_geometry_optimization'):
+            self.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry()
+            
+            
     def menubar_togglebutton1 (self, button):
         """ Function doc """
         if button.get_active():
@@ -468,6 +678,9 @@ class EasyHybridMainWindow ( ):
         """ Function doc """
         print (button)
         
+
+
+
 
 class GtkMainTreeView(Gtk.TreeView):
     """ Class doc """
@@ -582,6 +795,9 @@ class GtkMainTreeView(Gtk.TreeView):
 
         if event.button == 1:
             print ('event.button == 1:')
+  
+  
+  
     
 
 class TreeViewMenu:
@@ -694,242 +910,6 @@ class TreeViewMenu:
         
         self.glMenu.popup(None, None, None, None, 0, 0)
 
-
-
-
-# delete later
-class EasyHybridImportANewSystemDialog():
-    """ Class doc """
-    
-    def __init__ (self, pDynamo_session, easyhybrid_main):
-        """ Class initialiser """
-        self.pDynamo_session = pDynamo_session
-        self.easyhybrid_main = easyhybrid_main
-        self.builder = Gtk.Builder()
-        self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_widgets.glade'))
-        self.builder.connect_signals(self)
-        self.dialog = self.builder.get_object('ImportANewSystemDialog')
-        
-        self.builder.get_object("opls_prmtop_label").hide()
-        self.builder.get_object("opls_prmtop_chooser").hide()
-        self.builder.get_object("charmm_topologies_label").hide()
-        self.builder.get_object("charmm_topologies_chooser").hide()
-        
-        self.builder.get_object('system_type_combox_from_import_a_new_system').set_active(0)
-        
-        self.dialog.set_default_size(600, 300)
-
-        self.system_type_store = Gtk.ListStore(str)
-        system_types = [
-            "AMBER",
-            "CHARMM",
-            "OPLS",
-            "pdynamo files (*.pkl, *.yaml)",
-            "other (*.pdb, *.xyz, *.mol2)",
-            ]
-        for system_type in system_types:
-            self.system_type_store.append([system_type])
-
-        self.system_types_combo = self.builder.get_object('system_type_combox_from_import_a_new_system')
-        self.system_types_combo.connect("changed", self.on_name_combo_changed)
-        self.system_types_combo.set_model(self.system_type_store)
-        renderer_text = Gtk.CellRendererText()
-        self.system_types_combo.pack_start(renderer_text, True)
-        self.system_types_combo.add_attribute(renderer_text, "text", 0)
-        self.system_types_combo.set_active(0)
-        self.dialog.show_all()
-        
-        
-    def on_name_combo_changed(self, widget):
-        """ Function doc """
-        fftype = self.builder.get_object('system_type_combox_from_import_a_new_system').get_active()
-        
-        print(self.builder.get_object('system_type_combox_from_import_a_new_system').get_active())
-        #print(self.builder.get_object('system_type_combox_from_import_a_new_system').get_active_id())
-        if fftype == 0: #AMBER
-            #print fftype
-            self.builder.get_object("amber_prmtop_label").  show()
-            self.builder.get_object("amber_prmtop_chooser").show()
-            self.builder.get_object("charmm_topologies_label").hide()
-            self.builder.get_object("charmm_topologies_chooser").hide()
-            self.builder.get_object("opls_prmtop_label").hide()
-            self.builder.get_object("opls_prmtop_chooser").hide()
-            
-            self.builder.get_object("amber_prmtop_chooser").  set_filename('/home/fernando/programs/pDynamo3/examples/pBabel/data/amber/crambin.top')
-            self.builder.get_object("coordinates_chooser").set_filename('/home/fernando/programs/pDynamo3/examples/pBabel/data/amber/crambin.crd')
-            
-
-        if fftype == 1: # "CHARMM":
-            #print fftype
-            self.builder.get_object("opls_prmtop_label").hide()
-            self.builder.get_object("opls_prmtop_chooser").hide()
-
-            self.builder.get_object("amber_prmtop_label").  show()
-            self.builder.get_object("amber_prmtop_chooser").show()
-            self.builder.get_object("charmm_topologies_label").show()
-            self.builder.get_object("charmm_topologies_chooser").show()
-
-        if fftype == 10: #"GROMACS":
-            #print fftype
-            self.builder.get_object("amber_prmtop_label").  show()
-            self.builder.get_object("amber_prmtop_chooser").show()
-            self.builder.get_object("charmm_topologies_label").hide()
-            self.builder.get_object("charmm_topologies_chooser").hide()
-            self.builder.get_object("opls_prmtop_label").hide()
-            self.builder.get_object("opls_prmtop_chooser").hide()
-
-        if fftype == 2:#"OPLS":
-            #print fftype
-            self.builder.get_object("amber_prmtop_label").  hide()
-            self.builder.get_object("amber_prmtop_chooser").hide()
-            self.builder.get_object("opls_prmtop_label").show()
-            self.builder.get_object("opls_prmtop_chooser").show()
-            self.builder.get_object("charmm_topologies_label").  hide()
-            self.builder.get_object("charmm_topologies_chooser").hide()
-
-        if fftype == 3: #"pDynamo files(*.pkl,*.yaml)":
-            self.builder.get_object("opls_prmtop_label").hide()
-            self.builder.get_object("opls_prmtop_chooser").hide()
-
-            self.builder.get_object("amber_prmtop_label").  hide()
-            self.builder.get_object("amber_prmtop_chooser").hide()
-            self.builder.get_object("charmm_topologies_label").  hide()
-            self.builder.get_object("charmm_topologies_chooser").hide()
-
-        if fftype == 4: #"Other(*.pdb,*.xyz,*.mol2...)":
-            self.builder.get_object("opls_prmtop_label").hide()
-            self.builder.get_object("opls_prmtop_chooser").hide()
-
-            self.builder.get_object("amber_prmtop_label").  hide()
-            self.builder.get_object("amber_prmtop_chooser").hide()
-            self.builder.get_object("charmm_topologies_label").  hide()
-            self.builder.get_object("charmm_topologies_chooser").hide()
-
-    
-    
-    
-    def on_button1_clicked_create_new_project(self, button):
-        
-        '''
-        BufferText =  self.builder.get_object('textview1').get_buffer()  #
-        BufferText = BufferText.get_text(*BufferText.get_bounds(), include_hidden_chars=False)
-        #print BufferText
-        '''
-        #print '\n\n\n' + BufferText + '\n\n\n' + 'teste aqui'
-                
-        #project          = self.project
-        #name             = self.builder.get_object("new_project_entry").get_text()
-        
-        '''
-        ProjectDirectory = self.builder.get_object("ProjectDirectory").get_text()
-        ProjectDirectory = ProjectDirectory.split('/')
-        path = '/'
-        for i in ProjectDirectory:
-            path = os.path.join(path, i)
-            if not os.path.exists (path): 
-                os.mkdir (path)
-        '''
-        #data_path = self.builder.get_object("filechooserbutton1").get_filename()
-        data_path = self.builder.get_object("system_type_entry_from_import_a_new_system").get_text()
-        
-        system_type = self.builder.get_object('system_type_combox_from_import_a_new_system').get_active()        
-        
-        #filename = os.path.join(data_path,name)
-        
-        
-        
-        filesin = {}
-        
-        #try:
-        #    import shutil
-        #except:
-        #    print "shutil module is no available"
-
-        if system_type == 0: #"AMBER":
-            filesin['amber_params'] = self.builder.get_object(
-                "amber_prmtop_chooser").get_filename()
-            filesin['amber_coords'] = self.builder.get_object(
-                "coordinates_chooser").get_filename()
-
-        elif system_type == 1: #"CHARMM":
-            filesin['charmm_params'] = self.builder.get_object(
-                "amber_prmtop_chooser").get_filename()
-            filesin['charmm_topologies'] = self.builder.get_object(
-                "charmm_topologies_chooser").get_filename()
-            filesin['charmm_coords'] = self.builder.get_object(
-                "coordinates_chooser").get_filename()
-
-        elif system_type == 10: #"GROMACS":
-            filesin['gromacs_params'] = self.builder.get_object(
-                "amber_prmtop_chooser").get_filename()					#
-            filesin['gromacs_coords'] = self.builder.get_object(
-                "coordinates_chooser").get_filename()
-
-        elif system_type == 2: #"OPLS":
-            filesin['opls_params'] = self.builder.get_object(
-                "opls_prmtop_chooser").get_filename()
-            filesin['opls_coords'] = self.builder.get_object(
-                "coordinates_chooser").get_filename()
-
-        elif system_type == 3: #"pDynamo files(*.pkl,*.yaml)":
-            filesin['pDynamoFile'] = self.builder.get_object(
-                "coordinates_chooser").get_filename()					#
-
-        elif system_type == 4: #"Other(*.pdb,*.xyz,*.mol2...)":
-            filesin['coordinates'] = self.builder.get_object(
-                "coordinates_chooser").get_filename()					#
-
-        print (filesin)
-        
-        '''
-        self.project          = self.EasyHybridSession.project
-       
-        #self.project.DeleteActualProject()
-        self.project.Create_New_Project(
-            name, data_path, FileType, filesin, BufferText)
-        
-        self.project.Save_Project_To_File (filename = filename, type_ = 'pkl')
-        
-        
-        # self.project.From_PDYNAMO_to_EasyHybrid()
-        self.project.system.Summary()
-        self.project.settings['add_info']  =  BufferText
-        '''
-        #
-    
-        self.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin, system_type)
-        self.pDynamo_session.get_bonds_from_pDynamo_system()
-
-        vismol_object = self.pDynamo_session.build_vismol_object_from_pDynamo_system (name = 'new_sys')
-        vismol_object.set_model_matrix(self.easyhybrid_main.vismolSession.glwidget.vm_widget.model_mat)
-        vismol_object.active = True
-        vismol_object._get_center_of_mass(frame = 0)
-        self.easyhybrid_main.vismolSession.add_vismol_object_to_vismol_session (rep = True, vismol_object = vismol_object, autocenter =  True)
-    
-    
-    
-    
-    
-    
-    def on_button_import_a_new_system_clicked (self, button):
-        """ Function doc """
-        
-        if button == self.builder.get_object('ok_button_import_a_new_system'):
-            print('ok_button_import_a_new_system')
-            self.on_button1_clicked_create_new_project(button)
-            self.dialog.hide()
-        if button == self.builder.get_object('cancel_button_import_a_new_system'):
-            print('cancel_button_import_a_new_system')
-            self.dialog.hide()
-    
-    def on_ImportANewSystemDialog_close (self):
-        """ Function doc """
-        self.dialog.hide()
-    def run (self):
-        """ Function doc """
-        self.dialog.run()
-
-   
 
 
 

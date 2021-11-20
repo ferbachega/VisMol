@@ -840,7 +840,12 @@ class VismolObject:
 
 
 
-    def _generate_color_vectors (self):
+    def _generate_color_vectors (self, do_colors         = True,
+                                       do_colors_idx     = True,
+                                       do_colors_raindow = True,
+                                       do_vdw_dot_sizes  = True,
+                                       do_cov_dot_sizes  = True,
+                                    ):
         """ Function doc 
         
         (1) This method assigns to each atom of the system a 
@@ -867,13 +872,20 @@ class VismolObject:
         
         
         
+        if do_colors:
+            self.colors         = []
         
-        self.color_indexes  = []
-        self.colors         = []        
-        self.color_rainbow  = []
-
-        self.vdw_dot_sizes  = []
-        self.cov_dot_sizes  = []
+        if do_colors_idx:
+            self.color_indexes  = []
+        
+        if do_colors_raindow:
+            self.color_rainbow  = []
+        
+        if do_vdw_dot_sizes:
+            self.vdw_dot_sizes  = []
+        
+        if do_cov_dot_sizes:
+            self.cov_dot_sizes  = []
         
         counter = 0
         temp_counter = 0
@@ -894,10 +906,10 @@ class VismolObject:
             self.color_indexes.append(g/255.0)
             self.color_indexes.append(b/255.0)
             '''
-            
-            self.color_indexes.append(atom.color_id[0])
-            self.color_indexes.append(atom.color_id[1])
-            self.color_indexes.append(atom.color_id[2])
+            if do_colors_idx:
+                self.color_indexes.append(atom.color_id[0])
+                self.color_indexes.append(atom.color_id[1])
+                self.color_indexes.append(atom.color_id[2])
             
             '''
             pickedID = r + g * 256 + b * 256*256
@@ -908,58 +920,79 @@ class VismolObject:
             #-------------------------------------------------------
             # (2)                   Colors
             #-------------------------------------------------------
-            
-            self.colors.append(atom.color[0])        
-            self.colors.append(atom.color[1])        
-            self.colors.append(atom.color[2])   
+            if do_colors:
+                self.colors.append(atom.color[0])        
+                self.colors.append(atom.color[1])        
+                self.colors.append(atom.color[2])   
 
             #-------------------------------------------------------
-            # (3)                  VdW list
+            # (3)                  VdW list / cov_dot_sizes:
             #-------------------------------------------------------
-            self.vdw_dot_sizes.append(atom.vdw_rad*3)
-            self.cov_dot_sizes.append(atom.cov_rad)
+            if do_vdw_dot_sizes: 
+                self.vdw_dot_sizes.append(atom.vdw_rad*3)
+
+            if do_cov_dot_sizes: 
+                self.cov_dot_sizes.append(atom.cov_rad)
         
             #-------------------------------------------------------
             # (4)                Rainbow colors
             #-------------------------------------------------------
-            if counter <= 1*quarter:
-                self.color_rainbow.append(red   )
-                self.color_rainbow.append(green )
-                self.color_rainbow.append(blue  )
+            if do_colors_raindow:
+                if counter <= 1*quarter:
+                    self.color_rainbow.append(red   )
+                    self.color_rainbow.append(green )
+                    self.color_rainbow.append(blue  )
+                    
+                    green += color_step
+
+                if counter >= 1*quarter  and counter <= 2*quarter:
+                    self.color_rainbow.append(red   )
+                    self.color_rainbow.append(green )
+                    self.color_rainbow.append(blue  )
+
+                    blue -= color_step
+
+                if counter >= 2*quarter  and counter <= 3*quarter:
+                    
+                    self.color_rainbow.append(red   )
+                    self.color_rainbow.append(green )
+                    self.color_rainbow.append(blue  )
+
+                    red += color_step
+
+                if counter >= 3*quarter  and counter <= 4*quarter:
+                    
+                    self.color_rainbow.append(red   )
+                    self.color_rainbow.append(green )
+                    self.color_rainbow.append(blue  )
+                    green -= color_step
                 
-                green += color_step
-
-            if counter >= 1*quarter  and counter <= 2*quarter:
-                self.color_rainbow.append(red   )
-                self.color_rainbow.append(green )
-                self.color_rainbow.append(blue  )
-
-                blue -= color_step
-
-            if counter >= 2*quarter  and counter <= 3*quarter:
-                
-                self.color_rainbow.append(red   )
-                self.color_rainbow.append(green )
-                self.color_rainbow.append(blue  )
-
-                red += color_step
-
-            if counter >= 3*quarter  and counter <= 4*quarter:
-                
-                self.color_rainbow.append(red   )
-                self.color_rainbow.append(green )
-                self.color_rainbow.append(blue  )
-                green -= color_step
-            
             #print(red, green, blue,counter )
             counter += 1
             #-------------------------------------------------------
 
-        self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
-        self.colors         = np.array(self.colors       , dtype=np.float32)    
-        self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
-        self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
-        self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32) 
+
+        if do_colors:
+            self.colors         = np.array(self.colors       , dtype=np.float32)
+        
+        if do_colors_idx:
+            self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
+        
+        if do_colors_raindow:
+            self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
+        
+        if do_vdw_dot_sizes:
+            self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
+        
+        if do_cov_dot_sizes:
+            self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
+        
+
+        #self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
+        #self.colors         = np.array(self.colors       , dtype=np.float32)    
+        #self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
+        #self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
+        #self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32) 
 
     def set_model_matrix(self, mat):
         """ Function doc
