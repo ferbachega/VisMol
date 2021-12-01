@@ -90,10 +90,10 @@ class VismolGeometricObject:
         atom3 = self.atoms[2]
         atom4 = self.atoms[3]
 
-        print(atom1)
-        print(atom2)
-        print(atom3)
-        print(atom4)
+        #print(atom1)
+        #print(atom2)
+        #print(atom3)
+        #print(atom4)
 
 
 
@@ -131,7 +131,7 @@ class VismolGeometricObject:
         else:
             if self.representations['lines']:
                 self.representations['lines'].active =  False
-        print(self.representations['lines'].active)
+        #print(self.representations['lines'].active)
 
     def set_model_matrix(self, mat):
         """ Function doc
@@ -251,7 +251,7 @@ class VismolGeometricObject:
                     self.color_rainbow.append(blue  )
                     green -= color_step
                 
-                #print(red, green, blue,counter )
+                ##print(red, green, blue,counter )
                 counter += 1
                 #-------------------------------------------------------
 
@@ -418,7 +418,7 @@ class VismolObject:
             self._generate_atomtree_structure()
             self._generate_color_vectors()
         else:
-            print("vismol_object's list of atoms is empty")
+            #print("vismol_object's list of atoms is empty")
         
         
         
@@ -677,7 +677,7 @@ class VismolObject:
                                                                 glCore = self.vismolSession.glwidget.vm_widget)
         
         if rtype == 'dotted_lines':
-            #print('dotted_lines')
+            ##print('dotted_lines')
             self.representations['dotted_lines']  = LinesRepresentation (name = 'dotted_lines', 
                                                                        active =  True, 
                                                                         _type = 'geo', 
@@ -719,7 +719,7 @@ class VismolObject:
                 sum_z += coord[2]
         final          = time.time()
 
-        print('type2', initial -  final)
+        #print('type2', initial -  final)
 
 
 
@@ -785,7 +785,7 @@ class VismolObject:
         
         for chain in self.chains.keys():
             self.residues += self.chains[chain].residues
-        print('total number of residues at self.residues', len(self.residues))
+        #print('total number of residues at self.residues', len(self.residues))
         
         return True
 
@@ -832,7 +832,7 @@ class VismolObject:
         
         for chain in self.chains.keys():
             self.residues += self.chains[chain].residues
-        print('total number of residues at self.residues', len(self.residues))
+        #print('total number of residues at self.residues', len(self.residues))
         return True
 
 
@@ -967,7 +967,7 @@ class VismolObject:
                     self.color_rainbow.append(blue  )
                     green -= color_step
                 
-            #print(red, green, blue,counter )
+            ##print(red, green, blue,counter )
             counter += 1
             #-------------------------------------------------------
 
@@ -1022,7 +1022,7 @@ class VismolObject:
                             pass
                 else:
                     pass
-        #pprint(self.residues)
+        #p#print(self.residues)
         
         for n  in range(1, len(self.c_alpha_atoms)):
 
@@ -1110,7 +1110,7 @@ class VismolObject:
 
     def find_bonded_and_nonbonded_atoms_old(self, atoms):
         """ Function doc """
-        #print(atoms)
+        ##print(atoms)
         
         
         bonds_full_indexes, bonds_pair_of_indexes, NB_indexes_list = cdist.generete_full_NB_and_Bonded_lists(atoms)
@@ -1130,7 +1130,7 @@ class VismolObject:
     
     def find_bonded_and_nonbonded_atoms(self, selection = None):
         """ Function doc """
-        #print('aqui ohhhhhh')
+        ##print('aqui ohhhhhh')
         #self._generate_atomtree_structure()
         #self._generate_color_vectors()
         

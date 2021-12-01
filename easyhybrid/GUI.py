@@ -84,7 +84,7 @@ class EasyHybridImportANewSystemWindow(Gtk.Window):
         #self.BackUpWindowData()
         self.window.destroy()
         self.Visible    =  False
-        print('self.Visible',self.Visible)
+        #print('self.Visible',self.Visible)
     
     def __init__(self, main = None):
         """ Class initialiser """
@@ -195,22 +195,22 @@ NOTE: You can include more than one parameter file if needed.'''
     def on_delete_files_button_clicked (self, button):
         """ Function doc """
         files = self.easyhybrid_main.filechooser.open(select_multiple = True)
-        print(files)
+        #print(files)
     
     def on_import_files_button_clicked (self, button):
         """ Function doc """
         files = self.easyhybrid_main.filechooser.open(select_multiple = True)
-        print(files)
+        #print(files)
 
         for _file in files:
             #for res in self.VObj.chains[chain].residues:
-                #print(res.resi, res.resn, chain,  len(res.atoms) ) 
+                ##print(res.resi, res.resn, chain,  len(res.atoms) ) 
             systemtype = self.system_types_combo.get_active()
             filetype = self.filetype_parser( _file, systemtype)
             self.residue_liststore.append(list([_file, filetype, '10' ]))
         self.treeview.set_model(self.residue_liststore)
         self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
-        print(self.files)
+        #print(self.files)
 
 
     def on_button_import_a_new_system_clicked (self, button):
@@ -222,26 +222,83 @@ NOTE: You can include more than one parameter file if needed.'''
             #self.dialog.hide()
         if button == self.builder.get_object('cancel_button_import_a_new_system'):
             print('cancel_button_import_a_new_system')
-            #self.dialog.hide()
-    
+            self.dialog.hide()
+            
     def on_button4_import_system_clicked (self, button):
-        print('ok_button_import_a_new_system')
+        #print('ok_button_import_a_new_system')
         systemtype = self.system_types_combo.get_active()
-        self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(self.files, systemtype)
+        
+        name =  self.builder.get_object('entry_system_name').get_text()
+
+        self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin = self.files, 
+                                                                                 systype = systemtype, 
+                                                                                 name = name)
         
         #if systemtype == 2:
         #    self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
         
-        print ('systemtype',systemtype, self.files )
-        #self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
-        name =  self.builder.get_object('entry_system_name').get_text()
-        
-        vismol_object = self.easyhybrid_main.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
+        #print ('systemtype',systemtype, self.files )
+        ##self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
+        #
+        #vismol_object = self.easyhybrid_main.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
         self.CloseWindow(button, data  = None)
 
 
 
 
+class EasyHybridGeometryOptimizatrionWindow(Gtk.Window):
+    """ Class doc """
+    
+    def OpenWindow (self):
+        """ Function doc """
+        if self.Visible  ==  False:
+            self.builder = Gtk.Builder()
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_geometry_optimization_window.glade'))
+            self.builder.connect_signals(self)
+            
+            self.window = self.builder.get_object('geometry_optimization_window')
+            self.window.set_title('Geometry Optmization Window')
+            self.window.set_keep_above(True
+            '''--------------------------------------------------------------------------------------------'''
+            self.method_store = Gtk.ListStore(str)
+            methods = [
+                "Conjugate Gradient" ,
+                "FIRE"               ,
+                "L-BFGS"             ,
+                "Steepest Descent"   ,
+                ]
+            for method in methods:
+                self.method_store.append([method])
+                print (method)
+
+            self.methods_combo = self.builder.get_object('combobox_geo_opt')
+            self.methods_combo.set_model(self.method_store)
+            self.methods_combo.connect("changed", self.on_name_combo_changed)
+            self.methods_combo.set_model(self.method_store)
+            
+            renderer_text = Gtk.CellRendererText()
+            self.methods_combo.pack_start(renderer_text, True)
+            self.methods_combo.add_attribute(renderer_text, "text", 0)
+            '''--------------------------------------------------------------------------------------------'''
+            self.methods_combo.set_active(0)
+            self.window.show_all()
+
+    def CloseWindow (self, button, data  = None):
+        """ Function doc """
+        self.window.destroy()
+        self.Visible    =  False
+    
+    def __init__(self, main = None):
+        """ Class initialiser """
+        self.easyhybrid_main     = main
+        self.Visible             =  False        
+        self.residue_liststore = Gtk.ListStore(str, str, str)
+
+
+    def on_name_combo_changed(self, widget):
+        """ Function doc """
+        print('eba')
+   
 
 class EasyHybridSetupQCModelWindow:
     """ Class doc """
@@ -338,7 +395,7 @@ class EasyHybridSetupQCModelWindow:
         #self.BackUpWindowData()
         self.window.destroy()
         self.Visible    =  False
-        print('self.Visible',self.Visible)
+        #print('self.Visible',self.Visible)
     
             #----------------------------------------------------------------
     def on_spian_button_change (self, widget):
@@ -353,18 +410,18 @@ class EasyHybridSetupQCModelWindow:
     
     def on_button_ok (self, button):
         """ Function doc """
-        print(button)
+        #print(button)
         #charge         = self.spinbutton_charge.get_value_as_int()
         #multiplicity   = self.spinbutton_multiplicity.get_value_as_int()
-        print('\n\ncharge'  , self.charge      )
-        print('multiplicity', self.multiplicity)
-        print('method_id'   , self.method_id   )
+        #print('\n\ncharge'  , self.charge      )
+        #print('multiplicity', self.multiplicity)
+        #print('method_id'   , self.method_id   )
         
         if self.builder.get_object('radio_button_restricted').get_active():
-            print("%s is active" % (self.builder.get_object('radio_button_restricted').get_label()))
+            #print("%s is active" % (self.builder.get_object('radio_button_restricted').get_label()))
             self.restricted = True
         else:
-            print("%s is not active" % (self.builder.get_object('radio_button_restricted').get_label()))
+            #print("%s is not active" % (self.builder.get_object('radio_button_restricted').get_label()))
             self.restricted = False
         
         
@@ -378,16 +435,30 @@ class EasyHybridSetupQCModelWindow:
                      }
         
         
-        #print(parameters)
+        ##print(parameters)
         
-        self.easyhybrid_main.pDynamo_session.define_a_new_qcmodel(parameters =parameters)
+        self.easyhybrid_main.pDynamo_session.define_a_new_QCModel(parameters =parameters)
         
         
         #self.easyhybrid_main.vismolSession.
         
         self.window.destroy()
         self.Visible    =  False
-   
+
+
+class EasyHybridDialogGeneric(Gtk.Dialog):
+    def __init__(self, parent, message):
+        super().__init__(title="New QC list", transient_for=parent, flags=0)
+        self.add_buttons(
+            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_YES, Gtk.ResponseType.YES
+        )
+        
+        label = Gtk.Label(label=message)
+        box = self.get_content_area()
+        box.add(label)
+        self.show_all()
+
+        
 class EasyHybridDialogSetQCAtoms(Gtk.Dialog):
     def __init__(self, parent):
         super().__init__(title="New QC list", transient_for=parent, flags=0)
@@ -419,59 +490,12 @@ class EasyHybridDialogEnergy(Gtk.Dialog):
         box.add(label)
         self.show_all()
 
+
+
+
+
 class EasyHybridMainWindow ( ):
     """ Class doc """
-
-    def run_dialog_set_QC_atoms (self, _type = None):
-        """ Function doc """
-        dialog = EasyHybridDialogSetQCAtoms(self.window)
-        response = dialog.run()
-
-        if response == Gtk.ResponseType.YES:
-            print("The OK button was clicked")
-            self.setup_QCModel_window.OpenWindow()
-        elif response == Gtk.ResponseType.CANCEL:
-            print("The Cancel button was clicked")
-
-        dialog.destroy()
-    
-    def gtk_load_files (self, button):
-        filename = self.filechooser.open()
-        
-        if filename:
-            files = {'coordinates': filename}
-            systemtype = 3
-            self.pDynamo_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
-           
-            print ('systemtype',systemtype,files )
-            name =  self.pDynamo_session.system.label
-            
-            vismol_object = self.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
-            
-            
-            
-            
-            #self.pDynamo_session.load_a_new_pDynamo_system (filein = filename)
-            #self.pDynamo_session.get_bonds_from_pDynamo_system()
-            #
-            #vismol_object = self.pDynamo_session.build_vismol_object_from_pDynamo_system (name = filename)
-            #vismol_object.set_model_matrix(self.vismolSession.glwidget.vm_widget.model_mat)
-            #vismol_object.active = True
-            #vismol_object._get_center_of_mass(frame = 0)
-            #self.vismolSession.add_vismol_object_to_vismol_session (rep = True, vismol_object = vismol_object, autocenter =  True)
-            
-            
-            #self.vismolSession.load(filename)
-            
-            #self.treeview.append()
-            #self.treeview.refresh_gtk_main_treeview()
-            #visObj = self.vismolSession.vismol_objects[-1]
-            #self.treeview.append(visObj)
-
-            #self.vismolSession.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
-        else:
-            pass
-
 
     def __init__ (self, vismolSession = None):
         """ Class initialiser """
@@ -543,7 +567,8 @@ class EasyHybridMainWindow ( ):
         self.ScrolledWindow_notebook_H1 = Gtk.ScrolledWindow()
         
         #self.Tree_notebook_H1           = Gtk.TreeView()
-        self.treeview = GtkMainTreeView(vismolSession)
+        #self.treeview = GtkMainTreeView(vismolSession)
+        self.treeview = GtkEasyHybridMainTreeView(self, vismolSession)
         
         #self.treeview  = self.gtkTreeViewObj.treeview
         self.ScrolledWindow_notebook_H1.add(self.treeview)
@@ -613,6 +638,8 @@ class EasyHybridMainWindow ( ):
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
         self.NewSystemWindow      = EasyHybridImportANewSystemWindow(main = self)
         self.setup_QCModel_window = EasyHybridSetupQCModelWindow(main = self)
+        self.geometry_optimization_window = EasyHybridGeometryOptimizatrionWindow(main = self)
+        
 
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
@@ -622,7 +649,30 @@ class EasyHybridMainWindow ( ):
     def run (self):
         """ Function doc """
         Gtk.main()
+    
+    def run_dialog_set_QC_atoms (self, _type = None):
+        """ Function doc """
+        dialog = EasyHybridDialogSetQCAtoms(self.window)
+        response = dialog.run()
 
+        if response == Gtk.ResponseType.YES:
+            #print("The OK button was clicked")
+            self.setup_QCModel_window.OpenWindow()
+        elif response == Gtk.ResponseType.CANCEL:
+            
+            print("The Cancel button was clicked")
+
+        dialog.destroy()
+    
+    def gtk_load_files (self, button):
+        filename = self.filechooser.open()
+        
+        if filename:
+            files = {'coordinates': filename}
+            systemtype = 3
+            self.pDynamo_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
+        else:
+            pass
 
     def on_main_toolbar_clicked (self, button):
         """ Function doc """
@@ -634,7 +684,7 @@ class EasyHybridMainWindow ( ):
         
         if button  == self.builder.get_object('toolbutton_energy'):
             energy = self.pDynamo_session.get_energy()
-            print(energy)
+            #print(energy)
             dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
             response = dialog.run()
             dialog.destroy()
@@ -646,7 +696,8 @@ class EasyHybridMainWindow ( ):
             #self.NewSystemWindow.OpenWindow()
             self.setup_QCModel_window.OpenWindow()
         if button  == self.builder.get_object('toolbutton_geometry_optimization'):
-            self.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry()
+            self.geometry_optimization_window.OpenWindow()
+            #self.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry()
             
             
     def menubar_togglebutton1 (self, button):
@@ -662,7 +713,7 @@ class EasyHybridMainWindow ( ):
             self.vismolSession._picking_selection_mode = False
             button.set_label('Viewing')
 
-        print("was turned", state)            
+        #print("was turned", state)            
     
     def test (self, widget):
         """ Function doc """
@@ -682,6 +733,108 @@ class EasyHybridMainWindow ( ):
 
 
 
+class GtkEasyHybridMainTreeView(Gtk.TreeView):
+    
+    def __init__ (self,  main, vismolSession):
+        Gtk.TreeView.__init__(self)
+        self.main_session  = main
+        self.vismolSession = vismolSession
+        self.treeview_menu = TreeViewMenu(self)
+        self.treestore     = self.vismolSession.treestore
+        #--------------------------------------------------------------
+
+        self.set_model(self.treestore)
+        
+
+        #------------------ r a d i o  ------------------
+        renderer_radio = Gtk.CellRendererToggle()
+        renderer_radio.set_radio(True)
+        renderer_radio.connect("toggled", self.on_cell_radio_toggled)
+        column_radio = Gtk.TreeViewColumn("active", renderer_radio,    active=2, visible = 4)
+        self.append_column(column_radio)
+        
+        #------------------  t e x t  ------------------
+        renderer_text = Gtk.CellRendererText()
+        column_text = Gtk.TreeViewColumn("Object", renderer_text, text=0)
+        self.append_column(column_text)  
+        
+        #----------------- t o g g l e ------------------
+        renderer_toggle = Gtk.CellRendererToggle()
+        renderer_toggle.connect("toggled", self.on_cell_toggled)
+        column_toggle = Gtk.TreeViewColumn("Visible", renderer_toggle, active=1, visible = 3)
+        self.append_column(column_toggle)
+
+        self.connect('button-release-event', self.on_treeview_Objects_button_release_event )
+
+
+    def on_cell_toggled(self, widget, path):
+        self.treestore[path][1] = not self.treestore[path][1]
+        #for i in path:
+        #print(self.treestore[path][1], path, self.treestore[path][0],self.treestore[path][-1] )
+
+
+        if self.treestore[path][1]:
+            obj_index = self.treestore[path][5]
+            self.vismolSession.enable_by_index(index = int(obj_index), dictionary = True)
+            self.vismolSession.glwidget.queue_draw()
+        else:
+            obj_index = self.treestore[path][5]
+            self.vismolSession.disable_by_index(index = int(obj_index), dictionary = True)
+            self.vismolSession.glwidget.queue_draw()
+
+  
+    def on_cell_radio_toggled(self, widget, path):
+        selected_path = Gtk.TreePath(path)
+        #print(self.treestore[path][1], path, self.treestore[path][0])
+        print(widget)
+        
+        for row in self.treestore:
+            row[2] = row.path == selected_path
+            if row[2]:
+                self.main_session.pDynamo_session.active_id = row[6]
+            else:
+                pass
+            
+            for i,j in enumerate(row):
+                print(i, j, 'row[2]', row[2], row[6],selected_path,row.path)#(row[2], row.path, selected_path)
+        
+        print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
+
+
+    def on_treeview_Objects_button_release_event(self, tree, event):
+        if event.button == 3:
+            selection     = self.get_selection()
+            model         = self.get_model()
+            (model, iter) = selection.get_selected()
+            if iter != None:
+                self.selectedID  = str(model.get_value(iter, 1))  # @+
+                self.selectedObj = str(model.get_value(iter, 2))
+    
+                self.treeview_menu.open_menu(self.selectedObj)
+                
+                #self.builder.get_object('TreeViewObjLabel').set_label('- ' +self.selectedObj+' -' )
+
+                #widget = self.builder.get_object('treeview_menu')
+                #widget.popup(None, None, None, None, event.button, event.time)
+                #print ('button == 3')
+
+
+        if event.button == 2:
+            selection     = tree.get_selection()
+            model         = tree.get_model()
+            (model, iter) = selection.get_selected()
+            #pymol_object = model.get_value(iter, 0)
+            #self.refresh_gtk_main_self.treeView()
+            print ('button == 2')
+            
+            self.selectedID  = int(model.get_value(iter, 1))  # @+
+            visObj = self.vismolSession.vismol_objects[self.selectedID]
+            self.vismolSession.center(visObj)
+
+        if event.button == 1:
+            print ('event.button == 1:')
+        
+        
 class GtkMainTreeView(Gtk.TreeView):
     """ Class doc """
     
@@ -850,7 +1003,7 @@ class TreeViewMenu:
     
     def f2 (self, visObj = None):
         """ Function doc """
-        print('f2')
+        #print('f2')
         #self._show_lines(visObj = self.vismol_objects[0], indices = [0,1,2,3,4] )
         self.treeview.vismolSession.go_to_atom_window.OpenWindow()
 
@@ -889,7 +1042,7 @@ class TreeViewMenu:
         #self.treeview.vismolSession.center(visObj)
 
         
-        print('f3')
+        #print('f3')
 
     def build_glmenu (self, menu_items = None):
         """ Function doc """

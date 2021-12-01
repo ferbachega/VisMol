@@ -109,7 +109,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="gtkbox_OPLS_folderchoose">
+                  <object class="GtkBox" id="gtkbox_OPLS_folderchooser">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">5</property>
@@ -126,7 +126,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkFileChooserButton">
+                      <object class="GtkFileChooserButton" id="OPLS_folderchooserbutton">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="action">select-folder</property>

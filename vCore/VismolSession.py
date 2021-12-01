@@ -112,7 +112,7 @@ class ShowHideVisMol:
                         atom.sticks = True        
                     else:         
                         atom.sticks = False 
-                        #print(atom.index, atom.name, atom.sticks)
+                        ##print(atom.index, atom.name, atom.sticks)
            
             #               A T O M S 
             else:
@@ -127,7 +127,7 @@ class ShowHideVisMol:
                             atom.nonbonded = False
                     #else:
                     #    atom.nonbonded = True
-                    print(atom.name, atom.nonbonded)
+                    #print(atom.name, atom.nonbonded)
                 
                 if _type == 'dots':
                     if show:
@@ -175,7 +175,7 @@ class ShowHideVisMol:
                         pass
                 
                 if _type == 'sticks':
-                    #print('bond.atom_i.sticks',bond.atom_i.sticks ,  bond.atom_j.sticks)
+                    ##print('bond.atom_i.sticks',bond.atom_i.sticks ,  bond.atom_j.sticks)
                     if bond.atom_i.sticks  and  bond.atom_j.sticks:
                         indexes_bonds.append(bond.atom_index_i)
                         indexes_bonds.append(bond.atom_index_j)
@@ -222,7 +222,7 @@ class ShowHideVisMol:
 
                 #indexes = np.array(indexes, dtype=np.uint32)
                 if vobject.representations[_type] is None:
-                    #print(vobject.representations[_type])
+                    ##print(vobject.representations[_type])
                     
                     rep  = DotsRepresentation    (name    = _type, 
                                                   active  = True, 
@@ -247,11 +247,11 @@ class ShowHideVisMol:
 
 
             if _type == 'nonbonded':
-                print('show nonbonded')
+                #print('show nonbonded')
                 indexes = []
                 
                 for atom in vobject.atoms:
-                    #print(atom.name, atom.index, atom.nonbonded)
+                    ##print(atom.name, atom.index, atom.nonbonded)
                     if atom.nonbonded:
                         index = vobject.atoms.index(atom)
                         indexes.append(index)
@@ -259,7 +259,7 @@ class ShowHideVisMol:
                         pass
 
                 if vobject.representations[_type] is None:
-                    #print(vobject.representations[_type])
+                    ##print(vobject.representations[_type])
                     rep  = NonBondedRepresentation    (name    = _type, 
                                                        active  = True, 
                                                        _type   = 'mol', 
@@ -296,7 +296,7 @@ class ShowHideVisMol:
 
 
                 if vobject.representations['spheres'] is None:
-                    #print(vobject.representations[_type])
+                    ##print(vobject.representations[_type])
                     if atoms2spheres !=[]:
                         rep  = SpheresRepresentation    (name    = _type, 
                                                          active  = True, 
@@ -311,7 +311,7 @@ class ShowHideVisMol:
                         vobject.representations[rep.name] = rep 
                     else:
                         pass
-                    #print(vobject.representations[_type])
+                    ##print(vobject.representations[_type])
                 else:
                     if atoms2spheres == []:
                         vobject.representations[_type].active = False
@@ -335,7 +335,7 @@ class ShowHideVisMol:
             pass
         else:
             selection = self.selections[self.current_selection]
-            print('\n\nselection', self.selections[self.current_selection],'\n\n')
+            #print('\n\nselection', self.selections[self.current_selection],'\n\n')
         
         self.change_attributes_for_selected_atoms (_type = _type , 
                                                    atoms = selection.selected_atoms,  
@@ -343,7 +343,7 @@ class ShowHideVisMol:
       
         
         for vobject in selection.selected_objects:
-            #print("Vobject.name:",vobject.name)
+            ##print("Vobject.name:",vobject.name)
 
             if _type in ['lines','sticks','ribbons']:
                 #----------------------------------------------------------------   
@@ -361,7 +361,7 @@ class ShowHideVisMol:
                             pass
                     
                     if _type == 'sticks':
-                        #print('bond.atom_i.sticks',bond.atom_i.sticks ,  bond.atom_j.sticks)
+                        ##print('bond.atom_i.sticks',bond.atom_i.sticks ,  bond.atom_j.sticks)
                         if bond.atom_i.sticks  and  bond.atom_j.sticks:
                             indexes_bonds.append(bond.atom_index_i)
                             indexes_bonds.append(bond.atom_index_j)
@@ -412,7 +412,7 @@ class ShowHideVisMol:
 
                     #indexes = np.array(indexes, dtype=np.uint32)
                     if vobject.representations[_type] is None:
-                        #print(vobject.representations[_type])
+                        ##print(vobject.representations[_type])
                         
                         rep  = DotsRepresentation    (name    = _type, 
                                                       active  = True, 
@@ -437,11 +437,11 @@ class ShowHideVisMol:
 
 
                 if _type == 'nonbonded':
-                    print('show nonbonded')
+                    #print('show nonbonded')
                     indexes = []
                     
                     for atom in vobject.atoms:
-                        #print(atom.name, atom.index, atom.nonbonded)
+                        ##print(atom.name, atom.index, atom.nonbonded)
                         if atom.nonbonded:
                             index = vobject.atoms.index(atom)
                             indexes.append(index)
@@ -449,7 +449,7 @@ class ShowHideVisMol:
                             pass
 
                     if vobject.representations[_type] is None:
-                        #print(vobject.representations[_type])
+                        ##print(vobject.representations[_type])
                         rep  = NonBondedRepresentation    (name    = _type, 
                                                            active  = True, 
                                                            _type   = 'mol', 
@@ -486,7 +486,7 @@ class ShowHideVisMol:
 
 
                     if vobject.representations['spheres'] is None:
-                        #print(vobject.representations[_type])
+                        ##print(vobject.representations[_type])
                         if atoms2spheres !=[]:
                             rep  = SpheresRepresentation    (name    = _type, 
                                                              active  = True, 
@@ -501,7 +501,7 @@ class ShowHideVisMol:
                             vobject.representations[rep.name] = rep 
                         else:
                             pass
-                        #print(vobject.representations[_type])
+                        ##print(vobject.representations[_type])
                     else:
                         if atoms2spheres == []:
                             vobject.representations[_type].active = False
@@ -532,7 +532,7 @@ class VisMolSession (ShowHideVisMol):
 
         self.vismol_objects     = [] # old Vobjects - include molecules
         self.vismol_objects_dic = {} # old Vobjects dic - include molecules
-        
+        self.vobj_counter       = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vismol_object_to_vismol_session.
         self.vismol_geometric_object     = []
         
         self.vismol_geometric_object_dic = {
@@ -654,7 +654,7 @@ class VisMolSession (ShowHideVisMol):
         
         #vismol_object = self.vismol_objects[-1]
         #
-        #print('  funcao teste 2  ', len(vismol_object.atoms))
+        ##print('  funcao teste 2  ', len(vismol_object.atoms))
         #
         #vismol_object._add_new_atom_to_vobj (name          = 'O',  
         #                                     index         =  3 ,
@@ -676,7 +676,7 @@ class VisMolSession (ShowHideVisMol):
         #        print (coord)
         #        #print (atom.pos)
         #        frame.append(coord)
-        #print('len', len(frame))
+        ##print('len', len(frame))
         #frame =    np.array(frame, dtype=np.float32)
         #vismol_object.frames = [frame]
         
@@ -701,11 +701,11 @@ class VisMolSession (ShowHideVisMol):
 
         #----------------------------------------------------------------------
         vismol_object0 = self.vismol_objects[0]
-        print('before',vismol_object0.index_bonds)
+        #print('before',vismol_object0.index_bonds)
 
         vismol_object0.index_bonds.append(0)
         vismol_object0.index_bonds.append(24)
-        print('after',vismol_object0.index_bonds)
+        #print('after',vismol_object0.index_bonds)
         vismol_object0.representations['lines'].define_new_indexes_to_VBO ( vismol_object0.index_bonds)
         #-----------------------------------------------------------------------
         
@@ -724,14 +724,14 @@ class VisMolSession (ShowHideVisMol):
         ##self.append_vismol_object_to_vismol_objects_listStore(self.vismol_objects[-1])
         #
         #from pprint import pprint
-        #pprint(vismol_object.chains)
+        #p#print(vismol_object.chains)
     
     def teste (self, teste = None):
         """ Function doc """
         from vModel.Atom              import Atom
         from vModel.Chain             import Chain
         from vModel.Residue           import Residue
-        print('  funcao teste   ')
+        #print('  funcao teste   ')
         vismol_object  = NewObj.create_empty_vismol_obj (infile = None, vismolSession = self, gridsize = 3)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         vismol_object.active = True
@@ -877,8 +877,8 @@ class VisMolSession (ShowHideVisMol):
         if visObj.c_alpha_bonds == [] or visObj.c_alpha_atoms == []:
             visObj.get_backbone_indexes()
         
-        for atom in visObj.c_alpha_atoms:
-            print(atom.index, atom.name, atom.bonds_indexes, atom.bonds)
+        #for atom in visObj.c_alpha_atoms:
+            #print(atom.index, atom.name, atom.bonds_indexes, atom.bonds)
         
 
         size = len(visObj.c_alpha_bonds)
@@ -933,42 +933,42 @@ class VisMolSession (ShowHideVisMol):
                 SS = None
                 
                 if 77.0 <= ti <= 101 and 30 <= ai <= 70:
-                    #print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'H', d2i, d3i, d4i, ti,  ai)
+                    ##print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'H', d2i, d3i, d4i, ti,  ai)
                     SS = 1
                 
                 if 110.0 <= ti <= 138 and -215 <= ai <= -125:
-                    #print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'S', d2i, d3i, d4i, ti,  ai)
+                    ##print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'S', d2i, d3i, d4i, ti,  ai)
                     SS = 2
                 
                 '''
                 if 5.0 <= d2i <= 6.0:
-                    #print('d2i', d2i)
+                    ##print('d2i', d2i)
                     
                     if 4.8 <= d3i <= 5.8:
-                        #print('d3i', d3i)
+                        ##print('d3i', d3i)
 
                         if 5.8 <= d4i <= 7.0:
-                            #print('d4i', d4i)
+                            ##print('d4i', d4i)
 
                             if 77.0 <= ti <= 101:
                                 
                                 if 30 <= ai <= 70:
-                                    print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'H', d2i, d3i, d4i, ti,  ai)
+                                    #print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'H', d2i, d3i, d4i, ti,  ai)
                                     SS = 'H'
           
                          
                 if 6.1 <= d2i <= 7.3:
-                    #print('d2i', d2i)
+                    ##print('d2i', d2i)
                     
                     if 9.0 <= d3i <= 10.8:
-                        #print('d3i', d3i)
+                        ##print('d3i', d3i)
 
                         if 11.3 <= d4i <= 13.5:
-                            #print('d4i', d4i)
+                            ##print('d4i', d4i)
 
                             if 110.0 <= ti <= 138:
                                 if -215 <= ai <= -125:
-                                    print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'S', d2i, d3i, d4i, ti,  ai)
+                                    #print(CA1.resi, CA1.name, CA1.resn, CA1.name, 'S', d2i, d3i, d4i, ti,  ai)
                                     SS = 'S'
                 '''
                 
@@ -976,7 +976,7 @@ class VisMolSession (ShowHideVisMol):
                     pass
                 else:
                     SS = 0 
-                print(CA1.resi, CA1.name, CA1.resn, CA1.name, SS, d2i, d3i, d4i, ti,  ai)
+                #print(CA1.resi, CA1.name, CA1.resn, CA1.name, SS, d2i, d3i, d4i, ti,  ai)
                 
                 SSE_list.append(SS)
                 
@@ -991,7 +991,7 @@ class VisMolSession (ShowHideVisMol):
                     block = [SS, CA1.resi-1, CA1.resi]
                 
             
-        print(SSE_list2)
+        #print(SSE_list2)
         return SSE_list2 
     
     
@@ -1050,7 +1050,7 @@ class VisMolSession (ShowHideVisMol):
 
             def menu_hide_lines (_):
                 """ Function doc """
-                print('hide')
+                #print('hide')
                 self.show_or_hide( _type = 'lines', show = False)
 
             def menu_show_sticks (_):
@@ -1088,13 +1088,14 @@ class VisMolSession (ShowHideVisMol):
             def set_as_qc_atoms (_):
                 """ Function doc """
                 selection         = self.selections[self.current_selection]
-                
-                self.main_session.pDynamo_session.selection_qc_table = []
+
+                pdmsys_active =   self.main_session.pDynamo_session.active_id
+                self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = []
                 
                 for atom in selection.selected_atoms:
-                    print(atom.index-1, atom.name, atom.resn)
-                    self.main_session.pDynamo_session.selection_qc_table.append(atom.index -1)
-                print('selection_qc',self.main_session.pDynamo_session.selection_qc_table )
+                    #print(atom.index-1, atom.name, atom.resn)
+                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'].append(atom.index -1)
+                #print('selection_qc',self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] )
                 self.main_session.run_dialog_set_QC_atoms()
 
             def set_as_free_atoms (_):
@@ -1104,11 +1105,13 @@ class VisMolSession (ShowHideVisMol):
                 # these are the new atoms to bet set as fixed
                 freelist = []                
                 for atom in selection.selected_atoms:
-                    print(atom.index-1, atom.name, atom.resn)
+                    #print(atom.index-1, atom.name, atom.resn)
                     freelist.append(atom.index -1)
                     atom.get_color()  
                 #----------------------------------------------
-                a = set(self.main_session.pDynamo_session.selection_fixed_table)
+                pdmsys_active =   self.main_session.pDynamo_session.active_id
+                #fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
+                a = set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
                 b = set(freelist)
                 
                 c = a - b
@@ -1116,10 +1119,10 @@ class VisMolSession (ShowHideVisMol):
                 print (a)
                 print (b)
                 #Combining with list that the already exists  
-                fixedlist =  set(self.main_session.pDynamo_session.selection_fixed_table) -set(freelist)
+                fixedlist =  set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(c) 
-                print (fixedlist)
+                print ('fixedlist',fixedlist)
                 #sending to pDynamo
                 refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
@@ -1133,16 +1136,18 @@ class VisMolSession (ShowHideVisMol):
                 # these are the new atoms to bet set as fixed
                 fixedlist = []                
                 for atom in selection.selected_atoms:
-                    print(atom.index-1, atom.name, atom.resn)
+                    #print(atom.index-1, atom.name, atom.resn)
                     fixedlist.append(atom.index -1)
-                #print('selection_free',fixedlist )
+                ##print('selection_free',fixedlist )
                 #----------------------------------------------
                 
-                #Combining with list that the already exists  
-                fixedlist = fixedlist + self.main_session.pDynamo_session.selection_fixed_table
+                #Combining with list that the already exists
+                pdmsys_active =   self.main_session.pDynamo_session.active_id
+                
+                fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(set(fixedlist)) 
-                
+                print ('fixedlist',fixedlist)
                 #sending to pDynamo
                 refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
@@ -1151,7 +1156,7 @@ class VisMolSession (ShowHideVisMol):
             
             def invert_selection (_):
                 """ Function doc """
-                print('self.selections[self.current_selection].invert_selection()')
+                #print('self.selections[self.current_selection].invert_selection()')
                 self.selections[self.current_selection].invert_selection()
             
             
@@ -1252,7 +1257,7 @@ class VisMolSession (ShowHideVisMol):
             
             def open_structure_data (_):
                 """ Function doc """
-                print('ebaaaa')
+                #print('ebaaaa')
                 self.filechooser   = FileChooser()
                 filename = self.filechooser.open()
                 self.load (filename, widget = None, autocenter = True)
@@ -1458,7 +1463,11 @@ class VisMolSession (ShowHideVisMol):
 
     def add_vismol_object_to_vismol_session (self, rep = True, vismol_object = None, autocenter =  True):
         """ Function doc """
+        vismol_object.index = self.vobj_counter
         self.vismol_objects.append(vismol_object)
+        self.vismol_objects_dic[self.vobj_counter] = vismol_object
+        self.vobj_counter += 1
+        
         self.append_vismol_object_to_vismol_objects_listStore(self.vismol_objects[-1])
         
         if rep:
@@ -1479,7 +1488,7 @@ class VisMolSession (ShowHideVisMol):
             self.vismol_objects[-1].representations[rep.name] = rep
         
             if autocenter:
-                print(self.vismol_objects[-1].mass_center)
+                #print(self.vismol_objects[-1].mass_center)
                 self.glwidget.vm_widget.center_on_coordinates(self.vismol_objects[-1], self.vismol_objects[-1].mass_center)
             else:
                 self.glwidget.vm_widget.queue_draw()
@@ -1526,10 +1535,10 @@ class VisMolSession (ShowHideVisMol):
         #self.append_vismol_object_to_vismol_objects_listStore(self.vismol_objects[-1])
         #
         #
-        ##print('bonds')
-        ##print(self.vismol_objects[-1].bonds)
-        ##print('index_bonds')
-        ##print(self.vismol_objects[-1].index_bonds)
+        ###print('bonds')
+        ###print(self.vismol_objects[-1].bonds)
+        ###print('index_bonds')
+        ###print(self.vismol_objects[-1].index_bonds)
         #
         #if rep1:
         #    #self.vismol_objects[-1].generate_indexesresentations (reps_list = self.indexes)
@@ -1593,19 +1602,19 @@ class VisMolSession (ShowHideVisMol):
         #    # after opening a new object, center the camera on this new object
         #    #self.calculate_secondary_structure(self.vismol_objects[-1])
         #    if autocenter:
-        #        print(self.vismol_objects[-1].mass_center)
+        #        #print(self.vismol_objects[-1].mass_center)
         #        self.glwidget.vm_widget.center_on_coordinates(self.vismol_objects[-1], self.vismol_objects[-1].mass_center)
         #    self.gtk_widgets_update ()
         #
         #    
         #    '''
-        #    print(self.vismol_objects[-1].c_alpha_atoms)
+        #    #print(self.vismol_objects[-1].c_alpha_atoms)
         #    self.vismol_objects[-1].get_backbone_indexes()
         #    
         #    
         #    
         #    for atom in self.vismol_objects[-1].c_alpha_atoms:
-        #        print(atom.index, atom.name, atom.resn, atom.resi, atom.coords())
+        #        #print(atom.index, atom.name, atom.resn, atom.resi, atom.coords())
         #    '''
         #    
 
@@ -1636,7 +1645,7 @@ class VisMolSession (ShowHideVisMol):
 
         if autocenter:
             visObj._get_center_of_mass(frame = 0)
-            print(visObj.mass_center)
+            #print(visObj.mass_center)
             self.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
 
             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'mol', visObj = visObj, glCore = self.glwidget.vm_widget)
@@ -1652,8 +1661,10 @@ class VisMolSession (ShowHideVisMol):
         """ This function adds new structures to "Vismol_Objects_ListStore". 
         The Vismol_Objects_ListStore is created in the VisMolGLWidget 
         file and does not depend on the maintreeview of the main window. """
-        if visObj.Type == 'molecule':
 
+
+        
+        if visObj.Type == 'molecule':
             i = self.vismol_objects.index(visObj)
             data = [visObj.active          , 
                     str(i)                 ,
@@ -1672,7 +1683,7 @@ class VisMolSession (ShowHideVisMol):
         
         
     def _load_netcdf4_coords_to_vismol_object(self, infile , visObj = None):
-        print( infile , visObj)
+        #print( infile , visObj)
         frames = AMBERFiles.load_netcdf4_file(infile, visObj)
         #visObj.frames+=frames
         #print ('system size: ', len(visObj.atoms),'frame size: ',len(frames[0])/3)
@@ -1681,7 +1692,7 @@ class VisMolSession (ShowHideVisMol):
             visObj.frames.append(frame) 
             
     def _load_crd_coords_to_vismol_object(self, infile , visObj = None):
-        print( infile , visObj)
+        #print( infile , visObj)
         frames = AMBERFiles.load_amber_crd_file(infile, visObj)
         print ('system size: ', len(visObj.atoms),'frame size: ',len(frames[0])/3)
         for frame in frames:
@@ -1701,27 +1712,27 @@ class VisMolSession (ShowHideVisMol):
         #print (visObj.mass_center)
 
     def _load_gro_file (self, infile):
-        #print(infile)
+        ##print(infile)
         vismol_object  = GROFiles.load_gro_file (infile = infile, vismolSession = self)     
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)        
     
     def _load_amber_top_file (self, infile):
-        #print(infile)
+        ##print(infile)
         vismol_object  = AMBERFiles.load_amber_topology_file (infile = infile, vismolSession = self)     
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)    
     def _load_psf_file (self, infile):
-        #print(infile)
+        ##print(infile)
         vismol_object  = PSFFiles.load_PSF_topology_file (infile = infile, vismolSession = self)     
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)    
     def _load_pdb_file (self, infile):
         """ Function doc """      
-        print(infile)
+        #print(infile)
         vismol_object  = PDBFiles.load_pdb_file (infile = infile, vismolSession = self)     
         
         #self._load_pdb_coords_to_vismol_object(infile , vismol_object)
@@ -1729,8 +1740,8 @@ class VisMolSession (ShowHideVisMol):
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)        
-        #print(vismol_object.atoms)
-        #print(vismol_object.atoms2)
+        ##print(vismol_object.atoms)
+        ##print(vismol_object.atoms2)
         '''
         vismol_object.atoms2             = atoms # this is a raw list : [0, 'C5', 0.77, array([ 0.295,  2.928, -0.407]), 1, 'GLC', ' ', 'C ', [1, 12, 8, 10], [0, 0, 0]]
         #-----------------------------------------------------------------
@@ -1770,7 +1781,7 @@ class VisMolSession (ShowHideVisMol):
 
     def _load_aux_file (self, infile):
         """ Function doc """
-        print(infile)
+        #print(infile)
         vismol_object  = AUXFiles.load_aux_file (infile = infile, vismolSession = self)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
@@ -1778,7 +1789,7 @@ class VisMolSession (ShowHideVisMol):
 
     def _load_mol2_file (self, infile):
         """ Function doc """
-        print(infile)
+        #print(infile)
         vismol_object  = MOL2Files.load_mol2_files (infile = infile, vismolSession = self)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
@@ -1787,7 +1798,7 @@ class VisMolSession (ShowHideVisMol):
     def _load_xyz_file (self, infile):
         """ Function doc """
         #load_xyz_file
-        print(infile)
+        #print(infile)
         vismol_object  = XYZFiles.load_xyz_file (infile = infile, vismolSession = self)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
@@ -1804,7 +1815,7 @@ class VisMolSession (ShowHideVisMol):
     
     def select (self, vismol_object =  None, indexes = [], sele = None):
         """ Function doc """
-        print('select',vismol_object, indexes, sele )
+        #print('select',vismol_object, indexes, sele )
         
         self.get_distance()
         
@@ -1813,7 +1824,7 @@ class VisMolSession (ShowHideVisMol):
         else:
             vismol_object = self.vismol_objects[-1]
             
-        #pprint(vismol_object.atoms_by_chains)
+        #p#print(vismol_object.atoms_by_chains)
         
         if sele == None:
             sele = self.current_selection
@@ -1851,15 +1862,37 @@ class VisMolSession (ShowHideVisMol):
         mass_center = self.vismol_objects[index].mass_center
         #self.glwidget.center_on_atom(mass_center)
 
-    def disable_by_index (self, index = 0):
-        self.vismol_objects[index].active = False
-        #self.glwidget.draw()
+    def disable_by_index (self, index = 0 , dictionary = False):
+        """When the variable "dictionary" is active, the function accesses 
+        a vismol object through the dictionary "self.vismol_objects_dic". 
+        Each vismol object has a unique access key (int), which, in 
+        easyhybrid, is generated in the method: add_vismol_object_to_vismol_session.
+
+        In the vismol interface the enable_by_index/disable_by_index methods
+        access the vismol objects by their position in the "self.vismol_objects" 
+        list (this is because when an object is deleted in the vismol 
+        interface, the treeview's liststore is rewritten) """
+        if dictionary:
+            self.vismol_objects_dic[index].active = False
+        else:
+            self.vismol_objects[index].active = False
         self.glwidget.queue_draw()
             
-    def enable_by_index (self, index = 0):
-        """ Function doc """
-        self.vismol_objects[index].active = True
-        #self.glwidget.draw()
+    def enable_by_index (self, index = 0, dictionary = False):
+        """When the variable "dictionary" is active, the function accesses 
+        a vismol object through the dictionary "self.vismol_objects_dic". 
+        Each vismol object has a unique access key (int), which, in 
+        easyhybrid, is generated in the method: add_vismol_object_to_vismol_session.
+
+        In the vismol interface the enable_by_index/disable_by_index methods
+        access the vismol objects by their position in the "self.vismol_objects" 
+        list (this is because when an object is deleted in the vismol 
+        interface, the treeview's liststore is rewritten) """
+        
+        if dictionary:
+            self.vismol_objects_dic[index].active = True
+        else:
+            self.vismol_objects[index].active = True
         self.glwidget.queue_draw()
     
     def edit_by_index(self, index = 0):
@@ -1917,7 +1950,7 @@ class VisMolSession (ShowHideVisMol):
             #print ('----------------------- > get_vobject_list ', Vobject.label)
             index = self.vismol_objects.index(Vobject)
             name = Vobject.label
-            #print( '\n label get_vobject_list:', name, index, len(Vobject.atoms) )
+            ##print( '\n label get_vobject_list:', name, index, len(Vobject.atoms) )
             Vobjects_dic[index] = name
     
         return Vobjects_dic
@@ -1929,13 +1962,13 @@ class VisMolSession (ShowHideVisMol):
         if self.selection_box_frane:
             self.selection_box_frane.change_sel_type_in_combobox(sel_type)
             
-        print(sel_type)
+        #print(sel_type)
         self.selections[self.current_selection]._selection_mode = sel_type
     
     '''
     def selection_function (self, pickedID):
         """ Function doc """
-        print('selection_function')
+        #print('selection_function')
 
         if pickedID is None:
             selected = None
@@ -1952,7 +1985,7 @@ class VisMolSession (ShowHideVisMol):
     
     def _selection_function (self, selected, _type = None):
         #"""     P I C K I N G     S E L E C T I O N S     """
-        print('_selection_function')
+        #print('_selection_function')
         if self._picking_selection_mode:
             self.picking_selections.selection_function_picking(selected)
         

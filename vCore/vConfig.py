@@ -625,7 +625,7 @@ class AtomTypes:
                 color = self.ATOM_TYPES['S'][1]
             else:
                 color = self.ATOM_TYPES['X'][1]
-                #print(name)
+                ##print(name)
         return color
 
     def get_cov_rad(self, name):

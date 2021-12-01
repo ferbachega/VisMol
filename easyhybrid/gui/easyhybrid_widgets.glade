@@ -78,7 +78,7 @@
                       <object class="GtkEntry" id="entry_system_name">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="text" translatable="yes">new_system</property>
+                        <property name="text" translatable="yes">new pDynamo system </property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
