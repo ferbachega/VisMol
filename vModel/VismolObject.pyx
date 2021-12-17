@@ -417,7 +417,7 @@ class VismolObject:
         if len(atoms) != 0:
             self._generate_atomtree_structure()
             self._generate_color_vectors()
-        else:
+        #else:
             #print("vismol_object's list of atoms is empty")
         
         
