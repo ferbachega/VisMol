@@ -244,6 +244,56 @@ NOTE: You can include more than one parameter file if needed.'''
         self.CloseWindow(button, data  = None)
 
 
+class EasyHybridImportTrajectoryWindow:
+    """ Class doc """
+    def OpenWindow (self):
+        """ Function doc """
+        if self.Visible  ==  False:
+            self.builder = Gtk.Builder()
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_import_trajectory_window.glade'))
+            self.builder.connect_signals(self)
+            
+            self.window = self.builder.get_object('import_trajectory_window')
+            self.window.set_title('Import Trajectory Window')
+            self.window.set_keep_above(True)
+            '''--------------------------------------------------------------------------------------------'''
+            #self.method_store = Gtk.ListStore(str)
+            #methods = [
+            #    "Conjugate Gradient" ,
+            #    "FIRE"               ,
+            #    "L-BFGS"             ,
+            #    "Steepest Descent"   ,
+            #    ]
+            #for method in methods:
+            #    self.method_store.append([method])
+            #    print (method)
+            #
+            #self.methods_combo = self.builder.get_object('combobox_geo_opt')
+            #self.methods_combo.set_model(self.method_store)
+            #self.methods_combo.connect("changed", self.on_name_combo_changed)
+            #self.methods_combo.set_model(self.method_store)
+            #
+            #renderer_text = Gtk.CellRendererText()
+            #self.methods_combo.pack_start(renderer_text, True)
+            #self.methods_combo.add_attribute(renderer_text, "text", 0)
+            #'''--------------------------------------------------------------------------------------------'''
+            self.combox = self.builder.get_object('combobox_trajectory_type')
+            self.combox.set_active(0)
+            self.window.show_all()
+            self.Visible  = True
+    
+    def CloseWindow (self, button, data  = None):
+        """ Function doc """
+        self.window.destroy()
+        self.Visible    =  False
+    
+    
+    def __init__(self, main = None):
+        """ Class initialiser """
+        self.easyhybrid_main     = main
+        self.Visible             =  False        
+
+
 
 
 class EasyHybridGeometryOptimizatrionWindow(Gtk.Window):
@@ -258,7 +308,7 @@ class EasyHybridGeometryOptimizatrionWindow(Gtk.Window):
             
             self.window = self.builder.get_object('geometry_optimization_window')
             self.window.set_title('Geometry Optmization Window')
-            self.window.set_keep_above(True
+            self.window.set_keep_above(True)
             '''--------------------------------------------------------------------------------------------'''
             self.method_store = Gtk.ListStore(str)
             methods = [
@@ -282,11 +332,13 @@ class EasyHybridGeometryOptimizatrionWindow(Gtk.Window):
             '''--------------------------------------------------------------------------------------------'''
             self.methods_combo.set_active(0)
             self.window.show_all()
-
+            self.Visible  = True
+    
     def CloseWindow (self, button, data  = None):
         """ Function doc """
         self.window.destroy()
         self.Visible    =  False
+    
     
     def __init__(self, main = None):
         """ Class initialiser """
@@ -295,9 +347,45 @@ class EasyHybridGeometryOptimizatrionWindow(Gtk.Window):
         self.residue_liststore = Gtk.ListStore(str, str, str)
 
 
+    def run_opt (self, button):
+        """ Function doc """
+        entry_name    = None
+        method_id     = self.builder.get_object('combobox_geo_opt').get_active()
+        traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
+        logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
+        max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
+        rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
+        entry_name    =        self.builder.get_object('entry_name').get_text()  
+        
+        save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
+        
+        if method_id == 0:
+            self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry(                  
+                                                                                           
+                                                                                           logFrequency         = logFrequency  , 
+                                                                                           
+                                                                                           maximumIterations    = max_int       , 
+                                                                                           
+                                                                                           rmsGradientTolerance = rmsd_tol      , 
+                                                                                           save_trajectory      = save_trajectory,
+                                                                                           trajectory_path      = None  
+                                                                                           )
+
+
+    
+        self.window.destroy()
+        self.Visible    =  False
+    
     def on_name_combo_changed(self, widget):
         """ Function doc """
-        print('eba')
+        print('eba - apagar')
+
+    
+    def _ (_):
+        """ Function doc """
+        
+   
+   
    
 
 class EasyHybridSetupQCModelWindow:
@@ -638,6 +726,7 @@ class EasyHybridMainWindow ( ):
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
         self.NewSystemWindow      = EasyHybridImportANewSystemWindow(main = self)
         self.setup_QCModel_window = EasyHybridSetupQCModelWindow(main = self)
+        self.import_trajectory_window = EasyHybridImportTrajectoryWindow(main = self)
         self.geometry_optimization_window = EasyHybridGeometryOptimizatrionWindow(main = self)
         
 
@@ -697,9 +786,14 @@ class EasyHybridMainWindow ( ):
             self.setup_QCModel_window.OpenWindow()
         if button  == self.builder.get_object('toolbutton_geometry_optimization'):
             self.geometry_optimization_window.OpenWindow()
+        
+        if button  == self.builder.get_object('run_md'):
+            #self.geometry_optimization_window.OpenWindow()
             #self.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry()
-            
-            
+            self.import_trajectory_window.OpenWindow()
+            #self.pDynamo_session.import_trajectory()
+    
+    
     def menubar_togglebutton1 (self, button):
         """ Function doc """
         if button.get_active():
@@ -753,9 +847,16 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         column_radio = Gtk.TreeViewColumn("active", renderer_radio,    active=2, visible = 4)
         self.append_column(column_radio)
         
+
+        
         #------------------  t e x t  ------------------
         renderer_text = Gtk.CellRendererText()
         column_text = Gtk.TreeViewColumn("Object", renderer_text, text=0)
+        self.append_column(column_text)  
+        
+        #------------------  t e x t  ------------------
+        renderer_text = Gtk.CellRendererText()
+        column_text = Gtk.TreeViewColumn("id", renderer_text, text=5,  visible = 6)
         self.append_column(column_text)  
         
         #----------------- t o g g l e ------------------
@@ -763,6 +864,8 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         renderer_toggle.connect("toggled", self.on_cell_toggled)
         column_toggle = Gtk.TreeViewColumn("Visible", renderer_toggle, active=1, visible = 3)
         self.append_column(column_toggle)
+
+
 
         self.connect('button-release-event', self.on_treeview_Objects_button_release_event )
 
@@ -775,48 +878,59 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
 
         if self.treestore[path][1]:
             obj_index = self.treestore[path][5]
+            #print('obj_index', obj_index)
             self.vismolSession.enable_by_index(index = int(obj_index), dictionary = True)
             self.vismolSession.glwidget.queue_draw()
         else:
             obj_index = self.treestore[path][5]
+            #print('obj_index else', obj_index)
+
             self.vismolSession.disable_by_index(index = int(obj_index), dictionary = True)
             self.vismolSession.glwidget.queue_draw()
 
   
     def on_cell_radio_toggled(self, widget, path):
         selected_path = Gtk.TreePath(path)
-        #print(self.treestore[path][1], path, self.treestore[path][0])
+        print('selected_path', selected_path)
         print(widget)
         
         for row in self.treestore:
             row[2] = row.path == selected_path
             if row[2]:
-                self.main_session.pDynamo_session.active_id = row[6]
+                self.main_session.pDynamo_session.active_id = row[7]
             else:
                 pass
             
             for i,j in enumerate(row):
-                print(i, j, 'row[2]', row[2], row[6],selected_path,row.path)#(row[2], row.path, selected_path)
+                print(i, j, 'row[2]', row[2], row[7],selected_path,row.path)#(row[2], row.path, selected_path)
         
         print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
 
 
     def on_treeview_Objects_button_release_event(self, tree, event):
         if event.button == 3:
+            
+            
             selection     = self.get_selection()
+            #print(selection)
             model         = self.get_model()
+            #print(model)
+            #print(self.treestore)
+            
             (model, iter) = selection.get_selected()
-            if iter != None:
-                self.selectedID  = str(model.get_value(iter, 1))  # @+
-                self.selectedObj = str(model.get_value(iter, 2))
-    
-                self.treeview_menu.open_menu(self.selectedObj)
-                
-                #self.builder.get_object('TreeViewObjLabel').set_label('- ' +self.selectedObj+' -' )
-
-                #widget = self.builder.get_object('treeview_menu')
-                #widget.popup(None, None, None, None, event.button, event.time)
-                #print ('button == 3')
+            
+            print (model[iter][:], iter)
+            #if iter != None:
+            #    self.selectedID  = str(model.get_value(iter, 1))  # @+
+            #    self.selectedObj = str(model.get_value(iter, 2))
+            #    print(self.selectedID, self.selectedObj)
+            #    self.treeview_menu.open_menu(self.selectedObj)
+            #    
+            #    #self.builder.get_object('TreeViewObjLabel').set_label('- ' +self.selectedObj+' -' )
+            #
+            #    #widget = self.builder.get_object('treeview_menu')
+            #    #widget.popup(None, None, None, None, event.button, event.time)
+            #    #print ('button == 3')
 
 
         if event.button == 2:

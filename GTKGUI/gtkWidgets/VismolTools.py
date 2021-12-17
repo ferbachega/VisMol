@@ -667,8 +667,8 @@ class VismolTrajectoryFrame(Gtk.Frame):
         #self.adjustment = Gtk.Adjustment(self.value, 1, 1, 0, 1, 0)
         self.adjustment     = Gtk.Adjustment(value         = self.value,
                                              lower         = 0,
-                                             upper         = 1,
-                                             step_increment= 0,
+                                             upper         = 100,
+                                             step_increment= 1,
                                              page_increment= 1,
                                              page_size     = 1)
         

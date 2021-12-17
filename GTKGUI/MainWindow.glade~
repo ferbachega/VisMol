@@ -65,7 +65,7 @@
   <object class="GtkImage" id="image25">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/icon_psi24x24.png</property>
+    <property name="pixbuf">icons/icon_QCSetup1.2.png</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
@@ -508,7 +508,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton">
+                  <object class="GtkToolButton" id="run_md">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">__glade_unnamed_9</property>

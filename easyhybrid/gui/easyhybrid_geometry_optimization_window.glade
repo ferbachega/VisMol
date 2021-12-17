@@ -4,6 +4,9 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="geometry_optimization_window">
     <property name="can_focus">False</property>
+    <signal name="delete-event" handler="CloseWindow" swapped="no"/>
+    <signal name="destroy" handler="CloseWindow" swapped="no"/>
+    <signal name="destroy-event" handler="CloseWindow" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -112,7 +115,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Frequence Log</property>
+                                <property name="label" translatable="yes">Log Frequence</property>
                                 <property name="xalign">1</property>
                               </object>
                               <packing>
@@ -145,7 +148,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry">
+                              <object class="GtkEntry" id="entry_traj_log">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="hexpand">True</property>
@@ -157,7 +160,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry">
+                              <object class="GtkEntry" id="entry_log_frequence">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="text" translatable="yes">5</property>
@@ -168,7 +171,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry">
+                              <object class="GtkEntry" id="entry_max_int">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="text" translatable="yes">600</property>
@@ -179,7 +182,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry">
+                              <object class="GtkEntry" id="entry_rmsd_tol">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="text" translatable="yes">0.1</property>
@@ -235,7 +238,7 @@
                         <property name="row_spacing">8</property>
                         <property name="column_spacing">10</property>
                         <child>
-                          <object class="GtkEntry">
+                          <object class="GtkEntry" id="entry_name">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hexpand">True</property>
@@ -249,35 +252,24 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">keywords</property>
-                            <property name="xalign">1</property>
+                            <property name="label" translatable="yes">Name</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">0</property>
                           </packing>
                         </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child type="label">
-                  <object class="GtkLabel">
+                  <object class="GtkCheckButton" id="checkbox_save_traj">
+                    <property name="label" translatable="yes">Save Trajectory</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Outputs</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                 </child>
               </object>
@@ -301,6 +293,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="CloseWindow" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -314,6 +307,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="run_opt" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>

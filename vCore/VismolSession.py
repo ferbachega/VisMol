@@ -1474,8 +1474,8 @@ class VisMolSession (ShowHideVisMol):
             #self.vismol_objects[-1].generate_indexesresentations (reps_list = self.indexes)
             #print (self.vismol_objects[-1].representations)
 
-            #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
-            #self.vismol_objects[-1].representations[rep.name] = rep
+            rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
+            self.vismol_objects[-1].representations[rep.name] = rep
             
             #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
             #self.vismol_objects[-1].representations[rep.name] = rep

@@ -66,6 +66,7 @@ class EasyHybridVismolSession(VisMolSession):
         vismol_object.index = self.vobj_counter
         self.vismol_objects.append(vismol_object)
         self.vismol_objects_dic[self.vobj_counter] = vismol_object
+        self.append_vismol_object_to_vismol_objects_listStore(vismol_object)
         self.vobj_counter += 1
         
         
@@ -86,9 +87,9 @@ class EasyHybridVismolSession(VisMolSession):
                 for i,j in enumerate(row):
                     print(i, j,)
             
-            self.parents[sys_index] = self.treestore.append(None, [pdynamo_session.systems[sys_index]['name'], False, True, False, True, vobj_index, vismol_object.eb_sys_id])
+            self.parents[sys_index] = self.treestore.append(None, [pdynamo_session.systems[sys_index]['name'], False, True, False, True, vobj_index, False, vismol_object.eb_sys_id, False])
 
-        self.treestore.append(self.parents[vismol_object.eb_sys_id], [vismol_object.name, True , False , True, False, vobj_index, vismol_object.eb_sys_id])
+        self.treestore.append(self.parents[vismol_object.eb_sys_id], [vismol_object.name, True , False , True, False, vobj_index, True, vismol_object.eb_sys_id, False])
 
         print('\n\n\n')
 
@@ -597,8 +598,10 @@ def main():
                                             bool, # radio  visible = 4
                                             
                                             int , # vismol_object index
+                                            bool, # is vismol_object index visible?
                                             int , # pdynamo system index 
-                                            
+                                            bool, # is pdynamo system index visible?
+
                                             
                                             )
                                             

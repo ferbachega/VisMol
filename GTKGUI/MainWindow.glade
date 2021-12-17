@@ -508,12 +508,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton">
+                  <object class="GtkToolButton" id="run_md">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">__glade_unnamed_9</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image13</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>

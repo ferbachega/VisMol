@@ -519,12 +519,71 @@ class pDynamoSession:
         else:
             pass
 
-    def run_ConjugateGradientMinimize_SystemGeometry (self):
+    def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1):
         """ Function doc """
-        ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system'] ,
-                                                   logFrequency                       =  1   ,
-                                                   maximumIterations                  = 40 ,
-                                                   rmsGradientTolerance               =  0.1 )
+        
+        traj   = '/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo'
+        frames = []
+        frame  = []
+        
+        for atom in self.systems[self.active_id]['system'].atoms.items:
+            xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom)
+            frame.append(xyz[0])
+            frame.append(xyz[1])
+            frame.append(xyz[2])
+        frame = np.array(frame, dtype=np.float32)
+        
+        
+        # . Define the trajectory.
+        trajectory = ImportTrajectory ( traj, self.systems[self.active_id]['system'] )
+        trajectory.ReadHeader ( )
+        
+        # . Loop over the frames in the trajectory.
+        phi = []
+        psi = []
+        while trajectory.RestoreOwnerData ( ):
+            frame = []
+            for atom in self.systems[self.active_id]['system'].atoms.items:
+                xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom)
+                frame.append(xyz[0])
+                frame.append(xyz[1])
+                frame.append(xyz[2])
+            frame = np.array(frame, dtype=np.float32)
+            #frames.append(frame)
+            self.systems[self.active_id]['vismol_object'].frames.append(frame)
+
+        # . Finish up.
+        trajectory.ReadFooter ( )
+        trajectory.Close ( )
+        #return frames
+        
+    def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
+                                                      logFrequency           , 
+                                                      maximumIterations      , 
+                                                      rmsGradientTolerance   , 
+                                                      save_trajectory = False,
+                                                      trajectory_path = None):
+        """ Function doc """
+        if save_trajectory:
+            
+            #if trajectory_path == None:
+                 
+            trajectory_path = '/home/fernando/Documents'
+            trajectory = ExportTrajectory ('/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo', self.systems[self.active_id]['system'] )
+
+            ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system']                        ,
+                                                       logFrequency                       = logFrequency             ,
+                                                       maximumIterations                  = maximumIterations        ,
+                                                       rmsGradientTolerance               = rmsGradientTolerance     ,
+                                                       trajectory                         = trajectory
+                                                       )        
+        
+        else:
+        
+            ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system']                        ,
+                                                       logFrequency                       = logFrequency             ,
+                                                       maximumIterations                  = maximumIterations        ,
+                                                       rmsGradientTolerance               = rmsGradientTolerance     )
         
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = False)
 
