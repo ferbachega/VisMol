@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+#Lembrar de colocar uma header nesse arquivo
+
+
+
 import glob, math, os, os.path
 
 from pBabel                    import *
@@ -29,8 +36,11 @@ from vModel import VismolObject
 import numpy as np
 
 
-
+#==========================================================================
 def get_atom_coords_from_pdynamo_system (system, atom, frame = None):
+    '''
+    Function to obtain the coordinates from a given atom of a System instance.
+    '''
 
     if frame:
         xyz = system.coordinates3[atom.index]
@@ -40,6 +50,7 @@ def get_atom_coords_from_pdynamo_system (system, atom, frame = None):
         frame.append(float(xyz[2]))
     return frame
 
+#==========================================================================
 def get_atom_info_from_pdynamo_atom_obj (atom, sequence):
     """
     It extracts the information from the atom object, 
@@ -48,8 +59,6 @@ def get_atom_info_from_pdynamo_atom_obj (atom, sequence):
     vismolObj
     
     """
-
-    
     
     entityLabel = atom.parent.parent.label
     useSegmentEntityLabels = False
@@ -81,14 +90,11 @@ def get_atom_info_from_pdynamo_atom_obj (atom, sequence):
     
     return [index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ]
 
-
+#==========================================================================
 def load_pDynamo_system_from_file (filein,  gridsize = 3, vismolSession =  None, frames_only = False):
     """ Function doc """
     at  =  vismolSession.vConfig.atom_types
     
-    
-    
-      
     system = ImportSystem (  filein  )
     system.BondsFromCoordinates3()
     #self.system.Summary ( )
@@ -160,10 +166,7 @@ def load_pDynamo_system_from_file (filein,  gridsize = 3, vismolSession =  None,
     return vismol_object
 
 
-
-
-
-
+#+====================================================================================
 class pDynamoSession:
     """ Class doc """
     
@@ -171,8 +174,6 @@ class pDynamoSession:
         """ Class initialiser """
         self.vismolSession  = vismolSession
         self.name           = 'pDynamo_session'
-        
-        
         
         self.nbModel_default         = NBModelCutOff.WithDefaults ( )
         self.fixed_color             = [0.5, 0.5, 0.5]
@@ -216,8 +217,6 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'fixed_table'   : []   ,
                    }
-        
-        
         
         
         if systype == 0:
