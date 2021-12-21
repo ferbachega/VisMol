@@ -1,7 +1,8 @@
 
 vertex_shader_sticks = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 
@@ -22,7 +23,8 @@ void main(){
 """
 geometry_shader_sticks = """
 #version 330
-
+precision highp float; 
+precision highp int;
 layout (lines) in;
 layout (triangle_strip, max_vertices = 40) out;
 
@@ -414,6 +416,8 @@ void main(){
 """
 fragment_shader_sticks = """
 #version 330
+precision highp float; 
+precision highp int;
 
 struct Light {
    vec3 position;
@@ -471,6 +475,8 @@ void main(){
 
 sel_vertex_shader_sticks = """
 #version 330
+precision highp float; 
+precision highp int;
 
 uniform mat4 model_mat;
 uniform mat4 view_mat;
@@ -801,6 +807,8 @@ void main(){
 """
 sel_fragment_shader_sticks = """
 #version 330
+precision highp float; 
+precision highp int;
 
 in vec3 frag_color;
 

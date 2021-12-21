@@ -111,7 +111,8 @@
 #
 vertex_shader_picking_dots = """
 #version 330
-
+precision highp float; 
+precision highp int;
 precision highp float;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
@@ -131,7 +132,8 @@ void main(){
 """
 fragment_shader_picking_dots = """
 #version 330
-
+precision highp float; 
+precision highp int;
 in vec3 index_color;
 
 void main(){

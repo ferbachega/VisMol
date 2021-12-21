@@ -86,7 +86,8 @@
 
 sel_vertex_shader_spheres = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 uniform mat4 proj_mat;
@@ -103,7 +104,8 @@ void main(){
 """
 sel_fragment_shader_spheres = """
 #version 330
-
+precision highp float; 
+precision highp int;
 in vec3 frag_color;
 
 out vec4 final_color;
@@ -119,7 +121,8 @@ void main(){
 
 v_shader_spheres_NOT_USED = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 uniform mat4 proj_mat;
@@ -145,7 +148,8 @@ void main(){
 """
 f_shader_spheres_NOT_USED = """
 #version 330
-
+precision highp float; 
+precision highp int;
 struct Light {
    vec3 position;
    //vec3 color;
@@ -188,7 +192,8 @@ void main(){
 
 vertex_shader_spheres_ON_THE_FLY_NOT_USED = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 
@@ -208,7 +213,8 @@ void main(){
 """
 geometry_shader_spheres_ON_THE_FLY_NOT_USED = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 proj_mat;
 
 layout (points) in;
@@ -383,7 +389,8 @@ void main(){
 """
 fragment_shader_spheres_ON_THE_FLY_NOT_USED = """
 #version 330
-
+precision highp float; 
+precision highp int;
 struct Light {
    vec3 position;
    //vec3 color;
@@ -440,7 +447,8 @@ void main(){
 
 v_s_glumpy = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 uniform mat4 projection_mat;
@@ -537,7 +545,8 @@ void main()
 
 vertex_shader_spheres = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 uniform mat4 proj_mat;
@@ -563,7 +572,8 @@ void main(){
 """
 fragment_shader_spheres = """
 #version 330
-
+precision highp float; 
+precision highp int;
 struct Light {
     vec3 position;
     //vec3 color;

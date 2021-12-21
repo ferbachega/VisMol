@@ -1,6 +1,7 @@
 vertex_shader_surface = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 
@@ -21,7 +22,8 @@ void main(){
 """
 geometry_shader_surface = """
 #version 330
-
+precision highp float; 
+precision highp int;
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
@@ -66,7 +68,8 @@ void main(){
 """
 fragment_shader_surface = """
 #version 330
-
+precision highp float; 
+precision highp int;
 struct Light {
    vec3 position;
    //vec3 color;
@@ -130,7 +133,8 @@ void main(){
 
 vertex_shader_lines = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 
@@ -147,7 +151,8 @@ void main(){
 """
 geometry_shader_lines = """
 #version 330
-
+precision highp float; 
+precision highp int;
 layout (lines) in;
 layout (line_strip, max_vertices = 4) out;
 
@@ -183,7 +188,8 @@ void main(){
 """
 fragment_shader_lines = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform vec4 fog_color;
 uniform float fog_start;
 uniform float fog_end;
@@ -210,7 +216,8 @@ void main(){
 
 sel_vertex_shader_lines = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 
@@ -227,7 +234,8 @@ void main(){
 """
 sel_geometry_shader_lines = """
 #version 330
-
+precision highp float; 
+precision highp int;
 layout (lines) in;
 layout (line_strip, max_vertices = 4) out;
 
@@ -258,7 +266,8 @@ void main(){
 """
 sel_fragment_shader_lines = """
 #version 330
-
+precision highp float; 
+precision highp int;
 in vec3 frag_color;
 
 out vec4 final_color;
@@ -274,6 +283,9 @@ void main(){
 
 
 vertex = """
+#version 330
+precision highp float; 
+precision highp int;
 uniform mat4 model_mat;
 uniform mat4 view_mat;
 uniform mat4 normal_mat;
@@ -293,6 +305,9 @@ void main()
 """
 
 fragment = """
+#version 330
+precision highp float; 
+precision highp int;
 varying vec3 v_normal;
 varying vec3 v_position;
 

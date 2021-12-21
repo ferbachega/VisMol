@@ -1,5 +1,7 @@
 vertex_shader_wires = """
 #version 330
+precision highp float; 
+precision highp int;
 
 uniform mat4 model_mat;
 uniform mat4 view_mat;
@@ -18,7 +20,8 @@ void main(){
 """
 geometry_shader_wires = """
 #version 330
-
+precision highp float; 
+precision highp int;
 layout (triangles) in;
 layout (line_strip, max_vertices = 3) out;
 
@@ -49,7 +52,8 @@ void main(){
 """
 fragment_shader_wires = """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform vec4 fog_color;
 uniform float fog_start;
 uniform float fog_end;

@@ -6,6 +6,8 @@ shaders = {
 
 			'vertex_shader' : """
 #version 330
+precision highp float; 
+precision highp int;
 
 uniform mat4 model_mat;
 uniform mat4 view_mat;
@@ -24,7 +26,8 @@ void main(){
 
 			'geometry_shader' : """
 #version 330
-
+precision highp float; 
+precision highp int;
 layout (lines) in;
 layout (line_strip, max_vertices = 4) out;
 
@@ -61,7 +64,8 @@ void main(){
 
 			'fragment_shader' : """
 #version 330
-
+precision highp float; 
+precision highp int;
 uniform vec4 fog_color;
 uniform float fog_start;
 uniform float fog_end;
