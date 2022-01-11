@@ -3,13 +3,19 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "depends": [],
-        "name": "sphere_representation",
+        "depends": [
+            "/usr/lib/python3/dist-packages/numpy/core/include/numpy/arrayobject.h",
+            "/usr/lib/python3/dist-packages/numpy/core/include/numpy/ufuncobject.h"
+        ],
+        "include_dirs": [
+            "/usr/lib/python3/dist-packages/numpy/core/include"
+        ],
+        "name": "glCore.sphere_representation",
         "sources": [
-            "sphere_representation.pyx"
+            "glCore/sphere_representation.pyx"
         ]
     },
-    "module_name": "sphere_representation"
+    "module_name": "glCore.sphere_representation"
 }
 END: Cython Metadata */
 
@@ -603,8 +609,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__sphere_representation
-#define __PYX_HAVE_API__sphere_representation
+#define __PYX_HAVE__glCore__sphere_representation
+#define __PYX_HAVE_API__glCore__sphere_representation
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -840,12 +846,12 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "sphere_representation.pyx",
+  "glCore/sphere_representation.pyx",
   "__init__.pxd",
   "type.pxd",
 };
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":776
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":776
  * # in Cython to enable them only on the right systems.
  * 
  * ctypedef npy_int8       int8_t             # <<<<<<<<<<<<<<
@@ -854,7 +860,7 @@ static const char *__pyx_f[] = {
  */
 typedef npy_int8 __pyx_t_5numpy_int8_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":777
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":777
  * 
  * ctypedef npy_int8       int8_t
  * ctypedef npy_int16      int16_t             # <<<<<<<<<<<<<<
@@ -863,7 +869,7 @@ typedef npy_int8 __pyx_t_5numpy_int8_t;
  */
 typedef npy_int16 __pyx_t_5numpy_int16_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":778
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":778
  * ctypedef npy_int8       int8_t
  * ctypedef npy_int16      int16_t
  * ctypedef npy_int32      int32_t             # <<<<<<<<<<<<<<
@@ -872,7 +878,7 @@ typedef npy_int16 __pyx_t_5numpy_int16_t;
  */
 typedef npy_int32 __pyx_t_5numpy_int32_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":779
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":779
  * ctypedef npy_int16      int16_t
  * ctypedef npy_int32      int32_t
  * ctypedef npy_int64      int64_t             # <<<<<<<<<<<<<<
@@ -881,7 +887,7 @@ typedef npy_int32 __pyx_t_5numpy_int32_t;
  */
 typedef npy_int64 __pyx_t_5numpy_int64_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":783
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":783
  * #ctypedef npy_int128     int128_t
  * 
  * ctypedef npy_uint8      uint8_t             # <<<<<<<<<<<<<<
@@ -890,7 +896,7 @@ typedef npy_int64 __pyx_t_5numpy_int64_t;
  */
 typedef npy_uint8 __pyx_t_5numpy_uint8_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":784
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":784
  * 
  * ctypedef npy_uint8      uint8_t
  * ctypedef npy_uint16     uint16_t             # <<<<<<<<<<<<<<
@@ -899,7 +905,7 @@ typedef npy_uint8 __pyx_t_5numpy_uint8_t;
  */
 typedef npy_uint16 __pyx_t_5numpy_uint16_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":785
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":785
  * ctypedef npy_uint8      uint8_t
  * ctypedef npy_uint16     uint16_t
  * ctypedef npy_uint32     uint32_t             # <<<<<<<<<<<<<<
@@ -908,7 +914,7 @@ typedef npy_uint16 __pyx_t_5numpy_uint16_t;
  */
 typedef npy_uint32 __pyx_t_5numpy_uint32_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":786
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":786
  * ctypedef npy_uint16     uint16_t
  * ctypedef npy_uint32     uint32_t
  * ctypedef npy_uint64     uint64_t             # <<<<<<<<<<<<<<
@@ -917,7 +923,7 @@ typedef npy_uint32 __pyx_t_5numpy_uint32_t;
  */
 typedef npy_uint64 __pyx_t_5numpy_uint64_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":790
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":790
  * #ctypedef npy_uint128    uint128_t
  * 
  * ctypedef npy_float32    float32_t             # <<<<<<<<<<<<<<
@@ -926,7 +932,7 @@ typedef npy_uint64 __pyx_t_5numpy_uint64_t;
  */
 typedef npy_float32 __pyx_t_5numpy_float32_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":791
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":791
  * 
  * ctypedef npy_float32    float32_t
  * ctypedef npy_float64    float64_t             # <<<<<<<<<<<<<<
@@ -935,7 +941,7 @@ typedef npy_float32 __pyx_t_5numpy_float32_t;
  */
 typedef npy_float64 __pyx_t_5numpy_float64_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":800
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":800
  * # The int types are mapped a bit surprising --
  * # numpy.int corresponds to 'l' and numpy.long to 'q'
  * ctypedef npy_long       int_t             # <<<<<<<<<<<<<<
@@ -944,7 +950,7 @@ typedef npy_float64 __pyx_t_5numpy_float64_t;
  */
 typedef npy_long __pyx_t_5numpy_int_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":801
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":801
  * # numpy.int corresponds to 'l' and numpy.long to 'q'
  * ctypedef npy_long       int_t
  * ctypedef npy_longlong   long_t             # <<<<<<<<<<<<<<
@@ -953,7 +959,7 @@ typedef npy_long __pyx_t_5numpy_int_t;
  */
 typedef npy_longlong __pyx_t_5numpy_long_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":802
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":802
  * ctypedef npy_long       int_t
  * ctypedef npy_longlong   long_t
  * ctypedef npy_longlong   longlong_t             # <<<<<<<<<<<<<<
@@ -962,7 +968,7 @@ typedef npy_longlong __pyx_t_5numpy_long_t;
  */
 typedef npy_longlong __pyx_t_5numpy_longlong_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":804
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":804
  * ctypedef npy_longlong   longlong_t
  * 
  * ctypedef npy_ulong      uint_t             # <<<<<<<<<<<<<<
@@ -971,7 +977,7 @@ typedef npy_longlong __pyx_t_5numpy_longlong_t;
  */
 typedef npy_ulong __pyx_t_5numpy_uint_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":805
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":805
  * 
  * ctypedef npy_ulong      uint_t
  * ctypedef npy_ulonglong  ulong_t             # <<<<<<<<<<<<<<
@@ -980,7 +986,7 @@ typedef npy_ulong __pyx_t_5numpy_uint_t;
  */
 typedef npy_ulonglong __pyx_t_5numpy_ulong_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":806
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":806
  * ctypedef npy_ulong      uint_t
  * ctypedef npy_ulonglong  ulong_t
  * ctypedef npy_ulonglong  ulonglong_t             # <<<<<<<<<<<<<<
@@ -989,7 +995,7 @@ typedef npy_ulonglong __pyx_t_5numpy_ulong_t;
  */
 typedef npy_ulonglong __pyx_t_5numpy_ulonglong_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":808
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":808
  * ctypedef npy_ulonglong  ulonglong_t
  * 
  * ctypedef npy_intp       intp_t             # <<<<<<<<<<<<<<
@@ -998,7 +1004,7 @@ typedef npy_ulonglong __pyx_t_5numpy_ulonglong_t;
  */
 typedef npy_intp __pyx_t_5numpy_intp_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":809
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":809
  * 
  * ctypedef npy_intp       intp_t
  * ctypedef npy_uintp      uintp_t             # <<<<<<<<<<<<<<
@@ -1007,7 +1013,7 @@ typedef npy_intp __pyx_t_5numpy_intp_t;
  */
 typedef npy_uintp __pyx_t_5numpy_uintp_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":811
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":811
  * ctypedef npy_uintp      uintp_t
  * 
  * ctypedef npy_double     float_t             # <<<<<<<<<<<<<<
@@ -1016,7 +1022,7 @@ typedef npy_uintp __pyx_t_5numpy_uintp_t;
  */
 typedef npy_double __pyx_t_5numpy_float_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":812
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":812
  * 
  * ctypedef npy_double     float_t
  * ctypedef npy_double     double_t             # <<<<<<<<<<<<<<
@@ -1025,7 +1031,7 @@ typedef npy_double __pyx_t_5numpy_float_t;
  */
 typedef npy_double __pyx_t_5numpy_double_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":813
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":813
  * ctypedef npy_double     float_t
  * ctypedef npy_double     double_t
  * ctypedef npy_longdouble longdouble_t             # <<<<<<<<<<<<<<
@@ -1060,7 +1066,7 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 
 /*--- Type declarations ---*/
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":815
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":815
  * ctypedef npy_longdouble longdouble_t
  * 
  * ctypedef npy_cfloat      cfloat_t             # <<<<<<<<<<<<<<
@@ -1069,7 +1075,7 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
  */
 typedef npy_cfloat __pyx_t_5numpy_cfloat_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":816
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":816
  * 
  * ctypedef npy_cfloat      cfloat_t
  * ctypedef npy_cdouble     cdouble_t             # <<<<<<<<<<<<<<
@@ -1078,7 +1084,7 @@ typedef npy_cfloat __pyx_t_5numpy_cfloat_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_cdouble_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":817
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":817
  * ctypedef npy_cfloat      cfloat_t
  * ctypedef npy_cdouble     cdouble_t
  * ctypedef npy_clongdouble clongdouble_t             # <<<<<<<<<<<<<<
@@ -1087,7 +1093,7 @@ typedef npy_cdouble __pyx_t_5numpy_cdouble_t;
  */
 typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":819
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":819
  * ctypedef npy_clongdouble clongdouble_t
  * 
  * ctypedef npy_cdouble     complex_t             # <<<<<<<<<<<<<<
@@ -1739,12 +1745,12 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
-/* Module declarations from 'sphere_representation' */
-#define __Pyx_MODULE_NAME "sphere_representation"
-extern int __pyx_module_is_main_sphere_representation;
-int __pyx_module_is_main_sphere_representation = 0;
+/* Module declarations from 'glCore.sphere_representation' */
+#define __Pyx_MODULE_NAME "glCore.sphere_representation"
+extern int __pyx_module_is_main_glCore__sphere_representation;
+int __pyx_module_is_main_glCore__sphere_representation = 0;
 
-/* Implementation of 'sphere_representation' */
+/* Implementation of 'glCore.sphere_representation' */
 static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ValueError;
@@ -1844,22 +1850,21 @@ static const char __pyx_k_glBindVertexArray[] = "glBindVertexArray";
 static const char __pyx_k_glGenVertexArrays[] = "glGenVertexArrays";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_create_sphere_data[] = "_create_sphere_data";
+static const char __pyx_k_glCore_sphere_data[] = "glCore.sphere_data";
 static const char __pyx_k_glGetAttribLocation[] = "glGetAttribLocation";
 static const char __pyx_k_make_sel_gl_spheres[] = "_make_sel_gl_spheres";
 static const char __pyx_k_sel_spheres_buffers[] = "sel_spheres_buffers";
 static const char __pyx_k_vertex_array_object[] = "vertex_array_object";
 static const char __pyx_k_SphereRepresentation[] = "SphereRepresentation";
 static const char __pyx_k_glVertexAttribPointer[] = "glVertexAttribPointer";
-static const char __pyx_k_sphere_representation[] = "sphere_representation";
 static const char __pyx_k_create_sel_sphere_data[] = "_create_sel_sphere_data";
 static const char __pyx_k_GL_ELEMENT_ARRAY_BUFFER[] = "GL_ELEMENT_ARRAY_BUFFER";
 static const char __pyx_k_create_frame_sphere_data[] = "_create_frame_sphere_data";
-static const char __pyx_k_VISMOL_glCore_sphere_data[] = "glCore.sphere_data";
 static const char __pyx_k_glEnableVertexAttribArray[] = "glEnableVertexAttribArray";
-static const char __pyx_k_sphere_representation_pyx[] = "sphere_representation.pyx";
 static const char __pyx_k_glDisableVertexAttribArray[] = "glDisableVertexAttribArray";
 static const char __pyx_k_SphereRepresentation___init[] = "SphereRepresentation.__init__";
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
+static const char __pyx_k_glCore_sphere_representation[] = "glCore.sphere_representation";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
@@ -1869,6 +1874,7 @@ static const char __pyx_k_SphereRepresentation__create_sph[] = "SphereRepresenta
 static const char __pyx_k_SphereRepresentation__make_gl_sp[] = "SphereRepresentation._make_gl_spheres";
 static const char __pyx_k_SphereRepresentation__make_sel_g[] = "SphereRepresentation._make_sel_gl_spheres";
 static const char __pyx_k_Time_used_creating_nucleus_verti[] = "Time used creating nucleus, vertices and colors:";
+static const char __pyx_k_glCore_sphere_representation_pyx[] = "glCore/sphere_representation.pyx";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
@@ -1895,7 +1901,6 @@ static PyObject *__pyx_n_s_SphereRepresentation__make_gl_sp;
 static PyObject *__pyx_n_s_SphereRepresentation__make_sel_g;
 static PyObject *__pyx_kp_s_Time_used_creating_nucleus_verti;
 static PyObject *__pyx_kp_s_Time_used_creating_nucleus_verti_2;
-static PyObject *__pyx_n_s_VISMOL_glCore_sphere_data;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s__8;
 static PyObject *__pyx_n_s_a;
@@ -1928,6 +1933,9 @@ static PyObject *__pyx_n_s_frame;
 static PyObject *__pyx_n_s_glBindBuffer;
 static PyObject *__pyx_n_s_glBindVertexArray;
 static PyObject *__pyx_n_s_glBufferData;
+static PyObject *__pyx_n_s_glCore_sphere_data;
+static PyObject *__pyx_n_s_glCore_sphere_representation;
+static PyObject *__pyx_kp_s_glCore_sphere_representation_pyx;
 static PyObject *__pyx_n_s_glDisableVertexAttribArray;
 static PyObject *__pyx_n_s_glEnableVertexAttribArray;
 static PyObject *__pyx_n_s_glGenBuffers;
@@ -1980,8 +1988,6 @@ static PyObject *__pyx_n_s_sel_spheres_vao;
 static PyObject *__pyx_n_s_sel_triangles;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_sphd;
-static PyObject *__pyx_n_s_sphere_representation;
-static PyObject *__pyx_kp_s_sphere_representation_pyx;
 static PyObject *__pyx_n_s_sphere_triangles;
 static PyObject *__pyx_n_s_sphere_vertices;
 static PyObject *__pyx_n_s_spheres_buffers;
@@ -1996,12 +2002,12 @@ static PyObject *__pyx_n_s_vert_color;
 static PyObject *__pyx_n_s_vert_coord;
 static PyObject *__pyx_n_s_vertex_array_object;
 static PyObject *__pyx_n_s_vismol_object;
-static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame, PyObject *__pyx_v_atoms, PyObject *__pyx_v_offset, PyObject *__pyx_v_elems, PyObject *__pyx_v_scale, PyObject *__pyx_v_level, PyObject *__pyx_v_qtty); /* proto */
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vismol_object, PyObject *__pyx_v_level, PyObject *__pyx_v_scale); /* proto */
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_create_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_level); /* proto */
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program); /* proto */
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program); /* proto */
+static PyObject *__pyx_pf_6glCore_21sphere_representation__create_frame_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame, PyObject *__pyx_v_atoms, PyObject *__pyx_v_offset, PyObject *__pyx_v_elems, PyObject *__pyx_v_scale, PyObject *__pyx_v_level, PyObject *__pyx_v_qtty); /* proto */
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vismol_object, PyObject *__pyx_v_level, PyObject *__pyx_v_scale); /* proto */
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_2_create_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_level); /* proto */
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_6_make_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program); /* proto */
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_float_0_0;
@@ -2032,7 +2038,7 @@ static PyObject *__pyx_codeobj__19;
 static PyObject *__pyx_codeobj__21;
 /* Late includes */
 
-/* "sphere_representation.pyx":35
+/* "glCore/sphere_representation.pyx":35
  * 
  * 
  * def _create_frame_sphere_data (frame, atoms ,offset, elems, scale, level, qtty ):             # <<<<<<<<<<<<<<
@@ -2041,10 +2047,10 @@ static PyObject *__pyx_codeobj__21;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_21sphere_representation_1_create_frame_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_21sphere_representation__create_frame_sphere_data[] = " Function doc ";
-static PyMethodDef __pyx_mdef_21sphere_representation_1_create_frame_sphere_data = {"_create_frame_sphere_data", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_21sphere_representation_1_create_frame_sphere_data, METH_VARARGS|METH_KEYWORDS, __pyx_doc_21sphere_representation__create_frame_sphere_data};
-static PyObject *__pyx_pw_21sphere_representation_1_create_frame_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6glCore_21sphere_representation_1_create_frame_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6glCore_21sphere_representation__create_frame_sphere_data[] = " Function doc ";
+static PyMethodDef __pyx_mdef_6glCore_21sphere_representation_1_create_frame_sphere_data = {"_create_frame_sphere_data", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6glCore_21sphere_representation_1_create_frame_sphere_data, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6glCore_21sphere_representation__create_frame_sphere_data};
+static PyObject *__pyx_pw_6glCore_21sphere_representation_1_create_frame_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_frame = 0;
   PyObject *__pyx_v_atoms = 0;
   PyObject *__pyx_v_offset = 0;
@@ -2147,18 +2153,18 @@ static PyObject *__pyx_pw_21sphere_representation_1_create_frame_sphere_data(PyO
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("_create_frame_sphere_data", 1, 7, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 35, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("sphere_representation._create_frame_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation._create_frame_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_21sphere_representation__create_frame_sphere_data(__pyx_self, __pyx_v_frame, __pyx_v_atoms, __pyx_v_offset, __pyx_v_elems, __pyx_v_scale, __pyx_v_level, __pyx_v_qtty);
+  __pyx_r = __pyx_pf_6glCore_21sphere_representation__create_frame_sphere_data(__pyx_self, __pyx_v_frame, __pyx_v_atoms, __pyx_v_offset, __pyx_v_elems, __pyx_v_scale, __pyx_v_level, __pyx_v_qtty);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame, PyObject *__pyx_v_atoms, PyObject *__pyx_v_offset, PyObject *__pyx_v_elems, PyObject *__pyx_v_scale, PyObject *__pyx_v_level, PyObject *__pyx_v_qtty) {
+static PyObject *__pyx_pf_6glCore_21sphere_representation__create_frame_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame, PyObject *__pyx_v_atoms, PyObject *__pyx_v_offset, PyObject *__pyx_v_elems, PyObject *__pyx_v_scale, PyObject *__pyx_v_level, PyObject *__pyx_v_qtty) {
   PyObject *__pyx_v_coords = NULL;
   PyObject *__pyx_v_centers = NULL;
   PyObject *__pyx_v_a = NULL;
@@ -2180,7 +2186,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   PyObject *__pyx_t_11 = NULL;
   __Pyx_RefNannySetupContext("_create_frame_sphere_data", 0);
 
-  /* "sphere_representation.pyx":37
+  /* "glCore/sphere_representation.pyx":37
  * def _create_frame_sphere_data (frame, atoms ,offset, elems, scale, level, qtty ):
  *     """ Function doc """
  *     coords  = sphd.sphere_vertices[level]*qtty             # <<<<<<<<<<<<<<
@@ -2201,7 +2207,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __pyx_v_coords = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":38
+  /* "glCore/sphere_representation.pyx":38
  *     """ Function doc """
  *     coords  = sphd.sphere_vertices[level]*qtty
  *     centers = sphd.sphere_vertices[level]*qtty             # <<<<<<<<<<<<<<
@@ -2222,7 +2228,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __pyx_v_centers = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":39
+  /* "glCore/sphere_representation.pyx":39
  *     coords  = sphd.sphere_vertices[level]*qtty
  *     centers = sphd.sphere_vertices[level]*qtty
  *     for a, atom in enumerate(atoms):             # <<<<<<<<<<<<<<
@@ -2280,7 +2286,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
     __pyx_t_1 = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "sphere_representation.pyx":40
+    /* "glCore/sphere_representation.pyx":40
  *     centers = sphd.sphere_vertices[level]*qtty
  *     for a, atom in enumerate(atoms):
  *         pos = atom.coords (frame)             # <<<<<<<<<<<<<<
@@ -2307,7 +2313,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
     __Pyx_XDECREF_SET(__pyx_v_pos, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "sphere_representation.pyx":41
+    /* "glCore/sphere_representation.pyx":41
  *     for a, atom in enumerate(atoms):
  *         pos = atom.coords (frame)
  *         centers[a*offset:(a+1)*offset] = [pos[0],pos[1],pos[2]]*elems             # <<<<<<<<<<<<<<
@@ -2348,7 +2354,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "sphere_representation.pyx":43
+    /* "glCore/sphere_representation.pyx":43
  *         centers[a*offset:(a+1)*offset] = [pos[0],pos[1],pos[2]]*elems
  * 
  *         for i in range(elems):             # <<<<<<<<<<<<<<
@@ -2400,7 +2406,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_8);
       __pyx_t_8 = 0;
 
-      /* "sphere_representation.pyx":44
+      /* "glCore/sphere_representation.pyx":44
  * 
  *         for i in range(elems):
  *             coords[a*offset+i*3]   *= atom.radius * scale             # <<<<<<<<<<<<<<
@@ -2430,7 +2436,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "sphere_representation.pyx":45
+      /* "glCore/sphere_representation.pyx":45
  *         for i in range(elems):
  *             coords[a*offset+i*3]   *= atom.radius * scale
  *             coords[a*offset+i*3+1] *= atom.radius * scale             # <<<<<<<<<<<<<<
@@ -2463,7 +2469,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "sphere_representation.pyx":46
+      /* "glCore/sphere_representation.pyx":46
  *             coords[a*offset+i*3]   *= atom.radius * scale
  *             coords[a*offset+i*3+1] *= atom.radius * scale
  *             coords[a*offset+i*3+2] *= atom.radius * scale             # <<<<<<<<<<<<<<
@@ -2496,7 +2502,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "sphere_representation.pyx":47
+      /* "glCore/sphere_representation.pyx":47
  *             coords[a*offset+i*3+1] *= atom.radius * scale
  *             coords[a*offset+i*3+2] *= atom.radius * scale
  *             coords[a*offset+i*3]   += pos[0]             # <<<<<<<<<<<<<<
@@ -2523,7 +2529,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-      /* "sphere_representation.pyx":48
+      /* "glCore/sphere_representation.pyx":48
  *             coords[a*offset+i*3+2] *= atom.radius * scale
  *             coords[a*offset+i*3]   += pos[0]
  *             coords[a*offset+i*3+1] += pos[1]             # <<<<<<<<<<<<<<
@@ -2553,7 +2559,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "sphere_representation.pyx":49
+      /* "glCore/sphere_representation.pyx":49
  *             coords[a*offset+i*3]   += pos[0]
  *             coords[a*offset+i*3+1] += pos[1]
  *             coords[a*offset+i*3+2] += pos[2]             # <<<<<<<<<<<<<<
@@ -2583,7 +2589,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "sphere_representation.pyx":43
+      /* "glCore/sphere_representation.pyx":43
  *         centers[a*offset:(a+1)*offset] = [pos[0],pos[1],pos[2]]*elems
  * 
  *         for i in range(elems):             # <<<<<<<<<<<<<<
@@ -2593,7 +2599,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "sphere_representation.pyx":39
+    /* "glCore/sphere_representation.pyx":39
  *     coords  = sphd.sphere_vertices[level]*qtty
  *     centers = sphd.sphere_vertices[level]*qtty
  *     for a, atom in enumerate(atoms):             # <<<<<<<<<<<<<<
@@ -2604,7 +2610,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":51
+  /* "glCore/sphere_representation.pyx":51
  *             coords[a*offset+i*3+2] += pos[2]
  * 
  *     coords  = np.array(coords, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -2638,7 +2644,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __Pyx_DECREF_SET(__pyx_v_coords, __pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":52
+  /* "glCore/sphere_representation.pyx":52
  * 
  *     coords  = np.array(coords, dtype=np.float32)
  *     centers = np.array(centers, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -2672,7 +2678,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __Pyx_DECREF_SET(__pyx_v_centers, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "sphere_representation.pyx":54
+  /* "glCore/sphere_representation.pyx":54
  *     centers = np.array(centers, dtype=np.float32)
  * 
  *     return coords, centers             # <<<<<<<<<<<<<<
@@ -2692,7 +2698,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __pyx_t_8 = 0;
   goto __pyx_L0;
 
-  /* "sphere_representation.pyx":35
+  /* "glCore/sphere_representation.pyx":35
  * 
  * 
  * def _create_frame_sphere_data (frame, atoms ,offset, elems, scale, level, qtty ):             # <<<<<<<<<<<<<<
@@ -2709,7 +2715,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("sphere_representation._create_frame_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation._create_frame_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_coords);
@@ -2723,7 +2729,7 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
   return __pyx_r;
 }
 
-/* "sphere_representation.pyx":78
+/* "glCore/sphere_representation.pyx":78
  *     """ Class doc """
  * 
  *     def __init__(self, vismol_object = None, level = 'level_0', scale = 1.0):             # <<<<<<<<<<<<<<
@@ -2732,10 +2738,10 @@ static PyObject *__pyx_pf_21sphere_representation__create_frame_sphere_data(CYTH
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_21sphere_representation_20SphereRepresentation___init__[] = " Class initialiser ";
-static PyMethodDef __pyx_mdef_21sphere_representation_20SphereRepresentation_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_21sphere_representation_20SphereRepresentation_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_21sphere_representation_20SphereRepresentation___init__};
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation___init__[] = " Class initialiser ";
+static PyMethodDef __pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation___init__};
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_vismol_object = 0;
   PyObject *__pyx_v_level = 0;
@@ -2813,23 +2819,23 @@ static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_1__init
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 78, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_21sphere_representation_20SphereRepresentation___init__(__pyx_self, __pyx_v_self, __pyx_v_vismol_object, __pyx_v_level, __pyx_v_scale);
+  __pyx_r = __pyx_pf_6glCore_21sphere_representation_20SphereRepresentation___init__(__pyx_self, __pyx_v_self, __pyx_v_vismol_object, __pyx_v_level, __pyx_v_scale);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vismol_object, PyObject *__pyx_v_level, PyObject *__pyx_v_scale) {
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vismol_object, PyObject *__pyx_v_level, PyObject *__pyx_v_scale) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "sphere_representation.pyx":80
+  /* "glCore/sphere_representation.pyx":80
  *     def __init__(self, vismol_object = None, level = 'level_0', scale = 1.0):
  *         """ Class initialiser """
  *         self.vismol_object = vismol_object             # <<<<<<<<<<<<<<
@@ -2838,7 +2844,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vismol_object, __pyx_v_vismol_object) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":81
+  /* "glCore/sphere_representation.pyx":81
  *         """ Class initialiser """
  *         self.vismol_object = vismol_object
  *         self.level = level             # <<<<<<<<<<<<<<
@@ -2847,7 +2853,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_level, __pyx_v_level) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":82
+  /* "glCore/sphere_representation.pyx":82
  *         self.vismol_object = vismol_object
  *         self.level = level
  *         self.scale = scale             # <<<<<<<<<<<<<<
@@ -2856,7 +2862,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_scale, __pyx_v_scale) < 0) __PYX_ERR(0, 82, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":83
+  /* "glCore/sphere_representation.pyx":83
  *         self.level = level
  *         self.scale = scale
  *         self.number_of_frames = 0             # <<<<<<<<<<<<<<
@@ -2865,7 +2871,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_number_of_frames, __pyx_int_0) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":84
+  /* "glCore/sphere_representation.pyx":84
  *         self.scale = scale
  *         self.number_of_frames = 0
  *         self.coords = None             # <<<<<<<<<<<<<<
@@ -2874,7 +2880,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_coords, Py_None) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":85
+  /* "glCore/sphere_representation.pyx":85
  *         self.number_of_frames = 0
  *         self.coords = None
  *         self.colors = None             # <<<<<<<<<<<<<<
@@ -2883,7 +2889,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, Py_None) < 0) __PYX_ERR(0, 85, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":86
+  /* "glCore/sphere_representation.pyx":86
  *         self.coords = None
  *         self.colors = None
  *         self.centers = None             # <<<<<<<<<<<<<<
@@ -2892,7 +2898,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_centers, Py_None) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":87
+  /* "glCore/sphere_representation.pyx":87
  *         self.colors = None
  *         self.centers = None
  *         self.indices = None             # <<<<<<<<<<<<<<
@@ -2901,7 +2907,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_indices, Py_None) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":78
+  /* "glCore/sphere_representation.pyx":78
  *     """ Class doc """
  * 
  *     def __init__(self, vismol_object = None, level = 'level_0', scale = 1.0):             # <<<<<<<<<<<<<<
@@ -2913,7 +2919,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2921,7 +2927,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
   return __pyx_r;
 }
 
-/* "sphere_representation.pyx":89
+/* "glCore/sphere_representation.pyx":89
  *         self.indices = None
  * 
  *     def _create_sphere_data(self):             # <<<<<<<<<<<<<<
@@ -2930,21 +2936,21 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation___init_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_3_create_sphere_data(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_21sphere_representation_20SphereRepresentation_2_create_sphere_data[] = " Function doc ";
-static PyMethodDef __pyx_mdef_21sphere_representation_20SphereRepresentation_3_create_sphere_data = {"_create_sphere_data", (PyCFunction)__pyx_pw_21sphere_representation_20SphereRepresentation_3_create_sphere_data, METH_O, __pyx_doc_21sphere_representation_20SphereRepresentation_2_create_sphere_data};
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_3_create_sphere_data(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_3_create_sphere_data(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_2_create_sphere_data[] = " Function doc ";
+static PyMethodDef __pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_3_create_sphere_data = {"_create_sphere_data", (PyCFunction)__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_3_create_sphere_data, METH_O, __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_2_create_sphere_data};
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_3_create_sphere_data(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_create_sphere_data (wrapper)", 0);
-  __pyx_r = __pyx_pf_21sphere_representation_20SphereRepresentation_2_create_sphere_data(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_2_create_sphere_data(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_create_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_2_create_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_init = NULL;
   Py_ssize_t __pyx_v_a;
   Py_ssize_t __pyx_v_i;
@@ -2976,7 +2982,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   Py_ssize_t __pyx_t_12;
   __Pyx_RefNannySetupContext("_create_sphere_data", 0);
 
-  /* "sphere_representation.pyx":91
+  /* "glCore/sphere_representation.pyx":91
  *     def _create_sphere_data(self):
  *         """ Function doc """
  *         init = time.time()             # <<<<<<<<<<<<<<
@@ -3006,7 +3012,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_init = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":93
+  /* "glCore/sphere_representation.pyx":93
  *         init = time.time()
  *         cdef Py_ssize_t a, i, qtty, elems, offset, inds_e
  *         qtty = int(len(self.vismol_object.atoms))             # <<<<<<<<<<<<<<
@@ -3022,7 +3028,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_qtty = __pyx_t_4;
 
-  /* "sphere_representation.pyx":94
+  /* "glCore/sphere_representation.pyx":94
  *         cdef Py_ssize_t a, i, qtty, elems, offset, inds_e
  *         qtty = int(len(self.vismol_object.atoms))
  *         nucleus = [0.0, 0.0, 0.0]*qtty             # <<<<<<<<<<<<<<
@@ -3047,7 +3053,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_nucleus = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":95
+  /* "glCore/sphere_representation.pyx":95
  *         qtty = int(len(self.vismol_object.atoms))
  *         nucleus = [0.0, 0.0, 0.0]*qtty
  *         colores = [0.0, 0.0, 0.0]*qtty             # <<<<<<<<<<<<<<
@@ -3072,7 +3078,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_colores = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":96
+  /* "glCore/sphere_representation.pyx":96
  *         nucleus = [0.0, 0.0, 0.0]*qtty
  *         colores = [0.0, 0.0, 0.0]*qtty
  *         coords = sphd.sphere_vertices[self.level]*qtty             # <<<<<<<<<<<<<<
@@ -3099,7 +3105,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_coords = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":97
+  /* "glCore/sphere_representation.pyx":97
  *         colores = [0.0, 0.0, 0.0]*qtty
  *         coords = sphd.sphere_vertices[self.level]*qtty
  *         centers = sphd.sphere_vertices[self.level]*qtty             # <<<<<<<<<<<<<<
@@ -3126,7 +3132,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_centers = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":98
+  /* "glCore/sphere_representation.pyx":98
  *         coords = sphd.sphere_vertices[self.level]*qtty
  *         centers = sphd.sphere_vertices[self.level]*qtty
  *         colors = sphd.sphere_vertices[self.level]*qtty             # <<<<<<<<<<<<<<
@@ -3153,7 +3159,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_colors = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":99
+  /* "glCore/sphere_representation.pyx":99
  *         centers = sphd.sphere_vertices[self.level]*qtty
  *         colors = sphd.sphere_vertices[self.level]*qtty
  *         indices = np.array(sphd.sphere_triangles[self.level]*qtty, dtype=np.uint32)             # <<<<<<<<<<<<<<
@@ -3204,7 +3210,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_indices = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":100
+  /* "glCore/sphere_representation.pyx":100
  *         colors = sphd.sphere_vertices[self.level]*qtty
  *         indices = np.array(sphd.sphere_triangles[self.level]*qtty, dtype=np.uint32)
  *         elems = int(len(sphd.sphere_vertices[self.level])/3)             # <<<<<<<<<<<<<<
@@ -3226,7 +3232,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_elems = __Pyx_div_Py_ssize_t(__pyx_t_4, 3);
 
-  /* "sphere_representation.pyx":101
+  /* "glCore/sphere_representation.pyx":101
  *         indices = np.array(sphd.sphere_triangles[self.level]*qtty, dtype=np.uint32)
  *         elems = int(len(sphd.sphere_vertices[self.level])/3)
  *         offset = int(len(sphd.sphere_vertices[self.level]))             # <<<<<<<<<<<<<<
@@ -3248,7 +3254,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_offset = __pyx_t_4;
 
-  /* "sphere_representation.pyx":102
+  /* "glCore/sphere_representation.pyx":102
  *         elems = int(len(sphd.sphere_vertices[self.level])/3)
  *         offset = int(len(sphd.sphere_vertices[self.level]))
  *         inds_e = int(len(sphd.sphere_triangles[self.level]))             # <<<<<<<<<<<<<<
@@ -3270,7 +3276,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_inds_e = __pyx_t_4;
 
-  /* "sphere_representation.pyx":103
+  /* "glCore/sphere_representation.pyx":103
  *         offset = int(len(sphd.sphere_vertices[self.level]))
  *         inds_e = int(len(sphd.sphere_triangles[self.level]))
  *         for a,atom in enumerate(self.vismol_object.atoms):             # <<<<<<<<<<<<<<
@@ -3328,7 +3334,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
     __pyx_v_a = __pyx_t_4;
     __pyx_t_4 = (__pyx_t_4 + 1);
 
-    /* "sphere_representation.pyx":104
+    /* "glCore/sphere_representation.pyx":104
  *         inds_e = int(len(sphd.sphere_triangles[self.level]))
  *         for a,atom in enumerate(self.vismol_object.atoms):
  *             colors[a*offset:(a+1)*offset] = [atom.color[0],atom.color[1],atom.color[2]]*elems             # <<<<<<<<<<<<<<
@@ -3371,7 +3377,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
     if (__Pyx_PyObject_SetSlice(__pyx_v_colors, __pyx_t_2, (__pyx_v_a * __pyx_v_offset), ((__pyx_v_a + 1) * __pyx_v_offset), NULL, NULL, NULL, 1, 1, 1) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "sphere_representation.pyx":105
+    /* "glCore/sphere_representation.pyx":105
  *         for a,atom in enumerate(self.vismol_object.atoms):
  *             colors[a*offset:(a+1)*offset] = [atom.color[0],atom.color[1],atom.color[2]]*elems
  *             centers[a*offset:(a+1)*offset] = [atom.pos[0],atom.pos[1],atom.pos[2]]*elems             # <<<<<<<<<<<<<<
@@ -3414,7 +3420,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
     if (__Pyx_PyObject_SetSlice(__pyx_v_centers, __pyx_t_2, (__pyx_v_a * __pyx_v_offset), ((__pyx_v_a + 1) * __pyx_v_offset), NULL, NULL, NULL, 1, 1, 1) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "sphere_representation.pyx":106
+    /* "glCore/sphere_representation.pyx":106
  *             colors[a*offset:(a+1)*offset] = [atom.color[0],atom.color[1],atom.color[2]]*elems
  *             centers[a*offset:(a+1)*offset] = [atom.pos[0],atom.pos[1],atom.pos[2]]*elems
  *             for i in range(elems):             # <<<<<<<<<<<<<<
@@ -3426,7 +3432,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_i = __pyx_t_11;
 
-      /* "sphere_representation.pyx":107
+      /* "glCore/sphere_representation.pyx":107
  *             centers[a*offset:(a+1)*offset] = [atom.pos[0],atom.pos[1],atom.pos[2]]*elems
  *             for i in range(elems):
  *                 coords[a*offset+i*3] *= atom.radius * self.scale             # <<<<<<<<<<<<<<
@@ -3451,7 +3457,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_3, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "sphere_representation.pyx":108
+      /* "glCore/sphere_representation.pyx":108
  *             for i in range(elems):
  *                 coords[a*offset+i*3] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+1] *= atom.radius * self.scale             # <<<<<<<<<<<<<<
@@ -3476,7 +3482,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_2, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "sphere_representation.pyx":109
+      /* "glCore/sphere_representation.pyx":109
  *                 coords[a*offset+i*3] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+1] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+2] *= atom.radius * self.scale             # <<<<<<<<<<<<<<
@@ -3501,7 +3507,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_3, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "sphere_representation.pyx":110
+      /* "glCore/sphere_representation.pyx":110
  *                 coords[a*offset+i*3+1] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+2] *= atom.radius * self.scale
  *                 coords[a*offset+i*3] += atom.pos[0]             # <<<<<<<<<<<<<<
@@ -3523,7 +3529,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_5, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "sphere_representation.pyx":111
+      /* "glCore/sphere_representation.pyx":111
  *                 coords[a*offset+i*3+2] *= atom.radius * self.scale
  *                 coords[a*offset+i*3] += atom.pos[0]
  *                 coords[a*offset+i*3+1] += atom.pos[1]             # <<<<<<<<<<<<<<
@@ -3545,7 +3551,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_2, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "sphere_representation.pyx":112
+      /* "glCore/sphere_representation.pyx":112
  *                 coords[a*offset+i*3] += atom.pos[0]
  *                 coords[a*offset+i*3+1] += atom.pos[1]
  *                 coords[a*offset+i*3+2] += atom.pos[2]             # <<<<<<<<<<<<<<
@@ -3568,7 +3574,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
 
-    /* "sphere_representation.pyx":113
+    /* "glCore/sphere_representation.pyx":113
  *                 coords[a*offset+i*3+1] += atom.pos[1]
  *                 coords[a*offset+i*3+2] += atom.pos[2]
  *             indices[a*inds_e:(a+1)*inds_e] += a*elems             # <<<<<<<<<<<<<<
@@ -3595,7 +3601,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "sphere_representation.pyx":103
+    /* "glCore/sphere_representation.pyx":103
  *         offset = int(len(sphd.sphere_vertices[self.level]))
  *         inds_e = int(len(sphd.sphere_triangles[self.level]))
  *         for a,atom in enumerate(self.vismol_object.atoms):             # <<<<<<<<<<<<<<
@@ -3605,7 +3611,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":114
+  /* "glCore/sphere_representation.pyx":114
  *                 coords[a*offset+i*3+2] += atom.pos[2]
  *             indices[a*inds_e:(a+1)*inds_e] += a*elems
  *         end = time.time()             # <<<<<<<<<<<<<<
@@ -3635,7 +3641,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_v_end = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":115
+  /* "glCore/sphere_representation.pyx":115
  *             indices[a*inds_e:(a+1)*inds_e] += a*elems
  *         end = time.time()
  *         print('Time used creating nucleus, vertices and colors:', end-init)             # <<<<<<<<<<<<<<
@@ -3655,7 +3661,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":116
+  /* "glCore/sphere_representation.pyx":116
  *         end = time.time()
  *         print('Time used creating nucleus, vertices and colors:', end-init)
  *         self.coords = np.array(coords, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -3689,7 +3695,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_coords, __pyx_t_5) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "sphere_representation.pyx":117
+  /* "glCore/sphere_representation.pyx":117
  *         print('Time used creating nucleus, vertices and colors:', end-init)
  *         self.coords = np.array(coords, dtype=np.float32)
  *         self.centers = np.array(centers, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -3723,7 +3729,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_centers, __pyx_t_3) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":118
+  /* "glCore/sphere_representation.pyx":118
  *         self.coords = np.array(coords, dtype=np.float32)
  *         self.centers = np.array(centers, dtype=np.float32)
  *         self.colors = np.array(colors, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -3757,7 +3763,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_6) < 0) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":119
+  /* "glCore/sphere_representation.pyx":119
  *         self.centers = np.array(centers, dtype=np.float32)
  *         self.colors = np.array(colors, dtype=np.float32)
  *         self.indices = indices             # <<<<<<<<<<<<<<
@@ -3766,7 +3772,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_indices, __pyx_v_indices) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":120
+  /* "glCore/sphere_representation.pyx":120
  *         self.colors = np.array(colors, dtype=np.float32)
  *         self.indices = indices
  *         return True             # <<<<<<<<<<<<<<
@@ -3778,7 +3784,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "sphere_representation.pyx":89
+  /* "glCore/sphere_representation.pyx":89
  *         self.indices = None
  * 
  *     def _create_sphere_data(self):             # <<<<<<<<<<<<<<
@@ -3793,7 +3799,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._create_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._create_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_init);
@@ -3810,7 +3816,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
   return __pyx_r;
 }
 
-/* "sphere_representation.pyx":122
+/* "glCore/sphere_representation.pyx":122
  *         return True
  * 
  *     def _create_sel_sphere_data(self, level):             # <<<<<<<<<<<<<<
@@ -3819,10 +3825,10 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_2_creat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data[] = " Function doc ";
-static PyMethodDef __pyx_mdef_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data = {"_create_sel_sphere_data", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data, METH_VARARGS|METH_KEYWORDS, __pyx_doc_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data};
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data[] = " Function doc ";
+static PyMethodDef __pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data = {"_create_sel_sphere_data", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data};
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_level = 0;
   PyObject *__pyx_r = 0;
@@ -3870,18 +3876,18 @@ static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_5_creat
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("_create_sel_sphere_data", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 122, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._create_sel_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._create_sel_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data(__pyx_self, __pyx_v_self, __pyx_v_level);
+  __pyx_r = __pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data(__pyx_self, __pyx_v_self, __pyx_v_level);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_level) {
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_4_create_sel_sphere_data(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_level) {
   PyObject *__pyx_v_init = NULL;
   Py_ssize_t __pyx_v_a;
   Py_ssize_t __pyx_v_i;
@@ -3912,7 +3918,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   Py_ssize_t __pyx_t_12;
   __Pyx_RefNannySetupContext("_create_sel_sphere_data", 0);
 
-  /* "sphere_representation.pyx":124
+  /* "glCore/sphere_representation.pyx":124
  *     def _create_sel_sphere_data(self, level):
  *         """ Function doc """
  *         init = time.time()             # <<<<<<<<<<<<<<
@@ -3942,7 +3948,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_init = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":126
+  /* "glCore/sphere_representation.pyx":126
  *         init = time.time()
  *         cdef Py_ssize_t a, i, qtty, elems, offset, inds_e
  *         qtty = int(len(self.vismol_object.atoms))             # <<<<<<<<<<<<<<
@@ -3958,7 +3964,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_qtty = __pyx_t_4;
 
-  /* "sphere_representation.pyx":127
+  /* "glCore/sphere_representation.pyx":127
  *         cdef Py_ssize_t a, i, qtty, elems, offset, inds_e
  *         qtty = int(len(self.vismol_object.atoms))
  *         nucleus = [0.0, 0.0, 0.0]*qtty             # <<<<<<<<<<<<<<
@@ -3983,7 +3989,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_nucleus = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":128
+  /* "glCore/sphere_representation.pyx":128
  *         qtty = int(len(self.vismol_object.atoms))
  *         nucleus = [0.0, 0.0, 0.0]*qtty
  *         colores = [0.0, 0.0, 0.0]*qtty             # <<<<<<<<<<<<<<
@@ -4008,7 +4014,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_colores = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":129
+  /* "glCore/sphere_representation.pyx":129
  *         nucleus = [0.0, 0.0, 0.0]*qtty
  *         colores = [0.0, 0.0, 0.0]*qtty
  *         coords = sphd.sphere_vertices[level]*qtty             # <<<<<<<<<<<<<<
@@ -4032,7 +4038,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_coords = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":130
+  /* "glCore/sphere_representation.pyx":130
  *         colores = [0.0, 0.0, 0.0]*qtty
  *         coords = sphd.sphere_vertices[level]*qtty
  *         colors = sphd.sphere_vertices[level]*qtty             # <<<<<<<<<<<<<<
@@ -4056,7 +4062,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_colors = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":131
+  /* "glCore/sphere_representation.pyx":131
  *         coords = sphd.sphere_vertices[level]*qtty
  *         colors = sphd.sphere_vertices[level]*qtty
  *         indices = np.array(sphd.sphere_triangles[level]*qtty, dtype=np.uint32)             # <<<<<<<<<<<<<<
@@ -4104,7 +4110,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_indices = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":132
+  /* "glCore/sphere_representation.pyx":132
  *         colors = sphd.sphere_vertices[level]*qtty
  *         indices = np.array(sphd.sphere_triangles[level]*qtty, dtype=np.uint32)
  *         elems = int(len(sphd.sphere_vertices[level])/3)             # <<<<<<<<<<<<<<
@@ -4123,7 +4129,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_elems = __Pyx_div_Py_ssize_t(__pyx_t_4, 3);
 
-  /* "sphere_representation.pyx":133
+  /* "glCore/sphere_representation.pyx":133
  *         indices = np.array(sphd.sphere_triangles[level]*qtty, dtype=np.uint32)
  *         elems = int(len(sphd.sphere_vertices[level])/3)
  *         offset = int(len(sphd.sphere_vertices[level]))             # <<<<<<<<<<<<<<
@@ -4142,7 +4148,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_offset = __pyx_t_4;
 
-  /* "sphere_representation.pyx":134
+  /* "glCore/sphere_representation.pyx":134
  *         elems = int(len(sphd.sphere_vertices[level])/3)
  *         offset = int(len(sphd.sphere_vertices[level]))
  *         inds_e = int(len(sphd.sphere_triangles[level]))             # <<<<<<<<<<<<<<
@@ -4161,7 +4167,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_inds_e = __pyx_t_4;
 
-  /* "sphere_representation.pyx":135
+  /* "glCore/sphere_representation.pyx":135
  *         offset = int(len(sphd.sphere_vertices[level]))
  *         inds_e = int(len(sphd.sphere_triangles[level]))
  *         for a,atom in enumerate(self.vismol_object.atoms):             # <<<<<<<<<<<<<<
@@ -4219,7 +4225,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
     __pyx_v_a = __pyx_t_4;
     __pyx_t_4 = (__pyx_t_4 + 1);
 
-    /* "sphere_representation.pyx":136
+    /* "glCore/sphere_representation.pyx":136
  *         inds_e = int(len(sphd.sphere_triangles[level]))
  *         for a,atom in enumerate(self.vismol_object.atoms):
  *             colors[a*offset:(a+1)*offset] = [atom.color_id[0],atom.color_id[1],atom.color_id[2]]*elems             # <<<<<<<<<<<<<<
@@ -4262,7 +4268,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
     if (__Pyx_PyObject_SetSlice(__pyx_v_colors, __pyx_t_5, (__pyx_v_a * __pyx_v_offset), ((__pyx_v_a + 1) * __pyx_v_offset), NULL, NULL, NULL, 1, 1, 1) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "sphere_representation.pyx":137
+    /* "glCore/sphere_representation.pyx":137
  *         for a,atom in enumerate(self.vismol_object.atoms):
  *             colors[a*offset:(a+1)*offset] = [atom.color_id[0],atom.color_id[1],atom.color_id[2]]*elems
  *             for i in range(elems):             # <<<<<<<<<<<<<<
@@ -4274,7 +4280,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_i = __pyx_t_11;
 
-      /* "sphere_representation.pyx":138
+      /* "glCore/sphere_representation.pyx":138
  *             colors[a*offset:(a+1)*offset] = [atom.color_id[0],atom.color_id[1],atom.color_id[2]]*elems
  *             for i in range(elems):
  *                 coords[a*offset+i*3] *= atom.radius * self.scale             # <<<<<<<<<<<<<<
@@ -4299,7 +4305,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_1, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "sphere_representation.pyx":139
+      /* "glCore/sphere_representation.pyx":139
  *             for i in range(elems):
  *                 coords[a*offset+i*3] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+1] *= atom.radius * self.scale             # <<<<<<<<<<<<<<
@@ -4324,7 +4330,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_5, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "sphere_representation.pyx":140
+      /* "glCore/sphere_representation.pyx":140
  *                 coords[a*offset+i*3] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+1] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+2] *= atom.radius * self.scale             # <<<<<<<<<<<<<<
@@ -4349,7 +4355,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_1, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "sphere_representation.pyx":141
+      /* "glCore/sphere_representation.pyx":141
  *                 coords[a*offset+i*3+1] *= atom.radius * self.scale
  *                 coords[a*offset+i*3+2] *= atom.radius * self.scale
  *                 coords[a*offset+i*3] += atom.pos[0]             # <<<<<<<<<<<<<<
@@ -4371,7 +4377,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_2, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "sphere_representation.pyx":142
+      /* "glCore/sphere_representation.pyx":142
  *                 coords[a*offset+i*3+2] *= atom.radius * self.scale
  *                 coords[a*offset+i*3] += atom.pos[0]
  *                 coords[a*offset+i*3+1] += atom.pos[1]             # <<<<<<<<<<<<<<
@@ -4393,7 +4399,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
       if (unlikely(__Pyx_SetItemInt(__pyx_v_coords, __pyx_t_12, __pyx_t_5, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1) < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "sphere_representation.pyx":143
+      /* "glCore/sphere_representation.pyx":143
  *                 coords[a*offset+i*3] += atom.pos[0]
  *                 coords[a*offset+i*3+1] += atom.pos[1]
  *                 coords[a*offset+i*3+2] += atom.pos[2]             # <<<<<<<<<<<<<<
@@ -4416,7 +4422,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "sphere_representation.pyx":144
+    /* "glCore/sphere_representation.pyx":144
  *                 coords[a*offset+i*3+1] += atom.pos[1]
  *                 coords[a*offset+i*3+2] += atom.pos[2]
  *             indices[a*inds_e:(a+1)*inds_e] += a*elems             # <<<<<<<<<<<<<<
@@ -4443,7 +4449,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "sphere_representation.pyx":135
+    /* "glCore/sphere_representation.pyx":135
  *         offset = int(len(sphd.sphere_vertices[level]))
  *         inds_e = int(len(sphd.sphere_triangles[level]))
  *         for a,atom in enumerate(self.vismol_object.atoms):             # <<<<<<<<<<<<<<
@@ -4453,7 +4459,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":145
+  /* "glCore/sphere_representation.pyx":145
  *                 coords[a*offset+i*3+2] += atom.pos[2]
  *             indices[a*inds_e:(a+1)*inds_e] += a*elems
  *         end = time.time()             # <<<<<<<<<<<<<<
@@ -4483,7 +4489,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_v_end = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":146
+  /* "glCore/sphere_representation.pyx":146
  *             indices[a*inds_e:(a+1)*inds_e] += a*elems
  *         end = time.time()
  *         print('Time used creating nucleus, vertices and colors for selection:', end-init)             # <<<<<<<<<<<<<<
@@ -4503,7 +4509,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "sphere_representation.pyx":147
+  /* "glCore/sphere_representation.pyx":147
  *         end = time.time()
  *         print('Time used creating nucleus, vertices and colors for selection:', end-init)
  *         self.sel_coords = np.array(coords, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -4537,7 +4543,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sel_coords, __pyx_t_2) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":148
+  /* "glCore/sphere_representation.pyx":148
  *         print('Time used creating nucleus, vertices and colors for selection:', end-init)
  *         self.sel_coords = np.array(coords, dtype=np.float32)
  *         self.sel_colors = np.array(colors, dtype=np.float32)             # <<<<<<<<<<<<<<
@@ -4571,7 +4577,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sel_colors, __pyx_t_1) < 0) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":149
+  /* "glCore/sphere_representation.pyx":149
  *         self.sel_coords = np.array(coords, dtype=np.float32)
  *         self.sel_colors = np.array(colors, dtype=np.float32)
  *         self.sel_indices = indices             # <<<<<<<<<<<<<<
@@ -4580,7 +4586,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sel_indices, __pyx_v_indices) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":150
+  /* "glCore/sphere_representation.pyx":150
  *         self.sel_colors = np.array(colors, dtype=np.float32)
  *         self.sel_indices = indices
  *         return True             # <<<<<<<<<<<<<<
@@ -4592,7 +4598,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "sphere_representation.pyx":122
+  /* "glCore/sphere_representation.pyx":122
  *         return True
  * 
  *     def _create_sel_sphere_data(self, level):             # <<<<<<<<<<<<<<
@@ -4607,7 +4613,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._create_sel_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._create_sel_sphere_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_init);
@@ -4623,7 +4629,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
   return __pyx_r;
 }
 
-/* "sphere_representation.pyx":152
+/* "glCore/sphere_representation.pyx":152
  *         return True
  * 
  *     def _make_gl_spheres(self, program):             # <<<<<<<<<<<<<<
@@ -4632,10 +4638,10 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_4_creat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_7_make_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_21sphere_representation_20SphereRepresentation_6_make_gl_spheres[] = " Function doc ";
-static PyMethodDef __pyx_mdef_21sphere_representation_20SphereRepresentation_7_make_gl_spheres = {"_make_gl_spheres", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_21sphere_representation_20SphereRepresentation_7_make_gl_spheres, METH_VARARGS|METH_KEYWORDS, __pyx_doc_21sphere_representation_20SphereRepresentation_6_make_gl_spheres};
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_7_make_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_7_make_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_6_make_gl_spheres[] = " Function doc ";
+static PyMethodDef __pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_7_make_gl_spheres = {"_make_gl_spheres", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_7_make_gl_spheres, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_6_make_gl_spheres};
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_7_make_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_program = 0;
   PyObject *__pyx_r = 0;
@@ -4683,18 +4689,18 @@ static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_7_make_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("_make_gl_spheres", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 152, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._make_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._make_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_21sphere_representation_20SphereRepresentation_6_make_gl_spheres(__pyx_self, __pyx_v_self, __pyx_v_program);
+  __pyx_r = __pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_6_make_gl_spheres(__pyx_self, __pyx_v_self, __pyx_v_program);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program) {
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_6_make_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program) {
   PyObject *__pyx_v_vertex_array_object = NULL;
   PyObject *__pyx_v_ind_vbo = NULL;
   PyObject *__pyx_v_coord_vbo = NULL;
@@ -4717,7 +4723,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("_make_gl_spheres", 0);
 
-  /* "sphere_representation.pyx":154
+  /* "glCore/sphere_representation.pyx":154
  *     def _make_gl_spheres(self, program):
  *         """ Function doc """
  *         vertex_array_object = GL.glGenVertexArrays(1)             # <<<<<<<<<<<<<<
@@ -4747,7 +4753,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_vertex_array_object = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":155
+  /* "glCore/sphere_representation.pyx":155
  *         """ Function doc """
  *         vertex_array_object = GL.glGenVertexArrays(1)
  *         GL.glBindVertexArray(vertex_array_object)             # <<<<<<<<<<<<<<
@@ -4776,7 +4782,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":157
+  /* "glCore/sphere_representation.pyx":157
  *         GL.glBindVertexArray(vertex_array_object)
  * 
  *         ind_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -4806,7 +4812,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_ind_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":158
+  /* "glCore/sphere_representation.pyx":158
  * 
  *         ind_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)             # <<<<<<<<<<<<<<
@@ -4872,7 +4878,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":159
+  /* "glCore/sphere_representation.pyx":159
  *         ind_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)
  *         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indices.itemsize*int(len(self.indices)), self.indices, GL.GL_DYNAMIC_DRAW)             # <<<<<<<<<<<<<<
@@ -4975,7 +4981,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":161
+  /* "glCore/sphere_representation.pyx":161
  *         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indices.itemsize*int(len(self.indices)), self.indices, GL.GL_DYNAMIC_DRAW)
  * 
  *         coord_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -5005,7 +5011,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_coord_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":162
+  /* "glCore/sphere_representation.pyx":162
  * 
  *         coord_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, coord_vbo)             # <<<<<<<<<<<<<<
@@ -5071,7 +5077,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":163
+  /* "glCore/sphere_representation.pyx":163
  *         coord_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, coord_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.coords.itemsize*len(self.coords), self.coords, GL.GL_STATIC_DRAW)             # <<<<<<<<<<<<<<
@@ -5171,7 +5177,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":164
+  /* "glCore/sphere_representation.pyx":164
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, coord_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.coords.itemsize*len(self.coords), self.coords, GL.GL_STATIC_DRAW)
  *         gl_coord = GL.glGetAttribLocation(program, 'vert_coord')             # <<<<<<<<<<<<<<
@@ -5231,7 +5237,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_gl_coord = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":165
+  /* "glCore/sphere_representation.pyx":165
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.coords.itemsize*len(self.coords), self.coords, GL.GL_STATIC_DRAW)
  *         gl_coord = GL.glGetAttribLocation(program, 'vert_coord')
  *         GL.glEnableVertexAttribArray(gl_coord)             # <<<<<<<<<<<<<<
@@ -5260,7 +5266,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":166
+  /* "glCore/sphere_representation.pyx":166
  *         gl_coord = GL.glGetAttribLocation(program, 'vert_coord')
  *         GL.glEnableVertexAttribArray(gl_coord)
  *         GL.glVertexAttribPointer(gl_coord, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*self.coords.itemsize, ctypes.c_void_p(0))             # <<<<<<<<<<<<<<
@@ -5377,7 +5383,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":168
+  /* "glCore/sphere_representation.pyx":168
  *         GL.glVertexAttribPointer(gl_coord, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*self.coords.itemsize, ctypes.c_void_p(0))
  * 
  *         centr_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -5407,7 +5413,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_centr_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":169
+  /* "glCore/sphere_representation.pyx":169
  * 
  *         centr_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, centr_vbo)             # <<<<<<<<<<<<<<
@@ -5473,7 +5479,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":170
+  /* "glCore/sphere_representation.pyx":170
  *         centr_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, centr_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.centers.itemsize*len(self.centers), self.centers, GL.GL_STATIC_DRAW)             # <<<<<<<<<<<<<<
@@ -5573,7 +5579,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":171
+  /* "glCore/sphere_representation.pyx":171
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, centr_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.centers.itemsize*len(self.centers), self.centers, GL.GL_STATIC_DRAW)
  *         gl_center = GL.glGetAttribLocation(program, 'vert_centr')             # <<<<<<<<<<<<<<
@@ -5633,7 +5639,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_gl_center = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":172
+  /* "glCore/sphere_representation.pyx":172
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.centers.itemsize*len(self.centers), self.centers, GL.GL_STATIC_DRAW)
  *         gl_center = GL.glGetAttribLocation(program, 'vert_centr')
  *         GL.glEnableVertexAttribArray(gl_center)             # <<<<<<<<<<<<<<
@@ -5662,7 +5668,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":173
+  /* "glCore/sphere_representation.pyx":173
  *         gl_center = GL.glGetAttribLocation(program, 'vert_centr')
  *         GL.glEnableVertexAttribArray(gl_center)
  *         GL.glVertexAttribPointer(gl_center, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*self.centers.itemsize, ctypes.c_void_p(0))             # <<<<<<<<<<<<<<
@@ -5779,7 +5785,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":175
+  /* "glCore/sphere_representation.pyx":175
  *         GL.glVertexAttribPointer(gl_center, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*self.centers.itemsize, ctypes.c_void_p(0))
  * 
  *         col_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -5809,7 +5815,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_col_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":176
+  /* "glCore/sphere_representation.pyx":176
  * 
  *         col_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)             # <<<<<<<<<<<<<<
@@ -5875,7 +5881,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":177
+  /* "glCore/sphere_representation.pyx":177
  *         col_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.colors.itemsize*len(self.colors), self.colors, GL.GL_STATIC_DRAW)             # <<<<<<<<<<<<<<
@@ -5975,7 +5981,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":178
+  /* "glCore/sphere_representation.pyx":178
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.colors.itemsize*len(self.colors), self.colors, GL.GL_STATIC_DRAW)
  *         gl_colors = GL.glGetAttribLocation(program, 'vert_color')             # <<<<<<<<<<<<<<
@@ -6035,7 +6041,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_v_gl_colors = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":179
+  /* "glCore/sphere_representation.pyx":179
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.colors.itemsize*len(self.colors), self.colors, GL.GL_STATIC_DRAW)
  *         gl_colors = GL.glGetAttribLocation(program, 'vert_color')
  *         GL.glEnableVertexAttribArray(gl_colors)             # <<<<<<<<<<<<<<
@@ -6064,7 +6070,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":180
+  /* "glCore/sphere_representation.pyx":180
  *         gl_colors = GL.glGetAttribLocation(program, 'vert_color')
  *         GL.glEnableVertexAttribArray(gl_colors)
  *         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*self.colors.itemsize, ctypes.c_void_p(0))             # <<<<<<<<<<<<<<
@@ -6181,7 +6187,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":182
+  /* "glCore/sphere_representation.pyx":182
  *         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*self.colors.itemsize, ctypes.c_void_p(0))
  * 
  *         GL.glBindVertexArray(0)             # <<<<<<<<<<<<<<
@@ -6210,7 +6216,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":183
+  /* "glCore/sphere_representation.pyx":183
  * 
  *         GL.glBindVertexArray(0)
  *         GL.glDisableVertexAttribArray(gl_coord)             # <<<<<<<<<<<<<<
@@ -6239,7 +6245,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":184
+  /* "glCore/sphere_representation.pyx":184
  *         GL.glBindVertexArray(0)
  *         GL.glDisableVertexAttribArray(gl_coord)
  *         GL.glDisableVertexAttribArray(gl_center)             # <<<<<<<<<<<<<<
@@ -6268,7 +6274,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":185
+  /* "glCore/sphere_representation.pyx":185
  *         GL.glDisableVertexAttribArray(gl_coord)
  *         GL.glDisableVertexAttribArray(gl_center)
  *         GL.glDisableVertexAttribArray(gl_colors)             # <<<<<<<<<<<<<<
@@ -6297,7 +6303,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":186
+  /* "glCore/sphere_representation.pyx":186
  *         GL.glDisableVertexAttribArray(gl_center)
  *         GL.glDisableVertexAttribArray(gl_colors)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)             # <<<<<<<<<<<<<<
@@ -6363,7 +6369,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":187
+  /* "glCore/sphere_representation.pyx":187
  *         GL.glDisableVertexAttribArray(gl_colors)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
  *         self.spheres_vao = vertex_array_object             # <<<<<<<<<<<<<<
@@ -6372,7 +6378,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_spheres_vao, __pyx_v_vertex_array_object) < 0) __PYX_ERR(0, 187, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":188
+  /* "glCore/sphere_representation.pyx":188
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
  *         self.spheres_vao = vertex_array_object
  *         self.spheres_buffers = (ind_vbo, coord_vbo, col_vbo)             # <<<<<<<<<<<<<<
@@ -6393,7 +6399,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_spheres_buffers, __pyx_t_1) < 0) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":189
+  /* "glCore/sphere_representation.pyx":189
  *         self.spheres_vao = vertex_array_object
  *         self.spheres_buffers = (ind_vbo, coord_vbo, col_vbo)
  *         self.triangles = int(len(self.indices))             # <<<<<<<<<<<<<<
@@ -6412,7 +6418,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_triangles, __pyx_t_6) < 0) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "sphere_representation.pyx":190
+  /* "glCore/sphere_representation.pyx":190
  *         self.spheres_buffers = (ind_vbo, coord_vbo, col_vbo)
  *         self.triangles = int(len(self.indices))
  *         return True             # <<<<<<<<<<<<<<
@@ -6424,7 +6430,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "sphere_representation.pyx":152
+  /* "glCore/sphere_representation.pyx":152
  *         return True
  * 
  *     def _make_gl_spheres(self, program):             # <<<<<<<<<<<<<<
@@ -6442,7 +6448,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._make_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._make_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_vertex_array_object);
@@ -6458,7 +6464,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
   return __pyx_r;
 }
 
-/* "sphere_representation.pyx":192
+/* "glCore/sphere_representation.pyx":192
  *         return True
  * 
  *     def _make_sel_gl_spheres(self, program):             # <<<<<<<<<<<<<<
@@ -6467,10 +6473,10 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_6_make_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres[] = " Function doc ";
-static PyMethodDef __pyx_mdef_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres = {"_make_sel_gl_spheres", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres, METH_VARARGS|METH_KEYWORDS, __pyx_doc_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres};
-static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres[] = " Function doc ";
+static PyMethodDef __pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres = {"_make_sel_gl_spheres", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6glCore_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres};
+static PyObject *__pyx_pw_6glCore_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_program = 0;
   PyObject *__pyx_r = 0;
@@ -6518,18 +6524,18 @@ static PyObject *__pyx_pw_21sphere_representation_20SphereRepresentation_9_make_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("_make_sel_gl_spheres", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 192, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._make_sel_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._make_sel_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres(__pyx_self, __pyx_v_self, __pyx_v_program);
+  __pyx_r = __pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres(__pyx_self, __pyx_v_self, __pyx_v_program);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program) {
+static PyObject *__pyx_pf_6glCore_21sphere_representation_20SphereRepresentation_8_make_sel_gl_spheres(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_program) {
   PyObject *__pyx_v_vertex_array_object = NULL;
   PyObject *__pyx_v_ind_vbo = NULL;
   PyObject *__pyx_v_coord_vbo = NULL;
@@ -6550,7 +6556,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("_make_sel_gl_spheres", 0);
 
-  /* "sphere_representation.pyx":194
+  /* "glCore/sphere_representation.pyx":194
  *     def _make_sel_gl_spheres(self, program):
  *         """ Function doc """
  *         vertex_array_object = GL.glGenVertexArrays(1)             # <<<<<<<<<<<<<<
@@ -6580,7 +6586,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_v_vertex_array_object = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":195
+  /* "glCore/sphere_representation.pyx":195
  *         """ Function doc """
  *         vertex_array_object = GL.glGenVertexArrays(1)
  *         GL.glBindVertexArray(vertex_array_object)             # <<<<<<<<<<<<<<
@@ -6609,7 +6615,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":197
+  /* "glCore/sphere_representation.pyx":197
  *         GL.glBindVertexArray(vertex_array_object)
  * 
  *         ind_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -6639,7 +6645,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_v_ind_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":198
+  /* "glCore/sphere_representation.pyx":198
  * 
  *         ind_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)             # <<<<<<<<<<<<<<
@@ -6705,7 +6711,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":199
+  /* "glCore/sphere_representation.pyx":199
  *         ind_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)
  *         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.sel_indices.itemsize*int(len(self.sel_indices)), self.sel_indices, GL.GL_DYNAMIC_DRAW)             # <<<<<<<<<<<<<<
@@ -6808,7 +6814,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":201
+  /* "glCore/sphere_representation.pyx":201
  *         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.sel_indices.itemsize*int(len(self.sel_indices)), self.sel_indices, GL.GL_DYNAMIC_DRAW)
  * 
  *         coord_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -6838,7 +6844,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_v_coord_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":202
+  /* "glCore/sphere_representation.pyx":202
  * 
  *         coord_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, coord_vbo)             # <<<<<<<<<<<<<<
@@ -6904,7 +6910,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":203
+  /* "glCore/sphere_representation.pyx":203
  *         coord_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, coord_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.sel_coords.itemsize*len(self.sel_coords), self.sel_coords, GL.GL_STATIC_DRAW)             # <<<<<<<<<<<<<<
@@ -7004,7 +7010,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":204
+  /* "glCore/sphere_representation.pyx":204
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, coord_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.sel_coords.itemsize*len(self.sel_coords), self.sel_coords, GL.GL_STATIC_DRAW)
  *         gl_coord = GL.glGetAttribLocation(program, 'vert_coord')             # <<<<<<<<<<<<<<
@@ -7064,7 +7070,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_v_gl_coord = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":205
+  /* "glCore/sphere_representation.pyx":205
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.sel_coords.itemsize*len(self.sel_coords), self.sel_coords, GL.GL_STATIC_DRAW)
  *         gl_coord = GL.glGetAttribLocation(program, 'vert_coord')
  *         GL.glEnableVertexAttribArray(gl_coord)             # <<<<<<<<<<<<<<
@@ -7093,7 +7099,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":206
+  /* "glCore/sphere_representation.pyx":206
  *         gl_coord = GL.glGetAttribLocation(program, 'vert_coord')
  *         GL.glEnableVertexAttribArray(gl_coord)
  *         GL.glVertexAttribPointer(gl_coord, 3, GL.GL_FLOAT, GL.GL_FALSE, self.sel_coords.nbytes, ctypes.c_void_p(0))             # <<<<<<<<<<<<<<
@@ -7207,7 +7213,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":208
+  /* "glCore/sphere_representation.pyx":208
  *         GL.glVertexAttribPointer(gl_coord, 3, GL.GL_FLOAT, GL.GL_FALSE, self.sel_coords.nbytes, ctypes.c_void_p(0))
  * 
  *         col_vbo = GL.glGenBuffers(1)             # <<<<<<<<<<<<<<
@@ -7237,7 +7243,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_v_col_vbo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":209
+  /* "glCore/sphere_representation.pyx":209
  * 
  *         col_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)             # <<<<<<<<<<<<<<
@@ -7303,7 +7309,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":210
+  /* "glCore/sphere_representation.pyx":210
  *         col_vbo = GL.glGenBuffers(1)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.sel_colors.itemsize*len(self.sel_colors), self.sel_colors, GL.GL_STATIC_DRAW)             # <<<<<<<<<<<<<<
@@ -7403,7 +7409,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":211
+  /* "glCore/sphere_representation.pyx":211
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.sel_colors.itemsize*len(self.sel_colors), self.sel_colors, GL.GL_STATIC_DRAW)
  *         gl_colors = GL.glGetAttribLocation(program, 'vert_color')             # <<<<<<<<<<<<<<
@@ -7463,7 +7469,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_v_gl_colors = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":212
+  /* "glCore/sphere_representation.pyx":212
  *         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.sel_colors.itemsize*len(self.sel_colors), self.sel_colors, GL.GL_STATIC_DRAW)
  *         gl_colors = GL.glGetAttribLocation(program, 'vert_color')
  *         GL.glEnableVertexAttribArray(gl_colors)             # <<<<<<<<<<<<<<
@@ -7492,7 +7498,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":213
+  /* "glCore/sphere_representation.pyx":213
  *         gl_colors = GL.glGetAttribLocation(program, 'vert_color')
  *         GL.glEnableVertexAttribArray(gl_colors)
  *         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, self.sel_colors.nbytes, ctypes.c_void_p(0))             # <<<<<<<<<<<<<<
@@ -7606,7 +7612,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":215
+  /* "glCore/sphere_representation.pyx":215
  *         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, self.sel_colors.nbytes, ctypes.c_void_p(0))
  * 
  *         GL.glBindVertexArray(0)             # <<<<<<<<<<<<<<
@@ -7635,7 +7641,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":216
+  /* "glCore/sphere_representation.pyx":216
  * 
  *         GL.glBindVertexArray(0)
  *         GL.glDisableVertexAttribArray(gl_coord)             # <<<<<<<<<<<<<<
@@ -7664,7 +7670,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":217
+  /* "glCore/sphere_representation.pyx":217
  *         GL.glBindVertexArray(0)
  *         GL.glDisableVertexAttribArray(gl_coord)
  *         GL.glDisableVertexAttribArray(gl_colors)             # <<<<<<<<<<<<<<
@@ -7693,7 +7699,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":218
+  /* "glCore/sphere_representation.pyx":218
  *         GL.glDisableVertexAttribArray(gl_coord)
  *         GL.glDisableVertexAttribArray(gl_colors)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)             # <<<<<<<<<<<<<<
@@ -7759,7 +7765,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":219
+  /* "glCore/sphere_representation.pyx":219
  *         GL.glDisableVertexAttribArray(gl_colors)
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
  *         self.sel_spheres_vao = vertex_array_object             # <<<<<<<<<<<<<<
@@ -7768,7 +7774,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sel_spheres_vao, __pyx_v_vertex_array_object) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":220
+  /* "glCore/sphere_representation.pyx":220
  *         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
  *         self.sel_spheres_vao = vertex_array_object
  *         self.sel_spheres_buffers = (ind_vbo, coord_vbo, col_vbo)             # <<<<<<<<<<<<<<
@@ -7789,7 +7795,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sel_spheres_buffers, __pyx_t_1) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":221
+  /* "glCore/sphere_representation.pyx":221
  *         self.sel_spheres_vao = vertex_array_object
  *         self.sel_spheres_buffers = (ind_vbo, coord_vbo, col_vbo)
  *         self.sel_triangles = int(len(self.indices))             # <<<<<<<<<<<<<<
@@ -7808,7 +7814,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_sel_triangles, __pyx_t_10) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "sphere_representation.pyx":222
+  /* "glCore/sphere_representation.pyx":222
  *         self.sel_spheres_buffers = (ind_vbo, coord_vbo, col_vbo)
  *         self.sel_triangles = int(len(self.indices))
  *         return True             # <<<<<<<<<<<<<<
@@ -7819,7 +7825,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "sphere_representation.pyx":192
+  /* "glCore/sphere_representation.pyx":192
  *         return True
  * 
  *     def _make_sel_gl_spheres(self, program):             # <<<<<<<<<<<<<<
@@ -7837,7 +7843,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("sphere_representation.SphereRepresentation._make_sel_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("glCore.sphere_representation.SphereRepresentation._make_sel_gl_spheres", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_vertex_array_object);
@@ -7851,7 +7857,7 @@ static PyObject *__pyx_pf_21sphere_representation_20SphereRepresentation_8_make_
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":258
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":258
  *         # experimental exception made for __getbuffer__ and __releasebuffer__
  *         # -- the details of this may change.
  *         def __getbuffer__(ndarray self, Py_buffer* info, int flags):             # <<<<<<<<<<<<<<
@@ -7900,7 +7906,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_v_info->obj = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(__pyx_v_info->obj);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":265
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":265
  * 
  *             cdef int i, ndim
  *             cdef int endian_detector = 1             # <<<<<<<<<<<<<<
@@ -7909,7 +7915,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_endian_detector = 1;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":266
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":266
  *             cdef int i, ndim
  *             cdef int endian_detector = 1
  *             cdef bint little_endian = ((<char*>&endian_detector)[0] != 0)             # <<<<<<<<<<<<<<
@@ -7918,7 +7924,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_little_endian = ((((char *)(&__pyx_v_endian_detector))[0]) != 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":268
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":268
  *             cdef bint little_endian = ((<char*>&endian_detector)[0] != 0)
  * 
  *             ndim = PyArray_NDIM(self)             # <<<<<<<<<<<<<<
@@ -7927,7 +7933,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_ndim = PyArray_NDIM(__pyx_v_self);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":270
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":270
  *             ndim = PyArray_NDIM(self)
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -7941,7 +7947,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":271
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":271
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_ARRAY_C_CONTIGUOUS)):             # <<<<<<<<<<<<<<
@@ -7952,7 +7958,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":270
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":270
  *             ndim = PyArray_NDIM(self)
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -7961,7 +7967,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   if (unlikely(__pyx_t_1)) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":272
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":272
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_ARRAY_C_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not C contiguous")             # <<<<<<<<<<<<<<
@@ -7974,7 +7980,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_ERR(1, 272, __pyx_L1_error)
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":270
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":270
  *             ndim = PyArray_NDIM(self)
  * 
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -7983,7 +7989,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":274
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":274
  *                 raise ValueError(u"ndarray is not C contiguous")
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -7997,7 +8003,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L7_bool_binop_done;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":275
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":275
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_ARRAY_F_CONTIGUOUS)):             # <<<<<<<<<<<<<<
@@ -8008,7 +8014,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = __pyx_t_2;
   __pyx_L7_bool_binop_done:;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":274
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":274
  *                 raise ValueError(u"ndarray is not C contiguous")
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8017,7 +8023,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   if (unlikely(__pyx_t_1)) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":276
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":276
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_ARRAY_F_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not Fortran contiguous")             # <<<<<<<<<<<<<<
@@ -8030,7 +8036,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_ERR(1, 276, __pyx_L1_error)
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":274
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":274
  *                 raise ValueError(u"ndarray is not C contiguous")
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)             # <<<<<<<<<<<<<<
@@ -8039,7 +8045,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":278
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":278
  *                 raise ValueError(u"ndarray is not Fortran contiguous")
  * 
  *             info.buf = PyArray_DATA(self)             # <<<<<<<<<<<<<<
@@ -8048,7 +8054,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->buf = PyArray_DATA(__pyx_v_self);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":279
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":279
  * 
  *             info.buf = PyArray_DATA(self)
  *             info.ndim = ndim             # <<<<<<<<<<<<<<
@@ -8057,7 +8063,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->ndim = __pyx_v_ndim;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":280
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":280
  *             info.buf = PyArray_DATA(self)
  *             info.ndim = ndim
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -8067,7 +8073,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = (((sizeof(npy_intp)) != (sizeof(Py_ssize_t))) != 0);
   if (__pyx_t_1) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":283
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":283
  *                 # Allocate new buffer for strides and shape info.
  *                 # This is allocated as one block, strides first.
  *                 info.strides = <Py_ssize_t*>PyObject_Malloc(sizeof(Py_ssize_t) * 2 * <size_t>ndim)             # <<<<<<<<<<<<<<
@@ -8076,7 +8082,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_info->strides = ((Py_ssize_t *)PyObject_Malloc((((sizeof(Py_ssize_t)) * 2) * ((size_t)__pyx_v_ndim))));
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":284
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":284
  *                 # This is allocated as one block, strides first.
  *                 info.strides = <Py_ssize_t*>PyObject_Malloc(sizeof(Py_ssize_t) * 2 * <size_t>ndim)
  *                 info.shape = info.strides + ndim             # <<<<<<<<<<<<<<
@@ -8085,7 +8091,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_info->shape = (__pyx_v_info->strides + __pyx_v_ndim);
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":285
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":285
  *                 info.strides = <Py_ssize_t*>PyObject_Malloc(sizeof(Py_ssize_t) * 2 * <size_t>ndim)
  *                 info.shape = info.strides + ndim
  *                 for i in range(ndim):             # <<<<<<<<<<<<<<
@@ -8097,7 +8103,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_i = __pyx_t_6;
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":286
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":286
  *                 info.shape = info.strides + ndim
  *                 for i in range(ndim):
  *                     info.strides[i] = PyArray_STRIDES(self)[i]             # <<<<<<<<<<<<<<
@@ -8106,7 +8112,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
       (__pyx_v_info->strides[__pyx_v_i]) = (PyArray_STRIDES(__pyx_v_self)[__pyx_v_i]);
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":287
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":287
  *                 for i in range(ndim):
  *                     info.strides[i] = PyArray_STRIDES(self)[i]
  *                     info.shape[i] = PyArray_DIMS(self)[i]             # <<<<<<<<<<<<<<
@@ -8116,7 +8122,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       (__pyx_v_info->shape[__pyx_v_i]) = (PyArray_DIMS(__pyx_v_self)[__pyx_v_i]);
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":280
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":280
  *             info.buf = PyArray_DATA(self)
  *             info.ndim = ndim
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -8126,7 +8132,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     goto __pyx_L9;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":289
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":289
  *                     info.shape[i] = PyArray_DIMS(self)[i]
  *             else:
  *                 info.strides = <Py_ssize_t*>PyArray_STRIDES(self)             # <<<<<<<<<<<<<<
@@ -8136,7 +8142,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   /*else*/ {
     __pyx_v_info->strides = ((Py_ssize_t *)PyArray_STRIDES(__pyx_v_self));
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":290
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":290
  *             else:
  *                 info.strides = <Py_ssize_t*>PyArray_STRIDES(self)
  *                 info.shape = <Py_ssize_t*>PyArray_DIMS(self)             # <<<<<<<<<<<<<<
@@ -8147,7 +8153,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   }
   __pyx_L9:;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":291
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":291
  *                 info.strides = <Py_ssize_t*>PyArray_STRIDES(self)
  *                 info.shape = <Py_ssize_t*>PyArray_DIMS(self)
  *             info.suboffsets = NULL             # <<<<<<<<<<<<<<
@@ -8156,7 +8162,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->suboffsets = NULL;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":292
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":292
  *                 info.shape = <Py_ssize_t*>PyArray_DIMS(self)
  *             info.suboffsets = NULL
  *             info.itemsize = PyArray_ITEMSIZE(self)             # <<<<<<<<<<<<<<
@@ -8165,7 +8171,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->itemsize = PyArray_ITEMSIZE(__pyx_v_self);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":293
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":293
  *             info.suboffsets = NULL
  *             info.itemsize = PyArray_ITEMSIZE(self)
  *             info.readonly = not PyArray_ISWRITEABLE(self)             # <<<<<<<<<<<<<<
@@ -8174,7 +8180,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_info->readonly = (!(PyArray_ISWRITEABLE(__pyx_v_self) != 0));
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":296
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":296
  * 
  *             cdef int t
  *             cdef char* f = NULL             # <<<<<<<<<<<<<<
@@ -8183,7 +8189,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   __pyx_v_f = NULL;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":297
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":297
  *             cdef int t
  *             cdef char* f = NULL
  *             cdef dtype descr = <dtype>PyArray_DESCR(self)             # <<<<<<<<<<<<<<
@@ -8196,7 +8202,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_v_descr = ((PyArray_Descr *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":300
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":300
  *             cdef int offset
  * 
  *             info.obj = self             # <<<<<<<<<<<<<<
@@ -8209,7 +8215,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __Pyx_DECREF(__pyx_v_info->obj);
   __pyx_v_info->obj = ((PyObject *)__pyx_v_self);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":302
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":302
  *             info.obj = self
  * 
  *             if not PyDataType_HASFIELDS(descr):             # <<<<<<<<<<<<<<
@@ -8219,7 +8225,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   __pyx_t_1 = ((!(PyDataType_HASFIELDS(__pyx_v_descr) != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":303
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":303
  * 
  *             if not PyDataType_HASFIELDS(descr):
  *                 t = descr.type_num             # <<<<<<<<<<<<<<
@@ -8229,7 +8235,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_t_4 = __pyx_v_descr->type_num;
     __pyx_v_t = __pyx_t_4;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":304
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":304
  *             if not PyDataType_HASFIELDS(descr):
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -8249,7 +8255,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     }
     __pyx_L15_next_or:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":305
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":305
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or
  *                     (descr.byteorder == c'<' and not little_endian)):             # <<<<<<<<<<<<<<
@@ -8266,7 +8272,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_t_1 = __pyx_t_2;
     __pyx_L14_bool_binop_done:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":304
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":304
  *             if not PyDataType_HASFIELDS(descr):
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -8275,7 +8281,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     if (unlikely(__pyx_t_1)) {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":306
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":306
  *                 if ((descr.byteorder == c'>' and little_endian) or
  *                     (descr.byteorder == c'<' and not little_endian)):
  *                     raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
@@ -8288,7 +8294,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __PYX_ERR(1, 306, __pyx_L1_error)
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":304
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":304
  *             if not PyDataType_HASFIELDS(descr):
  *                 t = descr.type_num
  *                 if ((descr.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -8297,7 +8303,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":307
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":307
  *                     (descr.byteorder == c'<' and not little_endian)):
  *                     raise ValueError(u"Non-native byte order not supported")
  *                 if   t == NPY_BYTE:        f = "b"             # <<<<<<<<<<<<<<
@@ -8310,7 +8316,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_UBYTE:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":308
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":308
  *                     raise ValueError(u"Non-native byte order not supported")
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"             # <<<<<<<<<<<<<<
@@ -8321,7 +8327,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_SHORT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":309
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":309
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  *                 elif t == NPY_SHORT:       f = "h"             # <<<<<<<<<<<<<<
@@ -8332,7 +8338,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_USHORT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":310
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":310
  *                 elif t == NPY_UBYTE:       f = "B"
  *                 elif t == NPY_SHORT:       f = "h"
  *                 elif t == NPY_USHORT:      f = "H"             # <<<<<<<<<<<<<<
@@ -8343,7 +8349,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_INT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":311
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":311
  *                 elif t == NPY_SHORT:       f = "h"
  *                 elif t == NPY_USHORT:      f = "H"
  *                 elif t == NPY_INT:         f = "i"             # <<<<<<<<<<<<<<
@@ -8354,7 +8360,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_UINT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":312
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":312
  *                 elif t == NPY_USHORT:      f = "H"
  *                 elif t == NPY_INT:         f = "i"
  *                 elif t == NPY_UINT:        f = "I"             # <<<<<<<<<<<<<<
@@ -8365,7 +8371,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_LONG:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":313
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":313
  *                 elif t == NPY_INT:         f = "i"
  *                 elif t == NPY_UINT:        f = "I"
  *                 elif t == NPY_LONG:        f = "l"             # <<<<<<<<<<<<<<
@@ -8376,7 +8382,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_ULONG:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":314
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":314
  *                 elif t == NPY_UINT:        f = "I"
  *                 elif t == NPY_LONG:        f = "l"
  *                 elif t == NPY_ULONG:       f = "L"             # <<<<<<<<<<<<<<
@@ -8387,7 +8393,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_LONGLONG:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":315
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":315
  *                 elif t == NPY_LONG:        f = "l"
  *                 elif t == NPY_ULONG:       f = "L"
  *                 elif t == NPY_LONGLONG:    f = "q"             # <<<<<<<<<<<<<<
@@ -8398,7 +8404,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_ULONGLONG:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":316
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":316
  *                 elif t == NPY_ULONG:       f = "L"
  *                 elif t == NPY_LONGLONG:    f = "q"
  *                 elif t == NPY_ULONGLONG:   f = "Q"             # <<<<<<<<<<<<<<
@@ -8409,7 +8415,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_FLOAT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":317
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":317
  *                 elif t == NPY_LONGLONG:    f = "q"
  *                 elif t == NPY_ULONGLONG:   f = "Q"
  *                 elif t == NPY_FLOAT:       f = "f"             # <<<<<<<<<<<<<<
@@ -8420,7 +8426,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_DOUBLE:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":318
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":318
  *                 elif t == NPY_ULONGLONG:   f = "Q"
  *                 elif t == NPY_FLOAT:       f = "f"
  *                 elif t == NPY_DOUBLE:      f = "d"             # <<<<<<<<<<<<<<
@@ -8431,7 +8437,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_LONGDOUBLE:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":319
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":319
  *                 elif t == NPY_FLOAT:       f = "f"
  *                 elif t == NPY_DOUBLE:      f = "d"
  *                 elif t == NPY_LONGDOUBLE:  f = "g"             # <<<<<<<<<<<<<<
@@ -8442,7 +8448,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_CFLOAT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":320
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":320
  *                 elif t == NPY_DOUBLE:      f = "d"
  *                 elif t == NPY_LONGDOUBLE:  f = "g"
  *                 elif t == NPY_CFLOAT:      f = "Zf"             # <<<<<<<<<<<<<<
@@ -8453,7 +8459,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_CDOUBLE:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":321
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":321
  *                 elif t == NPY_LONGDOUBLE:  f = "g"
  *                 elif t == NPY_CFLOAT:      f = "Zf"
  *                 elif t == NPY_CDOUBLE:     f = "Zd"             # <<<<<<<<<<<<<<
@@ -8464,7 +8470,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_CLONGDOUBLE:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":322
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":322
  *                 elif t == NPY_CFLOAT:      f = "Zf"
  *                 elif t == NPY_CDOUBLE:     f = "Zd"
  *                 elif t == NPY_CLONGDOUBLE: f = "Zg"             # <<<<<<<<<<<<<<
@@ -8475,7 +8481,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       case NPY_OBJECT:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":323
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":323
  *                 elif t == NPY_CDOUBLE:     f = "Zd"
  *                 elif t == NPY_CLONGDOUBLE: f = "Zg"
  *                 elif t == NPY_OBJECT:      f = "O"             # <<<<<<<<<<<<<<
@@ -8486,7 +8492,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
       default:
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":325
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":325
  *                 elif t == NPY_OBJECT:      f = "O"
  *                 else:
  *                     raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)             # <<<<<<<<<<<<<<
@@ -8507,7 +8513,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
       break;
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":326
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":326
  *                 else:
  *                     raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  *                 info.format = f             # <<<<<<<<<<<<<<
@@ -8516,7 +8522,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_info->format = __pyx_v_f;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":327
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":327
  *                     raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  *                 info.format = f
  *                 return             # <<<<<<<<<<<<<<
@@ -8526,7 +8532,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":302
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":302
  *             info.obj = self
  * 
  *             if not PyDataType_HASFIELDS(descr):             # <<<<<<<<<<<<<<
@@ -8535,7 +8541,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":329
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":329
  *                 return
  *             else:
  *                 info.format = <char*>PyObject_Malloc(_buffer_format_string_len)             # <<<<<<<<<<<<<<
@@ -8545,7 +8551,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   /*else*/ {
     __pyx_v_info->format = ((char *)PyObject_Malloc(0xFF));
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":330
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":330
  *             else:
  *                 info.format = <char*>PyObject_Malloc(_buffer_format_string_len)
  *                 info.format[0] = c'^' # Native data types, manual alignment             # <<<<<<<<<<<<<<
@@ -8554,7 +8560,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     (__pyx_v_info->format[0]) = '^';
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":331
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":331
  *                 info.format = <char*>PyObject_Malloc(_buffer_format_string_len)
  *                 info.format[0] = c'^' # Native data types, manual alignment
  *                 offset = 0             # <<<<<<<<<<<<<<
@@ -8563,7 +8569,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  */
     __pyx_v_offset = 0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":332
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":332
  *                 info.format[0] = c'^' # Native data types, manual alignment
  *                 offset = 0
  *                 f = _util_dtypestring(descr, info.format + 1,             # <<<<<<<<<<<<<<
@@ -8573,7 +8579,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(1, 332, __pyx_L1_error)
     __pyx_v_f = __pyx_t_9;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":335
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":335
  *                                       info.format + _buffer_format_string_len,
  *                                       &offset)
  *                 f[0] = c'\0' # Terminate format string             # <<<<<<<<<<<<<<
@@ -8583,7 +8589,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     (__pyx_v_f[0]) = '\x00';
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":258
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":258
  *         # experimental exception made for __getbuffer__ and __releasebuffer__
  *         # -- the details of this may change.
  *         def __getbuffer__(ndarray self, Py_buffer* info, int flags):             # <<<<<<<<<<<<<<
@@ -8615,7 +8621,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":337
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":337
  *                 f[0] = c'\0' # Terminate format string
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):             # <<<<<<<<<<<<<<
@@ -8639,7 +8645,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__releasebuffer__", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":338
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":338
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):
  *             if PyArray_HASFIELDS(self):             # <<<<<<<<<<<<<<
@@ -8649,7 +8655,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   __pyx_t_1 = (PyArray_HASFIELDS(__pyx_v_self) != 0);
   if (__pyx_t_1) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":339
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":339
  *         def __releasebuffer__(ndarray self, Py_buffer* info):
  *             if PyArray_HASFIELDS(self):
  *                 PyObject_Free(info.format)             # <<<<<<<<<<<<<<
@@ -8658,7 +8664,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
     PyObject_Free(__pyx_v_info->format);
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":338
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":338
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):
  *             if PyArray_HASFIELDS(self):             # <<<<<<<<<<<<<<
@@ -8667,7 +8673,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":340
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":340
  *             if PyArray_HASFIELDS(self):
  *                 PyObject_Free(info.format)
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -8677,7 +8683,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   __pyx_t_1 = (((sizeof(npy_intp)) != (sizeof(Py_ssize_t))) != 0);
   if (__pyx_t_1) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":341
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":341
  *                 PyObject_Free(info.format)
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):
  *                 PyObject_Free(info.strides)             # <<<<<<<<<<<<<<
@@ -8686,7 +8692,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
     PyObject_Free(__pyx_v_info->strides);
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":340
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":340
  *             if PyArray_HASFIELDS(self):
  *                 PyObject_Free(info.format)
  *             if sizeof(npy_intp) != sizeof(Py_ssize_t):             # <<<<<<<<<<<<<<
@@ -8695,7 +8701,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":337
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":337
  *                 f[0] = c'\0' # Terminate format string
  * 
  *         def __releasebuffer__(ndarray self, Py_buffer* info):             # <<<<<<<<<<<<<<
@@ -8707,7 +8713,7 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
   __Pyx_RefNannyFinishContext();
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":821
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":821
  * ctypedef npy_cdouble     complex_t
  * 
  * cdef inline object PyArray_MultiIterNew1(a):             # <<<<<<<<<<<<<<
@@ -8721,7 +8727,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":822
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":822
  * 
  * cdef inline object PyArray_MultiIterNew1(a):
  *     return PyArray_MultiIterNew(1, <void*>a)             # <<<<<<<<<<<<<<
@@ -8735,7 +8741,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":821
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":821
  * ctypedef npy_cdouble     complex_t
  * 
  * cdef inline object PyArray_MultiIterNew1(a):             # <<<<<<<<<<<<<<
@@ -8754,7 +8760,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":824
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":824
  *     return PyArray_MultiIterNew(1, <void*>a)
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):             # <<<<<<<<<<<<<<
@@ -8768,7 +8774,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":825
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":825
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)             # <<<<<<<<<<<<<<
@@ -8782,7 +8788,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":824
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":824
  *     return PyArray_MultiIterNew(1, <void*>a)
  * 
  * cdef inline object PyArray_MultiIterNew2(a, b):             # <<<<<<<<<<<<<<
@@ -8801,7 +8807,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":827
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":827
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):             # <<<<<<<<<<<<<<
@@ -8815,7 +8821,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":828
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":828
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)             # <<<<<<<<<<<<<<
@@ -8829,7 +8835,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":827
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":827
  *     return PyArray_MultiIterNew(2, <void*>a, <void*>b)
  * 
  * cdef inline object PyArray_MultiIterNew3(a, b, c):             # <<<<<<<<<<<<<<
@@ -8848,7 +8854,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":830
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":830
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):             # <<<<<<<<<<<<<<
@@ -8862,7 +8868,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":831
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":831
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)             # <<<<<<<<<<<<<<
@@ -8876,7 +8882,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":830
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":830
  *     return PyArray_MultiIterNew(3, <void*>a, <void*>b, <void*> c)
  * 
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):             # <<<<<<<<<<<<<<
@@ -8895,7 +8901,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":833
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":833
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):             # <<<<<<<<<<<<<<
@@ -8909,7 +8915,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":834
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":834
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)             # <<<<<<<<<<<<<<
@@ -8923,7 +8929,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":833
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":833
  *     return PyArray_MultiIterNew(4, <void*>a, <void*>b, <void*>c, <void*> d)
  * 
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):             # <<<<<<<<<<<<<<
@@ -8942,7 +8948,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":836
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":836
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):             # <<<<<<<<<<<<<<
@@ -8956,7 +8962,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("PyDataType_SHAPE", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":837
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":837
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  *     if PyDataType_HASSUBARRAY(d):             # <<<<<<<<<<<<<<
@@ -8966,7 +8972,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
   __pyx_t_1 = (PyDataType_HASSUBARRAY(__pyx_v_d) != 0);
   if (__pyx_t_1) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":838
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":838
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  *     if PyDataType_HASSUBARRAY(d):
  *         return <tuple>d.subarray.shape             # <<<<<<<<<<<<<<
@@ -8978,7 +8984,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
     __pyx_r = ((PyObject*)__pyx_v_d->subarray->shape);
     goto __pyx_L0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":837
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":837
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  *     if PyDataType_HASSUBARRAY(d):             # <<<<<<<<<<<<<<
@@ -8987,7 +8993,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":840
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":840
  *         return <tuple>d.subarray.shape
  *     else:
  *         return ()             # <<<<<<<<<<<<<<
@@ -9001,7 +9007,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
     goto __pyx_L0;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":836
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":836
  *     return PyArray_MultiIterNew(5, <void*>a, <void*>b, <void*>c, <void*> d, <void*> e)
  * 
  * cdef inline tuple PyDataType_SHAPE(dtype d):             # <<<<<<<<<<<<<<
@@ -9016,7 +9022,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":842
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":842
  *         return ()
  * 
  * cdef inline char* _util_dtypestring(dtype descr, char* f, char* end, int* offset) except NULL:             # <<<<<<<<<<<<<<
@@ -9045,7 +9051,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   char *__pyx_t_9;
   __Pyx_RefNannySetupContext("_util_dtypestring", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":847
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":847
  * 
  *     cdef dtype child
  *     cdef int endian_detector = 1             # <<<<<<<<<<<<<<
@@ -9054,7 +9060,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   __pyx_v_endian_detector = 1;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":848
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":848
  *     cdef dtype child
  *     cdef int endian_detector = 1
  *     cdef bint little_endian = ((<char*>&endian_detector)[0] != 0)             # <<<<<<<<<<<<<<
@@ -9063,7 +9069,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   __pyx_v_little_endian = ((((char *)(&__pyx_v_endian_detector))[0]) != 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":851
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":851
  *     cdef tuple fields
  * 
  *     for childname in descr.names:             # <<<<<<<<<<<<<<
@@ -9086,7 +9092,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __Pyx_XDECREF_SET(__pyx_v_childname, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":852
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":852
  * 
  *     for childname in descr.names:
  *         fields = descr.fields[childname]             # <<<<<<<<<<<<<<
@@ -9103,7 +9109,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __Pyx_XDECREF_SET(__pyx_v_fields, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":853
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":853
  *     for childname in descr.names:
  *         fields = descr.fields[childname]
  *         child, new_offset = fields             # <<<<<<<<<<<<<<
@@ -9138,7 +9144,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __Pyx_XDECREF_SET(__pyx_v_new_offset, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":855
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":855
  *         child, new_offset = fields
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:             # <<<<<<<<<<<<<<
@@ -9155,7 +9161,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_6 = ((((__pyx_v_end - __pyx_v_f) - ((int)__pyx_t_5)) < 15) != 0);
     if (unlikely(__pyx_t_6)) {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":856
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":856
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")             # <<<<<<<<<<<<<<
@@ -9168,7 +9174,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __PYX_ERR(1, 856, __pyx_L1_error)
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":855
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":855
  *         child, new_offset = fields
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:             # <<<<<<<<<<<<<<
@@ -9177,7 +9183,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":858
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":858
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  *         if ((child.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -9197,7 +9203,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     }
     __pyx_L8_next_or:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":859
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":859
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  *             (child.byteorder == c'<' and not little_endian)):             # <<<<<<<<<<<<<<
@@ -9214,7 +9220,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_6 = __pyx_t_7;
     __pyx_L7_bool_binop_done:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":858
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":858
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  *         if ((child.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -9223,7 +9229,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     if (unlikely(__pyx_t_6)) {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":860
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":860
  *         if ((child.byteorder == c'>' and little_endian) or
  *             (child.byteorder == c'<' and not little_endian)):
  *             raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
@@ -9236,7 +9242,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __PYX_ERR(1, 860, __pyx_L1_error)
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":858
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":858
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  *         if ((child.byteorder == c'>' and little_endian) or             # <<<<<<<<<<<<<<
@@ -9245,7 +9251,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":870
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":870
  * 
  *         # Output padding bytes
  *         while offset[0] < new_offset:             # <<<<<<<<<<<<<<
@@ -9261,7 +9267,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (!__pyx_t_6) break;
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":871
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":871
  *         # Output padding bytes
  *         while offset[0] < new_offset:
  *             f[0] = 120 # "x"; pad byte             # <<<<<<<<<<<<<<
@@ -9270,7 +9276,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       (__pyx_v_f[0]) = 0x78;
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":872
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":872
  *         while offset[0] < new_offset:
  *             f[0] = 120 # "x"; pad byte
  *             f += 1             # <<<<<<<<<<<<<<
@@ -9279,7 +9285,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":873
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":873
  *             f[0] = 120 # "x"; pad byte
  *             f += 1
  *             offset[0] += 1             # <<<<<<<<<<<<<<
@@ -9290,7 +9296,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       (__pyx_v_offset[__pyx_t_8]) = ((__pyx_v_offset[__pyx_t_8]) + 1);
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":875
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":875
  *             offset[0] += 1
  * 
  *         offset[0] += child.itemsize             # <<<<<<<<<<<<<<
@@ -9300,7 +9306,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_8 = 0;
     (__pyx_v_offset[__pyx_t_8]) = ((__pyx_v_offset[__pyx_t_8]) + __pyx_v_child->elsize);
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":877
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":877
  *         offset[0] += child.itemsize
  * 
  *         if not PyDataType_HASFIELDS(child):             # <<<<<<<<<<<<<<
@@ -9310,7 +9316,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     __pyx_t_6 = ((!(PyDataType_HASFIELDS(__pyx_v_child) != 0)) != 0);
     if (__pyx_t_6) {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":878
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":878
  * 
  *         if not PyDataType_HASFIELDS(child):
  *             t = child.type_num             # <<<<<<<<<<<<<<
@@ -9322,7 +9328,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":879
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":879
  *         if not PyDataType_HASFIELDS(child):
  *             t = child.type_num
  *             if end - f < 5:             # <<<<<<<<<<<<<<
@@ -9332,7 +9338,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __pyx_t_6 = (((__pyx_v_end - __pyx_v_f) < 5) != 0);
       if (unlikely(__pyx_t_6)) {
 
-        /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":880
+        /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":880
  *             t = child.type_num
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")             # <<<<<<<<<<<<<<
@@ -9345,7 +9351,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __PYX_ERR(1, 880, __pyx_L1_error)
 
-        /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":879
+        /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":879
  *         if not PyDataType_HASFIELDS(child):
  *             t = child.type_num
  *             if end - f < 5:             # <<<<<<<<<<<<<<
@@ -9354,7 +9360,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":883
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":883
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  *             if   t == NPY_BYTE:        f[0] =  98 #"b"             # <<<<<<<<<<<<<<
@@ -9372,7 +9378,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":884
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":884
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  *             if   t == NPY_BYTE:        f[0] =  98 #"b"
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"             # <<<<<<<<<<<<<<
@@ -9390,7 +9396,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":885
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":885
  *             if   t == NPY_BYTE:        f[0] =  98 #"b"
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"             # <<<<<<<<<<<<<<
@@ -9408,7 +9414,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":886
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":886
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"             # <<<<<<<<<<<<<<
@@ -9426,7 +9432,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":887
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":887
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"             # <<<<<<<<<<<<<<
@@ -9444,7 +9450,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":888
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":888
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"             # <<<<<<<<<<<<<<
@@ -9462,7 +9468,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":889
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":889
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"             # <<<<<<<<<<<<<<
@@ -9480,7 +9486,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":890
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":890
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"             # <<<<<<<<<<<<<<
@@ -9498,7 +9504,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":891
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":891
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"             # <<<<<<<<<<<<<<
@@ -9516,7 +9522,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":892
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":892
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"             # <<<<<<<<<<<<<<
@@ -9534,7 +9540,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":893
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":893
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"             # <<<<<<<<<<<<<<
@@ -9552,7 +9558,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":894
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":894
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"             # <<<<<<<<<<<<<<
@@ -9570,7 +9576,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":895
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":895
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"             # <<<<<<<<<<<<<<
@@ -9588,7 +9594,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":896
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":896
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf             # <<<<<<<<<<<<<<
@@ -9608,7 +9614,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":897
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":897
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd             # <<<<<<<<<<<<<<
@@ -9628,7 +9634,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":898
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":898
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg             # <<<<<<<<<<<<<<
@@ -9648,7 +9654,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":899
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":899
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"             # <<<<<<<<<<<<<<
@@ -9666,7 +9672,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
         goto __pyx_L15;
       }
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":901
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":901
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)             # <<<<<<<<<<<<<<
@@ -9685,7 +9691,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       }
       __pyx_L15:;
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":902
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":902
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  *             f += 1             # <<<<<<<<<<<<<<
@@ -9694,7 +9700,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":877
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":877
  *         offset[0] += child.itemsize
  * 
  *         if not PyDataType_HASFIELDS(child):             # <<<<<<<<<<<<<<
@@ -9704,7 +9710,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       goto __pyx_L13;
     }
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":906
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":906
  *             # Cython ignores struct boundary information ("T{...}"),
  *             # so don't output it
  *             f = _util_dtypestring(child, f, end, offset)             # <<<<<<<<<<<<<<
@@ -9717,7 +9723,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
     }
     __pyx_L13:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":851
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":851
  *     cdef tuple fields
  * 
  *     for childname in descr.names:             # <<<<<<<<<<<<<<
@@ -9727,7 +9733,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":907
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":907
  *             # so don't output it
  *             f = _util_dtypestring(child, f, end, offset)
  *     return f             # <<<<<<<<<<<<<<
@@ -9737,7 +9743,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   __pyx_r = __pyx_v_f;
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":842
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":842
  *         return ()
  * 
  * cdef inline char* _util_dtypestring(dtype descr, char* f, char* end, int* offset) except NULL:             # <<<<<<<<<<<<<<
@@ -9762,7 +9768,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1022
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1022
  *     int _import_umath() except -1
  * 
  * cdef inline void set_array_base(ndarray arr, object base):             # <<<<<<<<<<<<<<
@@ -9774,7 +9780,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_array_base", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1023
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1023
  * 
  * cdef inline void set_array_base(ndarray arr, object base):
  *     Py_INCREF(base) # important to do this before stealing the reference below!             # <<<<<<<<<<<<<<
@@ -9783,7 +9789,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
   Py_INCREF(__pyx_v_base);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1024
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1024
  * cdef inline void set_array_base(ndarray arr, object base):
  *     Py_INCREF(base) # important to do this before stealing the reference below!
  *     PyArray_SetBaseObject(arr, base)             # <<<<<<<<<<<<<<
@@ -9792,7 +9798,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
   (void)(PyArray_SetBaseObject(__pyx_v_arr, __pyx_v_base));
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1022
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1022
  *     int _import_umath() except -1
  * 
  * cdef inline void set_array_base(ndarray arr, object base):             # <<<<<<<<<<<<<<
@@ -9804,7 +9810,7 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
   __Pyx_RefNannyFinishContext();
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1026
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1026
  *     PyArray_SetBaseObject(arr, base)
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -9819,7 +9825,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("get_array_base", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1027
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1027
  * 
  * cdef inline object get_array_base(ndarray arr):
  *     base = PyArray_BASE(arr)             # <<<<<<<<<<<<<<
@@ -9828,7 +9834,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
   __pyx_v_base = PyArray_BASE(__pyx_v_arr);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1028
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1028
  * cdef inline object get_array_base(ndarray arr):
  *     base = PyArray_BASE(arr)
  *     if base is NULL:             # <<<<<<<<<<<<<<
@@ -9838,7 +9844,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   __pyx_t_1 = ((__pyx_v_base == NULL) != 0);
   if (__pyx_t_1) {
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1029
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1029
  *     base = PyArray_BASE(arr)
  *     if base is NULL:
  *         return None             # <<<<<<<<<<<<<<
@@ -9849,7 +9855,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1028
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1028
  * cdef inline object get_array_base(ndarray arr):
  *     base = PyArray_BASE(arr)
  *     if base is NULL:             # <<<<<<<<<<<<<<
@@ -9858,7 +9864,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1030
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1030
  *     if base is NULL:
  *         return None
  *     return <object>base             # <<<<<<<<<<<<<<
@@ -9870,7 +9876,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   __pyx_r = ((PyObject *)__pyx_v_base);
   goto __pyx_L0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1026
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1026
  *     PyArray_SetBaseObject(arr, base)
  * 
  * cdef inline object get_array_base(ndarray arr):             # <<<<<<<<<<<<<<
@@ -9885,7 +9891,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1034
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1034
  * # Versions of the import_* functions which are more suitable for
  * # Cython code.
  * cdef inline int import_array() except -1:             # <<<<<<<<<<<<<<
@@ -9906,7 +9912,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("import_array", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1035
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1035
  * # Cython code.
  * cdef inline int import_array() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -9922,7 +9928,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1036
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1036
  * cdef inline int import_array() except -1:
  *     try:
  *         _import_array()             # <<<<<<<<<<<<<<
@@ -9931,7 +9937,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  */
       __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1036, __pyx_L3_error)
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1035
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1035
  * # Cython code.
  * cdef inline int import_array() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -9945,7 +9951,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1037
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1037
  *     try:
  *         _import_array()
  *     except Exception:             # <<<<<<<<<<<<<<
@@ -9960,7 +9966,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1038
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1038
  *         _import_array()
  *     except Exception:
  *         raise ImportError("numpy.core.multiarray failed to import")             # <<<<<<<<<<<<<<
@@ -9976,7 +9982,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1035
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1035
  * # Cython code.
  * cdef inline int import_array() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -9991,7 +9997,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __pyx_L8_try_end:;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1034
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1034
  * # Versions of the import_* functions which are more suitable for
  * # Cython code.
  * cdef inline int import_array() except -1:             # <<<<<<<<<<<<<<
@@ -10014,7 +10020,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1040
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1040
  *         raise ImportError("numpy.core.multiarray failed to import")
  * 
  * cdef inline int import_umath() except -1:             # <<<<<<<<<<<<<<
@@ -10035,7 +10041,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("import_umath", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1041
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1041
  * 
  * cdef inline int import_umath() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -10051,7 +10057,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1042
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1042
  * cdef inline int import_umath() except -1:
  *     try:
  *         _import_umath()             # <<<<<<<<<<<<<<
@@ -10060,7 +10066,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  */
       __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1042, __pyx_L3_error)
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1041
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1041
  * 
  * cdef inline int import_umath() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -10074,7 +10080,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1043
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1043
  *     try:
  *         _import_umath()
  *     except Exception:             # <<<<<<<<<<<<<<
@@ -10089,7 +10095,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1044
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1044
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
@@ -10105,7 +10111,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1041
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1041
  * 
  * cdef inline int import_umath() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -10120,7 +10126,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __pyx_L8_try_end:;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1040
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1040
  *         raise ImportError("numpy.core.multiarray failed to import")
  * 
  * cdef inline int import_umath() except -1:             # <<<<<<<<<<<<<<
@@ -10143,7 +10149,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   return __pyx_r;
 }
 
-/* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1046
+/* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1046
  *         raise ImportError("numpy.core.umath failed to import")
  * 
  * cdef inline int import_ufunc() except -1:             # <<<<<<<<<<<<<<
@@ -10164,7 +10170,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("import_ufunc", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1047
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1047
  * 
  * cdef inline int import_ufunc() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -10180,7 +10186,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1048
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1048
  * cdef inline int import_ufunc() except -1:
  *     try:
  *         _import_umath()             # <<<<<<<<<<<<<<
@@ -10189,7 +10195,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  */
       __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1048, __pyx_L3_error)
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1047
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1047
  * 
  * cdef inline int import_ufunc() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -10203,7 +10209,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1049
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1049
  *     try:
  *         _import_umath()
  *     except Exception:             # <<<<<<<<<<<<<<
@@ -10217,7 +10223,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1050
+      /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1050
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
@@ -10231,7 +10237,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1047
+    /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1047
  * 
  * cdef inline int import_ufunc() except -1:
  *     try:             # <<<<<<<<<<<<<<
@@ -10246,7 +10252,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __pyx_L8_try_end:;
   }
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1046
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1046
  *         raise ImportError("numpy.core.umath failed to import")
  * 
  * cdef inline int import_ufunc() except -1:             # <<<<<<<<<<<<<<
@@ -10337,7 +10343,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SphereRepresentation__make_sel_g, __pyx_k_SphereRepresentation__make_sel_g, sizeof(__pyx_k_SphereRepresentation__make_sel_g), 0, 0, 1, 1},
   {&__pyx_kp_s_Time_used_creating_nucleus_verti, __pyx_k_Time_used_creating_nucleus_verti, sizeof(__pyx_k_Time_used_creating_nucleus_verti), 0, 0, 1, 0},
   {&__pyx_kp_s_Time_used_creating_nucleus_verti_2, __pyx_k_Time_used_creating_nucleus_verti_2, sizeof(__pyx_k_Time_used_creating_nucleus_verti_2), 0, 0, 1, 0},
-  {&__pyx_n_s_VISMOL_glCore_sphere_data, __pyx_k_VISMOL_glCore_sphere_data, sizeof(__pyx_k_VISMOL_glCore_sphere_data), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 1},
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
@@ -10370,6 +10375,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_glBindBuffer, __pyx_k_glBindBuffer, sizeof(__pyx_k_glBindBuffer), 0, 0, 1, 1},
   {&__pyx_n_s_glBindVertexArray, __pyx_k_glBindVertexArray, sizeof(__pyx_k_glBindVertexArray), 0, 0, 1, 1},
   {&__pyx_n_s_glBufferData, __pyx_k_glBufferData, sizeof(__pyx_k_glBufferData), 0, 0, 1, 1},
+  {&__pyx_n_s_glCore_sphere_data, __pyx_k_glCore_sphere_data, sizeof(__pyx_k_glCore_sphere_data), 0, 0, 1, 1},
+  {&__pyx_n_s_glCore_sphere_representation, __pyx_k_glCore_sphere_representation, sizeof(__pyx_k_glCore_sphere_representation), 0, 0, 1, 1},
+  {&__pyx_kp_s_glCore_sphere_representation_pyx, __pyx_k_glCore_sphere_representation_pyx, sizeof(__pyx_k_glCore_sphere_representation_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_glDisableVertexAttribArray, __pyx_k_glDisableVertexAttribArray, sizeof(__pyx_k_glDisableVertexAttribArray), 0, 0, 1, 1},
   {&__pyx_n_s_glEnableVertexAttribArray, __pyx_k_glEnableVertexAttribArray, sizeof(__pyx_k_glEnableVertexAttribArray), 0, 0, 1, 1},
   {&__pyx_n_s_glGenBuffers, __pyx_k_glGenBuffers, sizeof(__pyx_k_glGenBuffers), 0, 0, 1, 1},
@@ -10422,8 +10430,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sel_triangles, __pyx_k_sel_triangles, sizeof(__pyx_k_sel_triangles), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_sphd, __pyx_k_sphd, sizeof(__pyx_k_sphd), 0, 0, 1, 1},
-  {&__pyx_n_s_sphere_representation, __pyx_k_sphere_representation, sizeof(__pyx_k_sphere_representation), 0, 0, 1, 1},
-  {&__pyx_kp_s_sphere_representation_pyx, __pyx_k_sphere_representation_pyx, sizeof(__pyx_k_sphere_representation_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_sphere_triangles, __pyx_k_sphere_triangles, sizeof(__pyx_k_sphere_triangles), 0, 0, 1, 1},
   {&__pyx_n_s_sphere_vertices, __pyx_k_sphere_vertices, sizeof(__pyx_k_sphere_vertices), 0, 0, 1, 1},
   {&__pyx_n_s_spheres_buffers, __pyx_k_spheres_buffers, sizeof(__pyx_k_spheres_buffers), 0, 0, 1, 1},
@@ -10455,7 +10461,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":272
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":272
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_ARRAY_C_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not C contiguous")             # <<<<<<<<<<<<<<
@@ -10466,7 +10472,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":276
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":276
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_ARRAY_F_CONTIGUOUS)):
  *                 raise ValueError(u"ndarray is not Fortran contiguous")             # <<<<<<<<<<<<<<
@@ -10477,7 +10483,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":306
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":306
  *                 if ((descr.byteorder == c'>' and little_endian) or
  *                     (descr.byteorder == c'<' and not little_endian)):
  *                     raise ValueError(u"Non-native byte order not supported")             # <<<<<<<<<<<<<<
@@ -10488,7 +10494,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":856
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":856
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")             # <<<<<<<<<<<<<<
@@ -10499,7 +10505,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":880
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":880
  *             t = child.type_num
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")             # <<<<<<<<<<<<<<
@@ -10510,7 +10516,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1038
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1038
  *         _import_array()
  *     except Exception:
  *         raise ImportError("numpy.core.multiarray failed to import")             # <<<<<<<<<<<<<<
@@ -10521,7 +10527,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1044
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1044
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
@@ -10532,7 +10538,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "sphere_representation.pyx":35
+  /* "glCore/sphere_representation.pyx":35
  * 
  * 
  * def _create_frame_sphere_data (frame, atoms ,offset, elems, scale, level, qtty ):             # <<<<<<<<<<<<<<
@@ -10542,9 +10548,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__9 = PyTuple_Pack(13, __pyx_n_s_frame, __pyx_n_s_atoms, __pyx_n_s_offset, __pyx_n_s_elems, __pyx_n_s_scale, __pyx_n_s_level, __pyx_n_s_qtty, __pyx_n_s_coords, __pyx_n_s_centers, __pyx_n_s_a, __pyx_n_s_atom, __pyx_n_s_pos, __pyx_n_s_i); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(7, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sphere_representation_pyx, __pyx_n_s_create_frame_sphere_data, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(7, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glCore_sphere_representation_pyx, __pyx_n_s_create_frame_sphere_data, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 35, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":78
+  /* "glCore/sphere_representation.pyx":78
  *     """ Class doc """
  * 
  *     def __init__(self, vismol_object = None, level = 'level_0', scale = 1.0):             # <<<<<<<<<<<<<<
@@ -10554,12 +10560,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_vismol_object, __pyx_n_s_level, __pyx_n_s_scale); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sphere_representation_pyx, __pyx_n_s_init, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glCore_sphere_representation_pyx, __pyx_n_s_init, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_tuple__13 = PyTuple_Pack(3, ((PyObject *)Py_None), ((PyObject*)__pyx_n_s_level_0), ((PyObject*)__pyx_float_1_0)); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
-  /* "sphere_representation.pyx":89
+  /* "glCore/sphere_representation.pyx":89
  *         self.indices = None
  * 
  *     def _create_sphere_data(self):             # <<<<<<<<<<<<<<
@@ -10569,9 +10575,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__14 = PyTuple_Pack(16, __pyx_n_s_self, __pyx_n_s_init_2, __pyx_n_s_a, __pyx_n_s_i, __pyx_n_s_qtty, __pyx_n_s_elems, __pyx_n_s_offset, __pyx_n_s_inds_e, __pyx_n_s_nucleus, __pyx_n_s_colores, __pyx_n_s_coords, __pyx_n_s_centers, __pyx_n_s_colors, __pyx_n_s_indices, __pyx_n_s_atom, __pyx_n_s_end); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sphere_representation_pyx, __pyx_n_s_create_sphere_data, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glCore_sphere_representation_pyx, __pyx_n_s_create_sphere_data, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 89, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":122
+  /* "glCore/sphere_representation.pyx":122
  *         return True
  * 
  *     def _create_sel_sphere_data(self, level):             # <<<<<<<<<<<<<<
@@ -10581,9 +10587,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__16 = PyTuple_Pack(16, __pyx_n_s_self, __pyx_n_s_level, __pyx_n_s_init_2, __pyx_n_s_a, __pyx_n_s_i, __pyx_n_s_qtty, __pyx_n_s_elems, __pyx_n_s_offset, __pyx_n_s_inds_e, __pyx_n_s_nucleus, __pyx_n_s_colores, __pyx_n_s_coords, __pyx_n_s_colors, __pyx_n_s_indices, __pyx_n_s_atom, __pyx_n_s_end); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(2, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sphere_representation_pyx, __pyx_n_s_create_sel_sphere_data, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(2, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glCore_sphere_representation_pyx, __pyx_n_s_create_sel_sphere_data, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 122, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":152
+  /* "glCore/sphere_representation.pyx":152
  *         return True
  * 
  *     def _make_gl_spheres(self, program):             # <<<<<<<<<<<<<<
@@ -10593,9 +10599,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__18 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_program, __pyx_n_s_vertex_array_object, __pyx_n_s_ind_vbo, __pyx_n_s_coord_vbo, __pyx_n_s_gl_coord, __pyx_n_s_centr_vbo, __pyx_n_s_gl_center, __pyx_n_s_col_vbo, __pyx_n_s_gl_colors); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sphere_representation_pyx, __pyx_n_s_make_gl_spheres, 152, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glCore_sphere_representation_pyx, __pyx_n_s_make_gl_spheres, 152, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 152, __pyx_L1_error)
 
-  /* "sphere_representation.pyx":192
+  /* "glCore/sphere_representation.pyx":192
  *         return True
  * 
  *     def _make_sel_gl_spheres(self, program):             # <<<<<<<<<<<<<<
@@ -10605,7 +10611,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__20 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_program, __pyx_n_s_vertex_array_object, __pyx_n_s_ind_vbo, __pyx_n_s_coord_vbo, __pyx_n_s_gl_coord, __pyx_n_s_col_vbo, __pyx_n_s_gl_colors); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_sphere_representation_pyx, __pyx_n_s_make_sel_gl_spheres, 192, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_glCore_sphere_representation_pyx, __pyx_n_s_make_sel_gl_spheres, 192, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -10889,14 +10895,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_sphere_representation) {
+  if (__pyx_module_is_main_glCore__sphere_representation) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "sphere_representation")) {
-      if (unlikely(PyDict_SetItemString(modules, "sphere_representation", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "glCore.sphere_representation")) {
+      if (unlikely(PyDict_SetItemString(modules, "glCore.sphere_representation", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -10917,7 +10923,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "sphere_representation.pyx":26
+  /* "glCore/sphere_representation.pyx":26
  * 
  * import cython
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -10929,7 +10935,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":28
+  /* "glCore/sphere_representation.pyx":28
  * import numpy as np
  * cimport numpy as np
  * import ctypes, time             # <<<<<<<<<<<<<<
@@ -10945,7 +10951,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":29
+  /* "glCore/sphere_representation.pyx":29
  * cimport numpy as np
  * import ctypes, time
  * from OpenGL import GL             # <<<<<<<<<<<<<<
@@ -10966,7 +10972,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":30
+  /* "glCore/sphere_representation.pyx":30
  * import ctypes, time
  * from OpenGL import GL
  * import glCore.sphere_data as sphd             # <<<<<<<<<<<<<<
@@ -10978,96 +10984,96 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s__8);
   __Pyx_GIVEREF(__pyx_n_s__8);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__8);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_VISMOL_glCore_sphere_data, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_glCore_sphere_data, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_sphd, __pyx_t_1) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":35
+  /* "glCore/sphere_representation.pyx":35
  * 
  * 
  * def _create_frame_sphere_data (frame, atoms ,offset, elems, scale, level, qtty ):             # <<<<<<<<<<<<<<
  *     """ Function doc """
  *     coords  = sphd.sphere_vertices[level]*qtty
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_21sphere_representation_1_create_frame_sphere_data, NULL, __pyx_n_s_sphere_representation); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6glCore_21sphere_representation_1_create_frame_sphere_data, NULL, __pyx_n_s_glCore_sphere_representation); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_create_frame_sphere_data, __pyx_t_1) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":75
+  /* "glCore/sphere_representation.pyx":75
  * 
  * 
  * class SphereRepresentation:             # <<<<<<<<<<<<<<
  *     """ Class doc """
  * 
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_SphereRepresentation, __pyx_n_s_SphereRepresentation, (PyObject *) NULL, __pyx_n_s_sphere_representation, __pyx_kp_s_Class_doc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_SphereRepresentation, __pyx_n_s_SphereRepresentation, (PyObject *) NULL, __pyx_n_s_glCore_sphere_representation, __pyx_kp_s_Class_doc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "sphere_representation.pyx":78
+  /* "glCore/sphere_representation.pyx":78
  *     """ Class doc """
  * 
  *     def __init__(self, vismol_object = None, level = 'level_0', scale = 1.0):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
  *         self.vismol_object = vismol_object
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_21sphere_representation_20SphereRepresentation_1__init__, 0, __pyx_n_s_SphereRepresentation___init, NULL, __pyx_n_s_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_1__init__, 0, __pyx_n_s_SphereRepresentation___init, NULL, __pyx_n_s_glCore_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__13);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":89
+  /* "glCore/sphere_representation.pyx":89
  *         self.indices = None
  * 
  *     def _create_sphere_data(self):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         init = time.time()
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_21sphere_representation_20SphereRepresentation_3_create_sphere_data, 0, __pyx_n_s_SphereRepresentation__create_sph, NULL, __pyx_n_s_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_3_create_sphere_data, 0, __pyx_n_s_SphereRepresentation__create_sph, NULL, __pyx_n_s_glCore_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_sphere_data, __pyx_t_2) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":122
+  /* "glCore/sphere_representation.pyx":122
  *         return True
  * 
  *     def _create_sel_sphere_data(self, level):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         init = time.time()
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data, 0, __pyx_n_s_SphereRepresentation__create_sel, NULL, __pyx_n_s_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_5_create_sel_sphere_data, 0, __pyx_n_s_SphereRepresentation__create_sel, NULL, __pyx_n_s_glCore_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_sel_sphere_data, __pyx_t_2) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":152
+  /* "glCore/sphere_representation.pyx":152
  *         return True
  * 
  *     def _make_gl_spheres(self, program):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         vertex_array_object = GL.glGenVertexArrays(1)
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_21sphere_representation_20SphereRepresentation_7_make_gl_spheres, 0, __pyx_n_s_SphereRepresentation__make_gl_sp, NULL, __pyx_n_s_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_7_make_gl_spheres, 0, __pyx_n_s_SphereRepresentation__make_gl_sp, NULL, __pyx_n_s_glCore_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_make_gl_spheres, __pyx_t_2) < 0) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":192
+  /* "glCore/sphere_representation.pyx":192
  *         return True
  * 
  *     def _make_sel_gl_spheres(self, program):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         vertex_array_object = GL.glGenVertexArrays(1)
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres, 0, __pyx_n_s_SphereRepresentation__make_sel_g, NULL, __pyx_n_s_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6glCore_21sphere_representation_20SphereRepresentation_9_make_sel_gl_spheres, 0, __pyx_n_s_SphereRepresentation__make_sel_g, NULL, __pyx_n_s_glCore_sphere_representation, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_make_sel_gl_spheres, __pyx_t_2) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "sphere_representation.pyx":75
+  /* "glCore/sphere_representation.pyx":75
  * 
  * 
  * class SphereRepresentation:             # <<<<<<<<<<<<<<
@@ -11080,7 +11086,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "sphere_representation.pyx":1
+  /* "glCore/sphere_representation.pyx":1
  * #!/usr/bin/env python3             # <<<<<<<<<<<<<<
  * # -*- coding: utf-8 -*-
  * #
@@ -11090,7 +11096,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "../../../../../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1046
+  /* "../../../usr/lib/python3/dist-packages/Cython/Includes/numpy/__init__.pxd":1046
  *         raise ImportError("numpy.core.umath failed to import")
  * 
  * cdef inline int import_ufunc() except -1:             # <<<<<<<<<<<<<<
@@ -11106,11 +11112,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init sphere_representation", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init glCore.sphere_representation", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init sphere_representation");
+    PyErr_SetString(PyExc_ImportError, "init glCore.sphere_representation");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

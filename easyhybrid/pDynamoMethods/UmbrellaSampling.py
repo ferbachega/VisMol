@@ -106,6 +106,17 @@ class US:
         '''
         Class method to execute one-dimensional sampling
         '''
+        atom1 = self.atoms[0]
+        atom2 = self.atoms[1]
+        atom3 = 0
+
+        weight1 = self.self.sigma_a3_a1[0]
+        weight2 = self.self.sigma_a1_a3[0]
+
+        if len(self.atoms[0]) == 3:
+            atom3 = self.atoms[0][2]
+
+
         if not _sample:
             self.samplingFactor = 0
         #Adicionar outras possibilidades de carregar cordenadas
@@ -124,10 +135,7 @@ class US:
                 self.molecule.coordinates3 = Unpickle(file_lists[i])
                 distance = self.molecule.coordinates3( self.atoms[0][0], self.atoms[0][1] )
                 rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
-                restraint = RestraintMultipleDistnce.WithOptions(energyModel = rmodel, [\
-                                                                [ point1= self.atoms[0][1], point1= self.atoms[0][0], weight=self.sigma_a1_a3[0] ],\
-                                                                [ point1= self.atoms[0][1], point1= self.atoms[0][2], weight=self.sigma_a3_a1[0] ]\
-                                                                ] ) 
+                restraint = RestraintMultipleDistnce.WithOptions(energyModel = rmodel,  distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ]) 
 
                 restraints['ReactionCoord'] = restraint
                 mdfolder = os.path.join( self.baseName, file_lists[i]+"_MD" )
@@ -153,6 +161,40 @@ class US:
         '''
         Class method to execute two-dimesninal sampling 
         '''
+        
+        #Setting some local vars to ease the notation in the pDynamo methods
+        #----------------------------------------------------------------
+        atom1 = self.atoms[0]
+        atom2 = self.atoms[1]
+        atom3 = 0
+        atom4 = 0
+        atom5 = 0 
+        atom6 = 0 
+
+        weight1 = self.sigma_a3_a1[0]
+        weight2 = self.sigma_a1_a3[0]
+        weight3 = self.sigma_a3_a1[1]
+        weight4 = self.sigma_a1_a3[1]
+
+        if len(self.atoms[0]) == 3 and len(self.atoms[1]) == 2:
+            atom3 = self.atoms[0][2]
+            atom4 = self.atoms[1][0]
+            atom5 = self.atoms[1][1]
+        elif len(self.atoms[0]) == 3 and len(self.atoms[1]) == 3:
+            atom3 = self.atoms[0][2]
+            atom4 = self.atoms[1][0]
+            atom5 = self.atoms[1][1]
+            atom6 = self.atoms[1][2]
+        elif len(self.atoms[0]) == 2 and len(self.atoms[1]) == 3:
+            atom3 = self.atoms[1][0]
+            atom4 = self.atoms[1][1]
+            atom5 = self.atoms[1][2]
+        elif len(self.atoms[0]) == 2 and len(self.atoms[1]) == 2:   
+            atom3 = self.atoms[1][0]
+            atom4 = self.atoms[1][1]
+        else: print("Impossible combination!")
+
+        #========================================================
         pkl_path   = os.path.join( _trajFolder, "")
         file_lists = glob.glob( pkl_path+"*.pkl" )
 
@@ -181,10 +223,7 @@ class US:
                                       self.molecule.coordinates3.Distance( self.atoms[0][1], self.atoms[0][2] )
                     
                         rmodel      =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
-                        restraint_1 =  RestraintMultipleDistnce.WithOptions( energyModel = rmodel, [\
-                                                                [ point1= self.atoms[0][1], point1= self.atoms[0][0], weight=self.sigma_a1_a3[0] ],\
-                                                                [ point1= self.atoms[0][1], point1= self.atoms[0][2], weight=self.sigma_a3_a1[0] ] \
-                                                                ] )
+                        restraint_1 =  RestraintMultipleDistnce.WithOptions( energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
                         restraints["ReactionCoord"] = restraint_1
                     
                     
@@ -192,10 +231,7 @@ class US:
                                       self.molecule.coordinates3.Distance( self.atoms[1][1], self.atoms[1][2] )
 
                         rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_1 = RestraintMultipleDistnce.WithOptions(energyModel = rmodel, [\
-                                                                [ point1= self.atoms[1][1], point1= self.atoms[1][0], weight=self.sigma_a1_a3[1] ],\
-                                                                [ point1= self.atoms[1][1], point1= self.atoms[1][2], weight=self.sigma_a3_a1[1] ] \
-                                                                ] )
+                        restraint_1 = RestraintMultipleDistnce.WithOptions(energyModel = rmodel,  distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ])
                         
                         restraints["ReactionCoord2"] = restraint_2  
                         mdRun = MD(self.molecule,mdfolder,self.mdMethod)
@@ -220,16 +256,12 @@ class US:
                                       self.molecule.coordinates3.Distance( self.atoms[0][1], self.atoms[0][2] )
                     
                         rmodel      =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
-                        restraint_1 =  RestraintMultipleDistnce.WithOptions( energyModel = rmodel, [\
-                                                                [ point1= self.atoms[0][1], point1= self.atoms[0][0], weight=self.sigma_a1_a3[0] ],\
-                                                                [ point1= self.atoms[0][1], point1= self.atoms[0][2], weight=self.sigma_a3_a1[0] ] \
-                                                                ] )
+                        restraint_1 =  RestraintMultipleDistnce.WithOptions( energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
                         restraints["ReactionCoord"] = restraint_1
-                    
-                    
+                                        
                         distance_2  = self.molecule.coordinates3.Distance( self.atoms[1][0], self.atoms[1][1] )
                         rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_1 = RestraintDistnce.WithOptions(energyModel = rmodel, point1= self.atoms[1][1], point1= self.atoms[1][0] )
+                        restraint_1 = RestraintDistnce.WithOptions(energyModel = rmodel, point1= atom4, point2= atom5)
                                                                 
                         restraints["ReactionCoord2"] = restraint_2  
                         mdRun = MD(self.molecule,mdfolder,self.mdMethod)
@@ -250,17 +282,17 @@ class US:
                     if  not os.path.exists( md_path ):
                                   
                         self.molecule.coordinates3 = Unpickle( file_lists[i] )
-                        distance_1  = self.molecule.coordinates3.Distance( self.atoms[0][0], self.atoms[0][1] )
+                        distance_1  = self.molecule.coordinates3.Distance( atom1, atom2 )
                     
                         rmodel      =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
-                        restraint_1 =  RestraintMultipleDistnce.WithOptions( energyModel = rmodel, point1= self.atoms[0][1], point1= self.atoms[0][0] )
+                        restraint_1 =  RestraintMultipleDistnce.WithOptions( energyModel = rmodel, point1= atom2, point2= atom1 )
                 
                         restraints["ReactionCoord"] = restraint_1
                     
                     
                         distance_2  = self.molecule.coordinates3.Distance( self.atoms[1][0], self.atoms[1][1] )
                         rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_1 = RestraintDistnce.WithOptions(energyModel = rmodel, point1= self.atoms[1][1], point1= self.atoms[1][0] )
+                        restraint_1 = RestraintDistnce.WithOptions(energyModel = rmodel, point1= atom3, point2= atom4 )
                                                                 
                         restraints["ReactionCoord2"] = restraint_2  
                         mdRun = MD(self.molecule,self.mdParameters,mdfolder)

@@ -8,12 +8,36 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
+#--------------------------------------------------------------
 import os, glob
-import pCore
-import pMolecule
-import pBabel
+#--------------------------------------------------------------
+#Loading own libraries
+from commonFunctions 		import *
+from LogFile  				import LogFile
+from GeometrySearcher 		import GeometrySearcher
+from RelaxedScan 			import SCAN
+from MolecularDynamics  	import MD
+from UmbrellaSampling  		import US
+from PotentialOfMeanForce 	import PMF
 
+#--------------------------------------------------------------
+#loading pDynamo Libraries
+from pBabel                    import *                                     
+from pCore                     import *
+                                     
+from pMolecule                 import *                              
+from pMolecule.MMModel         import *
+from pMolecule.NBModel         import *                                     
+from pMolecule.QCModel         import *
 
+from pScientific               import *                                     
+from pScientific.Arrays        import *                                     
+from pScientific.Geometry3     import *                                     
+from pScientific.RandomNumbers import *                                     
+from pScientific.Statistics    import *
+from pScientific.Symmetry      import *
+                                     
+from pSimulation               import *
 #=============================================================
 class Simulation:
 	'''
@@ -61,11 +85,11 @@ class Simulation:
 		'''
 		
 		#-------------------------------------------------------------
-		elif self.simulationType == "Energy_Refinement":
+		if self.simulationType == "Energy_Refinement":
 			if "methods" in _parameters:
-				self.methods = _parameters
+				self.methods = _parameters['methods']
 			if "software" in _parameters:
-				self.software = _ṕarameters:
+				self.software = _parameters['software']
 			if "nprocs" in  _parameters:
 				self.MAXnprocs = _parameters['nprocs']
 			if "coorddinates_folder" in _parameters:
@@ -79,7 +103,7 @@ class Simulation:
 
 			if len(_parameters) > 1:
 				self.GeometryOptimization(_parameters)
-			else 
+			else:
 				self.GeometryOptimization(None)
 
 		#-------------------------------------------------------------
@@ -109,7 +133,7 @@ class Simulation:
 				self.prodNsteps = _parameters['production_nsteps']
 			if "equilibration_nsteps" in _parameters:
 				self.equiNsteps = _parameters['equilibration_nsteps']
-			if "temperature" in _parameters
+			if "temperature" in _parameters:
 				self.temperature = _parameters['temperature']
 			if "MD_method" in _parameters:
 				self.mdMethod = _parameters['MD_method'] 
@@ -118,7 +142,7 @@ class Simulation:
 		
 		#-------------------------------------------------------------
 		elif self.simulationType == "Normal_Modes":
-			if "temperature" in _parameters
+			if "temperature" in _parameters:
 				self.temperature = _parameters['temperature']
 			if "cycles" in _parameters:
 				self.NMcycles = _parameters['cycles']
@@ -128,7 +152,7 @@ class Simulation:
 
 		#-------------------------------------------------------------
 		elif self.simulationType == "Delta_Free_Energy":
-			if "temperature" in _parameters
+			if "temperature" in _parameters:
 				self.temperature = _parameters['temperature']
 			_ic = _parameters['initial_coordinates']
 			_fc = _parameters['final_coordinates']
@@ -166,7 +190,7 @@ class Simulation:
 		Gopt = GeometrySearcher(self.molecule,self.baseFolder)
 		
 		#If there more parameters passed for this type of simulation the code understands that the user wants to modufy some deafult values
-		if _parameters not None:
+		if not _parameters == None:
 			Gopt.ChengeDefaultParameters(_parameters)
 
 		Gopt.Minimization(self.optmizer)
@@ -184,9 +208,9 @@ class Simulation:
 
 		MCR1 = False
 		MCR2 = False
-		if _parameters["Mass_Constraint_RC1"]
+		if _parameters["Mass_Constraint_RC1"]:
 			MCR1 = True
-		if _parameters["Mass_Constraint_RC2"]
+		if _parameters["Mass_Constraint_RC2"]:
 			MCR2 = True
 
 		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['Distance_Step_RC1'], MCR1)
@@ -233,18 +257,21 @@ class Simulation:
 	def UmbrellaSampling(self):
 		'''
 		Class method to set up and execute umbrella sampling simulations and Free energy calculations for reaction path trajectory.
+		#not finished method
 		'''
 		USrun = US(self.molecule,self.molecule,self.equiNsteps,self.prodNsteps,self.mdMethod)
 
 		MCR1 = False
 		MCR2 = False
 		
-		if _parameters["Mass_Constraint_RC1"]
+		if _parameters["Mass_Constraint_RC1"]:
 			MCR1 = True
-		if _parameters["Mass_Constraint_RC2"]
+		if _parameters["Mass_Constraint_RC2"]:
 			MCR2 = True
 
 		if self.restrainDimensions == 2:
+			pass
+
 
 	#_------------------------------------------------------
 	def NormalModes(self,_mode):
@@ -269,25 +296,25 @@ class Simulation:
 		'''
 		
 		#initial Structure
-		self.molecule = Unpickle(_initCoord):
+		self.molecule.coordinates3 = ImportCoordinates3(_initCoord)
 		e0 = self.molecule.Energy()
-    	NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
-    	Gibbs = [] 
+		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
+		Gibbs = [] 
 		tdics = ThermodynamicsRRHO_SystemGeometry ( self.molecule 							,
                                                     pressure       = self.pressure       	,
                                                     symmetryNumber = self.symmetryNumber 	,
                                                     temperature    = self.temperature    	)
-    	Gibbs.append( tdics["Gibbs Free Energy"] )
+		Gibbs.append( tdics["Gibbs Free Energy"] )
     	# Final struct
-    	self.molecule = Unpickle(_finalCoord):
+		self.molecule.coordinates3 = ImportCoordinates3(_finalCoord)
 		e1 = self.molecule.Energy()
-    	NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
+		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
     	 
 		tdics = ThermodynamicsRRHO_SystemGeometry ( self.molecule 							,
                                                     pressure       = self.pressure       	,
                                                     symmetryNumber = self.symmetryNumber 	,
                                                     temperature    = self.temperature    	)
-    	Gibbs.append( tdics["Gibbs Free Energy"] )
+		Gibbs.append( tdics["Gibbs Free Energy"] )
 
     	#Analyze the results 
 

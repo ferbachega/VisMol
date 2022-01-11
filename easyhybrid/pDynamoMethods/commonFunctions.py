@@ -8,7 +8,6 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
-
 #==============================================================================
 #Atom dictionary with relevant information.
 atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
@@ -125,98 +124,125 @@ atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
                 "X"  : ["Dummy"        , 0   ,  0.000000 , 0.000000,  0.000000   ]
               }
 #==============================================================================
+#possible SMO names
+SMOnames = ["am1","am1dphot","mndostong","pddgmndo","pddgpm3","pm3","pm6","rm1"]
+#==============================================================================
+def VerifyMNDOKey( key ):
+    for smo in SMOnames:
+        if key == smo:
+            return(True)
+    print("Invalid name for MNDO Hamiltonin Defined on pDynamo3")
+    return(False)
+#==============================================================================
 def GetTotalCharge(_system):
-    '''
+    '''    
     Calculate the total charge from the atoms of the
     passed System instance object.
     Parameter #1: System instanced object
     Return: Double holding the total charge
     '''
-	totalCharge = 0	
-	Charge = _system.energyModel.mmAtoms.AtomicCharges()
-	for i in range( len(Charge) ):
-		totalCharge += Charge[i]
-	return (totalCharge)
+    totalCharge = 0
+    Charge = _system.energyModel.mmAtoms.AtomicCharges()
+    for i in range( len(Charge) ):
+        totalCharge += Charge[i]
+    return (totalCharge)
 #==============================================================================
 def ReescaleCharges(_system, tc):
-    '''
-    Function to reescale atomic charges from System instance object
+    '''Function to reescale atomic charges from System instance object
     and make their sum a real integer. 
     Parameter #1: System instanced object
     Parameter #2: Total charge to be achieved 
     Return: System instanced object with the scaled charges.
     '''
     
-	scaled_system = Clone(_system)
-	
-	Charges = scaled_system.energyModel.mmAtoms.AtomicCharges()
-	pTC = Get_total_charge(scaled_system)
-	
-	print ("Old Charges Sum:",pTC)
-	
-	nAtoms = len(scaled_system.atoms.items)
-	
-	new_charges = []
-	new_tc = 0
-	frac = (tc - pTC)/nAtoms
-	
-	for i in range( len(Charges) ):
-		new_charges.append(Charges[i] + frac)
-	
-	for i in range( len(new_charges) ):
-		Charges[i] = new_charges[i]
-	
+    scaled_system = Clone(_system)
+    
+    Charges = scaled_system.energyModel.mmAtoms.AtomicCharges()
+    pTC = Get_total_charge(scaled_system)
+    
+    print ("Old Charges Sum:",pTC)
+    
+    nAtoms = len(scaled_system.atoms.items)
+    
+    new_charges = []
+    new_tc = 0
+    frac = (tc - pTC)/nAtoms
+    
+    for i in range( len(Charges) ):
+        new_charges.append(Charges[i] + frac)
+    
+    for i in range( len(new_charges) ):
+        Charges[i] = new_charges[i]
+    
     #---------------------------------------------------------
-	scaled_system.energyModel.mmAtoms.SetAtomicCharges(Charges)
-	
-	new_tc = Get_total_charge(scaled_system)
-	print ("New Charges Sum:",new_tc)	
-	
-	return(scaled_system)	
-	
+    scaled_system.energyModel.mmAtoms.SetAtomicCharges(Charges)
+    
+    new_tc = Get_total_charge(scaled_system)
+    print ("New Charges Sum:",new_tc)    
+    
+    return(scaled_system)    
+    
 #==============================================================================
 def Amber12to11_Topology (filein, fileout):
-	'''  
+    '''  
     Function to convert the Amber topology file from the 12# version format to 
     11# version.
     Parameter #1: File name of the input topology.
     Parameter #2: File name of the outout topology.
-    Return: None.
-    '''
+    Return: None.'''
     filein = open(filein, 'r')
-	text   = []
-	print_line = True
+    text   = []
+    print_line = True
 
-	for line in filein:
-		line2 = line.split()
-		try:
-			if line2[0] == '%FLAG':
-				if   line2[1] == 'ATOMIC_NUMBER':
-					print ('excluding flag:', line)
-					print_line = False
+    for line in filein:
+        line2 = line.split()
+        try:
+            if line2[0] == '%FLAG':
+                if   line2[1] == 'ATOMIC_NUMBER':
+                    print ('excluding flag:', line)
+                    print_line = False
 
-				elif   line2[1] == 'SCEE_SCALE_FACTOR':
-					print ('excluding flag:', line)
-					print_line = False
+                elif   line2[1] == 'SCEE_SCALE_FACTOR':
+                    print ('excluding flag:', line)
+                    print_line = False
 
-				elif   line2[1] == "SCNB_SCALE_FACTOR":
-					print ('excluding flag:', line)
-					print_line = False			
+                elif   line2[1] == "SCNB_SCALE_FACTOR":
+                    print ('excluding flag:', line)
+                    print_line = False            
 
-				elif   line2[1] == 'IPOL':
-					print ('excluding flag:', line)
-					print_line = False
-		
-				else:
-					print_line = True	
-					#print print_line
-		except:
-			a= None
-		if print_line == True:
-			text.append(line)
+                elif   line2[1] == 'IPOL':
+                    print ('excluding flag:', line)
+                    print_line = False
+        
+                else:
+                    print_line = True
+                    #print print_line
+        except:
+            a= None
+        if print_line == True:
+            text.append(line)
 
-	fileout = open(fileout, 'w')
-	fileout.writelines(text)
-	fileout.close()
+    fileout = open(fileout, 'w')
+    fileout.writelines(text)
+    fileout.close()
 
-#==============================================================================
+#==============================================================================# . Types.
+''' tipos de Semiempiricos MNDO
+ Types = { "am1"       : "MNDOHamiltonian"   ,
+   
+           "am1dphot"  : "MNDOHamiltonian"   ,
+   
+           "mndo"      : "MNDOHamiltonian"   ,
+   
+           "mndostong" : "MNDOGaussianBasis" ,
+   
+           "pddgmndo"  : "MNDOHamiltonian"   ,
+   
+           "pddgpm3"   : "MNDOHamiltonian"   ,
+   
+           "pm3"       : "MNDOHamiltonian"   ,
+   
+           "pm6"       : "MNDOHamiltonian"   ,
+   
+           "rm1"       : "MNDOHamiltonian"   }
+'''

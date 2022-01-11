@@ -10,6 +10,27 @@
 
 #==============================================================================
 
+import os, sys
+
+#importing our library functions
+import commonFunctions
+from LogFile import LogFile
+
+# pDynamo
+from pBabel                    import *                                     
+from pCore                     import *                                     
+from pMolecule                 import *                              
+from pMolecule.MMModel         import *
+from pMolecule.NBModel         import *                                     
+from pMolecule.QCModel         import *
+from pScientific               import *                                     
+from pScientific.Arrays        import *                                     
+from pScientific.Geometry3     import *                                     
+from pScientific.RandomNumbers import *                                     
+from pScientific.Statistics    import *
+from pScientific.Symmetry      import *                                     
+from pSimulation               import *
+
 class GeometrySearcher:
     '''
     Class to handle with pDynamo methods that search geometries for the system, such as global/local minimuns

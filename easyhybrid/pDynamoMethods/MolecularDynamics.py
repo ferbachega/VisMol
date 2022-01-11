@@ -13,17 +13,28 @@
 #---------------------------------------
 #importing libraries
 import os
-import time
 #import sys
 
 #importing our library functions
 import commonFunctions
+from LogFile import LogFile
 
 # pDynamo
-import pBabe
-import pCore
-import pMolecule
-import pMoleculeScripts
+from pBabel                    import *                                     
+from pCore                     import *                                     
+from pMolecule                 import *                              
+from pMolecule.MMModel         import *
+from pMolecule.NBModel         import *                                     
+from pMolecule.QCModel         import *
+from pScientific               import *                                     
+from pScientific.Arrays        import *                                     
+from pScientific.Geometry3     import *                                     
+from pScientific.RandomNumbers import *                                     
+from pScientific.Statistics    import *
+from pScientific.Symmetry      import *                                     
+from pSimulation               import *
+
+
 #---------------------------------------
 
 #==============================================================================
@@ -263,7 +274,7 @@ class MD:
         LangevinDynamics_SystemGeometry ( self.system                           ,
                                           collisionFrequency     = self.collFreq,
                                           logFrequency           = self.logFreq ,
-                                          normalDeviateGenerator = self. ,
+                                          normalDeviateGenerator = self.RNG ,
                                           steps                  = _NSteps ,
                                           temperature            =   300.0 ,
                                           timeStep               =   0.001 ,

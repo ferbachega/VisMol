@@ -9,8 +9,9 @@
 ##############################################################
 
 from pCore import *
-
-
+from datetime import datetime
+from timeit import default_timer as timer
+#*************************************************************
 class LogFile:
     '''
     Class to create and handle Logfiles of pDynamo
@@ -20,39 +21,62 @@ class LogFile:
         '''
         Class constructor.
         Opens the file and initialize the text variable.
-        Task : 
-            Customize the first message
         '''
+
+        self.start = timer()
+        self.end   = 0 
+
+        now = datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
         self.filePath   = _filePath
-        self.text       = "Log File for Simulation project on pDynamo make by EasyHybrid3.0!"
+        self.text       = "Log File for Simulation project on pDynamo make by EasyHybrid3.0!\n"
+        self.text       += "Starting at: " + dt_string + "\n"
+        self.separator()
+
         self.fileObj    = open( self.filePath,"w")
 
-    def input_line(self, _lineText):
+    #---------------------------------------------------------
+    def inputLine(self, _lineText):
         '''
         Class method to insert lines in the text container.
         '''
         self.text += _lineText 
         self.text +="\n"
-    
-    def write(self):
+
+   #---------------------------------------------------------
+    def separator(self):
         '''
-        Class method to write the stored text on the file object.
         '''
-        self.fileObj.write(self.text)
-    
+        self.text += "===================================================\n"
+
+    #---------------------------------------------------------
     def close(self):
         '''
         Class method to close the file object.
         '''
-        self.fileObj.close()
+        self.end = timer()
+        cputime = self.end - self.start
+        print("Cpu time: " + str(cputime) )
 
+        now = datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        self.separator()
+        self.text += "Finishing at: " + dt_string + "\n"
+        self.text += "Elapsed time: " + str(cputime) + "\n"
+        self.separator()
+        self.fileObj.write(self.text)
+        self.fileObj.close()
+    
+    #---------------------------------------------------------
     def get_log(self):
         '''
         Class object to return a TextLogFileWriter pDynamo instance to use in individual methods
         '''
         logObj = TextLogFileWriter(self.filePath)
         return(logObj)
-
+    
+    #---------------------------------------------------------
     def UnitTest(self):
         '''
         Class method to Write some unit tests if needed in future
