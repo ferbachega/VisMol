@@ -305,7 +305,7 @@ class SCAN:
                     for j in range( 1,N ):
                         distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
                         rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_2 = RestraintMultipleDistnce.WithOptions(energyModel = rmodel2, distances= [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                        restraint_2 = RestraintMultipleDistnce.WithOptions(energyModel = rmodel2, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
                         restraints["ReactionCoord2"] = restraint_2  
                         
                         initCoordinateFile = ""

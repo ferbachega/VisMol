@@ -7,7 +7,12 @@
 #-----------------...EasyHybrid 3.0...-----------------------#
 #-----------Credits and other information here---------------#
 ##############################################################
-
+from pBabel                    import *                                     
+from pCore                     import *                                     
+from pMolecule                 import *                              
+from pMolecule.MMModel         import *
+from pMolecule.NBModel         import *                                     
+from pMolecule.QCModel         import *
 #==============================================================================
 #Atom dictionary with relevant information.
 atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
@@ -225,24 +230,11 @@ def Amber12to11_Topology (filein, fileout):
     fileout = open(fileout, 'w')
     fileout.writelines(text)
     fileout.close()
+#==============================================================================
+def copySystem(system):
 
-#==============================================================================# . Types.
-''' tipos de Semiempiricos MNDO
- Types = { "am1"       : "MNDOHamiltonian"   ,
-   
-           "am1dphot"  : "MNDOHamiltonian"   ,
-   
-           "mndo"      : "MNDOHamiltonian"   ,
-   
-           "mndostong" : "MNDOGaussianBasis" ,
-   
-           "pddgmndo"  : "MNDOHamiltonian"   ,
-   
-           "pddgpm3"   : "MNDOHamiltonian"   ,
-   
-           "pm3"       : "MNDOHamiltonian"   ,
-   
-           "pm6"       : "MNDOHamiltonian"   ,
-   
-           "rm1"       : "MNDOHamiltonian"   }
-'''
+    newSystem = Clone(system)   
+    
+    return newSystem
+
+#=========================================================================================

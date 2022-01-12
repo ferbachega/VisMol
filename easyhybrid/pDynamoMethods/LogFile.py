@@ -73,12 +73,7 @@ class LogFile:
         '''
         Class object to return a TextLogFileWriter pDynamo instance to use in individual methods
         '''
-        logObj = TextLogFileWriter(self.filePath)
+        logObj = TextLogFileWriter.WithOptions(self.filePath)
         return(logObj)
     
-    #---------------------------------------------------------
-    def UnitTest(self):
-        '''
-        Class method to Write some unit tests if needed in future
-        '''
-        pass
+#====================================================================================================

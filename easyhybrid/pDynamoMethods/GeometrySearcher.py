@@ -50,7 +50,7 @@ class GeometrySearcher:
         self.massWeighting  = False
         self.logFreq        = 50 # deafult value for otimizations, must to be changed through the specific class method
         self.saveTraj       = False # optimization trj are not generally usefull and generate a lot of data 
-        self.trajectotyName = os.path.join( _baseFolder, "trj" ) 
+        self.trajectoryName = os.path.join( _baseFolder+".ptGeo" ) 
         self.logname        = _baseFolder + ".log"
         self.savePdb        = True
         self.traj           = None
@@ -66,6 +66,9 @@ class GeometrySearcher:
         '''
         Class method to modify default parameters for the minimization runs
         '''
+        
+        if 'maxIterations'      in _parameters:
+            self.maxIt          = _parameters['maxIterations']            
         if "log_frequency"      in _parameters:
             self.logFreq        = _paremeters["log_frequency"]
         if "not_save_pdb"       in _parameters:
@@ -73,9 +76,7 @@ class GeometrySearcher:
         if "save_traj"          in _parameters:
             self.saveTraj       = True
         if "not_save_dcd"       in _parameters:
-            self.outputDCD      = False
-        if "maxIrerations"      in _parameters:
-            self.maxIt          = _parameters['maxIterations']
+            self.outputDCD      = False        
         if "maxIterations_QC"   in _parameters:
             self.maxItQC        = _parameters['maxIterations_QC']
         if 'rmsGradient'        in _parameters:
@@ -91,7 +92,7 @@ class GeometrySearcher:
         self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
         
         # run the minimization for the chosen algorithm
-        if self.optAlg == "ConjugatedGradient":
+        if self.optAlg   == "ConjugatedGradient":
             self.RunConjugatedGrad()
         elif self.optAlg == "SteepestDescent":
             self.RunSteepestDescent()
@@ -99,12 +100,20 @@ class GeometrySearcher:
             self.RunLFBGS()
         elif self.optAlg == "QuasiNewton":
             self.RunQuasiNewton()
+        elif self.optAlg == "FIRE":
+            self.RunFIREmin()
 
         self.finalCrd3D = self.molecule.coordinates3
        
         #Save structures and/or trajectories
         if self.savePdb:
-            pdbFile =  self.baseName + "_opt.pdb"
+            pdbFile = self.baseName + ".pdb"
+            i = 0;
+            while os.path.exists(pdbFile):
+                pdbFile = self.baseName + "_#{}.pdb".format(i)
+                i += 1
+
+            ExportSystem(pdbFile,self.molecule)
 
 
     #.-----------------------------------------------------------------------
@@ -113,12 +122,12 @@ class GeometrySearcher:
         '''
         Class method to apply the conjugated gradient minimizer
         '''
-        Log = TextLogFileWriter(self.logname)
+        Log = TextLogFileWriter.WithDefaults()
 
         ConjugateGradientMinimize_SystemGeometry(self.molecule                          ,                
                                                  log                    = Log           ,
                                                  logFrequency           = self.logFreq  ,
-                                                 trajectory             = self.traj     ,
+                                                 trajectories           = self.traj     ,
                                                  maximumIterations      = self.maxIt    ,
                                                  rmsGradientTolerance   = self.rmsGrad  )
 
@@ -132,7 +141,7 @@ class GeometrySearcher:
         SteepestDescentMinimize_SystemGeometry(self.molecule                           ,               
                                                 log                     = Log          ,
                                                 logFrequency            = self.logFreq ,
-                                                trajectory              = self.traj    ,
+                                                trajectories              = self.traj    ,
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
 
@@ -142,12 +151,12 @@ class GeometrySearcher:
         '''
         Class method to apply the LFBGS minimizer
         '''
-        Log = TextLogFileWriter(self.logname)
+        Log = TextLogFileWriter.WithDefaults()
 
         LBFGSMinimize_SystemGeometry(self.molecule                              ,                
                                     log  = Log                                  ,
                                     logFrequency         = self.logFreq         ,
-                                    trajectory           = self.traj            ,
+                                    trajectories         = self.traj            ,
                                     maximumIterations    = self.maxIt           ,
                                     rmsGradientTolerance = self.rmsGrad         )
     
@@ -158,13 +167,26 @@ class GeometrySearcher:
         '''
         Log = TextLogFileWriter(self.logname)
 
-        QuasiNewtonMinimize_SystemGeometry( system                              ,                
+        QuasiNewtonMinimize_SystemGeometry( self.molecule                              ,                
                                             log                  = Log          ,
                                             logFrequency         = self.logFreq ,
                                             trajectories         = self.traj    ,
                                             maximumIterations    = self.maxIt   ,
                                             rmsGradientTolerance = self.rmsGrad )
+    
+    #.------------------------------------------------------------------------
+    def RunFIREmin(self):
 
+       Log = TextLogFileWriter(self.logname)
+
+       FIREMinimize_SystemGeometry( self.molecule                       ,                
+                                    log                  = Log          ,
+                                    logFrequency         = self.logFreq ,
+                                    trajectories         = self.traj    ,
+                                    maximumIterations    = self.maxIt   ,
+                                    rmsGradientTolerance = self.rmsGrad )
+    
+        
     #.--------------------------------------------
     # Reaction path searchers
     def NudgedElasticBand(self,_initCoord,_finalCoord,_nbins,_rmsGIS):
@@ -191,9 +213,9 @@ class GeometrySearcher:
                                                     maximumIterations    = 1000 ,
                                                     fixedTerminalImages  = True ,
                                                     rmsGradientTolerance = 0.1  )
-        if self.outputDCD:
-            DCDTrajectory_FromSystemGeometryTrajectory( self.trajectoryName+".dcd" , self.trajectoryName, self.system )
-
+        
+        trajNameDCD = self.baseName + ".dcd";
+        Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
 
     #.--------------------------------------------
     def SelfAvoidWalking(self,_parameters):

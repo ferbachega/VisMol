@@ -49,7 +49,7 @@ class Simulation:
 		self.molecule 			= _system
 		self.simulationType 	= _simulationType
 		self.wall_time 			= 0 
-		self.baseFolder  		=  os.getcwd() # the baseFolder for the simulations will be the current dir for now.
+		self.baseFolder  		= os.getcwd() # the baseFolder for the simulations will be the current dir for now.
 		self.MAXnprocs 			= 1 # maximum number of virtual threads to be used in the simulations
 		self.coorddinatesFolder = "" # Name of the folder containing the pkls to be read. Used in more than one preset here
 		self.logFreq 			= 1
@@ -101,10 +101,7 @@ class Simulation:
 			if "optmizer" in _parameters:
 				self.optmizer = _parameters["optmizer"]
 
-			if len(_parameters) > 1:
-				self.GeometryOptimization(_parameters)
-			else:
-				self.GeometryOptimization(None)
+			self.GeometryOptimization(_parameters)
 
 		#-------------------------------------------------------------
 		elif self.simulationType == "Relaxed_Surface_Scan":			
@@ -187,12 +184,9 @@ class Simulation:
 		'''
 		Class method to set up and execture the search of local minima for the system passed
 		'''
-		Gopt = GeometrySearcher(self.molecule,self.baseFolder)
-		
-		#If there more parameters passed for this type of simulation the code understands that the user wants to modufy some deafult values
-		if not _parameters == None:
-			Gopt.ChengeDefaultParameters(_parameters)
-
+		self.baseFolder = os.path.join(self.baseFolder+"GeoOptimization") 
+		Gopt = GeometrySearcher(self.molecule,self.baseFolder)		
+		Gopt.ChengeDefaultParameters(_parameters)
 		Gopt.Minimization(self.optmizer)
 
 

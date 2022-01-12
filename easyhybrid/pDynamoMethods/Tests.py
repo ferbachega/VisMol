@@ -47,19 +47,21 @@ class Tests:
 		'''
 		proj = SimulationProject("TIMTest_SetUp")
 		proj.LoadSystemFromForceField(timTop,timCrd)
-		proj.PrintSystems()
 		
-		co2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:C02")
-		proj.SphericalPruning(co2,25.0)
-		proj.SettingFixedAtoms(co2,20.0)
-
-		parameters = {"optmizer":"LFBGS"}
+		parameters = {"maxIterations":1000,"rmsGradient":1}
 		proj.RunSimulation(parameters,"Geometry_Optimization")
 
+		_pattern = "*:LIG.248:C02"
+
+		proj.SphericalPruning(_pattern,25.0)
+		proj.SettingFixedAtoms(_pattern,20.0)
+
+		parameters = {"maxIterations":1000,"rmsGradient":0.1}
+		proj.RunSimulation(parameters,"Geometry_Optimization")
+
+		proj.PrintSystems()
 		proj.SaveProject()
 		proj.FinishRun()
-
-
 
 	#---------------------------------------------------
 	def QCSystemsSetting(self):
@@ -71,13 +73,17 @@ class Tests:
 		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
 		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
 
-		selections = [ lig, glu, his ]
+		selections= [ lig, glu, his ]
+		SMOmodels = ["am1","am1dphot","pddgpm3","pm3","pm6","rm1"]
 
-		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		for smo in SMOmodels:
+			proj.SetSMOHybridModel( smo, selections, -3, 1 )
+
 		proj.FinishRun()
 
 
 #============================================================================
 if __name__ == "__main__":
 	test = Tests()
-	test.SetTIMsytem()
+	#test.SetTIMsytem()
+	test.QCSystemsSetting()

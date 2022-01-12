@@ -31,7 +31,6 @@ from pSimulation               import *
 
 #==========================================================================
 skfPath = "/home/igorchem/programs/pDynamo3-12.04.21/examples/dftbPlus/data"
-
 #*****************************************************************************
 class SimulationProject:
     '''
@@ -73,7 +72,7 @@ class SimulationProject:
         Class method to load the current system from topology and coordinate files from molecular dynamics packages
         '''
          
-        oldSystem = self.cSystem 
+        oldSystem = Clone(self.cSystem) 
         self.logfile.separator()
         self.logfile.inputLine("None Current System Found. Creating one from topologies and coordinate files!")
         self.cSystem = ImportSystem( _topologyFile )
@@ -82,6 +81,7 @@ class SimulationProject:
         self.systemCoutCurr += 1
 
         if not oldSystem == None:
+            oldSystem = copySystem(self.cSystem)
             self.SystemStates.append(oldSystem) # put the current system 
 
         #testing the MMmodel
@@ -114,8 +114,8 @@ class SimulationProject:
         else:
             self.logfile.separator()
             self.logfile.inputLine("There is already a loaded System. Back off the current System and Creating one new from a coordinate file!")
-            self.SystemStates.append(self.cSystem) # put the current system 
-            self.cSystem = None
+            oldSystem = copySystem(self.cSystem)
+            self.SystemStates.append(oldSystem) # put the current system 
             self.cSystem = ImportSystem(_coordinateFile) 
             self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)          
             self.systemCoutCurr += 1
@@ -151,8 +151,8 @@ class SimulationProject:
         else:
             self.logfile.separator()
             self.logfile.inputLine("There is already a loaded System. Back off the current System and Creating one new from a coordinate file!")
-            self.SystemStates.append( self.cSystem ) # put the current system 
-            self.cSystem = None
+            oldSystem = copySystem(self.cSystem)
+            self.SystemStates.append( oldSystem ) # put the current system 
             self.cSystem = ImportSystem(_pklPath)
             self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
             self.systemCoutCurr += 1
@@ -161,7 +161,6 @@ class SimulationProject:
             energy              = self.cSystem.Energy( doGradients = True )
             self.hasMMmodel     = True
             self.hasNBmodel     = True
-            #self.TotalChargeMM  = GetTotalCharge( self.cSystem )
         except:
             print("Problems in testing the MM model loaded from saved pkl file!")
         
@@ -181,15 +180,16 @@ class SimulationProject:
         self.logfile.separator()
         self.logfile.inputLine("Starting Spherical pruning!")
         self.logfile.inputLine("BackOffing onld System!")
-        self.SystemStates.append(self.cSystem)
+        oldSystem = copySystem(self.cSystem)
+        self.SystemStates.append(oldSystem)
         self.systemCoutCurr += 1
 
-        core   = AtomSelection.Within(self.cSystem,_centerAtom,_radius)
+        atomref = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
+        core   = AtomSelection.Within(self.cSystem,atomref,_radius)
         core2  = AtomSelection.ByComponent(self.cSystem,core)
-        newSys = PruneByAtom( self.cSystem , Selection(core2) )
+        self.cSystem = PruneByAtom( self.cSystem , Selection(core2) )
 
-        newSys.label = self.baseName + "#{} Pruned System ".format(self.systemCoutCurr) 
-        self.cSystem = newSys        
+        self.cSystem.label = self.baseName + "#{} Pruned System ".format(self.systemCoutCurr) 
         self.cSystem.DefineNBModel( self.nbModel )
         self.cSystem.Energy()
 
@@ -200,17 +200,18 @@ class SimulationProject:
         self.logfile.separator()
         self.logfile.inputLine("Setting fixed atoms!")
         self.logfile.inputLine("BackOffing onld System!")
-        self.SystemStates.append(self.cSystem)
+        oldSystem = copySystem(self.cSystem)
+        self.SystemStates.append(oldSystem)
         self.systemCoutCurr += 1
 
-        core   = AtomSelection.Within(self.cSystem,_centerAtom,_radius)
-        mobile = AtomSelection.ByComponent(self.cSystem,core)
-
-        newSys = self.cSystem
-        newSys.freeAtoms = mobile
-       
-        newSys.label = self.baseName + "#{} With Fixed Atoms ".format(self.systemCoutCurr) 
-        self.cSystem = newSys        
+        atomref   = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
+        core      = AtomSelection.Within(self.cSystem,atomref,_radius)
+        mobile    = AtomSelection.ByComponent(self.cSystem,core)        
+        MobileSys = PruneByAtom( self.cSystem, Selection(mobile) )
+        ExportSystem("MobileSystemCheck.pdb",MobileSys)
+        
+        self.cSystem.freeAtoms = mobile       
+        self.cSystem.label = self.baseName + "#{} With Fixed Atoms ".format(self.systemCoutCurr) 
         self.cSystem.DefineNBModel( self.nbModel )
         self.cSystem.Energy()
     
@@ -227,7 +228,8 @@ class SimulationProject:
         self.multiplicity  = _QCmultiplicity
         #Back offing older system   
         self.logfile.inputLine("Back off the current System and Creating one!") 
-        self.SystemStates.append( self.cSystem )
+        oldSystem = copySystem(self.cSystem)
+        self.SystemStates.append( oldSystem )
         self.cSystem.label = self.baseName + "#{} Changed QC region".format(self.systemCoutCurr)
         self.systemCoutCurr += 1
 
@@ -269,13 +271,15 @@ class SimulationProject:
         self.logfile.separator()
         self.logfile.inputLine("Defining Semiempirical method and QC atoms regions!")
         self.multiplicity   = _QCmultiplicity
-        self.TotalChargeQC  = _QCcharge        
-        self.SystemStates.append( self.cSystem )
+        self.TotalChargeQC  = _QCcharge 
+
+        self.cSystem.nbModel = None
+        oldSystem = Clone(self.cSystem)       
+        self.SystemStates.append( oldSystem )
         self.cSystem.label = self.baseName + "#{} {} Hamiltonian and QC region Set".format(self.systemCoutCurr,_method)
         self.systemCoutCurr += 1
 
         self.cSystem.electronicState = ElectronicState.WithOptions ( charge = self.TotalChargeQC, multiplicity = self.multiplicity )
-        
         qcModel = QCModelMNDO.WithOptions( hamiltonian = _method )
 
         #Export the set QC region for visual inspection
@@ -308,14 +312,14 @@ class SimulationProject:
 
         self.multiplicity   = _QCmultiplicity
         self.TotalChargeQC  = _QCcharge        
-        self.SystemStates.append( self.cSystem )
+        oldSystem = copySystem( self.cSystem )
+        self.SystemStates.append( oldSystem )
         self.cSystem.label = self.baseName + "#{} ORCA and QC region Set".format(self.systemCoutCurr)
         self.systemCoutCurr += 1
 
         self.cSystem.electronicState = ElectronicState.WithOptions (    charge = self.TotalChargeQC         , 
                                                                         multiplicity = self.multiplicity    )
-        
-        
+                
         #Export the set QC region for visual inspection
         qcSystem = PruneByAtom(self.cSystem, qcRegion)
         ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
@@ -352,8 +356,10 @@ class SimulationProject:
         self.logfile.separator()
         self.logfile.inputLine("Defining DFTB method and QC atoms regions!")
         self.multiplicity   = _QCmultiplicity
-        self.TotalChargeQC  = _QCcharge        
-        self.SystemStates.append( self.cSystem )
+        self.TotalChargeQC  = _QCcharge 
+        
+        oldSystem = copySystem( self.cSystem )      
+        self.SystemStates.append( oldSystem )
         self.cSystem.label = self.baseName + "#{} DFTB and QC region Set".format(self.systemCoutCurr)
         self.systemCoutCurr += 1
 
@@ -396,7 +402,9 @@ class SimulationProject:
         self.logfile.separator()
         self.logfile.inputLine("Setting Simulation Protocol:")
         self.logfile.inputLine( "\t{}".format(_simulationType) )
-        self.SystemStates.append( self.cSystem )
+
+        oldSystem = copySystem( self.cSystem )
+        self.SystemStates.append( oldSystem )
         self.cSystem.label = self.baseName + "#{} Input for Simulation: {}".format(self.systemCoutCurr,_simulationType)
         self.systemCoutCurr += 1
 
