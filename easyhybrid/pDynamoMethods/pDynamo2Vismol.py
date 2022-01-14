@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#Lembrar de colocar uma header nesse arquivo
+#FILE = pDynamo2Vismol.py
 
-
+##############################################################
+#-----------------...EasyHybrid 3.0...-----------------------#
+#-----------Credits and other information here---------------#
+##############################################################
 
 import glob, math, os, os.path
 
@@ -32,16 +35,12 @@ from pScientific.Symmetry      import *
 from pSimulation               import *
 from vModel import VismolObject
 
-
 import numpy as np
-
-
 #==========================================================================
 def get_atom_coords_from_pdynamo_system (system, atom, frame = None):
     '''
     Function to obtain the coordinates from a given atom of a System instance.
     '''
-
     if frame:
         xyz = system.coordinates3[atom.index]
         ##print(atom.index, atom.label, atom.atomicNumber, atom.connections, xyz[0], xyz[1], xyz[2] )
@@ -197,7 +196,7 @@ class pDynamoSession:
         self.counter      = 0
         
         
-        
+    #---------------------------------------------------------------------------------------    
     def load_a_new_pDynamo_system_from_dict (self, filesin = {}, systype = 0, name = None):
         """ Function doc """
         
@@ -261,7 +260,7 @@ class pDynamoSession:
         self.append_system_to_pdynamo_session(psystem)
         self.build_vismol_object_from_pDynamo_system (name = 'initial coordinates' )#psystem['system'].label)
 
-
+    #---------------------------------------------------------------------------------------
     def append_system_to_pdynamo_session (self, psystem):
         """ Function doc """
         psystem['id']               = self.counter
@@ -271,11 +270,13 @@ class pDynamoSession:
         self.counter += 1
         self.active_id       = self.counter -1
     
+    #---------------------------------------------------------------------------------------
     def get_bonds_from_pDynamo_system(self, safety = 0.5, id_system = False):
         self.systems[self.active_id]['system'].BondsFromCoordinates3(safety = safety)
         self.systems[self.active_id]['bonds'] = self.systems[self.active_id]['system'].connectivity.bondIndices
         return True
-        
+    
+    #---------------------------------------------------------------------------------------   
     def define_NBModel (self, _type = 1 , parameters =  None, system = None):
         """ Function doc """
         
@@ -299,7 +300,8 @@ class pDynamoSession:
             self.systems[self.active_id]['system'].Summary ( )
         
         return True
-
+    
+    #---------------------------------------------------------------------------------------
     def get_sequence_from_pDynamo_system (self):
         """ Function doc """
         
@@ -308,12 +310,14 @@ class pDynamoSession:
             self.systems[self.active_id]['sequence'] = Sequence.FromAtoms ( self.systems[self.active_id]['system'].atoms, 
                                                                                               componentLabel = "UNK.1" )
         return True
-
+    
+    #---------------------------------------------------------------------------------------
     def get_atom_coords_from_pdynamo_system (self, system = None,  atom = None):
 
         xyz = self.systems[self.active_id]['system'].coordinates3[atom.index]
         return [float(xyz[0]),float(xyz[1]), float(xyz[2])]
-
+    
+    #---------------------------------------------------------------------------------------
     def get_atom_info_from_pdynamo_atom_obj (self, system = None, atom = None):
         """
         It extracts the information from the atom object, 
@@ -359,7 +363,8 @@ class pDynamoSession:
               }
         
         return atom
- 
+    
+    #---------------------------------------------------------------------------------------
     def build_vismol_object_from_pDynamo_system (self                       , 
                                                  name = 'a_new_vismol_obj'  ,
                                                  system               = None,
@@ -432,13 +437,15 @@ class pDynamoSession:
         self.vismolSession.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.refresh_qc_and_fixed_representations()        
         return vismol_object
- 
+    
+    #---------------------------------------------------------------------------------------
     def get_energy (self):
         """ Function doc """
         self.systems[self.active_id]['system'].Summary( )
         energy = self.systems[self.active_id]['system'].Energy( )
         return energy
-
+    
+    #---------------------------------------------------------------------------------------
     def define_free_or_fixed_atoms_from_iterable (self, fixedlist = []):
         """ Function doc """
         if fixedlist == []:
@@ -456,7 +463,8 @@ class pDynamoSession:
 
         self.refresh_qc_and_fixed_representations()
         return True
-
+    
+    #---------------------------------------------------------------------------------------
     def define_a_new_QCModel (self, parameters = None):
         """ Function doc """
         
@@ -479,7 +487,8 @@ class pDynamoSession:
         else:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
-
+    
+    #---------------------------------------------------------------------------------------
     def refresh_qc_and_fixed_representations (self):
         """ Function doc >>> 
         list(molecule.qcState.boundaryAtoms) 
@@ -517,7 +526,8 @@ class pDynamoSession:
 
         else:
             pass
-
+    
+    #---------------------------------------------------------------------------------------
     def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1):
         """ Function doc """
         
@@ -555,7 +565,8 @@ class pDynamoSession:
         trajectory.ReadFooter ( )
         trajectory.Close ( )
         #return frames
-        
+    #--------------------------------------------------------------------------------------- 
+    #tirar essa fũnção depois, tem os métodos de otimização no core
     def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
                                                       logFrequency           , 
                                                       maximumIterations      , 
@@ -587,3 +598,4 @@ class pDynamoSession:
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = False)
 
         
+#======================================================================================================================

@@ -48,7 +48,6 @@ class Simulation:
 		'''
 		self.molecule 			= _system
 		self.simulationType 	= _simulationType
-		self.wall_time 			= 0 
 		self.baseFolder  		= os.getcwd() # the baseFolder for the simulations will be the current dir for now.
 		self.MAXnprocs 			= 1 # maximum number of virtual threads to be used in the simulations
 		self.coorddinatesFolder = "" # Name of the folder containing the pkls to be read. Used in more than one preset here
@@ -56,7 +55,6 @@ class Simulation:
 		self.optmizer			= "ConjugatedGradient"
 		self.samplingFactor 	= 1 # this is usually let to the default class value, unless the user want to modify
 		#for restricted simulations
-		self.restrainDimensions = 1
 		
 		#enviromental parameters and their default values 
 		self.temperature = 300.15
@@ -69,8 +67,8 @@ class Simulation:
 		
 		#specific parameters for molecular dynamics run
 		self.mdMethod 	= "Verlet"
-		self.equiNsteps = 5000
-		self.prodNsteps = 20000 
+		self.equiNsteps = 0
+		self.prodNsteps = 0
 
 		#specif parameters for the normal modes run
 		self.NMcycles    = 10
@@ -82,8 +80,7 @@ class Simulation:
 		'''
 		Function to call the class method to execute the preset simulation
 		Also here is where some parameters default values can be updated 
-		'''
-		
+		'''		
 		#-------------------------------------------------------------
 		if self.simulationType == "Energy_Refinement":
 			if "methods" in _parameters:
@@ -109,20 +106,11 @@ class Simulation:
 
 		#-------------------------------------------------------------
 		elif self.simulationType == "Molecular_Dynamics":
-			if "MD_method" in _parameters:
-				self.mdMethod = _parameters['MD_method'] 
-			if "temperature" in _parameters:
-				self.temperature = _parameters['temperature']
-			if "production_nsteps" in _parameters:
-				self.prodSteps 	=_parameters['production_nsteps']
-			if "equilibration_nsteps" in _parameters:
-				self.equiNsteps = _parameters['equilibration_nsteps']
-
 			self.MolecularDynamics(_parameters)
 
 		#-------------------------------------------------------------	
-		elif self.simulationType == "Restricted_Molecular_Dynamics":
-			self.RestrictedMolecularDynamics()
+		elif self.simulationType == "Restricted_Molecular_Dynamics":			
+			self.RestrictedMolecularDynamics(_parameters)
 
 		#-------------------------------------------------------------
 		elif self.simulationType == "Umbrella_Sampling":
@@ -215,37 +203,108 @@ class Simulation:
 		else:
 			scan.RunTwoDimensionalSCAN(_parameters['nSteps_RC1'])
 
-
 	#_------------------------------------------------------
 	def MolecularDynamics(self,_parameters):
 		'''
 		Class method to set up and execute molecular dynamics simulations.
 		'''
-		MDrun = MD(self.molecule,self.baseFolder,self.mdMethod)
+		print(self.baseFolder)
+		input()
+		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		
-		MDrun.temperature 	= self.temperature
-		MDrun.pressure 		= self.pressure
 
 		#If there is some key in _parameters set to modify some varibles then this is done here
 		#If there is any this next command will have no effect
-		MDrun.ChengeDefaultParameters(_parameters)
+		MDrun.ChangeDefaultParameters(_parameters)
 
 		if "protocol" in _parameters:
 			if _parameters["protocol"] 		== "heating":
-				MDrun.HeatingSystem(self.prodnsteps)
+				print(_parameters['production_nsteps'])
+				MDrun.HeatingSystem(_parameters['production_nsteps'])
 			elif _parameters["protocol"] 	== "equilibration":
-				MDrun.RunEquilibration(self.equiNsteps)
+				MDrun.RunEquilibration(_parameters['equilibration_nsteps'])
 			elif _parameters["protocol"] 	== "production":
-				MDrun.RunEquilibration(self.equiNsteps)
-				MDrun.RunProduction(self.prodnsteps)
-
+				MDrun.RunEquilibration(_parameters['equilibration_nsteps'])
+				MDrun.RunProduction(_parameters['production_nsteps'])
 
 	#_------------------------------------------------------
-	def RestrictedMolecularDynamics(self):
+	def RestrictedMolecularDynamics(self,_parameters):
 		'''
 		Class method to set up and execute molecular dynamics simulations.
 		#Ainda tenho que ver como functiona os arquivos de trajetórias na nova versão
 		'''
+		
+		restraints = RestraintModel( )
+		self.molecule.DefineRestraintModel( restraints )
+		distances = []
+
+		forcK = _parameters["forceC"]
+		
+		restrainDimensions = _parameters['ndim']
+		mdistance1 = False
+		mdistance2 = False
+		
+		if "MultD1" in _parameters:
+			mdistance1 = True 
+		if "MultD2" in _parameters:
+			mdistance2 = True 
+
+		weight1 = 1.0
+		weight2 = -1.0 
+		atoms = []
+		
+		for atom in range(_parameters['natoms']):
+			atoms.append( _parameters["atoms"][atom] )
+		
+		if restrainDimensions == 1:
+			if mdistance1:
+				distance = self.molecule.coordinates3.Distance(atoms[1],atoms[0]) - self.molecule.coordinates3.Distance(atoms[1],atoms[2]) 
+				rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
+				restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel,  distances= [ [ atoms[1], atoms[0], weight1 ], [ atoms[1], atoms[2], weight2 ] ]) 
+				restraints['ReactionCoord'] =  restraint
+			else:
+				distance = self.molecule.coordinates3.Distance(atoms[1],atoms[0])
+				rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
+				restraint = RestraintDistance.WithOptions( energyModel = rmodel, point1= atoms[0], point2= atoms[1] )
+				restraints['ReactionCoord'] =  restraint
+		
+		elif restrainDimensions == 2:
+			if mdistance1 and mdistance2:
+				distance1 = self.molecule.coordinates3.Distance( atoms[1],atoms[0] ) - self.molecule.coordinates3.Distance(atoms[1],atoms[2]) 
+				rmodel1 = RestraintEnergyModel.Harmonic( distance1, forcK )
+				restraint1 = RestraintMultipleDistance.WithOptions( energyModel = rmodel1,  distances= [ [ atoms[1], atoms[0], weight1 ], [ atoms[1], atoms[2], weight2 ] ]) 
+				restraints['ReactionCoord1'] =  restraint1
+				#
+				distance2 = self.molecule.coordinates3.Distance(atoms[4],atoms[3]) - self.molecule.coordinates3.Distance(atoms[4],atoms[5]) 
+				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
+				restraint2 = RestraintMultipleDistance.WithOptions( energyModel = rmodel2,  distances= [ [ atoms[4], atoms[3], weight1 ], [ atoms[4], atoms[5], weight2 ] ]) 
+				restraints['ReactionCoord2'] =  restraint2
+			elif mdistance1 and mdistance2 == False:
+
+				distance1 = self.molecule.coordinates3.Distance( atoms[1],atoms[0] ) - self.molecule.coordinates3.Distance(atoms[1],atoms[2]) 
+				rmodel1 = RestraintEnergyModel.Harmonic( distance1, forcK )
+				restraint1 = RestraintMultipleDistance.WithOptions( energyModel = rmodel1,  distances= [ [ atoms[1], atoms[0], weight1 ], [ atoms[1], atoms[2], weight2 ] ]) 
+				restraints['ReactionCoord1'] =  restraint1
+				#
+				distance2 = self.molecule.coordinates3.Distance(atoms[4],atoms[3])  
+				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
+				restraint2 = RestraintDistance.WithOptions( energyModel = rmodel2, point1=atoms[3],point2=atoms[4] ) 
+				restraints['ReactionCoord2'] =  restraint2
+			else:
+				distance1 = self.molecule.coordinates3.Distance( atoms[1],atoms[0] ) 
+				rmodel1 = RestraintEnergyModel.Harmonic( distance1, forcK )
+				restraint1 = RestraintDistance.WithOptions( energyModel = rmodel1, point1=atoms[0],point2=atoms[1] ) 
+				restraints['ReactionCoord1'] =  restraint1
+				#
+				distance2 = self.molecule.coordinates3.Distance(atoms[4],atoms[3])  
+				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
+				restraint2 = RestraintDistance.WithOptions( energyModel = rmodel2, point1=atoms[2],point2=atoms[3] ) 
+				restraints['ReactionCoord2'] =  restraint2
+		#----------------------------------------------------------------
+		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
+		MDrun.ChangeDefaultParameters(_parameters)
+		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],200)
+
 
 	#_------------------------------------------------------
 	def UmbrellaSampling(self):

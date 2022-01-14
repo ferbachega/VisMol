@@ -232,8 +232,11 @@ def Amber12to11_Topology (filein, fileout):
     fileout.close()
 #==============================================================================
 def copySystem(system):
-
-    newSystem = Clone(system)   
+    nbmodel_hold = system.nbModel
+    system.nbModel = None
+    newSystem = Clone(system)
+    newSystem.DefineNBModel ( nbmodel_hold )
+    system.nbModel = nbmodel_hold  
     
     return newSystem
 

@@ -50,9 +50,9 @@ class MD:
         '''        
         #Important parameters that are recurrently wanted to be change by the user
         self.molecule               = _system
-        self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration","trj")
-        self.trajectoryNameProd     = os.path.join(_baseFolder,"production","trj")
-        self.trajectoryNameSoft     = os.path.join(_baseFolder,"soft_constr","trj")
+        self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration.ptGeo")
+        self.trajectoryNameProd     = os.path.join(_baseFolder,"production.ptGeo")
+        self.trajectoryNameSoft     = os.path.join(_baseFolder,"soft_constr.ptRes")
         self.trajectoryNameCurr     = self.trajectoryNameEqui
         self.prodNsteps             = 20000 # seting the default for umbrella sampling
         self.equiNsteps             = 5000  # seting the default for umbrella sampling
@@ -70,12 +70,12 @@ class MD:
         self.equilibrated           = False         # Signlizes the whether the system passed through a succesfull equilibrtion simulation 
         self.isQuantum              = False         # Boolean flag signilizing if some extent of the system is treated with a quatum energy model
         self.equi_time              = self.equiNsteps * self.timeStep            # default time for equilibration in ps
-        self.prod_time              = self.prodnsteps * self.timeStep # production time where the data must to be collected
+        self.prod_time              = self.prodNsteps * self.timeStep # production time where the data must to be collected
         self.outputDCD              = True          # Boolean flag signalizing whether the saved trajectory must to be save as a ".dcd" file.
         #Default constants less acessible by the users
         self.collFreq               = 25.0 
         self.pressureCoupling       = 2000.0       
-        self.temperatureScaleFreq   = 0.1
+        self.temperatureScaleFreq   = 10
         self.pressure               = 1.0   
         self.temperatureScaleOption = "linear"
         self.startTemperature       = 10      
@@ -95,7 +95,9 @@ class MD:
             there are some of those parameters that the commom user will not have interest in change
             and then you may want to not acces such method through EasyHybrid GUI.
             
-        '''        
+        '''     
+        if 'temperature'                in _parameters:
+            self.temperature            =  _parameters['temperature']   
         if 'coll_freq'                  in _parameters:
             self.collFreq               = _parameters['coll_freq']
         if 'pressure_coupling'          in _parameters:
@@ -125,17 +127,14 @@ class MD:
         Run a Velocity Verlet molecular dynamics simulation to gradually 
         make the system reach certain temperature. 
         '''
-
-        Log = TextLogFileWriter(self.logname)
-
+        
         VelocityVerletDynamics_SystemGeometry(  self.molecule                                        ,
-                                                log = Log                                            ,
                                                 logFrequency              = self.logFreq             ,
                                                 normalDeviateGenerator    = self.RNG                 ,
                                                 steps                     = _nsteps                  ,
                                                 timeStep                  = self.timeStep            ,
                                                 temperatureScaleFrequency = self.temperatureScaleFreq,
-                                                temperatureScaleOption    = self.temperatureScale    ,
+                                                temperatureScaleOption    = self.temperatureScaleOption,
                                                 temperatureStart          = self.startTemperature    ,
                                                 temperatureStop           = self.temperature         )
     
@@ -157,10 +156,7 @@ class MD:
         elif self.algorithm == "Langevin":
             self.runLangevin()
 
-        if self.CheckSimulation():
-            self.state = "Equilibrated"
-   
-    
+            
     #.---------------------------------------    
     def RunProduction(self,_prodSteps,):
         '''
@@ -168,8 +164,6 @@ class MD:
         '''
         self.nsteps             = _prodSteps
         self.trajectoryNameCurr = self.trajectoryNameProd         
-        self.logname            = os.path.join( self.trajectoryNameCurr, "prod.log" )
-
         
         if self.algorithm == "Verlet":
             self.runVerlet()
@@ -182,7 +176,7 @@ class MD:
             self.state = "Sampled"
 
         if self.outputDCD:
-            DCDTrajectory_FromSystemGeometryTrajectory(self.trajectoryNameCurr+".dcd", self.trajectoryNameCurr , self.molecule )
+            Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
   
    
     #.---------------------------------------
@@ -193,12 +187,13 @@ class MD:
         '''
         self.nsteps             = _prodSteps
         self.samplingFactor     = _samplingFactor
-        self.trajectoryNameCurr = self.trajectoryNameProd         
-        self.logname            = os.path.join( self.trajectoryNameCurr, "prod.log" )
+        self.softConstraint     = True
+        
+        self.RunEquilibration(_equiSteps)
+        self.RunProduction(_prodSteps)
 
         if self.outputDCD:
-            DCDTrajectory_FromSystemGeometryTrajectory(  self.trajectoryNameCurr+".dcd", self.trajectoryNameCurr , self.molecule )
- 
+            Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
     
     #.---------------------------------------
     def CheckSimulation(self,_type):
@@ -218,50 +213,52 @@ class MD:
         '''
         Execute velocity verlet molecular dynamics from pDynamo methods. 
         '''
-        trajectory          = ExportTrajectory( self.trajectoryNameCurr, self.molecule ) 
-        trajectorySC        = None       
-        Log                 = TextLogFileWriter(self.logname)
-        trajectory_lists    = [] 
+        trajectory      = ExportTrajectory( self.trajectoryNameCurr, self.molecule )         
+        trajectory_list = list
 
         if self.softConstraint:
-            trajectorySC = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
+            trajectory_list = [ (trajectory, self.samplingFactor ), (trajSoft, 1) ]
+        else:
+            trajectory_list = [ (trajectory, self.samplingFactor ) ]
+        
+        VelocityVerletDynamics_SystemGeometry(self.molecule                             ,
+                                logFrequency                = self.logFreq              ,
+                                normalDeviateGenerator      = self.RNG                  ,
+                                steps                       = self.nsteps               ,
+                                timeStep                    = self.timeStep             ,
+                                temperatureScaleFrequency   = self.temperatureScaleFreq ,
+                                temperatureScaleOption      = "constant"                ,
+                                trajectories                = trajectory_list           ,
+                                temperatureStart            =   self.temperature        )
 
-        VelocityVerletDynamics_SystemGeometry(self.system                                                   ,
-                                log                         = Log                                           , 
-                                logFrequency                = self.logFreq                                  ,
-                                normalDeviateGenerator      = self.RNG                                      ,
-                                steps                       = self.nsteps                                   ,
-                                timeStep                    = self.timeStep                                 ,
-                                temperatureScaleFrequency   = self.temperatureScaleFreq                     ,
-                                temperatureScaleOption      = "constant"                                    ,
-                                trajectories                = [ ( trajectory, self.samplingFactor ) ]       ,
-                                temperatureStart            =   self.temperature                            )
-
-        #.---------------------------------------
+    #.---------------------------------------
     def runLeapFrog(self):
         '''
         Execute Leap Frog molecular dynamics from pDynamo methods.
         '''
 
-        trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule)
-        Log         = TextLogFileWriter(self.logname)
+        trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule)       
+        trajectory_list = list
 
-        LeapFrogDynamics_SystemGeometry(self.system                                                         ,
-                                        trajectories            = [ ( trajectory, self.samplingFactor ) ]   ,
-                                        log                     = log                                       ,
-                                        logFrequency            = self.logFreq                              ,
-                                        normalDeviateGenerator  = self.RNG                                  ,
-                                        pressure                = self.pressure                             ,
-                                        pressureCoupling        = self.pressureCoupling                     ,
-                                        steps                   = self.nsteps                               ,
-                                        timeStep                = self.timeStep                             ,
-                                        temperature             = self.temperature                          , 
-                                        temperatureCoupling     = 0.1                                       ) 
-                                
-        
-        if self.outputDCD:
-            DCDTrajectory_FromSystemGeometryTrajectory(  self.trajectoryNameCurr+".dcd", self.trajectoryNameCurr , self.molecule )
-        
+        if self.softConstraint:
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
+            trajectory_list = [ ( trajectory, self.samplingFactor ), ( trajSoft, 1 ) ]
+        else:
+            trajectory_list = [ ( trajectory, self.samplingFactor ) ]
+
+        LeapFrogDynamics_SystemGeometry(self.molecule                                   ,
+                                        trajectories            = trajectory_list       ,
+                                        logFrequency            = self.logFreq          ,
+                                        normalDeviateGenerator  = self.RNG              ,
+                                        pressure                = self.pressure         ,
+                                        pressureCoupling        = self.pressureCoupling ,
+                                        steps                   = self.nsteps           ,
+                                        timeStep                = self.timeStep         ,
+                                        temperatureControl      = True                  ,
+                                        temperature             = self.temperature      , 
+                                        temperatureCoupling     = 0.1                   ) 
+
     
     #.---------------------------------------    
     def runLangevin(self):
@@ -269,25 +266,25 @@ class MD:
         Execute Langevin molecular dynamics from pDynamo methods.
         '''
         trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule)
-        Log         = TextLogFileWriter(self.logname)
-        
-        LangevinDynamics_SystemGeometry ( self.system                           ,
+        trajectory_list = list
+
+        if self.softConstraint:
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
+            trajectory_list = [ ( trajectory, self.samplingFactor ), ( trajSoft, 1 ) ]
+        else:
+            trajectory_list = [ ( trajectory, self.samplingFactor ) ]
+
+        LangevinDynamics_SystemGeometry ( self.molecule                         ,
                                           collisionFrequency     = self.collFreq,
                                           logFrequency           = self.logFreq ,
-                                          normalDeviateGenerator = self.RNG ,
-                                          steps                  = _NSteps ,
-                                          temperature            =   300.0 ,
-                                          timeStep               =   0.001 ,
-                                          trajectories = [ ( trajectory, _NSave ) ] )
+                                          normalDeviateGenerator = self.RNG     ,
+                                          steps                  = self.nsteps  ,
+                                          temperature            =   300.0      ,
+                                          timeStep               =   0.001      ,
+                                          trajectories = trajectory_list        )
 
 
-        if self.outputDCD:
-            DCDTrajectory_FromSystemGeometryTrajectory(self.trajectoryNameCurr+".dcd",self.trajectoryNameCurr,self.molecule) 
-
-    #.-----------------------------------------
-    def UnitTest(self):
-        pass
-
+#==============================================
 #. End of class MD
 #==============================================
        

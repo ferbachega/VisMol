@@ -45,7 +45,7 @@ class GeometrySearcher:
         self.molecule       = _system
         self.baseName       = _baseFolder
         self.optAlg         = "ConjugatedGradient"
-        self.InitCrd3D      = _system.coordinates3
+        self.InitCrd3D      = Clone( _system.coordinates3 )
         self.finalCrd3D     = None
         self.massWeighting  = False
         self.logFreq        = 50 # deafult value for otimizations, must to be changed through the specific class method
@@ -103,17 +103,22 @@ class GeometrySearcher:
         elif self.optAlg == "FIRE":
             self.RunFIREmin()
 
-        self.finalCrd3D = self.molecule.coordinates3
+        self.finalCrd3D = Clone(self.molecule.coordinates3)
        
         #Save structures and/or trajectories
         if self.savePdb:
-            pdbFile = self.baseName + ".pdb"
+            pdbFile = self.baseName + "opt_{}.pdb".format(self.optAlg)
             i = 0;
             while os.path.exists(pdbFile):
-                pdbFile = self.baseName + "_#{}.pdb".format(i)
+                pdbFile = self.baseName + "_#{}_opt_{}.pdb".format(i,self.optAlg)
                 i += 1
 
             ExportSystem(pdbFile,self.molecule)
+
+        masses = Array.FromIterable ( [ atom.mass for atom in self.molecule.atoms ] )
+        self.InitCrd3D.Superimpose ( self.finalCrd3D, weights = masses )
+        rms = self.InitCrd3D.RootMeanSquareDeviation ( self.finalCrd3D, weights = masses )
+        print("Root Mean Sqaute of Deviation of the optimized structure from the initial: {}".format(rms))
 
 
     #.-----------------------------------------------------------------------
@@ -122,10 +127,7 @@ class GeometrySearcher:
         '''
         Class method to apply the conjugated gradient minimizer
         '''
-        Log = TextLogFileWriter.WithDefaults()
-
         ConjugateGradientMinimize_SystemGeometry(self.molecule                          ,                
-                                                 log                    = Log           ,
                                                  logFrequency           = self.logFreq  ,
                                                  trajectories           = self.traj     ,
                                                  maximumIterations      = self.maxIt    ,
@@ -136,25 +138,18 @@ class GeometrySearcher:
         '''
         Class method to apply the steepest descent minimizer
         '''
-        Log = TextLogFileWriter(self.logname)
-
         SteepestDescentMinimize_SystemGeometry(self.molecule                           ,               
-                                                log                     = Log          ,
                                                 logFrequency            = self.logFreq ,
-                                                trajectories              = self.traj    ,
+                                                trajectories            = self.traj    ,
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
-
 
     #.------------------------------------------------------------------------
     def RunLFBGS(self):
         '''
         Class method to apply the LFBGS minimizer
         '''
-        Log = TextLogFileWriter.WithDefaults()
-
         LBFGSMinimize_SystemGeometry(self.molecule                              ,                
-                                    log  = Log                                  ,
                                     logFrequency         = self.logFreq         ,
                                     trajectories         = self.traj            ,
                                     maximumIterations    = self.maxIt           ,
@@ -165,10 +160,7 @@ class GeometrySearcher:
         '''
         Class method to apply the Quaisi-Newton minimizer
         '''
-        Log = TextLogFileWriter(self.logname)
-
         QuasiNewtonMinimize_SystemGeometry( self.molecule                              ,                
-                                            log                  = Log          ,
                                             logFrequency         = self.logFreq ,
                                             trajectories         = self.traj    ,
                                             maximumIterations    = self.maxIt   ,
@@ -176,11 +168,9 @@ class GeometrySearcher:
     
     #.------------------------------------------------------------------------
     def RunFIREmin(self):
-
-       Log = TextLogFileWriter(self.logname)
-
-       FIREMinimize_SystemGeometry( self.molecule                       ,                
-                                    log                  = Log          ,
+        '''
+        '''
+        FIREMinimize_SystemGeometry( self.molecule                       ,                
                                     logFrequency         = self.logFreq ,
                                     trajectories         = self.traj    ,
                                     maximumIterations    = self.maxIt   ,
@@ -237,11 +227,3 @@ class GeometrySearcher:
         '''
         Class method to clean unrequired files from the directory
         '''
-        
-    #.--------------------------------------------
-    def UnitTest(self):
-        '''
-        '''
-        pass      
-  
-        

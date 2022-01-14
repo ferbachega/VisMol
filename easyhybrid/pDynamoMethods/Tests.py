@@ -15,7 +15,6 @@ import os, glob, sys
 
 from commonFunctions import *
 import SimulationsPreset 
-from LogFile import LogFile
 
 from pBabel                    import *                                     
 from pCore                     import *                                     
@@ -65,8 +64,9 @@ class Tests:
 
 	#---------------------------------------------------
 	def QCSystemsSetting(self):
-
-		proj= SimulationProject("TIMTest_QCTests")
+		'''
+		'''
+		proj= SimulationProject("TIMTest_SMOs")
 		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
 		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
@@ -76,14 +76,217 @@ class Tests:
 		selections= [ lig, glu, his ]
 		SMOmodels = ["am1","am1dphot","pddgpm3","pm3","pm6","rm1"]
 
+		#saving qc/mm setup
+		proj.SaveProject()
 		for smo in SMOmodels:
 			proj.SetSMOHybridModel( smo, selections, -3, 1 )
 
 		proj.FinishRun()
+	
+	#---------------------------------------------------
+	def QCDFTBplus(self):
+		'''
+		'''
+		proj= SimulationProject("TIMTest_DFTB")
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+
+		selections= [ lig, glu, his ]
+
+		proj.SetDFTBsystem(selections, -3, 1 )
+
+		proj.FinishRun()
+	
+	#---------------------------------------------------
+	def QCMMOrca(self):
+		'''
+		'''
+		proj= SimulationProject("TIMTest_ORCA")
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+
+		selections= [ lig, glu, his ]
+		proj.SetOrcaSystem("HF","6-31G*",selections, -3, 1 )
+		proj.RunSinglePoint()
+		proj.FinishRun()
+	
+	#---------------------------------------------------
+	def QCMMoptimizations(self):
+		'''
+		'''
+		proj= SimulationProject("TIMTest_QCMMopts")
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+		selections= [ lig, glu, his ]
+		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		
+		initialCoords = Clone(proj.cSystem.coordinates3)
+
+		#Quasi-Newton muito demorado
+		algs = ["ConjugatedGradient",
+				"LFBGS",
+				"SteepestDescent",
+				#"QuasiNewton",
+				"FIRE"]
+		
+		for alg in algs:
+			parameters = {"maxIterations":1000,"rmsGradient":0.1,"optmizer":alg}
+			proj.RunSimulation(parameters,"Geometry_Optimization")
+			proj.cSystem.coordinates3 = initialCoords;
+
+		proj.FinishRun()
+
+	#---------------------------------------------------
+	def MD_protocols(self):
+		
+		proj=SimulationProject("TIMtest_MD")
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		protocols = [
+					"heating",
+					"equilibration",
+					"production"
+					]
+
+		for protocol in protocols:
+			parameters = {"protocol":protocol,"production_nsteps":2000,"equilibration_nsteps":1000 }
+			proj.RunSimulation(parameters,"Molecular_Dynamics")
+
+	#---------------------------------------------------
+	def MD_Algs(self):
+		'''
+		'''
+		proj=SimulationProject("TIMtest_MDAlgs")		
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		integrators = [
+					"Verlet",
+					"LeapFrog",
+					"Langevin"
+					]
+
+		for integrator in integrators:
+			parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":integrator }
+			proj.RunSimulation(parameters,"Molecular_Dynamics")
+
+	#---------------------------------------------------
+	def QCMM_MD(self):
+		'''
+		'''
+		proj=SimulationProject("TIMtest_QCMM_MDs")		
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+
+		selections= [ lig, glu, his ]
+
+		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		#testing qcmm MD 
+		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog" }
+		proj.RunSimulation(parameters,"Molecular_Dynamics")
+
+	#---------------------------------------------------
+	def QCMM_MDrestricted(self):
+		'''
+		'''		
+		proj=SimulationProject("TIMtest_QCMM_restrictMDs")		
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+
+		selections= [ lig, glu, his ]
+
+		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		#testing qcmm MD 
+
+		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+
+		'''
+		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:OXM.*:O").selection.pop()
+		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:OXM.*:H3").selection.pop()
+		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HID.193:NE2").selection.pop()
+		'''		
+		atomsf = [atom1[0],atom2[0],atom3[0]]
+
+		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog",
+					 "atoms":atomsf,"natoms":3, "forceC":100.0,"ndim":1,"MultD1":"true" }
+		
+		proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics")
+
+
+	#---------------------------------------------------
+	def QCMMScans(self):
+
+		proj=SimulationProject("TIMtest_QCMM_restrictMDs")		
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+
+		selections= [ lig, glu, his ]
+
+		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		#testing qcmm MD 
+
+		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+	
+	#---------------------------------------------------
+	def UmbrellaSampling(self):
+		pass
+	
+	#---------------------------------------------------
+	def ReacCoordSearchers(self):
+		pass 
+	
+	#---------------------------------------------------
+	def SMOEnergyRef(self):
+		pass
+	
+	#---------------------------------------------------
+	def Thermodynamics(self):
+		pass
+
+	#---------------------------------------------------
+	def GetOrbitalsInfo(self):
+		pass
+	
+	#---------------------------------------------------
+	def Plotting(self):
+		pass 
+	
+	#---------------------------------------------------
 
 
 #============================================================================
 if __name__ == "__main__":
+	logFile.Header()
 	test = Tests()
 	#test.SetTIMsytem()
-	test.QCSystemsSetting()
+	#test.QCSystemsSetting()
+	#test.QCDFTBplus()
+	#test.QCMMOrca()
+	#test.QCMMoptimizations()
+	#test.MD_protocols()
+	#test.MD_Algs()
+	#test.QCMM_MD()
+	#test.QCMM_MDrestricted()
+	test.QCMMScans()
+	logFile.Footer()
