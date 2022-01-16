@@ -62,7 +62,7 @@ class GeometrySearcher:
         self.rmsGrad        = 0.1
 
     #-----------------------------------------------------------------------
-    def ChengeDefaultParameters(self,_parameters):
+    def ChangeDefaultParameters(self,_parameters):
         '''
         Class method to modify default parameters for the minimization runs
         '''

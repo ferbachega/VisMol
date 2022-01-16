@@ -43,12 +43,12 @@ class Simulation:
 	'''
 	Class to set up preset simulations to be perfomed
 	'''
-	def __init__(self,_system,_simulationType):
+	def __init__(self,_system,_simulationType,baseFolder):
 		'''
 		'''
 		self.molecule 			= _system
 		self.simulationType 	= _simulationType
-		self.baseFolder  		= os.getcwd() # the baseFolder for the simulations will be the current dir for now.
+		self.baseFolder  		= baseFolder + "_EHproj" # the baseFolder for the simulations will be the current dir for now.
 		self.MAXnprocs 			= 1 # maximum number of virtual threads to be used in the simulations
 		self.coorddinatesFolder = "" # Name of the folder containing the pkls to be read. Used in more than one preset here
 		self.logFreq 			= 1
@@ -73,6 +73,10 @@ class Simulation:
 		#specif parameters for the normal modes run
 		self.NMcycles    = 10
 		self.NMframes    = 20
+
+		#Managing folders
+		if not os.path.exists( self.baseFolder ):
+			os.makedirs( self.baseFolder )
 
 
 	#-------------------------------------------------------
@@ -174,7 +178,7 @@ class Simulation:
 		'''
 		self.baseFolder = os.path.join(self.baseFolder+"GeoOptimization") 
 		Gopt = GeometrySearcher(self.molecule,self.baseFolder)		
-		Gopt.ChengeDefaultParameters(_parameters)
+		Gopt.ChangeDefaultParameters(_parameters)
 		Gopt.Minimization(self.optmizer)
 
 
@@ -185,23 +189,24 @@ class Simulation:
 		'''
 		scan = SCAN(self.molecule,self.baseFolder,self.optmizer)
 
-		if _parameters['change_parameters'] == "change":
-			scan.ChengeDefaultParameters(_parameters)
+		scan.ChangeDefaultParameters(_parameters)
 
 		MCR1 = False
 		MCR2 = False
-		if _parameters["Mass_Constraint_RC1"]:
-			MCR1 = True
-		if _parameters["Mass_Constraint_RC2"]:
-			MCR2 = True
 
-		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['Distance_Step_RC1'], MCR1)
+		if "Mass_Constraint_RC1" in _parameters:
+			MCR1 = True
+		if "Mass_Constraint_RC2" in _parameters:
+			MCR2 = True
+		restraintDimensions = _parameters['ndim']
+
+		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['dMinimum_RC1'], MCR1)
 		
-		if self.restrainDimensions == 2:
+		if restraintDimensions == 2:
 			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['Distance_Step_RC2'], MCR2)
 			scan.RunTwoDimensionalSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 		else:
-			scan.RunTwoDimensionalSCAN(_parameters['nSteps_RC1'])
+			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])
 
 	#_------------------------------------------------------
 	def MolecularDynamics(self,_parameters):
@@ -249,6 +254,8 @@ class Simulation:
 		if "MultD2" in _parameters:
 			mdistance2 = True 
 
+		#task:
+		#Improve the weights definitions to work with mass constraints
 		weight1 = 1.0
 		weight2 = -1.0 
 		atoms = []
@@ -300,6 +307,7 @@ class Simulation:
 				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
 				restraint2 = RestraintDistance.WithOptions( energyModel = rmodel2, point1=atoms[2],point2=atoms[3] ) 
 				restraints['ReactionCoord2'] =  restraint2
+				
 		#----------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(_parameters)

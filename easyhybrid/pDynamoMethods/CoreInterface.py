@@ -445,8 +445,8 @@ class SimulationProject:
         self.cSystem.label = self.baseName + "#{} Input for Simulation: {}".format(self.systemCoutCurr,_simulationType)
         self.systemCoutCurr += 1
 
-        process = Simulation(self.cSystem,_simulationType)
-        process.baseName = os.path.join( os.getcwd(), self.baseName )
+        bsname = os.path.join( os.getcwd(), self.baseName )
+        process = Simulation(self.cSystem,_simulationType, bsname )
         process.Execute(_parameters)
               
         

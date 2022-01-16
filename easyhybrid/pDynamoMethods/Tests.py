@@ -97,7 +97,6 @@ class Tests:
 		selections= [ lig, glu, his ]
 
 		proj.SetDFTBsystem(selections, -3, 1 )
-
 		proj.FinishRun()
 	
 	#---------------------------------------------------
@@ -161,6 +160,7 @@ class Tests:
 			parameters = {"protocol":protocol,"production_nsteps":2000,"equilibration_nsteps":1000 }
 			proj.RunSimulation(parameters,"Molecular_Dynamics")
 
+		proj.FinishRun()
 	#---------------------------------------------------
 	def MD_Algs(self):
 		'''
@@ -178,6 +178,7 @@ class Tests:
 			parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":integrator }
 			proj.RunSimulation(parameters,"Molecular_Dynamics")
 
+		proj.FinishRun()
 	#---------------------------------------------------
 	def QCMM_MD(self):
 		'''
@@ -195,6 +196,7 @@ class Tests:
 		#testing qcmm MD 
 		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog" }
 		proj.RunSimulation(parameters,"Molecular_Dynamics")
+		proj.FinishRun()
 
 	#---------------------------------------------------
 	def QCMM_MDrestricted(self):
@@ -227,12 +229,12 @@ class Tests:
 					 "atoms":atomsf,"natoms":3, "forceC":100.0,"ndim":1,"MultD1":"true" }
 		
 		proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics")
-
+		proj.FinishRun()
 
 	#---------------------------------------------------
 	def QCMMScans(self):
 
-		proj=SimulationProject("TIMtest_QCMM_restrictMDs")		
+		proj=SimulationProject("TIMtest_QCMM_Scans")		
 		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
 		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
@@ -247,7 +249,17 @@ class Tests:
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
-	
+		
+		#1D Simple distance
+		atomsf = [ atom1[0],atom2[0] ] 
+		
+		parameters = {"maxIterations":1000,"rmsGradient":0.1}
+		proj.RunSimulation(parameters,"Geometry_Optimization")
+
+		parameters = { 'ATOMS_RC1':atomsf, 'dMinimum_RC1':0.1, "nSteps_RC1":16,"ndim":1}
+		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")
+		proj.FinishRun()
+
 	#---------------------------------------------------
 	def UmbrellaSampling(self):
 		pass
