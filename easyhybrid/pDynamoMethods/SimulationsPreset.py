@@ -194,16 +194,16 @@ class Simulation:
 		MCR1 = False
 		MCR2 = False
 
-		if "Mass_Constraint_RC1" in _parameters:
+		if "MC_RC1" in _parameters:
 			MCR1 = True
-		if "Mass_Constraint_RC2" in _parameters:
+		if "MC_RC2" in _parameters:
 			MCR2 = True
 		restraintDimensions = _parameters['ndim']
 
-		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['dMinimum_RC1'], MCR1)
+		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['dincre_RC1'], MCR1)
 		
 		if restraintDimensions == 2:
-			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['Distance_Step_RC2'], MCR2)
+			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['dincre_RC2'], MCR2)
 			scan.RunTwoDimensionalSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 		else:
 			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])
@@ -249,9 +249,12 @@ class Simulation:
 		mdistance1 = False
 		mdistance2 = False
 		
-		if "MultD1" in _parameters:
-			mdistance1 = True 
-		if "MultD2" in _parameters:
+		if len(_parameters["atoms"]) == 3:
+			mdistance1 = True
+		if len(_parameters["atoms"]) == 5:
+			mdistance2 = True 
+		if len(_parameters["atoms"]) == 6:
+			mdistance1 = True
 			mdistance2 = True 
 
 		#task:
@@ -260,7 +263,7 @@ class Simulation:
 		weight2 = -1.0 
 		atoms = []
 		
-		for atom in range(_parameters['natoms']):
+		for atom in range( len(_parameters["atoms"]) ):
 			atoms.append( _parameters["atoms"][atom] )
 		
 		if restrainDimensions == 1:

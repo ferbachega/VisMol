@@ -142,6 +142,7 @@ class Tests:
 			proj.RunSimulation(parameters,"Geometry_Optimization")
 			proj.cSystem.coordinates3 = initialCoords;
 
+		proj.SaveProject()
 		proj.FinishRun()
 
 	#---------------------------------------------------
@@ -184,15 +185,7 @@ class Tests:
 		'''
 		'''
 		proj=SimulationProject("TIMtest_QCMM_MDs")		
-		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
-
-		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
-		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
-		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
-
-		selections= [ lig, glu, his ]
-
-		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 		#testing qcmm MD 
 		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog" }
 		proj.RunSimulation(parameters,"Molecular_Dynamics")
@@ -203,47 +196,27 @@ class Tests:
 		'''
 		'''		
 		proj=SimulationProject("TIMtest_QCMM_restrictMDs")		
-		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
-
-		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
-		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
-		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
-
-		selections= [ lig, glu, his ]
-
-		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")		
 		#testing qcmm MD 
-
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 
-		'''
-		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:OXM.*:O").selection.pop()
-		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:OXM.*:H3").selection.pop()
-		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HID.193:NE2").selection.pop()
-		'''		
-		atomsf = [atom1[0],atom2[0],atom3[0]]
+		atomsf = [ atom1[0], atom2[0] ]
 
 		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog",
-					 "atoms":atomsf,"natoms":3, "forceC":100.0,"ndim":1,"MultD1":"true" }
+					 "atoms":atomsf, "forceC":100.0,"ndim":1,"MultD1":"true" }
 		
 		proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics")
 		proj.FinishRun()
 
 	#---------------------------------------------------
 	def QCMMScans(self):
-
+		'''
+		'''
 		proj=SimulationProject("TIMtest_QCMM_Scans")		
-		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 
-		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
-		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
-		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
-
-		selections= [ lig, glu, his ]
-
-		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
 		#testing qcmm MD 
 
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
@@ -251,13 +224,56 @@ class Tests:
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 		
 		#1D Simple distance
-		atomsf = [ atom1[0],atom2[0] ] 
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		print(atomsf)
+			
+		parameters = { 
+						'ATOMS_RC1':atomsf,
+						'dincre_RC1':0.1,
+						"nSteps_RC1":16,
+						"ndim":1,
+					#	"MC_RC1":"true"
+						}
+
+		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
+		proj.FinishRun()
 		
+	#---------------------------------------------------
+	def QCMMScans2D(self):
+		'''
+		'''
+		proj=SimulationProject("TIMtest_QCMM_Scans2D")		
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		
+
+		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+		
+		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+
+		#1D Simple distance
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
 		parameters = {"maxIterations":1000,"rmsGradient":0.1}
 		proj.RunSimulation(parameters,"Geometry_Optimization")
 
-		parameters = { 'ATOMS_RC1':atomsf, 'dMinimum_RC1':0.1, "nSteps_RC1":16,"ndim":1}
-		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")
+		parameters = { 'ATOMS_RC1':atomsf	,
+					   'ATOMS_RC2':atomss	,
+					   'dincre_RC1':0.1 	,
+					   'dincre_RC1':0.1     , 
+					   "nSteps_RC1":10		,
+					   "nSteps_RC2":10 		, 
+					   "ndim":2 			,
+					   "MC_RC1":		"true"
+					 }
+		parameters = { 'ATOMS_RC1':atomsf,'dincre_RC1':0.1,'dincre_RC2':0.1, "nSteps_RC1":16,"ndim":1,"MC_RC1":"true"}
+
+		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
 		proj.FinishRun()
 
 	#---------------------------------------------------
