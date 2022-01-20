@@ -13,6 +13,7 @@ from pMolecule                 import *
 from pMolecule.MMModel         import *
 from pMolecule.NBModel         import *                                     
 from pMolecule.QCModel         import *
+import numpy as np
 #==============================================================================
 #Atom dictionary with relevant information.
 atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
@@ -128,9 +129,6 @@ atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
                 "Xx" : ["Dummy"        , 0   ,  0.000000 , 0.000000,  0.000000   ],
                 "X"  : ["Dummy"        , 0   ,  0.000000 , 0.000000,  0.000000   ]
               }
-#==============================================================================
-
-
 #==============================================================================
 #possible SMO names
 SMOnames = ["am1","am1dphot","mndostong","pddgmndo","pddgpm3","pm3","pm6","rm1"]

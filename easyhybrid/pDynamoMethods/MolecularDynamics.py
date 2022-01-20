@@ -147,7 +147,6 @@ class MD:
 
         self.nsteps             = _equiSteps
         self.trajectoryNameCurr = self.trajectoryNameEqui
-        self.logname            = os.path.join( self.trajectoryNameCurr, "equi.log" )
 
         if self.algorithm == "Verlet":
             self.runVerlet()
@@ -171,9 +170,6 @@ class MD:
             self.runLeapFrog()
         elif self.algorithm == "Langevin":
             self.runLangevin()
-
-        if self.CheckSimulation("production"):
-            self.state = "Sampled"
 
         if self.outputDCD:
             Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
@@ -230,7 +226,7 @@ class MD:
                                 temperatureScaleFrequency   = self.temperatureScaleFreq ,
                                 temperatureScaleOption      = "constant"                ,
                                 trajectories                = trajectory_list           ,
-                                temperatureStart            =   self.temperature        )
+                                temperatureStart            = self.temperature          )
 
     #.---------------------------------------
     def runLeapFrog(self):
@@ -283,6 +279,126 @@ class MD:
                                           timeStep               =   0.001      ,
                                           trajectories = trajectory_list        )
 
+    #_--------------------------------------------------------
+    def Analysis(self):
+        '''
+        '''        
+        # . Get the atom masses and a selection for protein atoms only.
+        masses  = Array.FromIterable ( [ atom.mass for atom in self.molecule.atoms ] )
+        crd3    = ImportCoordinates3( os.path.join(self.trajectoryNameProd,"frame1.pkl") )
+        system  = AtomSelection.FromAtomPattern ( self.molecule, "A:*:*" )
+
+        # . Calculate the radius of gyration.
+        rg0 = crd3.RadiusOfGyration ( selection = system, weights = masses )
+
+        # . Save the starting coordinates.
+        reference3 = Clone ( crd3 )
+
+        # . Get the trajectory.
+        trajectory = ImportTrajectory (  self.trajectoryNameProd , self.molecule )
+        trajectory.ReadHeader ( )
+
+        # . Loop over the frames in the trajectory.
+        rg  = []
+        rms = []
+        n   = []
+        m   = 0 
+        while trajectory.RestoreOwnerData ( ):
+            self.molecule.coordinates3.Superimpose ( reference3, selection = system, weights = masses )
+            rg.append  ( self.molecule.coordinates3.RadiusOfGyration        (             selection = system, weights = masses ) )
+            rms.append ( self.molecule.coordinates3.RootMeanSquareDeviation ( reference3, selection = system, weights = masses ) )
+            n.append(m)
+            m+=1
+        # . Set up the statistics calculations.
+        rgStatistics  = Statistics ( rg  )
+        rmsStatistics = Statistics ( rms )
+
+        # . Save the results.        
+        textLog = open( self.baseName+"_MDanalysis", "w" ) 
+
+        _Text = "rg0 rgMean rgSD rgMax rgMin\n"
+        _Text += "{} {} {} {} {}".format(rg0,rgStatistics.mean,rgStatistics.standardDeviation,rgStatistics.maximum,rgStatistics.minimum )
+        _Text += "rms0 rmsMean rmsSD rmsMax rmsMin\n"
+        _Text += "{} {} {} {} {}".format(rms0,rmsStatistics.mean,rmsStatistics.standardDeviation,rmsStatistics.maximum,rmsStatistics.minimum )
+
+        _Text += "RG RMS\n"
+        for i in range(len(rg)):
+            _Text += "{} {}\n".format(rg,rms)
+
+        textLog.write()
+        textLog.close()
+
+        plt.plot(n, rg,  label = "Radius of Gyration")
+        plt.plot(n, rms, label = "Root Mean Square")
+        plt.show()
+        plt.savefig(self.baseName+"_mdAnalysis.png")
+
+    
+    #-------------------------------------------------------------------    
+    def DistAnalysis(self,rcs,mdis):
+        '''
+        '''
+        atom01 = rcs[0][0]
+        atom02 = rcs[0][1]
+        atom03 = 0 
+        
+        if mdis:
+            atom03 = rcs[0][2]
+
+        atom11 = 0
+        atom12 = 0
+        atom13 = 0 
+
+        if mdis:
+            atom03 = rcs[0][2]       
+
+        if len(rcs) > 1:
+            atom11 = rcs[1][0]
+            atom12 = rcs[1][1]
+
+            if mdis:
+                atom13 = rcs[1][2]
+
+        # . Get the trajectory.
+        trajectory = ImportTrajectory (  self.trajectoryNameProd , self.molecule )
+        trajectory.ReadHeader ( )
+
+        # . Loop over the frames in the trajectory.
+        rc1 = []
+        rc2 = []
+        energies = []
+        n = []
+
+        if mdis and len(rcs) > 1:
+            while trajectory.RestoreOwnerData ( ):
+                self.energies.append( self.molecule.Energy() )
+                rc1.append( self.molecule.coordinates3.Distance ( atom01, atom02 ) - self.molecule.coordinates3.Distance ( atom02, atom03 ) )
+                rc2.append( self.molecule.coordinates3.Distance ( atom11, atom12 ) - self.molecule.coordinates3.Distance ( atom12, atom13 ) )
+                n.append(m)
+                m+=1
+        # . Set up the statistics calculations.
+
+        # . Save the results.        
+        textLog = open( self.baseName+"_MDdistAnalysis", "w" ) 
+
+        _Text = "rg0 rgMean rgSD rgMax rgMin\n"
+        _Text += "{} {} {} {} {}".format(rg0,rgStatistics.mean,rgStatistics.standardDeviation,rgStatistics.maximum,rgStatistics.minimum )
+        _Text += "rms0 rmsMean rmsSD rmsMax rmsMin\n"
+        _Text += "{} {} {} {} {}".format(rms0,rmsStatistics.mean,rmsStatistics.standardDeviation,rmsStatistics.maximum,rmsStatistics.minimum )
+
+        _Text += "RG RMS\n"
+        for i in range(len(rg)):
+            _Text += "{} {}\n".format(rg,rms)
+
+        textLog.write()
+        textLog.close()
+
+        plt.plot(n, rg,  label = "Radius of Gyration")
+        plt.plot(n, rms, label = "Root Mean Square")
+        plt.show()
+        plt.savefig(self.baseName+"_mdAnalysis.png")
+
+        pass
 
 #==============================================
 #. End of class MD

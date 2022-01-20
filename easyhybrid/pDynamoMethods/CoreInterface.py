@@ -280,6 +280,7 @@ class SimulationProject:
                 atomlist.append( sel[i] )
         #---------------------------------------------
         #define QC atoms selection
+        converger      = DIISSCFConverger.WithOptions  ( energyTolerance=2.0e-4,densityTolerance = 1.0e-10, maximumIterations = 500 )
         self.QCRegion = Selection.FromIterable(atomlist)
         self.multiplicity   = _QCmultiplicity
         self.TotalChargeQC  = _QCcharge        
@@ -291,7 +292,7 @@ class SimulationProject:
         self.systemCoutCurr += 1
         #Setting QC model 
         self.cSystem.electronicState = ElectronicState.WithOptions ( charge = self.TotalChargeQC, multiplicity = self.multiplicity )
-        self.QCmodel = QCModelMNDO.WithOptions( hamiltonian = _method )
+        self.QCmodel = QCModelMNDO.WithOptions( hamiltonian = _method, converger=converger )
         #Export the set QC region for visual inspection
         qcSystem = PruneByAtom(self.cSystem, self.QCRegion)
         ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
@@ -446,7 +447,7 @@ class SimulationProject:
         self.systemCoutCurr += 1
 
         bsname = os.path.join( os.getcwd(), self.baseName )
-        process = Simulation(self.cSystem,_simulationType, bsname )
+        process = Simulation(self.cSystem,_simulationType, bsname,MAXnprocs=8 )
         process.Execute(_parameters)
               
         

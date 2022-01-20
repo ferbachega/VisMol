@@ -43,7 +43,7 @@ class Simulation:
 	'''
 	Class to set up preset simulations to be perfomed
 	'''
-	def __init__(self,_system,_simulationType,baseFolder):
+	def __init__(self,_system,_simulationType,baseFolder,MAXnprocs):
 		'''
 		'''
 		self.molecule 			= _system
@@ -54,6 +54,7 @@ class Simulation:
 		self.logFreq 			= 1
 		self.optmizer			= "ConjugatedGradient"
 		self.samplingFactor 	= 1 # this is usually let to the default class value, unless the user want to modify
+		self.nProcs 			= MAXnprocs
 		#for restricted simulations
 		
 		#enviromental parameters and their default values 
@@ -187,8 +188,7 @@ class Simulation:
 		'''
 		Class method to set up and execute one/two-dimensional relaxed surface scans 
 		'''
-		scan = SCAN(self.molecule,self.baseFolder,self.optmizer)
-
+		scan = SCAN(self.molecule,self.baseFolder,self.optmizer,nprocs=self.nProcs)
 		scan.ChangeDefaultParameters(_parameters)
 
 		MCR1 = False
@@ -198,13 +198,14 @@ class Simulation:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
+		
 		restraintDimensions = _parameters['ndim']
 
 		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['dincre_RC1'], MCR1)
 		
 		if restraintDimensions == 2:
 			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['dincre_RC2'], MCR2)
-			scan.RunTwoDimensionalSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
+			scan.RunTWODimensionSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 		else:
 			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])
 

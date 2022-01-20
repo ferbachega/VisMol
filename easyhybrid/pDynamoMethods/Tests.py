@@ -162,6 +162,7 @@ class Tests:
 			proj.RunSimulation(parameters,"Molecular_Dynamics")
 
 		proj.FinishRun()
+
 	#---------------------------------------------------
 	def MD_Algs(self):
 		'''
@@ -223,16 +224,19 @@ class Tests:
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 		
+		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
 		#1D Simple distance
 		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
-		print(atomsf)
-			
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
 		parameters = { 
-						'ATOMS_RC1':atomsf,
+						'ATOMS_RC1':atomss,
 						'dincre_RC1':0.1,
 						"nSteps_RC1":16,
 						"ndim":1,
-					#	"MC_RC1":"true"
+						"MC_RC1":"true"
 						}
 
 		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
@@ -244,8 +248,6 @@ class Tests:
 		'''
 		proj=SimulationProject("TIMtest_QCMM_Scans2D")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
-
-		
 
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
@@ -264,22 +266,84 @@ class Tests:
 
 		parameters = { 'ATOMS_RC1':atomsf	,
 					   'ATOMS_RC2':atomss	,
-					   'dincre_RC1':0.1 	,
-					   'dincre_RC1':0.1     , 
-					   "nSteps_RC1":10		,
-					   "nSteps_RC2":10 		, 
-					   "ndim":2 			,
-					   "MC_RC1":		"true"
+					   'dincre_RC1':0.03 	,
+					   'dincre_RC2':0.03     , 
+					   "nSteps_RC1":30		,
+					   "nSteps_RC2":30 		, 
+					   "ndim": 2 			,
+					   "MC_RC1":		"true",
+					   "MC_RC2":		"true",
 					 }
-		parameters = { 'ATOMS_RC1':atomsf,'dincre_RC1':0.1,'dincre_RC2':0.1, "nSteps_RC1":16,"ndim":1,"MC_RC1":"true"}
 
 		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
 		proj.FinishRun()
 
 	#---------------------------------------------------
-	def UmbrellaSampling(self):
+	def UmbrellaSampling1D(self):
+		'''
+		'''
+		proj=SimulationProject("TIMtest_Umbrella1D")		
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+		
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+
+		parameters = {"maxIterations":1000,"rmsGradient":0.1}
+		proj.RunSimulation(parameters,"Umbrella_Sampling")
+
+		parameters = { 'ATOMS_RC1':atomsf	,
+					   'dincre_RC1':0.2 	,
+					   "nSteps_RC1":5		,
+					   "ndim": 2 			,
+					   "MC_RC1":		"true",
+					 }
+
+		proj.RunSimulation(parameters,"")		
+		proj.FinishRun()
+
+
 		pass
 	
+	#---------------------------------------------------
+	def UmbrellaSampling2D(self):
+		'''
+		'''
+		proj=SimulationProject("TIMtest_Umbrella2D")		
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+		
+		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
+		parameters = {"maxIterations":1000,"rmsGradient":0.1}
+		proj.RunSimulation(parameters,"Umbrella_Sampling")
+
+		parameters = { 'ATOMS_RC1':atomsf	,
+					   'ATOMS_RC2':atomss	,
+					   'dincre_RC1':0.04 	,
+					   'dincre_RC2':0.04    , 
+					   "nSteps_RC1":16		,
+					   "nSteps_RC2":16 		, 
+					   "ndim": 2 			,
+					   "MC_RC1":		"true",
+					   "MC_RC2":		"true",
+					 }
+
+		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
+		proj.FinishRun()
+
+		pass
+
 	#---------------------------------------------------
 	def ReacCoordSearchers(self):
 		pass 
@@ -296,11 +360,6 @@ class Tests:
 	def GetOrbitalsInfo(self):
 		pass
 	
-	#---------------------------------------------------
-	def Plotting(self):
-		pass 
-	
-	#---------------------------------------------------
 
 
 #============================================================================
@@ -316,5 +375,7 @@ if __name__ == "__main__":
 	#test.MD_Algs()
 	#test.QCMM_MD()
 	#test.QCMM_MDrestricted()
-	test.QCMMScans()
+	#test.QCMMScans()
+	#test.QCMMScans2D()
+	test.UmbrellaSampling1D()
 	logFile.Footer()

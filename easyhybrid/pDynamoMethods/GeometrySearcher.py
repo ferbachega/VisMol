@@ -160,7 +160,7 @@ class GeometrySearcher:
         '''
         Class method to apply the Quaisi-Newton minimizer
         '''
-        QuasiNewtonMinimize_SystemGeometry( self.molecule                              ,                
+        QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
                                             logFrequency         = self.logFreq ,
                                             trajectories         = self.traj    ,
                                             maximumIterations    = self.maxIt   ,
@@ -170,7 +170,7 @@ class GeometrySearcher:
     def RunFIREmin(self):
         '''
         '''
-        FIREMinimize_SystemGeometry( self.molecule                       ,                
+        FIREMinimize_SystemGeometry( self.molecule                      ,                
                                     logFrequency         = self.logFreq ,
                                     trajectories         = self.traj    ,
                                     maximumIterations    = self.maxIt   ,
