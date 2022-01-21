@@ -50,6 +50,8 @@ class MD:
         '''        
         #Important parameters that are recurrently wanted to be change by the user
         self.molecule               = _system
+        if not os.path.exists(_baseFolder):
+            os.makedirs(_baseFolder)
         self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration.ptGeo")
         self.trajectoryNameProd     = os.path.join(_baseFolder,"production.ptGeo")
         self.trajectoryNameSoft     = os.path.join(_baseFolder,"soft_constr.ptRes")
@@ -104,12 +106,6 @@ class MD:
             self.pressureCoupling       = _parameters['pressure_coupling'] 
         if 'temperature_scale'          in _parameters:
             self.temperatureScaleFreq   = _parameters['temperature_scale']
-        if 'maxIterations_QC'           in _parameters:
-            self.maxItQC                = _parameters['maxIterations_QC']
-        if 'energy_tolerance'           in _parameters:
-            self.energyTolQC            = _parameters['energy_tolerance']
-        if 'density_tolerancen'         in _parameters:
-            self.densityTol             = _parameters['density_tolerance']
         if 'timeStep'                   in _parameters:
             self.timeStep               = _parameters['timeStep']
         if 'pressureControl'            in _parameters: # the presence of the ket activates this boolean flag

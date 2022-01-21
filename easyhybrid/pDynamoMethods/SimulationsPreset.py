@@ -119,15 +119,6 @@ class Simulation:
 
 		#-------------------------------------------------------------
 		elif self.simulationType == "Umbrella_Sampling":
-			if "production_nsteps" in _parameters:
-				self.prodNsteps = _parameters['production_nsteps']
-			if "equilibration_nsteps" in _parameters:
-				self.equiNsteps = _parameters['equilibration_nsteps']
-			if "temperature" in _parameters:
-				self.temperature = _parameters['temperature']
-			if "MD_method" in _parameters:
-				self.mdMethod = _parameters['MD_method'] 
-			
 			self.UmbrellaSampling(_parameters)
 		
 		#-------------------------------------------------------------
@@ -319,23 +310,29 @@ class Simulation:
 
 
 	#_------------------------------------------------------
-	def UmbrellaSampling(self):
+	def UmbrellaSampling(self,_parameters):
 		'''
 		Class method to set up and execute umbrella sampling simulations and Free energy calculations for reaction path trajectory.
 		#not finished method
 		'''
-		USrun = US(self.molecule,self.molecule,self.equiNsteps,self.prodNsteps,self.mdMethod)
-
 		MCR1 = False
 		MCR2 = False
 		
-		if _parameters["Mass_Constraint_RC1"]:
+		if "MC_RC1" in _parameters:
 			MCR1 = True
-		if _parameters["Mass_Constraint_RC2"]:
+		if "MC_RC2" in _parameters:
 			MCR2 = True
 
-		if self.restrainDimensions == 2:
-			pass
+		USrun = US(self.molecule,self.baseFolder,_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["MD_method"])
+		USrun.ChangeDefaultParameters(_parameters)
+		USrun.SetMode(_parameters["ATOMS_RC1"],MCR1)
+
+		if _parameters["ndim"] == 1:
+			USrun.RunONEDimensional(_parameters["trjFolder"],_parameters["samplingFactor"])
+		elif _parameters["ndim"] == 2:
+			USrun.SetMode(_parameters["ATOMS_RC2"],MCR2)
+			USrun.RunTWODimensional(_parameters["trjFolder"],_parameters["samplingFactor"])
+		
 
 
 	#_------------------------------------------------------

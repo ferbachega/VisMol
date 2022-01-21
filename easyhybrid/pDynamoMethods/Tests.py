@@ -232,7 +232,7 @@ class Tests:
 		atomss = [ atom4[0], atom5[0], atom6[0] ]
 
 		parameters = { 
-						'ATOMS_RC1':atomss,
+						'ATOMS_RC1':atomsf,
 						'dincre_RC1':0.1,
 						"nSteps_RC1":16,
 						"ndim":1,
@@ -291,21 +291,22 @@ class Tests:
 		
 		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 
-		parameters = {"maxIterations":1000,"rmsGradient":0.1}
-		proj.RunSimulation(parameters,"Umbrella_Sampling")
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans_EHproj","ScanTraj.ptGeo")
 
-		parameters = { 'ATOMS_RC1':atomsf	,
-					   'dincre_RC1':0.2 	,
-					   "nSteps_RC1":5		,
-					   "ndim": 2 			,
-					   "MC_RC1":		"true",
+		parameters = { 'ATOMS_RC1':atomsf			,
+					   "ndim": 1 					,
+					   "samplingFactor":200 		,
+					   "equilibration_nsteps":1000	,
+					   "production_nsteps":2000		,
+					   "trjFolder":_path 			,
+					   "MD_method":"LeapFrog"		,
+					   "MC_RC1":"true"				,
 					 }
 
-		proj.RunSimulation(parameters,"")		
+		proj.RunSimulation(parameters,"Umbrella_Sampling")
 		proj.FinishRun()
 
 
-		pass
 	
 	#---------------------------------------------------
 	def UmbrellaSampling2D(self):
@@ -325,24 +326,24 @@ class Tests:
 		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 		atomss = [ atom4[0], atom5[0], atom6[0] ]
 
-		parameters = {"maxIterations":1000,"rmsGradient":0.1}
-		proj.RunSimulation(parameters,"Umbrella_Sampling")
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans2D_EHproj","ScanTraj.ptGeo")
 
-		parameters = { 'ATOMS_RC1':atomsf	,
-					   'ATOMS_RC2':atomss	,
-					   'dincre_RC1':0.04 	,
-					   'dincre_RC2':0.04    , 
-					   "nSteps_RC1":16		,
-					   "nSteps_RC2":16 		, 
-					   "ndim": 2 			,
-					   "MC_RC1":		"true",
-					   "MC_RC2":		"true",
+		parameters = { 'ATOMS_RC1':atomsf			,
+					   "ATOMS_RC2":atomss			,
+					   "ndim": 2 					,
+					   "samplingFactor":200 		,
+					   "equilibration_nsteps":1000	,
+					   "production_nsteps":2000		,
+					   "trjFolder":_path 			,
+					   "MD_method":"LeapFrog"		,
+					   "MC_RC1":"true"				,
+					   "MC_RC2":"true"
 					 }
-
-		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
+		
+		proj.RunSimulation(parameters,"Umbrella_Sampling")
 		proj.FinishRun()
 
-		pass
+		
 
 	#---------------------------------------------------
 	def ReacCoordSearchers(self):
@@ -377,5 +378,6 @@ if __name__ == "__main__":
 	#test.QCMM_MDrestricted()
 	#test.QCMMScans()
 	#test.QCMMScans2D()
-	test.UmbrellaSampling1D()
+	#test.UmbrellaSampling1D()
+	test.UmbrellaSampling2D()
 	logFile.Footer()
