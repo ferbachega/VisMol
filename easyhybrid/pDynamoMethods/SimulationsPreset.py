@@ -43,18 +43,18 @@ class Simulation:
 	'''
 	Class to set up preset simulations to be perfomed
 	'''
-	def __init__(self,_system,_simulationType,baseFolder,MAXnprocs):
+	def __init__(self,_system,_simulationType,baseFolder):
 		'''
 		'''
 		self.molecule 			= _system
 		self.simulationType 	= _simulationType
-		self.baseFolder  		= baseFolder + "_EHproj" # the baseFolder for the simulations will be the current dir for now.
+		self.baseFolder  		= baseFolder# the baseFolder for the simulations will be the current dir for now.
 		self.MAXnprocs 			= 1 # maximum number of virtual threads to be used in the simulations
 		self.coorddinatesFolder = "" # Name of the folder containing the pkls to be read. Used in more than one preset here
 		self.logFreq 			= 1
 		self.optmizer			= "ConjugatedGradient"
 		self.samplingFactor 	= 1 # this is usually let to the default class value, unless the user want to modify
-		self.nProcs 			= MAXnprocs
+		self.nProcs 			= NmaxThreads
 		#for restricted simulations
 		
 		#enviromental parameters and their default values 
@@ -75,28 +75,19 @@ class Simulation:
 		self.NMcycles    = 10
 		self.NMframes    = 20
 
-		#Managing folders
+		#--------------------------------------------------
 		if not os.path.exists( self.baseFolder ):
-			os.makedirs( self.baseFolder )
+			os.makedirs(self.baseFolder)
 
-
-	#-------------------------------------------------------
+	#=======================================================================
 	def Execute(self,_parameters):
 		'''
 		Function to call the class method to execute the preset simulation
 		Also here is where some parameters default values can be updated 
 		'''		
 		#-------------------------------------------------------------
-		if self.simulationType == "Energy_Refinement":
-			if "methods" in _parameters:
-				self.methods = _parameters['methods']
-			if "software" in _parameters:
-				self.software = _parameters['software']
-			if "nprocs" in  _parameters:
-				self.MAXnprocs = _parameters['nprocs']
-			if "coorddinates_folder" in _parameters:
-				self.coorddinatesFolder = _parameters["coorddinates_folder"]
-			self.EnergyRefinement()
+		if self.simulationType == "Energy_Refinement":			
+			self.EnergyRefinement(_parameters)
 		
 		#-------------------------------------------------------------
 		elif self.simulationType == "Geometry_Optimization":
@@ -157,34 +148,33 @@ class Simulation:
 
 	
 
-	#-------------------------------------------------------
+	#==================================================================
 	def EnergyRefinement(self):
 		'''
 		Class method to set up and execute energy refinement using a series of methods
 		'''
 
-	#-------------------------------------------------------
+	#==================================================================
 	def GeometryOptimization(self,_parameters):
 		'''
 		Class method to set up and execture the search of local minima for the system passed
 		'''
-		self.baseFolder = os.path.join(self.baseFolder+"GeoOptimization") 
 		Gopt = GeometrySearcher(self.molecule,self.baseFolder)		
 		Gopt.ChangeDefaultParameters(_parameters)
 		Gopt.Minimization(self.optmizer)
+		Gopt.Finalize()
 
-
-	#_------------------------------------------------------
+	#==================================================================
 	def RelaxedSurfaceScan(self,_parameters):
 		'''
 		Class method to set up and execute one/two-dimensional relaxed surface scans 
 		'''
+		#-------------------------------------------------------------------------
 		scan = SCAN(self.molecule,self.baseFolder,self.optmizer,nprocs=self.nProcs)
 		scan.ChangeDefaultParameters(_parameters)
 
 		MCR1 = False
 		MCR2 = False
-
 		if "MC_RC1" in _parameters:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
@@ -193,27 +183,30 @@ class Simulation:
 		restraintDimensions = _parameters['ndim']
 
 		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['dincre_RC1'], MCR1)
-		
+		#--------------------------------------------------------------------------------
 		if restraintDimensions == 2:
 			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['dincre_RC2'], MCR2)
 			scan.RunTWODimensionSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 		else:
-			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])
+			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])			
+		#---------------------------------------------------------------------------------
+		scan.Finalize()
+		#.............
 
-	#_------------------------------------------------------
+	#=================================================================
 	def MolecularDynamics(self,_parameters):
 		'''
 		Class method to set up and execute molecular dynamics simulations.
 		'''
+		#-------------------------------------------------------------
 		print(self.baseFolder)
 		input()
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		
-
 		#If there is some key in _parameters set to modify some varibles then this is done here
 		#If there is any this next command will have no effect
 		MDrun.ChangeDefaultParameters(_parameters)
-
+		#---------------------------------------------------------------
 		if "protocol" in _parameters:
 			if _parameters["protocol"] 		== "heating":
 				print(_parameters['production_nsteps'])
@@ -223,24 +216,25 @@ class Simulation:
 			elif _parameters["protocol"] 	== "production":
 				MDrun.RunEquilibration(_parameters['equilibration_nsteps'])
 				MDrun.RunProduction(_parameters['production_nsteps'])
-
-	#_------------------------------------------------------
+		#----------------------------------------------------------------
+		MDrun.Analysis()
+		#...............
+	#==================================================================
 	def RestrictedMolecularDynamics(self,_parameters):
 		'''
 		Class method to set up and execute molecular dynamics simulations.
 		#Ainda tenho que ver como functiona os arquivos de trajetórias na nova versão
 		'''
-		
+		#----------------------------------------------------------------
 		restraints = RestraintModel( )
 		self.molecule.DefineRestraintModel( restraints )
 		distances = []
-
-		forcK = _parameters["forceC"]
-		
+		#----------------------------------------------------------------
+		forcK = _parameters["forceC"]		
 		restrainDimensions = _parameters['ndim']
 		mdistance1 = False
 		mdistance2 = False
-		
+		#---------------------------------------------------------------
 		if len(_parameters["atoms"]) == 3:
 			mdistance1 = True
 		if len(_parameters["atoms"]) == 5:
@@ -248,7 +242,7 @@ class Simulation:
 		if len(_parameters["atoms"]) == 6:
 			mdistance1 = True
 			mdistance2 = True 
-
+		#--------------------------------------------------------------
 		#task:
 		#Improve the weights definitions to work with mass constraints
 		weight1 = 1.0
@@ -307,22 +301,23 @@ class Simulation:
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(_parameters)
 		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],200)
+		MDrun.Analysis()
+		#MDrun.DistAnalysis()
 
-
-	#_------------------------------------------------------
+	#=======================================================================
 	def UmbrellaSampling(self,_parameters):
 		'''
 		Class method to set up and execute umbrella sampling simulations and Free energy calculations for reaction path trajectory.
 		#not finished method
 		'''
+		#---------------------------------------
 		MCR1 = False
-		MCR2 = False
-		
+		MCR2 = False		
 		if "MC_RC1" in _parameters:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
-
+		#---------------------------------------
 		USrun = US(self.molecule,self.baseFolder,_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["MD_method"])
 		USrun.ChangeDefaultParameters(_parameters)
 		USrun.SetMode(_parameters["ATOMS_RC1"],MCR1)
@@ -333,9 +328,10 @@ class Simulation:
 			USrun.SetMode(_parameters["ATOMS_RC2"],MCR2)
 			USrun.RunTWODimensional(_parameters["trjFolder"],_parameters["samplingFactor"])
 		
+		prodfolders = self.baseFolder
+		pmfRun = PMF(self.molecule,self.baseFolder)
 
-
-	#_------------------------------------------------------
+	#=========================================================================
 	def NormalModes(self,_mode):
 		'''
 		Simulation preset to calculate the normal modes and to write thr trajectory for a specific mode.
@@ -350,7 +346,7 @@ class Simulation:
                                        				frames      = self.NMframes 	,
                                        				temperature = self.temperature )
 
-	#_------------------------------------------------------
+	#==========================================================================
 	def DeltaFreeEnergy(self,_initCoord,_finalCoord):
 		'''
 		Calculate the free energy difference between two configurations of the system using the 
@@ -381,7 +377,7 @@ class Simulation:
     	#Analyze the results 
 
 
-	#_------------------------------------------------------	
+	#=========================================================================	
 	def NEB(self,_parameters):
 		'''
 		Class method to set up and execute Nudget Elastic Band simulations to generate a reaction path trajectory 
@@ -397,18 +393,22 @@ class Simulation:
 									_parameters["RMS_growing_intial_string"] 
 								)
 
-	#_------------------------------------------------------
+	#=========================================================================
 	def SAW(self):
 		'''
 		Class method to set up and execute Self-Avoid Walking simulations to generate a reaction path trajectory 
 		'''
-	#------------------------------------------------------
+	#========================================================================
 	def SimulatingAnnealing(self):
 		'''
 		'''
 		pass
-	#_------------------------------------------------------
+	#========================================================================
 	def SMD(self):
 		'''
 		'''
 		pass
+	#;;;;;;;;;
+#=============================================================================
+#========================END OF THE FILE======================================
+#=============================================================================

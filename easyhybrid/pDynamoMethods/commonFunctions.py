@@ -15,6 +15,12 @@ from pMolecule.NBModel         import *
 from pMolecule.QCModel         import *
 import numpy as np
 #==============================================================================
+NmaxThreads = 1 
+#==============================================================================
+def setMaxThreads(n):
+    NmaxThreads = n 
+    print( "New value of Max Threads for Parallel Simulations: ".format(NmaxThreads) )
+#==============================================================================
 #Atom dictionary with relevant information.
 atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
                 "H"  : ["Hydrogen"     , 1   ,  0.330000 , 1.200000,  1.007940   ],
@@ -247,5 +253,12 @@ def GetAtomicMass(atomN):
     ls = list( atomic_dic.values() )
     atomMass = ls[atomN-1][4]
     return (atomMass)
+#==============================================================================
+def GetAtomicSymbol(atomN):
+    '''
+    '''
+    ls = list( atomic_dic )
+    _symbol = ls[atomN-1]
+    return(_symbol)
 
 #=========================================================================================

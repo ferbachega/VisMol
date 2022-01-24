@@ -31,6 +31,7 @@ from pScientific.Statistics    import *
 from pScientific.Symmetry      import *                                     
 from pSimulation               import *
 
+#***************************************************************************************
 class GeometrySearcher:
     '''
     Class to handle with pDynamo methods that search geometries for the system, such as global/local minimuns
@@ -45,23 +46,18 @@ class GeometrySearcher:
         self.molecule       = _system
         self.baseName       = _baseFolder
         self.optAlg         = "ConjugatedGradient"
-        self.InitCrd3D      = Clone( _system.coordinates3 )
+        self.InitCrd3D      = Clone(_system.coordinates3)
         self.finalCrd3D     = None
         self.massWeighting  = False
         self.logFreq        = 50 # deafult value for otimizations, must to be changed through the specific class method
         self.saveTraj       = False # optimization trj are not generally usefull and generate a lot of data 
-        self.trajectoryName = os.path.join( _baseFolder+".ptGeo" ) 
-        self.logname        = _baseFolder + ".log"
-        self.savePdb        = True
+        self.trajectoryName = None 
+        self.savePdb        = False
         self.traj           = None
-        self.outputDCD      = True
-
-        #Control and tolerance parameters
-        self.maxIt          = 500
-        self.maxItQC        = 250
+        self.outputDCD      = True       
         self.rmsGrad        = 0.1
 
-    #-----------------------------------------------------------------------
+    #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
         Class method to modify default parameters for the minimization runs
@@ -71,8 +67,8 @@ class GeometrySearcher:
             self.maxIt          = _parameters['maxIterations']            
         if "log_frequency"      in _parameters:
             self.logFreq        = _paremeters["log_frequency"]
-        if "not_save_pdb"       in _parameters:
-            self.savePdb        = False
+        if "save_pdb"           in _parameters:
+            self.savePdb        = True
         if "save_traj"          in _parameters:
             self.saveTraj       = True
         if "not_save_dcd"       in _parameters:
@@ -82,13 +78,15 @@ class GeometrySearcher:
         if 'rmsGradient'        in _parameters:
             self.rmsGrad        = _parameters['rmsGradient']
 
-    #.-----------------------------------------------------------------------
+    #======================================================================================
     # Main minimization class method
     def Minimization(self,_optimizer):
         '''
-        Class method to execute the minimization routine for search of geometry corresponding to local minima
+        Execute the minimization routine for search of geometry corresponding to local minima
         '''
+        #------------------------------------------------------------------
         self.optAlg = _optimizer
+        self.trajectoryName = os.path.join( self.baseName, "Minimization_"+_optimizer+".ptGeo")
         self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
         
         # run the minimization for the chosen algorithm
@@ -104,24 +102,8 @@ class GeometrySearcher:
             self.RunFIREmin()
 
         self.finalCrd3D = Clone(self.molecule.coordinates3)
-       
-        #Save structures and/or trajectories
-        if self.savePdb:
-            pdbFile = self.baseName + "opt_{}.pdb".format(self.optAlg)
-            i = 0;
-            while os.path.exists(pdbFile):
-                pdbFile = self.baseName + "_#{}_opt_{}.pdb".format(i,self.optAlg)
-                i += 1
 
-            ExportSystem(pdbFile,self.molecule)
-
-        masses = Array.FromIterable ( [ atom.mass for atom in self.molecule.atoms ] )
-        self.InitCrd3D.Superimpose ( self.finalCrd3D, weights = masses )
-        rms = self.InitCrd3D.RootMeanSquareDeviation ( self.finalCrd3D, weights = masses )
-        print("Root Mean Sqaute of Deviation of the optimized structure from the initial: {}".format(rms))
-
-
-    #.-----------------------------------------------------------------------
+    #=============================================================================
     #Minimizers methods
     def RunConjugatedGrad(self):
         '''
@@ -133,7 +115,7 @@ class GeometrySearcher:
                                                  maximumIterations      = self.maxIt    ,
                                                  rmsGradientTolerance   = self.rmsGrad  )
 
-    #.------------------------------------------------------------------------
+    #=============================================================================
     def RunSteepestDescent(self):
         '''
         Class method to apply the steepest descent minimizer
@@ -144,7 +126,7 @@ class GeometrySearcher:
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
 
-    #.------------------------------------------------------------------------
+    #============================================================================
     def RunLFBGS(self):
         '''
         Class method to apply the LFBGS minimizer
@@ -155,7 +137,7 @@ class GeometrySearcher:
                                     maximumIterations    = self.maxIt           ,
                                     rmsGradientTolerance = self.rmsGrad         )
     
-    #.------------------------------------------------------------------------
+    #=============================================================================
     def RunQuasiNewton(self):
         '''
         Class method to apply the Quaisi-Newton minimizer
@@ -165,8 +147,8 @@ class GeometrySearcher:
                                             trajectories         = self.traj    ,
                                             maximumIterations    = self.maxIt   ,
                                             rmsGradientTolerance = self.rmsGrad )
-    
-    #.------------------------------------------------------------------------
+
+    #==============================================================================
     def RunFIREmin(self):
         '''
         '''
@@ -177,22 +159,23 @@ class GeometrySearcher:
                                     rmsGradientTolerance = self.rmsGrad )
     
         
-    #.--------------------------------------------
+    #=============================================================================-
     # Reaction path searchers
     def NudgedElasticBand(self,_initCoord,_finalCoord,_nbins,_rmsGIS):
         '''
         Nudget Elastic Band procedure to estimate a reaction path
         '''
-
+        #-------------------------------------------------------------------------
         _rmdGIS = _parameters["RMS_growing_intial_string"]
 
-        self.trajectoryName = os.path.join(self.baseName + "NEB.trj")
+        self.trajectoryName = os.path.join(self.baseName + "NEB.ptGeo")
 
         #Note: is interesting to think in a window were the user select the initial and final coords
         # here we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.InitCrd3D  = Unpickle( _initCoord ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.finalCrd3D = Unpickle( _finalCoord ) 
+        self.InitCrd3D  = ImportCoordinates3( _initCoord ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
+        self.finalCrd3D = ImportCoordinates3( _finalCoord ) 
 
+        #---------------------------------------------------------------------------------
         GrowingStringInitialPath (self.system ,_nBins, self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=_rmdGIS )
 
         self.traj = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
@@ -204,10 +187,11 @@ class GeometrySearcher:
                                                     fixedTerminalImages  = True ,
                                                     rmsGradientTolerance = 0.1  )
         
+        self.saveTraj = True
         trajNameDCD = self.baseName + ".dcd";
         Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
 
-    #.--------------------------------------------
+    #========================================================================================
     def SelfAvoidWalking(self,_parameters):
         '''
         Self-Avoid-Walking procedure to estimate a reaction path
@@ -215,15 +199,43 @@ class GeometrySearcher:
         self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
 
 
-    #.--------------------------------------------
+    #========================================================================================
     def BakerSaddle(self,_parameters):
         '''
         Class method to search saddle-points transition structure
         '''
+    #=========================================================================================
+    def CalculateRMS(self):
+        '''
+        Calculate the root mean square of deviation of the final coordinate found with the first set given.
+        '''
+        masses = Array.FromIterable ( [ atom.mass for atom in self.molecule.atoms ] )
+        self.InitCrd3D.Superimpose ( self.finalCrd3D, weights = masses )
+        rms = self.InitCrd3D.RootMeanSquareDeviation ( self.finalCrd3D, weights = masses )
+        print("Root Mean Sqaute of Deviation of the optimized structure from the initial: {}".format(rms))
 
-    #.--------------------------------------------
-    #Helpers
-    def CleanDir(self):
+    #===========================================================================================
+    def Finalize(self):
         '''
-        Class method to clean unrequired files from the directory
+        Finaluze the Geometry searcher procedures, save structures and/or trajectories
         '''
+        self.CalculateRMS()
+        #----------------------------------------------------------------------
+        #Save structures and/or trajectories
+        if self.savePdb:
+            pdbFile = self.baseName + "opt_{}.pdb".format(self.optAlg)
+            i = 0;
+            while os.path.exists(pdbFile):
+                pdbFile = self.baseName + "_#{}_opt_{}.pdb".format(i,self.optAlg)
+                i += 1
+            ExportSystem(pdbFile,self.molecule)
+
+        #----------------------------------------------------------------------
+        if self.saveTraj:
+            trajNameDCD = self.baseName + ".dcd";
+            Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
+
+
+#================================================================================================#
+#======================================END OF THE FILE===========================================#
+#================================================================================================#

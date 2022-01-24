@@ -12,10 +12,10 @@
 #==============================================================================
 
 import os, glob, sys
-
+#------------------------------------------------------
 from commonFunctions import *
 import SimulationsPreset 
-
+#------------------------------------------------------
 from pBabel                    import *                                     
 from pCore                     import *                                     
 from pMolecule                 import *                              
@@ -30,16 +30,15 @@ from pScientific.Statistics    import *
 from pScientific.Symmetry      import *                                     
 from pSimulation               import *
 from CoreInterface 			   import SimulationProject
-
-
+#-------------------------------------------------------
 ex_path = "/home/igorchem/VisMol/examples/"
 timTop  = os.path.join(ex_path,"TIM","7tim.top")
 timCrd  = os.path.join(ex_path,"TIM","7tim.crd")
 
-#===========================================================================
+#*************************************************************************
 class Tests:
 	
-	#-------------------------------------------------
+	#=====================================================
 	def SetTIMsytem(self):
 		'''
 		Use the methods of the CoreInterface Class to set the Triosephosphate isomerase System
@@ -62,7 +61,7 @@ class Tests:
 		proj.SaveProject()
 		proj.FinishRun()
 
-	#---------------------------------------------------
+	#===================================================
 	def QCSystemsSetting(self):
 		'''
 		'''
@@ -367,7 +366,7 @@ class Tests:
 if __name__ == "__main__":
 	logFile.Header()
 	test = Tests()
-	#test.SetTIMsytem()
+	test.SetTIMsytem()
 	#test.QCSystemsSetting()
 	#test.QCDFTBplus()
 	#test.QCMMOrca()
@@ -379,5 +378,5 @@ if __name__ == "__main__":
 	#test.QCMMScans()
 	#test.QCMMScans2D()
 	#test.UmbrellaSampling1D()
-	test.UmbrellaSampling2D()
+	#test.UmbrellaSampling2D()
 	logFile.Footer()

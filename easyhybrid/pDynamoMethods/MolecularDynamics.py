@@ -65,14 +65,7 @@ class MD:
         self.samplingFactor         = 20
         self.logFreq                = 200
         self.seed                   = 304434242
-        self.logname                = ""
         self.softConstraint         = False # boolean flags signlizing whether the system has soft constraints or not              
-        #Parameters to be used internally for information
-        self.state                  = "non-setted"  # string sinalizando o status da instancia dessa classe. 
-        self.equilibrated           = False         # Signlizes the whether the system passed through a succesfull equilibrtion simulation 
-        self.isQuantum              = False         # Boolean flag signilizing if some extent of the system is treated with a quatum energy model
-        self.equi_time              = self.equiNsteps * self.timeStep            # default time for equilibration in ps
-        self.prod_time              = self.prodNsteps * self.timeStep # production time where the data must to be collected
         self.outputDCD              = True          # Boolean flag signalizing whether the saved trajectory must to be save as a ".dcd" file.
         #Default constants less acessible by the users
         self.collFreq               = 25.0 
@@ -117,25 +110,24 @@ class MD:
         if 'temperature_scale_option'   in _parameters:
             self.temperatureScaleOption = _parameters['temperature_scale_option']
 
-    #.---------------------------------------    
+    #=============================================================================================    
     def HeatingSystem(self,_nsteps):
         '''
         Run a Velocity Verlet molecular dynamics simulation to gradually 
         make the system reach certain temperature. 
         '''
         
-        VelocityVerletDynamics_SystemGeometry(  self.molecule                                        ,
-                                                logFrequency              = self.logFreq             ,
-                                                normalDeviateGenerator    = self.RNG                 ,
-                                                steps                     = _nsteps                  ,
-                                                timeStep                  = self.timeStep            ,
-                                                temperatureScaleFrequency = self.temperatureScaleFreq,
-                                                temperatureScaleOption    = self.temperatureScaleOption,
-                                                temperatureStart          = self.startTemperature    ,
-                                                temperatureStop           = self.temperature         )
+        VelocityVerletDynamics_SystemGeometry(self.molecule                                        ,
+                                            logFrequency              = self.logFreq               ,
+                                            normalDeviateGenerator    = self.RNG                   ,
+                                            steps                     = _nsteps                    ,
+                                            timeStep                  = self.timeStep              ,
+                                            temperatureScaleFrequency = self.temperatureScaleFreq  ,
+                                            temperatureScaleOption    = self.temperatureScaleOption,
+                                            temperatureStart          = self.startTemperature      ,
+                                            temperatureStop           = self.temperature           )
     
-        self.state = "Heated"
-    #.---------------------------------------
+    #===================================================================================
     def RunEquilibration(self,_equiSteps):
         '''
         Run a molecular dynamics simulation for equilibration of the system
@@ -150,9 +142,8 @@ class MD:
             self.runLeapFrog()
         elif self.algorithm == "Langevin":
             self.runLangevin()
-
             
-    #.---------------------------------------    
+    #=====================================================================================    
     def RunProduction(self,_prodSteps,):
         '''
         Run a molecular dynamics simulation for data collection.
@@ -171,7 +162,7 @@ class MD:
             Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
   
    
-    #.---------------------------------------
+    #=====================================================================================
     def RunProductionRestricted(self,_equiSteps,_prodSteps,_samplingFactor):
         '''
         Run a simulation with the system having soft constrains defined.
@@ -187,26 +178,14 @@ class MD:
         if self.outputDCD:
             Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
     
-    #.---------------------------------------
-    def CheckSimulation(self,_type):
-        '''
-        Class method to check whether the molecular dynamics ended well. 
-        In the case of the equilibration runs, check whether the simulations reached satisfactorly conditions. 
 
-        Tasks: 
-            1. Develop algorithm that decides if the simulation go well
-            2. attach plotting functionalities for visualization 
-            3. write the method
-        '''
-        pass   
-
-    #.---------------------------------------
+    #======================================================================================
     def runVerlet(self):
         '''
         Execute velocity verlet molecular dynamics from pDynamo methods. 
         '''
         trajectory      = ExportTrajectory( self.trajectoryNameCurr, self.molecule )         
-        trajectory_list = list
+        trajectory_list = []
 
         if self.softConstraint:
             trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
@@ -224,21 +203,21 @@ class MD:
                                 trajectories                = trajectory_list           ,
                                 temperatureStart            = self.temperature          )
 
-    #.---------------------------------------
+    #=====================================================================================
     def runLeapFrog(self):
         '''
         Execute Leap Frog molecular dynamics from pDynamo methods.
         '''
-
+        #--------------------------------------------------------------------------------
         trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule)       
-        trajectory_list = list
-
+        trajectory_list = []
+        #--------------------------------------------------------------------------------
         if self.softConstraint:
             trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
             trajectory_list = [ ( trajectory, self.samplingFactor ), ( trajSoft, 1 ) ]
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
-
+        #--------------------------------------------------------------------------------
         LeapFrogDynamics_SystemGeometry(self.molecule                                   ,
                                         trajectories            = trajectory_list       ,
                                         logFrequency            = self.logFreq          ,
@@ -252,20 +231,21 @@ class MD:
                                         temperatureCoupling     = 0.1                   ) 
 
     
-    #.---------------------------------------    
+    #======================================================================================
     def runLangevin(self):
         '''
         Execute Langevin molecular dynamics from pDynamo methods.
         '''
+        #-----------------------------------------------------------------------------
         trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule)
-        trajectory_list = list
-
+        trajectory_list = []
+        #-----------------------------------------------------------------------------
         if self.softConstraint:
             trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
             trajectory_list = [ ( trajectory, self.samplingFactor ), ( trajSoft, 1 ) ]
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
-
+        #-----------------------------------------------------------------------------
         LangevinDynamics_SystemGeometry ( self.molecule                         ,
                                           collisionFrequency     = self.collFreq,
                                           logFrequency           = self.logFreq ,
@@ -275,40 +255,45 @@ class MD:
                                           timeStep               =   0.001      ,
                                           trajectories = trajectory_list        )
 
-    #_--------------------------------------------------------
+    #=====================================================================================
     def Analysis(self):
         '''
-        '''        
+        Perform stuctural analysis in the production trajectory
+        ''' 
+        #-----------------------------------------------------------------------------       
         # . Get the atom masses and a selection for protein atoms only.
         masses  = Array.FromIterable ( [ atom.mass for atom in self.molecule.atoms ] )
         crd3    = ImportCoordinates3( os.path.join(self.trajectoryNameProd,"frame1.pkl") )
         system  = AtomSelection.FromAtomPattern ( self.molecule, "A:*:*" )
 
+        #------------------------------------------------------------------------------
         # . Calculate the radius of gyration.
         rg0 = crd3.RadiusOfGyration ( selection = system, weights = masses )
-
+        #------------------------------------------------------------------------------
         # . Save the starting coordinates.
         reference3 = Clone ( crd3 )
-
+        #------------------------------------------------------------------------------
         # . Get the trajectory.
-        trajectory = ImportTrajectory (  self.trajectoryNameProd , self.molecule )
-        trajectory.ReadHeader ( )
-
+        trajectory = ImportTrajectory( self.trajectoryNameProd , self.molecule )
+        trajectory.ReadHeader( )
+        #------------------------------------------------------------------------------
         # . Loop over the frames in the trajectory.
         rg  = []
         rms = []
         n   = []
         m   = 0 
+        #-------------------------------------------------------------------------------
         while trajectory.RestoreOwnerData ( ):
             self.molecule.coordinates3.Superimpose ( reference3, selection = system, weights = masses )
-            rg.append  ( self.molecule.coordinates3.RadiusOfGyration        (             selection = system, weights = masses ) )
-            rms.append ( self.molecule.coordinates3.RootMeanSquareDeviation ( reference3, selection = system, weights = masses ) )
+            rg.append  ( self.molecule.coordinates3.RadiusOfGyration( selection = system, weights = masses ) )
+            rms.append ( self.molecule.coordinates3.RootMeanSquareDeviation( reference3, selection = system, weights = masses ) )
             n.append(m)
             m+=1
         # . Set up the statistics calculations.
-        rgStatistics  = Statistics ( rg  )
-        rmsStatistics = Statistics ( rms )
+        rgStatistics  = Statistics(rg)
+        rmsStatistics = Statistics(rms)
 
+        #-------------------------------------------------------------------------------
         # . Save the results.        
         textLog = open( self.baseName+"_MDanalysis", "w" ) 
 
@@ -317,22 +302,48 @@ class MD:
         _Text += "rms0 rmsMean rmsSD rmsMax rmsMin\n"
         _Text += "{} {} {} {} {}".format(rms0,rmsStatistics.mean,rmsStatistics.standardDeviation,rmsStatistics.maximum,rmsStatistics.minimum )
 
-        _Text += "RG RMS\n"
+        _Text += "Frame RG RMS\n"
         for i in range(len(rg)):
-            _Text += "{} {}\n".format(rg,rms)
-
+            _Text += "{} {} {}\n".format(i,rg,rms)
+        #--------------------------------------------------------------------------------
         textLog.write()
         textLog.close()
-
+        #--------------------------------------------------------------------------------
         plt.plot(n, rg,  label = "Radius of Gyration")
+        plt.show()
+        plt.savefig(self.baseName+"_mdRG.png")
+        #--------------------------------------------------------------------------------
         plt.plot(n, rms, label = "Root Mean Square")
         plt.show()
-        plt.savefig(self.baseName+"_mdAnalysis.png")
+        plt.savefig(self.baseName+"_mdRMS.png")
 
+        '''
+        Plot contour density plots 
+        xi = np.array()
+        yi = np.array()
+        zi = np.array()
+
+        zi = griddata( (self.reactionCoordinate1, self.reactionCoordinate2), self.energies, ( xi[None,:], yi[:,None] ), method='cubic')
+        # contour the gridded data, plotting dots at the randomly spaced data points.
+        CS = plt.contour(xi,yi,zi,15,linewidths=0.5,colors='k')
+        CS = plt.contourf(xi,yi,zi,15,cmap=plt.cm.jet)
+        plt.colorbar() # draw colorbar
+        
+        #Improoce the nomenclature
+        plt.xlabel("Reaction Coordinate 1 ")
+        plt.ylabel("Reaction Coordinate 2 ")
+
+        plt.xlim( xi.min(),xi.max() )
+        plt.ylim( yi.min(),yi.max() )
+        
+        plt.savefig(self.baseName+"2Denergy.png")
+        plt.show()
+        '''
     
     #-------------------------------------------------------------------    
     def DistAnalysis(self,rcs,mdis):
         '''
+        Perform distance analysis in the production trajectory
         '''
         atom01 = rcs[0][0]
         atom02 = rcs[0][1]
@@ -354,17 +365,17 @@ class MD:
 
             if mdis:
                 atom13 = rcs[1][2]
-
+        #------------------------------------------------------------------------
         # . Get the trajectory.
-        trajectory = ImportTrajectory (  self.trajectoryNameProd , self.molecule )
-        trajectory.ReadHeader ( )
-
+        trajectory = ImportTrajectory( self.trajectoryNameProd , self.molecule )
+        trajectory.ReadHeader()
+        #------------------------------------------------------------------------
         # . Loop over the frames in the trajectory.
         rc1 = []
         rc2 = []
         energies = []
         n = []
-
+        #------------------------------------------------------------------------
         if mdis and len(rcs) > 1:
             while trajectory.RestoreOwnerData ( ):
                 self.energies.append( self.molecule.Energy() )
@@ -372,33 +383,36 @@ class MD:
                 rc2.append( self.molecule.coordinates3.Distance ( atom11, atom12 ) - self.molecule.coordinates3.Distance ( atom12, atom13 ) )
                 n.append(m)
                 m+=1
-        # . Set up the statistics calculations.
 
+        #------------------------------------------------------------------------
         # . Save the results.        
         textLog = open( self.baseName+"_MDdistAnalysis", "w" ) 
 
-        _Text = "rg0 rgMean rgSD rgMax rgMin\n"
-        _Text += "{} {} {} {} {}".format(rg0,rgStatistics.mean,rgStatistics.standardDeviation,rgStatistics.maximum,rgStatistics.minimum )
-        _Text += "rms0 rmsMean rmsSD rmsMax rmsMin\n"
-        _Text += "{} {} {} {} {}".format(rms0,rmsStatistics.mean,rmsStatistics.standardDeviation,rmsStatistics.maximum,rmsStatistics.minimum )
+        _Text = ""
+        if len(rcs) > 1:
+            _Text = "Frame RC1 RC2\n"
+            for i in range(len(rc1)):
+                _Text += "{} {}\n".format(rc1[i],rc2[i])
+        else:
+            _Text = "Frame RC1\n"
+            for i in range(len(rc1)):
+                _Text += "{} {}\n".format(rc1[i])
 
-        _Text += "RG RMS\n"
-        for i in range(len(rg)):
-            _Text += "{} {}\n".format(rg,rms)
-
+        #------------------------------------------------------------------------
         textLog.write()
         textLog.close()
-
-        plt.plot(n, rg,  label = "Radius of Gyration")
-        plt.plot(n, rms, label = "Root Mean Square")
+        #---------------------------------------------
+        plt.plot(n, RC1, label = "Distance #1")
+        if len(rcs) > 1:
+            plt.plot(n, RC2, label = "Distance #2")
         plt.show()
-        plt.savefig(self.baseName+"_mdAnalysis.png")
+        plt.savefig(self.baseName+"_MDdistAnalysis.png")
 
-        pass
+        
 
-#==============================================
-#. End of class MD
-#==============================================
+#===============================================================================#
+#. End of class MD =============================================================#
+#===============================================================================#
        
     
     

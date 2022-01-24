@@ -8,12 +8,13 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
+from commonFunctions import *
 
-
+#************************************************************
 class MopacQCMMinput:
 	'''
+	Class to set methods to creat inputs for run QC/MM in mopac
 	'''
-
 	#---------------------------------------------------------
 	def __init__(self,_system,_baseName,_keyWords):
 		self.molecule 		=_system
@@ -27,12 +28,12 @@ class MopacQCMMinput:
 		self.gradVectors 	= []
 		self.molinFile      = None 
 		self.inputFile 		= None
-		self.atomsDict		{}
+		self.atomsDict		= {}
 		
 		self.charges = self.molecule.energyModel.mmAtoms.AtomicCharges()
 		
 		for i in self.molecule.atoms.items:
-            symbol = PeriodicTable.Symbol( i.atomicNumber )
+            symbol = GetAtomicSymbol( i.atomicNumber )
             index  = i.index
             x      = self.system.coordinates3[i.index, 0]
             y      = self.system.coordinates3[i.index, 1]
@@ -40,19 +41,24 @@ class MopacQCMMinput:
             atoms_dic[index] = [symbol,x,y,z,charges [index]]
 
 
-		self.QCatoms		= list( self.molecule.energyModel.qcAtoms.QCAtomSelection() )      #
-        self.BoundaryAtoms	= list( self.molecule.energyModel.qcAtoms.BoundaryAtomSelection() )
+		self.QCatoms		= list(self.molecule.qcState.qcAtoms)
+        self.BoundaryAtoms	= list(self.molecule.qcState.boundaryAtoms)
 
 	#---------------------------------------------------------
 	def CalculateGradVectors(self):
 		'''
-
+		Calculate the grad vectors for the mol.in
 		'''
+		pass
 		
 	
 	#---------------------------------------------------------
 	def write_input(self):
 		'''
+		Write the input files and grad vectors file
 		'''
+		pass
 
-
+#======================================================================================================#
+#======================================END OF FILE=====================================================#
+#======================================================================================================#
