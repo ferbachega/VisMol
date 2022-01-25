@@ -35,10 +35,13 @@ ex_path = "/home/igorchem/VisMol/examples/"
 timTop  = os.path.join(ex_path,"TIM","7tim.top")
 timCrd  = os.path.join(ex_path,"TIM","7tim.crd")
 
+ldlTop = os.path.join(ex_path,"LDL","1ldm.top")
+ldlCrd = os.path.join(ex_path,"LDL","1ldm.crd")
+
 #*************************************************************************
 class Tests:
 	
-	#=====================================================
+	#===============================================================
 	def SetTIMsytem(self):
 		'''
 		Use the methods of the CoreInterface Class to set the Triosephosphate isomerase System
@@ -46,25 +49,41 @@ class Tests:
 		proj = SimulationProject("TIMTest_SetUp")
 		proj.LoadSystemFromForceField(timTop,timCrd)
 		
-		parameters = {"maxIterations":1000,"rmsGradient":1}
-		proj.RunSimulation(parameters,"Geometry_Optimization")
+		parameters_a = {"maxIterations":1000,"rmsGradient":1}
+		proj.RunSimulation(parameters_a,"Geometry_Optimization")
 
 		_pattern = "*:LIG.248:C02"
 
 		proj.SphericalPruning(_pattern,25.0)
 		proj.SettingFixedAtoms(_pattern,20.0)
 
-		parameters = {"maxIterations":1000,"rmsGradient":0.1}
-		proj.RunSimulation(parameters,"Geometry_Optimization")
+		parameters_b = {"maxIterations":1000,"rmsGradient":0.1}
+		proj.RunSimulation(parameters_b,"Geometry_Optimization")
 
 		proj.PrintSystems()
 		proj.SaveProject()
 		proj.FinishRun()
 
-	#===================================================
+		projb = SimulationProject("LDLTest_SetUp")
+		projb.LoadSystemFromForceField(ldlTop,ldlCrd)
+		projb.RunSimulation(parameters_a,"Geometry_Optimization")
+
+		_pattern = "*:OXM.*:H4"
+		projb.SphericalPruning(_pattern,25.0)
+		projb.SettingFixedAtoms(_pattern,20.0)
+		
+		projb.RunSimulation(parameters_b,"Geometry_Optimization")
+		projb.PrintSystems()
+		projb.SaveProject()
+		projb.FinishRun()
+
+
+	#=================================================================
 	def QCSystemsSetting(self):
 		'''
 		'''
+		#===========================================
+		#TIM
 		proj= SimulationProject("TIMTest_SMOs")
 		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
@@ -76,13 +95,43 @@ class Tests:
 		SMOmodels = ["am1","am1dphot","pddgpm3","pm3","pm6","rm1"]
 
 		#saving qc/mm setup
-		proj.SaveProject()
 		for smo in SMOmodels:
 			proj.SetSMOHybridModel( smo, selections, -3, 1 )
 
+		proj.SaveProject()
 		proj.FinishRun()
+		#===========================================
+		#LDL
+		projb= SimulationProject("LDLTest_SMOs")
+		projb.LoadSystemFromSavedProject("LDLTest_SetUp.pkl")
+
+		oxm  = AtomSelection.FromAtomPattern(projb.cSystem,"*:OXM.*:*")
+		his  = AtomSelection.FromAtomPattern(projb.cSystem,"*:HID.193:*")
+		arg1 = AtomSelection.FromAtomPattern(projb.cSystem,"*:ARG.106:*")
+		selections =[ oxm, his, arg1] 
+		nic = AtomSelection.FromAtomPattern(projb.cSystem,"*:NAD.331:*")
+		nic_ring_list=[] 
+		nic_ring_lab = ["N1N","C2N","C3N","C4N",
+				 "C5N","C6N","C7N","N7N",
+				 "O7N","H2N","H4N","H71",
+				 "H72","H5N","H6N","C'N1"]
+		#--------------------------------------------
+		for atom in projb.cSystem.atoms.items:
+			if atom.label in nic_ring_lab:
+				nic_ring_list.append(atom.index)
+
+		#--------------------------------------------
+		selections.append(nic_ring_list)
+		
+		#saving qc/mm setup
+		for smo in SMOmodels:
+			projb.SetSMOHybridModel( smo, selections, 1, 1 )
+		
+		projb.SaveProject()
+		proj.FinishRun()
+
 	
-	#---------------------------------------------------
+	#===================================================================
 	def QCDFTBplus(self):
 		'''
 		'''
@@ -98,7 +147,7 @@ class Tests:
 		proj.SetDFTBsystem(selections, -3, 1 )
 		proj.FinishRun()
 	
-	#---------------------------------------------------
+	#===================================================================
 	def QCMMOrca(self):
 		'''
 		'''
@@ -114,10 +163,12 @@ class Tests:
 		proj.RunSinglePoint()
 		proj.FinishRun()
 	
-	#---------------------------------------------------
+	#=================================================================
 	def QCMMoptimizations(self):
 		'''
 		'''
+		#----------------------------------------------
+		# TIM
 		proj= SimulationProject("TIMTest_QCMMopts")
 		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
@@ -136,17 +187,58 @@ class Tests:
 				#"QuasiNewton",
 				"FIRE"]
 		
+		#problems saving trajectory! But geometry opt working
 		for alg in algs:
-			parameters = {"maxIterations":1000,"rmsGradient":0.1,"optmizer":alg}
+			parameters = {
+							"maxIterations":1000,
+							"rmsGradient":0.1,
+							"optmizer":alg,
+							#"save_pdb":"true",
+							#"save_traj":"true"
+						}
 			proj.RunSimulation(parameters,"Geometry_Optimization")
 			proj.cSystem.coordinates3 = initialCoords;
 
 		proj.SaveProject()
 		proj.FinishRun()
+		#*************************************************************
+		#LDL
+		proj= SimulationProject("LDLTest_QCMMopts")
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
-	#---------------------------------------------------
-	def MD_protocols(self):
+		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
+		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
+		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
+		selections= [ lig, glu, his ]
+		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
 		
+		initialCoords = Clone(proj.cSystem.coordinates3)
+
+		#Quasi-Newton muito demorado
+		algs = ["ConjugatedGradient",
+				"LFBGS",
+				"SteepestDescent",
+				#"QuasiNewton",
+				"FIRE"]
+		
+		#problems saving trajectory! But geometry opt working
+		for alg in algs:
+			parameters = {
+							"maxIterations":1000,
+							"rmsGradient":0.1,
+							"optmizer":alg,
+							#"save_pdb":"true",
+							#"save_traj":"true"
+						}
+			proj.RunSimulation(parameters,"Geometry_Optimization")
+			proj.cSystem.coordinates3 = initialCoords;
+
+		proj.SaveProject()
+		proj.FinishRun()
+	#===================================================================
+	def MD_protocols(self):
+		'''
+		'''
 		proj=SimulationProject("TIMtest_MD")
 		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
@@ -157,12 +249,12 @@ class Tests:
 					]
 
 		for protocol in protocols:
-			parameters = {"protocol":protocol,"production_nsteps":2000,"equilibration_nsteps":1000 }
+			parameters = {"protocol":protocol,"production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"Verlet" }
 			proj.RunSimulation(parameters,"Molecular_Dynamics")
 
 		proj.FinishRun()
 
-	#---------------------------------------------------
+	#======================================================================
 	def MD_Algs(self):
 		'''
 		'''
@@ -180,7 +272,8 @@ class Tests:
 			proj.RunSimulation(parameters,"Molecular_Dynamics")
 
 		proj.FinishRun()
-	#---------------------------------------------------
+	
+	#=======================================================================
 	def QCMM_MD(self):
 		'''
 		'''
@@ -191,7 +284,7 @@ class Tests:
 		proj.RunSimulation(parameters,"Molecular_Dynamics")
 		proj.FinishRun()
 
-	#---------------------------------------------------
+	#========================================================================
 	def QCMM_MDrestricted(self):
 		'''
 		'''		
@@ -202,7 +295,7 @@ class Tests:
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 
-		atomsf = [ atom1[0], atom2[0] ]
+		atomsf = [ atom1[0], atom2[0], atom3[0] ]
 
 		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog",
 					 "atoms":atomsf, "forceC":100.0,"ndim":1,"MultD1":"true" }
@@ -210,7 +303,7 @@ class Tests:
 		proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics")
 		proj.FinishRun()
 
-	#---------------------------------------------------
+	#========================================================================
 	def QCMMScans(self):
 		'''
 		'''
@@ -236,12 +329,12 @@ class Tests:
 						"nSteps_RC1":16,
 						"ndim":1,
 						"MC_RC1":"true"
-						}
+					}
 
 		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
 		proj.FinishRun()
 		
-	#---------------------------------------------------
+	#=======================================================================
 	def QCMMScans2D(self):
 		'''
 		'''
@@ -277,7 +370,7 @@ class Tests:
 		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
 		proj.FinishRun()
 
-	#---------------------------------------------------
+	#===================================================================
 	def UmbrellaSampling1D(self):
 		'''
 		'''
@@ -305,9 +398,8 @@ class Tests:
 		proj.RunSimulation(parameters,"Umbrella_Sampling")
 		proj.FinishRun()
 
-
 	
-	#---------------------------------------------------
+	#=======================================================================
 	def UmbrellaSampling2D(self):
 		'''
 		'''
@@ -342,21 +434,24 @@ class Tests:
 		proj.RunSimulation(parameters,"Umbrella_Sampling")
 		proj.FinishRun()
 
-		
+	#=====================================================
+	def PotentialOfMeanField(self):
+		'''
+		'''
 
-	#---------------------------------------------------
+	#=====================================================
 	def ReacCoordSearchers(self):
 		pass 
 	
-	#---------------------------------------------------
+	#=====================================================
 	def SMOEnergyRef(self):
 		pass
 	
-	#---------------------------------------------------
+	#=====================================================
 	def Thermodynamics(self):
 		pass
 
-	#---------------------------------------------------
+	#=====================================================
 	def GetOrbitalsInfo(self):
 		pass
 	
@@ -367,7 +462,7 @@ if __name__ == "__main__":
 	logFile.Header()
 	test = Tests()
 	test.SetTIMsytem()
-	#test.QCSystemsSetting()
+	test.QCSystemsSetting()
 	#test.QCDFTBplus()
 	#test.QCMMOrca()
 	#test.QCMMoptimizations()

@@ -14,6 +14,9 @@ from pMolecule.MMModel         import *
 from pMolecule.NBModel         import *                                     
 from pMolecule.QCModel         import *
 import numpy as np
+#===============================================================================
+orcaScratchBase="/home/igorchem/CCDIR/scratch"
+skfPath        ="/home/igorchem/CCDIR/3ob-3-1"
 #==============================================================================
 NmaxThreads = 1 
 #==============================================================================

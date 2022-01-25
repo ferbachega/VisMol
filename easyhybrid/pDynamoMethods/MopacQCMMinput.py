@@ -30,7 +30,8 @@ class MopacQCMMinput:
 		self.inputFile 		= None
 		self.atomsDict		= {}
 		
-		self.charges = self.molecule.energyModel.mmAtoms.AtomicCharges()
+		# ver se é assim que se pega as cargas ainda
+		self.charges = self.molecule.mmState.charges
 		
 		for i in self.molecule.atoms.items:
             symbol = GetAtomicSymbol( i.atomicNumber )
@@ -44,15 +45,24 @@ class MopacQCMMinput:
 		self.QCatoms		= list(self.molecule.qcState.qcAtoms)
         self.BoundaryAtoms	= list(self.molecule.qcState.boundaryAtoms)
 
-	#---------------------------------------------------------
+	#==================================================================
 	def CalculateGradVectors(self):
 		'''
 		Calculate the grad vectors for the mol.in
 		'''
-		pass
-		
+		PHI = 0.0 
+		distance = 0.0
+		#----------------------------------
+		for j in range(len(self.QCatoms)):
+			for i in self.molecule.atoms.items:
+				distance = self.molecule.coordinates3.Distance( i, self.QCatoms[j] )
+				PHI 	+= self.charges[i]/ distance
+
+			PHI *= 332
+			self.gradVectors.append(PHI)
+			PHI=0		
 	
-	#---------------------------------------------------------
+	#===================================================================
 	def write_input(self):
 		'''
 		Write the input files and grad vectors file

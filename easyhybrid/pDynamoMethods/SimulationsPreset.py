@@ -24,19 +24,19 @@ from PotentialOfMeanForce 	import PMF
 #loading pDynamo Libraries
 from pBabel                    import *                                     
 from pCore                     import *
-                                     
+#---------------------------------------                                     
 from pMolecule                 import *                              
 from pMolecule.MMModel         import *
 from pMolecule.NBModel         import *                                     
 from pMolecule.QCModel         import *
-
+#---------------------------------------
 from pScientific               import *                                     
 from pScientific.Arrays        import *                                     
 from pScientific.Geometry3     import *                                     
 from pScientific.RandomNumbers import *                                     
 from pScientific.Statistics    import *
 from pScientific.Symmetry      import *
-                                     
+#--------------------------------------                                    
 from pSimulation               import *
 #=============================================================
 class Simulation:
@@ -169,19 +169,18 @@ class Simulation:
 		'''
 		Class method to set up and execute one/two-dimensional relaxed surface scans 
 		'''
-		#-------------------------------------------------------------------------
-		scan = SCAN(self.molecule,self.baseFolder,self.optmizer,nprocs=self.nProcs)
+		#-------------------------------------------------------
+		scan = SCAN(self.molecule,self.baseFolder,self.optmizer)
 		scan.ChangeDefaultParameters(_parameters)
-
+		#-------------------------------------------------------
 		MCR1 = False
 		MCR2 = False
 		if "MC_RC1" in _parameters:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
-		
+		#------------------------------------------------------
 		restraintDimensions = _parameters['ndim']
-
 		scan.SetReactionCoord(_parameters['ATOMS_RC1'], _parameters['dincre_RC1'], MCR1)
 		#--------------------------------------------------------------------------------
 		if restraintDimensions == 2:
@@ -199,8 +198,6 @@ class Simulation:
 		Class method to set up and execute molecular dynamics simulations.
 		'''
 		#-------------------------------------------------------------
-		print(self.baseFolder)
-		input()
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		
 		#If there is some key in _parameters set to modify some varibles then this is done here
@@ -300,9 +297,11 @@ class Simulation:
 		#----------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(_parameters)
-		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],200)
+		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],20)
 		MDrun.Analysis()
-		#MDrun.DistAnalysis()
+		Atoms = [ atoms ]
+		MDrun.DistAnalysis(Atoms,mdistance1)
+		#.............................
 
 	#=======================================================================
 	def UmbrellaSampling(self,_parameters):
@@ -328,8 +327,10 @@ class Simulation:
 			USrun.SetMode(_parameters["ATOMS_RC2"],MCR2)
 			USrun.RunTWODimensional(_parameters["trjFolder"],_parameters["samplingFactor"])
 		
+		'''
 		prodfolders = self.baseFolder
 		pmfRun = PMF(self.molecule,self.baseFolder)
+		'''
 
 	#=========================================================================
 	def NormalModes(self,_mode):

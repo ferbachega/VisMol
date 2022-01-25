@@ -14,11 +14,11 @@
 #importing libraries
 import os
 #import sys
-
+#----------------------------------------
 #importing our library functions
 import commonFunctions
 from LogFile import LogFile
-
+#----------------------------------------
 # pDynamo
 from pBabel                    import *                                     
 from pCore                     import *                                     
@@ -33,11 +33,14 @@ from pScientific.RandomNumbers import *
 from pScientific.Statistics    import *
 from pScientific.Symmetry      import *                                     
 from pSimulation               import *
-
-
+#---------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import seaborn as sns
 #---------------------------------------
 
-#==============================================================================
+#**************************************************************************
 class MD:
     '''
     Class to set up Molecular Dynamics Sumulations.
@@ -50,8 +53,7 @@ class MD:
         '''        
         #Important parameters that are recurrently wanted to be change by the user
         self.molecule               = _system
-        if not os.path.exists(_baseFolder):
-            os.makedirs(_baseFolder)
+        self.baseName               = _baseFolder       
         self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration.ptGeo")
         self.trajectoryNameProd     = os.path.join(_baseFolder,"production.ptGeo")
         self.trajectoryNameSoft     = os.path.join(_baseFolder,"soft_constr.ptRes")
@@ -80,8 +82,9 @@ class MD:
         self.densityTol             = 2.0e-8    
         #Setting parameters based on information that we collected on the instance construction
         self.RNG                    = NormalDeviateGenerator.WithRandomNumberGenerator ( RandomNumberGenerator.WithSeed ( self.seed ) )
-    
-    #.---------------------------------------    
+        if not os.path.exists(_baseFolder):
+            os.makedirs(_baseFolder)
+    #===============================================================================    
     def ChangeDefaultParameters(self,_parameters):
         '''
         Class method to set more specifc parameters.
@@ -116,16 +119,25 @@ class MD:
         Run a Velocity Verlet molecular dynamics simulation to gradually 
         make the system reach certain temperature. 
         '''
-        
-        VelocityVerletDynamics_SystemGeometry(self.molecule                                        ,
-                                            logFrequency              = self.logFreq               ,
-                                            normalDeviateGenerator    = self.RNG                   ,
-                                            steps                     = _nsteps                    ,
-                                            timeStep                  = self.timeStep              ,
-                                            temperatureScaleFrequency = self.temperatureScaleFreq  ,
-                                            temperatureScaleOption    = self.temperatureScaleOption,
-                                            temperatureStart          = self.startTemperature      ,
-                                            temperatureStop           = self.temperature           )
+        self.nsteps             = _nsteps
+        self.trajectoryNameProd = os.path.join(self.baseName,"heating.ptGeo")  
+        self.trajectoryNameCurr = self.trajectoryNameProd 
+        trajectory              = ExportTrajectory( self.trajectoryNameCurr, self.molecule )
+
+        if not os.path.exists( self.trajectoryNameCurr ):
+            os.makedirs( self.trajectoryNameCurr )
+        #---------------------------------------------------------------------------------------------
+        VelocityVerletDynamics_SystemGeometry(self.molecule                                           ,
+                                            logFrequency              = self.logFreq                  ,
+                                            normalDeviateGenerator    = self.RNG                      ,
+                                            steps                     = self.nsteps                   ,
+                                            timeStep                  = self.timeStep                 ,
+                                            trajectories              = [(trajectory,self.nsteps/100)],
+                                            temperatureScaleFrequency = self.temperatureScaleFreq     ,
+                                            temperatureScaleOption    = self.temperatureScaleOption   ,
+                                            temperatureStart          = self.startTemperature         ,
+                                            temperatureStop           = self.temperature              )
+        #..............................................................................................
     
     #===================================================================================
     def RunEquilibration(self,_equiSteps):
@@ -135,6 +147,9 @@ class MD:
 
         self.nsteps             = _equiSteps
         self.trajectoryNameCurr = self.trajectoryNameEqui
+    
+        if not os.path.exists( self.trajectoryNameCurr ):
+            os.makedirs( self.trajectoryNameCurr )
 
         if self.algorithm == "Verlet":
             self.runVerlet()
@@ -151,6 +166,9 @@ class MD:
         self.nsteps             = _prodSteps
         self.trajectoryNameCurr = self.trajectoryNameProd         
         
+        if not os.path.exists( self.trajectoryNameCurr ):
+            os.makedirs( self.trajectoryNameCurr )
+
         if self.algorithm == "Verlet":
             self.runVerlet()
         elif self.algorithm == "LeapFrog":
@@ -255,6 +273,69 @@ class MD:
                                           timeStep               =   0.001      ,
                                           trajectories = trajectory_list        )
 
+    #====================================================================================    
+    def Biplot(self,X,Y,type="rgrms"):
+        '''
+        '''
+        x = np.array(X)
+        y = np.array(Y)
+
+        
+        xsd   = np.std(x)
+        xmean = np.mean(x)
+        ysd   = np.std(y)
+        ymean = np.mean(y)
+
+        x = (x-xmean)
+        y = (x-ymean)
+        x = x/xsd
+        y = y/ysd
+        
+        fig, (ax1) = plt.subplots(nrows=1)
+
+        #----------------------------------------------------
+        xy = np.vstack([x,y])
+        z = gaussian_kde(xy)(xy)
+        #----------------------------------------------------
+        # Sort the points by density, so that the densest points are plotted last
+        idx = z.argsort()
+        x, y, z = x[idx], y[idx], z[idx]
+        #----------------------------------------------------
+        # Setting plot type 
+        pdf = ax1.scatter(x, y, c = z, s = 50, edgecolor = 'black')
+        #----------------------------------------------------
+        # Plot title
+        #ax1.set_title('RG' + ' by ' + 'RMSD')
+
+        # Hide right and top spines
+        ax1.spines['right'].set_visible(False)
+        ax1.spines['top'].set_visible(False)
+        ax1.yaxis.set_ticks_position('left')
+        ax1.xaxis.set_ticks_position('bottom')
+        
+        # Set x and y limits
+        xmin = x.min() 
+        xmax = x.max() 
+        ymin = y.min() 
+        ymax = y.max()       
+        plt.xlim(xmin, xmax)
+        plt.ylim(ymin, ymax)
+
+        # Set x and y labels
+        plt.ylabel("RG")
+        plt.xlabel("RMSD")
+
+        # Adding the color bar 
+        colbar = plt.colorbar(pdf)
+        colbar.set_label('Probability Density Function')   
+        
+        #printing varible stats 
+        print("printing mean of RMSD: " + str( x.mean() ) )
+        print("printing mean of RG: " + str( y.mean() ) )       
+        plt.savefig( os.path.join( self.trajectoryNameCurr,"biplot.png") )
+        plt.show()
+        #.........
+
     #=====================================================================================
     def Analysis(self):
         '''
@@ -263,18 +344,18 @@ class MD:
         #-----------------------------------------------------------------------------       
         # . Get the atom masses and a selection for protein atoms only.
         masses  = Array.FromIterable ( [ atom.mass for atom in self.molecule.atoms ] )
-        crd3    = ImportCoordinates3( os.path.join(self.trajectoryNameProd,"frame1.pkl") )
-        system  = AtomSelection.FromAtomPattern ( self.molecule, "A:*:*" )
+        crd3    = ImportCoordinates3( os.path.join(self.trajectoryNameCurr,"frame0.pkl") )
+        system  = AtomSelection.FromAtomPattern ( self.molecule, "*:*:*" )
 
         #------------------------------------------------------------------------------
         # . Calculate the radius of gyration.
-        rg0 = crd3.RadiusOfGyration ( selection = system, weights = masses )
+        rg0 = crd3.RadiusOfGyration(selection = system, weights = masses)
         #------------------------------------------------------------------------------
         # . Save the starting coordinates.
-        reference3 = Clone ( crd3 )
+        reference3 = Clone(crd3)
         #------------------------------------------------------------------------------
         # . Get the trajectory.
-        trajectory = ImportTrajectory( self.trajectoryNameProd , self.molecule )
+        trajectory = ImportTrajectory( self.trajectoryNameCurr , self.molecule )
         trajectory.ReadHeader( )
         #------------------------------------------------------------------------------
         # . Loop over the frames in the trajectory.
@@ -296,50 +377,38 @@ class MD:
         #-------------------------------------------------------------------------------
         # . Save the results.        
         textLog = open( self.baseName+"_MDanalysis", "w" ) 
-
+        #-------------------------------------------------------------------------------
         _Text = "rg0 rgMean rgSD rgMax rgMin\n"
-        _Text += "{} {} {} {} {}".format(rg0,rgStatistics.mean,rgStatistics.standardDeviation,rgStatistics.maximum,rgStatistics.minimum )
-        _Text += "rms0 rmsMean rmsSD rmsMax rmsMin\n"
-        _Text += "{} {} {} {} {}".format(rms0,rmsStatistics.mean,rmsStatistics.standardDeviation,rmsStatistics.maximum,rmsStatistics.minimum )
-
+        _Text += "{} {} {} {} {}\n".format(rg0,rgStatistics.mean,rgStatistics.standardDeviation,rgStatistics.maximum,rgStatistics.minimum )
+        _Text += "rmsMean rmsSD rmsMax rmsMin\n"
+        _Text += "{} {} {} {}\n".format(rmsStatistics.mean,rmsStatistics.standardDeviation,rmsStatistics.maximum,rmsStatistics.minimum )
+        #-------------------------------------------------------------------------------
         _Text += "Frame RG RMS\n"
         for i in range(len(rg)):
-            _Text += "{} {} {}\n".format(i,rg,rms)
+            _Text += "{} {} {}\n".format(i,rg[i],rms[i])
         #--------------------------------------------------------------------------------
-        textLog.write()
+        textLog.write(_Text)
         textLog.close()
         #--------------------------------------------------------------------------------
         plt.plot(n, rg,  label = "Radius of Gyration")
+        plt.xlabel("Frame")
+        plt.ylabel("Radius of Gyration")
+        plt.savefig( os.path.join( self.trajectoryNameCurr,"analysis_mdRG.png") )
         plt.show()
-        plt.savefig(self.baseName+"_mdRG.png")
+
         #--------------------------------------------------------------------------------
         plt.plot(n, rms, label = "Root Mean Square")
+        plt.xlabel("Frame")
+        plt.ylabel("RMSD")
+        plt.savefig( os.path.join( self.trajectoryNameCurr,"analysis_mdRMSD.png") )
+        plt.show()        
+
+        sns.jointplot(x=rg,y=rms,kind="kde",cmap="plasma",shade=True)
+        plt.savefig( os.path.join( self.trajectoryNameCurr,"biplot.png") )
+
         plt.show()
-        plt.savefig(self.baseName+"_mdRMS.png")
 
-        '''
-        Plot contour density plots 
-        xi = np.array()
-        yi = np.array()
-        zi = np.array()
-
-        zi = griddata( (self.reactionCoordinate1, self.reactionCoordinate2), self.energies, ( xi[None,:], yi[:,None] ), method='cubic')
-        # contour the gridded data, plotting dots at the randomly spaced data points.
-        CS = plt.contour(xi,yi,zi,15,linewidths=0.5,colors='k')
-        CS = plt.contourf(xi,yi,zi,15,cmap=plt.cm.jet)
-        plt.colorbar() # draw colorbar
-        
-        #Improoce the nomenclature
-        plt.xlabel("Reaction Coordinate 1 ")
-        plt.ylabel("Reaction Coordinate 2 ")
-
-        plt.xlim( xi.min(),xi.max() )
-        plt.ylim( yi.min(),yi.max() )
-        
-        plt.savefig(self.baseName+"2Denergy.png")
-        plt.show()
-        '''
-    
+        #..................
     #-------------------------------------------------------------------    
     def DistAnalysis(self,rcs,mdis):
         '''
@@ -376,11 +445,17 @@ class MD:
         energies = []
         n = []
         #------------------------------------------------------------------------
-        if mdis and len(rcs) > 1:
+        if mdis and len(rcs) == 2:
             while trajectory.RestoreOwnerData ( ):
-                self.energies.append( self.molecule.Energy() )
+                energies.append( self.molecule.Energy() )
                 rc1.append( self.molecule.coordinates3.Distance ( atom01, atom02 ) - self.molecule.coordinates3.Distance ( atom02, atom03 ) )
                 rc2.append( self.molecule.coordinates3.Distance ( atom11, atom12 ) - self.molecule.coordinates3.Distance ( atom12, atom13 ) )
+                n.append(m)
+                m+=1
+        elif mdis and len(rcs) == 1:
+            while trajectory.RestoreOwnerData ( ):
+                energies.append( self.molecule.Energy() )
+                rc1.append( self.molecule.coordinates3.Distance ( atom01, atom02 ) - self.molecule.coordinates3.Distance ( atom02, atom03 ) )
                 n.append(m)
                 m+=1
 
@@ -399,16 +474,20 @@ class MD:
                 _Text += "{} {}\n".format(rc1[i])
 
         #------------------------------------------------------------------------
-        textLog.write()
+        textLog.write(_Text)
         textLog.close()
         #---------------------------------------------
-        plt.plot(n, RC1, label = "Distance #1")
-        if len(rcs) > 1:
-            plt.plot(n, RC2, label = "Distance #2")
+        plt.plot(n, rc1, label = "Distance #1")
+        if len(rcs) ==2:
+            plt.plot(n, rc2, label = "Distance #2")
         plt.show()
         plt.savefig(self.baseName+"_MDdistAnalysis.png")
 
-        
+        if len(rcs) == 2:
+            sns.jointplot(x=rc1,y=rc2,kind="kde",cmap="plasma",shade=True)
+            plt.savefig( os.path.join( self.trajectoryNameCurr,"distanceBiplot.png") )
+            plt.show()
+        #................................................        
 
 #===============================================================================#
 #. End of class MD =============================================================#

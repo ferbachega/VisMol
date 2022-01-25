@@ -30,8 +30,7 @@ from pScientific               import *
 from pSimulation               import *
 
 #==========================================================================
-orcaScratchBase="/home/igorchem/CCDIR/scratch"
-skfPath = "/home/igorchem/programs/pDynamo3-12.04.21/examples/dftbPlus/data/skf"
+
 #*****************************************************************************
 class SimulationProject:
     '''
@@ -300,6 +299,7 @@ class SimulationProject:
         self.TotalChargeQC  = _QCcharge        
         #---------------------------------------------
         #Appending sytem
+        self.NBmodel = self.cSystem.nbModel
         self.cSystem.nbModel = None
         oldSystem = Clone(self.cSystem)       
         self.SystemStates.append( oldSystem )        
@@ -315,7 +315,9 @@ class SimulationProject:
             qcSystem = PruneByAtom(self.cSystem, self.QCRegion)
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
         #------------------------------------------------------------------------
+        self.cSystem.Summary()
         self.cSystem.DefineQCModel( self.QCmodel, qcSelection =self.QCRegion )
+        self.cSystem.Summary()
         self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded mode        
         #------------------------------------------------------------------------
         energy = self.cSystem.Energy()  
@@ -422,14 +424,14 @@ class SimulationProject:
         #--------------------------------------------------------------------
         #task adjust the parameters for customizable options
         self.QCmodel = QCModelDFTB.WithOptions ( deleteJobFiles = False   ,
-                                                 randomScratch  = True    ,
+                                                 randomScratch  = False   ,
                                                  scratch        = _scratch,
                                                  skfPath        = skfPath ,
                                                  useSCC         = True    )
 
         #-----------------------------------------------------------------------
-        self.NBmodel = NBModelDFTB.WithDefaults( )
-        self.cSystem.DefineQCModel( self.QCmodel , qcSelection=self.QCRegion )
+        self.NBmodel = NBModelDFTB.WithDefaults()
+        self.cSystem.DefineQCModel( self.QCmodel, qcSelection=self.QCRegion )
         self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded model
         #--------------------------------------------------------------------
         energy = self.cSystem.Energy()      
