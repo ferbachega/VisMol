@@ -314,10 +314,9 @@ class SimulationProject:
             #Export the set QC region for visual inspection        
             qcSystem = PruneByAtom(self.cSystem, self.QCRegion)
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
+            ExportSystem(self.baseName+"_qcSystemEntire.pdb",self.cSystem)
         #------------------------------------------------------------------------
-        self.cSystem.Summary()
-        self.cSystem.DefineQCModel( self.QCmodel, qcSelection =self.QCRegion )
-        self.cSystem.Summary()
+        self.cSystem.DefineQCModel( self.QCmodel, qcSelection = self.QCRegion )
         self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded mode        
         #------------------------------------------------------------------------
         energy = self.cSystem.Energy()  

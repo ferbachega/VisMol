@@ -84,6 +84,7 @@ class Tests:
 		'''
 		#===========================================
 		#TIM
+		
 		proj= SimulationProject("TIMTest_SMOs")
 		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
 
@@ -100,17 +101,19 @@ class Tests:
 
 		proj.SaveProject()
 		proj.FinishRun()
+		
 		#===========================================
 		#LDL
-		projb= SimulationProject("LDLTest_SMOs")
+		projb= SimulationProject("LDLTest_SMOs", DEBUG=True)
 		projb.LoadSystemFromSavedProject("LDLTest_SetUp.pkl")
 
 		oxm  = AtomSelection.FromAtomPattern(projb.cSystem,"*:OXM.*:*")
 		his  = AtomSelection.FromAtomPattern(projb.cSystem,"*:HID.193:*")
 		arg1 = AtomSelection.FromAtomPattern(projb.cSystem,"*:ARG.106:*")
-		selections =[ oxm, his, arg1] 
 		nic = AtomSelection.FromAtomPattern(projb.cSystem,"*:NAD.331:*")
-		nic_ring_list=[] 
+		selections =[ oxm, his, arg1 ]
+		
+		nic_ring_list=[]		 
 		nic_ring_lab = ["N1N","C2N","C3N","C4N",
 				 "C5N","C6N","C7N","N7N",
 				 "O7N","H2N","H4N","H71",
@@ -121,14 +124,16 @@ class Tests:
 				nic_ring_list.append(atom.index)
 
 		#--------------------------------------------
+		print(selections)
 		selections.append(nic_ring_list)
 		
 		#saving qc/mm setup
 		for smo in SMOmodels:
 			projb.SetSMOHybridModel( smo, selections, 1, 1 )
 		
+		projb.cSystem.Summary()
 		projb.SaveProject()
-		proj.FinishRun()
+		projb.FinishRun()
 
 	
 	#===================================================================
@@ -461,7 +466,7 @@ class Tests:
 if __name__ == "__main__":
 	logFile.Header()
 	test = Tests()
-	test.SetTIMsytem()
+	#test.SetTIMsytem()
 	test.QCSystemsSetting()
 	#test.QCDFTBplus()
 	#test.QCMMOrca()
