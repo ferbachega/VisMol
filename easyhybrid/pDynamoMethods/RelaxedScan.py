@@ -48,8 +48,7 @@ class SCAN:
         self.multipleDistance   = [False,False]
         self.nsteps             = [ 1, 1 ]
         self.logFreq            = 50
-        self.maxIt              = 300
-        self.maxItQC            = 200
+        self.maxIt              = 500
         self.rmsGT              = 0.1
         self.optmizer           = _optimizer
         self.sigma_a1_a3        = [0.0,0.0]
@@ -81,6 +80,8 @@ class SCAN:
             self.maxIt = _parameters['maxIterations']
         if "log_frequency" in _parameters:
             self.logFreq = _paremeters["log_frequency"]
+        if "NmaxThreads" in _parameters:
+            self.nprocs = _parameters["NmaxThreads"]
         #-----------------------------------------------------------
         self.GeoOptPars =   { 
                             "method": self.optmizer           ,\
@@ -192,6 +193,279 @@ class SCAN:
         
         
     #=====================================================================================
+    def RunTWODimensionSCANnonParallel(self,_nsteps_x,_nsteps_y):
+        '''
+        Execture the relaxed surface scan for two dimensions withou parallel procedure
+        Note: used for debug.
+        '''
+
+        #Test first the two coordinates using simple distances
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[1][0]
+        atom4 = self.atoms[1][1]
+        atom5 = self.atoms[1][1]
+        atom6 = self.atoms[1][2]
+        
+        #------------------------------------------------------
+        self.text += "x y RC1 RC2 Energy\n" 
+        #------------------------------------------------------
+        restraints = RestraintModel ( )
+        self.molecule.DefineRestraintModel( restraints )
+        #------------------------------------------------------
+        distance_1 = 0.0 
+        distance_2 = 0.0
+        #------------------------------------------------------
+        X = _nsteps_x
+        Y = _nsteps_y 
+        #------------------------------------------------------ 
+        self.energies = [0]*(X*Y)
+        self.reactionCoordinate1 = [0]*(X*Y) 
+        self.reactionCoordinate2 = [0]*(X*Y)
+        #-------------------------------------------------------------------------------------
+        for i in range(X):
+                
+            distance_1 = self.DMINIMUM[0] + self.DINCREMENT[0] * float(i)
+            scModel    = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+            restraint  = RestraintDistance.WithOptions( energyModel= scModel, point1 = atom1, point2=atom2 )
+            restraints["RC1"] = restraint
+            
+            for j in range(Y):      
+            #.----
+                distance_2  = self.DMINIMUM[1] + self.DINCREMENT[1] * float(j) 
+                scModel     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                restraint   = RestraintDistance.WithOptions( energyModel= scModel, point1 = atom3, point2=atom4 )
+                restraints["RC2"] = restraint
+
+                relaxRun = GeometrySearcher( self.molecule, self.baseName )
+                relaxRun.ChangeDefaultParameters( self.GeoOptPars )
+                relaxRun.Minimization( self.optmizer )
+
+                self.energies[ i*X +j ]             = self.molecule.Energy() 
+                self.reactionCoordinate1[ i*X +j ]  = self.molecule.coordinates3.Distance( atom1, atom2 )  
+                self.reactionCoordinate2[ i*X +j ]  = self.molecule.coordinates3.Distance( atom3, atom4 ) 
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                Pickle( coordinateFile, self.molecule.coordinates3 ) 
+        # .----------------------------------------------------
+                
+        self.molecule.DefineRestraintModel( None )
+        
+        count = 0 
+        for i in range(self.nsteps[0]):
+            for j in range(self.nsteps[1]):
+                self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[i*X+j],self.reactionCoordinate2[i*X+j],self.energies[i*X+j]-self.energies[0] )
+
+    #===================================================================================================
+    def Run2DScan(self,_nsteps_x,_nsteps_y):
+        '''
+        '''
+        #------------------------------------------------------
+        self.text += "x y RC1 RC2 Energy\n" 
+        #------------------------------------------------------
+        restraints = RestraintModel ( )
+        self.molecule.DefineRestraintModel( restraints )
+        #------------------------------------------------------
+        distance_1 = 0.0 
+        distance_2 = 0.0
+        #------------------------------------------------------
+        X = _nsteps_x
+        Y = _nsteps_y       
+        #-----------------------------------------------------------------------------------------------
+        #Define the origin point of the relaxed surface scan, AKA the 0,0 point
+        coordinateFile = os.path.join( self.baseName ,"ScanTraj.ptGeo","frame{}_{}.pkl".format( 0, 0 ) )
+        relaxRun = GeometrySearcher( self.molecule, self.baseName )
+        relaxRun.ChangeDefaultParameters( self.GeoOptPars )
+        relaxRun.Minimization(self.optmizer)
+        #-----------------------------------------------------------------------------------------------
+        en0 = self.molecule.Energy()
+        Pickle( coordinateFile, self.molecule.coordinates3 )
+
+        if self.multipleDistance[0] and self.multipleDistance[1]:
+            self.Run2DScanMultipleDistance()
+        elif self.multipleDistance[0] and self.multipleDistance[0] == False:
+            self.Run2DMixedDistance(X,Y)
+        else:
+            self.Run2DSimpleDistance(X,Y)
+
+    
+    #=======================================================
+    def Run2DSimpleDistance(self, X, Y ):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[1][0]
+        atom4 = self.atoms[1][1]
+
+
+
+        for i in range(X):
+            for j in range(Y):
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                self.molecule.coordinates3 = ImportCoordinates3(coordinateFile,log=None)
+                self.energies.append( self.molecule.Energy(log=None) - en0 )
+                self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1, atom2 ) )
+                self.reactionCoordinate2.append( self.molecule.coordinates3.Distance( atom3, atom4 ) )
+                self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[-1],self.reactionCoordinate2[-1],self.energies[-1])
+
+
+    #=======================================================   
+    def Run2DMixedDistance(self,X, Y ):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[0][2]
+        atom4 = self.atoms[1][0]
+        atom5 = self.atoms[1][1]
+        
+        weight1 = self.sigma_a1_a3[0]
+        weight2 = self.sigma_a3_a1[0]
+
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range ( 1, X ):  
+            #.----              
+                distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                rmodel     = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                restraint_1= RestraintMultipleDistance.WithOptions(energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
+                restraints["RC1"] = restraint_1
+                #---------------------------------------------------------------------------------
+                
+                #--------------------------------------------------------------------------------
+                distance_2  = self.DMINIMUM[1]
+                rmodel     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                restraint  = RestraintDistance.WithOptions(energyModel = rmodel, point1=atom4, point2=atom5 )
+                #---------------------------------------------------------------------------------
+                restraints["RC2"] = restraint  
+                #---------------------------------------------------------------------------------                    
+                initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
+                self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                relaxRun = GeometrySearcher( self.molecule, self.baseName )
+                relaxRun.ChangeDefaultParameters( self.GeoOptPars )
+                relaxRun.Minimization(self.optmizer)                   
+                #-----------------------------------------------------------------------------------
+                Pickle( coordinateFile, self.molecule.coordinates3 ) 
+                #..................................................
+            #---------------------------------------------------------------------------------------------
+        with pymp.Parallel(self.nprocs) as p:
+            #Pergomr the calculations for the rest of the grid
+            for i in p.range ( 0, M ):
+                distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                rmodel  =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                restraint_1=  RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
+                restraints["RC1"] = restraint_1
+                #-----------------------------------------------------------------------------------
+                for j in range( 1,N ):
+                    distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
+                    rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                    restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                    restraints["RC2"] = restraint  
+                    #-----------------------------------------------------------------------------------
+                    initCoordinateFile = ""
+                    if  j==0:
+                        initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( 0, j-1 ) )
+                    elif j>0:
+                        initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                 
+                    #-----------------------------------------------------------------------------------
+                    self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile )             
+                    coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters( self.GeoOptPars )
+                    relaxRun.Minimization(self.optmizer)
+                    #-----------------------------------------------------------------------------------
+                    Pickle( coordinateFile, self.molecule.coordinates3 )
+                    #...................................................
+        for i in range(X):
+            for j in range(Y):
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                self.molecule.coordinates3 = ImportCoordinates3(coordinateFile,log=None)
+                self.energies.append( self.molecule.Energy(log=None) - en0 )
+                self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1, atom2 ) - self.molecule.coordinates3.Distance( atom2, atom3 ) )
+                self.reactionCoordinate2.append( self.molecule.coordinates3.Distance( atom4, atom5 )  )
+                self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[-1],self.reactionCoordinate2[-1],self.energies[-1])
+
+    #=======================================================
+    def Run2DScanMultipleDistance(self, X, Y ):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[0][2]
+        atom4 = self.atoms[1][0]
+        atom5 = self.atoms[1][1]
+        atom6 = self.atoms[1][2]
+
+        weight1 = self.sigma_a1_a3[0]
+        weight2 = self.sigma_a3_a1[0]
+        weight3 = self.sigma_a1_a3[1]
+        weight4 = self.sigma_a3_a1[1]
+
+        #-------------------------------------------------------------------------------------
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range ( 1, X ):  
+            #.---- ----------------------------------------------------------------------------            
+                distance_1 = self.DMINIMUM[0] + self.DINCREMENT[0] * float(i) 
+                rmodel     = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                restraint  = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ] , [ atom2, atom3, weight2 ] ] )
+                restraints["RC1"] = restraint
+                #---- ----------------------------------------------------------------------------        
+                distance_2  = self.DMINIMUM[1]
+                rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                restraints["RC2"] = restraint  
+                #---------------------------------------------------------------------------------
+                initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
+                self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
+                relaxRun = GeometrySearcher( self.molecule, self.baseName )
+                relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                relaxRun.Minimization(self.optmizer)
+                #-----------------------------------------------------------------------------------
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, 0 ) )                       
+                Pickle( coordinateFile, self.molecule.coordinates3 )
+        
+                #........................................................................................
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range ( 0, X ):
+                distance_1  = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                rmodel      = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
+                restraints["RC1"] = restraint
+                       
+                #---------------------------------------------------------------------------------
+                for j in range( 1, Y ):
+                    distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
+                    rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                    restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                    restraints["RC2"] = restraint  
+                    #---------------------------------------------------------------------------------
+                    initCoordinateFile = ""
+                    if  i==0:
+                        initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( 0, j-1 ) )
+                    elif i>0:
+                        initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                 
+                    #---- ----------------------------------------------------------------------------
+                    self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.optmizer )
+                    #-----------------------------------------------------------------------------------
+                    print(i,j)
+                    coordinateFile = os.path.join( self.baseName, "ScanTraj.ptGeo", "frame"+str(i)+"_"+str(j)+".pkl" )
+                    Pickle( coordinateFile, self.molecule.coordinates3 )
+
+        self.molecule.DefineRestraintModel(None)
+        #-----------------------------------------------------------------------------------
+        for i in range(X):
+            for j in range(Y):
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                self.molecule.coordinates3 = ImportCoordinates3(coordinateFile,log=None)
+                self.energies.append( self.molecule.Energy(log=None) - en0 )
+                self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1, atom2 ) - self.molecule.coordinates3.Distance( atom2, atom3 ) )
+                self.reactionCoordinate2.append( self.molecule.coordinates3.Distance( atom4, atom5 ) - self.molecule.coordinates3.Distance( atom5, atom6 ) )
+                self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[-1],self.reactionCoordinate2[-1],self.energies[-1])
+
+    #===================================================================================================
     def RunTWODimensionSCAN(self,_nsteps_x,_nsteps_y):
         '''
         Execute the relaxed scan with two reaction coordinate
@@ -236,119 +510,101 @@ class SCAN:
         distance_1 = 0.0 
         distance_2 = 0.0
         #------------------------------------------------------
-        M = _nsteps_x
-        N = _nsteps_y
-        #------------------------------------------------------
-        energies_array = pymp.shared.array( (N*M,),dtype='uint8')
-        rc1_array      = pymp.shared.array( (N*M,),dtype='uint8')
-        rc2_array      = pymp.shared.array( (N*M,),dtype='uint8')
+        X = _nsteps_x
+        Y = _nsteps_y       
         #-----------------------------------------------------------------------------------------------
         #Define the origin point of the relaxed surface scan, AKA the 0,0 point
-        coordinate_file = os.path.join( self.baseName ,"ScanTraj.ptGeo","frame{}_{}.pkl".format( 0, 0 ) )
-        relaxRun0 = GeometrySearcher( self.molecule, self.baseName )
-        relaxRun0.ChangeDefaultParameters( self.GeoOptPars )
-        relaxRun0.Minimization(self.optmizer)
-        en0 = self.molecule.Energy()
-        Pickle( coordinate_file, self.molecule.coordinates3 )
+        coordinateFile = os.path.join( self.baseName ,"ScanTraj.ptGeo","frame{}_{}.pkl".format( 0, 0 ) )
+        relaxRun = GeometrySearcher( self.molecule, self.baseName )
+        relaxRun.ChangeDefaultParameters( self.GeoOptPars )
+        relaxRun.Minimization(self.optmizer)
         #-----------------------------------------------------------------------------------------------
-        energies_array[0] = en0
-        rc1_array[0]      = self.DMINIMUM[0]
-        rc2_array[0]      = self.DMINIMUM[1]
-        #----------------------------------------------------------------------------------------------
+        en0 = self.molecule.Energy()
+        Pickle( coordinateFile, self.molecule.coordinates3 )
+        #-----------------------------------------------------------------------------------------------
+        #energies_array[0] = en0
+        #rc1_array[0]      = self.DMINIMUM[0]
+        #rc2_array[0]      = self.DMINIMUM[1]
+        #-----------------------------------------------------------------------------------------------
         if self.multipleDistance[0] and self.multipleDistance[1]:
             #Generate the initial structures for the row of the grid
             with pymp.Parallel(self.nprocs) as p:
-                for i in p.range ( 1, M ):  
+                for i in p.range ( 1, X ):  
                     #.---- ----------------------------------------------------------------------------            
-                    distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                    distance_1 = self.DMINIMUM[0] + self.DINCREMENT[0] * float(i) 
                     rmodel     = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
-                    restraint_1= RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ] , [ atom2, atom3, weight2 ] ] )
-                    restraints["ReactionCoord"] = restraint_1
+                    restraint  = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ] , [ atom2, atom3, weight2 ] ] )
+                    restraints["RC1"] = restraint
                     #---- ----------------------------------------------------------------------------
-                    j=0
+                    
+                    distance_2  = self.DMINIMUM[1]
+                    rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                    restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                    restraints["RC2"] = restraint  
                     #---------------------------------------------------------------------------------
-                    distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
-                    rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                    restraint_2 = RestraintMultipleDistance.WithOptions( energyModel = rmodel2, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
-                    restraints["ReactionCoord2"] = restraint_2  
-                    #---------------------------------------------------------------------------------
-
                     initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
-                    self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile )             
+                    self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
                     relaxRun = GeometrySearcher( self.molecule, self.baseName )
                     relaxRun.ChangeDefaultParameters(self.GeoOptPars)
                     relaxRun.Minimization(self.optmizer)
                     #-----------------------------------------------------------------------------------
-                    with p.lock:
-                        energies_array[M*i+j] = self.molecule.Energy(log=None)
-                        rc1_array[M*i+j]      = molecule.coordinates3.Distance( atom1, atom2 ) - molecule.coordinates3.Distance( atom2, atom3 )
-                        rc2_array[M*i+j]      = molecule.coordinates3.Distance( atom4, atom5 ) - molecule.coordinates3.Distance( atom5, atom6 )
-                    #-----------------------------------------------------------------------------------
-                    coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
-                    Pickle( coordinateFile, self.molecule.coordinates3 ) 
-
+                    coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, 0 ) )                       
+                    Pickle( coordinateFile, self.molecule.coordinates3 )
+        
             #........................................................................................
             with pymp.Parallel(self.nprocs) as p:
-                for i in p.range ( 0, M ):
-                   distance_1  = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
-                   rmodel      = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
-                   restraint_1 = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
-                   restraints["ReactionCoord"] = restraint_1
+                for i in p.range ( 0, X ):
+                    distance_1  = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                    rmodel      = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                    restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
+                    restraints["RC1"] = restraint
+                   
                    #---------------------------------------------------------------------------------
-                   for j in range( 1,N ):
+                    for j in range( 1, Y ):
                         distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
-                        rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_2 = RestraintMultipleDistance.WithOptions( energyModel = rmodel2, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
-                        restraints["ReactionCoord2"] = restraint_2  
+                        rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                        restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                        restraints["RC2"] = restraint  
                         #---- ----------------------------------------------------------------------------
                         initCoordinateFile = ""
-                        if  j==0:
-                            initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, 0 ) )
-                        elif j>0:
+                        if  i==0:
+                            initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( 0, j-1 ) )
+                        elif i>0:
                             initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                 
                         #---- ----------------------------------------------------------------------------
-                        self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile )             
+                        self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
                         relaxRun = GeometrySearcher( self.molecule, self.baseName  )
                         relaxRun.ChangeDefaultParameters(self.GeoOptPars)
                         relaxRun.Minimization( self.optmizer )
                        #-----------------------------------------------------------------------------------
-                        with p.lock:
-                            energies_array[M*i+j] = self.molecule.Energy(log=None)
-                            rc1_array[M*i+j]      = molecule.coordinates3.Distance( atom1, atom2 ) - molecule.coordinates3.Distance( atom2, atom3 )
-                            rc2_array[M*i+j]      = molecule.coordinates3.Distance( atom4, atom5 ) - molecule.coordinates3.Distance( atom5, atom6 )
-                       #-----------------------------------------------------------------------------------
-                        coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )                       
+                        print(i,j)
+                        coordinateFile = os.path.join( self.baseName, "ScanTraj.ptGeo", "frame"+str(i)+"_"+str(j)+".pkl" )
                         Pickle( coordinateFile, self.molecule.coordinates3 )
         
         #---------------------------------------------------------------------------------------------------------------------------
         elif self.multipleDistance[0] and self.multipleDistance[1] == False:
             with pymp.Parallel(self.nprocs) as p:
-                for i in p.range ( 1, M ):  
+                for i in p.range ( 1, X ):  
                     #.----              
                     distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
                     rmodel     = RestraintEnergyModel.Harmonic( distance_1, self.forceC )
                     restraint_1= RestraintMultipleDistance.WithOptions(energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
-                    restraints["ReactionCoord"] = restraint_1
+                    restraints["RC1"] = restraint_1
                     #---------------------------------------------------------------------------------
-                    j=0
+                    
                     #--------------------------------------------------------------------------------
-                    distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
-                    rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                    restraint_2 = RestraintDistance.WithOptions(energyModel = rmodel2, point1=atom4, point2=atom5 )
+                    distance_2  = self.DMINIMUM[1]
+                    rmodel     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                    restraint  = RestraintDistance.WithOptions(energyModel = rmodel, point1=atom4, point2=atom5 )
                     #---------------------------------------------------------------------------------
-                    restraints["ReactionCoord2"] = restraint_2  
+                    restraints["RC2"] = restraint  
                     #---------------------------------------------------------------------------------                    
                     initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
-                    self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile )             
+                    self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
                     coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
                     relaxRun = GeometrySearcher( self.molecule, self.baseName )
                     relaxRun.ChangeDefaultParameters( self.GeoOptPars )
-                    relaxRun.Minimization(self.optmizer)
-                    #-----------------------------------------------------------------------------------
-                    with p.lock:
-                        energies_array[M*i+j] = self.molecule.Energy(log=None)
-                        rc1_array[M*i+j]      = molecule.coordinates3.Distance( atom1, atom2 ) - molecule.coordinates3.Distance( atom2, atom3 )
-                        rc2_array[M*i+j]      = molecule.coordinates3.Distance( atom4, atom5 ) 
+                    relaxRun.Minimization(self.optmizer)                   
                     #-----------------------------------------------------------------------------------
                     Pickle( coordinateFile, self.molecule.coordinates3 ) 
                     #..................................................
@@ -359,17 +615,17 @@ class SCAN:
                     distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
                     rmodel  =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
                     restraint_1=  RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
-                    restraints["ReactionCoord"] = restraint_1
+                    restraints["RC1"] = restraint_1
                     #-----------------------------------------------------------------------------------
                     for j in range( 1,N ):
                         distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
-                        rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_2 = RestraintMultipleDistance.WithOptions( energyModel = rmodel2, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
-                        restraints["ReactionCoord2"] = restraint_2  
+                        rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                        restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                        restraints["RC2"] = restraint  
                         #-----------------------------------------------------------------------------------
                         initCoordinateFile = ""
                         if  j==0:
-                            initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, 0 ) )
+                            initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( 0, j-1 ) )
                         elif j>0:
                             initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                 
                         #-----------------------------------------------------------------------------------
@@ -379,61 +635,52 @@ class SCAN:
                         relaxRun.ChangeDefaultParameters( self.GeoOptPars )
                         relaxRun.Minimization(self.optmizer)
                         #-----------------------------------------------------------------------------------
-                        with p.lock:
-                            energies_array[M*i+j] = self.molecule.Energy(log=None)
-                            rc1_array[M*i+j]      = molecule.coordinates3.Distance( atom1, atom2 ) - molecule.coordinates3.Distance( atom2, atom3 )
-                            rc2_array[M*i+j]      = molecule.coordinates3.Distance( atom4, atom5 ) 
-                        #-----------------------------------------------------------------------------------
                         Pickle( coordinateFile, self.molecule.coordinates3 )
                         #...................................................
         #------------------------------------------------------------------------------------------------------
         elif self.multipleDistance[0] == False and self.multipleDistance[1] == False:
             with pymp.Parallel(self.nprocs) as p:
-                for i in p.range ( 1, M ):  
+                for i in p.range ( 1, X ):  
                     #.---------------------------------------------------------------------------------------------             
-                    distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                    distance_1 = self.DMINIMUM[0] + self.DINCREMENT[0] * float(i) 
                     rmodel  =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
                     restraint_1=  RestraintDistance.WithOptions( energyModel = rmodel,  point1=atom1, point2=atom2  )
-                    restraints["ReactionCoord"] = restraint_1
+                    restraints["RC1"] = restraint_1
                     #----------------------------------------------------------------------------------------------
-                    j=0
+                    
                     #----------------------------------------------------------------------------------------------
-                    distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
-                    rmodel2      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                    distance_2  = self.DMINIMUM[1]
+                    rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
                     restraint_2 = RestraintDistance.WithOptions( energyModel = rmodel2, point1=atom3, point2=atom4 )                    
-                    restraints["ReactionCoord2"] = restraint_2  
+                    restraints["RC2"] = restraint  
                     #----------------------------------------------------------------------------------------------                   
                     initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile )             
                     coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
                     relaxRun = GeometrySearcher( self.molecule, self.baseName )
-                    relaxRun.Minimization(self.optmizer)
-                    #-----------------------------------------------------------------------------------
-                    with p.lock:
-                        energies_array[M*i+j] = self.molecule.Energy(log=None)
-                        rc1_array[M*i+j]      = molecule.coordinates3.Distance( atom1, atom2 ) - molecule.coordinates3.Distance( atom2, atom3 )
-                        rc2_array[M*i+j]      = molecule.coordinates3.Distance( atom4, atom5 ) 
+                    relaxRun.Minimization(self.optmizer)            
                     #-----------------------------------------------------------------------------------
                     Pickle( coordinateFile, self.molecule.coordinates3 )
                     #....................................................
             #-------------------------------------------------------------------------------------------
             with pymp.Parallel(self.nprocs) as p:
                 #Pergomr the calculations for the rest of the grid
-                for i in p.range ( 0, M ):
-                    distance_1 = self.DINCREMENT[0] * float(i) + self.DMINIMUM[0]
+                for i in p.range ( 0, X ):
+                    distance_1 = self.DMINIMUM[0] + self.DINCREMENT[0] * float(i)
                     rmodel  =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
                     restraint_1=  RestraintMultipleDistance.WithOptions(energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
-                    restraints["ReactionCoord"] = restraint_1
+                    restraints["RC1"] = restraint_1
 
-                    for j in range( 1,N ):
-                        distance_2  = self.DINCREMENT[1] * float(j) + self.DMINIMUM[1]
-                        rmodel2     = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
-                        restraint_2 = RestraintMultipleDistance.WithOptions(energyModel = rmodel2, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
-                        restraints["ReactionCoord2"] = restraint_2  
+                    for j in range( 1,Y ):
+
+                        distance_2  = self.DMINIMUM[1] + self.DINCREMENT[1] * float(j)
+                        rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                        restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
+                        restraints["RC2"] = restraint 
                         
                         initCoordinateFile = ""
                         if  j==0:
-                            initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, 0 ) )
+                            initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( 0, j-1 ) )
                         elif j>0:
                             initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                 
                         
@@ -443,21 +690,27 @@ class SCAN:
                         relaxRun.ChangeDefaultParameters( self.GeoOptPars )
                         relaxRun.Minimization(self.optmizer)
                         #-----------------------------------------------------------------------------------
-                        with p.lock:
-                            energies_array[M*i+j] = self.molecule.Energy(log=None)
-                            rc1_array[M*i+j]      = molecule.coordinates3.Distance( atom1, atom2 )
-                            rc2_array[M*i+j]      = molecule.coordinates3.Distance( atom3, atom4 ) 
-                        #-----------------------------------------------------------------------------------
                         Pickle( coordinateFile, self.molecule.coordinates3 )
                         #....................................................
         
+        self.molecule.DefineRestraintModel(None)
         #-----------------------------------------------------------------------------------
-        for i in range(M):
-            for j in range(N):
-                self.text += "{} {} {} {} {}\n".format( i,j,energies_array[M*i+j]-en0,rc1_array[M*i+j],rc2_array[M*i+j])
-                self.energies.append(energies_array[M*i+j]-en0)
-                self.reactionCoordinate1.append(rc1_array[M*i+j])
-                self.reactionCoordinate2.append(rc2_array[M*i+j])
+        for i in range(X):
+            for j in range(Y):
+                coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
+                self.molecule.coordinates3 = ImportCoordinates3(coordinateFile,log=None)
+                self.energies.append( self.molecule.Energy(log=None) - en0 )
+                if self.multipleDistance[0] and self.multipleDistance[1]:
+                    self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1, atom2 ) - self.molecule.coordinates3.Distance( atom2, atom3 ) )
+                    self.reactionCoordinate2.append( self.molecule.coordinates3.Distance( atom4, atom5 ) - self.molecule.coordinates3.Distance( atom5, atom6 ) )
+                elif self.multipleDistance[0] and self.multipleDistance[1] == False:
+                    self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1, atom2 ) - self.molecule.coordinates3.Distance( atom2, atom3 ) )
+                    self.reactionCoordinate2.append( self.molecule.coordinates3.Distance( atom4, atom5 )  )
+                elif self.multipleDistance[0] == False and self.multipleDistance[1] == False:
+                    self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1, atom2 ) )
+                    self.reactionCoordinate2.append( self.molecule.coordinates3.Distance( atom3, atom4 ) )
+                self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[-1],self.reactionCoordinate2[-1],self.energies[-1])
+                
 
     #======================================================================================
     def Plot1D(self):
@@ -479,7 +732,7 @@ class SCAN:
         yi = np.array(self.reactionCoordinate2)
         zi = np.array(self.energies)
         #----------------------------------------------------
-        zi = griddata( (self.reactionCoordinate1, self.reactionCoordinate2), self.energies, ( xi[None,:], yi[:,None] ), method='cubic')
+        zi = griddata( (self.reactionCoordinate1, self.reactionCoordinate2), self.energies, ( xi[None,:], yi[:,None] ), method='linear')
         # contour the gridded data, plotting dots at the randomly spaced data points.
         CS = plt.contour(xi,yi,zi,15,linewidths=0.5,colors='k')
         CS = plt.contourf(xi,yi,zi,15,cmap=plt.cm.jet)

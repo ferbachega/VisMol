@@ -44,7 +44,7 @@ class US:
         self.atoms              = [] # indices of the atoms 
         self.nprocs             = NmaxThreads
         self.text               = " "
-        self.forceC             = 500.0
+        self.forceC             = 600.0
         self.nsteps             = [ 1, 1 ]
         self.prodNsteps         = _prodSteps
         self.equiNsteps         = _equiSteps

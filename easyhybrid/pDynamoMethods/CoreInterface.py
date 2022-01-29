@@ -293,7 +293,7 @@ class SimulationProject:
                 atomlist.append( sel[i] )
         #---------------------------------------------
         #define QC atoms selection
-        converger           = DIISSCFConverger.WithOptions( energyTolerance=2.0e-4,densityTolerance=1.0e-10, maximumIterations = 500 )
+        converger           = DIISSCFConverger.WithOptions( energyTolerance=3.0e-4,densityTolerance=1.0e-8, maximumIterations = 1500 )
         self.QCRegion       = Selection.FromIterable(atomlist)
         self.multiplicity   = _QCmultiplicity
         self.TotalChargeQC  = _QCcharge        
@@ -433,6 +433,7 @@ class SimulationProject:
         self.cSystem.DefineQCModel( self.QCmodel, qcSelection=self.QCRegion )
         self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded model
         #--------------------------------------------------------------------
+        self.cSystem.qcModel.maximumSCCIterations=1200
         energy = self.cSystem.Energy()      
         self.logfile.inputLine("Total Energy of the System: " + str(energy) )
         #--------------------------------------------------------------------

@@ -170,6 +170,8 @@ class Simulation:
 		Class method to set up and execute one/two-dimensional relaxed surface scans 
 		'''
 		#-------------------------------------------------------
+		if "optmizer" in _parameters:
+			self.optmizer = _parameters["optmizer"]
 		scan = SCAN(self.molecule,self.baseFolder,self.optmizer)
 		scan.ChangeDefaultParameters(_parameters)
 		#-------------------------------------------------------
@@ -186,6 +188,7 @@ class Simulation:
 		if restraintDimensions == 2:
 			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['dincre_RC2'], MCR2)
 			scan.RunTWODimensionSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
+			#scan.RunTWODimensionSCANnonParallel(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 		else:
 			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])			
 		#---------------------------------------------------------------------------------

@@ -87,7 +87,11 @@ class GeometrySearcher:
         #------------------------------------------------------------------
         self.optAlg = _optimizer
         self.trajectoryName = os.path.join( self.baseName, "Minimization_"+_optimizer+".ptGeo")
-        self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
+        
+        if not self.saveTraj:
+            self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
+        else:
+            self.traj = None
         
         # run the minimization for the chosen algorithm
         if self.optAlg   == "ConjugatedGradient":

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 #FILE = Tests.py
 
 ##############################################################
@@ -30,13 +29,11 @@ from pScientific.Statistics    import *
 from pScientific.Symmetry      import *                                     
 from pSimulation               import *
 from CoreInterface 			   import SimulationProject
+from PotentialOfMeanForce import *
 #-------------------------------------------------------
 ex_path = "/home/igorchem/VisMol/examples/"
 timTop  = os.path.join(ex_path,"TIM","7tim.top")
 timCrd  = os.path.join(ex_path,"TIM","7tim.crd")
-
-ldlTop = os.path.join(ex_path,"LDL","1ldm.top")
-ldlCrd = os.path.join(ex_path,"LDL","1ldm.crd")
 
 #*************************************************************************
 class Tests:
@@ -62,21 +59,7 @@ class Tests:
 
 		proj.PrintSystems()
 		proj.SaveProject()
-		proj.FinishRun()
-
-		projb = SimulationProject("LDLTest_SetUp")
-		projb.LoadSystemFromForceField(ldlTop,ldlCrd)
-		projb.RunSimulation(parameters_a,"Geometry_Optimization")
-
-		_pattern = "*:OXM.*:H4"
-		projb.SphericalPruning(_pattern,25.0)
-		projb.SettingFixedAtoms(_pattern,20.0)
-		
-		projb.RunSimulation(parameters_b,"Geometry_Optimization")
-		projb.PrintSystems()
-		projb.SaveProject()
-		projb.FinishRun()
-
+		proj.FinishRun()		
 
 	#=================================================================
 	def QCSystemsSetting(self):
@@ -101,41 +84,7 @@ class Tests:
 
 		proj.SaveProject()
 		proj.FinishRun()
-		
-		#===========================================
-		#LDL
-		projb= SimulationProject("LDLTest_SMOs", DEBUG=True)
-		projb.LoadSystemFromSavedProject("LDLTest_SetUp.pkl")
-
-		oxm  = AtomSelection.FromAtomPattern(projb.cSystem,"*:OXM.*:*")
-		his  = AtomSelection.FromAtomPattern(projb.cSystem,"*:HID.193:*")
-		arg1 = AtomSelection.FromAtomPattern(projb.cSystem,"*:ARG.106:*")
-		nic = AtomSelection.FromAtomPattern(projb.cSystem,"*:NAD.331:*")
-		selections =[ oxm, his, arg1 ]
-		
-		nic_ring_list=[]		 
-		nic_ring_lab = ["N1N","C2N","C3N","C4N",
-				 "C5N","C6N","C7N","N7N",
-				 "O7N","H2N","H4N","H71",
-				 "H72","H5N","H6N","C'N1"]
-		#--------------------------------------------
-		for atom in projb.cSystem.atoms.items:
-			if atom.label in nic_ring_lab:
-				nic_ring_list.append(atom.index)
-
-		#--------------------------------------------
-		print(selections)
-		selections.append(nic_ring_list)
-		
-		#saving qc/mm setup
-		for smo in SMOmodels:
-			projb.SetSMOHybridModel( smo, selections, 1, 1 )
-		
-		projb.cSystem.Summary()
-		projb.SaveProject()
-		projb.FinishRun()
-
-	
+			
 	#===================================================================
 	def QCDFTBplus(self):
 		'''
@@ -207,39 +156,7 @@ class Tests:
 		proj.SaveProject()
 		proj.FinishRun()
 		#*************************************************************
-		#LDL
-		proj= SimulationProject("LDLTest_QCMMopts")
-		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")
-
-		lig = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.248:*")
-		glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
-		his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
-		selections= [ lig, glu, his ]
-		proj.SetSMOHybridModel( "am1", selections, -3, 1 )
 		
-		initialCoords = Clone(proj.cSystem.coordinates3)
-
-		#Quasi-Newton muito demorado
-		algs = ["ConjugatedGradient",
-				"LFBGS",
-				"SteepestDescent",
-				#"QuasiNewton",
-				"FIRE"]
-		
-		#problems saving trajectory! But geometry opt working
-		for alg in algs:
-			parameters = {
-							"maxIterations":1000,
-							"rmsGradient":0.1,
-							"optmizer":alg,
-							#"save_pdb":"true",
-							#"save_traj":"true"
-						}
-			proj.RunSimulation(parameters,"Geometry_Optimization")
-			proj.cSystem.coordinates3 = initialCoords;
-
-		proj.SaveProject()
-		proj.FinishRun()
 	#===================================================================
 	def MD_protocols(self):
 		'''
@@ -363,8 +280,8 @@ class Tests:
 
 		parameters = { 'ATOMS_RC1':atomsf	,
 					   'ATOMS_RC2':atomss	,
-					   'dincre_RC1':0.03 	,
-					   'dincre_RC2':0.03     , 
+					   'dincre_RC1':0.1 	,
+					   'dincre_RC2':0.1     , 
 					   "nSteps_RC1":30		,
 					   "nSteps_RC2":30 		, 
 					   "ndim": 2 			,
@@ -387,14 +304,14 @@ class Tests:
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 		
 		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
-
-		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans_EHproj","ScanTraj.ptGeo")
+		setMaxThreads = 4
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans","ScanTraj.ptGeo")
 
 		parameters = { 'ATOMS_RC1':atomsf			,
 					   "ndim": 1 					,
 					   "samplingFactor":200 		,
-					   "equilibration_nsteps":1000	,
-					   "production_nsteps":2000		,
+					   "equilibration_nsteps":100	,
+					   "production_nsteps":200		,
 					   "trjFolder":_path 			,
 					   "MD_method":"LeapFrog"		,
 					   "MC_RC1":"true"				,
@@ -443,6 +360,11 @@ class Tests:
 	def PotentialOfMeanField(self):
 		'''
 		'''
+		proj=SimulationProject("TIMtest_PMF1D")		
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+		_path = os.path.join ( os.getcwd(),"TIMtest_Umbrella1D" )
+		potmean = PMF(proj.cSystem, _path,"TIMFreeEnergy1D")
+		potmean.CalculateWHAM(10,0,300.15)
 
 	#=====================================================
 	def ReacCoordSearchers(self):
@@ -461,13 +383,12 @@ class Tests:
 		pass
 	
 
-
 #============================================================================
 if __name__ == "__main__":
 	logFile.Header()
 	test = Tests()
 	#test.SetTIMsytem()
-	test.QCSystemsSetting()
+	#test.QCSystemsSetting()
 	#test.QCDFTBplus()
 	#test.QCMMOrca()
 	#test.QCMMoptimizations()
@@ -477,6 +398,7 @@ if __name__ == "__main__":
 	#test.QCMM_MDrestricted()
 	#test.QCMMScans()
 	#test.QCMMScans2D()
-	#test.UmbrellaSampling1D()
+	test.UmbrellaSampling1D()
 	#test.UmbrellaSampling2D()
+	test.PotentialOfMeanField()
 	logFile.Footer()

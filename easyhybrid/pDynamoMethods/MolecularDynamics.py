@@ -54,9 +54,9 @@ class MD:
         #Important parameters that are recurrently wanted to be change by the user
         self.molecule               = _system
         self.baseName               = _baseFolder       
-        self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration.ptGeo")
-        self.trajectoryNameProd     = os.path.join(_baseFolder,"production.ptGeo")
-        self.trajectoryNameSoft     = os.path.join(_baseFolder,"soft_constr.ptRes")
+        self.trajectoryNameEqui     = _baseFolder+"equi.ptGeo"
+        self.trajectoryNameProd     = _baseFolder+"prod.ptGeo"
+        self.trajectoryNameSoft     = _baseFolder+"restricted.ptRes"
         self.trajectoryNameCurr     = self.trajectoryNameEqui
         self.prodNsteps             = 20000 # seting the default for umbrella sampling
         self.equiNsteps             = 5000  # seting the default for umbrella sampling

@@ -9,6 +9,21 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
+import os, sys, glob
+
+from pBabel                    import *                                     
+from pCore                     import *                                     
+from pMolecule                 import *            
+from pScientific               import *                 
+         
+from pSimulation               import *
+from commonFunctions import *
+
+
+#-----------------------------------------------------
+import pymp
+import numpy as np 
+import matplotlib.pyplot as plt
 #==============================================================================
 class PMF:
 	'''
@@ -27,11 +42,14 @@ class PMF:
 		self.fileNames	= []
 		
 		self.text		= ""
-		self.LOG		= open(self.base_name+"_FE.log","w") # free energy log
+		self.LOG		= open(self.baseName+"_FE.log","w") # free energy log
 		
-		pat = os.path.join( self.srcFolder,"" )
-		
-		self.fileNames = glob.glob ( pat + "*.ptRes" ) # ver como fica o nome dos arquivos de trejetória na nova versão
+		pat = os.path.join( self.srcFolder,"frame*", "*.ptRes")
+		print( pat )	
+		input()	
+		self.fileNames = glob.glob ( pat ) # ver como fica o nome dos arquivos de trejetória na nova versão
+		print(self.fileNames)
+		input()
 		self.fileNames.sort()
 		
 	#=================================================================================
@@ -56,7 +74,7 @@ class PMF:
 		histogram = state["Histogram"]
 		pmf       = state["PMF"      ]
 		FE		  = state["Free Energies"]
-		histogram.ToTextFileWithData ( self.base_name+".dat" , [ pmf ], format = "{:20.3f} {:20.3f}\n" )
+		histogram.ToTextFileWithData ( self.baseName+".dat" , [ pmf ], format = "{:20.3f} {:20.3f}\n" )
 		#-----------------------------------------------------------------------------------------------
 		text = ""
 		for i in range(len(FE)):

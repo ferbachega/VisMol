@@ -21,8 +21,9 @@ skfPath        ="/home/igorchem/CCDIR/3ob-3-1"
 NmaxThreads = 1 
 #==============================================================================
 def setMaxThreads(n):
-    NmaxThreads = n 
-    print( "New value of Max Threads for Parallel Simulations: ".format(NmaxThreads) )
+    global NmaxThreads
+    print( "New value of Max Threads for Parallel Simulations: {}".format(NmaxThreads) )
+    return 
 #==============================================================================
 #Atom dictionary with relevant information.
 atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
