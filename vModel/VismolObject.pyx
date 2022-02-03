@@ -41,6 +41,9 @@ from vModel.Representations   import DotsRepresentation
 from vModel.Representations   import SpheresRepresentation
 from vModel.Representations   import GlumpyRepresentation
 from vModel.Representations   import WiresRepresentation
+from vModel.Representations   import RibbonsRepresentation
+
+from vModel.MolecularProperties import COLOR_PALETTE
 
 import vModel.cDistances as cdist
 
@@ -310,24 +313,32 @@ class VismolObject:
     """
     
     def __init__ (self, 
+                  active                         = False,
                   name                           = 'UNK', 
                   atoms                          = []   ,
                   vismolSession                  = None , 
                   trajectory                     = None ,
                   bonds_pair_of_indexes          = None , 
+                  color_palette                  = None , 
                   auto_find_bonded_and_nonbonded = True):
         
         """ Class initialiser """
         #-----------------------------------------------------------------
         #                V I S M O L   a t t r i b u t e s
         #----------------------------------------------------------------- 
-        self.vismolSession = vismolSession     #
-        self.active         = False         # for "show and hide"   enable/disable
-        self.editing        = False         # for translate and rotate  xyz coords 
-        self.Type           = 'molecule'    # Not used yet
-        self.name           = name          # 
-        self.vm_font        = vmf.VisMolFont()
-
+        self.vismolSession    = vismolSession     #
+        self.index            = 0             # import to find vboject in self.vismolSession.vismol_objects_dic
+        self.active           = active        # for "show and hide"   enable/disable
+        self.editing          = False         # for translate and rotate  xyz coords 
+        self.Type             = 'molecule'    # Not used yet
+        self.name             = name          # 
+        self.vm_font          = vmf.VisMolFont()
+        #self.color_pick_index = 0             #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...) 
+        
+        if color_palette:
+            self.color_palette    = color_palette #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...) 
+        else:
+            self.color_palette = COLOR_PALETTE[0]
         #-----------------------------------------------------------------
         self.mass_center = None
         #-----------------------------------------------------------------
@@ -343,9 +354,10 @@ class VismolObject:
 
         self.atoms              = []    # this a list  atom objects!
         self.residues           = []
-        self.chains             = {}
-        self.atoms_by_chains    = {}
+        self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object 
+        self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects     
         self.frames             = trajectory
+        self.cov_radiues_list   = []    # a list of covalent radius values for all  --> will be used to calculate de bonds
         self.atom_unique_id_dic = {}
 
         self.vobj_selected_atoms= []
@@ -415,6 +427,7 @@ class VismolObject:
         
         
         if len(atoms) != 0:
+            #self._generate_atomtree_structure_old()
             self._generate_atomtree_structure()
             self._generate_color_vectors()
         #else:
@@ -427,7 +440,13 @@ class VismolObject:
         between atoms is provided.
         '''
         if auto_find_bonded_and_nonbonded:
-            self.find_bonded_and_nonbonded_atoms(self.atoms)
+            # this used just when the vobject is initialized
+            self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,
+                                                       frame     = 0         , 
+                                                       gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'], 
+                                                       maxbond   = self.vismolSession.vConfig.gl_parameters['maxbond' ],
+                                                       tolerance = self.vismolSession.vConfig.gl_parameters['bond_tolerance'])
+
             '''the nonbonded attribute of the atom object concerns representation. 
             When true, I mean that the atom must be drawn with a small cross'''
             # you must assign the nonbonded attribute = True to atoms that are not bonded.
@@ -443,137 +462,7 @@ class VismolObject:
                 self.import_non_bonded_atoms_from_bond()
                     
         
-        
-        ## temporario, apagar depois
-        #print ('self.non_bonded_atoms', self.non_bonded_atoms)
-        #for non_bonded_atom in self.non_bonded_atoms:
-        #    if non_bonded_atom in self.index_bonds:
-        #        print ('ops,  non_bonded_atom in self.index_bonds',non_bonded_atom )
-        #        self.non_bonded_atoms.pop()
-    
-    
-    def _add_new_atom_to_vobj_old (self, name          = None ,
-                                     index         = None ,
-                                     symbol        = None ,
-                                     pos           = None ,
-                                     resi          = None ,
-                                     resn          = None ,
-                                     chain         = None ,
-                                     atom_id       = None ,
-                                     occupancy     = None ,
-                                     bfactor       = None ,
-                                     charge        = None ,
-                                     bonds_indexes = None ,
-                                     Vobject       = None ,
-                                                 ):
-        """ Function doc """
-    
-        atom        = Atom(name          =  name          ,
-                           index         =  index         ,
-                           symbol        =  symbol        , 
-                           pos           =  pos           ,
-                           resi          =  resi          ,
-                           resn          =  resn          ,
-                           chain         =  chain         ,
-                           atom_id       =  atom_id       , 
-                           occupancy     = occupancy     ,
-                           bfactor       = bfactor       ,
-                           charge        = charge        ,
-                           bonds_indexes = bonds_indexes ,
-                           Vobject       = Vobject       ,
-                           )
-        
-        if atom.symbol == 'H':
-            pass
-        else:
-            self.noH_atoms.append(atom)
-        
-        
-        if atom.chain in self.atoms_by_chains.keys():
-            self.atoms_by_chains[atom.chain].append(atom)
-        
-        else:
-            self.atoms_by_chains[atom.chain] = []
-            self.atoms_by_chains[atom.chain].append(atom)
 
-        
-        
-        
-        
-        if atom.chain in self.chains.keys():
-            ch = self.chains[atom.chain]
-        
-        else:
-            ch = Chain(name = atom.chain, label = 'UNK')
-            self.chains[atom.chain] = ch
-        
-        
-        '''This step checks if a residue has already been created and adds it to the respective chain.'''
-        if len(ch.residues) == 0:
-            residue = Residue(name=atom.resn, 
-                             index=atom.resi, 
-                             chain=atom.chain,
-                             Vobject = self)
-                                
-            atom.residue     = residue
-            residue.atoms.append(atom)
-            
-            #if residue in self.residues:
-            #    pass
-            #else:
-            #    self.residues.append(residue)
-            
-            ch.residues.append(residue)
-            ch.residues_by_index[atom.resi] = residue
-        elif atom.resi == ch.residues[-1].resi:# and at_res_n == parser_resn:
-            
-            atom.residue = ch.residues[-1]
-            ch.residues[-1].atoms.append(atom)
-
-        else:
-            residue = Residue(name=atom.resn, 
-                             index=atom.resi, 
-                             chain=atom.chain,
-                             Vobject = self)
-                                
-            atom.residue     = residue
-            residue.atoms.append(atom)
-            
-            #self.residues.append(residue)
-            
-            ch.residues.append(residue)
-            ch.residues_by_index[atom.resi] = residue
-            
-            #'Checks whether RESN belongs to the solvent or protein'
-            #---------------------------------------------------------
-            if residue.isProtein:
-                self.residues_in_protein.append(residue)
-            
-            elif residue.isSolvent:
-                self.residues_in_solvent.append(residue)
-            
-            else:
-                self.residues_ligands.append(residue)
-                pass
-            #---------------------------------------------------------
-
-            #parser_resi  = atom.resi
-            #parser_resn  = atom.resn
-
-
-        if atom.name == 'CA':
-            ch.backbone.append(atom)
-        
-        self.atoms.append(atom)
-        
-        #sum_x += atom.pos[0]
-        #sum_y += atom.pos[1]
-        #sum_z += atom.pos[2]
-        
-        self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
-        self.vismolSession.atom_id_counter +=1
-    
-    
     
     def _add_new_atom_to_vobj (self, atom):
         """ Function doc """       
@@ -589,8 +478,8 @@ class VismolObject:
         else:
             self.atoms_by_chains[atom.chain] = []
             self.atoms_by_chains[atom.chain].append(atom)
-
-
+        
+        
         
         if atom.chain in self.chains.keys():
             ch = self.chains[atom.chain]
@@ -621,7 +510,7 @@ class VismolObject:
             
             atom.residue = ch.residues[-1]
             ch.residues[-1].atoms.append(atom)
-
+        
         else:
             residue = Residue(name=atom.resn, 
                              index=atom.resi, 
@@ -648,16 +537,16 @@ class VismolObject:
                 self.residues_ligands.append(residue)
                 pass
             #---------------------------------------------------------
-
+        
             #parser_resi  = atom.resi
             #parser_resn  = atom.resn
-
-
+        
+        
         if atom.name == 'CA':
             ch.backbone.append(atom)
         
         self.atoms.append(atom)
-        
+        self.cov_radiues_list.append(atom.cov_rad)   
         #sum_x += atom.pos[0]
         #sum_y += atom.pos[1]
         #sum_z += atom.pos[2]
@@ -666,15 +555,75 @@ class VismolObject:
         self.vismolSession.atom_id_counter +=1
     
     
-    def create_new_representation (self, rtype = 'lines'):
+    def create_new_representation (self, rtype = 'lines', indexes = None):
         """ Function doc """
-        
+        #print('\n\n\n',indexes)
         if rtype == 'lines':
-            self.representations['lines']  = LinesRepresentation (name = 'lines', 
+            
+            self.representations['lines']      = LinesRepresentation (name = 'lines', 
+                                                                    active = True, 
+                                                                     _type = 'geo', 
+                                                                   indexes = indexes, 
+                                                                    visObj = self, 
+                                                                    glCore = self.vismolSession.glwidget.vm_widget)
+        if rtype == 'nonbonded':
+
+            self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded', 
+                                                                active =  True, 
+                                                                 _type = 'geo', 
+                                                               indexes = indexes, 
+                                                                visObj =  self, 
+                                                                glCore = self.vismolSession.glwidget.vm_widget)
+
+        if rtype == 'dots':
+
+            self.representations['dots']  = DotsRepresentation (name   = 'dots', 
+                                                                active =  True, 
+                                                                 _type = 'geo', 
+                                                               indexes = indexes, 
+                                                                visObj =  self, 
+                                                                glCore = self.vismolSession.glwidget.vm_widget)
+        
+
+        if rtype == 'sticks':
+
+            self.representations['sticks']  = SticksRepresentation (name   = 'sticks', 
+                                                                active =  True, 
+                                                                 _type = 'geo', 
+                                                               indexes = indexes, 
+                                                                visObj =  self, 
+                                                                glCore = self.vismolSession.glwidget.vm_widget )               
+        if rtype == 'ribbons':
+
+            self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons', 
                                                                 active =  True, 
                                                                  _type = 'geo', 
                                                                 visObj =  self, 
-                                                                glCore = self.vismolSession.glwidget.vm_widget)
+                                                                glCore = self.vismolSession.glwidget.vm_widget )               
+                                                                
+        if rtype == 'spheres':
+
+            self.representations['spheres'] =  SpheresRepresentation (name    = rtype, 
+                                                                      active  = True, 
+                                                                      _type   = 'mol', 
+                                                                      visObj  = self,
+                                                                      glCore  = self.vismolSession.glwidget.vm_widget,
+                                                                      indexes  = indexes
+                                                                     )
+                            
+            self.representations['spheres']._create_sphere_data()                                
+
+
+
+
+
+
+
+
+        
+        
+        
+        
         
         if rtype == 'dotted_lines':
             ##print('dotted_lines')
@@ -683,6 +632,11 @@ class VismolObject:
                                                                         _type = 'geo', 
                                                                        visObj =  self, 
                                                                        glCore = self.vismolSession.glwidget.vm_widget)
+        
+        
+        
+        
+        
         #self.representations['lines'] = rep
   
 
@@ -727,67 +681,86 @@ class VismolObject:
         self.mass_center = np.array([sum_x / total,
                                      sum_y / total, 
                                      sum_z / total])
+
     
-    def _generate_atomtree_structure_old (self, get_backbone_indexes = False):
+    def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):
         """ Function doc """
+        print ('\ngenerate_chain_structure (easyhybrid_serialization_file) starting')
+        initial           = time.time()
+                          
+        self.frames       = frames
+        self.atoms        = [] 
+        self.dynamic_bons = dynamic_bons
         
-        print ('\ngenerate_chain_structure starting')
-        initial          = time.time()
-        #chains_m     = {}
-        frame        = []
         
-        self.atoms   = [] 
-        #[index, at_name, at_resi, at_resn, at_ch, at_symbol, at_occup, at_bfactor, at_charge]
-        
-        for atom2 in self.atoms2:
-            index       = atom2[0]
-            at_name     = atom2[1]
-            cov_rad     = atom2[2]
-            at_pos      = atom2[3]
-            at_res_i    = atom2[4]
-            at_res_n    = atom2[5]
-            at_ch       = atom2[6]
-            at_symbol   = atom2[7]
-            #bonds_idxes = atom2[8]
-            #self._add_new_atom_to_vobj
+        bonds_by_indexes = []
+        for d_atom in d_atoms:
+                        
+            for bond in d_atom['bonds']:
+                i = bond['atom_index_i']
+                j = bond['atom_index_j']
+                bonds_by_indexes.append([i,j])
             
             
+            atom        = Atom(name          = d_atom['name']                      ,
+                               index         = d_atom['index']                     ,
+                               symbol        = d_atom['symbol']                    , 
+                               resi          = d_atom['resi']                      ,
+                               resn          = d_atom['resn']                      ,
+                               chain         = d_atom['chain']                     ,
+                               
+                               atom_id       = self.vismolSession.atom_id_counter  , 
+                               
+                               color         = d_atom['color']                     , 
+                               
+                               radius        = d_atom['radius'     ]               ,
+                               vdw_rad       = d_atom['vdw_rad'    ]               ,
+                               cov_rad       = d_atom['cov_rad'    ]               ,
+                               ball_radius   = d_atom['ball_radius']               ,
+                               
+                               bonds_indexes = d_atom['bonds_indexes']             ,
+                               occupancy     = d_atom['occupancy']                 ,
+                               bfactor       = d_atom['bfactor']                   ,
+                               charge        = d_atom['charge']                    ,
+                               Vobject       = self                                ,
+                               )
             
+            atom.selected       = d_atom['selected'] 
+            atom.lines          = d_atom['lines'] 
+            atom.dots           = d_atom['dots'] 
+            atom.nonbonded      = d_atom['nonbonded'] 
+            atom.ribbons        = d_atom['ribbons'] 
+            atom.ball_and_stick = d_atom['ball_and_stick'] 
+            atom.sticks         = d_atom['sticks'] 
+            atom.spheres        = d_atom['spheres'] 
+            atom.surface        = d_atom['surface'] 
+            atom.bonds_indexes  = d_atom['bonds_indexes'] 
+            atom.bonds          = d_atom['bonds'] 
+            atom.isfree         = d_atom['isfree'] 
+
+            self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+            self._add_new_atom_to_vobj(atom)  
             
-            #'''
-            self._add_new_atom_to_vobj(name          =  at_name,  
-                                       index         =  index+1, 
-                                       symbol        =  at_symbol, 
-                                       pos           =  at_pos, 
-                                       resi          =  at_res_i, 
-                                       resn          =  at_res_n, 
-                                       chain         =  at_ch, 
-                                       atom_id       =  self.vismolSession.atom_id_counter  ,
-                                       occupancy     = atom2[10],
-                                       bfactor       = atom2[11],
-                                       charge        = atom2[12],
-                                       bonds_indexes = atom2[8],
-                                       Vobject       =  self
-                                        )
-            #'''
         
+        self._generate_color_vectors()
+        self.bonds_from_pair_of_indexes_list(bonds_by_indexes)            
+        if self.non_bonded_atoms == []:
+            self.import_non_bonded_atoms_from_bond()
+        
+        self.get_backbone_indexes()
+
         
         #self._get_center_of_mass()
 
         final = time.time() 
-        print ('_generate_atomtree_structure end -  total time: ', final - initial, '\n')
+        print ('_generate_atomtree_structure (easyhybrid_serialization_file) end -  total time: ', final - initial, '\n')
         
-        if get_backbone_indexes:
-            self.get_backbone_indexes()
-        else:
-            pass
+        #if get_backbone_indexes:
+        #    self.get_backbone_indexes()
+        #else:
+        #    pass
         
-        
-        for chain in self.chains.keys():
-            self.residues += self.chains[chain].residues
-        #print('total number of residues at self.residues', len(self.residues))
-        
-        return True
+
 
 
     def _generate_atomtree_structure (self, get_backbone_indexes = False):
@@ -795,31 +768,28 @@ class VismolObject:
         
         print ('\ngenerate_chain_structure starting')
         initial          = time.time()
-        frame        = []
-        
+        frame            = []
+        #self.atoms   = [None for x in self.atoms2] 
         self.atoms   = [] 
-        #[index, at_name, at_resi, at_resn, at_ch, at_symbol, at_occup, at_bfactor, at_charge]
-        
+
         for atom2 in self.atoms2:
-
             atom        = Atom(name          = atom2['name']                      ,
-                           index             = atom2['index']+1                   ,
-                           symbol            = atom2['symbol']                    , 
-                           resi              = atom2['resi']                      ,
-                           resn              = atom2['resn']                      ,
-                           chain             = atom2['chain']                     ,
-                           atom_id           = self.vismolSession.atom_id_counter , 
-                           occupancy         = atom2['occupancy']                 ,
-                           bfactor           = atom2['bfactor']                   ,
-                           charge            = atom2['charge']                    ,
-                           Vobject           = self                               ,
-                           )
-
-            
+                               index         = atom2['index']+1                   ,
+                               symbol        = atom2['symbol']                    , 
+                               resi          = atom2['resi']                      ,
+                               resn          = atom2['resn']                      ,
+                               chain         = atom2['chain']                     ,
+                               atom_id       = self.vismolSession.atom_id_counter , 
+                               occupancy     = atom2['occupancy']                 ,
+                               bfactor       = atom2['bfactor']                   ,
+                               charge        = atom2['charge']                    ,
+                               Vobject       = self                               ,
+                               )
+            self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
             self._add_new_atom_to_vobj(atom)  
             
         
-        #self._get_center_of_mass()
+        self._get_center_of_mass()
 
         final = time.time() 
         print ('_generate_atomtree_structure end -  total time: ', final - initial, '\n')
@@ -987,13 +957,6 @@ class VismolObject:
         if do_cov_dot_sizes:
             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
         
-
-        #self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
-        #self.colors         = np.array(self.colors       , dtype=np.float32)    
-        #self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
-        #self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
-        #self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32) 
-
     def set_model_matrix(self, mat):
         """ Function doc
         """
@@ -1061,6 +1024,33 @@ class VismolObject:
         bonds_list = [[0,1] , [0,4] , [1,3], ...]
         
         """
+        
+        #print (bonds_list)
+        for i in range(0,len(bonds_list)-1,2):
+            
+            
+            index_i = bonds_list[i]
+            index_j = bonds_list[i+1]
+            
+            bond  =  Bond(atom_i       = self.atoms[index_i], 
+                          atom_index_i = self.atoms[index_i].index-1,
+                          atom_j       = self.atoms[index_j],
+                          atom_index_j = self.atoms[index_j].index-1,
+                          )
+
+            self.bonds.append(bond)
+            
+            self.index_bonds.append(index_i)
+            self.index_bonds.append(index_j)
+            
+            self.atoms[index_i].bonds.append(bond)
+            self.atoms[index_j].bonds.append(bond)
+            
+            
+        
+        self.index_bonds = np.array(self.index_bonds, dtype=np.uint32)
+        
+        '''
         #print (bonds_list)
         for raw_bond in bonds_list:
             index_i = raw_bond[0]
@@ -1079,9 +1069,12 @@ class VismolObject:
             
             self.atoms[index_i].bonds.append(bond)
             self.atoms[index_j].bonds.append(bond)
+            
+            
         
         self.index_bonds = np.array(self.index_bonds, dtype=np.uint32)
-
+        '''
+        
     def import_non_bonded_atoms_from_bond(self, selection = None):
         """ Function doc """
         if selection == None:
@@ -1090,78 +1083,94 @@ class VismolObject:
         self.non_bonded_atoms = []
         
         for atom in selection:
-            if atom.index-1 in self.index_bonds:
-                atom.nonbonded = False
-            else:
-                self.non_bonded_atoms.append(atom.index-1)
+            
+            if len(atom.bonds) == 0:
                 atom.nonbonded = True
-        
-        
-        #for atom in selection:
-        #    if atom.bonds == []:
-        #        
-        #        self.non_bonded_atoms.append(atom.index)
-        #        atom.nonbonded = True
-        #    else:
-        #        # you must assign the nonbonded attribute = True to atoms that are not bonded.
-        #        atom.nonbonded = False
-        #        pass
-                
+                self.non_bonded_atoms.append(atom.index-1)
+            
+            else:
+                atom.nonbonded = False
+                pass
+            
 
-    def find_bonded_and_nonbonded_atoms_old(self, atoms):
-        """ Function doc """
-        ##print(atoms)
-        
-        
-        bonds_full_indexes, bonds_pair_of_indexes, NB_indexes_list = cdist.generete_full_NB_and_Bonded_lists(atoms)
-        #print (bonds_full_indexes, bonds_pair_of_indexes)
-        
-        self.non_bonded_atoms  = NB_indexes_list
-       
-        self._generate_atomtree_structure()
-        
-        self._generate_color_vectors()
-        
-        self.index_bonds       = bonds_full_indexes
-        
-        self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
 
-    
-    
-    def find_bonded_and_nonbonded_atoms(self, selection = None):
+    def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):
         """ Function doc """
-        ##print('aqui ohhhhhh')
-        #self._generate_atomtree_structure()
-        #self._generate_color_vectors()
-        
         if selection == None:
             selection = self.atoms
         else:
             pass
-            
-        atoms_list = []
+        
+        
+        '''
+        initial       = time.time()
+        atomic_grid = self._build_the_atomic_grid(selection, gridsize, frame)
+        final1 = time.time()
+        bonds_pair_of_indexes = self.get_atomic_bonds_from_atomic_grids( atomic_grid, gridsize, maxbond, tolerance, frame)
+        final2 = time.time()
+        '''
+        atoms_list   = []
+        indexes      = []
+        cov_rad      = np.array(self.cov_radiues_list, dtype=np.float32)
+        coords       = self.frames[frame]
+        gridpos_list = []
+        
         for atom in selection:
-            coods   = atom.coords (frame = 0)
-            gridpos = atom.get_grid_position (gridsize = 1.9, frame = 0)
-           
-            atoms_list.append([atom.index-1    ,    # 0
-                               atom.name       ,    # 1
-                               atom.cov_rad    ,    # 2
-                               np.array(coods) ,    # 3
-                               atom.resi       ,    # 4
-                               atom.resn       ,    # 5
-                               atom.chain      ,    # 6
-                               atom.symbol     ,    # 7
-                               []              ,    # 8
-                               gridpos         ])    # 9
+            indexes.append(atom.index -1)
+            gridpos_list.append(atom.get_grid_position (gridsize = gridsize, frame = frame))
+    
+        bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids(indexes, coords , cov_rad, gridpos_list, gridsize, maxbond)
+        #bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids_parallel(indexes, coords , cov_rad, gridpos_list, gridsize)
+        return  bonds_pair_of_indexes 
 
+
+
+    def _init_find_bonded_and_nonbonded_atoms(self, selection = None, frame = 0, gridsize = 1.33, maxbond =  2.66, tolerance = 1.4, log = True):
+        """ Function doc """
+        initial       = time.time()
+        final1 = time.time()
+        bonds_pair_of_indexes = self.find_bonded_and_nonbonded_by_selection( selection = None, frame = 0, gridsize = gridsize, tolerance = 1.0, maxbond = maxbond)
+        #print(bonds_pair_of_indexes)
+        final2 = time.time()        
+        
+        if log:
             
-        bonds_full_indexes, bonds_pair_of_indexes, NB_indexes_list = cdist.generete_full_NB_and_Bonded_lists(atoms_list)
+            print ('building grid elements  : ', final1 - initial, '\n')#
+            #--------------------------------------------------------------#
+            #print (non_bonded_list)
+            print ('Total number of Atoms   :', len(selection)             )
+            #print ('Number of grid elements :', len(atomic_grid)           )
+            
+            print('gridsize'  ,gridsize)
+            #print('maxbond'   ,maxbond)
+            #print('borderGrid',  maxbond/gridsize)
+
+
+            print ('Bonds                   :', len(bonds_pair_of_indexes))
+            print ('Bonds calcultation time : ', final2 - initial, '\n')   #
+            #--------------------------------------------------------------#
         
+        '''
+        bonds_pair_of_indexes = self.find_bonded_and_nonbonded_by_selection (selection = None, 
+                                                                             frame     = frame, 
+                                                                             gridsize  = gridsize, 
+                                                                             maxbond   = maxbond, 
+                                                                             log       = True)
+        #print(bonds_pair_of_indexes)
         
-        self.non_bonded_atoms  = NB_indexes_list
-        #print ('non_bonded_atoms' ,self.non_bonded_atoms)
+        '''
         self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
+        self.import_non_bonded_atoms_from_bond()
+        
+        
+        #'''
+        ## return  bonds_full_indexes, NB_indexes_list
+
+
+
+
+
+
 
 
 

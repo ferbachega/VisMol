@@ -4,7 +4,12 @@ import multiprocessing
 import numpy as np
 #import vModel.atom_types as at 
 #import vModel.cDistances as cdist
+from   vModel.Atom import Atom
 from   vModel import VismolObject
+from   vModel import MolecularProperties
+from   vModel.MolecularProperties import ATOM_TYPES
+from   vModel.MolecularProperties import COLOR_PALETTE
+
 from pprint import pprint
 
 cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):
@@ -25,7 +30,12 @@ cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_
     #-------------------------------------------------------------------------------------------
     #                                P D B     P A R S E R 
     #-------------------------------------------------------------------------------------------
-    at  =  vismolSession.vConfig.atom_types
+    print ('\P D B     P A R S E R')
+    initial          = time.time()
+    
+    
+    
+    at  =  MolecularProperties.AtomTypes()
     with open(infile, 'r') as pdb_file:
         pdbtext = pdb_file.read()
         if 'ENDMDL' in pdbtext:
@@ -47,13 +57,18 @@ cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_
         n    = 0 
         atoms = []
         while atoms == []:
-            atoms     = get_list_of_atoms_from_rawframe(rawframes[n], gridsize, at =  at)
+            atoms, atom_obj_list   = get_list_of_atoms_from_rawframe(rawframes[n], gridsize, at =  at)
             n += 1
         
         
     #-------------------------------------------------------------------------------------------
     
     name = os.path.basename(infile)
+    
+    final = time.time() 
+    print ('\P D B     P A R S E R end -  total time: ', final - initial, '\n')
+        
+    
     vismol_object  = VismolObject.VismolObject(name            = name, 
                                                atoms           = atoms, 
                                                vismolSession   = vismolSession, 
@@ -135,9 +150,12 @@ iCode = ""
 
     pdb_file_lines  = rawframe.split('\n')   
     atoms           = []
+    atom_obj_list   = []
+    
     cdef int index           = 0
     for line in pdb_file_lines:
         if line[:4] == 'ATOM' or line[:6] == 'HETATM':
+            
             at_name    = line[12:16].strip()
             at_pos     = np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])])
             
@@ -149,10 +167,10 @@ iCode = ""
             at_symbol  = line[70:]
             at_symbol  = at_symbol.strip()
            
-            if at_symbol in at.ATOM_TYPES.keys():
+            if at_symbol in ATOM_TYPES.keys():
                 pass
             else:
-                at_symbol  = at.get_symbol(at_name)
+                at_symbol  = None #at.get_symbol(at_name)
             
             at_occup   = float(line[54:60])   #occupancy
             at_bfactor = float(line[60:66])
@@ -171,11 +189,8 @@ iCode = ""
                           'bfactor'    : at_bfactor , 
                           'charge'     : at_charge   
                           })
-            
-
             index += 1
-
-    return atoms
+    return atoms, atom_obj_list
 
 
 

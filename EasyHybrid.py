@@ -52,30 +52,144 @@ from vModel.Representations   import LabelRepresentation
 from vModel.Representations   import DynamicBonds
 from vModel.Representations   import CartoonRepresentation
 
+from easyhybrid.Serialization import LoadAndSaveFiles
+
+from vModel import VismolObject
+import pickle
 
 
 
-class EasyHybridVismolSession(VisMolSession):
+class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
     """ Class doc """
+   
+    #ef __init__ (self, glwidget = False, toolkit = 'gtk3', main_session = None):
+    #   """ Function doc """
+    #   super().__init__( glwidget = False, toolkit = 'gtk3', main_session = None)
+    #   self.treestore = Gtk.TreeStore(
+    #                                   str , # Name
+    #                                   
+    #                                   bool, # toggle active=1
+    #                                   bool, # radio  active=2
+    #                                   
+    #                                   bool, # toggle visible = 3
+    #                                   bool, # radio  visible = 4
+    #                                   
+    #                                   int , # vismol_object index
+    #                                   bool, # is vismol_object index visible?
+    #                                   int , # pdynamo system index 
+    #                                   bool, # is pdynamo system index visible?
+    #
+    #                                   
+    #                                   )
+    #   
+    def save_serialization_file (self, filename = 'session.easy'):
+        """ Function doc """
+        #serialization = LoadAndSaveFiles(self, self.main_session.pDynamo_session)
+        self.save_session(filename)
+
+
+    def build_index_list_from_atom_selection (self):
+        """ Function doc """
+        selection         = self.selections[self.current_selection]
+        
+        index_list = []                
+        for atom in selection.selected_atoms:
+            #print(atom.Vobject.easyhybrid_system_id , pdmsys_active)
+            true_or_false = self.check_selected_atom (atom)
+            if true_or_false:
+                index_list.append(atom.index -1)
+            else:
+                return False
+        return index_list
+
+
+    def check_selected_atom(self, atom, dialog = True):
+        '''checks if selected atoms belong to the dynamo system in memory'''
+        if atom.Vobject.easyhybrid_system_id != self.main_session.pDynamo_session.active_id:
+            #print(atom.index-1, atom.name, atom.resn)
+            
+            name = self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['name']
+            
+            dialog = Gtk.MessageDialog(
+                        transient_for = self.main_session.window,
+                        flags=0,
+                        message_type=Gtk.MessageType.INFO,
+                        buttons=Gtk.ButtonsType.OK,
+                        text="Invalid Atom Selection",
+                        )
+            dialog.format_secondary_text(
+"""Your atom selection does not belong to the active pDynamo system:
+ 
+{} ({}) 
+
+You can choose the active pDynamo system by changing the radio 
+button position in the main treeview (active column).""".format(name,self.main_session.pDynamo_session.active_id)
+            )
+            dialog.run()
+            print("INFO dialog closed")
+            dialog.destroy()
+            return False
+        else:
+            return True
+        
+    
+    def load_easyhybrid_serialization_file (self, filename):
+        """ Function doc """
+        #new_session = self.restart_session(filename)
+        #serialization = LoadAndSaveFiles(self, self.main_session.pDynamo_session)
+        '''
+        #--------------------------------------------------------------------------
+        self.vismol_objects     = [] # old Vobjects - include molecules
+        self.vismol_objects_dic = {} # old Vobjects dic - include molecules
+        self.vobj_counter       = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vismol_object_to_vismol_session.
+        self.vismol_geometric_object     = []
+        
+        self.vismol_geometric_object_dic = {
+                                           'pk1pk2' :  None,
+                                           'pk2pk3' :  None,
+                                           'pk3pk4' :  None,
+                                           }
+        
+        self.atom_id_counter  = 0  # 
+        self.atom_dic_id      = {
+                                # atom_id : obj_atom 
+                                 }
+        
+        #--------------------------------------------------------------------------
+        '''
+
+        
+        #print('loading easyhybrid session')
+        self.load_session(filename)
+
+    
+    
+    
     
     def add_vismol_object_to_vismol_session (self, pdynamo_session = None, 
-                                                   rep             = True, 
+                                                   rep             = {'lines': [], 'nonbonded': []}, 
                                                    vismol_object   = None, 
+                                                   vobj_count      = True,
                                                    autocenter      = True):
         """ Function doc """
-        vismol_object.index = self.vobj_counter
-        self.vismol_objects.append(vismol_object)
-        self.vismol_objects_dic[self.vobj_counter] = vismol_object
-        self.append_vismol_object_to_vismol_objects_listStore(vismol_object)
-        self.vobj_counter += 1
+       
+        if vobj_count:
+            vismol_object.index = self.vobj_counter
+        else:
+            pass
         
+        #self.vismol_objects.append(vismol_object)
+        self.vismol_objects_dic[vismol_object.index] = vismol_object
+        #self.append_vismol_object_to_vismol_objects_listStore(vismol_object)
         
-        ##print('\n\n\n')
-        #print (self.parents)
-        #vobj_index = self.vismol_objects.index(vismol_object)
+        if vobj_count:
+            self.vobj_counter += 1
+        
+            
         vobj_index = vismol_object.index
-        sys_index  = vismol_object.eb_sys_id
+        sys_index  = vismol_object.easyhybrid_system_id
         
+                
         
         if sys_index in self.parents.keys():
             pass
@@ -83,47 +197,145 @@ class EasyHybridVismolSession(VisMolSession):
             # Creates a new "parent" when a new system is loaded into memory. 
             for row in self.treestore:
                 #row[2] = row.path == selected_path
-                row[2] =  False
+                row[3] =  False
+                #row[5] = False 
                 for i,j in enumerate(row):
                     print(i, j,)
             
-            self.parents[sys_index] = self.treestore.append(None, [pdynamo_session.systems[sys_index]['name'], False, True, False, True, vobj_index, False, vismol_object.eb_sys_id, False])
+                    
+            
+            '''
+            self.parents[sys_index] = self.treestore.append(None,                                                
+                                                           [pdynamo_session.systems[sys_index]['name'], # Name
+                                                            False,                                      # toggle active=1
+                                                            True,                                       # radio  active=2
+                                                            False,                                      # toggle visible = 3
+                                                            True,                                       # radio  visible = 4
+                                                            False,                                      # radio  active = 5
+                                                            False,                                      # is trajectory radio visible?
+                                                            vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                            False])                                     # is pdynamo system index visible?
+            '''
+            
+            
+            self.parents[sys_index] = self.treestore.append(None,                                                
+                                                           
+                                                           [pdynamo_session.systems[sys_index]['name'], # Name
+                                                            False,                                      # toggle active=1
+                                                            False,                                      # toggle visible = 3
+                                                            
+                                                            True ,                                      # radio  active  = 2
+                                                            True ,                                      # radio  visible = 4
 
-        self.treestore.append(self.parents[vismol_object.eb_sys_id], [vismol_object.name, True , False , True, False, vobj_index, True, vismol_object.eb_sys_id, False])
+                                                            False,                                      # traj radio  active = 5
+                                                            False,                                      # is trajectory radio visible?
+                                                            
+                                                            vismol_object.index,                        #
+                                                            vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                            0])                                     # is pdynamo system index visible?
+            
+            self.gtk_treeview_iters.append(self.parents[sys_index])
+            
+            
+        #or row in self.treestore:
+        #   #row[2] = row.path == selected_path
+        #   row[5] = False 
+        #   for i,j in enumerate(row):
+        #       print(i, j,)
+            
+        for treeview_iter in self.gtk_treeview_iters:
+            self.treestore[treeview_iter][5] = False
+            #print(self.treestore[treeview_iter][0])
+            
+        treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
+                                          
+                                          [vismol_object.name, 
+                                           vismol_object.active ,   # toggle active   =1       
+                                           True ,                   # toggle visible  = 2                  
+                                           
+                                           False ,                  # radio  active  = 3                       
+                                           False ,                  # radio  visible = 4                      
+                                           
+                                           True  ,                  # traj radio  active = 5                     
+                                           True  ,                  # is trajectory radio visible?  6                   
+                                           
+                                           vismol_object.index,     # 7
+                                           vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
+                                           len(vismol_object.frames)] # is pdynamo system index visible?  9 
+                                            )
+        self.gtk_treeview_iters.append(treeview_iter)
+        
+        #else:
+        #    self.treestore.append(self.parents[vismol_object.easyhybrid_system_id], [vismol_object.name, vismol_object.active , False , False, False, vobj_index, True, vismol_object.easyhybrid_system_id, False])
+
 
         print('\n\n\n')
 
         for vobj in self.vismol_objects:
-            print(vobj.name, vobj.eb_sys_id)
+            print(vobj.name, vobj.easyhybrid_system_id)
         print('\n\n\n')
         print(vismol_object.index)
-
+        
+        '''
         if rep:
-            #self.vismol_objects[-1].generate_indexesresentations (reps_list = self.indexes)
-            #print (self.vismol_objects[-1].representations)
+            vismol_object.create_new_representation (rtype = 'lines')
+            self.vismol_objects[-1].create_new_representation(rtype = 'dotted_lines')
 
-            #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
-            #self.vismol_objects[-1].representations[rep.name] = rep
+            rep  = NonBondedRepresentation (name = 'nonbonded', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
+            vismol_object.representations[rep.name] = rep
+        '''
             
-            #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
-            #self.vismol_objects[-1].representations[rep.name] = rep
+
+        for key in rep.keys():
             
-            self.vismol_objects[-1].create_new_representation (rtype = 'lines')
-            #rep  = LinesRepresentation (name = 'lines', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
-            #self.vismol_objects[-1].representations[rep.name] = rep
-            #
-            rep  = NonBondedRepresentation (name = 'nonbonded', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
-            self.vismol_objects[-1].representations[rep.name] = rep
-        
-            if autocenter:
-                #print(self.vismol_objects[-1].mass_center)
-                self.glwidget.vm_widget.center_on_coordinates(self.vismol_objects[-1], self.vismol_objects[-1].mass_center)
-            else:
-                self.glwidget.vm_widget.queue_draw()
-            self.gtk_widgets_update ()
-        
+            if key == 'lines':
+                if rep[key] == []:
+                    vismol_object.create_new_representation (rtype = 'lines')
+                else:
+                    
+                    vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
+           
+            if key == 'nonbonded':
+                if rep[key] == []:
+                    vismol_object.create_new_representation (rtype = 'nonbonded')
+                else:
+                    vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
+                
+            if key == 'sticks':
+                if rep[key] == []:
+                    vismol_object.create_new_representation (rtype = 'sticks')
+                else:
+                    vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
+            
+            if key == 'spheres':
+                if rep[key] == []:
+                    vismol_object.create_new_representation (rtype = 'spheres')
+                else:
+                    print(key,rep[key])
+                    vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
+                
+            
+                
+                
+                #self.vismol_objects[-1].generate_indexesresentations (reps_list = self.indexes)
+                #print (self.vismol_objects[-1].representations)
 
+            #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
+            #vismol_object.representations[rep.name] = rep
+            
+            
+            #vismol_object.create_new_representation (rtype = 'ribbons')
+            
 
+        if autocenter:
+            #print(self.vismol_objects[-1].mass_center)
+            self.glwidget.vm_widget.center_on_coordinates(vismol_object, vismol_object.mass_center)
+        else:
+            self.glwidget.vm_widget.queue_draw()
+        self.gtk_widgets_update ()
+
+        
+        print('vismol_objects_dic', self.vismol_objects_dic)
 
 
 
@@ -217,35 +429,30 @@ class EasyHybridVismolSession(VisMolSession):
             
             def set_as_qc_atoms (_):
                 """ Function doc """
-                selection = self.selections[self.current_selection]
-
+                #selection = self.selections[self.current_selection]
                 pdmsys_active = self.main_session.pDynamo_session.active_id
-                self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = []
-                
-                if len(selection.selected_objects) >= 2:
-                    print ('''The list of selected atoms contains items coming from different structures. These selections can present problems regarding the numbering of atoms (it is recommended that you select atoms from a single structure).
-                    Do you want to continue anyway?''')
-                
-                elif selection.selected_atoms[0].Vobject.eb_sys_id != self.main_session.pDynamo_session.active_id:
-                    print('The selected atoms do not belong to the active system in pdynamo.')
-                
-                
-                for atom in selection.selected_atoms:
-                    #print(atom.index-1, atom.name, atom.resn)
-                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'].append(atom.index -1)
-                #print('selection_qc',self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] )
-                self.main_session.run_dialog_set_QC_atoms()
+                qc_list = self.build_index_list_from_atom_selection()
+                if qc_list:
+                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = qc_list
+                    self.main_session.run_dialog_set_QC_atoms()
 
             def set_as_free_atoms (_):
                 """ Function doc """
                 selection         = self.selections[self.current_selection]
                 
-                # these are the new atoms to bet set as fixed
                 freelist = []                
                 for atom in selection.selected_atoms:
-                    #print(atom.index-1, atom.name, atom.resn)
-                    freelist.append(atom.index -1)
-                    atom.get_color()  
+                    #print(atom.index, atom.name, atom.color) 
+                    true_or_false = self.check_selected_atom(atom, dialog = True)
+                    
+                    if true_or_false:
+                        freelist.append(atom.index -1)
+                        atom.color = atom.init_color(atom.symbol) 
+                        #true_or_false = self.check_selected_atom( atom, dialog = True)
+                    else:
+                        return False
+                    
+                    #print(atom.index, atom.name, atom.color) 
                 #----------------------------------------------
                 pdmsys_active =   self.main_session.pDynamo_session.active_id
                 #fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
@@ -264,33 +471,34 @@ class EasyHybridVismolSession(VisMolSession):
                 #sending to pDynamo
                 refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
+                    #self.main_session.pDynamo_session.refresh_qc_and_fixed_representations()
                     self.glwidget.vm_widget.queue_draw()
                 #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
-
+            
+            def prune_atoms (_):
+                """ Function doc """
+                fixedlist = self.build_index_list_from_atom_selection()
+                if fixedlist:
+                    fixedlist = list(set(fixedlist))
+                    #self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                    self.main_session.pDynamo_session.prune_system (selection = fixedlist, label = 'Pruned System', summary = True)
+            
             def set_as_fixed_atoms (_):
                 """ Function doc """
-                selection         = self.selections[self.current_selection]
                 
-                # these are the new atoms to bet set as fixed
-                fixedlist = []                
-                for atom in selection.selected_atoms:
-                    #print(atom.index-1, atom.name, atom.resn)
-                    fixedlist.append(atom.index -1)
-                ##print('selection_free',fixedlist )
-                #----------------------------------------------
+                fixedlist = self.build_index_list_from_atom_selection()
                 
-                #Combining with list that the already exists
-                pdmsys_active =   self.main_session.pDynamo_session.active_id
-                
-                fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
-                #guarantee that the atom index appears only once in the list
-                fixedlist = list(set(fixedlist)) 
-                print ('fixedlist',fixedlist)
-                #sending to pDynamo
-                refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
-                if refresh:
-                    self.glwidget.vm_widget.queue_draw()
-                #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
+                if fixedlist:
+                    pdmsys_active = self.main_session.pDynamo_session.active_id
+                    fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
+                    #guarantee that the atom index appears only once in the list
+                    fixedlist = list(set(fixedlist)) 
+                    print ('fixedlist',fixedlist)
+                    #sending to pDynamo
+                    refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                    if refresh:
+                        self.glwidget.vm_widget.queue_draw()
+                    #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
             
             def invert_selection (_):
                 """ Function doc """
@@ -371,6 +579,9 @@ class EasyHybridVismolSession(VisMolSession):
                     'Set as free atoms'   :  ['MenuItem', set_as_free_atoms],
                     
                     'separator5':['separator', None],
+                    'prune to selection'  :  ['MenuItem', prune_atoms],
+
+                    'separator6':['separator', None],
 
                     
                     'Label Mode':  ['submenu' , {
@@ -575,115 +786,83 @@ class EasyHybridVismolSession(VisMolSession):
 
 
 
+    def restart_session (self, filename = None):
+        """ Function doc """
+        
+        self.main_session.window.destroy()
+        self.main_session = None
+        self.__init__(glwidget = True, toolkit = 'gtk3')
+        self.treestore = Gtk.TreeStore(
+                                                str , # Name
+                                                
+                                                bool, # toggle active=1
+                                                bool, # radio  active=2
+                                                
+                                                bool, # toggle visible = 3
+                                                bool, # radio  visible = 4
+                                                
+                                                int , # vismol_object index
+                                                bool, # is vismol_object index visible?
+                                                int , # pdynamo system index 
+                                                bool, # is pdynamo system index visible?
+                                                )
+        self.parents = {}
+        self.insert_glmenu()
+
+        #self.main_session.window.destroy()
+        window = EasyHybridMainWindow(self)
 
 
+        #Gtk.main()
 
-
-
-
-
-
+    def load_easyhybrid_data_to_session (self, easyhybrid_session_data):
+        """ Function doc """
+        
 
 def main():
     
     #vismolSession  =  VisMolSession(glwidget = True, toolkit = 'gtk3')
     vismolSession  =  EasyHybridVismolSession(glwidget = True, toolkit = 'gtk3')
+    
     vismolSession.treestore = Gtk.TreeStore(
-                                            str , # Name
-                                            
-                                            bool, # toggle active=1
-                                            bool, # radio  active=2
-                                            
-                                            bool, # toggle visible = 3
-                                            bool, # radio  visible = 4
-                                            
-                                            int , # vismol_object index
-                                            bool, # is vismol_object index visible?
-                                            int , # pdynamo system index 
-                                            bool, # is pdynamo system index visible?
-
-                                            
-                                            )
-                                            
-   
-    vismolSession.parents   = {}
-    #vismolSession.vobj_counter  = 0
-    
+                                            str  ,   #                                   # 0
+                                            bool ,   # toggle active=1                   # 1
+                                            bool ,   # toggle visible = 3                # 2 
+                                                                                         
+                                            bool ,   # radio  active  = 2                # 3      
+                                            bool ,   # radio  visible = 4                # 4     
+                                                                                         
+                                            bool  ,  # traj radio  active = 5            # 5        
+                                            bool  ,  # is trajectory radio visible?      # 6          
+                                                                                         
+                                            int,     #                                   # 7
+                                            int,     # pdynamo system index              # 8
+                                            int,)    # frames  # 9
     
     
     
     '''
-    def menu_show_lines (_):
-        """ Function doc """
-        vismolSession.show_or_hide( _type = 'lines', show = True)
-
-    def menu_hide_lines (_):
-        """ Function doc """
-        vismolSession.show_or_hide( _type = 'lines', show = False)
-
-    def menu_show_sticks (_):
-        """ Function doc """
-        vismolSession.show_or_hide( _type = 'sticks', show = True)
-
-    def menu_hide_sticks (_):
-        """ Function doc """
-        vismolSession.show_or_hide( _type = 'sticks', show = False)
-
-    def menu_show_spheres (_):
-        """ Function doc """
-        vismolSession.show_or_hide( _type = 'spheres', show = True)
-
-    def menu_hide_spheres (_):
-        """ Function doc """
-        vismolSession.show_or_hide( _type = 'spheres', show = False)
-    menu = { 
-            'Teste Menu from main ' : ['MenuItem', None],
-            
-            
-            'separator1':['separator', None],
-            
-            
-            'show'   : [
-                        'submenu' ,{
-                                    
-                                    'lines'    : ['MenuItem', menu_show_lines],
-                                    'sticks'   : ['MenuItem', menu_show_sticks],
-                                    'spheres'  : ['MenuItem', menu_show_spheres],
-                                    'separator2':['separator', None],
-                                    'nonbonded': ['MenuItem', None],
-            
-                                   }
-                       ],
-            
-            
-            'hide'   : [
-                        'submenu',  {
-                                    'lines'    : ['MenuItem', menu_hide_lines],
-                                    'sticks'   : ['MenuItem', menu_hide_sticks],
-                                    'spheres'  : ['MenuItem', menu_hide_spheres],
-                                    'nonbonded': ['MenuItem', None],
-                                    }
-                        ],
-            
-            
-            'separator2':['separator', None],
-
-            }
-
+    vismolSession.treestore = Gtk.TreeStore(
+                                        str , # Name
+                                        
+                                        bool, # toggle active=1
+                                        bool, # radio  active=2
+                                        
+                                        bool, # toggle visible = 3
+                                        bool, # radio  visible = 4
+                                        
+                                        bool, # radio  active = 5 
+                                        #int , # vismol_object index
+                                        bool, # is trajectory toogle visible?
+                                        int , # pdynamo system index 
+                                        bool, # is pdynamo system index visible?
+                                        )
     '''
+    vismolSession.parents = {}
     vismolSession.insert_glmenu()
     window = EasyHybridMainWindow(vismolSession)
-    #window.connect("destroy", Gtk.main_quit)
-    #window.show_all()
     Gtk.main()
-    
-    
-    #print ('ops')
-    ##vismolSession.insert_glmenu(bg_menu = menu)
-    #vismolSession.insert_glmenu()
-    #gui            = MainWindow(vismolSession)
-    #gui.run()
-    #print ('ops')
+ 
 
 if __name__ == '__main__':
     main()

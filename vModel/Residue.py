@@ -1,5 +1,7 @@
 import vModel.Vectors as vectors
 import numpy as np
+from   vModel.MolecularProperties import solvent_dictionary
+from   vModel.MolecularProperties import residues_dictionary
 
 class Residue:
     """ Class doc """
@@ -56,8 +58,8 @@ class Residue:
 
     def is_protein (self):
         """ Function doc """
-        residues_dictionary = self.Vobject.vismolSession.vConfig.residues_dictionary
-        solvent_dictionary  = self.Vobject.vismolSession.vConfig.solvent_dictionary
+        #residues_dictionary = MolecularProperties.#self.Vobject.vismolSession.vConfig.residues_dictionary
+        #solvent_dictionary  = MolecularProperties.#self.Vobject.vismolSession.vConfig.solvent_dictionary
         # is it a protein residue?
         if self.resn in residues_dictionary.keys():
             self.isProtein = True

@@ -26,6 +26,9 @@ extensions = [
               include_dirs=[np.get_include()]),
     Extension("vModel.VismolObject",
               sources=["vModel/VismolObject.pyx"],
+              include_dirs=[np.get_include()]),
+    Extension("vModel.Atom",
+              sources=["vModel/Atom.pyx"],
               include_dirs=[np.get_include()])
 ]
 

@@ -59,6 +59,8 @@ class Representation:
     def _make_gl_index_buffer(self, indexes):
         """ Function doc """
         ind_vbo = GL.glGenBuffers(1)
+        self.visObj.vismolSession.vismolSession_vbos.append(ind_vbo)
+
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)
         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, indexes.nbytes, indexes, GL.GL_DYNAMIC_DRAW)
         return ind_vbo
@@ -101,6 +103,8 @@ class Representation:
     def _make_gl_size_buffer (self, dot_sizes, program):
         """ Function doc """
         size_vbo = GL.glGenBuffers(1)
+        self.visObj.vismolSession.vismolSession_vbos.append(size_vbo)
+        
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, size_vbo)
         GL.glBufferData(GL.GL_ARRAY_BUFFER, dot_sizes.nbytes, dot_sizes, GL.GL_STATIC_DRAW)
         att_size = GL.glGetAttribLocation(program, 'vert_dot_size')
@@ -220,16 +224,16 @@ class Representation:
     def define_new_indexes_to_VBO ( self, input_indexes = []):
         """ Function doc """
         self._check_VAO_and_VBOs ()
-        indexes = input_indexes
-        indexes = np.array(indexes,dtype=np.uint32)
+        self.indexes = input_indexes
+        self.indexes = np.array(self.indexes,dtype=np.uint32)
         #ind_vbo = self.ind_vbo
         
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.ind_vbo)
-        GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, indexes.nbytes, indexes, GL.GL_DYNAMIC_DRAW)
+        GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
         
         #ind_vbo = self.sel_ind_vbo
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.sel_ind_vbo)
-        GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, indexes.nbytes, indexes, GL.GL_DYNAMIC_DRAW)
+        GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
 
     def change_vbo_colors  (self,  colors = []):
         """ Function doc """
@@ -248,15 +252,17 @@ class Representation:
 class LinesRepresentation (Representation):
     """ Class doc """
     
-    def __init__ (self, name = 'lines', active = True, _type = 'mol', visObj = None, glCore = None):
+    def __init__ (self, name = 'lines', active = True, _type = 'mol', visObj = None, glCore = None, indexes = []):
         """ Class initialiser """
         self.name               = name
         self.active             = active
         self.type               = _type
 
         self.visObj             = visObj
+        self.vismolSession      = visObj.vismolSession
+        
         self.glCore             = glCore
-
+        self.indexes            = indexes
         # representation 	
         self.vao            = None
         self.ind_vbo        = None
@@ -290,19 +296,25 @@ class LinesRepresentation (Representation):
 
         self.shader_program     = self.glCore.shader_programs[self.name]
         self.sel_shader_program = self.glCore.shader_programs[self.name+'_sel']
-        print(self.visObj.index_bonds,self.visObj.frames[0], self.visObj.colors )
-        indexes = np.array(self.visObj.index_bonds,dtype=np.uint32)
+        
+        if indexes:
+            self.indexes = np.array(indexes,dtype=np.uint32)
+        else:
+            self.indexes = np.array(self.visObj.index_bonds,dtype=np.uint32)
+        
+        #print(self.visObj.index_bonds,self.visObj.frames[0], self.visObj.colors )
+        #indexes = np.array(self.visObj.index_bonds,dtype=np.uint32)
         coords  = self.visObj.frames[0]
         colors  = self.visObj.colors
         #colors  = self.visObj.colors_rainbow
 
-        self._make_gl_representation_vao_and_vbos (indexes    = indexes,
+        self._make_gl_representation_vao_and_vbos (indexes    = self.indexes,
                                                    coords     = coords ,
                                                    colors     = colors ,
                                                    dot_sizes  = None   ,
                                                    )
         colors_idx = self.visObj.color_indexes
-        self._make_gl_sel_representation_vao_and_vbos (indexes    = indexes    ,
+        self._make_gl_sel_representation_vao_and_vbos (indexes    = self.indexes    ,
                                                        coords     = coords     ,
                                                        colors     = colors_idx ,
                                                        dot_sizes  = None       ,
@@ -347,7 +359,7 @@ class LinesRepresentation (Representation):
         GL.glDisable(GL.GL_DEPTH_TEST)
         
             
-    def draw_background_sel_representation  (self):
+    def draw_background_sel_representation  (self, line_width_factor = 5):
         """ Function doc """
         self._check_VAO_and_VBOs ()
         #if self.sel_vao is None:
@@ -358,7 +370,7 @@ class LinesRepresentation (Representation):
         line_width = self.visObj.vismolSession.vConfig.gl_parameters['line_width_selection'] 
         GL.glEnable(GL.GL_DEPTH_TEST)
         GL.glUseProgram(self.sel_shader_program)
-        GL.glLineWidth(line_width*5)
+        GL.glLineWidth(line_width)#*line_width_factor) # line_width_factor -> turn the lines thicker
 
         self.glCore.load_matrices(self.sel_shader_program, self.visObj.model_mat)
         GL.glBindVertexArray(self.sel_vao)
@@ -867,7 +879,7 @@ class RibbonsRepresentation (Representation):
 class NonBondedRepresentation (Representation):
     """ Class doc """
     
-    def __init__ (self, name = 'nonbonded', active = True, _type = 'mol', visObj = None, glCore = None):
+    def __init__ (self, name = 'nonbonded', active = True, _type = 'mol', visObj = None, glCore = None, indexes = None):
         """ Class initialiser """
         self.name               = name
         self.active             = active
@@ -875,7 +887,8 @@ class NonBondedRepresentation (Representation):
 
         self.visObj             = visObj
         self.glCore             = glCore
-
+        self.indexes            = indexes
+              
         # representation 	
         self.vao            = None
         self.ind_vbo        = None
@@ -900,9 +913,11 @@ class NonBondedRepresentation (Representation):
     def _make_gl_vao_and_vbos (self, indexes = None):
         """ Function doc """
         if indexes is not None:
-            pass
+            self.indexes =  indexes
+            pass        
+        
         else:
-            indexes = np.array(self.visObj.non_bonded_atoms, dtype=np.uint32)
+            self.indexes = np.array(self.visObj.non_bonded_atoms, dtype=np.uint32)
         
         self.shader_program     = self.glCore.shader_programs[self.name]
         self.sel_shader_program = self.glCore.shader_programs[self.name+'_sel']
@@ -912,13 +927,13 @@ class NonBondedRepresentation (Representation):
         coords  = self.visObj.frames[0]
         colors  = self.visObj.colors
 
-        self._make_gl_representation_vao_and_vbos (indexes    = indexes,
+        self._make_gl_representation_vao_and_vbos (indexes    = self.indexes,
                                                    coords     = coords ,
                                                    colors     = colors ,
                                                    dot_sizes  = None   ,
                                                    )
         colors_idx = self.visObj.color_indexes
-        self._make_gl_sel_representation_vao_and_vbos (indexes    = indexes    ,
+        self._make_gl_sel_representation_vao_and_vbos (indexes    = self.indexes    ,
                                                        coords     = coords     ,
                                                        colors     = colors_idx ,
                                                        dot_sizes  = None       ,
@@ -958,7 +973,7 @@ class NonBondedRepresentation (Representation):
         GL.glDisable(GL.GL_DEPTH_TEST)
         
             
-    def draw_background_sel_representation  (self):
+    def draw_background_sel_representation  (self, line_width_factor = 5):
         """ Function doc """
         self._check_VAO_and_VBOs ()
         GL.glEnable(GL.GL_DEPTH_TEST)
@@ -1135,7 +1150,8 @@ class SpheresRepresentation (Representation):
                        _type = 'mol', 
                       visObj = None, 
                       glCore = None,  
-                       atoms = None,
+                     indexes = None
+                       #atoms = None,
                        #level = 'level_1', 
                        ):
         
@@ -1147,16 +1163,23 @@ class SpheresRepresentation (Representation):
         self.visObj             = visObj
         self.glCore             = glCore
         
+        self.atomic_indexes     = indexes
+        
+        
         # --------------------------------
         #self.level              = level
         self.level              = self.visObj.vismolSession.vConfig.gl_parameters['sphere_quality']
         self.scale              = self.visObj.vismolSession.vConfig.gl_parameters['sphere_scale']
         
         
-        if atoms is None:
+        if self.atomic_indexes is None:
             self.atoms          = self.visObj.atoms
         else:
-            self.atoms          = atoms
+            self.atoms = []
+            for index in self.atomic_indexes:
+                self.atoms.append(self.visObj.atoms[index])
+            
+            #self.atoms          = atoms
         
         
         self.coords             = None
@@ -1188,6 +1211,18 @@ class SpheresRepresentation (Representation):
         self.sel_shader_program = None
      
     
+    def update_atomic_indexes (self, indexes = None):
+        """ Function doc """
+
+        for index in indexes:
+            self.atoms.append(self.visObj.atoms[index])
+            self.atomic_indexes.append(index)
+        
+        self._create_sphere_data() 
+        self._update_sphere_data_to_VBOs () 
+        self.active = True
+        print(self.atomic_indexes)
+        
     def _update_sphere_data_to_VBOs (self):
         """ Function doc """
         
@@ -1462,8 +1497,10 @@ class SpheresRepresentation (Representation):
 
         self.ind_vbo = GL.glGenBuffers(1)
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.ind_vbo)
+        # RAM -> GPU
         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
         
+        # glDeleteBuffers(self.ind_vbo)
         #print (self.coords)
         self.coord_vbo = GL.glGenBuffers(1)
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.coord_vbo)

@@ -35,6 +35,7 @@ import glCore.sphere_data as sph_d
 #import glCore.vismol_shaders as vm_shader
 import glCore.matrix_operations as mop
 import glCore.selection_box as sb
+import glCore.draw_dynamic_line as dl
 import glCore.sphere_representation as sph_r
 
 import glCore.shaders.sticks                  as sticksShaders
@@ -129,17 +130,18 @@ class VisMolGLCore():
         self.mouse_x = 0.0
         self.mouse_y = 0.0
         self.selection_box = sb.SelectionBox()
+        self.dynamic_line  = dl.DynamicLine()
         self.bckgrnd_color = self.vConfig.gl_parameters['background_color'] # list of floats = [1.0,1.0,1.0,1.0]#[78/255, 78/255, 78/255, 1.0]#[0.0,0.0,0.0,1.0]#[0.5,0.5,0.5,1.0] #[0.0,0.0,0.0,1.0] #[1.0,1.0,1.0,1.0] or [0.0,0.0,0.0,1.0]
         
         #light
-        self.light_position       =np.array(self.vConfig.gl_parameters['light_position'] ,dtype=np.float32)        #np.array([-2.5,2.5,3.0]   ,dtype=np.float32)
-        self.light_color          =np.array(self.vConfig.gl_parameters['light_color']    ,dtype=np.float32)        #np.array([1.0,1.0,1.0,1.0],dtype=np.float32)
+        self.light_position       = np.array(self.vConfig.gl_parameters['light_position'] ,dtype=np.float32)        #np.array([-2.5,2.5,3.0]   ,dtype=np.float32)
+        self.light_color          = np.array(self.vConfig.gl_parameters['light_color']    ,dtype=np.float32)        #np.array([1.0,1.0,1.0,1.0],dtype=np.float32)
         
         self.light_ambient_coef   = self.vConfig.gl_parameters['light_ambient_coef']                               #0.4
         self.light_shininess      = self.vConfig.gl_parameters['light_shininess']                                  #5.5
         
-        self.light_intensity      =np.array(self.vConfig.gl_parameters['light_intensity']      ,dtype=np.float32)  #np.array([0.6,0.6,0.6],dtype=np.float32)
-        self.light_specular_color =np.array(self.vConfig.gl_parameters['light_specular_color'] ,dtype=np.float32)  #np.array([1.0,1.0,1.0],dtype=np.float32)
+        self.light_intensity      = np.array(self.vConfig.gl_parameters['light_intensity']      ,dtype=np.float32)  #np.array([0.6,0.6,0.6],dtype=np.float32)
+        self.light_specular_color = np.array(self.vConfig.gl_parameters['light_specular_color'] ,dtype=np.float32)  #np.array([1.0,1.0,1.0],dtype=np.float32)
         
         
         
@@ -157,7 +159,11 @@ class VisMolGLCore():
         self.shift = False
         self.atom_picked = None
         self.picking = False
+        self.selection_box_picking = False
         self.show_selection_box = False
+        
+        self.show_dynamic_line = False#True
+        
         return True
     
     def resize_window(self, width, height):
@@ -218,10 +224,27 @@ class VisMolGLCore():
         self.dragging = False
         if left:
             if self.shift:
-                self.show_selection_box = True
-                self.selection_box.start = self.get_viewport_pos(float(mouse_x), float(mouse_y))
-                self.selection_box.end = self.get_viewport_pos(float(mouse_x), float(mouse_y))
-                self.selection_box.update_points()
+                if self.show_dynamic_line:
+                    self.dynamic_line.start = self.get_viewport_pos(float(mouse_x), float(mouse_y))
+                    self.dynamic_line.end = self.get_viewport_pos(float(mouse_x), float(mouse_y))
+                    self.dynamic_line.update_points()
+                    
+                    self.dynamic_line_x = mouse_x              #self.picking_x
+                    self.dynamic_line_y = self.height - mouse_y#self.picking_y
+                    
+                    #pos = [self.picking_x, self.height - self.picking_y]
+                    print('mouse_pressed and self.shift', self.dynamic_line_x, self.dynamic_line_y)
+                else:
+                    self.show_selection_box = True
+                    self.selection_box.start = self.get_viewport_pos(float(mouse_x), float(mouse_y))
+                    self.selection_box.end = self.get_viewport_pos(float(mouse_x), float(mouse_y))
+                    self.selection_box.update_points()
+                    
+                    self.selection_box_x = mouse_x              #self.picking_x
+                    self.selection_box_y = self.height - mouse_y#self.picking_y
+                    
+                    #pos = [self.picking_x, self.height - self.picking_y]
+                    print('mouse_pressed and self.shift', self.selection_box_x, self.selection_box_y)
         if middle:
             self.picking_x = mouse_x
             self.picking_y = mouse_y
@@ -253,12 +276,15 @@ class VisMolGLCore():
         if self.dragging:
             if left:
                 if self.shift:
-                    self.show_selection_box = False
-                    self.selection_box.start = None
-                    self.selection_box.end = None
+                    self.selection_box_picking = True
+                    self.show_selection_box    = False
+                    self.selection_box.start   = None
+                    self.selection_box.end     = None
                     self.queue_draw()
+        
         else:
-            if left:
+            if left:                    
+                
                 self.picking_x = mouse_x
                 self.picking_y = mouse_y
                 self.picking = True
@@ -348,9 +374,16 @@ class VisMolGLCore():
         """
         x = float(mouse_x)
         y = float(mouse_y)
+        #print(x,y)
         #state = event.state
         dx = x - self.mouse_x
         dy = y - self.mouse_y
+        
+        #print(self.get_viewport_pos(float(mouse_x), float(mouse_y)))
+        #print(x,y,  self.height - self.mouse_y)
+        
+        
+        
         if (dx==0 and dy==0):
             return
         self.mouse_x, self.mouse_y = x, y
@@ -377,7 +410,9 @@ class VisMolGLCore():
                     self.model_mat = mop.my_glTranslatef(self.model_mat, np.array([0.0, 0.0, -self.scroll]))
                 if down:
                     self.model_mat = mop.my_glTranslatef(self.model_mat, np.array([0.0, 0.0, self.scroll]))
-                for visObj in self.vismolSession.vismol_objects:
+                
+                for index , visObj in self.vismolSession.vismol_objects_dic.items():
+                #for visObj in self.vismolSession.vismol_objects:
                     if up:
                         visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, -self.scroll]))
                     if down:
@@ -393,7 +428,8 @@ class VisMolGLCore():
             
             
             else:
-                for visObj in self.vismolSession.vismol_objects:
+                for index , visObj in self.vismolSession.vismol_objects_dic.items():
+                #for visObj in self.vismolSession.vismol_objects:
                     if visObj.editing:
                         if up:
                             visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, np.array([0.0, 0.0, -self.scroll]))
@@ -437,8 +473,13 @@ class VisMolGLCore():
         """ Function doc """
         angle = math.sqrt(dx**2+dy**2)/float(self.width+1)*180.0
         if self.shift:
-            self.selection_box.end = self.get_viewport_pos(float(self.mouse_x), float(self.mouse_y))
-            self.selection_box.update_points()
+            if self.show_dynamic_line:
+                self.dynamic_line.end = self.get_viewport_pos(float(self.mouse_x), float(self.mouse_y))
+                self.dynamic_line.update_points()
+            else:
+                self.selection_box.end = self.get_viewport_pos(float(self.mouse_x), float(self.mouse_y))
+                self.selection_box.update_points()
+        
         else:
             if self.ctrl:
                 if abs(dx) >= abs(dy):
@@ -454,7 +495,8 @@ class VisMolGLCore():
             else:
                 rot_mat = mop.my_glRotatef(np.identity(4), angle, np.array([-dy, -dx, 0.0]))
             if self.editing_mols:
-                for visObj in self.vismolSession.vismol_objects:
+                for index , visObj in self.vismolSession.vismol_objects_dic.items():
+                #for visObj in self.vismolSession.vismol_objects:
                     if visObj.editing:
                         visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, rot_mat)
                 
@@ -466,7 +508,8 @@ class VisMolGLCore():
             
             else:
                 self.model_mat = mop.my_glMultiplyMatricesf(self.model_mat, rot_mat)
-                for visObj in self.vismolSession.vismol_objects:
+                for index , visObj in self.vismolSession.vismol_objects_dic.items():
+                #for visObj in self.vismolSession.vismol_objects:
                     visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, rot_mat)
 
                 for key in self.vismolSession.vismol_geometric_object_dic.keys():
@@ -506,7 +549,9 @@ class VisMolGLCore():
              (pz-self.drag_pos_z)*self.glcamera.z_far/10.0]))
         if not self.editing_mols:
             self.model_mat = mop.my_glMultiplyMatricesf(self.model_mat, pan_mat)
-            for visObj in self.vismolSession.vismol_objects:
+            
+            for index , visObj in self.vismolSession.vismol_objects_dic.items():
+            #for visObj in self.vismolSession.vismol_objects:
                 visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, pan_mat)
             
             for key in self.vismolSession.vismol_geometric_object_dic.keys():
@@ -516,7 +561,8 @@ class VisMolGLCore():
             self.zero_reference_point = mop.get_xyz_coords(self.model_mat)
         
         else:
-            for visObj in self.vismolSession.vismol_objects:
+            for index , visObj in self.vismolSession.vismol_objects_dic.items():
+            #for visObj in self.vismolSession.vismol_objects:
                 if visObj.editing:
                     visObj.model_mat = mop.my_glMultiplyMatricesf(visObj.model_mat, pan_mat)
             for key in self.vismolSession.vismol_geometric_object_dic.keys():
@@ -592,12 +638,18 @@ class VisMolGLCore():
         """ This is the function that will be called everytime the window
             needs to be re-drawed.
         """
+        #print('render')
         if self.shader_flag:
             print ('self.create_gl_programs()')
             self.create_gl_programs()
             self.selection_box.initialize_gl()
             self.axis.initialize_gl()
             self.shader_flag = False
+        
+        if self.selection_box_picking:
+            #pass
+            self._selection_box_pick2()
+
         
         if self.picking:
             #self._pick()
@@ -606,7 +658,8 @@ class VisMolGLCore():
         GL.glClearColor(self.bckgrnd_color[0],self.bckgrnd_color[1], self.bckgrnd_color[2],self.bckgrnd_color[3])
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         
-        for visObj in self.vismolSession.vismol_objects:
+        #for visObj in self.vismolSession.vismol_objects:
+        for index, visObj in self.vismolSession.vismol_objects_dic.items():
             # for all the visObj in all created visObjs  
 
             if visObj.active:
@@ -690,6 +743,11 @@ class VisMolGLCore():
                 GL.glUseProgram(0)
                 GL.glDisable(GL.GL_DEPTH_TEST)
         
+        if self.show_dynamic_line and self.shift:
+            if self.dynamic_line.vao is None:
+                self.dynamic_line._make_gl_selection_box()
+            else:
+                self.dynamic_line._draw_selection_box()
         
 
         if self.show_selection_box and self.shift:
@@ -1076,51 +1134,119 @@ class VisMolGLCore():
             raise RuntimeError(GL.glGetShaderInfoLog(shader))
         return shader
     
-    '''
-    def _pick_old(self):
-        """ Function doc
+    
+    def _selection_box_pick2(self):#, mouse_x, mouse_y):
+        """ Selects a set of atoms from pixels obtained by the selection rectangle.  
+            This function (method) is called in the render method, when the 
+            "self.selection_box_picking" attribute is active. 
+        
         """
+        
+        # glReadPixels and glReadnPixels return pixel data from the frame buffer, 
+        # starting with the pixel whose lower left corner is at location (x, y), 
+        # into client memory starting at location data.
+        #
+        # In GTK, x=0 and y=0 set to upper left corner (unlike openGL input data, 
+        # the following lines do the coordinate conversion) 
+        
+        self.selection_box_x2 = self.mouse_x#self.picking_x
+        self.selection_box_y2 = self.height - self.mouse_y#self.picking_y
+        self.selection_box_width  = self.selection_box_x2 - self.selection_box_x
+        self.selection_box_height = self.selection_box_y2 - self.selection_box_y
+        print('mouse_released and self.shift', '\nbox_x    ', self.selection_box_x    , 'box_y     ', self.selection_box_y , 
+                                               '\nbox_x2   ', self.selection_box_x2   , 'box_y2    ', self.selection_box_y2, 
+                                               '\nbox_width', self.selection_box_width, 'box_height', self.selection_box_height)
+                
+        #Looking for the lower left corner of the checkbox 
+        if self.selection_box_width > 0 and self.selection_box_height >0:
+            pos_x = self.selection_box_x
+            pos_y = self.selection_box_y
+            width = self.selection_box_width
+            height = self.selection_box_height
+        
+        elif self.selection_box_width < 0 and self.selection_box_height >0:
+            pos_x = self.selection_box_x2
+            pos_y = self.selection_box_y
+            width = -self.selection_box_width
+            height = self.selection_box_height
+        
+        elif self.selection_box_width < 0 and self.selection_box_height <0:
+            pos_x = self.selection_box_x2
+            pos_y = self.selection_box_y2
+            width =  -self.selection_box_width
+            height = -self.selection_box_height
+        else:
+            pos_x = self.selection_box_x
+            pos_y = self.selection_box_y2
+            width = self.selection_box_width
+            height = -self.selection_box_height
+        
+        # taking the module from the width and height values 
+        if pos_x < 0:
+            pos_x = 0.0
+        if pos_y < 0:
+            pos_y = 0.0
+        print(pos_x, pos_y, width, height)
+
+        
+        
         GL.glClearColor(1,1,1,1)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
-        for visObj in self.vismolSession.vismol_objects:
+        #for visObj in self.vismolSession.vismol_objects:
+        for index , visObj in self.vismolSession.vismol_objects_dic.items():
+
             if visObj.active:
-                if visObj.picking_dots_vao is None:
-                    shapes._make_gl_picking_dots(self.picking_dots_program,  vismol_object = visObj)
-                GL.glEnable(GL.GL_DEPTH_TEST)
-                GL.glUseProgram(self.picking_dots_program)
-                GL.glEnable(GL.GL_VERTEX_PROGRAM_POINT_SIZE)
-                self.load_matrices(self.picking_dots_program, visObj.model_mat)
-                self._draw_picking_dots(visObj = visObj, indexes = False)
-                GL.glDisable(GL.GL_VERTEX_PROGRAM_POINT_SIZE)
-                GL.glUseProgram(0)
-                GL.glDisable(GL.GL_DEPTH_TEST)
+                #visObj has few different types of representations                
+                for rep_name in visObj.representations:
+                    # checking all the representations in visObj.representations dictionary
+                    if visObj.representations[rep_name] is None:
+                        pass
+                    else:
+                        pass
+                        #  visObj.representations[rep_name] may be active or not  True/False
+                        if visObj.representations[rep_name].active:
+                            visObj.representations[rep_name].draw_background_sel_representation()#line_width_factor = 0.1)
+                        else:
+                            pass
+        
         GL.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
-        pos = [self.picking_x, self.height - self.picking_y]
-        data = GL.glReadPixels(pos[0], (pos[1]), 1, 1, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE)
-        pickedID = data[0] + data[1] * 256 + data[2] * 256*256;
-        if pickedID == 16777215:
-            self.atom_picked = None
-            if self.button ==1:
-                self.vismolSession._selection_function (self.atom_picked)
-                print(self.atom_picked)
-                self.button = None
-        else:
-            self.atom_picked = self.vismolSession.atom_dic_id[pickedID]
-            if self.button ==1:
-                self.vismolSession._selection_function (self.atom_picked)
-                print(self.atom_picked)
-                self.button = None
-        self.picking = False
-    '''
+
+        data = GL.glReadPixels(pos_x, pos_y, width, height, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE)
+        data = (list(data))
+        picked_list = []
+        
+        for i in range(0, len(data), 4):#
+            #converting RGB values to atoms address (unique id)
+            pickedID = data[i] + data[i+1] * 256 + data[i+2] * 256*256;
+            picked_list.append(pickedID)
+        
+        picked_set = set(picked_list)
+        #print(set(picked_list))
+        
+        for pickedID in picked_set:
+            if pickedID == 16777215: # white background
+                pass
+            else:
+                #print(pickedID)
+                self.atom_picked = self.vismolSession.atom_dic_id[pickedID]
+                '''
+                The disable variable does not allow, if the selected 
+                atom is already in the selected list, to be removed. 
+
+                The disable variable is "False" for when we use 
+                selection by area (selection box)
+                '''
+                self.vismolSession._selection_function (selected = self.atom_picked, disable = False) #selected, _type = None, disable = True
+        self.selection_box_picking = False
+        #return True
+    
     
     def _pick2(self):
         """ Function doc """
         GL.glClearColor(1,1,1,1)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
-        for visObj in self.vismolSession.vismol_objects:
-            #if visObj.active:
-            #    _draw_background_sel_representation
-
+        #for visObj in self.vismolSession.vismol_objects:
+        for index , visObj in self.vismolSession.vismol_objects_dic.items():
             if visObj.active:
                 #visObj has few different types of representations
                 
@@ -1129,7 +1255,6 @@ class VisMolGLCore():
                     if visObj.representations[rep_name] is None:
                         pass
                     else:
-                        
                         #  visObj.representations[rep_name] may be active or not  True/False
                         if visObj.representations[rep_name].active:
                             visObj.representations[rep_name].draw_background_sel_representation()
@@ -1138,41 +1263,13 @@ class VisMolGLCore():
 
         GL.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
         pos = [self.picking_x, self.height - self.picking_y]
-        data = GL.glReadPixels(pos[0], (pos[1]), 1, 1, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE)
-        pickedID = data[0] + data[1] * 256 + data[2] * 256*256;
-        
-        
-        ''' AREA selection  -  underconstrution 
-        x, y
-            Specify the window coordinates of the first pixel that is read from the frame buffer. This location is the lower left corner of a rectangular block of pixels.
-        width, height
+        #print(self.mouse_x, self.mouse_y, pos)
+        data = GL.glReadPixels(pos[0], pos[1], 1, 1, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE)
 
-            Specify the dimensions of the pixel rectangle. width and height of one correspond to a single pixel.
-        format
-            Specifies the format of the pixel data. The following symbolic values are accepted: GL_RGBA, and GL_RGBA_INTEGER. An implementation-chosen format will also be accepted. This can be queried with glGet and GL_IMPLEMENTATION_COLOR_READ_FORMAT.
-        type
-            Specifies the data type of the pixel data. Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_INT, GL_UNSIGNED_INT_2_10_10_10_REV, GL_INT, or GL_FLOAT. An implementation-chosen type will also be accepted. This can be queried with glGet and GL_IMPLEMENTATION_COLOR_READ_TYPE.
-        data
-            Returns the pixel data.
-        
-        '''
-        # #'''
-        # data2 = GL.glReadPixels(pos[0], (pos[1]), 2, 2, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE)
-        # #print(data)
-        # print(data2)
-        # 
-        # c = 0
-        # a = []
-        # for i in data2:
-        #     #print(i)
-        #     a.append(i) 
-        #     c+=1
-        #     if c >2:
-        #         print(a)           
-        #         a = []
-        #         c = 0
-        #     #print(data2[0] + data2[1] * 256 + data2[2] * 256*256)
-        # #'''
+        #converting RGB values to atoms address (unique id)
+        pickedID = data[0] + data[1] * 256 + data[2] * 256*256;
+        if self.vismolSession._picking_selection_mode:
+            print('_picking_selection_mode = True',data, pickedID)
 
         '''
         pickedID == 16777215
@@ -1531,7 +1628,7 @@ class VisMolGLCore():
             documentation for more details about this function.
         """
         self.selection_box._draw_selection_box()
-    
+        #print('_draw_selection_box')
     def _pressed_Control_L(self):
         """ Function doc
         """
@@ -1611,7 +1708,9 @@ class VisMolGLCore():
             step = dist/15.0
             for i in range(15):
                 to_move = unit_vec * step
-                for visObj in self.vismolSession.vismol_objects:
+                
+                for index , visObj in self.vismolSession.vismol_objects_dic.items():
+                #for visObj in self.vismolSession.vismol_objects:
                     visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, -to_move)
                 
                 for key in self.vismolSession.vismol_geometric_object_dic.keys():
@@ -1624,7 +1723,9 @@ class VisMolGLCore():
                 self.parent_widget.get_window().process_updates(False)
                 # WARNING: Method only works with GTK!!!
                 time.sleep(self.vConfig.gl_parameters['center_on_coord_sleep_time'])
-            for visObj in self.vismolSession.vismol_objects:
+            
+            for index , visObj in self.vismolSession.vismol_objects_dic.items():
+            #for visObj in self.vismolSession.vismol_objects:
                 model_pos = visObj.model_mat.T.dot(pos)[:3]
                 visObj.model_mat = mop.my_glTranslatef(visObj.model_mat, -model_pos)
             
@@ -1641,7 +1742,8 @@ class VisMolGLCore():
         """ Function doc
         """
         print(self.model_mat,"<== widget model_mat")
-        for visObj in self.vismolSession.vismol_objects:
+        for index , visObj in self.vismolSession.vismol_objects_dic.items():
+        #for visObj in self.vismolSession.vismol_objects:
             print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             print(visObj.model_mat,"<== visObj model_mat")
     

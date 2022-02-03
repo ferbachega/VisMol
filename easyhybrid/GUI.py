@@ -4,8 +4,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from GTKGUI.gtkWidgets.filechooser import FileChooser
 from easyhybrid.pDynamoMethods.pDynamo2Vismol import *
-
-
+import gc
 import os
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 
@@ -257,7 +256,25 @@ class EasyHybridImportTrajectoryWindow:
             self.window.set_title('Import Trajectory Window')
             self.window.set_keep_above(True)
             '''--------------------------------------------------------------------------------------------'''
-            #self.method_store = Gtk.ListStore(str)
+            
+            self.combobox_pdynamo_system = self.builder.get_object('combobox_pdynamo_system')
+            renderer_text = Gtk.CellRendererText()
+            self.combobox_pdynamo_system.add_attribute(renderer_text, "text", 0)
+
+            self.system_liststore = Gtk.ListStore(str)
+            
+            names = [ ]
+            for system_key in self.easyhybrid_main.pDynamo_session.systems.keys():
+                sys = self.easyhybrid_main.pDynamo_session.systems[system_key]
+                names.append(sys['name'] )
+                print(sys['name'] )
+            
+            for name in names:
+                self.system_liststore.append([name])
+            
+            self.combobox_pdynamo_system.set_model(self.system_liststore)
+            self.combobox_pdynamo_system.set_active(0)
+            
             #methods = [
             #    "Conjugate Gradient" ,
             #    "FIRE"               ,
@@ -281,6 +298,21 @@ class EasyHybridImportTrajectoryWindow:
             self.combox.set_active(0)
             self.window.show_all()
             self.Visible  = True
+    
+    def import_data (self, button):
+        """ Function doc """
+        entry_name    = None
+        idnum     = self.combobox_pdynamo_system.get_active()
+        text      = self.combobox_pdynamo_system.get_active_text()
+        
+        print(idnum, text )
+        #traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
+        #logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
+        #max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
+        #rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
+        #entry_name    =        self.builder.get_object('entry_name').get_text()  
+        #
+        #save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
     
     def CloseWindow (self, button, data  = None):
         """ Function doc """
@@ -571,7 +603,7 @@ class EasyHybridDialogEnergy(Gtk.Dialog):
         )
 
         self.set_default_size(300, 100)
-
+        
         label = Gtk.Label(label="Energy = {0:.5f} (KJ/mol)".format(energy))
 
         box = self.get_content_area()
@@ -580,6 +612,201 @@ class EasyHybridDialogEnergy(Gtk.Dialog):
 
 
 
+class EasyHybridMergeSystem(Gtk.Window):
+    """ Class doc """
+    
+    def OpenWindow (self):
+        """ Function doc """
+        if self.Visible  ==  False:
+            self.builder = Gtk.Builder()
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/merge_systems.glade'))
+            self.builder.connect_signals(self)
+            
+            self.window = self.builder.get_object('Merge_systems_window')
+            self.box1   = self.builder.get_object('box1')
+            self.box2   = self.builder.get_object('box2')
+            self.entry  = self.builder.get_object('merge_entry')
+            '''--------------------------------------------------------------------------------------------'''
+            self.system_type_store = Gtk.ListStore(int, str)
+            
+            for index, system in self.easyhybrid_main.pDynamo_session.systems.items():
+                
+                name  = "{} {}".format(index, system['name'] )
+                print(name)
+                #name = 'teste'
+                self.system_type_store.append([index, name])
+           
+            
+            self.combo1 = Gtk.ComboBox.new_with_model(self.system_type_store)
+            self.combo2 = Gtk.ComboBox.new_with_model(self.system_type_store)
+            
+            self.box1.pack_start(self.combo1, True, True, 0)
+            self.box2.pack_start(self.combo2, True, True, 0)
+
+            
+            renderer_text = Gtk.CellRendererText()
+            self.combo1.pack_start(renderer_text, True)
+            self.combo1.add_attribute(renderer_text, "text", 1)
+            
+            renderer_text = Gtk.CellRendererText()
+            self.combo2.pack_start(renderer_text, True)
+            self.combo2.add_attribute(renderer_text, "text", 1)
+            '''--------------------------------------------------------------------------------------------'''
+
+            
+            self.window.show_all()                                               
+            self.builder.connect_signals(self)                                   
+
+            self.Visible  =  True
+            #----------------------------------------------------------------
+    
+    def ok_button (self, button):
+        """ Function doc """
+        print(button)
+        print(self.combo1.get_active())
+        print(self.combo1.get_active_id())
+        print(self.combo1.get_active_iter())
+        print(self.combo2.get_active())
+        
+        name1 = None
+        name2 = None
+        
+        tree_iter = self.combo1.get_active_iter()
+        if tree_iter is not None:
+            model    = self.combo1.get_model()
+            name1    = model[tree_iter][1]
+            index1   = model[tree_iter][0]
+            print("Selected: system =%s" % index1, name1)
+        
+        tree_iter = self.combo2.get_active_iter()
+        if tree_iter is not None:
+            model    = self.combo2.get_model()
+            name2    = model[tree_iter][1]
+            index2   = model[tree_iter][0]
+            print("Selected: system =%s" % index2, name2)
+        
+        
+        new_system_label = self.entry.get_text()
+        
+        
+        if index2 != index1 and name1 is not None and name2 is not None:
+            
+            
+            system1 = self.easyhybrid_main.pDynamo_session.systems[index1]['system']
+            system2 = self.easyhybrid_main.pDynamo_session.systems[index2]['system']
+            system1.Summary()
+            system2.Summary()
+            print(system1)
+            print(system2)
+            self.easyhybrid_main.pDynamo_session.merge_systems (system1 = system1, 
+                                                                system2 = system2, 
+                                                                label   = 'Merged System', 
+                                                                summary = True)
+            
+            
+            
+            
+            
+        
+        
+        
+    
+    
+    
+    def CloseWindow (self, button, data  = None):
+        """ Function doc """
+        self.window.destroy()
+        self.Visible    =  False
+    
+    def __init__(self, main = None):
+        """ Class initialiser """
+        self.easyhybrid_main     = main
+        self.Visible             =  False        
+        
+
+
+
+
+
+#
+#class EasyHybridMergeSystem:
+#    """ Class doc """
+#    def OpenWindow (self):
+#        """ Function doc """
+#        if self.Visible  ==  False:
+#            self.builder = Gtk.Builder()
+#            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/merge_systems.glade'))
+#            self.builder.connect_signals(self)
+#            
+#            self.window = self.builder.get_object('Merge_systems_window')
+#            self.window.set_title('Merge pDynamo Systems - Window')
+#            self.window.set_keep_above(True)
+#            '''--------------------------------------------------------------------------------------------'''
+#            
+#            #'''
+#            self.system_liststore = Gtk.ListStore(int, str)
+#            
+#            self.box1 = self.builder.get_object('box1')
+#            self.box2 = self.builder.get_object('box2')
+#            self.main_box = self.builder.get_object('main_box')
+#            #renderer_text  = Gtk.CellRendererText()
+#            #renderer_text2 = Gtk.CellRendererText()
+#            
+#            #self.combobox_1.add_attribute(renderer_text, "text", 1)
+#            #self.combobox_2.add_attribute(renderer_text2, "text", 1)
+#            
+#            
+#            for index, system in self.easyhybrid_main.pDynamo_session.systems.items():
+#                
+#                name  = "{} {}".format(index, system['name'] )
+#                print(name)
+#                name = 'teste'
+#                self.system_liststore.append([1,name])
+#
+#            #self.system_types_combo = Gtk.ComboBox.new_with_model(self.system_type_store)
+#            
+#            
+#            self.combobox_1 = Gtk.ComboBox.new_with_model(self.system_liststore) 
+#            renderer_text = Gtk.CellRendererText()
+#            self.combobox_1.pack_start(renderer_text, True)
+#            
+#            self.combobox_2 = Gtk.ComboBox.new_with_model(self.system_liststore)
+#            renderer_text = Gtk.CellRendererText()            
+#            self.combobox_2.pack_start(renderer_text, True)
+#
+#            
+#            self.box1.pack_start(self.box1, True, True, 0)
+#            self.box2.pack_start(self.box2, True, True, 0)
+#            
+#            #self.button = Gtk.Button()
+#            #self.main_box.pack_start(self.button, True, True, 0)
+#            
+#            self.combobox_1.show_all()
+#            self.combobox_2.show_all()
+#
+#            self.window.show_all()
+#            self.Visible  = True
+#    
+#    def ok_button (self, button):
+#        """ Function doc """
+#        print(button)
+#        #entry_name    = None
+#        #idnum     = self.combobox_pdynamo_system.get_active()
+#        #text      = self.combobox_pdynamo_system.get_active_text()
+#        
+#        #print(idnum, text )
+#    
+#    def CloseWindow (self, button, data  = None):
+#        """ Function doc """
+#        self.window.destroy()
+#        self.Visible    =  False
+#    
+#    
+#    def __init__(self, main = None):
+#        """ Class initialiser """
+#        self.easyhybrid_main     = main
+#        self.Visible             =  False        
+#
 
 
 class EasyHybridMainWindow ( ):
@@ -589,16 +816,13 @@ class EasyHybridMainWindow ( ):
         """ Class initialiser """
         self.builder = Gtk.Builder()
         self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/MainWindow.glade'))
+        #self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/toolbar_builder.glade'))
         self.builder.connect_signals(self)
         self.window = self.builder.get_object('window1')
         self.window.set_default_size(1000, 600)                          
         
-        
-
-        
-        # togglebutton 
-        #self.togglebutton1 = self.builder.get_object('togglebutton1')
-        #self.togglebutton1.connect('clicked', self.menubar_togglebutton1)
+        #self.toolbar_builder = self.builder.get_object('toolbar_builder') 
+        #self.builder.get_object('box1').pack_start(self.toolbar_builder, True, True, 1)
         
         # Status Bar
         self.statusbar_main = self.builder.get_object('statusbar1')
@@ -632,6 +856,7 @@ class EasyHybridMainWindow ( ):
            (it does not depend on the creation of Treeview)'''
         #self.Vismol_Objects_ListStore = self.vismolSession.Vismol_Objects_ListStore
         
+        #self.box2.pack_start(self.toolbar_builder, True, True, 1)
         
         #-------------------------------------------------------------------      
         #                         notebook_V1
@@ -724,16 +949,17 @@ class EasyHybridMainWindow ( ):
         self.pDynamo_session = pDynamoSession(vismolSession = vismolSession)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
-        self.NewSystemWindow      = EasyHybridImportANewSystemWindow(main = self)
-        self.setup_QCModel_window = EasyHybridSetupQCModelWindow(main = self)
-        self.import_trajectory_window = EasyHybridImportTrajectoryWindow(main = self)
+        self.NewSystemWindow              = EasyHybridImportANewSystemWindow(main = self)
+        self.setup_QCModel_window         = EasyHybridSetupQCModelWindow(main = self)
+        self.import_trajectory_window     = EasyHybridImportTrajectoryWindow(main = self)
         self.geometry_optimization_window = EasyHybridGeometryOptimizatrionWindow(main = self)
+        self.merge_pdynamo_systems_window = EasyHybridMergeSystem(main = self)
         
-
+        self.window.connect("destroy", Gtk.main_quit)
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
 
-        Gtk.main()
+        #Gtk.main()
 
     def run (self):
         """ Function doc """
@@ -755,11 +981,24 @@ class EasyHybridMainWindow ( ):
     
     def gtk_load_files (self, button):
         filename = self.filechooser.open()
+        #print('aqui ohh')
+        
+
         
         if filename:
-            files = {'coordinates': filename}
-            systemtype = 3
-            self.pDynamo_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
+            if filename[-4:] == 'easy':
+                print('ehf file')            
+                self.vismolSession.load_easyhybrid_serialization_file(filename)
+                #infile = open(filename,'wb')
+                #data = pickle.load(infile)
+                #self.vismolSession.
+                #pickle.dump(data, outfile)
+                #outfile.close()
+            
+            else:
+                files = {'coordinates': filename}
+                systemtype = 3
+                self.pDynamo_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
         else:
             pass
 
@@ -771,6 +1010,17 @@ class EasyHybridMainWindow ( ):
             #self.dialog_import_a_new_systen.hide()
             self.NewSystemWindow.OpenWindow()
         
+        
+        
+        
+        
+        if button  == self.builder.get_object('toolbutton_save'):
+            self.vismolSession.save_serialization_file()
+
+            
+            
+            
+
         if button  == self.builder.get_object('toolbutton_energy'):
             energy = self.pDynamo_session.get_energy()
             #print(energy)
@@ -823,9 +1073,13 @@ class EasyHybridMainWindow ( ):
         """ Function doc """
         print (button)
         
-
-
-
+    def on_main_menu_activate (self, menuitem):
+        """ Function doc """
+        print(menuitem)
+        
+        if menuitem == self.builder.get_object('menu_item_merge_system'):
+            print(menuitem, 'menu_item_merge_system')
+            self.merge_pdynamo_systems_window.OpenWindow()
 
 class GtkEasyHybridMainTreeView(Gtk.TreeView):
     
@@ -835,59 +1089,107 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         self.vismolSession = vismolSession
         self.treeview_menu = TreeViewMenu(self)
         self.treestore     = self.vismolSession.treestore
-        #--------------------------------------------------------------
-
-        self.set_model(self.treestore)
-        
-
-        #------------------ r a d i o  ------------------
-        renderer_radio = Gtk.CellRendererToggle()
-        renderer_radio.set_radio(True)
-        renderer_radio.connect("toggled", self.on_cell_radio_toggled)
-        column_radio = Gtk.TreeViewColumn("active", renderer_radio,    active=2, visible = 4)
-        self.append_column(column_radio)
-        
-
+        #--------------------------------------------------------------                                  
+                                                                                                         
+        self.set_model(self.treestore)                                                                   
+                                                                                                         
+                                                                                                         
+        #------------------ r a d i o  ------------------                                                
+        renderer_radio = Gtk.CellRendererToggle()                                                        
+        renderer_radio.set_radio(True)                                                                   
+        renderer_radio.connect("toggled", self.on_cell_radio_toggled)                                    
+        column_radio = Gtk.TreeViewColumn("active", renderer_radio,    active=3, visible = 4)            
+        self.append_column(column_radio)                                                                 
+                                                                                                         
+                                                                                                         
         
         #------------------  t e x t  ------------------
         renderer_text = Gtk.CellRendererText()
         column_text = Gtk.TreeViewColumn("Object", renderer_text, text=0)
         self.append_column(column_text)  
         
-        #------------------  t e x t  ------------------
-        renderer_text = Gtk.CellRendererText()
-        column_text = Gtk.TreeViewColumn("id", renderer_text, text=5,  visible = 6)
-        self.append_column(column_text)  
+
         
         #----------------- t o g g l e ------------------
         renderer_toggle = Gtk.CellRendererToggle()
         renderer_toggle.connect("toggled", self.on_cell_toggled)
-        column_toggle = Gtk.TreeViewColumn("Visible", renderer_toggle, active=1, visible = 3)
+        #column_toggle = Gtk.TreeViewColumn("Visible", renderer_toggle, active=1, visible = 3)
+        column_toggle = Gtk.TreeViewColumn("V", renderer_toggle, active=1, visible = 2)
         self.append_column(column_toggle)
 
+
+        #------------------ r a d i o ------------------
+
+        renderer_radio2 = Gtk.CellRendererToggle()
+        renderer_radio2.set_radio(True)
+        renderer_radio2.connect("toggled", self.on_cell_radio_toggled2)
+        column_radio2 = Gtk.TreeViewColumn("T", renderer_radio2, active = 5, visible = 6)
+        self.append_column(column_radio2) 
+
+
+        #'''
+        renderer_text = Gtk.CellRendererText()
+        column_text = Gtk.TreeViewColumn("F", renderer_text, text=9,  visible = 6)
+        self.append_column(column_text)  
+        #'''
 
 
         self.connect('button-release-event', self.on_treeview_Objects_button_release_event )
 
 
     def on_cell_toggled(self, widget, path):
+        
         self.treestore[path][1] = not self.treestore[path][1]
         #for i in path:
         #print(self.treestore[path][1], path, self.treestore[path][0],self.treestore[path][-1] )
 
 
         if self.treestore[path][1]:
-            obj_index = self.treestore[path][5]
+            obj_index = self.treestore[path][7]
             #print('obj_index', obj_index)
-            self.vismolSession.enable_by_index(index = int(obj_index), dictionary = True)
+            self.vismolSession.enable_by_index(index = int(obj_index))
             self.vismolSession.glwidget.queue_draw()
         else:
-            obj_index = self.treestore[path][5]
-            #print('obj_index else', obj_index)
+            obj_index = self.treestore[path][7]
 
-            self.vismolSession.disable_by_index(index = int(obj_index), dictionary = True)
+            self.vismolSession.disable_by_index(index = int(obj_index))
             self.vismolSession.glwidget.queue_draw()
 
+
+    def on_cell_radio_toggled2(self, widget, path):
+        #widget.set_active()
+
+        #selected_path = Gtk.TreePath(path)
+        #print('selected_path:', selected_path)
+        
+        print('path:', path)
+        print(widget)
+        
+        for treeview_iter in self.vismolSession.gtk_treeview_iters:
+            self.treestore[treeview_iter][5] = False
+            print(self.treestore[treeview_iter][0])
+        self.treestore[path][5] = True
+        #paths = []
+        
+        #for i, row in enumerate(self.treestore):
+        #    #print (i, row, row.path)
+        #    self.treestore[row.path][5] = False
+        #    paths.append(row.path)
+        #    #row[5] = False #row.path == selected_path
+        
+        #print ( '\n path:              ', path, 
+        #        '\n path:              ', type(path), 
+        #        '\n treestore:         ', self.treestore['0:2'][5], 
+        #        '\n treestore[path][5]:', self.treestore)
+        
+        
+        '''
+        for row in self.treestore:
+            print(row, self.treestore['0:2'])
+            for row2 in row:
+                print(row2)
+        '''
+        
   
     def on_cell_radio_toggled(self, widget, path):
         selected_path = Gtk.TreePath(path)
@@ -895,14 +1197,14 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         print(widget)
         
         for row in self.treestore:
-            row[2] = row.path == selected_path
-            if row[2]:
-                self.main_session.pDynamo_session.active_id = row[7]
+            row[3] = row.path == selected_path
+            if row[3]:
+                self.main_session.pDynamo_session.active_id = row[8]
             else:
                 pass
             
-            for i,j in enumerate(row):
-                print(i, j, 'row[2]', row[2], row[7],selected_path,row.path)#(row[2], row.path, selected_path)
+            #for i,j in enumerate(row):
+            #    print(i, j, 'row[2]', row[2], row[8],selected_path,row.path)#(row[2], row.path, selected_path)
         
         print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
 
@@ -918,131 +1220,17 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             #print(self.treestore)
             
             (model, iter) = selection.get_selected()
-            
-            print (model[iter][:], iter)
-            #if iter != None:
-            #    self.selectedID  = str(model.get_value(iter, 1))  # @+
-            #    self.selectedObj = str(model.get_value(iter, 2))
-            #    print(self.selectedID, self.selectedObj)
-            #    self.treeview_menu.open_menu(self.selectedObj)
-            #    
-            #    #self.builder.get_object('TreeViewObjLabel').set_label('- ' +self.selectedObj+' -' )
-            #
-            #    #widget = self.builder.get_object('treeview_menu')
-            #    #widget.popup(None, None, None, None, event.button, event.time)
-            #    #print ('button == 3')
-
-
-        if event.button == 2:
-            selection     = tree.get_selection()
-            model         = tree.get_model()
-            (model, iter) = selection.get_selected()
-            #pymol_object = model.get_value(iter, 0)
-            #self.refresh_gtk_main_self.treeView()
-            print ('button == 2')
-            
-            self.selectedID  = int(model.get_value(iter, 1))  # @+
-            visObj = self.vismolSession.vismol_objects[self.selectedID]
-            self.vismolSession.center(visObj)
-
-        if event.button == 1:
-            print ('event.button == 1:')
-        
-        
-class GtkMainTreeView(Gtk.TreeView):
-    """ Class doc """
-    
-    def __init__ (self, vismolSession):
-        """ Class initialiser """
-        
-        Gtk.TreeView.__init__(self)
-        self.vismolSession = vismolSession
-        self.treeview_menu = TreeViewMenu(self)
-        #self.store         = Gtk.ListStore(bool,str , str ,str, str)
-        self.store         = vismolSession.Vismol_Objects_ListStore
-
-        self.set_model(self.store)
-
-
-
-        #----------------------------------------------------------------------
-        # the cellrenderer for the second column - boolean rendered as a toggle
-        renderer_toggle = Gtk.CellRendererToggle()
-        # the second column is created
-        column_in_out = Gtk.TreeViewColumn("", renderer_toggle, active=0)
-        # and it is appended to the treeview
-        self.append_column(column_in_out)
-        # connect the cellrenderertoggle with a callback function
-        renderer_toggle.connect("toggled", self.on_toggled)
-
-
-        # the cellrenderer for text columns
-        renderer_text = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("id",     renderer_text, text=1)
-        self.append_column(column)
-
-        renderer_text = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("Object", renderer_text, text=2)
-        self.append_column(column)
-    
-        renderer_text = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("Atoms",  renderer_text, text=3)
-        self.append_column(column)
-    
-        renderer_text = Gtk.CellRendererText()
-        column = Gtk.TreeViewColumn("Frames", renderer_text, text=4)
-        self.append_column(column)
-
-        self.connect('button-release-event', self.on_treeview_Objects_button_release_event )
-        #----------------------------------------------------------------------
-
-    
-    
-    def on_toggled(self, widget, path):
-        # the boolean value of the selected row
-        current_value = self.store[path][0]
-
-        # change the boolean value of the selected row in the model
-        self.store[path][0] = not current_value       
-        if self.store[path][0]:
-            obj_index = self.store[path][1]
-            self.vismolSession.enable_by_index(int(obj_index))
-            self.vismolSession.glwidget.queue_draw()
-        else:
-            obj_index = self.store[path][1]
-            self.vismolSession.disable_by_index(int(obj_index))
-            self.vismolSession.glwidget.queue_draw()
- 
-    
-    def append(self, visObj):
-        i = self.vismolSession.vismol_objects.index(visObj)
-        
-        data = [visObj.active         , 
-               str(i)                 ,
-               visObj.name            , 
-               str(len(visObj.atoms)) , 
-               str(len(visObj.frames)),
-               ]
-        print (data)
-        self.store.append(data)
-        #self.set_model(self.liststore)
-    
-    def remove (self):
-        """ Function doc """
-        
-    def on_treeview_Objects_button_release_event(self, tree, event):
-        if event.button == 3:
-            selection     = self.get_selection()
-            model         = self.get_model()
-            (model, iter) = selection.get_selected()
+            for item in model:
+                print (item[0], model[iter][0])
+            print (model[iter][:], iter, model, tree )
             if iter != None:
                 self.selectedID  = str(model.get_value(iter, 1))  # @+
                 self.selectedObj = str(model.get_value(iter, 2))
-    
+                print(self.selectedID, self.selectedObj)
                 self.treeview_menu.open_menu(self.selectedObj)
                 
                 #self.builder.get_object('TreeViewObjLabel').set_label('- ' +self.selectedObj+' -' )
-
+            
                 #widget = self.builder.get_object('treeview_menu')
                 #widget.popup(None, None, None, None, event.button, event.time)
                 #print ('button == 3')
@@ -1056,17 +1244,16 @@ class GtkMainTreeView(Gtk.TreeView):
             #self.refresh_gtk_main_self.treeView()
             print ('button == 2')
             
-            self.selectedID  = int(model.get_value(iter, 1))  # @+
-            visObj = self.vismolSession.vismol_objects[self.selectedID]
+            self.selectedID  = int(model.get_value(iter, 7))  # @+
+            print(self.selectedID, model.get_value(iter, 7))
+            print (model[iter][:], iter)
+            visObj = self.vismolSession.vismol_objects_dic[self.selectedID]
             self.vismolSession.center(visObj)
 
         if event.button == 1:
             print ('event.button == 1:')
-  
-  
-  
-    
-
+        
+        
 class TreeViewMenu:
     """ Class doc """
     
@@ -1076,12 +1263,21 @@ class TreeViewMenu:
         self.treeview = treeview
         self.filechooser   = FileChooser()
         functions = {
-                'test':self.f1 ,
-                'f1': self.f1,
-                'f2': self.f2,
-                'delete': self.f3,
-        }
-        self.build_glmenu(functions)
+                    'rename'                : self.f1 ,
+                    'info'                  : self.f1 ,
+                    'load data into system' : self.f1 ,
+                    'define color palette'  : self.f2 ,
+                    'edit parameters'       : self.f2 ,
+                    'export as...'          : self.f3 ,
+                    'merge system with...'  : self.f3 ,
+                    'delete'                : self.f3 ,
+                    #'test'  : self.f1 ,
+                    #'f1'    : self.f1 ,
+                    #'f2'    : self.f2 ,
+                    #'gordão': self.f3 ,
+                    #'delete': self.f3 ,
+                    }
+        self.build_tree_view_menu(functions)
 
 
 
@@ -1095,26 +1291,24 @@ class TreeViewMenu:
         
         infile = self.filechooser.open()
         
-        self.treeview.vismolSession.load_xyz_coords_to_vismol_obejct(infile , visObj)
+        self.treeview.vismolSession.load_xyz_coords_to_vismol_object(infile , visObj)
         
         print (infile)
         
         
         self.treeview.store .clear()
-        for vis_object in self.treeview.vismolSession.vismol_objects:
+        #self.vismolSession.vismol_objects_dic.items()
+        for index, vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
             print ('\n\n',vis_object.name,'\n\n')
             data = [vis_object.active          , 
-                    str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
+                    #str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
+                    str(index),
                     vis_object.name            , 
                     str(len(vis_object.atoms)) , 
                     str(len(vis_object.frames)),
                    ]
             model.append(data)
-        #self.treeview.vismolSession.glwidget.queue_draw()
-    
-        #self.treeview.vismolSession.go_to_atom_window.OpenWindow()
-    
-    
+
     def f2 (self, visObj = None):
         """ Function doc """
         #print('f2')
@@ -1132,17 +1326,22 @@ class TreeViewMenu:
         
         
         
-        #visObj = self.treeview.vismolSession.vismol_objects[self.selectedID]
-        visObj = self.treeview.vismolSession.vismol_objects.pop(self.selectedID)
+        del self.treeview.vismolSession.vismol_objects_dic[self.selectedID]
+        '''
+        visObj = self.treeview.vismolSession.vismol_objects_dic.pop(self.selectedID)
         del visObj
-        self.treeview.store .clear()
+        '''
+        self.treeview.store.clear()
         #n = 0
         #i = 1
-        for vis_object in self.treeview.vismolSession.vismol_objects:
+        
+        #self.vismolSession.vismol_objects_dic.items()
+        #for vis_object in self.treeview.vismolSession.vismol_objects:
+        for vobj_index ,vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
             print ('\n\n',vis_object.name,'\n\n')
 
             data = [vis_object.active          , 
-                    str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
+                    str(vobj_index),
                     vis_object.name            , 
                     str(len(vis_object.atoms)) , 
                     str(len(vis_object.frames)),
@@ -1158,24 +1357,24 @@ class TreeViewMenu:
         
         #print('f3')
 
-    def build_glmenu (self, menu_items = None):
+    def build_tree_view_menu (self, menu_items = None):
         """ Function doc """
-        self.glMenu = Gtk.Menu()
+        self.tree_view_menu = Gtk.Menu()
         for label in menu_items:
             mitem = Gtk.MenuItem(label)
             mitem.connect('activate', menu_items[label])
-            self.glMenu.append(mitem)
-            mitem = Gtk.SeparatorMenuItem()
-            self.glMenu.append(mitem)
+            self.tree_view_menu.append(mitem)
+            #mitem = Gtk.SeparatorMenuItem()
+            #self.tree_view_menu.append(mitem)
 
-        self.glMenu.show_all()
+        self.tree_view_menu.show_all()
 
     def open_menu (self, visObj = None):
         """ Function doc """
         print (visObj)
         
-        
-        self.glMenu.popup(None, None, None, None, 0, 0)
+        #print('AQ?UIIIIIIIIIIII')
+        self.tree_view_menu.popup(None, None, None, None, 0, 0)
 
 
 
