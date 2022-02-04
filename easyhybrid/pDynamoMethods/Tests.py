@@ -202,7 +202,7 @@ class Tests:
 		proj=SimulationProject("TIMtest_QCMM_MDs")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 		#testing qcmm MD 
-		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog" }
+		parameters = {"protocol":"production","production_nsteps":10000,"equilibration_nsteps":5000,"MD_method":"LeapFrog" }
 		proj.RunSimulation(parameters,"Molecular_Dynamics")
 		proj.FinishRun()
 
@@ -210,6 +210,27 @@ class Tests:
 	def QCMM_MDrestricted(self):
 		'''
 		'''		
+		proj=SimulationProject("TIMtest_MM_restrictMDs")		
+		proj.LoadSystemFromSavedProject("TIMTest_SetUp.pkl")		
+		#testing qcmm MD 
+		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+
+		atomsf = [ atom1[0], atom2[0], atom3[0] ]
+
+		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+		#1D Simple distance
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
+		parameters = {"protocol":"production","production_nsteps":50000,"equilibration_nsteps":10000,"MD_method":"LeapFrog",
+					 "atoms_M1":atomsf,"atoms_M2":atomss, "forceC":100.0,"ndim":2,"MC_RC1":True,"MC_RC2":True }
+		
+		proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics")
+		proj.FinishRun()
+		#------------------------------------------------------------------
 		proj=SimulationProject("TIMtest_QCMM_restrictMDs")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")		
 		#testing qcmm MD 
@@ -219,8 +240,14 @@ class Tests:
 
 		atomsf = [ atom1[0], atom2[0], atom3[0] ]
 
-		parameters = {"protocol":"production","production_nsteps":2000,"equilibration_nsteps":1000,"MD_method":"LeapFrog",
-					 "atoms":atomsf, "forceC":100.0,"ndim":1,"MultD1":"true" }
+		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+		#1D Simple distance
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
+		parameters = {"protocol":"production","production_nsteps":10000,"equilibration_nsteps":5000,"MD_method":"LeapFrog",
+					 "atoms_M1":atomsf,"atoms_M2":atomss, "forceC":100.0,"ndim":2,"MC_RC1":True,"MC_RC2":True }
 		
 		proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics")
 		proj.FinishRun()
@@ -229,7 +256,7 @@ class Tests:
 	def QCMMScans(self):
 		'''
 		'''
-		proj=SimulationProject("TIMtest_QCMM_Scans")		
+		proj=SimulationProject("TIMtest_QCMM_Scans1DsimpleDistance")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 
 		#testing qcmm MD 
@@ -238,12 +265,8 @@ class Tests:
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 		
-		atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
-		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
-		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
 		#1D Simple distance
-		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
-		atomss = [ atom4[0], atom5[0], atom6[0] ]
+		atomsf = [ atom1[0], atom2[0] ] 
 
 		parameters = { 
 						'ATOMS_RC1':atomsf,
@@ -255,14 +278,31 @@ class Tests:
 
 		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
 		proj.FinishRun()
+
+		#===============================================================
+		projB=SimulationProject("TIMtest_QCMM_Scans1DmultipleDistance")		
+		projB.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+		
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+
+		parameters = { 
+						'ATOMS_RC1':atomsf,
+						'dincre_RC1':0.1,
+						"nSteps_RC1":16,
+						"ndim":1,
+						"MC_RC1":"true"
+					}
+
+		projB.RunSimulation(parameters,"Relaxed_Surface_Scan")		
+		projB.FinishRun()
 		
 	#=======================================================================
 	def QCMMScans2D(self):
-		'''
-		'''
-		proj=SimulationProject("TIMtest_QCMM_Scans2D")		
+		
+		
+		proj=SimulationProject("TIMtest_QCMM_Scans2DsimpleDistance")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
-
+		
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
@@ -272,60 +312,130 @@ class Tests:
 		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
 
 		#1D Simple distance
-		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
-		atomss = [ atom4[0], atom5[0], atom6[0] ]
-
+		atomsf = [ atom1[0],atom2[0] ] 
+		atomss = [ atom4[0], atom5[0] ]
+	
 		parameters = {"maxIterations":1000,"rmsGradient":0.1}
 		proj.RunSimulation(parameters,"Geometry_Optimization")
 
-		parameters = { 'ATOMS_RC1':atomsf	,
-					   'ATOMS_RC2':atomss	,
-					   'dincre_RC1':0.1 	,
-					   'dincre_RC2':0.1     , 
-					   "nSteps_RC1":30		,
-					   "nSteps_RC2":30 		, 
-					   "ndim": 2 			,
-					   "MC_RC1":		"true",
-					   "MC_RC2":		"true",
+		parameters = { 'ATOMS_RC1':atomsf	  ,
+					   'ATOMS_RC2':atomss	  ,
+					   'dincre_RC1':0.1 	  ,
+					   'dincre_RC2':0.1       , 
+					   "nSteps_RC1":6		  ,
+					   "nSteps_RC2":6 		  , 
+					   "ndim": 2 			  ,
+ 					   "NmaxThreads":        8,
 					 }
 
 		proj.RunSimulation(parameters,"Relaxed_Surface_Scan")		
 		proj.FinishRun()
+	
+		#-----------------------------------------------------------
+		projb=SimulationProject("TIMtest_QCMM_Scans2DmixedDistance")		
+		projb.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		atomss = [ atom4[0], atom5[0] ]
+
+		parameters = { 'ATOMS_RC1':atomsf	  ,
+					   'ATOMS_RC2':atomss	  ,
+					   'dincre_RC1':0.1 	  ,
+					   'dincre_RC2':0.1       , 
+					   "nSteps_RC1":6		  ,
+					   "nSteps_RC2":6 		  , 
+					   "ndim": 2 			  ,
+					   "MC_RC1":		"true",
+					   "NmaxThreads":        8,
+					 }
+
+		projb.RunSimulation(parameters,"Relaxed_Surface_Scan")		
+		projb.FinishRun()
+
+		#-----------------------------------------------------------
+		
+		projc=SimulationProject("TIMtest_QCMM_Scans2DmultipleDistance")		
+		projc.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
+		parameters = {"maxIterations":1000,"rmsGradient":0.1}
+		projc.RunSimulation(parameters,"Geometry_Optimization")
+
+		parameters = { 'ATOMS_RC1':atomsf	  ,
+					   'ATOMS_RC2':atomss	  ,
+					   'dincre_RC1':0.1 	  ,
+					   'dincre_RC2':0.1       , 
+					   "nSteps_RC1":6		  ,
+					   "nSteps_RC2":6 		  , 
+					   "ndim": 2 			  ,
+					   "MC_RC1":		"true",
+					   "MC_RC2":		"true",
+					   "NmaxThreads":        8,
+					 }
+
+		projc.RunSimulation(parameters,"Relaxed_Surface_Scan")		
+		projc.FinishRun()
+		
 	#===================================================================
 	def UmbrellaSampling1D(self):
+		''''
 		'''
-		'''
-		proj=SimulationProject("TIMtest_Umbrella1D")		
+		#--------------------------------------------------------------
+		proj=SimulationProject("TIMtest_US1Dsimpledistance")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 		atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 		atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 		
-		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
-		setMaxThreads = 4
-		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans","ScanTraj.ptGeo")
+		atomsf = [ atom1[0], atom2[0] ] 
+		
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans1DsimpleDistance","ScanTraj.ptGeo")
 
 		parameters = { 'ATOMS_RC1':atomsf			,
 					   "ndim": 1 					,
-					   "samplingFactor":200 		,
-					   "equilibration_nsteps":100	,
-					   "production_nsteps":200		,
+					   "samplingFactor":2000 		,
+					   "equilibration_nsteps":2000	,
+					   "production_nsteps":5000		,
 					   "trjFolder":_path 			,
 					   "MD_method":"LeapFrog"		,
 					   "MC_RC1":"true"				,
+					   "NmaxThreads":8 				
 					 }
 
 		proj.RunSimulation(parameters,"Umbrella_Sampling")
 		proj.FinishRun()
+		
+		#-----------------------------------------------------------
+		projB=SimulationProject("TIMtest_US1DmultipleDistance")		
+		projB.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+		
+		
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans1DmultipleDistance","ScanTraj.ptGeo")
+
+		parameters = { 'ATOMS_RC1':atomsf			,
+					   "ndim": 1 					,
+					   "samplingFactor":2000 		,
+					   "equilibration_nsteps":2000	,
+					   "production_nsteps":5000		,
+					   "trjFolder":_path 			,
+					   "MD_method":"LeapFrog"		,
+					   "MC_RC1":"true"				,
+					   "NmaxThreads":8 				
+					 }
+
+		projB.RunSimulation(parameters,"Umbrella_Sampling")
+		projB.FinishRun()
 
 	
 	#=======================================================================
 	def UmbrellaSampling2D(self):
 		'''
 		'''
-		proj=SimulationProject("TIMtest_Umbrella2D")		
+		proj=SimulationProject("TIMtest_US2DsimpleDistance")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
 
 		atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
@@ -336,10 +446,10 @@ class Tests:
 		atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
 		atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
 
-		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
-		atomss = [ atom4[0], atom5[0], atom6[0] ]
-
-		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans2D_EHproj","ScanTraj.ptGeo")
+		atomsf = [ atom1[0], atom2[0] ] 
+		atomss = [ atom4[0], atom5[0] ]
+		'''
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans2DsimpleDistance","ScanTraj.ptGeo")
 
 		parameters = { 'ATOMS_RC1':atomsf			,
 					   "ATOMS_RC2":atomss			,
@@ -350,21 +460,104 @@ class Tests:
 					   "trjFolder":_path 			,
 					   "MD_method":"LeapFrog"		,
 					   "MC_RC1":"true"				,
-					   "MC_RC2":"true"
+					   "MC_RC2":"true"				,
+					   "NmaxThreads":8 				
 					 }
 		
 		proj.RunSimulation(parameters,"Umbrella_Sampling")
 		proj.FinishRun()
+		'''
+		#----------------------------------------------------------
+		projb=SimulationProject("TIMtest_Umbrella2DmixedDistance")		
+		projb.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		atomss = [ atom4[0], atom5[0] ]
+
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans2DmixedDistance","ScanTraj.ptGeo")
+
+		parameters = { 'ATOMS_RC1':atomsf			,
+					   "ATOMS_RC2":atomss			,
+					   "ndim": 2 					,
+					   "samplingFactor":200 		,
+					   "equilibration_nsteps":1000	,
+					   "production_nsteps":2000		,
+					   "trjFolder":_path 			,
+					   "MD_method":"LeapFrog"		,
+					   "MC_RC1":"true"				,
+					   "MC_RC2":"true"				,
+					   "NmaxThreads":8 				
+					 }
+		
+		projb.RunSimulation(parameters,"Umbrella_Sampling")
+		projb.FinishRun()
+		#----------------------------------------------------------
+		projc=SimulationProject("TIMtest_Umbrella2DmultipleDistance")		
+		projc.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+		atomss = [ atom4[0], atom5[0], atom6[0] ]
+
+		_path = os.path.join(os.getcwd(),"TIMtest_QCMM_Scans2DmultipledDistance","ScanTraj.ptGeo")
+
+		parameters = { 'ATOMS_RC1':atomsf			,
+					   "ATOMS_RC2":atomss			,
+					   "ndim": 2 					,
+					   "samplingFactor":200 		,
+					   "equilibration_nsteps":1000	,
+					   "production_nsteps":2000		,
+					   "trjFolder":_path 			,
+					   "MD_method":"LeapFrog"		,
+					   "MC_RC1":"true"				,
+					   "MC_RC2":"true"				,
+					   "NmaxThreads":8 				
+					 }
+		
+		projc.RunSimulation(parameters,"Umbrella_Sampling")
+		projc.FinishRun()
 
 	#=====================================================
-	def PotentialOfMeanField(self):
+	def PotentialOfMeanField1D(self):
 		'''
 		'''
 		proj=SimulationProject("TIMtest_PMF1D")		
 		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
-		_path = os.path.join ( os.getcwd(),"TIMtest_Umbrella1D" )
-		potmean = PMF(proj.cSystem, _path,"TIMFreeEnergy1D")
-		potmean.CalculateWHAM(10,0,300.15)
+
+		_path   = "/home/igorchem/VisMol/easyhybrid/pDynamoMethods/TIMtest_US1Dsimpledistance"
+		potmean = PMF( proj.cSystem, _path, "TIM_FreeEnergy1DsimpleDistance" )
+		potmean.CalculateWHAM(16,0,300.15)
+		proj.FinishRun()
+		
+		
+		_path   = "/home/igorchem/VisMol/easyhybrid/pDynamoMethods/TIMtest_US1DmultipleDistance"
+		potmeanb = PMF( proj.cSystem, _path, "TIM_FreeEnergy1DmultipleDistance" )
+		potmeanb.CalculateWHAM(16,0,300.15)
+		potmeanb.FinishRun()
+		
+	#=====================================================
+	def PotentialOfMeanField2D(self):
+		'''
+		'''
+		proj=SimulationProject("TIMtest_PMF2D")		
+		proj.LoadSystemFromSavedProject("TIMTest_QCMMopts.pkl")
+
+		_path   = "/home/igorchem/VisMol/easyhybrid/pDynamoMethods/TIMtest_US2Dsimpledistance"
+		potmean = PMF( proj.cSystem, _path, "TIM_FreeEnergy2DsimpleDistance" )
+		potmean.CalculateWHAM(10,10,300.15)
+		proj.FinishRun()
+		
+		
+		_path   = "/home/igorchem/VisMol/easyhybrid/pDynamoMethods/TIMtest_US2DmixedDistance"
+		potmeanb = PMF( proj.cSystem, _path, "TIM_FreeEnergy2DmixedDistance" )
+		potmeanb.CalculateWHAM(10,10,300.15)
+		potmeanb.FinishRun()
+
+		_path   = "/home/igorchem/VisMol/easyhybrid/pDynamoMethods/TIMtest_US2DmultipleDistance"
+		potmeanb = PMF( proj.cSystem, _path, "TIM_FreeEnergy2DmultipleDistance" )
+		potmeanb.CalculateWHAM(10,10,300.15)
+		potmeanb.FinishRun()
+
+
 
 	#=====================================================
 	def ReacCoordSearchers(self):
@@ -398,7 +591,8 @@ if __name__ == "__main__":
 	#test.QCMM_MDrestricted()
 	#test.QCMMScans()
 	#test.QCMMScans2D()
-	test.UmbrellaSampling1D()
+	#test.UmbrellaSampling1D()
 	#test.UmbrellaSampling2D()
-	test.PotentialOfMeanField()
+	#test.PotentialOfMeanField1D()
+	test.PotentialOfMeanField2D()
 	logFile.Footer()

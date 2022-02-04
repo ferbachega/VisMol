@@ -18,6 +18,7 @@ import os
 #importing our library functions
 import commonFunctions
 from LogFile import LogFile
+from ReactionCoordinate import *
 #----------------------------------------
 # pDynamo
 from pBabel                    import *                                     
@@ -54,8 +55,8 @@ class MD:
         #Important parameters that are recurrently wanted to be change by the user
         self.molecule               = _system
         self.baseName               = _baseFolder       
-        self.trajectoryNameEqui     = _baseFolder+"equi.ptGeo"
-        self.trajectoryNameProd     = _baseFolder+"prod.ptGeo"
+        self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration.ptGeo")
+        self.trajectoryNameProd     = os.path.join(_baseFolder,"production.ptGeo")
         self.trajectoryNameSoft     = _baseFolder+"restricted.ptRes"
         self.trajectoryNameCurr     = self.trajectoryNameEqui
         self.prodNsteps             = 20000 # seting the default for umbrella sampling
@@ -106,12 +107,13 @@ class MD:
             self.timeStep               = _parameters['timeStep']
         if 'pressureControl'            in _parameters: # the presence of the ket activates this boolean flag
             self.pressureControl        = True
-        if 'save_frequency'             in _parameters: 
-            self.samplingFactor         = _parameters['saveFreq']
+        if 'sampling_Factor'             in _parameters: 
+            self.samplingFactor         = _parameters['sampling_Factor']
         if 'log_frequency'              in _parameters:
             self.logFrequency           = _parameters['log_frequency']
         if 'temperature_scale_option'   in _parameters:
             self.temperatureScaleOption = _parameters['temperature_scale_option']
+
 
     #=============================================================================================    
     def HeatingSystem(self,_nsteps):
@@ -122,7 +124,7 @@ class MD:
         self.nsteps             = _nsteps
         self.trajectoryNameProd = os.path.join(self.baseName,"heating.ptGeo")  
         self.trajectoryNameCurr = self.trajectoryNameProd 
-        trajectory              = ExportTrajectory( self.trajectoryNameCurr, self.molecule )
+        trajectory              = ExportTrajectory( self.trajectoryNameCurr, self.molecule,log=None )
 
         if not os.path.exists( self.trajectoryNameCurr ):
             os.makedirs( self.trajectoryNameCurr )
@@ -189,12 +191,10 @@ class MD:
         self.nsteps             = _prodSteps
         self.samplingFactor     = _samplingFactor
         self.softConstraint     = True
+        self.outputDCD          = False
         
         self.RunEquilibration(_equiSteps)
-        self.RunProduction(_prodSteps)
-
-        if self.outputDCD:
-            Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
+        self.RunProduction(_prodSteps)       
     
 
     #======================================================================================
@@ -202,14 +202,14 @@ class MD:
         '''
         Execute velocity verlet molecular dynamics from pDynamo methods. 
         '''
-        trajectory      = ExportTrajectory( self.trajectoryNameCurr, self.molecule )         
+        trajectory      = ExportTrajectory( self.trajectoryNameCurr, self.molecule,log=None )         
         trajectory_list = []
 
         if self.softConstraint:
-            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
-            trajectory_list = [ (trajectory, self.samplingFactor ), (trajSoft, 1) ]
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule,log=None)
+            trajectory_list = [ ( trajectory, self.samplingFactor ), (trajSoft, 1) ]
         else:
-            trajectory_list = [ (trajectory, self.samplingFactor ) ]
+            trajectory_list = [ ( trajectory, self.samplingFactor ) ]
         
         VelocityVerletDynamics_SystemGeometry(self.molecule                             ,
                                 logFrequency                = self.logFreq              ,
@@ -227,7 +227,7 @@ class MD:
         Execute Leap Frog molecular dynamics from pDynamo methods.
         '''
         #--------------------------------------------------------------------------------
-        trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule)       
+        trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule,log=None)       
         trajectory_list = []
         #--------------------------------------------------------------------------------
         if self.softConstraint:
@@ -410,30 +410,10 @@ class MD:
 
         #..................
     #-------------------------------------------------------------------    
-    def DistAnalysis(self,rcs,mdis):
+    def DistAnalysis(self,RCs):
         '''
         Perform distance analysis in the production trajectory
         '''
-        atom01 = rcs[0][0]
-        atom02 = rcs[0][1]
-        atom03 = 0 
-        
-        if mdis:
-            atom03 = rcs[0][2]
-
-        atom11 = 0
-        atom12 = 0
-        atom13 = 0 
-
-        if mdis:
-            atom03 = rcs[0][2]       
-
-        if len(rcs) > 1:
-            atom11 = rcs[1][0]
-            atom12 = rcs[1][1]
-
-            if mdis:
-                atom13 = rcs[1][2]
         #------------------------------------------------------------------------
         # . Get the trajectory.
         trajectory = ImportTrajectory( self.trajectoryNameProd , self.molecule )
@@ -444,18 +424,28 @@ class MD:
         rc2 = []
         energies = []
         n = []
+        m=0
         #------------------------------------------------------------------------
-        if mdis and len(rcs) == 2:
-            while trajectory.RestoreOwnerData ( ):
-                energies.append( self.molecule.Energy() )
-                rc1.append( self.molecule.coordinates3.Distance ( atom01, atom02 ) - self.molecule.coordinates3.Distance ( atom02, atom03 ) )
-                rc2.append( self.molecule.coordinates3.Distance ( atom11, atom12 ) - self.molecule.coordinates3.Distance ( atom12, atom13 ) )
+        if len(RCs) == 2:
+            while trajectory.RestoreOwnerData():
+                energies.append( self.molecule.Energy(log=None) )
+                if RCs[0].nAtoms == 3:
+                    rc1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) - self.molecule.coordinates3.Distance(RCs[0].atoms[1], RCs[0].atoms[2]) )
+                elif RCs[0].nAtoms == 2:
+                    rc1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) )
+                if RCs[1].nAtoms == 3:                    
+                    rc2.append( self.molecule.coordinates3.Distance(RCs[1].atoms[0], RCs[1].atoms[1]) - self.molecule.coordinates3.Distance(RCs[1].atoms[1], RCs[1].atoms[2]) )
+                elif RCs[1].nAtoms == 2:
+                    rc2.append( self.molecule.coordinates3.Distance(RCs[1].atoms[0], RCs[1].atoms[1]) )
                 n.append(m)
                 m+=1
-        elif mdis and len(rcs) == 1:
-            while trajectory.RestoreOwnerData ( ):
-                energies.append( self.molecule.Energy() )
-                rc1.append( self.molecule.coordinates3.Distance ( atom01, atom02 ) - self.molecule.coordinates3.Distance ( atom02, atom03 ) )
+        if len(RCs) == 1:
+            while trajectory.RestoreOwnerData():
+                energies.append( self.molecule.Energy(log=None) )
+                if RCs[0].nAtoms == 3:
+                    rc1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) - self.molecule.coordinates3.Distance(RCs[0].atoms[1], RCs[0].atoms[2]) )
+                elif RCs[0].nAtoms == 2:
+                    rc1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) )
                 n.append(m)
                 m+=1
 
@@ -464,26 +454,36 @@ class MD:
         textLog = open( self.baseName+"_MDdistAnalysis", "w" ) 
 
         _Text = ""
-        if len(rcs) > 1:
-            _Text = "Frame RC1 RC2\n"
+        if len(RCs) > 1:
+            _Text = "Frame RC1 RC2 Energy\n"
             for i in range(len(rc1)):
-                _Text += "{} {}\n".format(rc1[i],rc2[i])
+                _Text += "{} {} {} {}\n".format(i,rc1[i],rc2[i],energies[i])
         else:
-            _Text = "Frame RC1\n"
+            _Text = "Frame RC1 Energy\n"
             for i in range(len(rc1)):
-                _Text += "{} {}\n".format(rc1[i])
+                _Text += "{} {} {}\n".format(i,rc1[i],energies[i])
 
         #------------------------------------------------------------------------
         textLog.write(_Text)
         textLog.close()
-        #---------------------------------------------
-        plt.plot(n, rc1, label = "Distance #1")
-        if len(rcs) ==2:
-            plt.plot(n, rc2, label = "Distance #2")
-        plt.show()
-        plt.savefig(self.baseName+"_MDdistAnalysis.png")
 
-        if len(rcs) == 2:
+        nenergies = []
+        for i in range(len(energies) ):
+            nenergies.append(energies[i] - energies[0])
+
+        #---------------------------------------------
+
+        plt.plot(n, nenergies)
+        plt.savefig(self.trajectoryNameCurr+"_MDenergy.png")
+        plt.show()
+        
+        plt.plot(n, rc1)
+        if len(RCs) ==2:
+            plt.plot(n, rc2, label = "Distance #2")
+        plt.savefig(self.trajectoryNameCurr+"_MDdistAnalysis.png")
+        plt.show()
+
+        if len(RCs) == 2:
             sns.jointplot(x=rc1,y=rc2,kind="kde",cmap="plasma",shade=True)
             plt.savefig( os.path.join( self.trajectoryNameCurr,"distanceBiplot.png") )
             plt.show()
