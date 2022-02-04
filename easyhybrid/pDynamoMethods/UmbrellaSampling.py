@@ -58,6 +58,7 @@ class US:
         self.mdMethod           = mdMethod
         self.bins               = 0
         self.restart            = RESTART
+        self.adaptative         = ADAPTATIVE
 
         #qc/mm parameters 
         self.maxItQC            = 1000
@@ -119,14 +120,48 @@ class US:
                 self.sigma_a1_a3[ndim] = mass_a1 /(mass_a1+mass_a3)
                 self.sigma_a3_a1[ndim] = mass_a3 /(mass_a1+mass_a3)
                 self.sigma_a3_a1[ndim] = self.sigma_a3_a1[ndim]*-1
-
-    #============================================================================
-    def SetAdaptativeParameters(self):
-        pass
+ 
     
     #============================================================================
     def ChangeConvergenceParameters(self):
-        pass
+        '''
+        '''
+        En = self.molecule.Energy()
+        delta = En - self.EnergyRef
+
+        if delta < 120.0:
+            self.forceC = self.forceCRef
+        elif delta >= 120.0:
+            self.forceC = self.forceCRef - self.forceCRef*0.150
+            self.molecule.qcModel.converger.energyTolerance  = 0.0003
+            self.molecule.qcModel.converger.densityTolerance = 3e-08
+            self.molecule.qcModel.converger.diisDeviation    = 1e-06
+
+            if delta > 150.0:
+                self.forceC = self.forceCRef - self.forceCRef*0.30
+                self.molecule.qcModel.converger.energyTolerance  = 0.0006
+                self.molecule.qcModel.converger.densityTolerance = 1e-07
+                self.molecule.qcModel.converger.diisDeviation    = 2e-06
+            elif delta > 170.0:
+                self.forceC = self.forceCRef - self.forceCRef*0.50
+                self.molecule.qcModel.converger.energyTolerance  = 0.001
+                self.molecule.qcModel.converger.densityTolerance = 3e-07
+                self.molecule.qcModel.converger.diisDeviation    = 5e-06
+            elif delta > 185.0:
+                self.forceC = self.forceCRef - self.forceCRef*0.70
+                self.molecule.qcModel.converger.energyTolerance  = 0.0015
+                self.molecule.qcModel.converger.densityTolerance = 1e-06
+                self.molecule.qcModel.converger.diisDeviation    = 1e-05
+            elif delta > 190.0:
+                self.forceC = self.forceCRef - self.forceCRef*0.80
+                self.molecule.qcModel.converger.energyTolerance  = 0.003
+                self.molecule.qcModel.converger.densityTolerance = 1e-05
+                self.molecule.qcModel.converger.diisDeviation    = 5e-05
+            elif delta > 200.0:
+                self.forceC = self.forceCRef - self.forceCRef*0.90
+                self.molecule.qcModel.converger.energyTolerance  = 0.005
+                self.molecule.qcModel.converger.densityTolerance = 1e-04
+                self.molecule.qcModel.converger.diisDeviation    = 5e-04
 
 
     #============================================================================  
@@ -223,7 +258,10 @@ class US:
             for fl in self.mdPaths:
                 if os.path.exists( fl ):
                     self.mdPaths.remove( fl )
-
+        
+        #-----------------------------------------------
+        self.EnergyRef = self.molecule.Energy()
+        self.forceCRef = self.forceC
         #-----------------------------------------------
         if self.multipleDistance[0] and self.multipleDistance[1]:
             self.Run2DMultipleDistance()            
@@ -274,6 +312,8 @@ class US:
                 restraint   = RestraintMultipleDistance.WithOptions( energyModel = rmodel2,  distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
                 restraints["M2"] = restraint 
                 #--------------------------------------------------------
+                if self.adaptative:
+                    self.ChangeConvergenceParameters()
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
                 mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor) 
@@ -316,6 +356,8 @@ class US:
                 restraint   = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom4, point2= atom5)
                 restraints["M2"] = restraint 
                 #-----------------------------------------------------------------------
+                if self.adaptative:
+                    self.ChangeDefaultParameters()
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
                 mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
@@ -349,6 +391,9 @@ class US:
                 rmodel           = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
                 restraint        = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom3, point2= atom4)
                 restraints["M2"] = restraint  
+                #-----------------------------------------------------------------------
+                if self.adaptative:
+                    self.ChangeConvergenceParameters()
                 #-----------------------------------------------------------------------
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)

@@ -223,6 +223,10 @@ class Simulation:
 		'''
 		Class method to set up and execute molecular dynamics simulations.
 		#Ainda tenho que ver como functiona os arquivos de trajetórias na nova versão
+		List of Parameters:
+			MC_RC1 = 
+			MC_RC2 =
+
 		'''
 		#----------------------------------------------------------------
 		restraints = RestraintModel( )
@@ -242,6 +246,7 @@ class Simulation:
 		if "type_rc2" in _parameters:
 			rcType2 = _parameters["type_rc2"]
 
+		#-------------------------------------------------------------------
 		forcK = _parameters["forceC"]		
 		restrainDimensions = _parameters['ndim']
 
@@ -295,8 +300,23 @@ class Simulation:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
+
+		_Restart 	= False
+		_Adaptative = False
+		if "restart" in _parameters:
+			_Restart = True 
+		if "adaptative" in _parameters:
+			_Adaptative = True
+
 		#---------------------------------------
-		USrun = US(self.molecule,self.baseFolder,_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["MD_method"])
+		USrun = US(self.molecule  						,
+			       self.baseFolder 						,
+			       _parameters['equilibration_nsteps']  ,
+			       _parameters['production_nsteps']     ,
+			       _parameters["MD_method"]             ,
+			       RESTART=_Restart                     ,
+			       ADAPTATIVE=_Adaptative               )
+		
 		USrun.ChangeDefaultParameters(_parameters)
 		USrun.SetMode(_parameters["ATOMS_RC1"],MCR1)
 
