@@ -5,6 +5,7 @@ import numpy as np
 #import vModel.atom_types as at 
 #import vModel.cDistances as cdist
 from   vModel import VismolObject
+#from   vModel import MolecularProperties
 
 
 '''
@@ -89,8 +90,7 @@ USER_CHARGES
 def load_aux_file (infile = None, vismolSession =  None, gridsize = 3):
     """ Function doc """
     print ('\nstarting: parse_aux')
-    at  =  vismolSession.vConfig.atom_types
-
+    #at  =  MolecularProperties.AtomTypes()
     #initial = time.time()
 
     with open(infile, 'r') as aux_file:
@@ -154,8 +154,8 @@ def load_aux_file (infile = None, vismolSession =  None, gridsize = 3):
 
             #at_symbol = line[5].split('.')
             at_symbol = at_name
-            cov_rad   = at.get_cov_rad (at_name)
-            gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]     
+            #cov_rad   = at.get_cov_rad (at_name)
+            #gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]     
             #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
             
             #print ([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])

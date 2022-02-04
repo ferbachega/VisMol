@@ -5,6 +5,8 @@ import numpy as np
 #import vModel.atom_types as at 
 #import vModel.cDistances as cdist
 from   vModel import VismolObject
+from   vModel import MolecularProperties
+from   vModel.MolecularProperties import ATOM_TYPES
 
 
 '''
@@ -89,7 +91,7 @@ USER_CHARGES
 def load_xyz_file (infile = None, vismolSession =  None, gridsize = 3):
     """ Function doc """
     print ('\nstarting: parse_mol2')
-    at  =  vismolSession.vConfig.atom_types
+    #at  =  MolecularProperties.AtomTypes()
 
     #initial = time.time()
 
@@ -111,7 +113,7 @@ def load_xyz_file (infile = None, vismolSession =  None, gridsize = 3):
         frame0           = xyz_lines[2: model_size]
         
         
-        atoms, frames    = get_atom_list_from_xyz_frame (raw_atoms= frame0, frame = True, gridsize = 3, at = at)
+        atoms, frames    = get_atom_list_from_xyz_frame (raw_atoms= frame0, frame = True, gridsize = 3)#, at = at)
         
         models     = []
         
@@ -174,7 +176,7 @@ def load_xyz_file (infile = None, vismolSession =  None, gridsize = 3):
 
 
 
-def get_atom_list_from_xyz_frame (raw_atoms, frame = True, gridsize = 3, at = None):
+def get_atom_list_from_xyz_frame (raw_atoms, frame = True, gridsize = 3):#, at = None):
     """ Function doc """
     #nCPUs =  multiprocessing.cpu_count()
     #pool  = multiprocessing.Pool(nCPUs)
@@ -208,9 +210,9 @@ def get_atom_list_from_xyz_frame (raw_atoms, frame = True, gridsize = 3, at = No
             
 
             #at_symbol = line[5].split('.')
-            at_symbol = at_name
-            cov_rad   = at.get_cov_rad (at_name)
-            gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
+            at_symbol = None
+            #cov_rad   = at.get_cov_rad (at_name)
+            #gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
             
             #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
 

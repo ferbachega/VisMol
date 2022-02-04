@@ -67,7 +67,8 @@ class GLCamera():
         self.horizontal_angle = 0.0
         self.vertical_angle = 0.0
         self.min_znear = 0.1
-        self.min_zfar = 2.5
+        #self.min_zfar = 2.5
+        self.min_zfar = 7.0
         dist = op.get_euclidean(pos, zrp)
         if dist <= 10.0:
             self.z_near = dist - 3.0

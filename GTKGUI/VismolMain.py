@@ -263,8 +263,8 @@ class GtkMainTreeView(Gtk.TreeView):
  
     
     def append(self, visObj):
-        i = self.vismolSession.vismol_objects.index(visObj)
-        
+        #i = self.vismolSession.vismol_objects.index(visObj)
+        i = visObj.index
         data = [visObj.active         , 
                str(i)                 ,
                visObj.name            , 
@@ -303,9 +303,9 @@ class GtkMainTreeView(Gtk.TreeView):
             #pymol_object = model.get_value(iter, 0)
             #self.refresh_gtk_main_self.treeView()
             print ('button == 2')
-            
+            #self.vismol_objects_dic[index]
             self.selectedID  = int(model.get_value(iter, 1))  # @+
-            visObj = self.vismolSession.vismol_objects[self.selectedID]
+            visObj = self.vismolSession.vismol_objects_dic[self.selectedID]
             self.vismolSession.center(visObj)
 
         if event.button == 1:
@@ -336,30 +336,52 @@ class TreeViewMenu:
         (model, iter)    = selection.get_selected()
         self.selectedID  = int(model.get_value(iter, 1))  # @+
         
-        visObj = self.treeview.vismolSession.vismol_objects[self.selectedID]
+        visObj = self.treeview.vismolSession.vismol_objects_dic[self.selectedID]
         
         infile = self.filechooser.open()
         
-        self.treeview.vismolSession.load_xyz_coords_to_vismol_obejct(infile , visObj)
+        self.treeview.vismolSession.load_xyz_coords_to_vismol_object(infile , visObj)
+        #print('-------------------------------------')
+        #print (infile)
+        #for item in model:
+        #    print(item, model[iter], list(model[iter]))
+        #print('-------------------------------------')
+        model[iter][4] = str(len(visObj.frames))
         
-        print (infile)
+        #self.treeview.store .clear()
+        #for vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
+        #    print ('\n\n',vis_object.name,'\n\n')
+        #    data = [vis_object.active          , 
+        #            str(vis_object.index),
+        #            vis_object.name            , 
+        #            str(len(vis_object.atoms)) , 
+        #            str(len(vis_object.frames)),
+        #           ]
+        #    model.append(data)
         
-        
-        self.treeview.store .clear()
-        for vis_object in self.treeview.vismolSession.vismol_objects:
-            print ('\n\n',vis_object.name,'\n\n')
-            data = [vis_object.active          , 
-                    str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
-                    vis_object.name            , 
-                    str(len(vis_object.atoms)) , 
-                    str(len(vis_object.frames)),
-                   ]
-            model.append(data)
         #self.treeview.vismolSession.glwidget.queue_draw()
     
         #self.treeview.vismolSession.go_to_atom_window.OpenWindow()
-    
-    
+        
+        
+        
+        '''
+        if visObj.Type == 'molecule':
+            #i = self.vismol_objects.index(visObj)
+            i = visObj.index 
+            
+            data = [visObj.active           , 
+                    str(i)                  ,
+                    visObj.name             , 
+                    str(len(visObj.atoms))  , 
+                    str(len(visObj.frames)) ,
+                    ]
+            #print (data)
+            self.Vismol_Objects_ListStore.append(data)
+        else:
+            pass
+        '''
+        
     def f2 (self, visObj = None):
         """ Function doc """
         print('f2')
@@ -378,16 +400,16 @@ class TreeViewMenu:
         
         
         #visObj = self.treeview.vismolSession.vismol_objects[self.selectedID]
-        visObj = self.treeview.vismolSession.vismol_objects.pop(self.selectedID)
-        del visObj
+        del self.treeview.vismolSession.vismol_objects_dic[self.selectedID]
+        #del visObj
         self.treeview.store .clear()
         #n = 0
         #i = 1
-        for vis_object in self.treeview.vismolSession.vismol_objects:
+        for vobj_index, vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
             print ('\n\n',vis_object.name,'\n\n')
 
             data = [vis_object.active          , 
-                    str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
+                    str(vis_object.index),
                     vis_object.name            , 
                     str(len(vis_object.atoms)) , 
                     str(len(vis_object.frames)),

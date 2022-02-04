@@ -823,7 +823,7 @@ static const char *__pyx_f[] = {
 struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file;
 struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line;
 
-/* "vBabel/GROFiles.pyx":10
+/* "vBabel/GROFiles.pyx":12
  * from pprint import pprint
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
@@ -837,7 +837,7 @@ struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file {
   PyObject *vismolSession;
 };
 
-/* "vBabel/GROFiles.pyx":80
+/* "vBabel/GROFiles.pyx":82
  * 
  * 
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
@@ -924,96 +924,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
-/* PyObjectLookupSpecial.proto */
-#if CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_LookupSpecial(PyObject* obj, PyObject* attr_name) {
-    PyObject *res;
-    PyTypeObject *tp = Py_TYPE(obj);
-#if PY_MAJOR_VERSION < 3
-    if (unlikely(PyInstance_Check(obj)))
-        return __Pyx_PyObject_GetAttrStr(obj, attr_name);
-#endif
-    res = _PyType_Lookup(tp, attr_name);
-    if (likely(res)) {
-        descrgetfunc f = Py_TYPE(res)->tp_descr_get;
-        if (!f) {
-            Py_INCREF(res);
-        } else {
-            res = f(res, obj, (PyObject *)tp);
-        }
-    } else {
-        PyErr_SetObject(PyExc_AttributeError, attr_name);
-    }
-    return res;
-}
-#else
-#define __Pyx_PyObject_LookupSpecial(o,n) __Pyx_PyObject_GetAttrStr(o,n)
-#endif
-
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
-#else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
-#endif
-
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-/* PyObjectCallNoArg.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
-#endif
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
-/* RaiseTooManyValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
-
-/* RaiseNeedMoreValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
-
-/* IterFinish.proto */
-static CYTHON_INLINE int __Pyx_IterFinish(void);
-
-/* UnpackItemEndCheck.proto */
-static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
-
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 #define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
@@ -1060,6 +970,96 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 #define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif
+
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallNoArg.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* PyObjectLookupSpecial.proto */
+#if CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_LookupSpecial(PyObject* obj, PyObject* attr_name) {
+    PyObject *res;
+    PyTypeObject *tp = Py_TYPE(obj);
+#if PY_MAJOR_VERSION < 3
+    if (unlikely(PyInstance_Check(obj)))
+        return __Pyx_PyObject_GetAttrStr(obj, attr_name);
+#endif
+    res = _PyType_Lookup(tp, attr_name);
+    if (likely(res)) {
+        descrgetfunc f = Py_TYPE(res)->tp_descr_get;
+        if (!f) {
+            Py_INCREF(res);
+        } else {
+            res = f(res, obj, (PyObject *)tp);
+        }
+    } else {
+        PyErr_SetObject(PyExc_AttributeError, attr_name);
+    }
+    return res;
+}
+#else
+#define __Pyx_PyObject_LookupSpecial(o,n) __Pyx_PyObject_GetAttrStr(o,n)
+#endif
+
+/* RaiseTooManyValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+
+/* RaiseNeedMoreValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
+
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+/* UnpackItemEndCheck.proto */
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
 
 /* GetTopmostException.proto */
 #if CYTHON_USE_EXC_INFO_STACK
@@ -1307,12 +1307,11 @@ static const char __pyx_k_symbol[] = "symbol";
 static const char __pyx_k_vModel[] = "vModel";
 static const char __pyx_k_bfactor[] = "bfactor";
 static const char __pyx_k_float32[] = "float32";
-static const char __pyx_k_vConfig[] = "vConfig";
 static const char __pyx_k_basename[] = "basename";
 static const char __pyx_k_gridsize[] = "gridsize";
+static const char __pyx_k_AtomTypes[] = "AtomTypes";
 static const char __pyx_k_occupancy[] = "occupancy";
 static const char __pyx_k_readlines[] = "readlines";
-static const char __pyx_k_atom_types[] = "atom_types";
 static const char __pyx_k_get_symbol[] = "get_symbol";
 static const char __pyx_k_trajectory[] = "trajectory";
 static const char __pyx_k_get_cov_rad[] = "get_cov_rad";
@@ -1320,12 +1319,14 @@ static const char __pyx_k_VismolObject[] = "VismolObject";
 static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_multiprocessing[] = "multiprocessing";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static const char __pyx_k_MolecularProperties[] = "MolecularProperties";
 static const char __pyx_k_auto_find_bonded_and_nonbonded[] = "auto_find_bonded_and_nonbonded";
+static PyObject *__pyx_n_s_AtomTypes;
+static PyObject *__pyx_n_s_MolecularProperties;
 static PyObject *__pyx_n_s_VismolObject;
 static PyObject *__pyx_n_s_X;
 static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_at;
-static PyObject *__pyx_n_s_atom_types;
 static PyObject *__pyx_n_s_atoms;
 static PyObject *__pyx_n_s_auto_find_bonded_and_nonbonded;
 static PyObject *__pyx_n_s_basename;
@@ -1364,7 +1365,6 @@ static PyObject *__pyx_n_s_symbol;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_trajectory;
-static PyObject *__pyx_n_s_vConfig;
 static PyObject *__pyx_n_s_vModel;
 static PyObject *__pyx_n_s_vismolSession;
 static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession); /* proto */
@@ -1389,7 +1389,7 @@ static PyObject *__pyx_slice__6;
 static PyObject *__pyx_slice__7;
 /* Late includes */
 
-/* "vBabel/GROFiles.pyx":10
+/* "vBabel/GROFiles.pyx":12
  * from pprint import pprint
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
@@ -1435,62 +1435,77 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
     }
   }
 
-  /* "vBabel/GROFiles.pyx":28
+  /* "vBabel/GROFiles.pyx":30
  *     #                                P D B     P A R S E R
  *     #-------------------------------------------------------------------------------------------
- *     at  =  vismolSession.vConfig.atom_types             # <<<<<<<<<<<<<<
+ *     at  =  MolecularProperties.AtomTypes()             # <<<<<<<<<<<<<<
  *     with open(infile, 'r') as gro_file:
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_vismolSession, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_atom_types); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_MolecularProperties); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_at = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_AtomTypes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_at = __pyx_t_1;
+  __pyx_t_1 = 0;
 
-  /* "vBabel/GROFiles.pyx":29
+  /* "vBabel/GROFiles.pyx":31
  *     #-------------------------------------------------------------------------------------------
- *     at  =  vismolSession.vConfig.atom_types
+ *     at  =  MolecularProperties.AtomTypes()
  *     with open(infile, 'r') as gro_file:             # <<<<<<<<<<<<<<
  * 
  *         grotext = gro_file.readlines()
  */
   /*with:*/ {
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_infile);
     __Pyx_GIVEREF(__pyx_v_infile);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_infile);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_infile);
     __Pyx_INCREF(__pyx_n_s_r);
     __Pyx_GIVEREF(__pyx_n_s_r);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_r);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_r);
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L3_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_4 = __Pyx_PyObject_LookupSpecial(__pyx_t_3, __pyx_n_s_exit); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_t_3, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L3_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
       if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
         __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+    __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L3_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __pyx_t_2;
-    __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L3_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __pyx_t_1;
+    __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     /*try:*/ {
       {
         __Pyx_PyThreadState_declare
@@ -1500,37 +1515,37 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
         __Pyx_XGOTREF(__pyx_t_7);
         __Pyx_XGOTREF(__pyx_t_8);
         /*try:*/ {
-          __pyx_v_gro_file = __pyx_t_4;
-          __pyx_t_4 = 0;
+          __pyx_v_gro_file = __pyx_t_2;
+          __pyx_t_2 = 0;
 
-          /* "vBabel/GROFiles.pyx":31
+          /* "vBabel/GROFiles.pyx":33
  *     with open(infile, 'r') as gro_file:
  * 
  *         grotext = gro_file.readlines()             # <<<<<<<<<<<<<<
  * 
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)
  */
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_gro_file, __pyx_n_s_readlines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-            if (likely(__pyx_t_2)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-              __Pyx_INCREF(__pyx_t_2);
+          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_gro_file, __pyx_n_s_readlines); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __pyx_t_1 = NULL;
+          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+            __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+            if (likely(__pyx_t_1)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+              __Pyx_INCREF(__pyx_t_1);
               __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_1, function);
+              __Pyx_DECREF_SET(__pyx_t_3, function);
             }
           }
-          __pyx_t_4 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
-          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_v_grotext = __pyx_t_4;
-          __pyx_t_4 = 0;
+          __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+          if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __pyx_v_grotext = __pyx_t_2;
+          __pyx_t_2 = 0;
 
-          /* "vBabel/GROFiles.pyx":33
+          /* "vBabel/GROFiles.pyx":35
  *         grotext = gro_file.readlines()
  * 
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)             # <<<<<<<<<<<<<<
@@ -1540,44 +1555,44 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
           __pyx_t_9.__pyx_n = 2;
           __pyx_t_9.gridsize = __pyx_int_3;
           __pyx_t_9.at = __pyx_v_at;
-          __pyx_t_4 = __pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(__pyx_v_grotext, 0, &__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          if ((likely(PyTuple_CheckExact(__pyx_t_4))) || (PyList_CheckExact(__pyx_t_4))) {
-            PyObject* sequence = __pyx_t_4;
+          __pyx_t_2 = __pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(__pyx_v_grotext, 0, &__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
+            PyObject* sequence = __pyx_t_2;
             Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
             if (unlikely(size != 2)) {
               if (size > 2) __Pyx_RaiseTooManyValuesError(2);
               else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-              __PYX_ERR(0, 33, __pyx_L7_error)
+              __PYX_ERR(0, 35, __pyx_L7_error)
             }
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
             if (likely(PyTuple_CheckExact(sequence))) {
-              __pyx_t_1 = PyTuple_GET_ITEM(sequence, 0); 
-              __pyx_t_2 = PyTuple_GET_ITEM(sequence, 1); 
+              __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
+              __pyx_t_1 = PyTuple_GET_ITEM(sequence, 1); 
             } else {
-              __pyx_t_1 = PyList_GET_ITEM(sequence, 0); 
-              __pyx_t_2 = PyList_GET_ITEM(sequence, 1); 
+              __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
+              __pyx_t_1 = PyList_GET_ITEM(sequence, 1); 
             }
+            __Pyx_INCREF(__pyx_t_3);
             __Pyx_INCREF(__pyx_t_1);
-            __Pyx_INCREF(__pyx_t_2);
             #else
-            __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L7_error)
+            __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L7_error)
+            __Pyx_GOTREF(__pyx_t_3);
+            __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L7_error)
-            __Pyx_GOTREF(__pyx_t_2);
             #endif
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           } else {
             Py_ssize_t index = -1;
-            __pyx_t_5 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 33, __pyx_L7_error)
+            __pyx_t_5 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __pyx_t_10 = Py_TYPE(__pyx_t_5)->tp_iternext;
-            index = 0; __pyx_t_1 = __pyx_t_10(__pyx_t_5); if (unlikely(!__pyx_t_1)) goto __pyx_L13_unpacking_failed;
+            index = 0; __pyx_t_3 = __pyx_t_10(__pyx_t_5); if (unlikely(!__pyx_t_3)) goto __pyx_L13_unpacking_failed;
+            __Pyx_GOTREF(__pyx_t_3);
+            index = 1; __pyx_t_1 = __pyx_t_10(__pyx_t_5); if (unlikely(!__pyx_t_1)) goto __pyx_L13_unpacking_failed;
             __Pyx_GOTREF(__pyx_t_1);
-            index = 1; __pyx_t_2 = __pyx_t_10(__pyx_t_5); if (unlikely(!__pyx_t_2)) goto __pyx_L13_unpacking_failed;
-            __Pyx_GOTREF(__pyx_t_2);
-            if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_5), 2) < 0) __PYX_ERR(0, 33, __pyx_L7_error)
+            if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_5), 2) < 0) __PYX_ERR(0, 35, __pyx_L7_error)
             __pyx_t_10 = NULL;
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             goto __pyx_L14_unpacking_done;
@@ -1585,56 +1600,56 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             __pyx_t_10 = NULL;
             if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-            __PYX_ERR(0, 33, __pyx_L7_error)
+            __PYX_ERR(0, 35, __pyx_L7_error)
             __pyx_L14_unpacking_done:;
           }
-          __pyx_v_atoms = __pyx_t_1;
+          __pyx_v_atoms = __pyx_t_3;
+          __pyx_t_3 = 0;
+          __pyx_v_frame = __pyx_t_1;
           __pyx_t_1 = 0;
-          __pyx_v_frame = __pyx_t_2;
-          __pyx_t_2 = 0;
 
-          /* "vBabel/GROFiles.pyx":34
+          /* "vBabel/GROFiles.pyx":36
  * 
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)
  *         frame = np.array(frame, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         frames = [frame]
  *         #frames = []
  */
-          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L7_error)
+          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_2);
           __Pyx_INCREF(__pyx_v_frame);
           __Pyx_GIVEREF(__pyx_v_frame);
-          PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_frame);
-          __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L7_error)
+          PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_frame);
+          __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 34, __pyx_L7_error)
+          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 36, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_11) < 0) __PYX_ERR(0, 34, __pyx_L7_error)
+          if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_11) < 0) __PYX_ERR(0, 36, __pyx_L7_error)
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 34, __pyx_L7_error)
+          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 36, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF_SET(__pyx_v_frame, __pyx_t_11);
           __pyx_t_11 = 0;
 
-          /* "vBabel/GROFiles.pyx":35
+          /* "vBabel/GROFiles.pyx":37
  *         atoms, frame = get_atom_info_from_raw_line(grotext, gridsize = 3, at = at)
  *         frame = np.array(frame, dtype=np.float32)
  *         frames = [frame]             # <<<<<<<<<<<<<<
  *         #frames = []
  *     #    n    = 0
  */
-          __pyx_t_11 = PyList_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 35, __pyx_L7_error)
+          __pyx_t_11 = PyList_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 37, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_INCREF(__pyx_v_frame);
           __Pyx_GIVEREF(__pyx_v_frame);
@@ -1642,9 +1657,9 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
           __pyx_v_frames = ((PyObject*)__pyx_t_11);
           __pyx_t_11 = 0;
 
-          /* "vBabel/GROFiles.pyx":29
+          /* "vBabel/GROFiles.pyx":31
  *     #-------------------------------------------------------------------------------------------
- *     at  =  vismolSession.vConfig.atom_types
+ *     at  =  MolecularProperties.AtomTypes()
  *     with open(infile, 'r') as gro_file:             # <<<<<<<<<<<<<<
  * 
  *         grotext = gro_file.readlines()
@@ -1658,36 +1673,36 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         /*except:*/ {
           __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_1, &__pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L9_except_error)
+          if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_3, &__pyx_t_2) < 0) __PYX_ERR(0, 31, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = PyTuple_Pack(3, __pyx_t_11, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L9_except_error)
+          __Pyx_GOTREF(__pyx_t_3);
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 29, __pyx_L9_except_error)
+          __pyx_t_1 = PyTuple_Pack(3, __pyx_t_11, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L9_except_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 31, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_12);
           __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_12);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          if (__pyx_t_13 < 0) __PYX_ERR(0, 29, __pyx_L9_except_error)
+          if (__pyx_t_13 < 0) __PYX_ERR(0, 31, __pyx_L9_except_error)
           __pyx_t_14 = ((!(__pyx_t_13 != 0)) != 0);
           if (__pyx_t_14) {
             __Pyx_GIVEREF(__pyx_t_11);
-            __Pyx_GIVEREF(__pyx_t_1);
-            __Pyx_XGIVEREF(__pyx_t_4);
-            __Pyx_ErrRestoreWithState(__pyx_t_11, __pyx_t_1, __pyx_t_4);
-            __pyx_t_11 = 0; __pyx_t_1 = 0; __pyx_t_4 = 0; 
-            __PYX_ERR(0, 29, __pyx_L9_except_error)
+            __Pyx_GIVEREF(__pyx_t_3);
+            __Pyx_XGIVEREF(__pyx_t_2);
+            __Pyx_ErrRestoreWithState(__pyx_t_11, __pyx_t_3, __pyx_t_2);
+            __pyx_t_11 = 0; __pyx_t_3 = 0; __pyx_t_2 = 0; 
+            __PYX_ERR(0, 31, __pyx_L9_except_error)
           }
           __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           goto __pyx_L8_exception_handled;
         }
         __pyx_L9_except_error:;
@@ -1706,10 +1721,10 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
     }
     /*finally:*/ {
       /*normal exit:*/{
-        if (__pyx_t_3) {
-          __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple_, NULL);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 29, __pyx_L1_error)
+        if (__pyx_t_4) {
+          __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple_, NULL);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 31, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -1719,113 +1734,113 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
     }
     goto __pyx_L18;
     __pyx_L3_error:;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L1_error;
     __pyx_L18:;
   }
 
-  /* "vBabel/GROFiles.pyx":46
+  /* "vBabel/GROFiles.pyx":48
  *     ##-------------------------------------------------------------------------------------------
  *     #
  *     name = os.path.basename(infile)             # <<<<<<<<<<<<<<
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_os); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_path); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_os); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_path); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_basename); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_basename); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __pyx_t_11 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_1);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_3);
     if (likely(__pyx_t_11)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_11);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_4 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_11, __pyx_v_infile) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_infile);
+  __pyx_t_2 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_11, __pyx_v_infile) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_infile);
   __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_name = __pyx_t_4;
-  __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_name = __pyx_t_2;
+  __pyx_t_2 = 0;
 
-  /* "vBabel/GROFiles.pyx":47
+  /* "vBabel/GROFiles.pyx":49
  *     #
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
  *                                                atoms       = atoms,
  *                                                vismolSession   = vismolSession,
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "vBabel/GROFiles.pyx":48
+  /* "vBabel/GROFiles.pyx":50
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,             # <<<<<<<<<<<<<<
  *                                                vismolSession   = vismolSession,
  *                                                trajectory  = frames,
  */
-  if (unlikely(!__pyx_v_atoms)) { __Pyx_RaiseUnboundLocalError("atoms"); __PYX_ERR(0, 48, __pyx_L1_error) }
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_atoms, __pyx_v_atoms) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (unlikely(!__pyx_v_atoms)) { __Pyx_RaiseUnboundLocalError("atoms"); __PYX_ERR(0, 50, __pyx_L1_error) }
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atoms, __pyx_v_atoms) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "vBabel/GROFiles.pyx":49
+  /* "vBabel/GROFiles.pyx":51
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,
  *                                                vismolSession   = vismolSession,             # <<<<<<<<<<<<<<
  *                                                trajectory  = frames,
  *                                                auto_find_bonded_and_nonbonded = True)
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "vBabel/GROFiles.pyx":50
+  /* "vBabel/GROFiles.pyx":52
  *                                                atoms       = atoms,
  *                                                vismolSession   = vismolSession,
  *                                                trajectory  = frames,             # <<<<<<<<<<<<<<
  *                                                auto_find_bonded_and_nonbonded = True)
  *     '''
  */
-  if (unlikely(!__pyx_v_frames)) { __Pyx_RaiseUnboundLocalError("frames"); __PYX_ERR(0, 50, __pyx_L1_error) }
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_trajectory, __pyx_v_frames) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (unlikely(!__pyx_v_frames)) { __Pyx_RaiseUnboundLocalError("frames"); __PYX_ERR(0, 52, __pyx_L1_error) }
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_trajectory, __pyx_v_frames) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "vBabel/GROFiles.pyx":51
+  /* "vBabel/GROFiles.pyx":53
  *                                                vismolSession   = vismolSession,
  *                                                trajectory  = frames,
  *                                                auto_find_bonded_and_nonbonded = True)             # <<<<<<<<<<<<<<
  *     '''
  *     #-------------------------------------------------------------------------------------------
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_auto_find_bonded_and_nonbonded, Py_True) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_auto_find_bonded_and_nonbonded, Py_True) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
-  /* "vBabel/GROFiles.pyx":47
+  /* "vBabel/GROFiles.pyx":49
  *     #
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
  *                                                atoms       = atoms,
  *                                                vismolSession   = vismolSession,
  */
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_vismol_object = __pyx_t_11;
   __pyx_t_11 = 0;
 
-  /* "vBabel/GROFiles.pyx":76
+  /* "vBabel/GROFiles.pyx":78
  * 
  *     #-------------------------------------------------------------------------------------------
  *     return vismol_object             # <<<<<<<<<<<<<<
@@ -1837,7 +1852,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
   __pyx_r = __pyx_v_vismol_object;
   goto __pyx_L0;
 
-  /* "vBabel/GROFiles.pyx":10
+  /* "vBabel/GROFiles.pyx":12
  * from pprint import pprint
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
@@ -1849,7 +1864,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -1918,7 +1933,7 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self,
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_gro_file") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_gro_file") < 0)) __PYX_ERR(0, 12, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1938,7 +1953,7 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("load_gro_file", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("load_gro_file", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 12, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vBabel.GROFiles.load_gro_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1962,7 +1977,7 @@ static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject
   __pyx_t_2.infile = __pyx_v_infile;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
   __pyx_t_2.vismolSession = __pyx_v_vismolSession;
-  __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_load_gro_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_load_gro_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1979,7 +1994,7 @@ static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "vBabel/GROFiles.pyx":80
+/* "vBabel/GROFiles.pyx":82
  * 
  * 
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
@@ -2033,19 +2048,19 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     }
   }
 
-  /* "vBabel/GROFiles.pyx":82
+  /* "vBabel/GROFiles.pyx":84
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):
  *     #try:
  *     atoms           = []             # <<<<<<<<<<<<<<
  *     index           = 0
  *     size            = int(lines[1])
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_atoms = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vBabel/GROFiles.pyx":83
+  /* "vBabel/GROFiles.pyx":85
  *     #try:
  *     atoms           = []
  *     index           = 0             # <<<<<<<<<<<<<<
@@ -2055,52 +2070,52 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_index = __pyx_int_0;
 
-  /* "vBabel/GROFiles.pyx":84
+  /* "vBabel/GROFiles.pyx":86
  *     atoms           = []
  *     index           = 0
  *     size            = int(lines[1])             # <<<<<<<<<<<<<<
  *     frame           = []
  *     for line in lines[2:size+2]:
  */
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_lines, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_lines, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_size = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "vBabel/GROFiles.pyx":85
+  /* "vBabel/GROFiles.pyx":87
  *     index           = 0
  *     size            = int(lines[1])
  *     frame           = []             # <<<<<<<<<<<<<<
  *     for line in lines[2:size+2]:
  *         at_resi    = int(line[0:5])
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_frame = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "vBabel/GROFiles.pyx":86
+  /* "vBabel/GROFiles.pyx":88
  *     size            = int(lines[1])
  *     frame           = []
  *     for line in lines[2:size+2]:             # <<<<<<<<<<<<<<
  *         at_resi    = int(line[0:5])
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_size, __pyx_int_2, 2, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_size, __pyx_int_2, 2, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_lines, 2, 0, NULL, &__pyx_t_2, NULL, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_lines, 2, 0, NULL, &__pyx_t_2, NULL, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -2108,17 +2123,17 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -2128,7 +2143,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 86, __pyx_L1_error)
+          else __PYX_ERR(0, 88, __pyx_L1_error)
         }
         break;
       }
@@ -2137,31 +2152,31 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vBabel/GROFiles.pyx":87
+    /* "vBabel/GROFiles.pyx":89
  *     frame           = []
  *     for line in lines[2:size+2]:
  *         at_resi    = int(line[0:5])             # <<<<<<<<<<<<<<
  * 
  *         at_resn    = line[5:10].strip()
  */
-    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 5, NULL, NULL, &__pyx_slice__2, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line, 0, 5, NULL, NULL, &__pyx_slice__2, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_at_resi, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":89
+    /* "vBabel/GROFiles.pyx":91
  *         at_resi    = int(line[0:5])
  * 
  *         at_resn    = line[5:10].strip()             # <<<<<<<<<<<<<<
  * 
  *         at_name    = line[10:15].strip()
  */
-    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line, 5, 10, NULL, NULL, &__pyx_slice__3, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line, 5, 10, NULL, NULL, &__pyx_slice__3, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_strip); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_strip); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -2176,22 +2191,22 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     }
     __pyx_t_5 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_at_resn, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":91
+    /* "vBabel/GROFiles.pyx":93
  *         at_resn    = line[5:10].strip()
  * 
  *         at_name    = line[10:15].strip()             # <<<<<<<<<<<<<<
  * 
  *         #index      = int(line[15:20])
  */
-    __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_line, 10, 15, NULL, NULL, &__pyx_slice__4, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_line, 10, 15, NULL, NULL, &__pyx_slice__4, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_strip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_strip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -2206,106 +2221,106 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     }
     __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_at_name, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":95
+    /* "vBabel/GROFiles.pyx":97
  *         #index      = int(line[15:20])
  * 
  *         x          =float(line[20:28])*10             # <<<<<<<<<<<<<<
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10
  */
-    __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_line, 20, 28, NULL, NULL, &__pyx_slice__5, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_line, 20, 28, NULL, NULL, &__pyx_slice__5, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 97, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_7 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_7 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_x = (__pyx_t_7 * 10.0);
 
-    /* "vBabel/GROFiles.pyx":96
+    /* "vBabel/GROFiles.pyx":98
  * 
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10             # <<<<<<<<<<<<<<
  *         z          =float(line[36:44])*10
  *         frame.append(x)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_line, 28, 36, NULL, NULL, &__pyx_slice__6, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_line, 28, 36, NULL, NULL, &__pyx_slice__6, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_7 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_7 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_y = (__pyx_t_7 * 10.0);
 
-    /* "vBabel/GROFiles.pyx":97
+    /* "vBabel/GROFiles.pyx":99
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10             # <<<<<<<<<<<<<<
  *         frame.append(x)
  *         frame.append(y)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_line, 36, 44, NULL, NULL, &__pyx_slice__7, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 97, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_line, 36, 44, NULL, NULL, &__pyx_slice__7, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_7 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_7 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_z = (__pyx_t_7 * 10.0);
 
-    /* "vBabel/GROFiles.pyx":98
+    /* "vBabel/GROFiles.pyx":100
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10
  *         frame.append(x)             # <<<<<<<<<<<<<<
  *         frame.append(y)
  *         frame.append(z)
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_x); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_x); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 98, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":99
+    /* "vBabel/GROFiles.pyx":101
  *         z          =float(line[36:44])*10
  *         frame.append(x)
  *         frame.append(y)             # <<<<<<<<<<<<<<
  *         frame.append(z)
  *         at_pos     = np.array([x,y,z])
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 101, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":100
+    /* "vBabel/GROFiles.pyx":102
  *         frame.append(x)
  *         frame.append(y)
  *         frame.append(z)             # <<<<<<<<<<<<<<
  *         at_pos     = np.array([x,y,z])
  * 
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_frame, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":101
+    /* "vBabel/GROFiles.pyx":103
  *         frame.append(y)
  *         frame.append(z)
  *         at_pos     = np.array([x,y,z])             # <<<<<<<<<<<<<<
  * 
  *         at_ch      = 'X'
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_y); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_y); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_z); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 101, __pyx_L1_error)
+    __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_GIVEREF(__pyx_t_1);
     PyList_SET_ITEM(__pyx_t_11, 0, __pyx_t_1);
@@ -2329,13 +2344,13 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     __pyx_t_5 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_10, __pyx_t_11) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_11);
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_at_pos, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":103
+    /* "vBabel/GROFiles.pyx":105
  *         at_pos     = np.array([x,y,z])
  * 
  *         at_ch      = 'X'             # <<<<<<<<<<<<<<
@@ -2345,14 +2360,14 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     __Pyx_INCREF(__pyx_n_s_X);
     __Pyx_XDECREF_SET(__pyx_v_at_ch, __pyx_n_s_X);
 
-    /* "vBabel/GROFiles.pyx":105
+    /* "vBabel/GROFiles.pyx":107
  *         at_ch      = 'X'
  * 
  *         at_symbol  = at.get_symbol(at_name)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_symbol); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_symbol); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_11 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2366,13 +2381,13 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     }
     __pyx_t_5 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_11, __pyx_v_at_name) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_at_name);
     __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 105, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_at_symbol, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":108
+    /* "vBabel/GROFiles.pyx":110
  * 
  * 
  *         at_occup   = 0.0   #occupancy             # <<<<<<<<<<<<<<
@@ -2381,7 +2396,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
  */
     __pyx_v_at_occup = 0.0;
 
-    /* "vBabel/GROFiles.pyx":109
+    /* "vBabel/GROFiles.pyx":111
  * 
  *         at_occup   = 0.0   #occupancy
  *         at_bfactor = 0.0             # <<<<<<<<<<<<<<
@@ -2390,7 +2405,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
  */
     __pyx_v_at_bfactor = 0.0;
 
-    /* "vBabel/GROFiles.pyx":110
+    /* "vBabel/GROFiles.pyx":112
  *         at_occup   = 0.0   #occupancy
  *         at_bfactor = 0.0
  *         at_charge  = 0.0             # <<<<<<<<<<<<<<
@@ -2399,14 +2414,14 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
  */
     __pyx_v_at_charge = 0.0;
 
-    /* "vBabel/GROFiles.pyx":112
+    /* "vBabel/GROFiles.pyx":114
  *         at_charge  = 0.0
  * 
  *         cov_rad  = at.get_cov_rad (at_symbol)             # <<<<<<<<<<<<<<
  *         gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]
  *         #ocupan   = float(line[54:60])
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_cov_rad); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_at, __pyx_n_s_get_cov_rad); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_11 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2420,44 +2435,44 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     }
     __pyx_t_5 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_11, __pyx_v_at_symbol) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_at_symbol);
     __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 112, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_cov_rad, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vBabel/GROFiles.pyx":113
+    /* "vBabel/GROFiles.pyx":115
  * 
  *         cov_rad  = at.get_cov_rad (at_symbol)
  *         gridpos  = [int(at_pos[0]/gridsize), int(at_pos[1]/gridsize), int(at_pos[2]/gridsize)]             # <<<<<<<<<<<<<<
  *         #ocupan   = float(line[54:60])
  *         #bfactor  = float(line[60:66])
  */
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_at_pos, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_at_pos, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_v_gridsize); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_v_gridsize); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_at_pos, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_at_pos, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_v_gridsize); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_v_gridsize); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyNumber_Int(__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyNumber_Int(__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_at_pos, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_at_pos, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_v_gridsize); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_v_gridsize); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_PyNumber_Int(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyNumber_Int(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_5);
     PyList_SET_ITEM(__pyx_t_10, 0, __pyx_t_5);
@@ -2471,121 +2486,121 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
     __Pyx_XDECREF_SET(__pyx_v_gridpos, ((PyObject*)__pyx_t_10));
     __pyx_t_10 = 0;
 
-    /* "vBabel/GROFiles.pyx":120
+    /* "vBabel/GROFiles.pyx":122
  *         #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
  *         atoms.append({
  *                       'index'      : index      ,             # <<<<<<<<<<<<<<
  *                       'name'       : at_name    ,
  *                       'resi'       : at_resi    ,
  */
-    __pyx_t_10 = __Pyx_PyDict_NewPresized(9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyDict_NewPresized(9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_index, __pyx_v_index) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_index, __pyx_v_index) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "vBabel/GROFiles.pyx":121
+    /* "vBabel/GROFiles.pyx":123
  *         atoms.append({
  *                       'index'      : index      ,
  *                       'name'       : at_name    ,             # <<<<<<<<<<<<<<
  *                       'resi'       : at_resi    ,
  *                       'resn'       : at_resn    ,
  */
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_name, __pyx_v_at_name) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_name, __pyx_v_at_name) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "vBabel/GROFiles.pyx":122
+    /* "vBabel/GROFiles.pyx":124
  *                       'index'      : index      ,
  *                       'name'       : at_name    ,
  *                       'resi'       : at_resi    ,             # <<<<<<<<<<<<<<
  *                       'resn'       : at_resn    ,
  *                       'chain'      : at_ch      ,
  */
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_resi, __pyx_v_at_resi) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_resi, __pyx_v_at_resi) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "vBabel/GROFiles.pyx":123
+    /* "vBabel/GROFiles.pyx":125
  *                       'name'       : at_name    ,
  *                       'resi'       : at_resi    ,
  *                       'resn'       : at_resn    ,             # <<<<<<<<<<<<<<
  *                       'chain'      : at_ch      ,
  *                       'symbol'     : at_symbol  ,
  */
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_resn, __pyx_v_at_resn) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_resn, __pyx_v_at_resn) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "vBabel/GROFiles.pyx":124
+    /* "vBabel/GROFiles.pyx":126
  *                       'resi'       : at_resi    ,
  *                       'resn'       : at_resn    ,
  *                       'chain'      : at_ch      ,             # <<<<<<<<<<<<<<
  *                       'symbol'     : at_symbol  ,
  *                       'occupancy'  : at_occup   ,
  */
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_chain, __pyx_v_at_ch) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_chain, __pyx_v_at_ch) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "vBabel/GROFiles.pyx":125
+    /* "vBabel/GROFiles.pyx":127
  *                       'resn'       : at_resn    ,
  *                       'chain'      : at_ch      ,
  *                       'symbol'     : at_symbol  ,             # <<<<<<<<<<<<<<
  *                       'occupancy'  : at_occup   ,
  *                       'bfactor'    : at_bfactor ,
  */
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_symbol, __pyx_v_at_symbol) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_symbol, __pyx_v_at_symbol) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
 
-    /* "vBabel/GROFiles.pyx":126
+    /* "vBabel/GROFiles.pyx":128
  *                       'chain'      : at_ch      ,
  *                       'symbol'     : at_symbol  ,
  *                       'occupancy'  : at_occup   ,             # <<<<<<<<<<<<<<
  *                       'bfactor'    : at_bfactor ,
  *                       'charge'     : at_charge
  */
-    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_occup); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_occup); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_occupancy, __pyx_t_11) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_occupancy, __pyx_t_11) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "vBabel/GROFiles.pyx":127
+    /* "vBabel/GROFiles.pyx":129
  *                       'symbol'     : at_symbol  ,
  *                       'occupancy'  : at_occup   ,
  *                       'bfactor'    : at_bfactor ,             # <<<<<<<<<<<<<<
  *                       'charge'     : at_charge
  *                       })
  */
-    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_bfactor); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_bfactor); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_bfactor, __pyx_t_11) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_bfactor, __pyx_t_11) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "vBabel/GROFiles.pyx":128
+    /* "vBabel/GROFiles.pyx":130
  *                       'occupancy'  : at_occup   ,
  *                       'bfactor'    : at_bfactor ,
  *                       'charge'     : at_charge             # <<<<<<<<<<<<<<
  *                       })
  * 
  */
-    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_charge); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 128, __pyx_L1_error)
+    __pyx_t_11 = PyFloat_FromDouble(__pyx_v_at_charge); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_charge, __pyx_t_11) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_charge, __pyx_t_11) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "vBabel/GROFiles.pyx":119
+    /* "vBabel/GROFiles.pyx":121
  *                         #0      1        2        3       4        5        6       7       8       9       10          11        12
  *         #atoms.append([index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ])
  *         atoms.append({             # <<<<<<<<<<<<<<
  *                       'index'      : index      ,
  *                       'name'       : at_name    ,
  */
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_atoms, __pyx_t_10); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_atoms, __pyx_t_10); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vBabel/GROFiles.pyx":133
+    /* "vBabel/GROFiles.pyx":135
  * 
  *         #print (index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge )
  *         index += 1             # <<<<<<<<<<<<<<
  * 
  *     return atoms, frame
  */
-    __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF_SET(__pyx_v_index, __pyx_t_10);
     __pyx_t_10 = 0;
 
-    /* "vBabel/GROFiles.pyx":86
+    /* "vBabel/GROFiles.pyx":88
  *     size            = int(lines[1])
  *     frame           = []
  *     for line in lines[2:size+2]:             # <<<<<<<<<<<<<<
@@ -2595,7 +2610,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vBabel/GROFiles.pyx":135
+  /* "vBabel/GROFiles.pyx":137
  *         index += 1
  * 
  *     return atoms, frame             # <<<<<<<<<<<<<<
@@ -2603,7 +2618,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_atoms);
   __Pyx_GIVEREF(__pyx_v_atoms);
@@ -2615,7 +2630,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(PyObject 
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "vBabel/GROFiles.pyx":80
+  /* "vBabel/GROFiles.pyx":82
  * 
  * 
  * cpdef get_atom_info_from_raw_line(lines, gridsize = 3, at =  None):             # <<<<<<<<<<<<<<
@@ -2699,7 +2714,7 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_3get_atom_info_from_raw_line(PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_atom_info_from_raw_line") < 0)) __PYX_ERR(0, 80, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_atom_info_from_raw_line") < 0)) __PYX_ERR(0, 82, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2718,7 +2733,7 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_3get_atom_info_from_raw_line(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_atom_info_from_raw_line", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 80, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_atom_info_from_raw_line", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 82, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vBabel.GROFiles.get_atom_info_from_raw_line", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2741,7 +2756,7 @@ static PyObject *__pyx_pf_6vBabel_8GROFiles_2get_atom_info_from_raw_line(CYTHON_
   __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
   __pyx_t_2.at = __pyx_v_at;
-  __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(__pyx_v_lines, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_get_atom_info_from_raw_line(__pyx_v_lines, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2806,11 +2821,12 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_n_s_AtomTypes, __pyx_k_AtomTypes, sizeof(__pyx_k_AtomTypes), 0, 0, 1, 1},
+  {&__pyx_n_s_MolecularProperties, __pyx_k_MolecularProperties, sizeof(__pyx_k_MolecularProperties), 0, 0, 1, 1},
   {&__pyx_n_s_VismolObject, __pyx_k_VismolObject, sizeof(__pyx_k_VismolObject), 0, 0, 1, 1},
   {&__pyx_n_s_X, __pyx_k_X, sizeof(__pyx_k_X), 0, 0, 1, 1},
   {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
   {&__pyx_n_s_at, __pyx_k_at, sizeof(__pyx_k_at), 0, 0, 1, 1},
-  {&__pyx_n_s_atom_types, __pyx_k_atom_types, sizeof(__pyx_k_atom_types), 0, 0, 1, 1},
   {&__pyx_n_s_atoms, __pyx_k_atoms, sizeof(__pyx_k_atoms), 0, 0, 1, 1},
   {&__pyx_n_s_auto_find_bonded_and_nonbonded, __pyx_k_auto_find_bonded_and_nonbonded, sizeof(__pyx_k_auto_find_bonded_and_nonbonded), 0, 0, 1, 1},
   {&__pyx_n_s_basename, __pyx_k_basename, sizeof(__pyx_k_basename), 0, 0, 1, 1},
@@ -2849,13 +2865,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_trajectory, __pyx_k_trajectory, sizeof(__pyx_k_trajectory), 0, 0, 1, 1},
-  {&__pyx_n_s_vConfig, __pyx_k_vConfig, sizeof(__pyx_k_vConfig), 0, 0, 1, 1},
   {&__pyx_n_s_vModel, __pyx_k_vModel, sizeof(__pyx_k_vModel), 0, 0, 1, 1},
   {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 31, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2865,80 +2880,80 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "vBabel/GROFiles.pyx":29
+  /* "vBabel/GROFiles.pyx":31
  *     #-------------------------------------------------------------------------------------------
- *     at  =  vismolSession.vConfig.atom_types
+ *     at  =  MolecularProperties.AtomTypes()
  *     with open(infile, 'r') as gro_file:             # <<<<<<<<<<<<<<
  * 
  *         grotext = gro_file.readlines()
  */
-  __pyx_tuple_ = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "vBabel/GROFiles.pyx":87
+  /* "vBabel/GROFiles.pyx":89
  *     frame           = []
  *     for line in lines[2:size+2]:
  *         at_resi    = int(line[0:5])             # <<<<<<<<<<<<<<
  * 
  *         at_resn    = line[5:10].strip()
  */
-  __pyx_slice__2 = PySlice_New(__pyx_int_0, __pyx_int_5, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_slice__2 = PySlice_New(__pyx_int_0, __pyx_int_5, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
 
-  /* "vBabel/GROFiles.pyx":89
+  /* "vBabel/GROFiles.pyx":91
  *         at_resi    = int(line[0:5])
  * 
  *         at_resn    = line[5:10].strip()             # <<<<<<<<<<<<<<
  * 
  *         at_name    = line[10:15].strip()
  */
-  __pyx_slice__3 = PySlice_New(__pyx_int_5, __pyx_int_10, Py_None); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_slice__3 = PySlice_New(__pyx_int_5, __pyx_int_10, Py_None); if (unlikely(!__pyx_slice__3)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__3);
   __Pyx_GIVEREF(__pyx_slice__3);
 
-  /* "vBabel/GROFiles.pyx":91
+  /* "vBabel/GROFiles.pyx":93
  *         at_resn    = line[5:10].strip()
  * 
  *         at_name    = line[10:15].strip()             # <<<<<<<<<<<<<<
  * 
  *         #index      = int(line[15:20])
  */
-  __pyx_slice__4 = PySlice_New(__pyx_int_10, __pyx_int_15, Py_None); if (unlikely(!__pyx_slice__4)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_slice__4 = PySlice_New(__pyx_int_10, __pyx_int_15, Py_None); if (unlikely(!__pyx_slice__4)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__4);
   __Pyx_GIVEREF(__pyx_slice__4);
 
-  /* "vBabel/GROFiles.pyx":95
+  /* "vBabel/GROFiles.pyx":97
  *         #index      = int(line[15:20])
  * 
  *         x          =float(line[20:28])*10             # <<<<<<<<<<<<<<
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10
  */
-  __pyx_slice__5 = PySlice_New(__pyx_int_20, __pyx_int_28, Py_None); if (unlikely(!__pyx_slice__5)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_slice__5 = PySlice_New(__pyx_int_20, __pyx_int_28, Py_None); if (unlikely(!__pyx_slice__5)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__5);
   __Pyx_GIVEREF(__pyx_slice__5);
 
-  /* "vBabel/GROFiles.pyx":96
+  /* "vBabel/GROFiles.pyx":98
  * 
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10             # <<<<<<<<<<<<<<
  *         z          =float(line[36:44])*10
  *         frame.append(x)
  */
-  __pyx_slice__6 = PySlice_New(__pyx_int_28, __pyx_int_36, Py_None); if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_slice__6 = PySlice_New(__pyx_int_28, __pyx_int_36, Py_None); if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__6);
   __Pyx_GIVEREF(__pyx_slice__6);
 
-  /* "vBabel/GROFiles.pyx":97
+  /* "vBabel/GROFiles.pyx":99
  *         x          =float(line[20:28])*10
  *         y          =float(line[28:36])*10
  *         z          =float(line[36:44])*10             # <<<<<<<<<<<<<<
  *         frame.append(x)
  *         frame.append(y)
  */
-  __pyx_slice__7 = PySlice_New(__pyx_int_36, __pyx_int_44, Py_None); if (unlikely(!__pyx_slice__7)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_slice__7 = PySlice_New(__pyx_int_36, __pyx_int_44, Py_None); if (unlikely(!__pyx_slice__7)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__7);
   __Pyx_GIVEREF(__pyx_slice__7);
   __Pyx_RefNannyFinishContext();
@@ -3277,7 +3292,7 @@ if (!__Pyx_RefNanny) {
  * #import vModel.atom_types as at
  * #import vModel.cDistances as cdist
  * from   vModel import VismolObject             # <<<<<<<<<<<<<<
- * from pprint import pprint
+ * from   vModel import MolecularProperties
  * 
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
@@ -3297,33 +3312,54 @@ if (!__Pyx_RefNanny) {
   /* "vBabel/GROFiles.pyx":8
  * #import vModel.cDistances as cdist
  * from   vModel import VismolObject
+ * from   vModel import MolecularProperties             # <<<<<<<<<<<<<<
+ * 
+ * from pprint import pprint
+ */
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_MolecularProperties);
+  __Pyx_GIVEREF(__pyx_n_s_MolecularProperties);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_MolecularProperties);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_vModel, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_MolecularProperties); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MolecularProperties, __pyx_t_2) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "vBabel/GROFiles.pyx":10
+ * from   vModel import MolecularProperties
+ * 
  * from pprint import pprint             # <<<<<<<<<<<<<<
  * 
  * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_pprint);
   __Pyx_GIVEREF(__pyx_n_s_pprint);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_pprint);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pprint, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_pprint); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_pprint);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pprint, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pprint, __pyx_t_2) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_pprint); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pprint, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "vBabel/GROFiles.pyx":1
  * import os             # <<<<<<<<<<<<<<
  * import time
  * import multiprocessing
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -3396,25 +3432,66 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
-/* PyObjectCall */
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
 #if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
     }
-    return result;
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
 }
 #endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
+}
 
 /* PyFunctionFastCall */
 #if CYTHON_FAST_PYCALL
@@ -3533,6 +3610,26 @@ done:
     return result;
 }
 #endif
+#endif
+
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
 #endif
 
 /* PyObjectCallMethO */
@@ -3698,67 +3795,6 @@ static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
         return __Pyx_IterFinish();
     }
     return 0;
-}
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
 }
 
 /* GetTopmostException */

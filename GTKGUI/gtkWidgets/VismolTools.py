@@ -2,7 +2,7 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-
+from gi.repository import Gdk
 
 class VismolStatusBar (Gtk.Statusbar):
     """ Class doc """
@@ -290,7 +290,12 @@ class VismolGoToAtomWindow2(Gtk.Window):
         
         #print(widget.get_active_id())
         #print(widget.get_active_iter())
-        self.VObj = self.vismolSession.vismol_objects[widget.get_active()]
+        
+        #self.vismolSession.vismol_objects_dic.items()
+        
+        #self.vismolSession.vismol_objects_dic.items()
+        self.VObj = self.vismolSession.vismol_objects_dic[widget.get_active()]
+        #self.VObj = self.vismolSession.vismol_objects[widget.get_active()]
         
         
         self.liststore_chains = Gtk.ListStore(str)
@@ -601,6 +606,9 @@ class VismolSelectionTypeBox(Gtk.Box):
             self.vismolSession.viewing_selection_mode(sel_type = 'residue')
         if self.active == 2:
             self.vismolSession.viewing_selection_mode(sel_type = 'chain')
+        
+        if self.active == 3:
+            self.vismolSession.viewing_selection_mode(sel_type = 'molecule')
             
     def change_sel_type_in_combobox (self, sel_type):
         """ Function doc """
@@ -611,6 +619,8 @@ class VismolSelectionTypeBox(Gtk.Box):
             self.combobox_selection_type.set_active(1)
         if sel_type == 'chain':
             self.combobox_selection_type.set_active(2)
+        if sel_type == 'molecule':
+            self.combobox_selection_type.set_active(3)
     
     def on_toggle_button_selecting_mode (self, button):
         """ Function doc """
@@ -624,6 +634,10 @@ class VismolSelectionTypeBox(Gtk.Box):
             
             self.combobox_selection_type.set_sensitive(False)
             self.label_selecting_by.set_sensitive(False)
+            
+            circle = Gdk.Cursor(Gdk.CursorType.CROSSHAIR)
+            button.get_window().set_cursor(circle)
+            
         else:
             state = "off"
             self.vismolSession._picking_selection_mode = False
@@ -632,7 +646,11 @@ class VismolSelectionTypeBox(Gtk.Box):
             
             self.combobox_selection_type.set_sensitive(True)
             self.label_selecting_by.set_sensitive(True)
-    
+            
+            
+            circle = Gdk.Cursor(Gdk.CursorType.ARROW)
+            button.get_window().set_cursor(circle)
+            
     def change_toggle_button_selecting_mode_status (self, status = False):
         """ Function doc """
         self.toggle_button_selecting_mode.set_active(status)
@@ -762,13 +780,18 @@ class VismolTrajectoryFrame(Gtk.Frame):
         
     def on_combobox_vobjects_changed (self, widget):
         """ Function doc """
-        print(widget)
-        print(widget.get_active())
+        print('\n\n',widget)
+        print('\n\n',widget.get_active())
         
-        self.VObj = self.vismolSession.vismol_objects[widget.get_active()]
-        number_of_frames = len(self.VObj.frames)
-        self.scale.set_range(0, int(number_of_frames)-1)
-        self.scale.set_value(self.vismolSession.get_frame())
+        cb_index = widget.get_active()
+        if cb_index in self.vismolSession.vismol_objects_dic:
+            self.VObj = self.vismolSession.vismol_objects_dic[widget.get_active()]
+            #self.VObj = self.vismolSession.vismol_objects[widget.get_active()]
+            number_of_frames = len(self.VObj.frames)
+            self.scale.set_range(0, int(number_of_frames))
+            self.scale.set_value(self.vismolSession.get_frame())
+        else:
+            pass
 
     def on_scaler_frame_change_change_value (self, hscale, text= None,  data=None):
         """ Function doc """
@@ -779,7 +802,9 @@ class VismolTrajectoryFrame(Gtk.Frame):
     def update (self):
         """ Function doc """
         print('VismolTrajectoryFrame update')
-        last_obj = len(self.vismolSession.vismol_objects) -1
+        #for index , visObj in self.vismolSession.vismol_objects_dic.items():
+        #last_obj = len(self.vismolSession.vismol_objects) -1
+        last_obj = len(self.vismolSession.vismol_objects_dic.items()) -1
         self.combobox_vobjects.set_active(last_obj)
 
 

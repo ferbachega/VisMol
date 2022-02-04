@@ -820,20 +820,18 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
-struct __pyx_opt_args_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2;
+struct __pyx_opt_args_6vModel_10cDistances_calculate_grid_offset;
 
-/* "vModel/cDistances.pyx":1086
- *     return atomic_grid
+/* "vModel/cDistances.pyx":5
+ * import multiprocessing
  * 
- * cpdef generete_full_NB_and_Bonded_lists_2(atoms = [], gridsize = 3, frame = 0):             # <<<<<<<<<<<<<<
+ * cpdef list calculate_grid_offset(gridsize, maxbond = 2.6):             # <<<<<<<<<<<<<<
  *     '''
- *     atoms = [] it's a list of atom objects
+ *     grid_offset_full = [
  */
-struct __pyx_opt_args_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2 {
+struct __pyx_opt_args_6vModel_10cDistances_calculate_grid_offset {
   int __pyx_n;
-  PyObject *atoms;
-  PyObject *gridsize;
-  PyObject *frame;
+  PyObject *maxbond;
 };
 
 /* --- Runtime support code (head) --- */
@@ -907,27 +905,15 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 #define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
 #endif
 
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
+
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
 #else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
 #endif
 
 /* PyObjectCall.proto */
@@ -937,27 +923,43 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
+/* PyIntCompare.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
 
-/* PyObjectCallNoArg.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+/* ListAppend.proto */
+#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
+static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
+    PyListObject* L = (PyListObject*) list;
+    Py_ssize_t len = Py_SIZE(list);
+    if (likely(L->allocated > len) & likely(len > (L->allocated >> 1))) {
+        Py_INCREF(x);
+        PyList_SET_ITEM(list, len, x);
+        Py_SIZE(list) = len+1;
+        return 0;
+    }
+    return PyList_Append(list, x);
+}
 #else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
 
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
+/* PySequenceContains.proto */
+static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
+    int result = PySequence_Contains(seq, item);
+    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
+}
 
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
@@ -980,212 +982,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
 static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
                                                      int is_list, int wraparound, int boundscheck);
-
-/* PySequenceContains.proto */
-static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
-    int result = PySequence_Contains(seq, item);
-    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
-}
-
-/* ListAppend.proto */
-#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
-static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
-    PyListObject* L = (PyListObject*) list;
-    Py_ssize_t len = Py_SIZE(list);
-    if (likely(L->allocated > len) & likely(len > (L->allocated >> 1))) {
-        Py_INCREF(x);
-        PyList_SET_ITEM(list, len, x);
-        Py_SIZE(list) = len+1;
-        return 0;
-    }
-    return PyList_Append(list, x);
-}
-#else
-#define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
-#endif
-
-/* ObjectGetItem.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
-#else
-#define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
-#endif
-
-/* SliceTupleAndList.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
-static CYTHON_INLINE PyObject* __Pyx_PyTuple_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
-#else
-#define __Pyx_PyList_GetSlice(seq, start, stop)   PySequence_GetSlice(seq, start, stop)
-#define __Pyx_PyTuple_GetSlice(seq, start, stop)  PySequence_GetSlice(seq, start, stop)
-#endif
-
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
-/* PyObjectGetMethod.proto */
-static int __Pyx_PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method);
-
-/* PyObjectCallMethod1.proto */
-static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
-
-/* append.proto */
-static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
-
-/* SetItemInt.proto */
-#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
-               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
-static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
-                                               int is_list, int wraparound, int boundscheck);
-
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-/* RaiseDoubleKeywords.proto */
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-/* ParseKeywords.proto */
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
-
-/* ArgTypeTest.proto */
-#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
-    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
-        __Pyx__ArgTypeTest(obj, type, name, exact))
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
-
-/* PyDictContains.proto */
-static CYTHON_INLINE int __Pyx_PyDict_ContainsTF(PyObject* item, PyObject* dict, int eq) {
-    int result = PyDict_Contains(dict, item);
-    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
-}
-
-/* DictGetItem.proto */
-#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
-static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
-#define __Pyx_PyObject_Dict_GetItem(obj, name)\
-    (likely(PyDict_CheckExact(obj)) ?\
-     __Pyx_PyDict_GetItem(obj, name) : PyObject_GetItem(obj, name))
-#else
-#define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
-#define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
-#endif
-
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
-#endif
-
-/* GetBuiltinName.proto */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
-/* PyDictVersioning.proto */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
-#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
-    (version_var) = __PYX_GET_DICT_VERSION(dict);\
-    (cache_var) = (value);
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
-    static PY_UINT64_T __pyx_dict_version = 0;\
-    static PyObject *__pyx_dict_cached_value = NULL;\
-    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
-        (VAR) = __pyx_dict_cached_value;\
-    } else {\
-        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
-        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
-    }\
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
-#else
-#define __PYX_GET_DICT_VERSION(dict)  (0)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
-#endif
-
-/* GetModuleGlobalName.proto */
-#if CYTHON_USE_DICT_VERSIONS
-#define __Pyx_GetModuleGlobalName(var, name)  {\
-    static PY_UINT64_T __pyx_dict_version = 0;\
-    static PyObject *__pyx_dict_cached_value = NULL;\
-    (var) = (likely(__pyx_dict_version == __PYX_GET_DICT_VERSION(__pyx_d))) ?\
-        (likely(__pyx_dict_cached_value) ? __Pyx_NewRef(__pyx_dict_cached_value) : __Pyx_GetBuiltinName(name)) :\
-        __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
-}
-#define __Pyx_GetModuleGlobalNameUncached(var, name)  {\
-    PY_UINT64_T __pyx_dict_version;\
-    PyObject *__pyx_dict_cached_value;\
-    (var) = __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
-}
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value);
-#else
-#define __Pyx_GetModuleGlobalName(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
-#define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
-#endif
-
-/* py_dict_values.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyDict_Values(PyObject* d);
-
-/* UnpackUnboundCMethod.proto */
-typedef struct {
-    PyObject *type;
-    PyObject **method_name;
-    PyCFunction func;
-    PyObject *method;
-    int flag;
-} __Pyx_CachedCFunction;
-
-/* CallUnboundCMethod0.proto */
-static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObject* self);
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_CallUnboundCMethod0(cfunc, self)\
-    (likely((cfunc)->func) ?\
-        (likely((cfunc)->flag == METH_NOARGS) ?  (*((cfunc)->func))(self, NULL) :\
-         (PY_VERSION_HEX >= 0x030600B1 && likely((cfunc)->flag == METH_FASTCALL) ?\
-            (PY_VERSION_HEX >= 0x030700A0 ?\
-                (*(__Pyx_PyCFunctionFast)(void*)(PyCFunction)(cfunc)->func)(self, &__pyx_empty_tuple, 0) :\
-                (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)(cfunc)->func)(self, &__pyx_empty_tuple, 0, NULL)) :\
-          (PY_VERSION_HEX >= 0x030700A0 && (cfunc)->flag == (METH_FASTCALL | METH_KEYWORDS) ?\
-            (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)(cfunc)->func)(self, &__pyx_empty_tuple, 0, NULL) :\
-            (likely((cfunc)->flag == (METH_VARARGS | METH_KEYWORDS)) ?  ((*(PyCFunctionWithKeywords)(void*)(PyCFunction)(cfunc)->func)(self, __pyx_empty_tuple, NULL)) :\
-               ((cfunc)->flag == METH_VARARGS ?  (*((cfunc)->func))(self, __pyx_empty_tuple) :\
-               __Pyx__CallUnboundCMethod0(cfunc, self)))))) :\
-        __Pyx__CallUnboundCMethod0(cfunc, self))
-#else
-#define __Pyx_CallUnboundCMethod0(cfunc, self)  __Pyx__CallUnboundCMethod0(cfunc, self)
-#endif
-
-/* RaiseTooManyValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
-
-/* RaiseNeedMoreValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
-
-/* RaiseNoneIterError.proto */
-static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
-
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyInt_SubtractObjC(op1, op2, intval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
-#endif
-
-/* Import.proto */
-static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1223,6 +1019,154 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
 #endif
 
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
+
+/* SliceTupleAndList.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
+static CYTHON_INLINE PyObject* __Pyx_PyTuple_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
+#else
+#define __Pyx_PyList_GetSlice(seq, start, stop)   PySequence_GetSlice(seq, start, stop)
+#define __Pyx_PyTuple_GetSlice(seq, start, stop)  PySequence_GetSlice(seq, start, stop)
+#endif
+
+/* ArgTypeTest.proto */
+#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
+    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
+        __Pyx__ArgTypeTest(obj, type, name, exact))
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
+
+/* PyDictContains.proto */
+static CYTHON_INLINE int __Pyx_PyDict_ContainsTF(PyObject* item, PyObject* dict, int eq) {
+    int result = PyDict_Contains(dict, item);
+    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
+}
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* PyObjectGetMethod.proto */
+static int __Pyx_PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method);
+
+/* PyObjectCallMethod1.proto */
+static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
+
+/* append.proto */
+static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
+
+/* DictGetItem.proto */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
+#define __Pyx_PyObject_Dict_GetItem(obj, name)\
+    (likely(PyDict_CheckExact(obj)) ?\
+     __Pyx_PyDict_GetItem(obj, name) : PyObject_GetItem(obj, name))
+#else
+#define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
+#define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
+#endif
+
+/* py_dict_keys.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyDict_Keys(PyObject* d);
+
+/* UnpackUnboundCMethod.proto */
+typedef struct {
+    PyObject *type;
+    PyObject **method_name;
+    PyCFunction func;
+    PyObject *method;
+    int flag;
+} __Pyx_CachedCFunction;
+
+/* CallUnboundCMethod0.proto */
+static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObject* self);
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_CallUnboundCMethod0(cfunc, self)\
+    (likely((cfunc)->func) ?\
+        (likely((cfunc)->flag == METH_NOARGS) ?  (*((cfunc)->func))(self, NULL) :\
+         (PY_VERSION_HEX >= 0x030600B1 && likely((cfunc)->flag == METH_FASTCALL) ?\
+            (PY_VERSION_HEX >= 0x030700A0 ?\
+                (*(__Pyx_PyCFunctionFast)(void*)(PyCFunction)(cfunc)->func)(self, &__pyx_empty_tuple, 0) :\
+                (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)(cfunc)->func)(self, &__pyx_empty_tuple, 0, NULL)) :\
+          (PY_VERSION_HEX >= 0x030700A0 && (cfunc)->flag == (METH_FASTCALL | METH_KEYWORDS) ?\
+            (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)(cfunc)->func)(self, &__pyx_empty_tuple, 0, NULL) :\
+            (likely((cfunc)->flag == (METH_VARARGS | METH_KEYWORDS)) ?  ((*(PyCFunctionWithKeywords)(void*)(PyCFunction)(cfunc)->func)(self, __pyx_empty_tuple, NULL)) :\
+               ((cfunc)->flag == METH_VARARGS ?  (*((cfunc)->func))(self, __pyx_empty_tuple) :\
+               __Pyx__CallUnboundCMethod0(cfunc, self)))))) :\
+        __Pyx__CallUnboundCMethod0(cfunc, self))
+#else
+#define __Pyx_CallUnboundCMethod0(cfunc, self)  __Pyx__CallUnboundCMethod0(cfunc, self)
+#endif
+
+/* Import.proto */
+static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
+
+/* PyDictVersioning.proto */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
+#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
+    (version_var) = __PYX_GET_DICT_VERSION(dict);\
+    (cache_var) = (value);
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
+    static PY_UINT64_T __pyx_dict_version = 0;\
+    static PyObject *__pyx_dict_cached_value = NULL;\
+    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
+        (VAR) = __pyx_dict_cached_value;\
+    } else {\
+        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
+        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
+    }\
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
+#else
+#define __PYX_GET_DICT_VERSION(dict)  (0)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
+#endif
+
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
 #define __Pyx_CLineForTraceback(tstate, c_line)  (((CYTHON_CLINE_IN_TRACEBACK)) ? c_line : 0)
@@ -1255,18 +1199,8 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -1292,3083 +1226,103 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'vModel.cDistances' */
-static PyObject *__pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__build_the_atomic_grid(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generete_NB_list_from_TrueFalse_list(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element_2(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements_2(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements_2(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__build_the_atomic_grid_2(PyObject *, PyObject *, int, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2(int __pyx_skip_dispatch, struct __pyx_opt_args_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2 *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_calculate_grid_offset(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_6vModel_10cDistances_calculate_grid_offset *__pyx_optional_args); /*proto*/
+static double __pyx_f_6vModel_10cDistances_calculate_sqrt_distance(int, int, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_get_connections_within_grid_element(PyObject *, PyObject *, PyObject *, double, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_get_connections_between_grid_elements(PyObject *, PyObject *, PyObject *, PyObject *, double, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_build_the_atomic_grid(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_get_atomic_bonds_from_atomic_grids(PyObject *, PyObject *, PyObject *, PyObject *, double, double, int __pyx_skip_dispatch); /*proto*/
 #define __Pyx_MODULE_NAME "vModel.cDistances"
 extern int __pyx_module_is_main_vModel__cDistances;
 int __pyx_module_is_main_vModel__cDistances = 0;
 
 /* Implementation of 'vModel.cDistances' */
-static const char __pyx_k_[] = "\n";
+static PyObject *__pyx_builtin_range;
+static PyObject *__pyx_builtin_enumerate;
+static const char __pyx_k_i[] = "i";
+static const char __pyx_k_j[] = "j";
 static const char __pyx_k_np[] = "np";
-static const char __pyx_k_end[] = "end";
-static const char __pyx_k_file[] = "file";
 static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_time[] = "time";
-static const char __pyx_k_Bonds[] = "Bonds                   :";
-static const char __pyx_k_Pairs[] = "Pairs                   :";
-static const char __pyx_k_array[] = "array";
-static const char __pyx_k_atoms[] = "atoms";
-static const char __pyx_k_dtype[] = "dtype";
-static const char __pyx_k_frame[] = "frame";
-static const char __pyx_k_index[] = "index";
 static const char __pyx_k_numpy[] = "numpy";
-static const char __pyx_k_print[] = "print";
+static const char __pyx_k_range[] = "range";
 static const char __pyx_k_append[] = "append";
+static const char __pyx_k_coords[] = "coords";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_uint32[] = "uint32";
-static const char __pyx_k_values[] = "values";
-static const char __pyx_k_NB_atoms[] = "NB atoms                :";
+static const char __pyx_k_cov_rad[] = "cov_rad";
+static const char __pyx_k_indexes[] = "indexes";
+static const char __pyx_k_maxbond[] = "maxbond";
 static const char __pyx_k_gridsize[] = "gridsize";
+static const char __pyx_k_enumerate[] = "enumerate";
+static const char __pyx_k_tolerance[] = "tolerance";
+static const char __pyx_k_atomic_grid1[] = "atomic_grid1";
+static const char __pyx_k_atomic_grid2[] = "atomic_grid2";
+static const char __pyx_k_gridpos_list[] = "gridpos_list";
 static const char __pyx_k_list_of_atoms[] = "list_of_atoms";
-static const char __pyx_k_lits_of_atoms1[] = "lits_of_atoms1";
-static const char __pyx_k_lits_of_atoms2[] = "lits_of_atoms2";
 static const char __pyx_k_multiprocessing[] = "multiprocessing";
-static const char __pyx_k_non_bonded_list[] = "non_bonded_list";
-static const char __pyx_k_get_grid_position[] = "get_grid_position";
-static const char __pyx_k_bonds_full_indices[] = "bonds_full_indices";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_Total_number_of_Atoms[] = "Total number of Atoms   :";
-static const char __pyx_k_bonds_pair_of_indices[] = "bonds_pair_of_indices";
-static const char __pyx_k_building_grid_elements[] = "building grid elements  : ";
-static const char __pyx_k_Bonds_calcultation_time[] = "Bonds calcultation time : ";
-static const char __pyx_k_Number_of_grid_elements[] = "Number of grid elements :";
-static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_kp_s_Bonds;
-static PyObject *__pyx_kp_s_Bonds_calcultation_time;
-static PyObject *__pyx_kp_s_NB_atoms;
-static PyObject *__pyx_kp_s_Number_of_grid_elements;
-static PyObject *__pyx_kp_s_Pairs;
-static PyObject *__pyx_kp_s_Total_number_of_Atoms;
 static PyObject *__pyx_n_s_append;
-static PyObject *__pyx_n_s_array;
-static PyObject *__pyx_n_s_atoms;
-static PyObject *__pyx_n_s_bonds_full_indices;
-static PyObject *__pyx_n_s_bonds_pair_of_indices;
-static PyObject *__pyx_kp_s_building_grid_elements;
+static PyObject *__pyx_n_s_atomic_grid1;
+static PyObject *__pyx_n_s_atomic_grid2;
 static PyObject *__pyx_n_s_cline_in_traceback;
-static PyObject *__pyx_n_s_dtype;
-static PyObject *__pyx_n_s_end;
-static PyObject *__pyx_n_s_file;
-static PyObject *__pyx_n_s_frame;
-static PyObject *__pyx_n_s_get_grid_position;
+static PyObject *__pyx_n_s_coords;
+static PyObject *__pyx_n_s_cov_rad;
+static PyObject *__pyx_n_s_enumerate;
+static PyObject *__pyx_n_s_gridpos_list;
 static PyObject *__pyx_n_s_gridsize;
+static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_n_s_index;
+static PyObject *__pyx_n_s_indexes;
+static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_list_of_atoms;
-static PyObject *__pyx_n_s_lits_of_atoms1;
-static PyObject *__pyx_n_s_lits_of_atoms2;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_maxbond;
 static PyObject *__pyx_n_s_multiprocessing;
 static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_non_bonded_list;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
-static PyObject *__pyx_n_s_print;
+static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
-static PyObject *__pyx_n_s_uint32;
-static PyObject *__pyx_n_s_values;
-static PyObject *__pyx_pf_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_2_generate_connections_into_a_grid_element(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_4_generate_connections_between_grid_elements(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lits_of_atoms1, PyObject *__pyx_v_lits_of_atoms2, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_6_build_the_atomic_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_8_generete_NB_list_from_TrueFalse_list(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_NB_TrueFalse_list); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_10generete_full_NB_and_Bonded_lists(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_12_generate_connections_into_a_grid_element_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_14_generate_connections_between_grid_elements_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lits_of_atoms1, PyObject *__pyx_v_lits_of_atoms2, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_16_determine_the_paired_atomic_grid_elements_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_18_build_the_atomic_grid_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms, PyObject *__pyx_v_gridsize, int __pyx_v_frame); /* proto */
-static PyObject *__pyx_pf_6vModel_10cDistances_20generete_full_NB_and_Bonded_lists_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_frame); /* proto */
-static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_values = {0, &__pyx_n_s_values, 0, 0, 0};
+static PyObject *__pyx_n_s_tolerance;
+static PyObject *__pyx_pf_6vModel_10cDistances_calculate_grid_offset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_maxbond); /* proto */
+static PyObject *__pyx_pf_6vModel_10cDistances_2calculate_sqrt_distance(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_i, int __pyx_v_j, PyObject *__pyx_v_coords); /* proto */
+static PyObject *__pyx_pf_6vModel_10cDistances_4ctype_get_connections_within_grid_element(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, double __pyx_v_tolerance, PyObject *__pyx_v_gridsize); /* proto */
+static PyObject *__pyx_pf_6vModel_10cDistances_6ctype_get_connections_between_grid_elements(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid1, PyObject *__pyx_v_atomic_grid2, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, double __pyx_v_tolerance, PyObject *__pyx_v_gridsize); /* proto */
+static PyObject *__pyx_pf_6vModel_10cDistances_8ctype_build_the_atomic_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexes, PyObject *__pyx_v_gridpos_list); /* proto */
+static PyObject *__pyx_pf_6vModel_10cDistances_10ctype_get_atomic_bonds_from_atomic_grids(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexes, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, PyObject *__pyx_v_gridpos_list, double __pyx_v_gridsize, double __pyx_v_maxbond); /* proto */
+static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_keys = {0, &__pyx_n_s_keys, 0, 0, 0};
+static PyObject *__pyx_float_1_4;
+static PyObject *__pyx_float_2_6;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
-static PyObject *__pyx_int_3;
 static PyObject *__pyx_int_neg_1;
-static PyObject *__pyx_k__2;
 /* Late includes */
 
-/* "vModel/cDistances.pyx":264
- * '''
+/* "vModel/cDistances.pyx":5
+ * import multiprocessing
  * 
- * cpdef list _determine_the_paired_atomic_grid_elements(atomic_grid):             # <<<<<<<<<<<<<<
+ * cpdef list calculate_grid_offset(gridsize, maxbond = 2.6):             # <<<<<<<<<<<<<<
  *     '''
- *     There is also an array vOff that specifies the offsets of each of the 14 neighbor
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_1_determine_the_paired_atomic_grid_elements(PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(PyObject *__pyx_v_atomic_grid, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_pair_of_sectors2 = 0;
-  PyObject *__pyx_v_grid_offset = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_done = NULL;
-  PyObject *__pyx_v_element = NULL;
-  PyObject *__pyx_v_offset_element = NULL;
-  PyObject *__pyx_v_element1 = NULL;
-  PyObject *__pyx_v_element2 = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
-  PyObject *__pyx_t_13 = NULL;
-  PyObject *__pyx_t_14 = NULL;
-  PyObject *__pyx_t_15 = NULL;
-  Py_ssize_t __pyx_t_16;
-  PyObject *(*__pyx_t_17)(PyObject *);
-  Py_ssize_t __pyx_t_18;
-  int __pyx_t_19;
-  int __pyx_t_20;
-  int __pyx_t_21;
-  __Pyx_RefNannySetupContext("_determine_the_paired_atomic_grid_elements", 0);
-
-  /* "vModel/cDistances.pyx":315
- *     #initial = time.time()
- * 
- *     pair_of_sectors2 = []             # <<<<<<<<<<<<<<
- *     grid_offset = [
- *                              #[ 1,-1, 0],
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_pair_of_sectors2 = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":321
- *                              #[-1,-1, 0],
- *                              #[-1, 0, 0],
- *                    [ 0, 0, 0],             # <<<<<<<<<<<<<<
- *                    [ 1, 0, 0],
- *                    [ 1, 1, 0],
- */
-  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":322
- *                              #[-1, 0, 0],
- *                    [ 0, 0, 0],
- *                    [ 1, 0, 0],             # <<<<<<<<<<<<<<
- *                    [ 1, 1, 0],
- *                    [ 0, 1, 0],
- */
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 322, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":323
- *                    [ 0, 0, 0],
- *                    [ 1, 0, 0],
- *                    [ 1, 1, 0],             # <<<<<<<<<<<<<<
- *                    [ 0, 1, 0],
- *                    [-1, 1, 0],
- */
-  __pyx_t_3 = PyList_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 323, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_3, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_3, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":324
- *                    [ 1, 0, 0],
- *                    [ 1, 1, 0],
- *                    [ 0, 1, 0],             # <<<<<<<<<<<<<<
- *                    [-1, 1, 0],
- *                    [ 0, 0, 1],
- */
-  __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 324, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":325
- *                    [ 1, 1, 0],
- *                    [ 0, 1, 0],
- *                    [-1, 1, 0],             # <<<<<<<<<<<<<<
- *                    [ 0, 0, 1],
- *                    [ 1, 0, 1],
- */
-  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 325, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_5, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_5, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_5, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":326
- *                    [ 0, 1, 0],
- *                    [-1, 1, 0],
- *                    [ 0, 0, 1],             # <<<<<<<<<<<<<<
- *                    [ 1, 0, 1],
- *                    [ 1, 1, 1],
- */
-  __pyx_t_6 = PyList_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_6, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_6, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_6, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":327
- *                    [-1, 1, 0],
- *                    [ 0, 0, 1],
- *                    [ 1, 0, 1],             # <<<<<<<<<<<<<<
- *                    [ 1, 1, 1],
- *                    [ 0, 1, 1],
- */
-  __pyx_t_7 = PyList_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 327, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_7, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_7, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_7, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":328
- *                    [ 0, 0, 1],
- *                    [ 1, 0, 1],
- *                    [ 1, 1, 1],             # <<<<<<<<<<<<<<
- *                    [ 0, 1, 1],
- *                    [-1, 1, 1],
- */
-  __pyx_t_8 = PyList_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 328, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_8, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_8, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_8, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":329
- *                    [ 1, 0, 1],
- *                    [ 1, 1, 1],
- *                    [ 0, 1, 1],             # <<<<<<<<<<<<<<
- *                    [-1, 1, 1],
- *                    [-1, 0, 1],
- */
-  __pyx_t_9 = PyList_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 329, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_9, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_9, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_9, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":330
- *                    [ 1, 1, 1],
- *                    [ 0, 1, 1],
- *                    [-1, 1, 1],             # <<<<<<<<<<<<<<
- *                    [-1, 0, 1],
- *                    [-1,-1, 1],
- */
-  __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 330, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_10, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_10, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_10, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":331
- *                    [ 0, 1, 1],
- *                    [-1, 1, 1],
- *                    [-1, 0, 1],             # <<<<<<<<<<<<<<
- *                    [-1,-1, 1],
- *                    [ 0,-1, 1],
- */
-  __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 331, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_11, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_11, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_11, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":332
- *                    [-1, 1, 1],
- *                    [-1, 0, 1],
- *                    [-1,-1, 1],             # <<<<<<<<<<<<<<
- *                    [ 0,-1, 1],
- *                    [ 1,-1, 1]
- */
-  __pyx_t_12 = PyList_New(3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 332, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_12);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_12, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_12, 1, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_12, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":333
- *                    [-1, 0, 1],
- *                    [-1,-1, 1],
- *                    [ 0,-1, 1],             # <<<<<<<<<<<<<<
- *                    [ 1,-1, 1]
- *                    ]
- */
-  __pyx_t_13 = PyList_New(3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 333, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_13, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_13, 1, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_13, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":334
- *                    [-1,-1, 1],
- *                    [ 0,-1, 1],
- *                    [ 1,-1, 1]             # <<<<<<<<<<<<<<
- *                    ]
- *     done = []
- */
-  __pyx_t_14 = PyList_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 334, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_14, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_14, 1, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_14, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":316
- * 
- *     pair_of_sectors2 = []
- *     grid_offset = [             # <<<<<<<<<<<<<<
- *                              #[ 1,-1, 0],
- *                              #[ 0,-1, 0],
- */
-  __pyx_t_15 = PyList_New(14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 316, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyList_SET_ITEM(__pyx_t_15, 0, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyList_SET_ITEM(__pyx_t_15, 1, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyList_SET_ITEM(__pyx_t_15, 2, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyList_SET_ITEM(__pyx_t_15, 3, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyList_SET_ITEM(__pyx_t_15, 4, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_6);
-  PyList_SET_ITEM(__pyx_t_15, 5, __pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyList_SET_ITEM(__pyx_t_15, 6, __pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_8);
-  PyList_SET_ITEM(__pyx_t_15, 7, __pyx_t_8);
-  __Pyx_GIVEREF(__pyx_t_9);
-  PyList_SET_ITEM(__pyx_t_15, 8, __pyx_t_9);
-  __Pyx_GIVEREF(__pyx_t_10);
-  PyList_SET_ITEM(__pyx_t_15, 9, __pyx_t_10);
-  __Pyx_GIVEREF(__pyx_t_11);
-  PyList_SET_ITEM(__pyx_t_15, 10, __pyx_t_11);
-  __Pyx_GIVEREF(__pyx_t_12);
-  PyList_SET_ITEM(__pyx_t_15, 11, __pyx_t_12);
-  __Pyx_GIVEREF(__pyx_t_13);
-  PyList_SET_ITEM(__pyx_t_15, 12, __pyx_t_13);
-  __Pyx_GIVEREF(__pyx_t_14);
-  PyList_SET_ITEM(__pyx_t_15, 13, __pyx_t_14);
-  __pyx_t_1 = 0;
-  __pyx_t_2 = 0;
-  __pyx_t_3 = 0;
-  __pyx_t_4 = 0;
-  __pyx_t_5 = 0;
-  __pyx_t_6 = 0;
-  __pyx_t_7 = 0;
-  __pyx_t_8 = 0;
-  __pyx_t_9 = 0;
-  __pyx_t_10 = 0;
-  __pyx_t_11 = 0;
-  __pyx_t_12 = 0;
-  __pyx_t_13 = 0;
-  __pyx_t_14 = 0;
-  __pyx_v_grid_offset = ((PyObject*)__pyx_t_15);
-  __pyx_t_15 = 0;
-
-  /* "vModel/cDistances.pyx":336
- *                    [ 1,-1, 1]
- *                    ]
- *     done = []             # <<<<<<<<<<<<<<
- *     for element in atomic_grid.keys():
- *         for offset_element in  grid_offset:
- */
-  __pyx_t_15 = PyList_New(0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 336, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __pyx_v_done = ((PyObject*)__pyx_t_15);
-  __pyx_t_15 = 0;
-
-  /* "vModel/cDistances.pyx":337
- *                    ]
- *     done = []
- *     for element in atomic_grid.keys():             # <<<<<<<<<<<<<<
- *         for offset_element in  grid_offset:
- * 
- */
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_atomic_grid, __pyx_n_s_keys); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 337, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_13 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
-    if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-      __Pyx_INCREF(__pyx_t_13);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_14, function);
-    }
-  }
-  __pyx_t_15 = (__pyx_t_13) ? __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13) : __Pyx_PyObject_CallNoArg(__pyx_t_14);
-  __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-  if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 337, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_15)) || PyTuple_CheckExact(__pyx_t_15)) {
-    __pyx_t_14 = __pyx_t_15; __Pyx_INCREF(__pyx_t_14); __pyx_t_16 = 0;
-    __pyx_t_17 = NULL;
-  } else {
-    __pyx_t_16 = -1; __pyx_t_14 = PyObject_GetIter(__pyx_t_15); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 337, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_17 = Py_TYPE(__pyx_t_14)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 337, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_17)) {
-      if (likely(PyList_CheckExact(__pyx_t_14))) {
-        if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_14)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_15 = PyList_GET_ITEM(__pyx_t_14, __pyx_t_16); __Pyx_INCREF(__pyx_t_15); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
-        #else
-        __pyx_t_15 = PySequence_ITEM(__pyx_t_14, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 337, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        #endif
-      } else {
-        if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_14)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_15 = PyTuple_GET_ITEM(__pyx_t_14, __pyx_t_16); __Pyx_INCREF(__pyx_t_15); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
-        #else
-        __pyx_t_15 = PySequence_ITEM(__pyx_t_14, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 337, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        #endif
-      }
-    } else {
-      __pyx_t_15 = __pyx_t_17(__pyx_t_14);
-      if (unlikely(!__pyx_t_15)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 337, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_15);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_element, __pyx_t_15);
-    __pyx_t_15 = 0;
-
-    /* "vModel/cDistances.pyx":338
- *     done = []
- *     for element in atomic_grid.keys():
- *         for offset_element in  grid_offset:             # <<<<<<<<<<<<<<
- * 
- *             element1  = (element[0],
- */
-    __pyx_t_15 = __pyx_v_grid_offset; __Pyx_INCREF(__pyx_t_15); __pyx_t_18 = 0;
-    for (;;) {
-      if (__pyx_t_18 >= PyList_GET_SIZE(__pyx_t_15)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_13 = PyList_GET_ITEM(__pyx_t_15, __pyx_t_18); __Pyx_INCREF(__pyx_t_13); __pyx_t_18++; if (unlikely(0 < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
-      #else
-      __pyx_t_13 = PySequence_ITEM(__pyx_t_15, __pyx_t_18); __pyx_t_18++; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 338, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-      #endif
-      __Pyx_XDECREF_SET(__pyx_v_offset_element, __pyx_t_13);
-      __pyx_t_13 = 0;
-
-      /* "vModel/cDistances.pyx":340
- *         for offset_element in  grid_offset:
- * 
- *             element1  = (element[0],             # <<<<<<<<<<<<<<
- *                          element[1],
- *                          element[2])
- */
-      __pyx_t_13 = __Pyx_GetItemInt(__pyx_v_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 340, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-
-      /* "vModel/cDistances.pyx":341
- * 
- *             element1  = (element[0],
- *                          element[1],             # <<<<<<<<<<<<<<
- *                          element[2])
- * 
- */
-      __pyx_t_12 = __Pyx_GetItemInt(__pyx_v_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 341, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
-
-      /* "vModel/cDistances.pyx":342
- *             element1  = (element[0],
- *                          element[1],
- *                          element[2])             # <<<<<<<<<<<<<<
- * 
- *             element2  = (element[0]+offset_element[0],
- */
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 342, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-
-      /* "vModel/cDistances.pyx":340
- *         for offset_element in  grid_offset:
- * 
- *             element1  = (element[0],             # <<<<<<<<<<<<<<
- *                          element[1],
- *                          element[2])
- */
-      __pyx_t_10 = PyTuple_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 340, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_GIVEREF(__pyx_t_13);
-      PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_13);
-      __Pyx_GIVEREF(__pyx_t_12);
-      PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_12);
-      __Pyx_GIVEREF(__pyx_t_11);
-      PyTuple_SET_ITEM(__pyx_t_10, 2, __pyx_t_11);
-      __pyx_t_13 = 0;
-      __pyx_t_12 = 0;
-      __pyx_t_11 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_element1, ((PyObject*)__pyx_t_10));
-      __pyx_t_10 = 0;
-
-      /* "vModel/cDistances.pyx":344
- *                          element[2])
- * 
- *             element2  = (element[0]+offset_element[0],             # <<<<<<<<<<<<<<
- *                          element[1]+offset_element[1],
- *                          element[2]+offset_element[2])
- */
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_offset_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_12 = PyNumber_Add(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-      /* "vModel/cDistances.pyx":345
- * 
- *             element2  = (element[0]+offset_element[0],
- *                          element[1]+offset_element[1],             # <<<<<<<<<<<<<<
- *                          element[2]+offset_element[2])
- * 
- */
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_offset_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_13 = PyNumber_Add(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-      /* "vModel/cDistances.pyx":346
- *             element2  = (element[0]+offset_element[0],
- *                          element[1]+offset_element[1],
- *                          element[2]+offset_element[2])             # <<<<<<<<<<<<<<
- * 
- *             if element2 in atomic_grid:
- */
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 346, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_offset_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 346, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_9 = PyNumber_Add(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 346, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-      /* "vModel/cDistances.pyx":344
- *                          element[2])
- * 
- *             element2  = (element[0]+offset_element[0],             # <<<<<<<<<<<<<<
- *                          element[1]+offset_element[1],
- *                          element[2]+offset_element[2])
- */
-      __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __Pyx_GIVEREF(__pyx_t_12);
-      PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_12);
-      __Pyx_GIVEREF(__pyx_t_13);
-      PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_13);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_t_9);
-      __pyx_t_12 = 0;
-      __pyx_t_13 = 0;
-      __pyx_t_9 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_element2, ((PyObject*)__pyx_t_11));
-      __pyx_t_11 = 0;
-
-      /* "vModel/cDistances.pyx":348
- *                          element[2]+offset_element[2])
- * 
- *             if element2 in atomic_grid:             # <<<<<<<<<<<<<<
- *                 pair_of_sectors2.append([atomic_grid[element1],
- *                                          atomic_grid[element2]])
- */
-      __pyx_t_19 = (__Pyx_PySequence_ContainsTF(__pyx_v_element2, __pyx_v_atomic_grid, Py_EQ)); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 348, __pyx_L1_error)
-      __pyx_t_20 = (__pyx_t_19 != 0);
-      if (__pyx_t_20) {
-
-        /* "vModel/cDistances.pyx":349
- * 
- *             if element2 in atomic_grid:
- *                 pair_of_sectors2.append([atomic_grid[element1],             # <<<<<<<<<<<<<<
- *                                          atomic_grid[element2]])
- * 
- */
-        __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_atomic_grid, __pyx_v_element1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 349, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-
-        /* "vModel/cDistances.pyx":350
- *             if element2 in atomic_grid:
- *                 pair_of_sectors2.append([atomic_grid[element1],
- *                                          atomic_grid[element2]])             # <<<<<<<<<<<<<<
- * 
- *                 #if [element1, element2] in done or [element2, element1] in done:
- */
-        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_atomic_grid, __pyx_v_element2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 350, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-
-        /* "vModel/cDistances.pyx":349
- * 
- *             if element2 in atomic_grid:
- *                 pair_of_sectors2.append([atomic_grid[element1],             # <<<<<<<<<<<<<<
- *                                          atomic_grid[element2]])
- * 
- */
-        __pyx_t_13 = PyList_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 349, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_GIVEREF(__pyx_t_11);
-        PyList_SET_ITEM(__pyx_t_13, 0, __pyx_t_11);
-        __Pyx_GIVEREF(__pyx_t_9);
-        PyList_SET_ITEM(__pyx_t_13, 1, __pyx_t_9);
-        __pyx_t_11 = 0;
-        __pyx_t_9 = 0;
-        __pyx_t_21 = __Pyx_PyList_Append(__pyx_v_pair_of_sectors2, __pyx_t_13); if (unlikely(__pyx_t_21 == ((int)-1))) __PYX_ERR(0, 349, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-
-        /* "vModel/cDistances.pyx":348
- *                          element[2]+offset_element[2])
- * 
- *             if element2 in atomic_grid:             # <<<<<<<<<<<<<<
- *                 pair_of_sectors2.append([atomic_grid[element1],
- *                                          atomic_grid[element2]])
- */
-      }
-
-      /* "vModel/cDistances.pyx":338
- *     done = []
- *     for element in atomic_grid.keys():
- *         for offset_element in  grid_offset:             # <<<<<<<<<<<<<<
- * 
- *             element1  = (element[0],
- */
-    }
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-
-    /* "vModel/cDistances.pyx":337
- *                    ]
- *     done = []
- *     for element in atomic_grid.keys():             # <<<<<<<<<<<<<<
- *         for offset_element in  grid_offset:
- * 
- */
-  }
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-
-  /* "vModel/cDistances.pyx":364
- *                 #    #print([element1, element2])
- * 
- *     return pair_of_sectors2             # <<<<<<<<<<<<<<
- * 
- * cpdef tuple _generate_connections_into_a_grid_element (list list_of_atoms  ,
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_pair_of_sectors2);
-  __pyx_r = __pyx_v_pair_of_sectors2;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":264
- * '''
- * 
- * cpdef list _determine_the_paired_atomic_grid_elements(atomic_grid):             # <<<<<<<<<<<<<<
- *     '''
- *     There is also an array vOff that specifies the offsets of each of the 14 neighbor
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_XDECREF(__pyx_t_15);
-  __Pyx_AddTraceback("vModel.cDistances._determine_the_paired_atomic_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_pair_of_sectors2);
-  __Pyx_XDECREF(__pyx_v_grid_offset);
-  __Pyx_XDECREF(__pyx_v_done);
-  __Pyx_XDECREF(__pyx_v_element);
-  __Pyx_XDECREF(__pyx_v_offset_element);
-  __Pyx_XDECREF(__pyx_v_element1);
-  __Pyx_XDECREF(__pyx_v_element2);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_1_determine_the_paired_atomic_grid_elements(PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid); /*proto*/
-static char __pyx_doc_6vModel_10cDistances__determine_the_paired_atomic_grid_elements[] = "\n    There is also an array vOff that specifies the offsets of each of the 14 neighbor\n    cells. The array covers half the neighboring cells, together with the cell itself; its\n    size and contents are specified as\n    \n    {{0,0,0}, {1,0,0}, {1,1,0}, {0,1,0}, {-1,1,0}, {0,0,1},\n    {1,0,1}, {1,1,1}, {0,1,1}, {-1,1,1}, {-1,0,1},\n    {-1,-1,1}, {0,-1,1}, {1,-1,1}}\n    \n    \n                                |-------|-------|-------| \n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n                                |-1,1,1 | 0,1,1 | 1,1,1 | \n                                |-------|-------|-------| \n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |-1,0,1 | 0,0,1 | 1,0,1 |\n                                |-------|-------|-------|\n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |-1,-1,1| 0,-1,1| 1,-1,1|\n                                |-------|-------|-------|\n        \n        |-------|-------|-------| \n        |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n        |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n        |-1,1,0 | 0,1,0 | 1,1,0 | \n        |-------|-------|-------| \n        |       |XXXXXXX|\\\\\\\\|\n        |       |XXXXXXX|\\\\\\\\|\n        |-1,0,0 | 0,0,0 | 1,0,0 |\n        |-------|-------|-------|\n        |       |       |       |\n        |       |       |       |\n        |-1,-1,0| 0,-1,0| 1,-1,0|\n        |-------|-------|-------|\n    \n    always. the combination between {0,0,0} and some element of the list (\\\\\\) \n    \n    returns a list contain lists of atoms [[atoms1],atoms2], ...]\n\n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_1_determine_the_paired_atomic_grid_elements(PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_determine_the_paired_atomic_grid_elements (wrapper)", 0);
-  __pyx_r = __pyx_pf_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(__pyx_self, ((PyObject *)__pyx_v_atomic_grid));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_determine_the_paired_atomic_grid_elements", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(__pyx_v_atomic_grid, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._determine_the_paired_atomic_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":366
- *     return pair_of_sectors2
- * 
- * cpdef tuple _generate_connections_into_a_grid_element (list list_of_atoms  ,             # <<<<<<<<<<<<<<
- *                                         list atoms          ,
- *                                         list bonds_pair_of_indices   ,  #indices of connected atoms
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_3_generate_connections_into_a_grid_element(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element(PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  int __pyx_v_i;
-  int __pyx_v_j;
-  CYTHON_UNUSED int __pyx_v_size;
-  int __pyx_v_index_i;
-  double __pyx_v_atom_ix;
-  double __pyx_v_atom_iy;
-  double __pyx_v_atom_iz;
-  double __pyx_v_cov_rad_i;
-  double __pyx_v_cov_rad_j;
-  double __pyx_v_r_ij;
-  double __pyx_v_dX;
-  double __pyx_v_dY;
-  double __pyx_v_dZ;
-  int __pyx_v_list_index;
-  double __pyx_v_cov_rad_ij_sqrt;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  double __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  int __pyx_t_11;
-  int __pyx_t_12;
-  __Pyx_RefNannySetupContext("_generate_connections_into_a_grid_element", 0);
-
-  /* "vModel/cDistances.pyx":416
- *     cdef double dZ
- * 
- *     size =  len(atoms)             # <<<<<<<<<<<<<<
- * 
- *     cdef int list_index = 0
- */
-  if (unlikely(__pyx_v_atoms == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 416, __pyx_L1_error)
-  }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_atoms); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 416, __pyx_L1_error)
-  __pyx_v_size = __pyx_t_1;
-
-  /* "vModel/cDistances.pyx":418
- *     size =  len(atoms)
- * 
- *     cdef int list_index = 0             # <<<<<<<<<<<<<<
- * 
- *     for i in list_of_atoms[:-1]:
- */
-  __pyx_v_list_index = 0;
-
-  /* "vModel/cDistances.pyx":420
- *     cdef int list_index = 0
- * 
- *     for i in list_of_atoms[:-1]:             # <<<<<<<<<<<<<<
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]
- */
-  if (unlikely(__pyx_v_list_of_atoms == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 420, __pyx_L1_error)
-  }
-  __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_list_of_atoms, 0, -1L); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 420, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  for (;;) {
-    if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_3)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_2); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 420, __pyx_L1_error)
-    #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 420, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    #endif
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 420, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_i = __pyx_t_4;
-
-    /* "vModel/cDistances.pyx":421
- * 
- *     for i in list_of_atoms[:-1]:
- *         atom_ix   = atoms[i][3][0]             # <<<<<<<<<<<<<<
- *         atom_iy   = atoms[i][3][1]
- *         atom_iz   = atoms[i][3][2]
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 421, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 421, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 421, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 421, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 421, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_atom_ix = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":422
- *     for i in list_of_atoms[:-1]:
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]             # <<<<<<<<<<<<<<
- *         atom_iz   = atoms[i][3][2]
- *         cov_rad_i = atoms[i][2]
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 422, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 422, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 422, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 422, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_atom_iy = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":423
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]
- *         atom_iz   = atoms[i][3][2]             # <<<<<<<<<<<<<<
- *         cov_rad_i = atoms[i][2]
- *         index_i   = atoms[i][0]
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 423, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 423, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 423, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 423, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_atom_iz = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":424
- *         atom_iy   = atoms[i][3][1]
- *         atom_iz   = atoms[i][3][2]
- *         cov_rad_i = atoms[i][2]             # <<<<<<<<<<<<<<
- *         index_i   = atoms[i][0]
- * 
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 424, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 424, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 424, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 424, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_cov_rad_i = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":425
- *         atom_iz   = atoms[i][3][2]
- *         cov_rad_i = atoms[i][2]
- *         index_i   = atoms[i][0]             # <<<<<<<<<<<<<<
- * 
- *         list_index+= 1
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 425, __pyx_L1_error)
-    }
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 425, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 425, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 425, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_index_i = __pyx_t_4;
-
-    /* "vModel/cDistances.pyx":427
- *         index_i   = atoms[i][0]
- * 
- *         list_index+= 1             # <<<<<<<<<<<<<<
- * 
- *         for j in list_of_atoms[list_index:]:
- */
-    __pyx_v_list_index = (__pyx_v_list_index + 1);
-
-    /* "vModel/cDistances.pyx":429
- *         list_index+= 1
- * 
- *         for j in list_of_atoms[list_index:]:             # <<<<<<<<<<<<<<
- *             if i == j:
- *                 pass
- */
-    if (unlikely(__pyx_v_list_of_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 429, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_list_of_atoms, __pyx_v_list_index, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 429, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __pyx_t_2; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    for (;;) {
-      if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 429, __pyx_L1_error)
-      #else
-      __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 429, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      #endif
-      __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 429, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_v_j = __pyx_t_4;
-
-      /* "vModel/cDistances.pyx":430
- * 
- *         for j in list_of_atoms[list_index:]:
- *             if i == j:             # <<<<<<<<<<<<<<
- *                 pass
- * 
- */
-      __pyx_t_8 = ((__pyx_v_i == __pyx_v_j) != 0);
-      if (__pyx_t_8) {
-        goto __pyx_L7;
-      }
-
-      /* "vModel/cDistances.pyx":434
- * 
- *             else:
- *                 dX              = (atom_ix - atoms[j][3][0])**2             # <<<<<<<<<<<<<<
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- */
-      /*else*/ {
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_atom_ix); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 434, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Subtract(__pyx_t_2, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Power(__pyx_t_10, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 434, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_dX = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":435
- *             else:
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2             # <<<<<<<<<<<<<<
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- */
-        __pyx_t_9 = PyFloat_FromDouble(__pyx_v_atom_iy); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 435, __pyx_L1_error)
-        }
-        __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_10, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_Subtract(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Power(__pyx_t_2, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 435, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_v_dY = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":436
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2             # <<<<<<<<<<<<<<
- * 
- *                 cov_rad_j       = atoms[j][2]
- */
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_atom_iz); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 436, __pyx_L1_error)
-        }
-        __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_9, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_Power(__pyx_t_9, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 436, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_v_dZ = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":438
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- *                 cov_rad_j       = atoms[j][2]             # <<<<<<<<<<<<<<
- * 
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.4
- */
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 438, __pyx_L1_error)
-        }
-        __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 438, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 438, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 438, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_cov_rad_j = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":440
- *                 cov_rad_j       = atoms[j][2]
- * 
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.4             # <<<<<<<<<<<<<<
- * 
- * 
- */
-        __pyx_v_cov_rad_ij_sqrt = (pow((__pyx_v_cov_rad_i + __pyx_v_cov_rad_j), 2.0) * 1.4);
-
-        /* "vModel/cDistances.pyx":443
- * 
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        __pyx_t_11 = ((__pyx_v_dX > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_8 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":444
- * 
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dZ > cov_rad_ij_sqrt):
- *                     pass
- */
-        __pyx_t_11 = ((__pyx_v_dY > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_8 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":445
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):             # <<<<<<<<<<<<<<
- *                     pass
- * 
- */
-        __pyx_t_11 = ((__pyx_v_dZ > __pyx_v_cov_rad_ij_sqrt) != 0);
-        __pyx_t_8 = __pyx_t_11;
-        __pyx_L9_bool_binop_done:;
-
-        /* "vModel/cDistances.pyx":443
- * 
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        if (__pyx_t_8) {
-          goto __pyx_L8;
-        }
-
-        /* "vModel/cDistances.pyx":449
- * 
- *                 else:
- *                     r_ij = (dX + dY + dZ)             # <<<<<<<<<<<<<<
- *                     if r_ij <= cov_rad_ij_sqrt:
- *                         pass
- */
-        /*else*/ {
-          __pyx_v_r_ij = ((__pyx_v_dX + __pyx_v_dY) + __pyx_v_dZ);
-
-          /* "vModel/cDistances.pyx":450
- *                 else:
- *                     r_ij = (dX + dY + dZ)
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         pass
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])
- */
-          __pyx_t_8 = ((__pyx_v_r_ij <= __pyx_v_cov_rad_ij_sqrt) != 0);
-          if (__pyx_t_8) {
-
-            /* "vModel/cDistances.pyx":452
- *                     if r_ij <= cov_rad_ij_sqrt:
- *                         pass
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])             # <<<<<<<<<<<<<<
- * 
- *                         bonds_full_indices.append  (index_i               )
- */
-            if (unlikely(__pyx_v_bonds_pair_of_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 452, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 452, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 452, __pyx_L1_error)
-            }
-            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 452, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 452, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 452, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_GIVEREF(__pyx_t_9);
-            PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_9);
-            __Pyx_GIVEREF(__pyx_t_10);
-            PyList_SET_ITEM(__pyx_t_2, 1, __pyx_t_10);
-            __pyx_t_9 = 0;
-            __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indices, __pyx_t_2); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 452, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-            /* "vModel/cDistances.pyx":454
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])
- * 
- *                         bonds_full_indices.append  (index_i               )             # <<<<<<<<<<<<<<
- *                         bonds_full_indices.append  (atoms[j][0]           )
- * 
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 454, __pyx_L1_error)
-            }
-            __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 454, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_2); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 454, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-            /* "vModel/cDistances.pyx":455
- * 
- *                         bonds_full_indices.append  (index_i               )
- *                         bonds_full_indices.append  (atoms[j][0]           )             # <<<<<<<<<<<<<<
- * 
- *                         atoms[i][8].append  (atoms[j][0]           )
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 455, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 455, __pyx_L1_error)
-            }
-            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":457
- *                         bonds_full_indices.append  (atoms[j][0]           )
- * 
- *                         atoms[i][8].append  (atoms[j][0]           )             # <<<<<<<<<<<<<<
- *                         atoms[j][8].append  (atoms[i][0]           )
- * 
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 457, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 457, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_10, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 457, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 457, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 457, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_t_9); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 457, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":458
- * 
- *                         atoms[i][8].append  (atoms[j][0]           )
- *                         atoms[j][8].append  (atoms[i][0]           )             # <<<<<<<<<<<<<<
- * 
- *                         non_bonded_list[index_i    ] = False
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 458, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 458, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_9, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 458, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 458, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 458, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 458, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":460
- *                         atoms[j][8].append  (atoms[i][0]           )
- * 
- *                         non_bonded_list[index_i    ] = False             # <<<<<<<<<<<<<<
- *                         non_bonded_list[atoms[j][0]] = False
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 460, __pyx_L1_error)
-            }
-            if (unlikely(__Pyx_SetItemInt(__pyx_v_non_bonded_list, __pyx_v_index_i, Py_False, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 460, __pyx_L1_error)
-
-            /* "vModel/cDistances.pyx":461
- * 
- *                         non_bonded_list[index_i    ] = False
- *                         non_bonded_list[atoms[j][0]] = False             # <<<<<<<<<<<<<<
- * 
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 461, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 461, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 461, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 461, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_non_bonded_list, __pyx_t_2, Py_False) < 0)) __PYX_ERR(0, 461, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-            /* "vModel/cDistances.pyx":450
- *                 else:
- *                     r_ij = (dX + dY + dZ)
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         pass
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])
- */
-            goto __pyx_L12;
-          }
-
-          /* "vModel/cDistances.pyx":465
- * 
- *                     else:
- *                         pass             # <<<<<<<<<<<<<<
- * 
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
- */
-          /*else*/ {
-          }
-          __pyx_L12:;
-        }
-        __pyx_L8:;
-      }
-      __pyx_L7:;
-
-      /* "vModel/cDistances.pyx":429
- *         list_index+= 1
- * 
- *         for j in list_of_atoms[list_index:]:             # <<<<<<<<<<<<<<
- *             if i == j:
- *                 pass
- */
-    }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-    /* "vModel/cDistances.pyx":420
- *     cdef int list_index = 0
- * 
- *     for i in list_of_atoms[:-1]:             # <<<<<<<<<<<<<<
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]
- */
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":467
- *                         pass
- * 
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list             # <<<<<<<<<<<<<<
- * 
- * cpdef tuple _generate_connections_between_grid_elements (list lits_of_atoms1       ,
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_v_atoms);
-  __Pyx_GIVEREF(__pyx_v_atoms);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_atoms);
-  __Pyx_INCREF(__pyx_v_bonds_full_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_full_indices);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_bonds_full_indices);
-  __Pyx_INCREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_pair_of_indices);
-  PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_bonds_pair_of_indices);
-  __Pyx_INCREF(__pyx_v_non_bonded_list);
-  __Pyx_GIVEREF(__pyx_v_non_bonded_list);
-  PyTuple_SET_ITEM(__pyx_t_3, 3, __pyx_v_non_bonded_list);
-  __pyx_r = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":366
- *     return pair_of_sectors2
- * 
- * cpdef tuple _generate_connections_into_a_grid_element (list list_of_atoms  ,             # <<<<<<<<<<<<<<
- *                                         list atoms          ,
- *                                         list bonds_pair_of_indices   ,  #indices of connected atoms
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_into_a_grid_element", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_3_generate_connections_into_a_grid_element(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_2_generate_connections_into_a_grid_element[] = "\n        Calculate the distances and bonds \n        between atoms within a single element \n        of the atomic grid\n        \n                  |-------|-------|-------|\n                  |       |       |       |\n                  |       |       |       |\n                  |       |       |       |\n                  |-------|-atoms-|-------|\n                  |       |       |       |\n                  |       | i<->j |       |\n                  |       |       |       |\n                  |-------|-------|-------|\n                  |       |       |       |\n                  |       |       |       |\n                  |       |       |       |\n                  |-------|-------|-------|\n    \n    \n    \n    atoms = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n            each elemte is a list contain required data.\n    \n    \n    bonds_pair_of_indices [[a,b],[b,c], ...] where a and b are indices. \n    returns a list of pair of indices \"bonds_pair_of_indices\"\n    \n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_3_generate_connections_into_a_grid_element(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_list_of_atoms = 0;
-  PyObject *__pyx_v_atoms = 0;
-  PyObject *__pyx_v_bonds_pair_of_indices = 0;
-  PyObject *__pyx_v_bonds_full_indices = 0;
-  PyObject *__pyx_v_non_bonded_list = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_generate_connections_into_a_grid_element (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_list_of_atoms,&__pyx_n_s_atoms,&__pyx_n_s_bonds_pair_of_indices,&__pyx_n_s_bonds_full_indices,&__pyx_n_s_non_bonded_list,0};
-    PyObject* values[5] = {0,0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_list_of_atoms)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element", 1, 5, 5, 1); __PYX_ERR(0, 366, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_pair_of_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element", 1, 5, 5, 2); __PYX_ERR(0, 366, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_full_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element", 1, 5, 5, 3); __PYX_ERR(0, 366, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_non_bonded_list)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element", 1, 5, 5, 4); __PYX_ERR(0, 366, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_connections_into_a_grid_element") < 0)) __PYX_ERR(0, 366, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-    }
-    __pyx_v_list_of_atoms = ((PyObject*)values[0]);
-    __pyx_v_atoms = ((PyObject*)values[1]);
-    __pyx_v_bonds_pair_of_indices = ((PyObject*)values[2]);
-    __pyx_v_bonds_full_indices = ((PyObject*)values[3]);
-    __pyx_v_non_bonded_list = ((PyObject*)values[4]);
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 366, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_into_a_grid_element", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_list_of_atoms), (&PyList_Type), 1, "list_of_atoms", 1))) __PYX_ERR(0, 366, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atoms), (&PyList_Type), 1, "atoms", 1))) __PYX_ERR(0, 367, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_pair_of_indices), (&PyList_Type), 1, "bonds_pair_of_indices", 1))) __PYX_ERR(0, 368, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_full_indices), (&PyList_Type), 1, "bonds_full_indices", 1))) __PYX_ERR(0, 369, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_non_bonded_list), (&PyList_Type), 1, "non_bonded_list", 1))) __PYX_ERR(0, 370, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_2_generate_connections_into_a_grid_element(__pyx_self, __pyx_v_list_of_atoms, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_2_generate_connections_into_a_grid_element(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_generate_connections_into_a_grid_element", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element(__pyx_v_list_of_atoms, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 366, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_into_a_grid_element", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":469
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
- * 
- * cpdef tuple _generate_connections_between_grid_elements (list lits_of_atoms1       ,             # <<<<<<<<<<<<<<
- *                                                         list lits_of_atoms2       ,
- *                                                         list atoms                ,
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_5_generate_connections_between_grid_elements(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements(PyObject *__pyx_v_lits_of_atoms1, PyObject *__pyx_v_lits_of_atoms2, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  int __pyx_v_i;
-  int __pyx_v_j;
-  int __pyx_v_index_i;
-  double __pyx_v_atom_ix;
-  double __pyx_v_atom_iy;
-  double __pyx_v_atom_iz;
-  double __pyx_v_cov_rad_i;
-  double __pyx_v_cov_rad_j;
-  double __pyx_v_r_ij;
-  double __pyx_v_dX;
-  double __pyx_v_dY;
-  double __pyx_v_dZ;
-  CYTHON_UNUSED PyObject *__pyx_v_index_j = NULL;
-  double __pyx_v_cov_rad_ij_sqrt;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  double __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  int __pyx_t_11;
-  int __pyx_t_12;
-  __Pyx_RefNannySetupContext("_generate_connections_between_grid_elements", 0);
-
-  /* "vModel/cDistances.pyx":522
- * 
- * 
- *     if lits_of_atoms1 == lits_of_atoms2:             # <<<<<<<<<<<<<<
- *         pass
- *     else:
- */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_lits_of_atoms1, __pyx_v_lits_of_atoms2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 522, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 522, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_2) {
-    goto __pyx_L3;
-  }
-
-  /* "vModel/cDistances.pyx":525
- *         pass
- *     else:
- *         for i in lits_of_atoms1:             # <<<<<<<<<<<<<<
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]
- */
-  /*else*/ {
-    if (unlikely(__pyx_v_lits_of_atoms1 == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 525, __pyx_L1_error)
-    }
-    __pyx_t_1 = __pyx_v_lits_of_atoms1; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
-    for (;;) {
-      if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 525, __pyx_L1_error)
-      #else
-      __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 525, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      #endif
-      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 525, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_i = __pyx_t_5;
-
-      /* "vModel/cDistances.pyx":526
- *     else:
- *         for i in lits_of_atoms1:
- *             atom_ix   = atoms[i][3][0]             # <<<<<<<<<<<<<<
- *             atom_iy   = atoms[i][3][1]
- *             atom_iz   = atoms[i][3][2]
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 526, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 526, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 526, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_atom_ix = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":527
- *         for i in lits_of_atoms1:
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]             # <<<<<<<<<<<<<<
- *             atom_iz   = atoms[i][3][2]
- *             cov_rad_i = atoms[i][2]
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 527, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 527, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_atom_iy = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":528
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]
- *             atom_iz   = atoms[i][3][2]             # <<<<<<<<<<<<<<
- *             cov_rad_i = atoms[i][2]
- *             index_i   = atoms[i][0]
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 528, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 528, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 528, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_atom_iz = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":529
- *             atom_iy   = atoms[i][3][1]
- *             atom_iz   = atoms[i][3][2]
- *             cov_rad_i = atoms[i][2]             # <<<<<<<<<<<<<<
- *             index_i   = atoms[i][0]
- * 
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 529, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 529, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 529, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_v_cov_rad_i = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":530
- *             atom_iz   = atoms[i][3][2]
- *             cov_rad_i = atoms[i][2]
- *             index_i   = atoms[i][0]             # <<<<<<<<<<<<<<
- * 
- *             for j in lits_of_atoms2:
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 530, __pyx_L1_error)
-      }
-      __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 530, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 530, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_index_i = __pyx_t_5;
-
-      /* "vModel/cDistances.pyx":532
- *             index_i   = atoms[i][0]
- * 
- *             for j in lits_of_atoms2:             # <<<<<<<<<<<<<<
- *                 index_j = atoms[j][0]
- *                 #if
- */
-      if (unlikely(__pyx_v_lits_of_atoms2 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 532, __pyx_L1_error)
-      }
-      __pyx_t_4 = __pyx_v_lits_of_atoms2; __Pyx_INCREF(__pyx_t_4); __pyx_t_8 = 0;
-      for (;;) {
-        if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_4)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_6); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 532, __pyx_L1_error)
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 532, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        #endif
-        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 532, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_j = __pyx_t_5;
-
-        /* "vModel/cDistances.pyx":533
- * 
- *             for j in lits_of_atoms2:
- *                 index_j = atoms[j][0]             # <<<<<<<<<<<<<<
- *                 #if
- * 
- */
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 533, __pyx_L1_error)
-        }
-        __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 533, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 533, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_index_j, __pyx_t_9);
-        __pyx_t_9 = 0;
-
-        /* "vModel/cDistances.pyx":536
- *                 #if
- * 
- *                 dX              = (atom_ix - atoms[j][3][0])**2             # <<<<<<<<<<<<<<
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- */
-        __pyx_t_9 = PyFloat_FromDouble(__pyx_v_atom_ix); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 536, __pyx_L1_error)
-        }
-        __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_6, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Subtract(__pyx_t_9, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyNumber_Power(__pyx_t_10, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 536, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_dX = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":537
- * 
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2             # <<<<<<<<<<<<<<
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- */
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_atom_iy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 537, __pyx_L1_error)
-        }
-        __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Subtract(__pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Power(__pyx_t_9, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 537, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_v_dY = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":538
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2             # <<<<<<<<<<<<<<
- * 
- *                 cov_rad_j       = atoms[j][2]
- */
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_atom_iz); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 538, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_9, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyNumber_Subtract(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Power(__pyx_t_6, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 538, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_dZ = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":540
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- *                 cov_rad_j       = atoms[j][2]             # <<<<<<<<<<<<<<
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
- * 
- */
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 540, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 540, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_9, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 540, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 540, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_cov_rad_j = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":541
- * 
- *                 cov_rad_j       = atoms[j][2]
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2             # <<<<<<<<<<<<<<
- * 
- *                 if (dX > cov_rad_ij_sqrt or
- */
-        __pyx_v_cov_rad_ij_sqrt = (pow((__pyx_v_cov_rad_i + __pyx_v_cov_rad_j), 2.0) * 1.2);
-
-        /* "vModel/cDistances.pyx":543
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        __pyx_t_11 = ((__pyx_v_dX > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_2 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":544
- * 
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dZ > cov_rad_ij_sqrt):
- *                     pass
- */
-        __pyx_t_11 = ((__pyx_v_dY > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_2 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":545
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):             # <<<<<<<<<<<<<<
- *                     pass
- * 
- */
-        __pyx_t_11 = ((__pyx_v_dZ > __pyx_v_cov_rad_ij_sqrt) != 0);
-        __pyx_t_2 = __pyx_t_11;
-        __pyx_L9_bool_binop_done:;
-
-        /* "vModel/cDistances.pyx":543
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        if (__pyx_t_2) {
-          goto __pyx_L8;
-        }
-
-        /* "vModel/cDistances.pyx":550
- *                 else:
- * 
- *                     r_ij = (dX + dY + dZ)             # <<<<<<<<<<<<<<
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:
- */
-        /*else*/ {
-          __pyx_v_r_ij = ((__pyx_v_dX + __pyx_v_dY) + __pyx_v_dZ);
-
-          /* "vModel/cDistances.pyx":552
- *                     r_ij = (dX + dY + dZ)
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
- * 
- */
-          __pyx_t_2 = ((__pyx_v_r_ij <= __pyx_v_cov_rad_ij_sqrt) != 0);
-          if (__pyx_t_2) {
-
-            /* "vModel/cDistances.pyx":553
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )             # <<<<<<<<<<<<<<
- * 
- *                         bonds_full_indices.append   (index_i                )
- */
-            if (unlikely(__pyx_v_bonds_pair_of_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 553, __pyx_L1_error)
-            }
-            __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 553, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 553, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 553, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 553, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_9 = PyList_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 553, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_GIVEREF(__pyx_t_6);
-            PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_6);
-            __Pyx_GIVEREF(__pyx_t_10);
-            PyList_SET_ITEM(__pyx_t_9, 1, __pyx_t_10);
-            __pyx_t_6 = 0;
-            __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indices, __pyx_t_9); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 553, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":555
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
- * 
- *                         bonds_full_indices.append   (index_i                )             # <<<<<<<<<<<<<<
- *                         bonds_full_indices.append   (atoms[j][0]            )
- * 
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 555, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 555, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_9); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 555, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":556
- * 
- *                         bonds_full_indices.append   (index_i                )
- *                         bonds_full_indices.append   (atoms[j][0]            )             # <<<<<<<<<<<<<<
- * 
- *                         atoms[i][8].append   (atoms[j][0]            )
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 556, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 556, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 556, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 556, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 556, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":558
- *                         bonds_full_indices.append   (atoms[j][0]            )
- * 
- *                         atoms[i][8].append   (atoms[j][0]            )             # <<<<<<<<<<<<<<
- *                         atoms[j][8].append   (atoms[i][0]            )
- * 
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 558, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 558, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 558, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 558, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 558, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 558, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_9, __pyx_t_6); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 558, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-            /* "vModel/cDistances.pyx":559
- * 
- *                         atoms[i][8].append   (atoms[j][0]            )
- *                         atoms[j][8].append   (atoms[i][0]            )             # <<<<<<<<<<<<<<
- * 
- *                         non_bonded_list[index_i    ] = False
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 559, __pyx_L1_error)
-            }
-            __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 559, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 559, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 559, __pyx_L1_error)
-            }
-            __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 559, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 559, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_9, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 559, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":561
- *                         atoms[j][8].append   (atoms[i][0]            )
- * 
- *                         non_bonded_list[index_i    ] = False             # <<<<<<<<<<<<<<
- *                         non_bonded_list[atoms[j][0]] = False
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 561, __pyx_L1_error)
-            }
-            if (unlikely(__Pyx_SetItemInt(__pyx_v_non_bonded_list, __pyx_v_index_i, Py_False, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 561, __pyx_L1_error)
-
-            /* "vModel/cDistances.pyx":562
- * 
- *                         non_bonded_list[index_i    ] = False
- *                         non_bonded_list[atoms[j][0]] = False             # <<<<<<<<<<<<<<
- * 
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 562, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 562, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 562, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 562, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_non_bonded_list, __pyx_t_9, Py_False) < 0)) __PYX_ERR(0, 562, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":552
- *                     r_ij = (dX + dY + dZ)
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
- * 
- */
-          }
-        }
-        __pyx_L8:;
-
-        /* "vModel/cDistances.pyx":532
- *             index_i   = atoms[i][0]
- * 
- *             for j in lits_of_atoms2:             # <<<<<<<<<<<<<<
- *                 index_j = atoms[j][0]
- *                 #if
- */
-      }
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-      /* "vModel/cDistances.pyx":525
- *         pass
- *     else:
- *         for i in lits_of_atoms1:             # <<<<<<<<<<<<<<
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]
- */
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-  __pyx_L3:;
-
-  /* "vModel/cDistances.pyx":565
- * 
- * 
- *     return atoms, bonds_full_indices, bonds_pair_of_indices, non_bonded_list             # <<<<<<<<<<<<<<
- * 
- * cpdef dict _build_the_atomic_grid (list atoms):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_v_atoms);
-  __Pyx_GIVEREF(__pyx_v_atoms);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_atoms);
-  __Pyx_INCREF(__pyx_v_bonds_full_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_full_indices);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_bonds_full_indices);
-  __Pyx_INCREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_pair_of_indices);
-  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_bonds_pair_of_indices);
-  __Pyx_INCREF(__pyx_v_non_bonded_list);
-  __Pyx_GIVEREF(__pyx_v_non_bonded_list);
-  PyTuple_SET_ITEM(__pyx_t_1, 3, __pyx_v_non_bonded_list);
-  __pyx_r = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":469
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
- * 
- * cpdef tuple _generate_connections_between_grid_elements (list lits_of_atoms1       ,             # <<<<<<<<<<<<<<
- *                                                         list lits_of_atoms2       ,
- *                                                         list atoms                ,
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_between_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_index_j);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_5_generate_connections_between_grid_elements(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_4_generate_connections_between_grid_elements[] = "\n   \n    Calculate the distances and connections \n    between atoms from different elements \n    of the atomic grid\n    \n                |-------|-------|-------|\n                |       |       |       |\n                |       |       |       |\n                |       |       |       |\n                |-------|-atoms1|-------|\n                |       |   i   |       |\n                |       |    \\  |       |\n                |       |     \\ |       |\n                |-------|------\\|-atoms2|\n                |       |       \\       |\n                |       |       |\\      |\n                |       |       | j     |\n                |-------|-------|-------|\n    \n    \n    atoms1 = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n    \n    atoms2 = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n\n    bonds_pair_of_indices [[a,b],[b,c], ...] where a and b are indices. \n    returns a list of pair of indices \"bonds_pair_of_indices\"\n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_5_generate_connections_between_grid_elements(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_lits_of_atoms1 = 0;
-  PyObject *__pyx_v_lits_of_atoms2 = 0;
-  PyObject *__pyx_v_atoms = 0;
-  PyObject *__pyx_v_bonds_pair_of_indices = 0;
-  PyObject *__pyx_v_bonds_full_indices = 0;
-  PyObject *__pyx_v_non_bonded_list = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_generate_connections_between_grid_elements (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_lits_of_atoms1,&__pyx_n_s_lits_of_atoms2,&__pyx_n_s_atoms,&__pyx_n_s_bonds_pair_of_indices,&__pyx_n_s_bonds_full_indices,&__pyx_n_s_non_bonded_list,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
-        CYTHON_FALLTHROUGH;
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_lits_of_atoms1)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_lits_of_atoms2)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements", 1, 6, 6, 1); __PYX_ERR(0, 469, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements", 1, 6, 6, 2); __PYX_ERR(0, 469, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_pair_of_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements", 1, 6, 6, 3); __PYX_ERR(0, 469, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_full_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements", 1, 6, 6, 4); __PYX_ERR(0, 469, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  5:
-        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_non_bonded_list)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements", 1, 6, 6, 5); __PYX_ERR(0, 469, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_connections_between_grid_elements") < 0)) __PYX_ERR(0, 469, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
-    }
-    __pyx_v_lits_of_atoms1 = ((PyObject*)values[0]);
-    __pyx_v_lits_of_atoms2 = ((PyObject*)values[1]);
-    __pyx_v_atoms = ((PyObject*)values[2]);
-    __pyx_v_bonds_pair_of_indices = ((PyObject*)values[3]);
-    __pyx_v_bonds_full_indices = ((PyObject*)values[4]);
-    __pyx_v_non_bonded_list = ((PyObject*)values[5]);
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 469, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_between_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_lits_of_atoms1), (&PyList_Type), 1, "lits_of_atoms1", 1))) __PYX_ERR(0, 469, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_lits_of_atoms2), (&PyList_Type), 1, "lits_of_atoms2", 1))) __PYX_ERR(0, 470, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atoms), (&PyList_Type), 1, "atoms", 1))) __PYX_ERR(0, 471, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_pair_of_indices), (&PyList_Type), 1, "bonds_pair_of_indices", 1))) __PYX_ERR(0, 472, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_full_indices), (&PyList_Type), 1, "bonds_full_indices", 1))) __PYX_ERR(0, 473, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_non_bonded_list), (&PyList_Type), 1, "non_bonded_list", 1))) __PYX_ERR(0, 474, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_4_generate_connections_between_grid_elements(__pyx_self, __pyx_v_lits_of_atoms1, __pyx_v_lits_of_atoms2, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_4_generate_connections_between_grid_elements(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lits_of_atoms1, PyObject *__pyx_v_lits_of_atoms2, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_generate_connections_between_grid_elements", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements(__pyx_v_lits_of_atoms1, __pyx_v_lits_of_atoms2, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 469, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_between_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":567
- *     return atoms, bonds_full_indices, bonds_pair_of_indices, non_bonded_list
- * 
- * cpdef dict _build_the_atomic_grid (list atoms):             # <<<<<<<<<<<<<<
- *     """  fucntion build_atomic_grid
- * 
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_7_build_the_atomic_grid(PyObject *__pyx_self, PyObject *__pyx_v_atoms); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__build_the_atomic_grid(PyObject *__pyx_v_atoms, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_atomic_grid = 0;
-  PyObject *__pyx_v_atom = NULL;
-  PyObject *__pyx_v_a = NULL;
-  PyObject *__pyx_v_b = NULL;
-  PyObject *__pyx_v_c = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  int __pyx_t_6;
-  int __pyx_t_7;
-  __Pyx_RefNannySetupContext("_build_the_atomic_grid", 0);
-
-  /* "vModel/cDistances.pyx":599
- *     """
- *     #int grid_size
- *     cdef dict  atomic_grid = {}             # <<<<<<<<<<<<<<
- * 
- *     for atom in atoms:
- */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 599, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_atomic_grid = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":601
- *     cdef dict  atomic_grid = {}
- * 
- *     for atom in atoms:             # <<<<<<<<<<<<<<
- *         a = atom[9][0]
- *         b = atom[9][1]
- */
-  if (unlikely(__pyx_v_atoms == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 601, __pyx_L1_error)
-  }
-  __pyx_t_1 = __pyx_v_atoms; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-  for (;;) {
-    if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 601, __pyx_L1_error)
-    #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 601, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":602
- * 
- *     for atom in atoms:
- *         a = atom[9][0]             # <<<<<<<<<<<<<<
- *         b = atom[9][1]
- *         c = atom[9][2]
- */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_atom, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 602, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_a, __pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "vModel/cDistances.pyx":603
- *     for atom in atoms:
- *         a = atom[9][0]
- *         b = atom[9][1]             # <<<<<<<<<<<<<<
- *         c = atom[9][2]
- * 
- */
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_atom, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 603, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 603, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_b, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":604
- *         a = atom[9][0]
- *         b = atom[9][1]
- *         c = atom[9][2]             # <<<<<<<<<<<<<<
- * 
- *         if (a,b,c) in atomic_grid:
- */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_atom, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 604, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 604, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_c, __pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "vModel/cDistances.pyx":606
- *         c = atom[9][2]
- * 
- *         if (a,b,c) in atomic_grid:             # <<<<<<<<<<<<<<
- *             atomic_grid[(a,b,c)].append(atom[0])
- *         else:
- */
-    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 606, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_INCREF(__pyx_v_a);
-    __Pyx_GIVEREF(__pyx_v_a);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_a);
-    __Pyx_INCREF(__pyx_v_b);
-    __Pyx_GIVEREF(__pyx_v_b);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_b);
-    __Pyx_INCREF(__pyx_v_c);
-    __Pyx_GIVEREF(__pyx_v_c);
-    PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_c);
-    __pyx_t_5 = (__Pyx_PyDict_ContainsTF(__pyx_t_4, __pyx_v_atomic_grid, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 606, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = (__pyx_t_5 != 0);
-    if (__pyx_t_6) {
-
-      /* "vModel/cDistances.pyx":607
- * 
- *         if (a,b,c) in atomic_grid:
- *             atomic_grid[(a,b,c)].append(atom[0])             # <<<<<<<<<<<<<<
- *         else:
- *             atomic_grid[(a,b,c)] = []
- */
-      __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 607, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_INCREF(__pyx_v_a);
-      __Pyx_GIVEREF(__pyx_v_a);
-      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_a);
-      __Pyx_INCREF(__pyx_v_b);
-      __Pyx_GIVEREF(__pyx_v_b);
-      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_b);
-      __Pyx_INCREF(__pyx_v_c);
-      __Pyx_GIVEREF(__pyx_v_c);
-      PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_c);
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 607, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_atom, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 607, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_4); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 607, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-      /* "vModel/cDistances.pyx":606
- *         c = atom[9][2]
- * 
- *         if (a,b,c) in atomic_grid:             # <<<<<<<<<<<<<<
- *             atomic_grid[(a,b,c)].append(atom[0])
- *         else:
- */
-      goto __pyx_L5;
-    }
-
-    /* "vModel/cDistances.pyx":609
- *             atomic_grid[(a,b,c)].append(atom[0])
- *         else:
- *             atomic_grid[(a,b,c)] = []             # <<<<<<<<<<<<<<
- *             atomic_grid[(a,b,c)].append(atom[0])
- *     return atomic_grid
- */
-    /*else*/ {
-      __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 609, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 609, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_v_a);
-      __Pyx_GIVEREF(__pyx_v_a);
-      PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_a);
-      __Pyx_INCREF(__pyx_v_b);
-      __Pyx_GIVEREF(__pyx_v_b);
-      PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_b);
-      __Pyx_INCREF(__pyx_v_c);
-      __Pyx_GIVEREF(__pyx_v_c);
-      PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_c);
-      if (unlikely(PyDict_SetItem(__pyx_v_atomic_grid, __pyx_t_3, __pyx_t_4) < 0)) __PYX_ERR(0, 609, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-      /* "vModel/cDistances.pyx":610
- *         else:
- *             atomic_grid[(a,b,c)] = []
- *             atomic_grid[(a,b,c)].append(atom[0])             # <<<<<<<<<<<<<<
- *     return atomic_grid
- * 
- */
-      __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 610, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_INCREF(__pyx_v_a);
-      __Pyx_GIVEREF(__pyx_v_a);
-      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_a);
-      __Pyx_INCREF(__pyx_v_b);
-      __Pyx_GIVEREF(__pyx_v_b);
-      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_b);
-      __Pyx_INCREF(__pyx_v_c);
-      __Pyx_GIVEREF(__pyx_v_c);
-      PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_c);
-      __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 610, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_atom, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 610, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_4); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 610, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    }
-    __pyx_L5:;
-
-    /* "vModel/cDistances.pyx":601
- *     cdef dict  atomic_grid = {}
- * 
- *     for atom in atoms:             # <<<<<<<<<<<<<<
- *         a = atom[9][0]
- *         b = atom[9][1]
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":611
- *             atomic_grid[(a,b,c)] = []
- *             atomic_grid[(a,b,c)].append(atom[0])
- *     return atomic_grid             # <<<<<<<<<<<<<<
- * 
- * cpdef _generete_NB_list_from_TrueFalse_list(list NB_TrueFalse_list):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_atomic_grid);
-  __pyx_r = __pyx_v_atomic_grid;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":567
- *     return atoms, bonds_full_indices, bonds_pair_of_indices, non_bonded_list
- * 
- * cpdef dict _build_the_atomic_grid (list atoms):             # <<<<<<<<<<<<<<
- *     """  fucntion build_atomic_grid
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vModel.cDistances._build_the_atomic_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_atomic_grid);
-  __Pyx_XDECREF(__pyx_v_atom);
-  __Pyx_XDECREF(__pyx_v_a);
-  __Pyx_XDECREF(__pyx_v_b);
-  __Pyx_XDECREF(__pyx_v_c);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_7_build_the_atomic_grid(PyObject *__pyx_self, PyObject *__pyx_v_atoms); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_6_build_the_atomic_grid[] = "  fucntion build_atomic_grid\n    \n    This function organizes the atoms in their respective position \n    of the grid (atomic grid) - Nescessary to calculate distances between \n    atoms in different elements of the grid\n    \n    self.grid_size = is the size of a grid element - size of a sector\n    \n    \n              atomic grid\n              \n        |-------|-------|-------| |\n        |       | grid  |       | |\n        |       |element|       | | grid_size\n        |-1,1,0 | 0,1,0 | 1,1,0 | |\n        |-------|-------|-------| |\n        |       |       |       |\n        |       |       |       |\n        |-1,0,0 | 0,0,0 | 1,0,0 |\n        |-------|-------|-------|\n        |       |       |       |\n        |       |       |       |\n        |-1,-1,0| 0,-1,0| 1,-1,0|\n        |-------|-------|-------|\n                         -------\n                        grid_size\n    \n    \n    grid element = list of atoms\n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_7_build_the_atomic_grid(PyObject *__pyx_self, PyObject *__pyx_v_atoms) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_build_the_atomic_grid (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atoms), (&PyList_Type), 1, "atoms", 1))) __PYX_ERR(0, 567, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_6_build_the_atomic_grid(__pyx_self, ((PyObject*)__pyx_v_atoms));
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_6_build_the_atomic_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_build_the_atomic_grid", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__build_the_atomic_grid(__pyx_v_atoms, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 567, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._build_the_atomic_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":613
- *     return atomic_grid
- * 
- * cpdef _generete_NB_list_from_TrueFalse_list(list NB_TrueFalse_list):             # <<<<<<<<<<<<<<
- * 
- *     #debug =  {'pName': '_generete_NB_list_from_TrueFalse_list'}
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_9_generete_NB_list_from_TrueFalse_list(PyObject *__pyx_self, PyObject *__pyx_v_NB_TrueFalse_list); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generete_NB_list_from_TrueFalse_list(PyObject *__pyx_v_NB_TrueFalse_list, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_NB_indices_list = NULL;
-  PyObject *__pyx_v_index = NULL;
-  PyObject *__pyx_v_TrueFalse = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  __Pyx_RefNannySetupContext("_generete_NB_list_from_TrueFalse_list", 0);
-
-  /* "vModel/cDistances.pyx":616
- * 
- *     #debug =  {'pName': '_generete_NB_list_from_TrueFalse_list'}
- *     NB_indices_list  = []             # <<<<<<<<<<<<<<
- *     #---------------------------------------------------------------#
- *     #initial       = time.time()
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 616, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_NB_indices_list = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":620
- *     #initial       = time.time()
- *     #---------------------------------------------------------------#
- *     index = 0             # <<<<<<<<<<<<<<
- * 
- *     for TrueFalse in NB_TrueFalse_list:
- */
-  __Pyx_INCREF(__pyx_int_0);
-  __pyx_v_index = __pyx_int_0;
-
-  /* "vModel/cDistances.pyx":622
- *     index = 0
- * 
- *     for TrueFalse in NB_TrueFalse_list:             # <<<<<<<<<<<<<<
- *         if TrueFalse:
- *             NB_indices_list.append(index)
- */
-  if (unlikely(__pyx_v_NB_TrueFalse_list == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 622, __pyx_L1_error)
-  }
-  __pyx_t_1 = __pyx_v_NB_TrueFalse_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-  for (;;) {
-    if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 622, __pyx_L1_error)
-    #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 622, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_XDECREF_SET(__pyx_v_TrueFalse, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":623
- * 
- *     for TrueFalse in NB_TrueFalse_list:
- *         if TrueFalse:             # <<<<<<<<<<<<<<
- *             NB_indices_list.append(index)
- *         index += 1
- */
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_TrueFalse); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 623, __pyx_L1_error)
-    if (__pyx_t_4) {
-
-      /* "vModel/cDistances.pyx":624
- *     for TrueFalse in NB_TrueFalse_list:
- *         if TrueFalse:
- *             NB_indices_list.append(index)             # <<<<<<<<<<<<<<
- *         index += 1
- *     NB_indices_list = np.array(NB_indices_list, dtype=np.uint32)
- */
-      __pyx_t_5 = __Pyx_PyObject_Append(__pyx_v_NB_indices_list, __pyx_v_index); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(0, 624, __pyx_L1_error)
-
-      /* "vModel/cDistances.pyx":623
- * 
- *     for TrueFalse in NB_TrueFalse_list:
- *         if TrueFalse:             # <<<<<<<<<<<<<<
- *             NB_indices_list.append(index)
- *         index += 1
- */
-    }
-
-    /* "vModel/cDistances.pyx":625
- *         if TrueFalse:
- *             NB_indices_list.append(index)
- *         index += 1             # <<<<<<<<<<<<<<
- *     NB_indices_list = np.array(NB_indices_list, dtype=np.uint32)
- *     #--------------------------------------------------------------#
- */
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 625, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF_SET(__pyx_v_index, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":622
- *     index = 0
- * 
- *     for TrueFalse in NB_TrueFalse_list:             # <<<<<<<<<<<<<<
- *         if TrueFalse:
- *             NB_indices_list.append(index)
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":626
- *             NB_indices_list.append(index)
- *         index += 1
- *     NB_indices_list = np.array(NB_indices_list, dtype=np.uint32)             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     #final = time.time()                                            #
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_v_NB_indices_list);
-  __Pyx_GIVEREF(__pyx_v_NB_indices_list);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_NB_indices_list);
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_uint32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 626, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF_SET(__pyx_v_NB_indices_list, __pyx_t_8);
-  __pyx_t_8 = 0;
-
-  /* "vModel/cDistances.pyx":632
- *     #--------------------------------------------------------------#
- * 
- *     return NB_indices_list#, debug             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_NB_indices_list);
-  __pyx_r = __pyx_v_NB_indices_list;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":613
- *     return atomic_grid
- * 
- * cpdef _generete_NB_list_from_TrueFalse_list(list NB_TrueFalse_list):             # <<<<<<<<<<<<<<
- * 
- *     #debug =  {'pName': '_generete_NB_list_from_TrueFalse_list'}
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("vModel.cDistances._generete_NB_list_from_TrueFalse_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_NB_indices_list);
-  __Pyx_XDECREF(__pyx_v_index);
-  __Pyx_XDECREF(__pyx_v_TrueFalse);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_9_generete_NB_list_from_TrueFalse_list(PyObject *__pyx_self, PyObject *__pyx_v_NB_TrueFalse_list); /*proto*/
-static PyObject *__pyx_pw_6vModel_10cDistances_9_generete_NB_list_from_TrueFalse_list(PyObject *__pyx_self, PyObject *__pyx_v_NB_TrueFalse_list) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_generete_NB_list_from_TrueFalse_list (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_NB_TrueFalse_list), (&PyList_Type), 1, "NB_TrueFalse_list", 1))) __PYX_ERR(0, 613, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_8_generete_NB_list_from_TrueFalse_list(__pyx_self, ((PyObject*)__pyx_v_NB_TrueFalse_list));
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_8_generete_NB_list_from_TrueFalse_list(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_NB_TrueFalse_list) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_generete_NB_list_from_TrueFalse_list", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__generete_NB_list_from_TrueFalse_list(__pyx_v_NB_TrueFalse_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 613, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._generete_NB_list_from_TrueFalse_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":635
- * 
- * 
- * cpdef generete_full_NB_and_Bonded_lists(atoms):             # <<<<<<<<<<<<<<
- *     '''
- *     atoms = [] it's a list
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_11generete_full_NB_and_Bonded_lists(PyObject *__pyx_self, PyObject *__pyx_v_atoms); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists(PyObject *__pyx_v_atoms, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_initial = NULL;
-  PyObject *__pyx_v_bonds_full_indices = NULL;
-  PyObject *__pyx_v_bonds_pair_of_indices = NULL;
-  PyObject *__pyx_v_atomic_grid = NULL;
-  PyObject *__pyx_v_pairs_of_grid_elements = NULL;
-  PyObject *__pyx_v_NB_TrueFalse_list = NULL;
-  PyObject *__pyx_v_final = NULL;
-  PyObject *__pyx_v_list_of_atoms = NULL;
-  PyObject *__pyx_v_pair_of_grid_elements = NULL;
-  PyObject *__pyx_v_NB_indices_list = NULL;
+ *     grid_offset_full = [
+ */
+
+static PyObject *__pyx_pw_6vModel_10cDistances_1calculate_grid_offset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_calculate_grid_offset(PyObject *__pyx_v_gridsize, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vModel_10cDistances_calculate_grid_offset *__pyx_optional_args) {
+  PyObject *__pyx_v_maxbond = ((PyObject *)__pyx_float_2_6);
+  PyObject *__pyx_v_grid_offset_full = NULL;
+  PyObject *__pyx_v_borderGrid = NULL;
+  PyObject *__pyx_v_N = NULL;
+  PyObject *__pyx_v_i = NULL;
+  PyObject *__pyx_v_n = NULL;
+  PyObject *__pyx_v_j = NULL;
+  PyObject *__pyx_v_excluded_list = NULL;
+  PyObject *__pyx_v_k = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4376,3097 +1330,664 @@ static PyObject *__pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists(
   PyObject *__pyx_t_3 = NULL;
   Py_ssize_t __pyx_t_4;
   PyObject *(*__pyx_t_5)(PyObject *);
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  __Pyx_RefNannySetupContext("generete_full_NB_and_Bonded_lists", 0);
-  __Pyx_INCREF(__pyx_v_atoms);
-
-  /* "vModel/cDistances.pyx":656
- * 
- *     #--------------------------------------------------------------#
- *     initial       = time.time()                                    #             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     bonds_full_indices, bonds_pair_of_indices = [], []
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 656, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 656, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
+  Py_ssize_t __pyx_t_6;
+  PyObject *(*__pyx_t_7)(PyObject *);
+  int __pyx_t_8;
+  int __pyx_t_9;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  int __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  PyObject *(*__pyx_t_14)(PyObject *);
+  __Pyx_RefNannySetupContext("calculate_grid_offset", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_maxbond = __pyx_optional_args->maxbond;
     }
   }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 656, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_initial = __pyx_t_1;
-  __pyx_t_1 = 0;
 
-  /* "vModel/cDistances.pyx":658
- *     initial       = time.time()                                    #
- *     #--------------------------------------------------------------#
- *     bonds_full_indices, bonds_pair_of_indices = [], []             # <<<<<<<<<<<<<<
- *     atomic_grid               = _build_the_atomic_grid(atoms)
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements(atomic_grid)
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 658, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 658, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_bonds_full_indices = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_v_bonds_pair_of_indices = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":659
- *     #--------------------------------------------------------------#
- *     bonds_full_indices, bonds_pair_of_indices = [], []
- *     atomic_grid               = _build_the_atomic_grid(atoms)             # <<<<<<<<<<<<<<
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements(atomic_grid)
- *     NB_TrueFalse_list         = [True]*len(atoms)
- */
-  if (!(likely(PyList_CheckExact(__pyx_v_atoms))||((__pyx_v_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atoms)->tp_name), 0))) __PYX_ERR(0, 659, __pyx_L1_error)
-  __pyx_t_3 = __pyx_f_6vModel_10cDistances__build_the_atomic_grid(((PyObject*)__pyx_v_atoms), 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 659, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_atomic_grid = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":660
- *     bonds_full_indices, bonds_pair_of_indices = [], []
- *     atomic_grid               = _build_the_atomic_grid(atoms)
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements(atomic_grid)             # <<<<<<<<<<<<<<
- *     NB_TrueFalse_list         = [True]*len(atoms)
- *     #--------------------------------------------------------------#
- */
-  __pyx_t_3 = __pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements(__pyx_v_atomic_grid, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 660, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_pairs_of_grid_elements = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":661
- *     atomic_grid               = _build_the_atomic_grid(atoms)
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements(atomic_grid)
- *     NB_TrueFalse_list         = [True]*len(atoms)             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
- */
-  __pyx_t_4 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 661, __pyx_L1_error)
-  __pyx_t_3 = PyList_New(1 * ((__pyx_t_4<0) ? 0:__pyx_t_4)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 661, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_4; __pyx_temp++) {
-      __Pyx_INCREF(Py_True);
-      __Pyx_GIVEREF(Py_True);
-      PyList_SET_ITEM(__pyx_t_3, __pyx_temp, Py_True);
-    }
-  }
-  __pyx_v_NB_TrueFalse_list = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":663
- *     NB_TrueFalse_list         = [True]*len(atoms)
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #             # <<<<<<<<<<<<<<
- *     print ('building grid elements  : ', final - initial, '\n')#
- *     #--------------------------------------------------------------#
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 663, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 663, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 663, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_final = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":664
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
- *     print ('building grid elements  : ', final - initial, '\n')#             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     #print (non_bonded_list)
- */
-  __pyx_t_3 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 664, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 664, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_building_grid_elements);
-  __Pyx_GIVEREF(__pyx_kp_s_building_grid_elements);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_building_grid_elements);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s_);
-  __Pyx_GIVEREF(__pyx_kp_s_);
-  PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_s_);
-  __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 664, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":667
- *     #--------------------------------------------------------------#
- *     #print (non_bonded_list)
- *     print ('Total number of Atoms   :', len(atoms)                 )             # <<<<<<<<<<<<<<
- *     print ('Number of grid elements :', len(atomic_grid)           )
- *     print ('Pairs                   :', len(pairs_of_grid_elements))
- */
-  __pyx_t_4 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 667, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 667, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 667, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s_Total_number_of_Atoms);
-  __Pyx_GIVEREF(__pyx_kp_s_Total_number_of_Atoms);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_s_Total_number_of_Atoms);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
-  __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 667, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":668
- *     #print (non_bonded_list)
- *     print ('Total number of Atoms   :', len(atoms)                 )
- *     print ('Number of grid elements :', len(atomic_grid)           )             # <<<<<<<<<<<<<<
- *     print ('Pairs                   :', len(pairs_of_grid_elements))
- * 
- */
-  if (unlikely(__pyx_v_atomic_grid == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 668, __pyx_L1_error)
-  }
-  __pyx_t_4 = PyDict_Size(__pyx_v_atomic_grid); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 668, __pyx_L1_error)
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 668, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 668, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_Number_of_grid_elements);
-  __Pyx_GIVEREF(__pyx_kp_s_Number_of_grid_elements);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_Number_of_grid_elements);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
-  __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 668, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":669
- *     print ('Total number of Atoms   :', len(atoms)                 )
- *     print ('Number of grid elements :', len(atomic_grid)           )
- *     print ('Pairs                   :', len(pairs_of_grid_elements))             # <<<<<<<<<<<<<<
- * 
- *     #----------------------------------------------------------------------------------------------
- */
-  if (unlikely(__pyx_v_pairs_of_grid_elements == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 669, __pyx_L1_error)
-  }
-  __pyx_t_4 = PyList_GET_SIZE(__pyx_v_pairs_of_grid_elements); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 669, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 669, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 669, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s_Pairs);
-  __Pyx_GIVEREF(__pyx_kp_s_Pairs);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_s_Pairs);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
-  __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 669, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":680
- *     '''
- *     #---------------------------------------------------------------#
- *     initial       = time.time()             # <<<<<<<<<<<<<<
- *     #---------------------------------------------------------------#
- * 
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 680, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 680, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 680, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF_SET(__pyx_v_initial, __pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":684
+  /* "vModel/cDistances.pyx":70
  * 
  *     #'''
- *     for list_of_atoms in atomic_grid.values():             # <<<<<<<<<<<<<<
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element( list_of_atoms,
+ *     grid_offset_full = []             # <<<<<<<<<<<<<<
+ *     borderGrid  = maxbond/gridsize
+ *     borderGrid  = int(borderGrid)
  */
-  if (unlikely(__pyx_v_atomic_grid == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "values");
-    __PYX_ERR(0, 684, __pyx_L1_error)
-  }
-  __pyx_t_3 = __Pyx_PyDict_Values(__pyx_v_atomic_grid); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 684, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_grid_offset_full = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":71
+ *     #'''
+ *     grid_offset_full = []
+ *     borderGrid  = maxbond/gridsize             # <<<<<<<<<<<<<<
+ *     borderGrid  = int(borderGrid)
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_maxbond, __pyx_v_gridsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_borderGrid = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":72
+ *     grid_offset_full = []
+ *     borderGrid  = maxbond/gridsize
+ *     borderGrid  = int(borderGrid)             # <<<<<<<<<<<<<<
+ * 
+ *     #'''#------------------------- first floor -----------------------------
+ */
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_borderGrid); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF_SET(__pyx_v_borderGrid, __pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":95
+ * 
+ *     ''''''
+ *     N = 0             # <<<<<<<<<<<<<<
+ *     for i in range (-borderGrid, borderGrid + 1):
+ * 
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_N = __pyx_int_0;
+
+  /* "vModel/cDistances.pyx":96
+ *     ''''''
+ *     N = 0
+ *     for i in range (-borderGrid, borderGrid + 1):             # <<<<<<<<<<<<<<
+ * 
+ *         n = 0
+ */
+  __pyx_t_1 = PyNumber_Negative(__pyx_v_borderGrid); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_borderGrid, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-    __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+    __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 684, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 684, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
     if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
+      if (likely(PyList_CheckExact(__pyx_t_3))) {
+        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 684, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 684, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
     } else {
-      __pyx_t_3 = __pyx_t_5(__pyx_t_1);
-      if (unlikely(!__pyx_t_3)) {
+      __pyx_t_2 = __pyx_t_5(__pyx_t_3);
+      if (unlikely(!__pyx_t_2)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 684, __pyx_L1_error)
+          else __PYX_ERR(0, 96, __pyx_L1_error)
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_GOTREF(__pyx_t_2);
     }
-    __Pyx_XDECREF_SET(__pyx_v_list_of_atoms, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":686
- *     for list_of_atoms in atomic_grid.values():
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element( list_of_atoms,             # <<<<<<<<<<<<<<
- *                                                                                                               atoms                   ,
- *                                                                                                               bonds_pair_of_indices   ,
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_list_of_atoms))||((__pyx_v_list_of_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_list_of_atoms)->tp_name), 0))) __PYX_ERR(0, 686, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":687
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element( list_of_atoms,
- *                                                                                                               atoms                   ,             # <<<<<<<<<<<<<<
- *                                                                                                               bonds_pair_of_indices   ,
- *                                                                                                               bonds_full_indices      ,
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_atoms))||((__pyx_v_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atoms)->tp_name), 0))) __PYX_ERR(0, 687, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":688
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element( list_of_atoms,
- *                                                                                                               atoms                   ,
- *                                                                                                               bonds_pair_of_indices   ,             # <<<<<<<<<<<<<<
- *                                                                                                               bonds_full_indices      ,
- *                                                                                                               NB_TrueFalse_list       )
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_pair_of_indices))||((__pyx_v_bonds_pair_of_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_pair_of_indices)->tp_name), 0))) __PYX_ERR(0, 688, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":689
- *                                                                                                               atoms                   ,
- *                                                                                                               bonds_pair_of_indices   ,
- *                                                                                                               bonds_full_indices      ,             # <<<<<<<<<<<<<<
- *                                                                                                               NB_TrueFalse_list       )
- *     #'''
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_full_indices))||((__pyx_v_bonds_full_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_full_indices)->tp_name), 0))) __PYX_ERR(0, 689, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":690
- *                                                                                                               bonds_pair_of_indices   ,
- *                                                                                                               bonds_full_indices      ,
- *                                                                                                               NB_TrueFalse_list       )             # <<<<<<<<<<<<<<
- *     #'''
- *     #'''
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_NB_TrueFalse_list))||((__pyx_v_NB_TrueFalse_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_NB_TrueFalse_list)->tp_name), 0))) __PYX_ERR(0, 690, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":686
- *     for list_of_atoms in atomic_grid.values():
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element( list_of_atoms,             # <<<<<<<<<<<<<<
- *                                                                                                               atoms                   ,
- *                                                                                                               bonds_pair_of_indices   ,
- */
-    __pyx_t_3 = __pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element(((PyObject*)__pyx_v_list_of_atoms), ((PyObject*)__pyx_v_atoms), ((PyObject*)__pyx_v_bonds_pair_of_indices), ((PyObject*)__pyx_v_bonds_full_indices), ((PyObject*)__pyx_v_NB_TrueFalse_list), 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 686, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (likely(__pyx_t_3 != Py_None)) {
-      PyObject* sequence = __pyx_t_3;
-      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
-      if (unlikely(size != 4)) {
-        if (size > 4) __Pyx_RaiseTooManyValuesError(4);
-        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 686, __pyx_L1_error)
-      }
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_6 = PyTuple_GET_ITEM(sequence, 1); 
-      __pyx_t_7 = PyTuple_GET_ITEM(sequence, 2); 
-      __pyx_t_8 = PyTuple_GET_ITEM(sequence, 3); 
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_8);
-      #else
-      {
-        Py_ssize_t i;
-        PyObject** temps[4] = {&__pyx_t_2,&__pyx_t_6,&__pyx_t_7,&__pyx_t_8};
-        for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 686, __pyx_L1_error)
-          __Pyx_GOTREF(item);
-          *(temps[i]) = item;
-        }
-      }
-      #endif
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 686, __pyx_L1_error)
-    }
-    __Pyx_DECREF_SET(__pyx_v_atoms, __pyx_t_2);
-    __pyx_t_2 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_full_indices, __pyx_t_6);
-    __pyx_t_6 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_pair_of_indices, __pyx_t_7);
-    __pyx_t_7 = 0;
-    __Pyx_DECREF_SET(__pyx_v_NB_TrueFalse_list, __pyx_t_8);
-    __pyx_t_8 = 0;
-
-    /* "vModel/cDistances.pyx":684
- * 
- *     #'''
- *     for list_of_atoms in atomic_grid.values():             # <<<<<<<<<<<<<<
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element( list_of_atoms,
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":693
- *     #'''
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:             # <<<<<<<<<<<<<<
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],
- */
-  if (unlikely(__pyx_v_pairs_of_grid_elements == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 693, __pyx_L1_error)
-  }
-  __pyx_t_1 = __pyx_v_pairs_of_grid_elements; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
-  for (;;) {
-    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 693, __pyx_L1_error)
-    #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 693, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_XDECREF_SET(__pyx_v_pair_of_grid_elements, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":694
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements(pair_of_grid_elements[0],             # <<<<<<<<<<<<<<
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,
- */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_pair_of_grid_elements, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 694, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(PyList_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 694, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":695
- *     for pair_of_grid_elements in pairs_of_grid_elements:
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],             # <<<<<<<<<<<<<<
- *                                                                                                                           atoms                   ,
- *                                                                                                                           bonds_pair_of_indices   ,
- */
-    __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_pair_of_grid_elements, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 695, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    if (!(likely(PyList_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 695, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":696
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,             # <<<<<<<<<<<<<<
- *                                                                                                                           bonds_pair_of_indices   ,
- *                                                                                                                           bonds_full_indices      ,
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_atoms))||((__pyx_v_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atoms)->tp_name), 0))) __PYX_ERR(0, 696, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":697
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,
- *                                                                                                                           bonds_pair_of_indices   ,             # <<<<<<<<<<<<<<
- *                                                                                                                           bonds_full_indices      ,
- *                                                                                                                           NB_TrueFalse_list           )
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_pair_of_indices))||((__pyx_v_bonds_pair_of_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_pair_of_indices)->tp_name), 0))) __PYX_ERR(0, 697, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":698
- *                                                                                                                           atoms                   ,
- *                                                                                                                           bonds_pair_of_indices   ,
- *                                                                                                                           bonds_full_indices      ,             # <<<<<<<<<<<<<<
- *                                                                                                                           NB_TrueFalse_list           )
- *     #'''
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_full_indices))||((__pyx_v_bonds_full_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_full_indices)->tp_name), 0))) __PYX_ERR(0, 698, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":699
- *                                                                                                                           bonds_pair_of_indices   ,
- *                                                                                                                           bonds_full_indices      ,
- *                                                                                                                           NB_TrueFalse_list           )             # <<<<<<<<<<<<<<
- *     #'''
- * 
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_NB_TrueFalse_list))||((__pyx_v_NB_TrueFalse_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_NB_TrueFalse_list)->tp_name), 0))) __PYX_ERR(0, 699, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":694
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements(pair_of_grid_elements[0],             # <<<<<<<<<<<<<<
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,
- */
-    __pyx_t_7 = __pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements(((PyObject*)__pyx_t_3), ((PyObject*)__pyx_t_8), ((PyObject*)__pyx_v_atoms), ((PyObject*)__pyx_v_bonds_pair_of_indices), ((PyObject*)__pyx_v_bonds_full_indices), ((PyObject*)__pyx_v_NB_TrueFalse_list), 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 694, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (likely(__pyx_t_7 != Py_None)) {
-      PyObject* sequence = __pyx_t_7;
-      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
-      if (unlikely(size != 4)) {
-        if (size > 4) __Pyx_RaiseTooManyValuesError(4);
-        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 694, __pyx_L1_error)
-      }
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_8 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
-      __pyx_t_6 = PyTuple_GET_ITEM(sequence, 2); 
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 3); 
-      __Pyx_INCREF(__pyx_t_8);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_2);
-      #else
-      {
-        Py_ssize_t i;
-        PyObject** temps[4] = {&__pyx_t_8,&__pyx_t_3,&__pyx_t_6,&__pyx_t_2};
-        for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 694, __pyx_L1_error)
-          __Pyx_GOTREF(item);
-          *(temps[i]) = item;
-        }
-      }
-      #endif
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 694, __pyx_L1_error)
-    }
-    __Pyx_DECREF_SET(__pyx_v_atoms, __pyx_t_8);
-    __pyx_t_8 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_full_indices, __pyx_t_3);
-    __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_pair_of_indices, __pyx_t_6);
-    __pyx_t_6 = 0;
-    __Pyx_DECREF_SET(__pyx_v_NB_TrueFalse_list, __pyx_t_2);
+    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/cDistances.pyx":693
- *     #'''
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:             # <<<<<<<<<<<<<<
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":702
- *     #'''
+    /* "vModel/cDistances.pyx":98
+ *     for i in range (-borderGrid, borderGrid + 1):
  * 
- *     print ('Bonds                   :', len(bonds_pair_of_indices))             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
+ *         n = 0             # <<<<<<<<<<<<<<
+ *         for j in range(0, borderGrid + 1):
+ *             #counter = i + n #+ 2
  */
-  __pyx_t_4 = PyObject_Length(__pyx_v_bonds_pair_of_indices); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 702, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 702, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 702, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_kp_s_Bonds);
-  __Pyx_GIVEREF(__pyx_kp_s_Bonds);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_s_Bonds);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_7) < 0) __PYX_ERR(0, 702, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_INCREF(__pyx_int_0);
+    __Pyx_XDECREF_SET(__pyx_v_n, __pyx_int_0);
 
-  /* "vModel/cDistances.pyx":704
- *     print ('Bonds                   :', len(bonds_pair_of_indices))
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #             # <<<<<<<<<<<<<<
- *     print ('Bonds calcultation time : ', final - initial, '\n')    #
- *     #--------------------------------------------------------------#
+    /* "vModel/cDistances.pyx":99
+ * 
+ *         n = 0
+ *         for j in range(0, borderGrid + 1):             # <<<<<<<<<<<<<<
+ *             #counter = i + n #+ 2
+ * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 704, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 704, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_borderGrid, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_INCREF(__pyx_int_0);
+    __Pyx_GIVEREF(__pyx_int_0);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_int_0);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+      __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
+      __pyx_t_7 = NULL;
+    } else {
+      __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 99, __pyx_L1_error)
     }
-  }
-  __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 704, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF_SET(__pyx_v_final, __pyx_t_7);
-  __pyx_t_7 = 0;
-
-  /* "vModel/cDistances.pyx":705
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
- *     print ('Bonds calcultation time : ', final - initial, '\n')    #             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- */
-  __pyx_t_7 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 705, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 705, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_Bonds_calcultation_time);
-  __Pyx_GIVEREF(__pyx_kp_s_Bonds_calcultation_time);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_Bonds_calcultation_time);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_7);
-  __Pyx_INCREF(__pyx_kp_s_);
-  __Pyx_GIVEREF(__pyx_kp_s_);
-  PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_s_);
-  __pyx_t_7 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":714
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- *     '''
- *     NB_indices_list = _generete_NB_list_from_TrueFalse_list(NB_TrueFalse_list)             # <<<<<<<<<<<<<<
- *     print ('NB atoms                :', len(NB_indices_list))
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- */
-  if (!(likely(PyList_CheckExact(__pyx_v_NB_TrueFalse_list))||((__pyx_v_NB_TrueFalse_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_NB_TrueFalse_list)->tp_name), 0))) __PYX_ERR(0, 714, __pyx_L1_error)
-  __pyx_t_2 = __pyx_f_6vModel_10cDistances__generete_NB_list_from_TrueFalse_list(((PyObject*)__pyx_v_NB_TrueFalse_list), 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 714, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_NB_indices_list = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":715
- *     '''
- *     NB_indices_list = _generete_NB_list_from_TrueFalse_list(NB_TrueFalse_list)
- *     print ('NB atoms                :', len(NB_indices_list))             # <<<<<<<<<<<<<<
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- * 
- */
-  __pyx_t_4 = PyObject_Length(__pyx_v_NB_indices_list); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 715, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 715, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 715, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_kp_s_NB_atoms);
-  __Pyx_GIVEREF(__pyx_kp_s_NB_atoms);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_s_NB_atoms);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_2);
-  __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_7) < 0) __PYX_ERR(0, 715, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-  /* "vModel/cDistances.pyx":721
- *     #    print(atom)
- * 
- *     return bonds_full_indices, bonds_pair_of_indices, NB_indices_list             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 721, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_v_bonds_full_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_full_indices);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_bonds_full_indices);
-  __Pyx_INCREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_pair_of_indices);
-  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_bonds_pair_of_indices);
-  __Pyx_INCREF(__pyx_v_NB_indices_list);
-  __Pyx_GIVEREF(__pyx_v_NB_indices_list);
-  PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_v_NB_indices_list);
-  __pyx_r = __pyx_t_7;
-  __pyx_t_7 = 0;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":635
- * 
- * 
- * cpdef generete_full_NB_and_Bonded_lists(atoms):             # <<<<<<<<<<<<<<
- *     '''
- *     atoms = [] it's a list
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("vModel.cDistances.generete_full_NB_and_Bonded_lists", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_initial);
-  __Pyx_XDECREF(__pyx_v_bonds_full_indices);
-  __Pyx_XDECREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_XDECREF(__pyx_v_atomic_grid);
-  __Pyx_XDECREF(__pyx_v_pairs_of_grid_elements);
-  __Pyx_XDECREF(__pyx_v_NB_TrueFalse_list);
-  __Pyx_XDECREF(__pyx_v_final);
-  __Pyx_XDECREF(__pyx_v_list_of_atoms);
-  __Pyx_XDECREF(__pyx_v_pair_of_grid_elements);
-  __Pyx_XDECREF(__pyx_v_NB_indices_list);
-  __Pyx_XDECREF(__pyx_v_atoms);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_11generete_full_NB_and_Bonded_lists(PyObject *__pyx_self, PyObject *__pyx_v_atoms); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_10generete_full_NB_and_Bonded_lists[] = "\n    atoms = [] it's a list\n    \n    list element = [atom.index-1    ,    # 0\n                    atom.name       ,    # 1\n                    atom.cov_rad    ,    # 2\n                    np.array(coods) ,    # 3\n                    atom.resi       ,    # 4\n                    atom.resn       ,    # 5\n                    atom.chain      ,    # 6\n                    atom.symbol     ,    # 7\n                    []              ,    # 8\n                    gridpos         ]\n    \n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_11generete_full_NB_and_Bonded_lists(PyObject *__pyx_self, PyObject *__pyx_v_atoms) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generete_full_NB_and_Bonded_lists (wrapper)", 0);
-  __pyx_r = __pyx_pf_6vModel_10cDistances_10generete_full_NB_and_Bonded_lists(__pyx_self, ((PyObject *)__pyx_v_atoms));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_10generete_full_NB_and_Bonded_lists(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("generete_full_NB_and_Bonded_lists", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists(__pyx_v_atoms, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 635, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances.generete_full_NB_and_Bonded_lists", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":734
- * 
- * 
- * cpdef tuple _generate_connections_into_a_grid_element_2 (list list_of_atoms         ,             # <<<<<<<<<<<<<<
- *                                                          list atoms                 ,
- *                                                          list bonds_pair_of_indices ,  #indices of connected atoms
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_13_generate_connections_into_a_grid_element_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element_2(PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  int __pyx_v_i;
-  int __pyx_v_j;
-  CYTHON_UNUSED int __pyx_v_size;
-  int __pyx_v_index_i;
-  double __pyx_v_atom_ix;
-  double __pyx_v_atom_iy;
-  double __pyx_v_atom_iz;
-  double __pyx_v_cov_rad_i;
-  double __pyx_v_cov_rad_j;
-  double __pyx_v_r_ij;
-  double __pyx_v_dX;
-  double __pyx_v_dY;
-  double __pyx_v_dZ;
-  int __pyx_v_list_index;
-  double __pyx_v_cov_rad_ij_sqrt;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  double __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  int __pyx_t_11;
-  int __pyx_t_12;
-  __Pyx_RefNannySetupContext("_generate_connections_into_a_grid_element_2", 0);
-
-  /* "vModel/cDistances.pyx":784
- *     cdef double dZ
- * 
- *     size =  len(atoms)             # <<<<<<<<<<<<<<
- * 
- *     cdef int list_index = 0
- */
-  if (unlikely(__pyx_v_atoms == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 784, __pyx_L1_error)
-  }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_atoms); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 784, __pyx_L1_error)
-  __pyx_v_size = __pyx_t_1;
-
-  /* "vModel/cDistances.pyx":786
- *     size =  len(atoms)
- * 
- *     cdef int list_index = 0             # <<<<<<<<<<<<<<
- * 
- *     for i in list_of_atoms[:-1]:
- */
-  __pyx_v_list_index = 0;
-
-  /* "vModel/cDistances.pyx":788
- *     cdef int list_index = 0
- * 
- *     for i in list_of_atoms[:-1]:             # <<<<<<<<<<<<<<
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]
- */
-  if (unlikely(__pyx_v_list_of_atoms == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 788, __pyx_L1_error)
-  }
-  __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_list_of_atoms, 0, -1L); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 788, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  for (;;) {
-    if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_3)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_2); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 788, __pyx_L1_error)
-    #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 788, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    #endif
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 788, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_i = __pyx_t_4;
-
-    /* "vModel/cDistances.pyx":789
- * 
- *     for i in list_of_atoms[:-1]:
- *         atom_ix   = atoms[i][3][0]             # <<<<<<<<<<<<<<
- *         atom_iy   = atoms[i][3][1]
- *         atom_iz   = atoms[i][3][2]
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 789, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 789, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 789, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 789, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 789, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_atom_ix = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":790
- *     for i in list_of_atoms[:-1]:
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]             # <<<<<<<<<<<<<<
- *         atom_iz   = atoms[i][3][2]
- *         cov_rad_i = atoms[i][2]
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 790, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 790, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 790, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 790, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 790, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_atom_iy = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":791
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]
- *         atom_iz   = atoms[i][3][2]             # <<<<<<<<<<<<<<
- *         cov_rad_i = atoms[i][2]
- *         index_i   = atoms[i][0]
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 791, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 791, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 791, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 791, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 791, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_atom_iz = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":792
- *         atom_iy   = atoms[i][3][1]
- *         atom_iz   = atoms[i][3][2]
- *         cov_rad_i = atoms[i][2]             # <<<<<<<<<<<<<<
- *         index_i   = atoms[i][0]
- * 
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 792, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 792, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 792, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 792, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_cov_rad_i = __pyx_t_6;
-
-    /* "vModel/cDistances.pyx":793
- *         atom_iz   = atoms[i][3][2]
- *         cov_rad_i = atoms[i][2]
- *         index_i   = atoms[i][0]             # <<<<<<<<<<<<<<
- * 
- *         list_index+= 1
- */
-    if (unlikely(__pyx_v_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 793, __pyx_L1_error)
-    }
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 793, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 793, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 793, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_index_i = __pyx_t_4;
-
-    /* "vModel/cDistances.pyx":795
- *         index_i   = atoms[i][0]
- * 
- *         list_index+= 1             # <<<<<<<<<<<<<<
- * 
- *         for j in list_of_atoms[list_index:]:
- */
-    __pyx_v_list_index = (__pyx_v_list_index + 1);
-
-    /* "vModel/cDistances.pyx":797
- *         list_index+= 1
- * 
- *         for j in list_of_atoms[list_index:]:             # <<<<<<<<<<<<<<
- *             if i == j:
- *                 pass
- */
-    if (unlikely(__pyx_v_list_of_atoms == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 797, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_PyList_GetSlice(__pyx_v_list_of_atoms, __pyx_v_list_index, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 797, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __pyx_t_2; __Pyx_INCREF(__pyx_t_5); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
-      if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_5)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 797, __pyx_L1_error)
-      #else
-      __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 797, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      #endif
-      __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 797, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_v_j = __pyx_t_4;
+      if (likely(!__pyx_t_7)) {
+        if (likely(PyList_CheckExact(__pyx_t_1))) {
+          if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 99, __pyx_L1_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        } else {
+          if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 99, __pyx_L1_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        }
+      } else {
+        __pyx_t_2 = __pyx_t_7(__pyx_t_1);
+        if (unlikely(!__pyx_t_2)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 99, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_2);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_2);
+      __pyx_t_2 = 0;
 
-      /* "vModel/cDistances.pyx":798
+      /* "vModel/cDistances.pyx":103
  * 
- *         for j in list_of_atoms[list_index:]:
- *             if i == j:             # <<<<<<<<<<<<<<
+ *             # we don't need all the elements to the first floor
+ *             if i < -1 and j == 0:             # <<<<<<<<<<<<<<
  *                 pass
  * 
  */
-      __pyx_t_8 = ((__pyx_v_i == __pyx_v_j) != 0);
+      __pyx_t_2 = PyObject_RichCompare(__pyx_v_i, __pyx_int_neg_1, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      if (__pyx_t_9) {
+      } else {
+        __pyx_t_8 = __pyx_t_9;
+        goto __pyx_L8_bool_binop_done;
+      }
+      __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_j, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_8 = __pyx_t_9;
+      __pyx_L8_bool_binop_done:;
       if (__pyx_t_8) {
         goto __pyx_L7;
       }
 
-      /* "vModel/cDistances.pyx":802
+      /* "vModel/cDistances.pyx":109
  * 
- *             else:
- *                 dX              = (atom_ix - atoms[j][3][0])**2             # <<<<<<<<<<<<<<
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
+ *                 # we don't need the [0,0,0] element to the first floor
+ *                 if [i,j, 0] == [0,0,0]:             # <<<<<<<<<<<<<<
+ *                     pass
+ *                 else:
  */
       /*else*/ {
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_atom_ix); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 802, __pyx_L1_error)
+        __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 802, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 802, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 802, __pyx_L1_error)
+        __Pyx_INCREF(__pyx_v_i);
+        __Pyx_GIVEREF(__pyx_v_i);
+        PyList_SET_ITEM(__pyx_t_2, 0, __pyx_v_i);
+        __Pyx_INCREF(__pyx_v_j);
+        __Pyx_GIVEREF(__pyx_v_j);
+        PyList_SET_ITEM(__pyx_t_2, 1, __pyx_v_j);
+        __Pyx_INCREF(__pyx_int_0);
+        __Pyx_GIVEREF(__pyx_int_0);
+        PyList_SET_ITEM(__pyx_t_2, 2, __pyx_int_0);
+        __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 109, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 802, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_int_0);
+        __Pyx_GIVEREF(__pyx_int_0);
+        PyList_SET_ITEM(__pyx_t_10, 0, __pyx_int_0);
+        __Pyx_INCREF(__pyx_int_0);
+        __Pyx_GIVEREF(__pyx_int_0);
+        PyList_SET_ITEM(__pyx_t_10, 1, __pyx_int_0);
+        __Pyx_INCREF(__pyx_int_0);
+        __Pyx_GIVEREF(__pyx_int_0);
+        PyList_SET_ITEM(__pyx_t_10, 2, __pyx_int_0);
+        __pyx_t_11 = PyObject_RichCompare(__pyx_t_2, __pyx_t_10, Py_EQ); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 109, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Subtract(__pyx_t_2, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 802, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Power(__pyx_t_10, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 802, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 802, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_dX = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":803
- *             else:
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2             # <<<<<<<<<<<<<<
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- */
-        __pyx_t_9 = PyFloat_FromDouble(__pyx_v_atom_iy); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 803, __pyx_L1_error)
-        }
-        __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_10, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_Subtract(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Power(__pyx_t_2, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 803, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_v_dY = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":804
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2             # <<<<<<<<<<<<<<
- * 
- *                 cov_rad_j       = atoms[j][2]
- */
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_atom_iz); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 804, __pyx_L1_error)
-        }
-        __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_9, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_Power(__pyx_t_9, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 804, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_v_dZ = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":806
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- *                 cov_rad_j       = atoms[j][2]             # <<<<<<<<<<<<<<
- * 
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.4
- */
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 806, __pyx_L1_error)
-        }
-        __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 806, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 806, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 806, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_cov_rad_j = __pyx_t_6;
-
-        /* "vModel/cDistances.pyx":808
- *                 cov_rad_j       = atoms[j][2]
- * 
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.4             # <<<<<<<<<<<<<<
- * 
- * 
- */
-        __pyx_v_cov_rad_ij_sqrt = (pow((__pyx_v_cov_rad_i + __pyx_v_cov_rad_j), 2.0) * 1.4);
-
-        /* "vModel/cDistances.pyx":811
- * 
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        __pyx_t_11 = ((__pyx_v_dX > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_8 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":812
- * 
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dZ > cov_rad_ij_sqrt):
- *                     pass
- */
-        __pyx_t_11 = ((__pyx_v_dY > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_8 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":813
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):             # <<<<<<<<<<<<<<
- *                     pass
- * 
- */
-        __pyx_t_11 = ((__pyx_v_dZ > __pyx_v_cov_rad_ij_sqrt) != 0);
-        __pyx_t_8 = __pyx_t_11;
-        __pyx_L9_bool_binop_done:;
-
-        /* "vModel/cDistances.pyx":811
- * 
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
+        __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         if (__pyx_t_8) {
-          goto __pyx_L8;
+          goto __pyx_L10;
         }
 
-        /* "vModel/cDistances.pyx":817
- * 
+        /* "vModel/cDistances.pyx":112
+ *                     pass
  *                 else:
- *                     r_ij = (dX + dY + dZ)             # <<<<<<<<<<<<<<
- *                     if r_ij <= cov_rad_ij_sqrt:
- *                         pass
+ *                     grid_offset_full.append([i,j,0])             # <<<<<<<<<<<<<<
+ *                     N+=1
+ * 
  */
         /*else*/ {
-          __pyx_v_r_ij = ((__pyx_v_dX + __pyx_v_dY) + __pyx_v_dZ);
+          __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 112, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_11);
+          __Pyx_INCREF(__pyx_v_i);
+          __Pyx_GIVEREF(__pyx_v_i);
+          PyList_SET_ITEM(__pyx_t_11, 0, __pyx_v_i);
+          __Pyx_INCREF(__pyx_v_j);
+          __Pyx_GIVEREF(__pyx_v_j);
+          PyList_SET_ITEM(__pyx_t_11, 1, __pyx_v_j);
+          __Pyx_INCREF(__pyx_int_0);
+          __Pyx_GIVEREF(__pyx_int_0);
+          PyList_SET_ITEM(__pyx_t_11, 2, __pyx_int_0);
+          __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_grid_offset_full, __pyx_t_11); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 112, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-          /* "vModel/cDistances.pyx":818
+          /* "vModel/cDistances.pyx":113
  *                 else:
- *                     r_ij = (dX + dY + dZ)
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         pass
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])
+ *                     grid_offset_full.append([i,j,0])
+ *                     N+=1             # <<<<<<<<<<<<<<
+ * 
+ *             n+=1
  */
-          __pyx_t_8 = ((__pyx_v_r_ij <= __pyx_v_cov_rad_ij_sqrt) != 0);
-          if (__pyx_t_8) {
-
-            /* "vModel/cDistances.pyx":820
- *                     if r_ij <= cov_rad_ij_sqrt:
- *                         pass
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])             # <<<<<<<<<<<<<<
- * 
- *                         bonds_full_indices.append  (index_i               )
- */
-            if (unlikely(__pyx_v_bonds_pair_of_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 820, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 820, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 820, __pyx_L1_error)
-            }
-            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 820, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 820, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 820, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_GIVEREF(__pyx_t_9);
-            PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_9);
-            __Pyx_GIVEREF(__pyx_t_10);
-            PyList_SET_ITEM(__pyx_t_2, 1, __pyx_t_10);
-            __pyx_t_9 = 0;
-            __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indices, __pyx_t_2); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 820, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-            /* "vModel/cDistances.pyx":822
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])
- * 
- *                         bonds_full_indices.append  (index_i               )             # <<<<<<<<<<<<<<
- *                         bonds_full_indices.append  (atoms[j][0]           )
- * 
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 822, __pyx_L1_error)
-            }
-            __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 822, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_2); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 822, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-            /* "vModel/cDistances.pyx":823
- * 
- *                         bonds_full_indices.append  (index_i               )
- *                         bonds_full_indices.append  (atoms[j][0]           )             # <<<<<<<<<<<<<<
- * 
- *                         atoms[i][8].append  (atoms[j][0]           )
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 823, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 823, __pyx_L1_error)
-            }
-            __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 823, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 823, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 823, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":825
- *                         bonds_full_indices.append  (atoms[j][0]           )
- * 
- *                         atoms[i][8].append  (atoms[j][0]           )             # <<<<<<<<<<<<<<
- *                         atoms[j][8].append  (atoms[i][0]           )
- * 
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 825, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 825, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_10, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 825, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 825, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 825, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 825, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_t_9); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 825, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":826
- * 
- *                         atoms[i][8].append  (atoms[j][0]           )
- *                         atoms[j][8].append  (atoms[i][0]           )             # <<<<<<<<<<<<<<
- * 
- *                         non_bonded_list[index_i    ] = False
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 826, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 826, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_9, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 826, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 826, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 826, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 826, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 826, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":828
- *                         atoms[j][8].append  (atoms[i][0]           )
- * 
- *                         non_bonded_list[index_i    ] = False             # <<<<<<<<<<<<<<
- *                         non_bonded_list[atoms[j][0]] = False
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 828, __pyx_L1_error)
-            }
-            if (unlikely(__Pyx_SetItemInt(__pyx_v_non_bonded_list, __pyx_v_index_i, Py_False, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 828, __pyx_L1_error)
-
-            /* "vModel/cDistances.pyx":829
- * 
- *                         non_bonded_list[index_i    ] = False
- *                         non_bonded_list[atoms[j][0]] = False             # <<<<<<<<<<<<<<
- * 
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 829, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 829, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 829, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 829, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_non_bonded_list, __pyx_t_2, Py_False) < 0)) __PYX_ERR(0, 829, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-            /* "vModel/cDistances.pyx":818
- *                 else:
- *                     r_ij = (dX + dY + dZ)
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         pass
- *                         bonds_pair_of_indices.append([index_i , atoms[j][0]])
- */
-            goto __pyx_L12;
-          }
-
-          /* "vModel/cDistances.pyx":833
- * 
- *                     else:
- *                         pass             # <<<<<<<<<<<<<<
- * 
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
- */
-          /*else*/ {
-          }
-          __pyx_L12:;
+          __pyx_t_11 = __Pyx_PyInt_AddObjC(__pyx_v_N, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 113, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_11);
+          __Pyx_DECREF_SET(__pyx_v_N, __pyx_t_11);
+          __pyx_t_11 = 0;
         }
-        __pyx_L8:;
+        __pyx_L10:;
       }
       __pyx_L7:;
 
-      /* "vModel/cDistances.pyx":797
- *         list_index+= 1
+      /* "vModel/cDistances.pyx":115
+ *                     N+=1
  * 
- *         for j in list_of_atoms[list_index:]:             # <<<<<<<<<<<<<<
- *             if i == j:
- *                 pass
+ *             n+=1             # <<<<<<<<<<<<<<
+ *     #-------------------------------------------------------------------
+ *     #'''
+ */
+      __pyx_t_11 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF_SET(__pyx_v_n, __pyx_t_11);
+      __pyx_t_11 = 0;
+
+      /* "vModel/cDistances.pyx":99
+ * 
+ *         n = 0
+ *         for j in range(0, borderGrid + 1):             # <<<<<<<<<<<<<<
+ *             #counter = i + n #+ 2
+ * 
  */
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/cDistances.pyx":788
- *     cdef int list_index = 0
+    /* "vModel/cDistances.pyx":96
+ *     ''''''
+ *     N = 0
+ *     for i in range (-borderGrid, borderGrid + 1):             # <<<<<<<<<<<<<<
  * 
- *     for i in list_of_atoms[:-1]:             # <<<<<<<<<<<<<<
- *         atom_ix   = atoms[i][3][0]
- *         atom_iy   = atoms[i][3][1]
+ *         n = 0
  */
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/cDistances.pyx":835
- *                         pass
+  /* "vModel/cDistances.pyx":146
  * 
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list             # <<<<<<<<<<<<<<
  * 
- * cpdef tuple _generate_connections_between_grid_elements_2 (list lits_of_atoms1       ,
+ *     excluded_list = []             # <<<<<<<<<<<<<<
+ *     n = 0
+ *     for i in range (-borderGrid, borderGrid + 1):
  */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 835, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_v_atoms);
-  __Pyx_GIVEREF(__pyx_v_atoms);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_atoms);
-  __Pyx_INCREF(__pyx_v_bonds_full_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_full_indices);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_bonds_full_indices);
-  __Pyx_INCREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_pair_of_indices);
-  PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_bonds_pair_of_indices);
-  __Pyx_INCREF(__pyx_v_non_bonded_list);
-  __Pyx_GIVEREF(__pyx_v_non_bonded_list);
-  PyTuple_SET_ITEM(__pyx_t_3, 3, __pyx_v_non_bonded_list);
-  __pyx_r = ((PyObject*)__pyx_t_3);
+  __pyx_v_excluded_list = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
-  goto __pyx_L0;
 
-  /* "vModel/cDistances.pyx":734
+  /* "vModel/cDistances.pyx":147
  * 
- * 
- * cpdef tuple _generate_connections_into_a_grid_element_2 (list list_of_atoms         ,             # <<<<<<<<<<<<<<
- *                                                          list atoms                 ,
- *                                                          list bonds_pair_of_indices ,  #indices of connected atoms
+ *     excluded_list = []
+ *     n = 0             # <<<<<<<<<<<<<<
+ *     for i in range (-borderGrid, borderGrid + 1):
+ *         for j in range(-borderGrid, borderGrid + 1):
  */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_into_a_grid_element_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_13_generate_connections_into_a_grid_element_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_12_generate_connections_into_a_grid_element_2[] = "\n        Calculate the distances and bonds \n        between atoms within a single element \n        of the atomic grid\n        \n                  |-------|-------|-------|\n                  |       |       |       |\n                  |       |       |       |\n                  |       |       |       |\n                  |-------|-atoms-|-------|\n                  |       |       |       |\n                  |       | i<->j |       |\n                  |       |       |       |\n                  |-------|-------|-------|\n                  |       |       |       |\n                  |       |       |       |\n                  |       |       |       |\n                  |-------|-------|-------|\n    \n    \n    \n    atoms = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n            each elemte is a list contain required data.\n    \n    \n    bonds_pair_of_indices [[a,b],[b,c], ...] where a and b are indices. \n    returns a list of pair of indices \"bonds_pair_of_indices\"\n    \n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_13_generate_connections_into_a_grid_element_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_list_of_atoms = 0;
-  PyObject *__pyx_v_atoms = 0;
-  PyObject *__pyx_v_bonds_pair_of_indices = 0;
-  PyObject *__pyx_v_bonds_full_indices = 0;
-  PyObject *__pyx_v_non_bonded_list = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_generate_connections_into_a_grid_element_2 (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_list_of_atoms,&__pyx_n_s_atoms,&__pyx_n_s_bonds_pair_of_indices,&__pyx_n_s_bonds_full_indices,&__pyx_n_s_non_bonded_list,0};
-    PyObject* values[5] = {0,0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_list_of_atoms)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element_2", 1, 5, 5, 1); __PYX_ERR(0, 734, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_pair_of_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element_2", 1, 5, 5, 2); __PYX_ERR(0, 734, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_full_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element_2", 1, 5, 5, 3); __PYX_ERR(0, 734, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_non_bonded_list)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element_2", 1, 5, 5, 4); __PYX_ERR(0, 734, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_connections_into_a_grid_element_2") < 0)) __PYX_ERR(0, 734, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-    }
-    __pyx_v_list_of_atoms = ((PyObject*)values[0]);
-    __pyx_v_atoms = ((PyObject*)values[1]);
-    __pyx_v_bonds_pair_of_indices = ((PyObject*)values[2]);
-    __pyx_v_bonds_full_indices = ((PyObject*)values[3]);
-    __pyx_v_non_bonded_list = ((PyObject*)values[4]);
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_generate_connections_into_a_grid_element_2", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 734, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_into_a_grid_element_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_list_of_atoms), (&PyList_Type), 1, "list_of_atoms", 1))) __PYX_ERR(0, 734, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atoms), (&PyList_Type), 1, "atoms", 1))) __PYX_ERR(0, 735, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_pair_of_indices), (&PyList_Type), 1, "bonds_pair_of_indices", 1))) __PYX_ERR(0, 736, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_full_indices), (&PyList_Type), 1, "bonds_full_indices", 1))) __PYX_ERR(0, 737, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_non_bonded_list), (&PyList_Type), 1, "non_bonded_list", 1))) __PYX_ERR(0, 738, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_12_generate_connections_into_a_grid_element_2(__pyx_self, __pyx_v_list_of_atoms, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_12_generate_connections_into_a_grid_element_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_generate_connections_into_a_grid_element_2", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element_2(__pyx_v_list_of_atoms, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_into_a_grid_element_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":837
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
- * 
- * cpdef tuple _generate_connections_between_grid_elements_2 (list lits_of_atoms1       ,             # <<<<<<<<<<<<<<
- *                                                         list lits_of_atoms2       ,
- *                                                         list atoms                ,
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_15_generate_connections_between_grid_elements_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements_2(PyObject *__pyx_v_lits_of_atoms1, PyObject *__pyx_v_lits_of_atoms2, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  int __pyx_v_i;
-  int __pyx_v_j;
-  int __pyx_v_index_i;
-  double __pyx_v_atom_ix;
-  double __pyx_v_atom_iy;
-  double __pyx_v_atom_iz;
-  double __pyx_v_cov_rad_i;
-  double __pyx_v_cov_rad_j;
-  double __pyx_v_r_ij;
-  double __pyx_v_dX;
-  double __pyx_v_dY;
-  double __pyx_v_dZ;
-  CYTHON_UNUSED PyObject *__pyx_v_index_j = NULL;
-  double __pyx_v_cov_rad_ij_sqrt;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  double __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  int __pyx_t_11;
-  int __pyx_t_12;
-  __Pyx_RefNannySetupContext("_generate_connections_between_grid_elements_2", 0);
-
-  /* "vModel/cDistances.pyx":890
- * 
- * 
- *     if lits_of_atoms1 == lits_of_atoms2:             # <<<<<<<<<<<<<<
- *         pass
- *     else:
- */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_lits_of_atoms1, __pyx_v_lits_of_atoms2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 890, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 890, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_2) {
-    goto __pyx_L3;
-  }
-
-  /* "vModel/cDistances.pyx":893
- *         pass
- *     else:
- *         for i in lits_of_atoms1:             # <<<<<<<<<<<<<<
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]
- */
-  /*else*/ {
-    if (unlikely(__pyx_v_lits_of_atoms1 == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 893, __pyx_L1_error)
-    }
-    __pyx_t_1 = __pyx_v_lits_of_atoms1; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
-    for (;;) {
-      if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 893, __pyx_L1_error)
-      #else
-      __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 893, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      #endif
-      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 893, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_i = __pyx_t_5;
-
-      /* "vModel/cDistances.pyx":894
- *     else:
- *         for i in lits_of_atoms1:
- *             atom_ix   = atoms[i][3][0]             # <<<<<<<<<<<<<<
- *             atom_iy   = atoms[i][3][1]
- *             atom_iz   = atoms[i][3][2]
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 894, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 894, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 894, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 894, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 894, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_atom_ix = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":895
- *         for i in lits_of_atoms1:
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]             # <<<<<<<<<<<<<<
- *             atom_iz   = atoms[i][3][2]
- *             cov_rad_i = atoms[i][2]
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 895, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 895, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 895, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 895, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 895, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_atom_iy = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":896
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]
- *             atom_iz   = atoms[i][3][2]             # <<<<<<<<<<<<<<
- *             cov_rad_i = atoms[i][2]
- *             index_i   = atoms[i][0]
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 896, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 896, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 896, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 896, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 896, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_atom_iz = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":897
- *             atom_iy   = atoms[i][3][1]
- *             atom_iz   = atoms[i][3][2]
- *             cov_rad_i = atoms[i][2]             # <<<<<<<<<<<<<<
- *             index_i   = atoms[i][0]
- * 
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 897, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 897, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 897, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 897, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_v_cov_rad_i = __pyx_t_7;
-
-      /* "vModel/cDistances.pyx":898
- *             atom_iz   = atoms[i][3][2]
- *             cov_rad_i = atoms[i][2]
- *             index_i   = atoms[i][0]             # <<<<<<<<<<<<<<
- * 
- *             for j in lits_of_atoms2:
- */
-      if (unlikely(__pyx_v_atoms == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 898, __pyx_L1_error)
-      }
-      __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 898, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 898, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 898, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_index_i = __pyx_t_5;
-
-      /* "vModel/cDistances.pyx":900
- *             index_i   = atoms[i][0]
- * 
- *             for j in lits_of_atoms2:             # <<<<<<<<<<<<<<
- *                 index_j = atoms[j][0]
- *                 #if
- */
-      if (unlikely(__pyx_v_lits_of_atoms2 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 900, __pyx_L1_error)
-      }
-      __pyx_t_4 = __pyx_v_lits_of_atoms2; __Pyx_INCREF(__pyx_t_4); __pyx_t_8 = 0;
-      for (;;) {
-        if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_4)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_8); __Pyx_INCREF(__pyx_t_6); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 900, __pyx_L1_error)
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 900, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        #endif
-        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 900, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_j = __pyx_t_5;
-
-        /* "vModel/cDistances.pyx":901
- * 
- *             for j in lits_of_atoms2:
- *                 index_j = atoms[j][0]             # <<<<<<<<<<<<<<
- *                 #if
- * 
- */
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 901, __pyx_L1_error)
-        }
-        __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 901, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 901, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_index_j, __pyx_t_9);
-        __pyx_t_9 = 0;
-
-        /* "vModel/cDistances.pyx":904
- *                 #if
- * 
- *                 dX              = (atom_ix - atoms[j][3][0])**2             # <<<<<<<<<<<<<<
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- */
-        __pyx_t_9 = PyFloat_FromDouble(__pyx_v_atom_ix); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 904, __pyx_L1_error)
-        }
-        __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_6, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Subtract(__pyx_t_9, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyNumber_Power(__pyx_t_10, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 904, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_dX = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":905
- * 
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2             # <<<<<<<<<<<<<<
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- */
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_atom_iy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 905, __pyx_L1_error)
-        }
-        __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Subtract(__pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = PyNumber_Power(__pyx_t_9, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 905, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_v_dY = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":906
- *                 dX              = (atom_ix - atoms[j][3][0])**2
- *                 dY              = (atom_iy - atoms[j][3][1])**2
- *                 dZ              = (atom_iz - atoms[j][3][2])**2             # <<<<<<<<<<<<<<
- * 
- *                 cov_rad_j       = atoms[j][2]
- */
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_atom_iz); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 906, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_9, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyNumber_Subtract(__pyx_t_10, __pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyNumber_Power(__pyx_t_6, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 906, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_v_dZ = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":908
- *                 dZ              = (atom_iz - atoms[j][3][2])**2
- * 
- *                 cov_rad_j       = atoms[j][2]             # <<<<<<<<<<<<<<
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
- * 
- */
-        if (unlikely(__pyx_v_atoms == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 908, __pyx_L1_error)
-        }
-        __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 908, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_9, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 908, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 908, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_v_cov_rad_j = __pyx_t_7;
-
-        /* "vModel/cDistances.pyx":909
- * 
- *                 cov_rad_j       = atoms[j][2]
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2             # <<<<<<<<<<<<<<
- * 
- *                 if (dX > cov_rad_ij_sqrt or
- */
-        __pyx_v_cov_rad_ij_sqrt = (pow((__pyx_v_cov_rad_i + __pyx_v_cov_rad_j), 2.0) * 1.2);
-
-        /* "vModel/cDistances.pyx":911
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        __pyx_t_11 = ((__pyx_v_dX > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_2 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":912
- * 
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dZ > cov_rad_ij_sqrt):
- *                     pass
- */
-        __pyx_t_11 = ((__pyx_v_dY > __pyx_v_cov_rad_ij_sqrt) != 0);
-        if (!__pyx_t_11) {
-        } else {
-          __pyx_t_2 = __pyx_t_11;
-          goto __pyx_L9_bool_binop_done;
-        }
-
-        /* "vModel/cDistances.pyx":913
- *                 if (dX > cov_rad_ij_sqrt or
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):             # <<<<<<<<<<<<<<
- *                     pass
- * 
- */
-        __pyx_t_11 = ((__pyx_v_dZ > __pyx_v_cov_rad_ij_sqrt) != 0);
-        __pyx_t_2 = __pyx_t_11;
-        __pyx_L9_bool_binop_done:;
-
-        /* "vModel/cDistances.pyx":911
- *                 cov_rad_ij_sqrt = ((cov_rad_i + cov_rad_j)**2)*1.2
- * 
- *                 if (dX > cov_rad_ij_sqrt or             # <<<<<<<<<<<<<<
- *                     dY > cov_rad_ij_sqrt or
- *                     dZ > cov_rad_ij_sqrt):
- */
-        if (__pyx_t_2) {
-          goto __pyx_L8;
-        }
-
-        /* "vModel/cDistances.pyx":918
- *                 else:
- * 
- *                     r_ij = (dX + dY + dZ)             # <<<<<<<<<<<<<<
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:
- */
-        /*else*/ {
-          __pyx_v_r_ij = ((__pyx_v_dX + __pyx_v_dY) + __pyx_v_dZ);
-
-          /* "vModel/cDistances.pyx":920
- *                     r_ij = (dX + dY + dZ)
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
- * 
- */
-          __pyx_t_2 = ((__pyx_v_r_ij <= __pyx_v_cov_rad_ij_sqrt) != 0);
-          if (__pyx_t_2) {
-
-            /* "vModel/cDistances.pyx":921
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )             # <<<<<<<<<<<<<<
- * 
- *                         bonds_full_indices.append   (index_i                )
- */
-            if (unlikely(__pyx_v_bonds_pair_of_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 921, __pyx_L1_error)
-            }
-            __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 921, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 921, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 921, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 921, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_9 = PyList_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 921, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_GIVEREF(__pyx_t_6);
-            PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_6);
-            __Pyx_GIVEREF(__pyx_t_10);
-            PyList_SET_ITEM(__pyx_t_9, 1, __pyx_t_10);
-            __pyx_t_6 = 0;
-            __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indices, __pyx_t_9); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 921, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":923
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
- * 
- *                         bonds_full_indices.append   (index_i                )             # <<<<<<<<<<<<<<
- *                         bonds_full_indices.append   (atoms[j][0]            )
- * 
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 923, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_index_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 923, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_9); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 923, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":924
- * 
- *                         bonds_full_indices.append   (index_i                )
- *                         bonds_full_indices.append   (atoms[j][0]            )             # <<<<<<<<<<<<<<
- * 
- *                         atoms[i][8].append   (atoms[j][0]            )
- */
-            if (unlikely(__pyx_v_bonds_full_indices == Py_None)) {
-              PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-              __PYX_ERR(0, 924, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 924, __pyx_L1_error)
-            }
-            __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 924, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_9, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 924, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_full_indices, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 924, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":926
- *                         bonds_full_indices.append   (atoms[j][0]            )
- * 
- *                         atoms[i][8].append   (atoms[j][0]            )             # <<<<<<<<<<<<<<
- *                         atoms[j][8].append   (atoms[i][0]            )
- * 
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 926, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 926, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 926, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 926, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 926, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 926, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_9, __pyx_t_6); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 926, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-            /* "vModel/cDistances.pyx":927
- * 
- *                         atoms[i][8].append   (atoms[j][0]            )
- *                         atoms[j][8].append   (atoms[i][0]            )             # <<<<<<<<<<<<<<
- * 
- *                         non_bonded_list[index_i    ] = False
- */
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 927, __pyx_L1_error)
-            }
-            __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 927, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_6, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 927, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 927, __pyx_L1_error)
-            }
-            __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 927, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_6);
-            __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 927, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_9, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 927, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-            /* "vModel/cDistances.pyx":929
- *                         atoms[j][8].append   (atoms[i][0]            )
- * 
- *                         non_bonded_list[index_i    ] = False             # <<<<<<<<<<<<<<
- *                         non_bonded_list[atoms[j][0]] = False
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 929, __pyx_L1_error)
-            }
-            if (unlikely(__Pyx_SetItemInt(__pyx_v_non_bonded_list, __pyx_v_index_i, Py_False, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 929, __pyx_L1_error)
-
-            /* "vModel/cDistances.pyx":930
- * 
- *                         non_bonded_list[index_i    ] = False
- *                         non_bonded_list[atoms[j][0]] = False             # <<<<<<<<<<<<<<
- * 
- * 
- */
-            if (unlikely(__pyx_v_non_bonded_list == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 930, __pyx_L1_error)
-            }
-            if (unlikely(__pyx_v_atoms == Py_None)) {
-              PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 930, __pyx_L1_error)
-            }
-            __pyx_t_10 = __Pyx_GetItemInt_List(__pyx_v_atoms, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 930, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_10);
-            __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 930, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_non_bonded_list, __pyx_t_9, Py_False) < 0)) __PYX_ERR(0, 930, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-            /* "vModel/cDistances.pyx":920
- *                     r_ij = (dX + dY + dZ)
- * 
- *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
- *                         bonds_pair_of_indices.append( [index_i , atoms[j][0]] )
- * 
- */
-          }
-        }
-        __pyx_L8:;
-
-        /* "vModel/cDistances.pyx":900
- *             index_i   = atoms[i][0]
- * 
- *             for j in lits_of_atoms2:             # <<<<<<<<<<<<<<
- *                 index_j = atoms[j][0]
- *                 #if
- */
-      }
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-      /* "vModel/cDistances.pyx":893
- *         pass
- *     else:
- *         for i in lits_of_atoms1:             # <<<<<<<<<<<<<<
- *             atom_ix   = atoms[i][3][0]
- *             atom_iy   = atoms[i][3][1]
- */
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-  __pyx_L3:;
-
-  /* "vModel/cDistances.pyx":933
- * 
- * 
- *     return atoms, bonds_full_indices, bonds_pair_of_indices, non_bonded_list             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 933, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_v_atoms);
-  __Pyx_GIVEREF(__pyx_v_atoms);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_atoms);
-  __Pyx_INCREF(__pyx_v_bonds_full_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_full_indices);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_bonds_full_indices);
-  __Pyx_INCREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_pair_of_indices);
-  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_bonds_pair_of_indices);
-  __Pyx_INCREF(__pyx_v_non_bonded_list);
-  __Pyx_GIVEREF(__pyx_v_non_bonded_list);
-  PyTuple_SET_ITEM(__pyx_t_1, 3, __pyx_v_non_bonded_list);
-  __pyx_r = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "vModel/cDistances.pyx":837
- *     return atoms, bonds_full_indices , bonds_pair_of_indices, non_bonded_list
- * 
- * cpdef tuple _generate_connections_between_grid_elements_2 (list lits_of_atoms1       ,             # <<<<<<<<<<<<<<
- *                                                         list lits_of_atoms2       ,
- *                                                         list atoms                ,
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_between_grid_elements_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_index_j);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_15_generate_connections_between_grid_elements_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_14_generate_connections_between_grid_elements_2[] = "\n   \n    Calculate the distances and connections \n    between atoms from different elements \n    of the atomic grid\n    \n                |-------|-------|-------|\n                |       |       |       |\n                |       |       |       |\n                |       |       |       |\n                |-------|-atoms1|-------|\n                |       |   i   |       |\n                |       |    \\  |       |\n                |       |     \\ |       |\n                |-------|------\\|-atoms2|\n                |       |       \\       |\n                |       |       |\\      |\n                |       |       | j     |\n                |-------|-------|-------|\n    \n    \n    atoms1 = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n    \n    atoms2 = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n\n    bonds_pair_of_indices [[a,b],[b,c], ...] where a and b are indices. \n    returns a list of pair of indices \"bonds_pair_of_indices\"\n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_15_generate_connections_between_grid_elements_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_lits_of_atoms1 = 0;
-  PyObject *__pyx_v_lits_of_atoms2 = 0;
-  PyObject *__pyx_v_atoms = 0;
-  PyObject *__pyx_v_bonds_pair_of_indices = 0;
-  PyObject *__pyx_v_bonds_full_indices = 0;
-  PyObject *__pyx_v_non_bonded_list = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_generate_connections_between_grid_elements_2 (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_lits_of_atoms1,&__pyx_n_s_lits_of_atoms2,&__pyx_n_s_atoms,&__pyx_n_s_bonds_pair_of_indices,&__pyx_n_s_bonds_full_indices,&__pyx_n_s_non_bonded_list,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
-        CYTHON_FALLTHROUGH;
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-        CYTHON_FALLTHROUGH;
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-        CYTHON_FALLTHROUGH;
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_lits_of_atoms1)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_lits_of_atoms2)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements_2", 1, 6, 6, 1); __PYX_ERR(0, 837, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements_2", 1, 6, 6, 2); __PYX_ERR(0, 837, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_pair_of_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements_2", 1, 6, 6, 3); __PYX_ERR(0, 837, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bonds_full_indices)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements_2", 1, 6, 6, 4); __PYX_ERR(0, 837, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  5:
-        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_non_bonded_list)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements_2", 1, 6, 6, 5); __PYX_ERR(0, 837, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_connections_between_grid_elements_2") < 0)) __PYX_ERR(0, 837, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
-    }
-    __pyx_v_lits_of_atoms1 = ((PyObject*)values[0]);
-    __pyx_v_lits_of_atoms2 = ((PyObject*)values[1]);
-    __pyx_v_atoms = ((PyObject*)values[2]);
-    __pyx_v_bonds_pair_of_indices = ((PyObject*)values[3]);
-    __pyx_v_bonds_full_indices = ((PyObject*)values[4]);
-    __pyx_v_non_bonded_list = ((PyObject*)values[5]);
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_generate_connections_between_grid_elements_2", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 837, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_between_grid_elements_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_lits_of_atoms1), (&PyList_Type), 1, "lits_of_atoms1", 1))) __PYX_ERR(0, 837, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_lits_of_atoms2), (&PyList_Type), 1, "lits_of_atoms2", 1))) __PYX_ERR(0, 838, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atoms), (&PyList_Type), 1, "atoms", 1))) __PYX_ERR(0, 839, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_pair_of_indices), (&PyList_Type), 1, "bonds_pair_of_indices", 1))) __PYX_ERR(0, 840, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_bonds_full_indices), (&PyList_Type), 1, "bonds_full_indices", 1))) __PYX_ERR(0, 841, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_non_bonded_list), (&PyList_Type), 1, "non_bonded_list", 1))) __PYX_ERR(0, 842, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_14_generate_connections_between_grid_elements_2(__pyx_self, __pyx_v_lits_of_atoms1, __pyx_v_lits_of_atoms2, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6vModel_10cDistances_14_generate_connections_between_grid_elements_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lits_of_atoms1, PyObject *__pyx_v_lits_of_atoms2, PyObject *__pyx_v_atoms, PyObject *__pyx_v_bonds_pair_of_indices, PyObject *__pyx_v_bonds_full_indices, PyObject *__pyx_v_non_bonded_list) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_generate_connections_between_grid_elements_2", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements_2(__pyx_v_lits_of_atoms1, __pyx_v_lits_of_atoms2, __pyx_v_atoms, __pyx_v_bonds_pair_of_indices, __pyx_v_bonds_full_indices, __pyx_v_non_bonded_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 837, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._generate_connections_between_grid_elements_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vModel/cDistances.pyx":936
- * 
- * 
- * cpdef list _determine_the_paired_atomic_grid_elements_2 (atomic_grid):             # <<<<<<<<<<<<<<
- *     '''
- *     There is also an array vOff that specifies the offsets of each of the 14 neighbor
- */
-
-static PyObject *__pyx_pw_6vModel_10cDistances_17_determine_the_paired_atomic_grid_elements_2(PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements_2(PyObject *__pyx_v_atomic_grid, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_pair_of_sectors2 = 0;
-  PyObject *__pyx_v_grid_offset = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_done = NULL;
-  PyObject *__pyx_v_element = NULL;
-  PyObject *__pyx_v_offset_element = NULL;
-  PyObject *__pyx_v_element1 = NULL;
-  PyObject *__pyx_v_element2 = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
-  PyObject *__pyx_t_13 = NULL;
-  PyObject *__pyx_t_14 = NULL;
-  PyObject *__pyx_t_15 = NULL;
-  Py_ssize_t __pyx_t_16;
-  PyObject *(*__pyx_t_17)(PyObject *);
-  Py_ssize_t __pyx_t_18;
-  int __pyx_t_19;
-  int __pyx_t_20;
-  int __pyx_t_21;
-  __Pyx_RefNannySetupContext("_determine_the_paired_atomic_grid_elements_2", 0);
-
-  /* "vModel/cDistances.pyx":987
- *     #initial = time.time()
- * 
- *     pair_of_sectors2 = []             # <<<<<<<<<<<<<<
- *     grid_offset = [
- *                              #[ 1,-1, 0],
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 987, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_pair_of_sectors2 = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":993
- *                              #[-1,-1, 0],
- *                              #[-1, 0, 0],
- *                    [ 0, 0, 0],             # <<<<<<<<<<<<<<
- *                    [ 1, 0, 0],
- *                    [ 1, 1, 0],
- */
-  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 993, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_int_0);
+  __Pyx_XDECREF_SET(__pyx_v_n, __pyx_int_0);
 
-  /* "vModel/cDistances.pyx":994
- *                              #[-1, 0, 0],
- *                    [ 0, 0, 0],
- *                    [ 1, 0, 0],             # <<<<<<<<<<<<<<
- *                    [ 1, 1, 0],
- *                    [ 0, 1, 0],
+  /* "vModel/cDistances.pyx":148
+ *     excluded_list = []
+ *     n = 0
+ *     for i in range (-borderGrid, borderGrid + 1):             # <<<<<<<<<<<<<<
+ *         for j in range(-borderGrid, borderGrid + 1):
+ * 
  */
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 994, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":995
- *                    [ 0, 0, 0],
- *                    [ 1, 0, 0],
- *                    [ 1, 1, 0],             # <<<<<<<<<<<<<<
- *                    [ 0, 1, 0],
- *                    [-1, 1, 0],
- */
-  __pyx_t_3 = PyList_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 995, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Negative(__pyx_v_borderGrid); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_3, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_3, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":996
- *                    [ 1, 0, 0],
- *                    [ 1, 1, 0],
- *                    [ 0, 1, 0],             # <<<<<<<<<<<<<<
- *                    [-1, 1, 0],
- *                    [ 0, 0, 1],
- */
-  __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 996, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":997
- *                    [ 1, 1, 0],
- *                    [ 0, 1, 0],
- *                    [-1, 1, 0],             # <<<<<<<<<<<<<<
- *                    [ 0, 0, 1],
- *                    [ 1, 0, 1],
- */
-  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 997, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_5, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_5, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_5, 2, __pyx_int_0);
-
-  /* "vModel/cDistances.pyx":998
- *                    [ 0, 1, 0],
- *                    [-1, 1, 0],
- *                    [ 0, 0, 1],             # <<<<<<<<<<<<<<
- *                    [ 1, 0, 1],
- *                    [ 1, 1, 1],
- */
-  __pyx_t_6 = PyList_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 998, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_6, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_6, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_6, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":999
- *                    [-1, 1, 0],
- *                    [ 0, 0, 1],
- *                    [ 1, 0, 1],             # <<<<<<<<<<<<<<
- *                    [ 1, 1, 1],
- *                    [ 0, 1, 1],
- */
-  __pyx_t_7 = PyList_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 999, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_7, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_7, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_7, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1000
- *                    [ 0, 0, 1],
- *                    [ 1, 0, 1],
- *                    [ 1, 1, 1],             # <<<<<<<<<<<<<<
- *                    [ 0, 1, 1],
- *                    [-1, 1, 1],
- */
-  __pyx_t_8 = PyList_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1000, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_8, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_8, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_8, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1001
- *                    [ 1, 0, 1],
- *                    [ 1, 1, 1],
- *                    [ 0, 1, 1],             # <<<<<<<<<<<<<<
- *                    [-1, 1, 1],
- *                    [-1, 0, 1],
- */
-  __pyx_t_9 = PyList_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1001, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_9, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_9, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_9, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1002
- *                    [ 1, 1, 1],
- *                    [ 0, 1, 1],
- *                    [-1, 1, 1],             # <<<<<<<<<<<<<<
- *                    [-1, 0, 1],
- *                    [-1,-1, 1],
- */
-  __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 1002, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_10, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_10, 1, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_10, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1003
- *                    [ 0, 1, 1],
- *                    [-1, 1, 1],
- *                    [-1, 0, 1],             # <<<<<<<<<<<<<<
- *                    [-1,-1, 1],
- *                    [ 0,-1, 1],
- */
-  __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1003, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_borderGrid, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_11, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_11, 1, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_11, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1004
- *                    [-1, 1, 1],
- *                    [-1, 0, 1],
- *                    [-1,-1, 1],             # <<<<<<<<<<<<<<
- *                    [ 0,-1, 1],
- *                    [ 1,-1, 1]
- */
-  __pyx_t_12 = PyList_New(3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 1004, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_12);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_12, 0, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_12, 1, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_12, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1005
- *                    [-1, 0, 1],
- *                    [-1,-1, 1],
- *                    [ 0,-1, 1],             # <<<<<<<<<<<<<<
- *                    [ 1,-1, 1]
- *                    ]
- */
-  __pyx_t_13 = PyList_New(3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 1005, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  __Pyx_INCREF(__pyx_int_0);
-  __Pyx_GIVEREF(__pyx_int_0);
-  PyList_SET_ITEM(__pyx_t_13, 0, __pyx_int_0);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_13, 1, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_13, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":1006
- *                    [-1,-1, 1],
- *                    [ 0,-1, 1],
- *                    [ 1,-1, 1]             # <<<<<<<<<<<<<<
- *                    ]
- *     done = []
- */
-  __pyx_t_14 = PyList_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 1006, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_14, 0, __pyx_int_1);
-  __Pyx_INCREF(__pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyList_SET_ITEM(__pyx_t_14, 1, __pyx_int_neg_1);
-  __Pyx_INCREF(__pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyList_SET_ITEM(__pyx_t_14, 2, __pyx_int_1);
-
-  /* "vModel/cDistances.pyx":988
- * 
- *     pair_of_sectors2 = []
- *     grid_offset = [             # <<<<<<<<<<<<<<
- *                              #[ 1,-1, 0],
- *                              #[ 0,-1, 0],
- */
-  __pyx_t_15 = PyList_New(14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 988, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyList_SET_ITEM(__pyx_t_15, 0, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyList_SET_ITEM(__pyx_t_15, 1, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyList_SET_ITEM(__pyx_t_15, 2, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyList_SET_ITEM(__pyx_t_15, 3, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyList_SET_ITEM(__pyx_t_15, 4, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_6);
-  PyList_SET_ITEM(__pyx_t_15, 5, __pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyList_SET_ITEM(__pyx_t_15, 6, __pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_8);
-  PyList_SET_ITEM(__pyx_t_15, 7, __pyx_t_8);
-  __Pyx_GIVEREF(__pyx_t_9);
-  PyList_SET_ITEM(__pyx_t_15, 8, __pyx_t_9);
-  __Pyx_GIVEREF(__pyx_t_10);
-  PyList_SET_ITEM(__pyx_t_15, 9, __pyx_t_10);
-  __Pyx_GIVEREF(__pyx_t_11);
-  PyList_SET_ITEM(__pyx_t_15, 10, __pyx_t_11);
-  __Pyx_GIVEREF(__pyx_t_12);
-  PyList_SET_ITEM(__pyx_t_15, 11, __pyx_t_12);
-  __Pyx_GIVEREF(__pyx_t_13);
-  PyList_SET_ITEM(__pyx_t_15, 12, __pyx_t_13);
-  __Pyx_GIVEREF(__pyx_t_14);
-  PyList_SET_ITEM(__pyx_t_15, 13, __pyx_t_14);
-  __pyx_t_1 = 0;
-  __pyx_t_2 = 0;
+  PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_1);
   __pyx_t_3 = 0;
-  __pyx_t_4 = 0;
-  __pyx_t_5 = 0;
-  __pyx_t_6 = 0;
-  __pyx_t_7 = 0;
-  __pyx_t_8 = 0;
-  __pyx_t_9 = 0;
-  __pyx_t_10 = 0;
-  __pyx_t_11 = 0;
-  __pyx_t_12 = 0;
-  __pyx_t_13 = 0;
-  __pyx_t_14 = 0;
-  __pyx_v_grid_offset = ((PyObject*)__pyx_t_15);
-  __pyx_t_15 = 0;
-
-  /* "vModel/cDistances.pyx":1008
- *                    [ 1,-1, 1]
- *                    ]
- *     done = []             # <<<<<<<<<<<<<<
- *     for element in atomic_grid.keys():
- *         for offset_element in  grid_offset:
- */
-  __pyx_t_15 = PyList_New(0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 1008, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __pyx_v_done = ((PyObject*)__pyx_t_15);
-  __pyx_t_15 = 0;
-
-  /* "vModel/cDistances.pyx":1009
- *                    ]
- *     done = []
- *     for element in atomic_grid.keys():             # <<<<<<<<<<<<<<
- *         for offset_element in  grid_offset:
- * 
- */
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_atomic_grid, __pyx_n_s_keys); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 1009, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_13 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
-    if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-      __Pyx_INCREF(__pyx_t_13);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_14, function);
-    }
-  }
-  __pyx_t_15 = (__pyx_t_13) ? __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13) : __Pyx_PyObject_CallNoArg(__pyx_t_14);
-  __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-  if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 1009, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_15)) || PyTuple_CheckExact(__pyx_t_15)) {
-    __pyx_t_14 = __pyx_t_15; __Pyx_INCREF(__pyx_t_14); __pyx_t_16 = 0;
-    __pyx_t_17 = NULL;
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+    __pyx_t_11 = __pyx_t_1; __Pyx_INCREF(__pyx_t_11); __pyx_t_4 = 0;
+    __pyx_t_5 = NULL;
   } else {
-    __pyx_t_16 = -1; __pyx_t_14 = PyObject_GetIter(__pyx_t_15); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 1009, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_17 = Py_TYPE(__pyx_t_14)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 1009, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_11 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __pyx_t_5 = Py_TYPE(__pyx_t_11)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)
   }
-  __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
-    if (likely(!__pyx_t_17)) {
-      if (likely(PyList_CheckExact(__pyx_t_14))) {
-        if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_14)) break;
+    if (likely(!__pyx_t_5)) {
+      if (likely(PyList_CheckExact(__pyx_t_11))) {
+        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_11)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_15 = PyList_GET_ITEM(__pyx_t_14, __pyx_t_16); __Pyx_INCREF(__pyx_t_15); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 1009, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_11, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 148, __pyx_L1_error)
         #else
-        __pyx_t_15 = PySequence_ITEM(__pyx_t_14, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 1009, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_11, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
-        if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_14)) break;
+        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_11)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_15 = PyTuple_GET_ITEM(__pyx_t_14, __pyx_t_16); __Pyx_INCREF(__pyx_t_15); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 1009, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_11, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 148, __pyx_L1_error)
         #else
-        __pyx_t_15 = PySequence_ITEM(__pyx_t_14, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 1009, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_11, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
     } else {
-      __pyx_t_15 = __pyx_t_17(__pyx_t_14);
-      if (unlikely(!__pyx_t_15)) {
+      __pyx_t_1 = __pyx_t_5(__pyx_t_11);
+      if (unlikely(!__pyx_t_1)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 1009, __pyx_L1_error)
+          else __PYX_ERR(0, 148, __pyx_L1_error)
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_15);
+      __Pyx_GOTREF(__pyx_t_1);
     }
-    __Pyx_XDECREF_SET(__pyx_v_element, __pyx_t_15);
-    __pyx_t_15 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
+    __pyx_t_1 = 0;
 
-    /* "vModel/cDistances.pyx":1010
- *     done = []
- *     for element in atomic_grid.keys():
- *         for offset_element in  grid_offset:             # <<<<<<<<<<<<<<
+    /* "vModel/cDistances.pyx":149
+ *     n = 0
+ *     for i in range (-borderGrid, borderGrid + 1):
+ *         for j in range(-borderGrid, borderGrid + 1):             # <<<<<<<<<<<<<<
  * 
- *             element1  = (element[0],
+ *             for k in range(1, borderGrid + 1):
  */
-    __pyx_t_15 = __pyx_v_grid_offset; __Pyx_INCREF(__pyx_t_15); __pyx_t_18 = 0;
+    __pyx_t_1 = PyNumber_Negative(__pyx_v_borderGrid); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_borderGrid, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_3);
+    __pyx_t_1 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
+      __pyx_t_10 = __pyx_t_3; __Pyx_INCREF(__pyx_t_10); __pyx_t_6 = 0;
+      __pyx_t_7 = NULL;
+    } else {
+      __pyx_t_6 = -1; __pyx_t_10 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_7 = Py_TYPE(__pyx_t_10)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
-      if (__pyx_t_18 >= PyList_GET_SIZE(__pyx_t_15)) break;
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_13 = PyList_GET_ITEM(__pyx_t_15, __pyx_t_18); __Pyx_INCREF(__pyx_t_13); __pyx_t_18++; if (unlikely(0 < 0)) __PYX_ERR(0, 1010, __pyx_L1_error)
-      #else
-      __pyx_t_13 = PySequence_ITEM(__pyx_t_15, __pyx_t_18); __pyx_t_18++; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 1010, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-      #endif
-      __Pyx_XDECREF_SET(__pyx_v_offset_element, __pyx_t_13);
-      __pyx_t_13 = 0;
+      if (likely(!__pyx_t_7)) {
+        if (likely(PyList_CheckExact(__pyx_t_10))) {
+          if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_10)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_10, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
+          #else
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_10, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          #endif
+        } else {
+          if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_10)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_10, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
+          #else
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_10, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          #endif
+        }
+      } else {
+        __pyx_t_3 = __pyx_t_7(__pyx_t_10);
+        if (unlikely(!__pyx_t_3)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 149, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_3);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_3);
+      __pyx_t_3 = 0;
 
-      /* "vModel/cDistances.pyx":1012
- *         for offset_element in  grid_offset:
+      /* "vModel/cDistances.pyx":151
+ *         for j in range(-borderGrid, borderGrid + 1):
  * 
- *             element1  = (element[0],             # <<<<<<<<<<<<<<
- *                          element[1],
- *                          element[2])
+ *             for k in range(1, borderGrid + 1):             # <<<<<<<<<<<<<<
+ *             #for k in range(0, borderGrid + 1):
+ *                 if [i, j,  k] in excluded_list:
  */
-      __pyx_t_13 = __Pyx_GetItemInt(__pyx_v_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 1012, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
+      __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_borderGrid, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_INCREF(__pyx_int_1);
+      __Pyx_GIVEREF(__pyx_int_1);
+      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_int_1);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
+      __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
+        __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_13 = 0;
+        __pyx_t_14 = NULL;
+      } else {
+        __pyx_t_13 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_14 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 151, __pyx_L1_error)
+      }
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      for (;;) {
+        if (likely(!__pyx_t_14)) {
+          if (likely(PyList_CheckExact(__pyx_t_1))) {
+            if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_1)) break;
+            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+            __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_3); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
+            #else
+            __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_3);
+            #endif
+          } else {
+            if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+            __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_13); __Pyx_INCREF(__pyx_t_3); __pyx_t_13++; if (unlikely(0 < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
+            #else
+            __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_3);
+            #endif
+          }
+        } else {
+          __pyx_t_3 = __pyx_t_14(__pyx_t_1);
+          if (unlikely(!__pyx_t_3)) {
+            PyObject* exc_type = PyErr_Occurred();
+            if (exc_type) {
+              if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+              else __PYX_ERR(0, 151, __pyx_L1_error)
+            }
+            break;
+          }
+          __Pyx_GOTREF(__pyx_t_3);
+        }
+        __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_3);
+        __pyx_t_3 = 0;
 
-      /* "vModel/cDistances.pyx":1013
- * 
- *             element1  = (element[0],
- *                          element[1],             # <<<<<<<<<<<<<<
- *                          element[2])
- * 
+        /* "vModel/cDistances.pyx":153
+ *             for k in range(1, borderGrid + 1):
+ *             #for k in range(0, borderGrid + 1):
+ *                 if [i, j,  k] in excluded_list:             # <<<<<<<<<<<<<<
+ *                     pass
+ *                 else:
  */
-      __pyx_t_12 = __Pyx_GetItemInt(__pyx_v_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 1013, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_3 = PyList_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_INCREF(__pyx_v_i);
+        __Pyx_GIVEREF(__pyx_v_i);
+        PyList_SET_ITEM(__pyx_t_3, 0, __pyx_v_i);
+        __Pyx_INCREF(__pyx_v_j);
+        __Pyx_GIVEREF(__pyx_v_j);
+        PyList_SET_ITEM(__pyx_t_3, 1, __pyx_v_j);
+        __Pyx_INCREF(__pyx_v_k);
+        __Pyx_GIVEREF(__pyx_v_k);
+        PyList_SET_ITEM(__pyx_t_3, 2, __pyx_v_k);
+        __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_t_3, __pyx_v_excluded_list, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 153, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_9 = (__pyx_t_8 != 0);
+        if (__pyx_t_9) {
+          goto __pyx_L17;
+        }
 
-      /* "vModel/cDistances.pyx":1014
- *             element1  = (element[0],
- *                          element[1],
- *                          element[2])             # <<<<<<<<<<<<<<
- * 
- *             element2  = (element[0]+offset_element[0],
+        /* "vModel/cDistances.pyx":156
+ *                     pass
+ *                 else:
+ *                     grid_offset_full.append([i,j,k])             # <<<<<<<<<<<<<<
+ *                     #print([i,j,k], n+1)
+ *                 n+=1
  */
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1014, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
+        /*else*/ {
+          __pyx_t_3 = PyList_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 156, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_INCREF(__pyx_v_i);
+          __Pyx_GIVEREF(__pyx_v_i);
+          PyList_SET_ITEM(__pyx_t_3, 0, __pyx_v_i);
+          __Pyx_INCREF(__pyx_v_j);
+          __Pyx_GIVEREF(__pyx_v_j);
+          PyList_SET_ITEM(__pyx_t_3, 1, __pyx_v_j);
+          __Pyx_INCREF(__pyx_v_k);
+          __Pyx_GIVEREF(__pyx_v_k);
+          PyList_SET_ITEM(__pyx_t_3, 2, __pyx_v_k);
+          __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_grid_offset_full, __pyx_t_3); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 156, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        }
+        __pyx_L17:;
 
-      /* "vModel/cDistances.pyx":1012
- *         for offset_element in  grid_offset:
- * 
- *             element1  = (element[0],             # <<<<<<<<<<<<<<
- *                          element[1],
- *                          element[2])
+        /* "vModel/cDistances.pyx":158
+ *                     grid_offset_full.append([i,j,k])
+ *                     #print([i,j,k], n+1)
+ *                 n+=1             # <<<<<<<<<<<<<<
+ *     #-------------------------------------------------------------------
+ *     #'''
  */
-      __pyx_t_10 = PyTuple_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 1012, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_GIVEREF(__pyx_t_13);
-      PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_13);
-      __Pyx_GIVEREF(__pyx_t_12);
-      PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_12);
-      __Pyx_GIVEREF(__pyx_t_11);
-      PyTuple_SET_ITEM(__pyx_t_10, 2, __pyx_t_11);
-      __pyx_t_13 = 0;
-      __pyx_t_12 = 0;
-      __pyx_t_11 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_element1, ((PyObject*)__pyx_t_10));
-      __pyx_t_10 = 0;
+        __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF_SET(__pyx_v_n, __pyx_t_3);
+        __pyx_t_3 = 0;
 
-      /* "vModel/cDistances.pyx":1016
- *                          element[2])
+        /* "vModel/cDistances.pyx":151
+ *         for j in range(-borderGrid, borderGrid + 1):
  * 
- *             element2  = (element[0]+offset_element[0],             # <<<<<<<<<<<<<<
- *                          element[1]+offset_element[1],
- *                          element[2]+offset_element[2])
- */
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 1016, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_offset_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1016, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_12 = PyNumber_Add(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 1016, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-      /* "vModel/cDistances.pyx":1017
- * 
- *             element2  = (element[0]+offset_element[0],
- *                          element[1]+offset_element[1],             # <<<<<<<<<<<<<<
- *                          element[2]+offset_element[2])
- * 
- */
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1017, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_offset_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 1017, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_13 = PyNumber_Add(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 1017, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-      /* "vModel/cDistances.pyx":1018
- *             element2  = (element[0]+offset_element[0],
- *                          element[1]+offset_element[1],
- *                          element[2]+offset_element[2])             # <<<<<<<<<<<<<<
- * 
- *             if element2 in atomic_grid:
- */
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 1018, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = __Pyx_GetItemInt(__pyx_v_offset_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1018, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_9 = PyNumber_Add(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1018, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-      /* "vModel/cDistances.pyx":1016
- *                          element[2])
- * 
- *             element2  = (element[0]+offset_element[0],             # <<<<<<<<<<<<<<
- *                          element[1]+offset_element[1],
- *                          element[2]+offset_element[2])
- */
-      __pyx_t_11 = PyTuple_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1016, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_11);
-      __Pyx_GIVEREF(__pyx_t_12);
-      PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_12);
-      __Pyx_GIVEREF(__pyx_t_13);
-      PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_13);
-      __Pyx_GIVEREF(__pyx_t_9);
-      PyTuple_SET_ITEM(__pyx_t_11, 2, __pyx_t_9);
-      __pyx_t_12 = 0;
-      __pyx_t_13 = 0;
-      __pyx_t_9 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_element2, ((PyObject*)__pyx_t_11));
-      __pyx_t_11 = 0;
-
-      /* "vModel/cDistances.pyx":1020
- *                          element[2]+offset_element[2])
- * 
- *             if element2 in atomic_grid:             # <<<<<<<<<<<<<<
- *                 pair_of_sectors2.append([atomic_grid[element1],
- *                                          atomic_grid[element2]])
- */
-      __pyx_t_19 = (__Pyx_PySequence_ContainsTF(__pyx_v_element2, __pyx_v_atomic_grid, Py_EQ)); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 1020, __pyx_L1_error)
-      __pyx_t_20 = (__pyx_t_19 != 0);
-      if (__pyx_t_20) {
-
-        /* "vModel/cDistances.pyx":1021
- * 
- *             if element2 in atomic_grid:
- *                 pair_of_sectors2.append([atomic_grid[element1],             # <<<<<<<<<<<<<<
- *                                          atomic_grid[element2]])
- * 
- */
-        __pyx_t_11 = __Pyx_PyObject_GetItem(__pyx_v_atomic_grid, __pyx_v_element1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 1021, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-
-        /* "vModel/cDistances.pyx":1022
- *             if element2 in atomic_grid:
- *                 pair_of_sectors2.append([atomic_grid[element1],
- *                                          atomic_grid[element2]])             # <<<<<<<<<<<<<<
- * 
- *                 #if [element1, element2] in done or [element2, element1] in done:
- */
-        __pyx_t_9 = __Pyx_PyObject_GetItem(__pyx_v_atomic_grid, __pyx_v_element2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1022, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_9);
-
-        /* "vModel/cDistances.pyx":1021
- * 
- *             if element2 in atomic_grid:
- *                 pair_of_sectors2.append([atomic_grid[element1],             # <<<<<<<<<<<<<<
- *                                          atomic_grid[element2]])
- * 
- */
-        __pyx_t_13 = PyList_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 1021, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_GIVEREF(__pyx_t_11);
-        PyList_SET_ITEM(__pyx_t_13, 0, __pyx_t_11);
-        __Pyx_GIVEREF(__pyx_t_9);
-        PyList_SET_ITEM(__pyx_t_13, 1, __pyx_t_9);
-        __pyx_t_11 = 0;
-        __pyx_t_9 = 0;
-        __pyx_t_21 = __Pyx_PyList_Append(__pyx_v_pair_of_sectors2, __pyx_t_13); if (unlikely(__pyx_t_21 == ((int)-1))) __PYX_ERR(0, 1021, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-
-        /* "vModel/cDistances.pyx":1020
- *                          element[2]+offset_element[2])
- * 
- *             if element2 in atomic_grid:             # <<<<<<<<<<<<<<
- *                 pair_of_sectors2.append([atomic_grid[element1],
- *                                          atomic_grid[element2]])
+ *             for k in range(1, borderGrid + 1):             # <<<<<<<<<<<<<<
+ *             #for k in range(0, borderGrid + 1):
+ *                 if [i, j,  k] in excluded_list:
  */
       }
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "vModel/cDistances.pyx":1010
- *     done = []
- *     for element in atomic_grid.keys():
- *         for offset_element in  grid_offset:             # <<<<<<<<<<<<<<
+      /* "vModel/cDistances.pyx":149
+ *     n = 0
+ *     for i in range (-borderGrid, borderGrid + 1):
+ *         for j in range(-borderGrid, borderGrid + 1):             # <<<<<<<<<<<<<<
  * 
- *             element1  = (element[0],
+ *             for k in range(1, borderGrid + 1):
  */
     }
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/cDistances.pyx":1009
- *                    ]
- *     done = []
- *     for element in atomic_grid.keys():             # <<<<<<<<<<<<<<
- *         for offset_element in  grid_offset:
+    /* "vModel/cDistances.pyx":148
+ *     excluded_list = []
+ *     n = 0
+ *     for i in range (-borderGrid, borderGrid + 1):             # <<<<<<<<<<<<<<
+ *         for j in range(-borderGrid, borderGrid + 1):
  * 
  */
   }
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "vModel/cDistances.pyx":1036
- *                 #    #print([element1, element2])
+  /* "vModel/cDistances.pyx":161
+ *     #-------------------------------------------------------------------
+ *     #'''
+ *     return grid_offset_full             # <<<<<<<<<<<<<<
  * 
- *     return pair_of_sectors2             # <<<<<<<<<<<<<<
  * 
- * cpdef dict _build_the_atomic_grid_2 (list atoms, list gridsize,  int frame):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_pair_of_sectors2);
-  __pyx_r = __pyx_v_pair_of_sectors2;
+  __Pyx_INCREF(__pyx_v_grid_offset_full);
+  __pyx_r = __pyx_v_grid_offset_full;
   goto __pyx_L0;
 
-  /* "vModel/cDistances.pyx":936
+  /* "vModel/cDistances.pyx":5
+ * import multiprocessing
  * 
- * 
- * cpdef list _determine_the_paired_atomic_grid_elements_2 (atomic_grid):             # <<<<<<<<<<<<<<
+ * cpdef list calculate_grid_offset(gridsize, maxbond = 2.6):             # <<<<<<<<<<<<<<
  *     '''
- *     There is also an array vOff that specifies the offsets of each of the 14 neighbor
+ *     grid_offset_full = [
  */
 
   /* function exit code */
@@ -7474,54 +1995,100 @@ static PyObject *__pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_XDECREF(__pyx_t_15);
-  __Pyx_AddTraceback("vModel.cDistances._determine_the_paired_atomic_grid_elements_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vModel.cDistances.calculate_grid_offset", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_pair_of_sectors2);
-  __Pyx_XDECREF(__pyx_v_grid_offset);
-  __Pyx_XDECREF(__pyx_v_done);
-  __Pyx_XDECREF(__pyx_v_element);
-  __Pyx_XDECREF(__pyx_v_offset_element);
-  __Pyx_XDECREF(__pyx_v_element1);
-  __Pyx_XDECREF(__pyx_v_element2);
+  __Pyx_XDECREF(__pyx_v_grid_offset_full);
+  __Pyx_XDECREF(__pyx_v_borderGrid);
+  __Pyx_XDECREF(__pyx_v_N);
+  __Pyx_XDECREF(__pyx_v_i);
+  __Pyx_XDECREF(__pyx_v_n);
+  __Pyx_XDECREF(__pyx_v_j);
+  __Pyx_XDECREF(__pyx_v_excluded_list);
+  __Pyx_XDECREF(__pyx_v_k);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_17_determine_the_paired_atomic_grid_elements_2(PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_16_determine_the_paired_atomic_grid_elements_2[] = "\n    There is also an array vOff that specifies the offsets of each of the 14 neighbor\n    cells. The array covers half the neighboring cells, together with the cell itself; its\n    size and contents are specified as\n    \n    {{0,0,0}, {1,0,0}, {1,1,0}, {0,1,0}, {-1,1,0}, {0,0,1},\n    {1,0,1}, {1,1,1}, {0,1,1}, {-1,1,1}, {-1,0,1},\n    {-1,-1,1}, {0,-1,1}, {1,-1,1}}\n    \n    \n                                |-------|-------|-------| \n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n                                |-1,1,1 | 0,1,1 | 1,1,1 | \n                                |-------|-------|-------| \n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |-1,0,1 | 0,0,1 | 1,0,1 |\n                                |-------|-------|-------|\n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |\\\\\\\\|\\\\\\\\|\\\\\\\\|\n                                |-1,-1,1| 0,-1,1| 1,-1,1|\n                                |-------|-------|-------|\n        \n        |-------|-------|-------| \n        |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n        |\\\\\\\\|\\\\\\\\|\\\\\\\\| \n        |-1,1,0 | 0,1,0 | 1,1,0 | \n        |-------|-------|-------| \n        |       |XXXXXXX|\\\\\\\\|\n        |       |XXXXXXX|\\\\\\\\|\n        |-1,0,0 | 0,0,0 | 1,0,0 |\n        |-------|-------|-------|\n        |       |       |       |\n        |       |       |       |\n        |-1,-1,0| 0,-1,0| 1,-1,0|\n        |-------|-------|-------|\n    \n    always. the combination between {0,0,0} and some element of the list (\\\\\\) \n    \n    returns a list contain lists of atoms [[atoms1],atoms2], ...]\n\n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_17_determine_the_paired_atomic_grid_elements_2(PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid) {
+static PyObject *__pyx_pw_6vModel_10cDistances_1calculate_grid_offset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vModel_10cDistances_calculate_grid_offset[] = "\n    grid_offset_full = [\n               [ 1,-1, 0],\n                         #[ 0,-1, 0],\n                         #[-1,-1, 0],\n                         #[-1, 0, 0],\n               #[ 0, 0, 0], \n               [ 1, 0, 0], \n               [ 1, 1, 0], \n               [ 0, 1, 0], \n               [-1, 1, 0], \n               \n                    #[-1, 2, 0],\n                    #[ 0, 2, 0],\n                    #[ 1, 2, 0],\n                    #[ 2, 2, 0],\n                    #[ 2, 1, 0],\n                    #[ 2, 0, 0],\n                    #[ 2,-1, 0],                   \n               \n               [ 0, 0, 1],\n               [ 1, 0, 1], \n               [ 1, 1, 1], \n               [ 0, 1, 1], \n               [-1, 1, 1], \n               [-1, 0, 1],\n               [-1,-1, 1], \n               [ 0,-1, 1], \n               [ 1,-1, 1],\n               \n                    #[-1, 2, 1],\n                    #[ 0, 2, 1],\n                    #[ 1, 2, 1],\n                    #[ 2, 2, 1],\n                    #[ 2, 1, 1],\n                    #[ 2, 0, 1],\n                    #[ 2,-1, 1],\n                    #\n                    #\n                    #[ 0, 0, 2],\n                    #[ 1, 0, 2], \n                    #[ 1, 1, 2], \n                    #[ 0, 1, 2], \n                    #[-1, 1, 2], \n                    #[-1, 0, 2],\n                    #[-1,-1, 2], \n                    #[ 0,-1, 2], \n                    #[ 1,-1, 2],\n                    #\n                    #[-1, 2, 2],\n                    #[ 0, 2, 2],\n                    #[ 1, 2, 2],\n                    #[ 2, 2, 2],\n                    #[ 2, 1, 2],\n                    #[ 2, 0, 2],\n                    #[ 2,-1, 2],\n               ]\n\n   \n   \n    #";
+static PyObject *__pyx_pw_6vModel_10cDistances_1calculate_grid_offset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_gridsize = 0;
+  PyObject *__pyx_v_maxbond = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_determine_the_paired_atomic_grid_elements_2 (wrapper)", 0);
-  __pyx_r = __pyx_pf_6vModel_10cDistances_16_determine_the_paired_atomic_grid_elements_2(__pyx_self, ((PyObject *)__pyx_v_atomic_grid));
+  __Pyx_RefNannySetupContext("calculate_grid_offset (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_gridsize,&__pyx_n_s_maxbond,0};
+    PyObject* values[2] = {0,0};
+    values[1] = ((PyObject *)__pyx_float_2_6);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridsize)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_maxbond);
+          if (value) { values[1] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calculate_grid_offset") < 0)) __PYX_ERR(0, 5, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_gridsize = values[0];
+    __pyx_v_maxbond = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("calculate_grid_offset", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 5, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("vModel.cDistances.calculate_grid_offset", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6vModel_10cDistances_calculate_grid_offset(__pyx_self, __pyx_v_gridsize, __pyx_v_maxbond);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vModel_10cDistances_16_determine_the_paired_atomic_grid_elements_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid) {
+static PyObject *__pyx_pf_6vModel_10cDistances_calculate_grid_offset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_maxbond) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_determine_the_paired_atomic_grid_elements_2", 0);
+  struct __pyx_opt_args_6vModel_10cDistances_calculate_grid_offset __pyx_t_2;
+  __Pyx_RefNannySetupContext("calculate_grid_offset", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements_2(__pyx_v_atomic_grid, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 936, __pyx_L1_error)
+  __pyx_t_2.__pyx_n = 1;
+  __pyx_t_2.maxbond = __pyx_v_maxbond;
+  __pyx_t_1 = __pyx_f_6vModel_10cDistances_calculate_grid_offset(__pyx_v_gridsize, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7530,7 +2097,7 @@ static PyObject *__pyx_pf_6vModel_10cDistances_16_determine_the_paired_atomic_gr
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._determine_the_paired_atomic_grid_elements_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vModel.cDistances.calculate_grid_offset", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7538,353 +2105,160 @@ static PyObject *__pyx_pf_6vModel_10cDistances_16_determine_the_paired_atomic_gr
   return __pyx_r;
 }
 
-/* "vModel/cDistances.pyx":1038
- *     return pair_of_sectors2
+/* "vModel/cDistances.pyx":165
  * 
- * cpdef dict _build_the_atomic_grid_2 (list atoms, list gridsize,  int frame):             # <<<<<<<<<<<<<<
- *     """  fucntion build_atomic_grid
+ * 
+ * cpdef double calculate_sqrt_distance (int i, int j,  coords):             # <<<<<<<<<<<<<<
+ *     """ Function doc """
  * 
  */
 
-static PyObject *__pyx_pw_6vModel_10cDistances_19_build_the_atomic_grid_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances__build_the_atomic_grid_2(PyObject *__pyx_v_atoms, PyObject *__pyx_v_gridsize, int __pyx_v_frame, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  PyObject *__pyx_v_atomic_grid = 0;
-  PyObject *__pyx_v_atom = NULL;
-  PyObject *__pyx_v_gridpos = NULL;
-  PyObject *__pyx_v_a = NULL;
-  PyObject *__pyx_v_b = NULL;
-  PyObject *__pyx_v_c = NULL;
-  PyObject *__pyx_r = NULL;
+static PyObject *__pyx_pw_6vModel_10cDistances_3calculate_sqrt_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static double __pyx_f_6vModel_10cDistances_calculate_sqrt_distance(int __pyx_v_i, int __pyx_v_j, PyObject *__pyx_v_coords, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  PyObject *__pyx_v_dX = NULL;
+  PyObject *__pyx_v_dY = NULL;
+  PyObject *__pyx_v_dZ = NULL;
+  PyObject *__pyx_v_r_ij = NULL;
+  double __pyx_r;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
+  long __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  int __pyx_t_10;
-  int __pyx_t_11;
-  __Pyx_RefNannySetupContext("_build_the_atomic_grid_2", 0);
+  double __pyx_t_5;
+  __Pyx_RefNannySetupContext("calculate_sqrt_distance", 0);
 
-  /* "vModel/cDistances.pyx":1070
- *     """
- *     #int grid_size
- *     cdef dict  atomic_grid = {}             # <<<<<<<<<<<<<<
+  /* "vModel/cDistances.pyx":168
+ *     """ Function doc """
  * 
- *     for atom in atoms:
+ *     dX              = (coords[i*3  ] - coords[j*3  ])**2             # <<<<<<<<<<<<<<
+ *     dY              = (coords[i*3+1] - coords[j*3+1])**2
+ *     dZ              = (coords[i*3+2] - coords[j*3+2])**2
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1070, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_atomic_grid = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_t_1 = (__pyx_v_i * 3);
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_coords, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = (__pyx_v_j * 3);
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_coords, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyNumber_Subtract(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyNumber_Power(__pyx_t_4, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_dX = __pyx_t_3;
+  __pyx_t_3 = 0;
 
-  /* "vModel/cDistances.pyx":1072
- *     cdef dict  atomic_grid = {}
+  /* "vModel/cDistances.pyx":169
  * 
- *     for atom in atoms:             # <<<<<<<<<<<<<<
- *         gridpos = atom.get_grid_position (gridsize, frame)
- * 
+ *     dX              = (coords[i*3  ] - coords[j*3  ])**2
+ *     dY              = (coords[i*3+1] - coords[j*3+1])**2             # <<<<<<<<<<<<<<
+ *     dZ              = (coords[i*3+2] - coords[j*3+2])**2
+ *     r_ij = dX + dY + dZ
  */
-  if (unlikely(__pyx_v_atoms == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 1072, __pyx_L1_error)
-  }
-  __pyx_t_1 = __pyx_v_atoms; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-  for (;;) {
-    if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 1072, __pyx_L1_error)
-    #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1072, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_3);
-    __pyx_t_3 = 0;
+  __pyx_t_1 = ((__pyx_v_i * 3) + 1);
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_coords, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_1 = ((__pyx_v_j * 3) + 1);
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_coords, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyNumber_Power(__pyx_t_2, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_dY = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-    /* "vModel/cDistances.pyx":1073
- * 
- *     for atom in atoms:
- *         gridpos = atom.get_grid_position (gridsize, frame)             # <<<<<<<<<<<<<<
- * 
- *         a = gridpos[0]
+  /* "vModel/cDistances.pyx":170
+ *     dX              = (coords[i*3  ] - coords[j*3  ])**2
+ *     dY              = (coords[i*3+1] - coords[j*3+1])**2
+ *     dZ              = (coords[i*3+2] - coords[j*3+2])**2             # <<<<<<<<<<<<<<
+ *     r_ij = dX + dY + dZ
+ *     return r_ij
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_get_grid_position); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1073, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_frame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1073, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = NULL;
-    __pyx_t_7 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_6);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
-        __pyx_t_7 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_gridsize, __pyx_t_5};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1073, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_gridsize, __pyx_t_5};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1073, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1073, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      if (__pyx_t_6) {
-        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_gridsize);
-      __Pyx_GIVEREF(__pyx_v_gridsize);
-      PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_v_gridsize);
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1073, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_gridpos, __pyx_t_3);
-    __pyx_t_3 = 0;
+  __pyx_t_1 = ((__pyx_v_i * 3) + 2);
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_coords, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = ((__pyx_v_j * 3) + 2);
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_coords, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Subtract(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyNumber_Power(__pyx_t_3, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_dZ = __pyx_t_2;
+  __pyx_t_2 = 0;
 
-    /* "vModel/cDistances.pyx":1075
- *         gridpos = atom.get_grid_position (gridsize, frame)
- * 
- *         a = gridpos[0]             # <<<<<<<<<<<<<<
- *         b = gridpos[1]
- *         c = gridpos[2]
- */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_gridpos, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1075, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_a, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":1076
- * 
- *         a = gridpos[0]
- *         b = gridpos[1]             # <<<<<<<<<<<<<<
- *         c = gridpos[2]
+  /* "vModel/cDistances.pyx":171
+ *     dY              = (coords[i*3+1] - coords[j*3+1])**2
+ *     dZ              = (coords[i*3+2] - coords[j*3+2])**2
+ *     r_ij = dX + dY + dZ             # <<<<<<<<<<<<<<
+ *     return r_ij
  * 
  */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_gridpos, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1076, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_b, __pyx_t_3);
-    __pyx_t_3 = 0;
+  __pyx_t_2 = PyNumber_Add(__pyx_v_dX, __pyx_v_dY); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_dZ); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_r_ij = __pyx_t_3;
+  __pyx_t_3 = 0;
 
-    /* "vModel/cDistances.pyx":1077
- *         a = gridpos[0]
- *         b = gridpos[1]
- *         c = gridpos[2]             # <<<<<<<<<<<<<<
+  /* "vModel/cDistances.pyx":172
+ *     dZ              = (coords[i*3+2] - coords[j*3+2])**2
+ *     r_ij = dX + dY + dZ
+ *     return r_ij             # <<<<<<<<<<<<<<
  * 
- *         if (a,b,c) in atomic_grid:
- */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_gridpos, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1077, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_c, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":1079
- *         c = gridpos[2]
- * 
- *         if (a,b,c) in atomic_grid:             # <<<<<<<<<<<<<<
- *             atomic_grid[(a,b,c)].append(atom.index-1)
- *         else:
- */
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1079, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_INCREF(__pyx_v_a);
-    __Pyx_GIVEREF(__pyx_v_a);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_a);
-    __Pyx_INCREF(__pyx_v_b);
-    __Pyx_GIVEREF(__pyx_v_b);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_b);
-    __Pyx_INCREF(__pyx_v_c);
-    __Pyx_GIVEREF(__pyx_v_c);
-    PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_c);
-    __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_t_3, __pyx_v_atomic_grid, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 1079, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_10 = (__pyx_t_9 != 0);
-    if (__pyx_t_10) {
-
-      /* "vModel/cDistances.pyx":1080
- * 
- *         if (a,b,c) in atomic_grid:
- *             atomic_grid[(a,b,c)].append(atom.index-1)             # <<<<<<<<<<<<<<
- *         else:
- *             atomic_grid[(a,b,c)] = []
- */
-      __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1080, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_v_a);
-      __Pyx_GIVEREF(__pyx_v_a);
-      PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_a);
-      __Pyx_INCREF(__pyx_v_b);
-      __Pyx_GIVEREF(__pyx_v_b);
-      PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_b);
-      __Pyx_INCREF(__pyx_v_c);
-      __Pyx_GIVEREF(__pyx_v_c);
-      PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_c);
-      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1080, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1080, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyInt_SubtractObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1080, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_11 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_8); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 1080, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-      /* "vModel/cDistances.pyx":1079
- *         c = gridpos[2]
- * 
- *         if (a,b,c) in atomic_grid:             # <<<<<<<<<<<<<<
- *             atomic_grid[(a,b,c)].append(atom.index-1)
- *         else:
- */
-      goto __pyx_L5;
-    }
-
-    /* "vModel/cDistances.pyx":1082
- *             atomic_grid[(a,b,c)].append(atom.index-1)
- *         else:
- *             atomic_grid[(a,b,c)] = []             # <<<<<<<<<<<<<<
- *             atomic_grid[(a,b,c)].append(atom.index-1)
- *     return atomic_grid
- */
-    /*else*/ {
-      __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1082, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1082, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_INCREF(__pyx_v_a);
-      __Pyx_GIVEREF(__pyx_v_a);
-      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_a);
-      __Pyx_INCREF(__pyx_v_b);
-      __Pyx_GIVEREF(__pyx_v_b);
-      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_b);
-      __Pyx_INCREF(__pyx_v_c);
-      __Pyx_GIVEREF(__pyx_v_c);
-      PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_c);
-      if (unlikely(PyDict_SetItem(__pyx_v_atomic_grid, __pyx_t_4, __pyx_t_8) < 0)) __PYX_ERR(0, 1082, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-      /* "vModel/cDistances.pyx":1083
- *         else:
- *             atomic_grid[(a,b,c)] = []
- *             atomic_grid[(a,b,c)].append(atom.index-1)             # <<<<<<<<<<<<<<
- *     return atomic_grid
  * 
  */
-      __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1083, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_INCREF(__pyx_v_a);
-      __Pyx_GIVEREF(__pyx_v_a);
-      PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_a);
-      __Pyx_INCREF(__pyx_v_b);
-      __Pyx_GIVEREF(__pyx_v_b);
-      PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_b);
-      __Pyx_INCREF(__pyx_v_c);
-      __Pyx_GIVEREF(__pyx_v_c);
-      PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_v_c);
-      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1083, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1083, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_3 = __Pyx_PyInt_SubtractObjC(__pyx_t_8, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1083, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_11 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_3); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 1083, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    }
-    __pyx_L5:;
-
-    /* "vModel/cDistances.pyx":1072
- *     cdef dict  atomic_grid = {}
- * 
- *     for atom in atoms:             # <<<<<<<<<<<<<<
- *         gridpos = atom.get_grid_position (gridsize, frame)
- * 
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":1084
- *             atomic_grid[(a,b,c)] = []
- *             atomic_grid[(a,b,c)].append(atom.index-1)
- *     return atomic_grid             # <<<<<<<<<<<<<<
- * 
- * cpdef generete_full_NB_and_Bonded_lists_2(atoms = [], gridsize = 3, frame = 0):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_atomic_grid);
-  __pyx_r = __pyx_v_atomic_grid;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_r_ij); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_r = __pyx_t_5;
   goto __pyx_L0;
 
-  /* "vModel/cDistances.pyx":1038
- *     return pair_of_sectors2
+  /* "vModel/cDistances.pyx":165
  * 
- * cpdef dict _build_the_atomic_grid_2 (list atoms, list gridsize,  int frame):             # <<<<<<<<<<<<<<
- *     """  fucntion build_atomic_grid
+ * 
+ * cpdef double calculate_sqrt_distance (int i, int j,  coords):             # <<<<<<<<<<<<<<
+ *     """ Function doc """
  * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("vModel.cDistances._build_the_atomic_grid_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_WriteUnraisable("vModel.cDistances.calculate_sqrt_distance", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_atomic_grid);
-  __Pyx_XDECREF(__pyx_v_atom);
-  __Pyx_XDECREF(__pyx_v_gridpos);
-  __Pyx_XDECREF(__pyx_v_a);
-  __Pyx_XDECREF(__pyx_v_b);
-  __Pyx_XDECREF(__pyx_v_c);
-  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_XDECREF(__pyx_v_dX);
+  __Pyx_XDECREF(__pyx_v_dY);
+  __Pyx_XDECREF(__pyx_v_dZ);
+  __Pyx_XDECREF(__pyx_v_r_ij);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_19_build_the_atomic_grid_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_18_build_the_atomic_grid_2[] = "  fucntion build_atomic_grid\n    \n    This function organizes the atoms in their respective position \n    of the grid (atomic grid) - Nescessary to calculate distances between \n    atoms in different elements of the grid\n    \n    self.grid_size = is the size of a grid element - size of a sector\n    \n    \n              atomic grid\n              \n        |-------|-------|-------| |\n        |       | grid  |       | |\n        |       |element|       | | grid_size\n        |-1,1,0 | 0,1,0 | 1,1,0 | |\n        |-------|-------|-------| |\n        |       |       |       |\n        |       |       |       |\n        |-1,0,0 | 0,0,0 | 1,0,0 |\n        |-------|-------|-------|\n        |       |       |       |\n        |       |       |       |\n        |-1,-1,0| 0,-1,0| 1,-1,0|\n        |-------|-------|-------|\n                         -------\n                        grid_size\n    \n    \n    grid element = list of atoms\n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_19_build_the_atomic_grid_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_atoms = 0;
-  PyObject *__pyx_v_gridsize = 0;
-  int __pyx_v_frame;
+static PyObject *__pyx_pw_6vModel_10cDistances_3calculate_sqrt_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vModel_10cDistances_2calculate_sqrt_distance[] = " Function doc ";
+static PyObject *__pyx_pw_6vModel_10cDistances_3calculate_sqrt_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_v_i;
+  int __pyx_v_j;
+  PyObject *__pyx_v_coords = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_build_the_atomic_grid_2 (wrapper)", 0);
+  __Pyx_RefNannySetupContext("calculate_sqrt_distance (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_atoms,&__pyx_n_s_gridsize,&__pyx_n_s_frame,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_i,&__pyx_n_s_j,&__pyx_n_s_coords,0};
     PyObject* values[3] = {0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -7902,23 +2276,23 @@ static PyObject *__pyx_pw_6vModel_10cDistances_19_build_the_atomic_grid_2(PyObje
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms)) != 0)) kw_args--;
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_i)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridsize)) != 0)) kw_args--;
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_j)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_build_the_atomic_grid_2", 1, 3, 3, 1); __PYX_ERR(0, 1038, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calculate_sqrt_distance", 1, 3, 3, 1); __PYX_ERR(0, 165, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_frame)) != 0)) kw_args--;
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_coords)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_build_the_atomic_grid_2", 1, 3, 3, 2); __PYX_ERR(0, 1038, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("calculate_sqrt_distance", 1, 3, 3, 2); __PYX_ERR(0, 165, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_build_the_atomic_grid_2") < 0)) __PYX_ERR(0, 1038, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "calculate_sqrt_distance") < 0)) __PYX_ERR(0, 165, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -7927,38 +2301,32 @@ static PyObject *__pyx_pw_6vModel_10cDistances_19_build_the_atomic_grid_2(PyObje
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_atoms = ((PyObject*)values[0]);
-    __pyx_v_gridsize = ((PyObject*)values[1]);
-    __pyx_v_frame = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_frame == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1038, __pyx_L3_error)
+    __pyx_v_i = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_i == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 165, __pyx_L3_error)
+    __pyx_v_j = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_j == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 165, __pyx_L3_error)
+    __pyx_v_coords = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_build_the_atomic_grid_2", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1038, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("calculate_sqrt_distance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 165, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("vModel.cDistances._build_the_atomic_grid_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vModel.cDistances.calculate_sqrt_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atoms), (&PyList_Type), 1, "atoms", 1))) __PYX_ERR(0, 1038, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gridsize), (&PyList_Type), 1, "gridsize", 1))) __PYX_ERR(0, 1038, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6vModel_10cDistances_18_build_the_atomic_grid_2(__pyx_self, __pyx_v_atoms, __pyx_v_gridsize, __pyx_v_frame);
+  __pyx_r = __pyx_pf_6vModel_10cDistances_2calculate_sqrt_distance(__pyx_self, __pyx_v_i, __pyx_v_j, __pyx_v_coords);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vModel_10cDistances_18_build_the_atomic_grid_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms, PyObject *__pyx_v_gridsize, int __pyx_v_frame) {
+static PyObject *__pyx_pf_6vModel_10cDistances_2calculate_sqrt_distance(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_i, int __pyx_v_j, PyObject *__pyx_v_coords) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("_build_the_atomic_grid_2", 0);
+  __Pyx_RefNannySetupContext("calculate_sqrt_distance", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances__build_the_atomic_grid_2(__pyx_v_atoms, __pyx_v_gridsize, __pyx_v_frame, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1038, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6vModel_10cDistances_calculate_sqrt_distance(__pyx_v_i, __pyx_v_j, __pyx_v_coords, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7967,7 +2335,7 @@ static PyObject *__pyx_pf_6vModel_10cDistances_18_build_the_atomic_grid_2(CYTHON
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances._build_the_atomic_grid_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vModel.cDistances.calculate_sqrt_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7975,789 +2343,290 @@ static PyObject *__pyx_pf_6vModel_10cDistances_18_build_the_atomic_grid_2(CYTHON
   return __pyx_r;
 }
 
-/* "vModel/cDistances.pyx":1086
- *     return atomic_grid
+/* "vModel/cDistances.pyx":175
  * 
- * cpdef generete_full_NB_and_Bonded_lists_2(atoms = [], gridsize = 3, frame = 0):             # <<<<<<<<<<<<<<
- *     '''
- *     atoms = [] it's a list of atom objects
+ * 
+ * cpdef list ctype_get_connections_within_grid_element (list list_of_atoms, coords, cov_rad, double tolerance, gridsize):             # <<<<<<<<<<<<<<
+ *     """
+ *         Calculate the distances and bonds
  */
 
-static PyObject *__pyx_pw_6vModel_10cDistances_21generete_full_NB_and_Bonded_lists_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2 *__pyx_optional_args) {
-  PyObject *__pyx_v_atoms = __pyx_k__2;
-  PyObject *__pyx_v_gridsize = ((PyObject *)__pyx_int_3);
-  PyObject *__pyx_v_frame = ((PyObject *)__pyx_int_0);
-  PyObject *__pyx_v_initial = NULL;
-  PyObject *__pyx_v_bonds_full_indices = NULL;
-  PyObject *__pyx_v_bonds_pair_of_indices = NULL;
-  PyObject *__pyx_v_atomic_grid = NULL;
-  PyObject *__pyx_v_pairs_of_grid_elements = NULL;
-  PyObject *__pyx_v_NB_TrueFalse_list = NULL;
-  PyObject *__pyx_v_final = NULL;
-  PyObject *__pyx_v_list_of_atoms = NULL;
-  PyObject *__pyx_v_pair_of_grid_elements = NULL;
-  PyObject *__pyx_v_NB_indices_list = NULL;
+static PyObject *__pyx_pw_6vModel_10cDistances_5ctype_get_connections_within_grid_element(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_get_connections_within_grid_element(PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, CYTHON_UNUSED double __pyx_v_tolerance, CYTHON_UNUSED PyObject *__pyx_v_gridsize, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  PyObject *__pyx_v_bonds_pair_of_indexes = NULL;
+  double __pyx_v_r_ij;
+  int __pyx_v_i;
+  int __pyx_v_atom_idx_i;
+  int __pyx_v_atom_idx_j;
+  double __pyx_v_cov_rad_ij_sqrt;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  PyObject *(*__pyx_t_6)(PyObject *);
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_7;
+  int __pyx_t_8;
   PyObject *__pyx_t_9 = NULL;
-  __Pyx_RefNannySetupContext("generete_full_NB_and_Bonded_lists_2", 0);
-  if (__pyx_optional_args) {
-    if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_atoms = __pyx_optional_args->atoms;
-      if (__pyx_optional_args->__pyx_n > 1) {
-        __pyx_v_gridsize = __pyx_optional_args->gridsize;
-        if (__pyx_optional_args->__pyx_n > 2) {
-          __pyx_v_frame = __pyx_optional_args->frame;
-        }
-      }
-    }
-  }
-  __Pyx_INCREF(__pyx_v_atoms);
+  PyObject *__pyx_t_10 = NULL;
+  double __pyx_t_11;
+  int __pyx_t_12;
+  __Pyx_RefNannySetupContext("ctype_get_connections_within_grid_element", 0);
 
-  /* "vModel/cDistances.pyx":1107
+  /* "vModel/cDistances.pyx":206
+ *     """
  * 
- *     #--------------------------------------------------------------#
- *     initial       = time.time()                                    #             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     bonds_full_indices, bonds_pair_of_indices = [], []
+ *     bonds_pair_of_indexes = []             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef double r_ij
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1107, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_initial = __pyx_t_1;
+  __pyx_v_bonds_pair_of_indexes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/cDistances.pyx":1109
- *     initial       = time.time()                                    #
- *     #--------------------------------------------------------------#
- *     bonds_full_indices, bonds_pair_of_indices = [], []             # <<<<<<<<<<<<<<
+  /* "vModel/cDistances.pyx":215
  * 
- *     atomic_grid               = _build_the_atomic_grid_2(atoms, gridsize, frame)
+ * 
+ *     for i, atom_idx_i in enumerate(list_of_atoms[:-1]):             # <<<<<<<<<<<<<<
+ *         for atom_idx_j in list_of_atoms[i:]:
+ *             if atom_idx_i == atom_idx_j :
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_bonds_full_indices = __pyx_t_1;
-  __pyx_t_1 = 0;
-  __pyx_v_bonds_pair_of_indices = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1111
- *     bonds_full_indices, bonds_pair_of_indices = [], []
- * 
- *     atomic_grid               = _build_the_atomic_grid_2(atoms, gridsize, frame)             # <<<<<<<<<<<<<<
- * 
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements_2(atomic_grid)
- */
-  if (!(likely(PyList_CheckExact(__pyx_v_atoms))||((__pyx_v_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atoms)->tp_name), 0))) __PYX_ERR(0, 1111, __pyx_L1_error)
-  if (!(likely(PyList_CheckExact(__pyx_v_gridsize))||((__pyx_v_gridsize) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_gridsize)->tp_name), 0))) __PYX_ERR(0, 1111, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_frame); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1111, __pyx_L1_error)
-  __pyx_t_3 = __pyx_f_6vModel_10cDistances__build_the_atomic_grid_2(((PyObject*)__pyx_v_atoms), ((PyObject*)__pyx_v_gridsize), __pyx_t_4, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_atomic_grid = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1113
- *     atomic_grid               = _build_the_atomic_grid_2(atoms, gridsize, frame)
- * 
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements_2(atomic_grid)             # <<<<<<<<<<<<<<
- * 
- *     NB_TrueFalse_list         = [True]*len(atoms)
- */
-  __pyx_t_3 = __pyx_f_6vModel_10cDistances__determine_the_paired_atomic_grid_elements_2(__pyx_v_atomic_grid, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1113, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_pairs_of_grid_elements = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1115
- *     pairs_of_grid_elements    = _determine_the_paired_atomic_grid_elements_2(atomic_grid)
- * 
- *     NB_TrueFalse_list         = [True]*len(atoms)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_t_5 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1115, __pyx_L1_error)
-  __pyx_t_3 = PyList_New(1 * ((__pyx_t_5<0) ? 0:__pyx_t_5)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1115, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_5; __pyx_temp++) {
-      __Pyx_INCREF(Py_True);
-      __Pyx_GIVEREF(Py_True);
-      PyList_SET_ITEM(__pyx_t_3, __pyx_temp, Py_True);
-    }
-  }
-  __pyx_v_NB_TrueFalse_list = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1120
- * 
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #             # <<<<<<<<<<<<<<
- *     print ('building grid elements  : ', final - initial, '\n')#
- *     #--------------------------------------------------------------#
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_final = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1121
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
- *     print ('building grid elements  : ', final - initial, '\n')#             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     #print (non_bonded_list)
- */
-  __pyx_t_3 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1121, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1121, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_building_grid_elements);
-  __Pyx_GIVEREF(__pyx_kp_s_building_grid_elements);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_building_grid_elements);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s_);
-  __Pyx_GIVEREF(__pyx_kp_s_);
-  PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_s_);
-  __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 1121, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":1124
- *     #--------------------------------------------------------------#
- *     #print (non_bonded_list)
- *     print ('Total number of Atoms   :', len(atoms)                 )             # <<<<<<<<<<<<<<
- *     print ('Number of grid elements :', len(atomic_grid)           )
- *     print ('Pairs                   :', len(pairs_of_grid_elements))
- */
-  __pyx_t_5 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1124, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1124, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1124, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s_Total_number_of_Atoms);
-  __Pyx_GIVEREF(__pyx_kp_s_Total_number_of_Atoms);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_s_Total_number_of_Atoms);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1124, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1125
- *     #print (non_bonded_list)
- *     print ('Total number of Atoms   :', len(atoms)                 )
- *     print ('Number of grid elements :', len(atomic_grid)           )             # <<<<<<<<<<<<<<
- *     print ('Pairs                   :', len(pairs_of_grid_elements))
- * 
- */
-  if (unlikely(__pyx_v_atomic_grid == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 1125, __pyx_L1_error)
+  if (unlikely(__pyx_v_list_of_atoms == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(0, 215, __pyx_L1_error)
   }
-  __pyx_t_5 = PyDict_Size(__pyx_v_atomic_grid); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1125, __pyx_L1_error)
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1125, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1125, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_Number_of_grid_elements);
-  __Pyx_GIVEREF(__pyx_kp_s_Number_of_grid_elements);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_Number_of_grid_elements);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
-  __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 1125, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":1126
- *     print ('Total number of Atoms   :', len(atoms)                 )
- *     print ('Number of grid elements :', len(atomic_grid)           )
- *     print ('Pairs                   :', len(pairs_of_grid_elements))             # <<<<<<<<<<<<<<
- * 
- *     #----------------------------------------------------------------------------------------------
- */
-  if (unlikely(__pyx_v_pairs_of_grid_elements == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 1126, __pyx_L1_error)
-  }
-  __pyx_t_5 = PyList_GET_SIZE(__pyx_v_pairs_of_grid_elements); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1126, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_kp_s_Pairs);
-  __Pyx_GIVEREF(__pyx_kp_s_Pairs);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_s_Pairs);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
-  __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1126, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1137
- *     '''
- *     #---------------------------------------------------------------#
- *     initial       = time.time()             # <<<<<<<<<<<<<<
- *     #---------------------------------------------------------------#
- * 
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1137, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyList_GetSlice(__pyx_v_list_of_atoms, 0, -1L); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF_SET(__pyx_v_initial, __pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "vModel/cDistances.pyx":1141
- * 
- *     #'''
- *     for list_of_atoms in atomic_grid.values():             # <<<<<<<<<<<<<<
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           ,
- */
-  if (unlikely(__pyx_v_atomic_grid == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "values");
-    __PYX_ERR(0, 1141, __pyx_L1_error)
-  }
-  __pyx_t_3 = __Pyx_PyDict_Values(__pyx_v_atomic_grid); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1141, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-    __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
-    __pyx_t_6 = NULL;
-  } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1141, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1141, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
-    if (likely(!__pyx_t_6)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 1141, __pyx_L1_error)
-        #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1141, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        #endif
-      } else {
-        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 1141, __pyx_L1_error)
-        #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1141, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        #endif
-      }
-    } else {
-      __pyx_t_3 = __pyx_t_6(__pyx_t_1);
-      if (unlikely(!__pyx_t_3)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 1141, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_3);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_list_of_atoms, __pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "vModel/cDistances.pyx":1143
- *     for list_of_atoms in atomic_grid.values():
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           ,             # <<<<<<<<<<<<<<
- *                                                                                                                          atoms                   ,
- *                                                                                                                          bonds_pair_of_indices   ,
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_list_of_atoms))||((__pyx_v_list_of_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_list_of_atoms)->tp_name), 0))) __PYX_ERR(0, 1143, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1144
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           ,
- *                                                                                                                          atoms                   ,             # <<<<<<<<<<<<<<
- *                                                                                                                          bonds_pair_of_indices   ,
- *                                                                                                                          bonds_full_indices      ,
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_atoms))||((__pyx_v_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atoms)->tp_name), 0))) __PYX_ERR(0, 1144, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1145
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           ,
- *                                                                                                                          atoms                   ,
- *                                                                                                                          bonds_pair_of_indices   ,             # <<<<<<<<<<<<<<
- *                                                                                                                          bonds_full_indices      ,
- *                                                                                                                          NB_TrueFalse_list       )
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_pair_of_indices))||((__pyx_v_bonds_pair_of_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_pair_of_indices)->tp_name), 0))) __PYX_ERR(0, 1145, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1146
- *                                                                                                                          atoms                   ,
- *                                                                                                                          bonds_pair_of_indices   ,
- *                                                                                                                          bonds_full_indices      ,             # <<<<<<<<<<<<<<
- *                                                                                                                          NB_TrueFalse_list       )
- *     #'''
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_full_indices))||((__pyx_v_bonds_full_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_full_indices)->tp_name), 0))) __PYX_ERR(0, 1146, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1147
- *                                                                                                                          bonds_pair_of_indices   ,
- *                                                                                                                          bonds_full_indices      ,
- *                                                                                                                          NB_TrueFalse_list       )             # <<<<<<<<<<<<<<
- *     #'''
- *     #'''
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_NB_TrueFalse_list))||((__pyx_v_NB_TrueFalse_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_NB_TrueFalse_list)->tp_name), 0))) __PYX_ERR(0, 1147, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1143
- *     for list_of_atoms in atomic_grid.values():
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           ,             # <<<<<<<<<<<<<<
- *                                                                                                                          atoms                   ,
- *                                                                                                                          bonds_pair_of_indices   ,
- */
-    __pyx_t_3 = __pyx_f_6vModel_10cDistances__generate_connections_into_a_grid_element_2(((PyObject*)__pyx_v_list_of_atoms), ((PyObject*)__pyx_v_atoms), ((PyObject*)__pyx_v_bonds_pair_of_indices), ((PyObject*)__pyx_v_bonds_full_indices), ((PyObject*)__pyx_v_NB_TrueFalse_list), 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (likely(__pyx_t_3 != Py_None)) {
-      PyObject* sequence = __pyx_t_3;
-      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
-      if (unlikely(size != 4)) {
-        if (size > 4) __Pyx_RaiseTooManyValuesError(4);
-        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 1143, __pyx_L1_error)
-      }
-      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
-      __pyx_t_8 = PyTuple_GET_ITEM(sequence, 2); 
-      __pyx_t_9 = PyTuple_GET_ITEM(sequence, 3); 
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_8);
-      __Pyx_INCREF(__pyx_t_9);
-      #else
-      {
-        Py_ssize_t i;
-        PyObject** temps[4] = {&__pyx_t_2,&__pyx_t_7,&__pyx_t_8,&__pyx_t_9};
-        for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 1143, __pyx_L1_error)
-          __Pyx_GOTREF(item);
-          *(temps[i]) = item;
-        }
-      }
-      #endif
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 1143, __pyx_L1_error)
-    }
-    __Pyx_DECREF_SET(__pyx_v_atoms, __pyx_t_2);
-    __pyx_t_2 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_full_indices, __pyx_t_7);
-    __pyx_t_7 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_pair_of_indices, __pyx_t_8);
-    __pyx_t_8 = 0;
-    __Pyx_DECREF_SET(__pyx_v_NB_TrueFalse_list, __pyx_t_9);
-    __pyx_t_9 = 0;
-
-    /* "vModel/cDistances.pyx":1141
- * 
- *     #'''
- *     for list_of_atoms in atomic_grid.values():             # <<<<<<<<<<<<<<
- *         #print (len(atoms))
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_into_a_grid_element_2( list_of_atoms           ,
- */
-  }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":1150
- *     #'''
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:             # <<<<<<<<<<<<<<
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],
- */
-  if (unlikely(__pyx_v_pairs_of_grid_elements == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 1150, __pyx_L1_error)
-  }
-  __pyx_t_1 = __pyx_v_pairs_of_grid_elements; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
-  for (;;) {
-    if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
+    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 1150, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 215, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1150, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     #endif
-    __Pyx_XDECREF_SET(__pyx_v_pair_of_grid_elements, __pyx_t_3);
-    __pyx_t_3 = 0;
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 215, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_atom_idx_i = __pyx_t_5;
+    __pyx_v_i = __pyx_t_2;
+    __pyx_t_2 = (__pyx_t_2 + 1);
 
-    /* "vModel/cDistances.pyx":1151
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],             # <<<<<<<<<<<<<<
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,
- */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_pair_of_grid_elements, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1151, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(PyList_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 1151, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1152
- *     for pair_of_grid_elements in pairs_of_grid_elements:
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],             # <<<<<<<<<<<<<<
- *                                                                                                                           atoms                   ,
- *                                                                                                                           bonds_pair_of_indices   ,
- */
-    __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_pair_of_grid_elements, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1152, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    if (!(likely(PyList_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 1152, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1153
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,             # <<<<<<<<<<<<<<
- *                                                                                                                           bonds_pair_of_indices   ,
- *                                                                                                                           bonds_full_indices      ,
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_atoms))||((__pyx_v_atoms) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atoms)->tp_name), 0))) __PYX_ERR(0, 1153, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1154
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,
- *                                                                                                                           bonds_pair_of_indices   ,             # <<<<<<<<<<<<<<
- *                                                                                                                           bonds_full_indices      ,
- *                                                                                                                           NB_TrueFalse_list           )
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_pair_of_indices))||((__pyx_v_bonds_pair_of_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_pair_of_indices)->tp_name), 0))) __PYX_ERR(0, 1154, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1155
- *                                                                                                                           atoms                   ,
- *                                                                                                                           bonds_pair_of_indices   ,
- *                                                                                                                           bonds_full_indices      ,             # <<<<<<<<<<<<<<
- *                                                                                                                           NB_TrueFalse_list           )
- *     #'''
- */
-    if (!(likely(PyList_CheckExact(__pyx_v_bonds_full_indices))||((__pyx_v_bonds_full_indices) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_bonds_full_indices)->tp_name), 0))) __PYX_ERR(0, 1155, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1156
- *                                                                                                                           bonds_pair_of_indices   ,
- *                                                                                                                           bonds_full_indices      ,
- *                                                                                                                           NB_TrueFalse_list           )             # <<<<<<<<<<<<<<
- *     #'''
+    /* "vModel/cDistances.pyx":216
  * 
+ *     for i, atom_idx_i in enumerate(list_of_atoms[:-1]):
+ *         for atom_idx_j in list_of_atoms[i:]:             # <<<<<<<<<<<<<<
+ *             if atom_idx_i == atom_idx_j :
+ *                 pass
  */
-    if (!(likely(PyList_CheckExact(__pyx_v_NB_TrueFalse_list))||((__pyx_v_NB_TrueFalse_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_NB_TrueFalse_list)->tp_name), 0))) __PYX_ERR(0, 1156, __pyx_L1_error)
-
-    /* "vModel/cDistances.pyx":1151
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],             # <<<<<<<<<<<<<<
- *                                                                                                                           pair_of_grid_elements[1],
- *                                                                                                                           atoms                   ,
- */
-    __pyx_t_8 = __pyx_f_6vModel_10cDistances__generate_connections_between_grid_elements_2(((PyObject*)__pyx_t_3), ((PyObject*)__pyx_t_9), ((PyObject*)__pyx_v_atoms), ((PyObject*)__pyx_v_bonds_pair_of_indices), ((PyObject*)__pyx_v_bonds_full_indices), ((PyObject*)__pyx_v_NB_TrueFalse_list), 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1151, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (likely(__pyx_t_8 != Py_None)) {
-      PyObject* sequence = __pyx_t_8;
-      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
-      if (unlikely(size != 4)) {
-        if (size > 4) __Pyx_RaiseTooManyValuesError(4);
-        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 1151, __pyx_L1_error)
-      }
+    if (unlikely(__pyx_v_list_of_atoms == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 216, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_PyList_GetSlice(__pyx_v_list_of_atoms, __pyx_v_i, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __pyx_t_1; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    for (;;) {
+      if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_9 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
-      __pyx_t_7 = PyTuple_GET_ITEM(sequence, 2); 
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 3); 
-      __Pyx_INCREF(__pyx_t_9);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_2);
+      __pyx_t_1 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
       #else
-      {
-        Py_ssize_t i;
-        PyObject** temps[4] = {&__pyx_t_9,&__pyx_t_3,&__pyx_t_7,&__pyx_t_2};
-        for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 1151, __pyx_L1_error)
-          __Pyx_GOTREF(item);
-          *(temps[i]) = item;
-        }
-      }
+      __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
       #endif
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 1151, __pyx_L1_error)
-    }
-    __Pyx_DECREF_SET(__pyx_v_atoms, __pyx_t_9);
-    __pyx_t_9 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_full_indices, __pyx_t_3);
-    __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_bonds_pair_of_indices, __pyx_t_7);
-    __pyx_t_7 = 0;
-    __Pyx_DECREF_SET(__pyx_v_NB_TrueFalse_list, __pyx_t_2);
-    __pyx_t_2 = 0;
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_v_atom_idx_j = __pyx_t_5;
 
-    /* "vModel/cDistances.pyx":1150
- *     #'''
- *     #'''
- *     for pair_of_grid_elements in pairs_of_grid_elements:             # <<<<<<<<<<<<<<
- *         atoms, bonds_full_indices, bonds_pair_of_indices, NB_TrueFalse_list = _generate_connections_between_grid_elements_2(pair_of_grid_elements[0],
- *                                                                                                                           pair_of_grid_elements[1],
+      /* "vModel/cDistances.pyx":217
+ *     for i, atom_idx_i in enumerate(list_of_atoms[:-1]):
+ *         for atom_idx_j in list_of_atoms[i:]:
+ *             if atom_idx_i == atom_idx_j :             # <<<<<<<<<<<<<<
+ *                 pass
+ *             else:
+ */
+      __pyx_t_8 = ((__pyx_v_atom_idx_i == __pyx_v_atom_idx_j) != 0);
+      if (__pyx_t_8) {
+        goto __pyx_L7;
+      }
+
+      /* "vModel/cDistances.pyx":221
+ *             else:
+ * 
+ *                 r_ij            = calculate_sqrt_distance(atom_idx_i, atom_idx_j, coords)             # <<<<<<<<<<<<<<
+ *                 cov_rad_ij_sqrt = ( (cov_rad[atom_idx_i] + cov_rad[atom_idx_j] )**2)*1.4
+ * 
+ */
+      /*else*/ {
+        __pyx_v_r_ij = __pyx_f_6vModel_10cDistances_calculate_sqrt_distance(__pyx_v_atom_idx_i, __pyx_v_atom_idx_j, __pyx_v_coords, 0);
+
+        /* "vModel/cDistances.pyx":222
+ * 
+ *                 r_ij            = calculate_sqrt_distance(atom_idx_i, atom_idx_j, coords)
+ *                 cov_rad_ij_sqrt = ( (cov_rad[atom_idx_i] + cov_rad[atom_idx_j] )**2)*1.4             # <<<<<<<<<<<<<<
+ * 
+ *                 #print (atom_idx_i, atom_idx_j,cov_rad[atom_idx_j],cov_rad[atom_idx_j] , r_ij, cov_rad_ij_sqrt)
+ */
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_cov_rad, __pyx_v_atom_idx_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_cov_rad, __pyx_v_atom_idx_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 222, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_10 = PyNumber_Add(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 222, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __pyx_t_9 = PyNumber_Power(__pyx_t_10, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 222, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_t_10 = PyNumber_Multiply(__pyx_t_9, __pyx_float_1_4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 222, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 222, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_v_cov_rad_ij_sqrt = __pyx_t_11;
+
+        /* "vModel/cDistances.pyx":225
+ * 
+ *                 #print (atom_idx_i, atom_idx_j,cov_rad[atom_idx_j],cov_rad[atom_idx_j] , r_ij, cov_rad_ij_sqrt)
+ *                 if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
+ *                     pass
+ *                     #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ */
+        __pyx_t_8 = ((__pyx_v_r_ij <= __pyx_v_cov_rad_ij_sqrt) != 0);
+        if (__pyx_t_8) {
+
+          /* "vModel/cDistances.pyx":228
+ *                     pass
+ *                     #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ *                     bonds_pair_of_indexes.append(atom_idx_i)             # <<<<<<<<<<<<<<
+ *                     bonds_pair_of_indexes.append(atom_idx_j)
+ *                 else:
+ */
+          __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_atom_idx_i); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 228, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_10);
+          __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indexes, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 228, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+          /* "vModel/cDistances.pyx":229
+ *                     #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ *                     bonds_pair_of_indexes.append(atom_idx_i)
+ *                     bonds_pair_of_indexes.append(atom_idx_j)             # <<<<<<<<<<<<<<
+ *                 else:
+ *                     pass
+ */
+          __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_atom_idx_j); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 229, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_10);
+          __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indexes, __pyx_t_10); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 229, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+          /* "vModel/cDistances.pyx":225
+ * 
+ *                 #print (atom_idx_i, atom_idx_j,cov_rad[atom_idx_j],cov_rad[atom_idx_j] , r_ij, cov_rad_ij_sqrt)
+ *                 if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
+ *                     pass
+ *                     #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ */
+          goto __pyx_L8;
+        }
+
+        /* "vModel/cDistances.pyx":231
+ *                     bonds_pair_of_indexes.append(atom_idx_j)
+ *                 else:
+ *                     pass             # <<<<<<<<<<<<<<
+ * 
+ *     return bonds_pair_of_indexes
+ */
+        /*else*/ {
+        }
+        __pyx_L8:;
+      }
+      __pyx_L7:;
+
+      /* "vModel/cDistances.pyx":216
+ * 
+ *     for i, atom_idx_i in enumerate(list_of_atoms[:-1]):
+ *         for atom_idx_j in list_of_atoms[i:]:             # <<<<<<<<<<<<<<
+ *             if atom_idx_i == atom_idx_j :
+ *                 pass
+ */
+    }
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "vModel/cDistances.pyx":215
+ * 
+ * 
+ *     for i, atom_idx_i in enumerate(list_of_atoms[:-1]):             # <<<<<<<<<<<<<<
+ *         for atom_idx_j in list_of_atoms[i:]:
+ *             if atom_idx_i == atom_idx_j :
  */
   }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/cDistances.pyx":1159
- *     #'''
+  /* "vModel/cDistances.pyx":233
+ *                     pass
  * 
- *     print ('Bonds                   :', len(bonds_pair_of_indices))             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
- */
-  __pyx_t_5 = PyObject_Length(__pyx_v_bonds_pair_of_indices); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1159, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1159, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1159, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_INCREF(__pyx_kp_s_Bonds);
-  __Pyx_GIVEREF(__pyx_kp_s_Bonds);
-  PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_kp_s_Bonds);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_1);
-  __pyx_t_1 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_8) < 0) __PYX_ERR(0, 1159, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-  /* "vModel/cDistances.pyx":1161
- *     print ('Bonds                   :', len(bonds_pair_of_indices))
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #             # <<<<<<<<<<<<<<
- *     print ('Bonds calcultation time : ', final - initial, '\n')    #
- *     #--------------------------------------------------------------#
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_8 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF_SET(__pyx_v_final, __pyx_t_8);
-  __pyx_t_8 = 0;
-
-  /* "vModel/cDistances.pyx":1162
- *     #--------------------------------------------------------------#
- *     final = time.time()                                            #
- *     print ('Bonds calcultation time : ', final - initial, '\n')    #             # <<<<<<<<<<<<<<
- *     #--------------------------------------------------------------#
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- */
-  __pyx_t_8 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_kp_s_Bonds_calcultation_time);
-  __Pyx_GIVEREF(__pyx_kp_s_Bonds_calcultation_time);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_s_Bonds_calcultation_time);
-  __Pyx_GIVEREF(__pyx_t_8);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_8);
-  __Pyx_INCREF(__pyx_kp_s_);
-  __Pyx_GIVEREF(__pyx_kp_s_);
-  PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_s_);
-  __pyx_t_8 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 1162, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":1171
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- *     '''
- *     NB_indices_list = _generete_NB_list_from_TrueFalse_list(NB_TrueFalse_list)             # <<<<<<<<<<<<<<
- *     print ('NB atoms                :', len(NB_indices_list))
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
- */
-  if (!(likely(PyList_CheckExact(__pyx_v_NB_TrueFalse_list))||((__pyx_v_NB_TrueFalse_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_NB_TrueFalse_list)->tp_name), 0))) __PYX_ERR(0, 1171, __pyx_L1_error)
-  __pyx_t_2 = __pyx_f_6vModel_10cDistances__generete_NB_list_from_TrueFalse_list(((PyObject*)__pyx_v_NB_TrueFalse_list), 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1171, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_NB_indices_list = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "vModel/cDistances.pyx":1172
- *     '''
- *     NB_indices_list = _generete_NB_list_from_TrueFalse_list(NB_TrueFalse_list)
- *     print ('NB atoms                :', len(NB_indices_list))             # <<<<<<<<<<<<<<
- *     #-----------------------------------------------------------------------------------------------------------------------------------------------
+ *     return bonds_pair_of_indexes             # <<<<<<<<<<<<<<
  * 
- */
-  __pyx_t_5 = PyObject_Length(__pyx_v_NB_indices_list); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1172, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1172, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1172, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_INCREF(__pyx_kp_s_NB_atoms);
-  __Pyx_GIVEREF(__pyx_kp_s_NB_atoms);
-  PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_kp_s_NB_atoms);
-  __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_2);
-  __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_8) < 0) __PYX_ERR(0, 1172, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-  /* "vModel/cDistances.pyx":1178
- *     #    print(atom)
  * 
- *     return bonds_full_indices, bonds_pair_of_indices, NB_indices_list             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1178, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_INCREF(__pyx_v_bonds_full_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_full_indices);
-  PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v_bonds_full_indices);
-  __Pyx_INCREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_GIVEREF(__pyx_v_bonds_pair_of_indices);
-  PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v_bonds_pair_of_indices);
-  __Pyx_INCREF(__pyx_v_NB_indices_list);
-  __Pyx_GIVEREF(__pyx_v_NB_indices_list);
-  PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_v_NB_indices_list);
-  __pyx_r = __pyx_t_8;
-  __pyx_t_8 = 0;
+  __Pyx_INCREF(__pyx_v_bonds_pair_of_indexes);
+  __pyx_r = __pyx_v_bonds_pair_of_indexes;
   goto __pyx_L0;
 
-  /* "vModel/cDistances.pyx":1086
- *     return atomic_grid
+  /* "vModel/cDistances.pyx":175
  * 
- * cpdef generete_full_NB_and_Bonded_lists_2(atoms = [], gridsize = 3, frame = 0):             # <<<<<<<<<<<<<<
- *     '''
- *     atoms = [] it's a list of atom objects
+ * 
+ * cpdef list ctype_get_connections_within_grid_element (list list_of_atoms, coords, cov_rad, double tolerance, gridsize):             # <<<<<<<<<<<<<<
+ *     """
+ *         Calculate the distances and bonds
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("vModel.cDistances.generete_full_NB_and_Bonded_lists_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_connections_within_grid_element", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_initial);
-  __Pyx_XDECREF(__pyx_v_bonds_full_indices);
-  __Pyx_XDECREF(__pyx_v_bonds_pair_of_indices);
-  __Pyx_XDECREF(__pyx_v_atomic_grid);
-  __Pyx_XDECREF(__pyx_v_pairs_of_grid_elements);
-  __Pyx_XDECREF(__pyx_v_NB_TrueFalse_list);
-  __Pyx_XDECREF(__pyx_v_final);
-  __Pyx_XDECREF(__pyx_v_list_of_atoms);
-  __Pyx_XDECREF(__pyx_v_pair_of_grid_elements);
-  __Pyx_XDECREF(__pyx_v_NB_indices_list);
-  __Pyx_XDECREF(__pyx_v_atoms);
+  __Pyx_XDECREF(__pyx_v_bonds_pair_of_indexes);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6vModel_10cDistances_21generete_full_NB_and_Bonded_lists_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6vModel_10cDistances_20generete_full_NB_and_Bonded_lists_2[] = "\n    atoms = [] it's a list of atom objects\n    \n    list element = [atom.index-1    ,    # 0\n                    atom.name       ,    # 1\n                    atom.cov_rad    ,    # 2\n                    np.array(coods) ,    # 3\n                    atom.resi       ,    # 4\n                    atom.resn       ,    # 5\n                    atom.chain      ,    # 6\n                    atom.symbol     ,    # 7\n                    []              ,    # 8\n                    gridpos         ]\n    \n    ";
-static PyObject *__pyx_pw_6vModel_10cDistances_21generete_full_NB_and_Bonded_lists_2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_atoms = 0;
+static PyObject *__pyx_pw_6vModel_10cDistances_5ctype_get_connections_within_grid_element(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6vModel_10cDistances_4ctype_get_connections_within_grid_element[] = "\n        Calculate the distances and bonds \n        between atoms within a single element \n        of the atomic grid\n        \n                  |-------|-------|-------|\n                  |       |       |       |\n                  |       |       |       |\n                  |       |       |       |\n                  |-------|-atoms-|-------|\n                  |       |       |       |\n                  |       | i<->j |       |\n                  |       |       |       |\n                  |-------|-------|-------|\n                  |       |       |       |\n                  |       |       |       |\n                  |       |       |       |\n                  |-------|-------|-------|\n    \n    \n    \n    atoms = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n            each elemte is a list contain required data.\n    \n    \n    bonds_pair_of_indexes [[a,b],[b,c], ...] where a and b are indices. \n    returns a list of pair of indices \"bonds_pair_of_indexes\"\n    \n    ";
+static PyObject *__pyx_pw_6vModel_10cDistances_5ctype_get_connections_within_grid_element(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_list_of_atoms = 0;
+  PyObject *__pyx_v_coords = 0;
+  PyObject *__pyx_v_cov_rad = 0;
+  double __pyx_v_tolerance;
   PyObject *__pyx_v_gridsize = 0;
-  PyObject *__pyx_v_frame = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generete_full_NB_and_Bonded_lists_2 (wrapper)", 0);
+  __Pyx_RefNannySetupContext("ctype_get_connections_within_grid_element (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_atoms,&__pyx_n_s_gridsize,&__pyx_n_s_frame,0};
-    PyObject* values[3] = {0,0,0};
-    values[0] = __pyx_k__2;
-    values[1] = ((PyObject *)__pyx_int_3);
-    values[2] = ((PyObject *)__pyx_int_0);
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_list_of_atoms,&__pyx_n_s_coords,&__pyx_n_s_cov_rad,&__pyx_n_s_tolerance,&__pyx_n_s_gridsize,0};
+    PyObject* values[5] = {0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         CYTHON_FALLTHROUGH;
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
@@ -8770,28 +2639,386 @@ static PyObject *__pyx_pw_6vModel_10cDistances_21generete_full_NB_and_Bonded_lis
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms);
-          if (value) { values[0] = value; kw_args--; }
-        }
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_list_of_atoms)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridsize);
-          if (value) { values[1] = value; kw_args--; }
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_coords)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_within_grid_element", 1, 5, 5, 1); __PYX_ERR(0, 175, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_frame);
-          if (value) { values[2] = value; kw_args--; }
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cov_rad)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_within_grid_element", 1, 5, 5, 2); __PYX_ERR(0, 175, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tolerance)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_within_grid_element", 1, 5, 5, 3); __PYX_ERR(0, 175, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridsize)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_within_grid_element", 1, 5, 5, 4); __PYX_ERR(0, 175, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generete_full_NB_and_Bonded_lists_2") < 0)) __PYX_ERR(0, 1086, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ctype_get_connections_within_grid_element") < 0)) __PYX_ERR(0, 175, __pyx_L3_error)
       }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
     } else {
-      switch (PyTuple_GET_SIZE(__pyx_args)) {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_list_of_atoms = ((PyObject*)values[0]);
+    __pyx_v_coords = values[1];
+    __pyx_v_cov_rad = values[2];
+    __pyx_v_tolerance = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_tolerance == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 175, __pyx_L3_error)
+    __pyx_v_gridsize = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("ctype_get_connections_within_grid_element", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 175, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_connections_within_grid_element", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_list_of_atoms), (&PyList_Type), 1, "list_of_atoms", 1))) __PYX_ERR(0, 175, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6vModel_10cDistances_4ctype_get_connections_within_grid_element(__pyx_self, __pyx_v_list_of_atoms, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_tolerance, __pyx_v_gridsize);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6vModel_10cDistances_4ctype_get_connections_within_grid_element(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_list_of_atoms, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, double __pyx_v_tolerance, PyObject *__pyx_v_gridsize) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("ctype_get_connections_within_grid_element", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6vModel_10cDistances_ctype_get_connections_within_grid_element(__pyx_v_list_of_atoms, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_tolerance, __pyx_v_gridsize, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_connections_within_grid_element", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vModel/cDistances.pyx":236
+ * 
+ * 
+ * cpdef list ctype_get_connections_between_grid_elements(list atomic_grid1,             # <<<<<<<<<<<<<<
+ *                                                        list atomic_grid2,
+ *                                                        coords,
+ */
+
+static PyObject *__pyx_pw_6vModel_10cDistances_7ctype_get_connections_between_grid_elements(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_get_connections_between_grid_elements(PyObject *__pyx_v_atomic_grid1, PyObject *__pyx_v_atomic_grid2, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, CYTHON_UNUSED double __pyx_v_tolerance, CYTHON_UNUSED PyObject *__pyx_v_gridsize, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  double __pyx_v_r_ij;
+  double __pyx_v_cov_rad_ij_sqrt;
+  int __pyx_v_atom_idx_i;
+  int __pyx_v_atom_idx_j;
+  PyObject *__pyx_v_bonds_pair_of_indexes = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  double __pyx_t_10;
+  int __pyx_t_11;
+  __Pyx_RefNannySetupContext("ctype_get_connections_between_grid_elements", 0);
+
+  /* "vModel/cDistances.pyx":249
+ * 
+ *     cpdef list bonds_pair_of_indexes
+ *     bonds_pair_of_indexes = []             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_bonds_pair_of_indexes = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":252
+ * 
+ * 
+ *     if atomic_grid1 == atomic_grid2:             # <<<<<<<<<<<<<<
+ *         pass
+ *     else:
+ */
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atomic_grid1, __pyx_v_atomic_grid2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 252, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_2) {
+    goto __pyx_L3;
+  }
+
+  /* "vModel/cDistances.pyx":255
+ *         pass
+ *     else:
+ *         for atom_idx_i in atomic_grid1:             # <<<<<<<<<<<<<<
+ *             #xyz       = atom_i[2]
+ *             #atom_ix   = xyz[0]
+ */
+  /*else*/ {
+    if (unlikely(__pyx_v_atomic_grid1 == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+      __PYX_ERR(0, 255, __pyx_L1_error)
+    }
+    __pyx_t_1 = __pyx_v_atomic_grid1; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
+    for (;;) {
+      if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 255, __pyx_L1_error)
+      #else
+      __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      #endif
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 255, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_v_atom_idx_i = __pyx_t_5;
+
+      /* "vModel/cDistances.pyx":263
+ *             #index_i   = atom_i[0]
+ * 
+ *             for atom_idx_j in atomic_grid2:             # <<<<<<<<<<<<<<
+ * 
+ *                 if atom_idx_i == atom_idx_j :
+ */
+      if (unlikely(__pyx_v_atomic_grid2 == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+        __PYX_ERR(0, 263, __pyx_L1_error)
+      }
+      __pyx_t_4 = __pyx_v_atomic_grid2; __Pyx_INCREF(__pyx_t_4); __pyx_t_6 = 0;
+      for (;;) {
+        if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_4)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_7); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+        #else
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        #endif
+        __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 263, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_v_atom_idx_j = __pyx_t_5;
+
+        /* "vModel/cDistances.pyx":265
+ *             for atom_idx_j in atomic_grid2:
+ * 
+ *                 if atom_idx_i == atom_idx_j :             # <<<<<<<<<<<<<<
+ *                     pass
+ *                 else:
+ */
+        __pyx_t_2 = ((__pyx_v_atom_idx_i == __pyx_v_atom_idx_j) != 0);
+        if (__pyx_t_2) {
+          goto __pyx_L8;
+        }
+
+        /* "vModel/cDistances.pyx":268
+ *                     pass
+ *                 else:
+ *                     r_ij            = calculate_sqrt_distance(atom_idx_i, atom_idx_j, coords)             # <<<<<<<<<<<<<<
+ *                     #cov_rad_ij_sqrt =  cov_rad[atom_idx_i] + cov_rad[atom_idx_j]
+ *                     cov_rad_ij_sqrt = ( (cov_rad[atom_idx_i] + cov_rad[atom_idx_j] )**2)*1.4
+ */
+        /*else*/ {
+          __pyx_v_r_ij = __pyx_f_6vModel_10cDistances_calculate_sqrt_distance(__pyx_v_atom_idx_i, __pyx_v_atom_idx_j, __pyx_v_coords, 0);
+
+          /* "vModel/cDistances.pyx":270
+ *                     r_ij            = calculate_sqrt_distance(atom_idx_i, atom_idx_j, coords)
+ *                     #cov_rad_ij_sqrt =  cov_rad[atom_idx_i] + cov_rad[atom_idx_j]
+ *                     cov_rad_ij_sqrt = ( (cov_rad[atom_idx_i] + cov_rad[atom_idx_j] )**2)*1.4             # <<<<<<<<<<<<<<
+ *                     #print (atom_idx_i, atom_idx_j,cov_rad[atom_idx_j],cov_rad[atom_idx_j] , r_ij, cov_rad_ij_sqrt)
+ *                     if r_ij <= cov_rad_ij_sqrt:
+ */
+          __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_cov_rad, __pyx_v_atom_idx_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_cov_rad, __pyx_v_atom_idx_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __pyx_t_8 = PyNumber_Power(__pyx_t_9, __pyx_int_2, Py_None); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+          __pyx_t_9 = PyNumber_Multiply(__pyx_t_8, __pyx_float_1_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 270, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+          __pyx_v_cov_rad_ij_sqrt = __pyx_t_10;
+
+          /* "vModel/cDistances.pyx":272
+ *                     cov_rad_ij_sqrt = ( (cov_rad[atom_idx_i] + cov_rad[atom_idx_j] )**2)*1.4
+ *                     #print (atom_idx_i, atom_idx_j,cov_rad[atom_idx_j],cov_rad[atom_idx_j] , r_ij, cov_rad_ij_sqrt)
+ *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
+ *                         #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ *                         bonds_pair_of_indexes.append(atom_idx_i )
+ */
+          __pyx_t_2 = ((__pyx_v_r_ij <= __pyx_v_cov_rad_ij_sqrt) != 0);
+          if (__pyx_t_2) {
+
+            /* "vModel/cDistances.pyx":274
+ *                     if r_ij <= cov_rad_ij_sqrt:
+ *                         #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ *                         bonds_pair_of_indexes.append(atom_idx_i )             # <<<<<<<<<<<<<<
+ *                         bonds_pair_of_indexes.append(atom_idx_j )
+ *                     else:
+ */
+            __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_atom_idx_i); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 274, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_9);
+            __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indexes, __pyx_t_9); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 274, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+            /* "vModel/cDistances.pyx":275
+ *                         #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ *                         bonds_pair_of_indexes.append(atom_idx_i )
+ *                         bonds_pair_of_indexes.append(atom_idx_j )             # <<<<<<<<<<<<<<
+ *                     else:
+ *                         pass
+ */
+            __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_atom_idx_j); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 275, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_9);
+            __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_bonds_pair_of_indexes, __pyx_t_9); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(0, 275, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+            /* "vModel/cDistances.pyx":272
+ *                     cov_rad_ij_sqrt = ( (cov_rad[atom_idx_i] + cov_rad[atom_idx_j] )**2)*1.4
+ *                     #print (atom_idx_i, atom_idx_j,cov_rad[atom_idx_j],cov_rad[atom_idx_j] , r_ij, cov_rad_ij_sqrt)
+ *                     if r_ij <= cov_rad_ij_sqrt:             # <<<<<<<<<<<<<<
+ *                         #bonds_pair_of_indexes.append([atom_idx_i , atom_idx_j])
+ *                         bonds_pair_of_indexes.append(atom_idx_i )
+ */
+            goto __pyx_L9;
+          }
+
+          /* "vModel/cDistances.pyx":277
+ *                         bonds_pair_of_indexes.append(atom_idx_j )
+ *                     else:
+ *                         pass             # <<<<<<<<<<<<<<
+ * 
+ *     return bonds_pair_of_indexes
+ */
+          /*else*/ {
+          }
+          __pyx_L9:;
+        }
+        __pyx_L8:;
+
+        /* "vModel/cDistances.pyx":263
+ *             #index_i   = atom_i[0]
+ * 
+ *             for atom_idx_j in atomic_grid2:             # <<<<<<<<<<<<<<
+ * 
+ *                 if atom_idx_i == atom_idx_j :
+ */
+      }
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+      /* "vModel/cDistances.pyx":255
+ *         pass
+ *     else:
+ *         for atom_idx_i in atomic_grid1:             # <<<<<<<<<<<<<<
+ *             #xyz       = atom_i[2]
+ *             #atom_ix   = xyz[0]
+ */
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+  __pyx_L3:;
+
+  /* "vModel/cDistances.pyx":279
+ *                         pass
+ * 
+ *     return bonds_pair_of_indexes             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_bonds_pair_of_indexes);
+  __pyx_r = __pyx_v_bonds_pair_of_indexes;
+  goto __pyx_L0;
+
+  /* "vModel/cDistances.pyx":236
+ * 
+ * 
+ * cpdef list ctype_get_connections_between_grid_elements(list atomic_grid1,             # <<<<<<<<<<<<<<
+ *                                                        list atomic_grid2,
+ *                                                        coords,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_connections_between_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_bonds_pair_of_indexes);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6vModel_10cDistances_7ctype_get_connections_between_grid_elements(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6vModel_10cDistances_7ctype_get_connections_between_grid_elements(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_atomic_grid1 = 0;
+  PyObject *__pyx_v_atomic_grid2 = 0;
+  PyObject *__pyx_v_coords = 0;
+  PyObject *__pyx_v_cov_rad = 0;
+  double __pyx_v_tolerance;
+  PyObject *__pyx_v_gridsize = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("ctype_get_connections_between_grid_elements (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_atomic_grid1,&__pyx_n_s_atomic_grid2,&__pyx_n_s_coords,&__pyx_n_s_cov_rad,&__pyx_n_s_tolerance,&__pyx_n_s_gridsize,0};
+    PyObject* values[6] = {0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         CYTHON_FALLTHROUGH;
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
@@ -8801,38 +3028,90 @@ static PyObject *__pyx_pw_6vModel_10cDistances_21generete_full_NB_and_Bonded_lis
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atomic_grid1)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atomic_grid2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_between_grid_elements", 1, 6, 6, 1); __PYX_ERR(0, 236, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_coords)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_between_grid_elements", 1, 6, 6, 2); __PYX_ERR(0, 236, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cov_rad)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_between_grid_elements", 1, 6, 6, 3); __PYX_ERR(0, 236, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tolerance)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_between_grid_elements", 1, 6, 6, 4); __PYX_ERR(0, 236, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridsize)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_connections_between_grid_elements", 1, 6, 6, 5); __PYX_ERR(0, 236, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ctype_get_connections_between_grid_elements") < 0)) __PYX_ERR(0, 236, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
     }
-    __pyx_v_atoms = values[0];
-    __pyx_v_gridsize = values[1];
-    __pyx_v_frame = values[2];
+    __pyx_v_atomic_grid1 = ((PyObject*)values[0]);
+    __pyx_v_atomic_grid2 = ((PyObject*)values[1]);
+    __pyx_v_coords = values[2];
+    __pyx_v_cov_rad = values[3];
+    __pyx_v_tolerance = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_tolerance == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 240, __pyx_L3_error)
+    __pyx_v_gridsize = values[5];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generete_full_NB_and_Bonded_lists_2", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1086, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ctype_get_connections_between_grid_elements", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 236, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("vModel.cDistances.generete_full_NB_and_Bonded_lists_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_connections_between_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6vModel_10cDistances_20generete_full_NB_and_Bonded_lists_2(__pyx_self, __pyx_v_atoms, __pyx_v_gridsize, __pyx_v_frame);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atomic_grid1), (&PyList_Type), 1, "atomic_grid1", 1))) __PYX_ERR(0, 236, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_atomic_grid2), (&PyList_Type), 1, "atomic_grid2", 1))) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6vModel_10cDistances_6ctype_get_connections_between_grid_elements(__pyx_self, __pyx_v_atomic_grid1, __pyx_v_atomic_grid2, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_tolerance, __pyx_v_gridsize);
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vModel_10cDistances_20generete_full_NB_and_Bonded_lists_2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atoms, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_frame) {
+static PyObject *__pyx_pf_6vModel_10cDistances_6ctype_get_connections_between_grid_elements(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_atomic_grid1, PyObject *__pyx_v_atomic_grid2, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, double __pyx_v_tolerance, PyObject *__pyx_v_gridsize) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2 __pyx_t_2;
-  __Pyx_RefNannySetupContext("generete_full_NB_and_Bonded_lists_2", 0);
+  __Pyx_RefNannySetupContext("ctype_get_connections_between_grid_elements", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2.__pyx_n = 3;
-  __pyx_t_2.atoms = __pyx_v_atoms;
-  __pyx_t_2.gridsize = __pyx_v_gridsize;
-  __pyx_t_2.frame = __pyx_v_frame;
-  __pyx_t_1 = __pyx_f_6vModel_10cDistances_generete_full_NB_and_Bonded_lists_2(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1086, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6vModel_10cDistances_ctype_get_connections_between_grid_elements(__pyx_v_atomic_grid1, __pyx_v_atomic_grid2, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_tolerance, __pyx_v_gridsize, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8841,7 +3120,877 @@ static PyObject *__pyx_pf_6vModel_10cDistances_20generete_full_NB_and_Bonded_lis
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("vModel.cDistances.generete_full_NB_and_Bonded_lists_2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_connections_between_grid_elements", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vModel/cDistances.pyx":282
+ * 
+ * 
+ * cpdef dict ctype_build_the_atomic_grid ( list indexes     ,             # <<<<<<<<<<<<<<
+ *                                          list gridpos_list):
+ *     cpdef int atom
+ */
+
+static PyObject *__pyx_pw_6vModel_10cDistances_9ctype_build_the_atomic_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_build_the_atomic_grid(PyObject *__pyx_v_indexes, PyObject *__pyx_v_gridpos_list, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  int __pyx_v_atom;
+  PyObject *__pyx_v_atomic_grid = NULL;
+  PyObject *__pyx_v_grid_pos = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  __Pyx_RefNannySetupContext("ctype_build_the_atomic_grid", 0);
+
+  /* "vModel/cDistances.pyx":286
+ *     cpdef int atom
+ * 
+ *     atomic_grid = {}             # <<<<<<<<<<<<<<
+ * 
+ *     for atom, grid_pos in enumerate(gridpos_list):
+ */
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_atomic_grid = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":288
+ *     atomic_grid = {}
+ * 
+ *     for atom, grid_pos in enumerate(gridpos_list):             # <<<<<<<<<<<<<<
+ *         if grid_pos in atomic_grid:
+ *             atomic_grid[grid_pos].append(indexes[atom])
+ */
+  __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_v_gridpos_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
+  for (;;) {
+    if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 288, __pyx_L1_error)
+    #else
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 288, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    #endif
+    __Pyx_XDECREF_SET(__pyx_v_grid_pos, __pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_v_atom = __pyx_t_2;
+    __pyx_t_2 = (__pyx_t_2 + 1);
+
+    /* "vModel/cDistances.pyx":289
+ * 
+ *     for atom, grid_pos in enumerate(gridpos_list):
+ *         if grid_pos in atomic_grid:             # <<<<<<<<<<<<<<
+ *             atomic_grid[grid_pos].append(indexes[atom])
+ *         else:
+ */
+    __pyx_t_5 = (__Pyx_PyDict_ContainsTF(__pyx_v_grid_pos, __pyx_v_atomic_grid, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 289, __pyx_L1_error)
+    __pyx_t_6 = (__pyx_t_5 != 0);
+    if (__pyx_t_6) {
+
+      /* "vModel/cDistances.pyx":290
+ *     for atom, grid_pos in enumerate(gridpos_list):
+ *         if grid_pos in atomic_grid:
+ *             atomic_grid[grid_pos].append(indexes[atom])             # <<<<<<<<<<<<<<
+ *         else:
+ * 
+ */
+      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_v_grid_pos); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 290, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (unlikely(__pyx_v_indexes == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 290, __pyx_L1_error)
+      }
+      __pyx_t_7 = __Pyx_GetItemInt_List(__pyx_v_indexes, __pyx_v_atom, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 290, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 290, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "vModel/cDistances.pyx":289
+ * 
+ *     for atom, grid_pos in enumerate(gridpos_list):
+ *         if grid_pos in atomic_grid:             # <<<<<<<<<<<<<<
+ *             atomic_grid[grid_pos].append(indexes[atom])
+ *         else:
+ */
+      goto __pyx_L5;
+    }
+
+    /* "vModel/cDistances.pyx":293
+ *         else:
+ * 
+ *             atomic_grid[grid_pos] = []             # <<<<<<<<<<<<<<
+ *             atomic_grid[grid_pos].append(indexes[atom])
+ * 
+ */
+    /*else*/ {
+      __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 293, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (unlikely(PyDict_SetItem(__pyx_v_atomic_grid, __pyx_v_grid_pos, __pyx_t_7) < 0)) __PYX_ERR(0, 293, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "vModel/cDistances.pyx":294
+ * 
+ *             atomic_grid[grid_pos] = []
+ *             atomic_grid[grid_pos].append(indexes[atom])             # <<<<<<<<<<<<<<
+ * 
+ *     return atomic_grid
+ */
+      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_v_grid_pos); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (unlikely(__pyx_v_indexes == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 294, __pyx_L1_error)
+      }
+      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_indexes, __pyx_v_atom, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_4); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    }
+    __pyx_L5:;
+
+    /* "vModel/cDistances.pyx":288
+ *     atomic_grid = {}
+ * 
+ *     for atom, grid_pos in enumerate(gridpos_list):             # <<<<<<<<<<<<<<
+ *         if grid_pos in atomic_grid:
+ *             atomic_grid[grid_pos].append(indexes[atom])
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":296
+ *             atomic_grid[grid_pos].append(indexes[atom])
+ * 
+ *     return atomic_grid             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_atomic_grid);
+  __pyx_r = __pyx_v_atomic_grid;
+  goto __pyx_L0;
+
+  /* "vModel/cDistances.pyx":282
+ * 
+ * 
+ * cpdef dict ctype_build_the_atomic_grid ( list indexes     ,             # <<<<<<<<<<<<<<
+ *                                          list gridpos_list):
+ *     cpdef int atom
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_build_the_atomic_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_atomic_grid);
+  __Pyx_XDECREF(__pyx_v_grid_pos);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6vModel_10cDistances_9ctype_build_the_atomic_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6vModel_10cDistances_9ctype_build_the_atomic_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_indexes = 0;
+  PyObject *__pyx_v_gridpos_list = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("ctype_build_the_atomic_grid (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_indexes,&__pyx_n_s_gridpos_list,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexes)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridpos_list)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_build_the_atomic_grid", 1, 2, 2, 1); __PYX_ERR(0, 282, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ctype_build_the_atomic_grid") < 0)) __PYX_ERR(0, 282, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_indexes = ((PyObject*)values[0]);
+    __pyx_v_gridpos_list = ((PyObject*)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("ctype_build_the_atomic_grid", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 282, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("vModel.cDistances.ctype_build_the_atomic_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_indexes), (&PyList_Type), 1, "indexes", 1))) __PYX_ERR(0, 282, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gridpos_list), (&PyList_Type), 1, "gridpos_list", 1))) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6vModel_10cDistances_8ctype_build_the_atomic_grid(__pyx_self, __pyx_v_indexes, __pyx_v_gridpos_list);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6vModel_10cDistances_8ctype_build_the_atomic_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexes, PyObject *__pyx_v_gridpos_list) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("ctype_build_the_atomic_grid", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6vModel_10cDistances_ctype_build_the_atomic_grid(__pyx_v_indexes, __pyx_v_gridpos_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 282, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_build_the_atomic_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vModel/cDistances.pyx":299
+ * 
+ * 
+ * cpdef list ctype_get_atomic_bonds_from_atomic_grids( list indexes,             # <<<<<<<<<<<<<<
+ *                                                       coords,
+ *                                                       cov_rad,
+ */
+
+static PyObject *__pyx_pw_6vModel_10cDistances_11ctype_get_atomic_bonds_from_atomic_grids(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6vModel_10cDistances_ctype_get_atomic_bonds_from_atomic_grids(PyObject *__pyx_v_indexes, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, PyObject *__pyx_v_gridpos_list, double __pyx_v_gridsize, double __pyx_v_maxbond, CYTHON_UNUSED int __pyx_skip_dispatch) {
+  double __pyx_v_tolerance;
+  PyObject *__pyx_v_atomic_grid = NULL;
+  PyObject *__pyx_v_grid_offset_full = NULL;
+  PyObject *__pyx_v_n = NULL;
+  PyObject *__pyx_v_bonds_pair_of_indexes = NULL;
+  PyObject *__pyx_v_element = NULL;
+  PyObject *__pyx_v_atomic_grid1 = NULL;
+  PyObject *__pyx_v_element1_bonds = NULL;
+  PyObject *__pyx_v_offset_element = NULL;
+  PyObject *__pyx_v_element2 = NULL;
+  PyObject *__pyx_v_element1_2_bonds = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  struct __pyx_opt_args_6vModel_10cDistances_calculate_grid_offset __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  Py_ssize_t __pyx_t_7;
+  int __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
+  int __pyx_t_13;
+  __Pyx_RefNannySetupContext("ctype_get_atomic_bonds_from_atomic_grids", 0);
+
+  /* "vModel/cDistances.pyx":311
+ *     #cpdef double maxbond
+ *     #maxbond   = 3.0
+ *     tolerance = 1.4             # <<<<<<<<<<<<<<
+ * 
+ *     atomic_grid = ctype_build_the_atomic_grid ( indexes     ,
+ */
+  __pyx_v_tolerance = 1.4;
+
+  /* "vModel/cDistances.pyx":313
+ *     tolerance = 1.4
+ * 
+ *     atomic_grid = ctype_build_the_atomic_grid ( indexes     ,             # <<<<<<<<<<<<<<
+ *                                                 gridpos_list)
+ * 
+ */
+  __pyx_t_1 = __pyx_f_6vModel_10cDistances_ctype_build_the_atomic_grid(__pyx_v_indexes, __pyx_v_gridpos_list, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_atomic_grid = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "vModel/cDistances.pyx":316
+ *                                                 gridpos_list)
+ * 
+ *     grid_offset_full = calculate_grid_offset(gridsize, maxbond)             # <<<<<<<<<<<<<<
+ * 
+ *     #print ('gridsize',  gridsize )
+ */
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_gridsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_maxbond); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4.__pyx_n = 1;
+  __pyx_t_4.maxbond = __pyx_t_2;
+  __pyx_t_3 = __pyx_f_6vModel_10cDistances_calculate_grid_offset(__pyx_t_1, 0, &__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_grid_offset_full = ((PyObject*)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "vModel/cDistances.pyx":323
+ *     #print ('grid_offset_full', len(grid_offset_full))
+ * 
+ *     n = 0             # <<<<<<<<<<<<<<
+ *     bonds_pair_of_indexes = []
+ * 
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_n = __pyx_int_0;
+
+  /* "vModel/cDistances.pyx":324
+ * 
+ *     n = 0
+ *     bonds_pair_of_indexes = []             # <<<<<<<<<<<<<<
+ * 
+ *     for element in atomic_grid.keys():
+ */
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_v_bonds_pair_of_indexes = ((PyObject*)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "vModel/cDistances.pyx":326
+ *     bonds_pair_of_indexes = []
+ * 
+ *     for element in atomic_grid.keys():             # <<<<<<<<<<<<<<
+ * 
+ *         atomic_grid1   = atomic_grid[element]
+ */
+  if (unlikely(__pyx_v_atomic_grid == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "keys");
+    __PYX_ERR(0, 326, __pyx_L1_error)
+  }
+  __pyx_t_3 = __Pyx_PyDict_Keys(__pyx_v_atomic_grid); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 326, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
+    __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_5 = 0;
+    __pyx_t_6 = NULL;
+  } else {
+    __pyx_t_5 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_6 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L1_error)
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_6)) {
+      if (likely(PyList_CheckExact(__pyx_t_2))) {
+        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 326, __pyx_L1_error)
+        #else
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 326, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        #endif
+      } else {
+        if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 326, __pyx_L1_error)
+        #else
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 326, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        #endif
+      }
+    } else {
+      __pyx_t_3 = __pyx_t_6(__pyx_t_2);
+      if (unlikely(!__pyx_t_3)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 326, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_3);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_element, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "vModel/cDistances.pyx":328
+ *     for element in atomic_grid.keys():
+ * 
+ *         atomic_grid1   = atomic_grid[element]             # <<<<<<<<<<<<<<
+ * 
+ *         #----------------------------------------------------------------------------------------#
+ */
+    if (unlikely(__pyx_v_atomic_grid == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 328, __pyx_L1_error)
+    }
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_v_element); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 328, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_XDECREF_SET(__pyx_v_atomic_grid1, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "vModel/cDistances.pyx":331
+ * 
+ *         #----------------------------------------------------------------------------------------#
+ *         if len(atomic_grid1) == 1:             # <<<<<<<<<<<<<<
+ *             pass
+ *         else:
+ */
+    __pyx_t_7 = PyObject_Length(__pyx_v_atomic_grid1); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 331, __pyx_L1_error)
+    __pyx_t_8 = ((__pyx_t_7 == 1) != 0);
+    if (__pyx_t_8) {
+      goto __pyx_L5;
+    }
+
+    /* "vModel/cDistances.pyx":334
+ *             pass
+ *         else:
+ *             pass             # <<<<<<<<<<<<<<
+ *             element1_bonds = ctype_get_connections_within_grid_element( atomic_grid1, coords, cov_rad, tolerance, gridsize)
+ *             bonds_pair_of_indexes += element1_bonds
+ */
+    /*else*/ {
+
+      /* "vModel/cDistances.pyx":335
+ *         else:
+ *             pass
+ *             element1_bonds = ctype_get_connections_within_grid_element( atomic_grid1, coords, cov_rad, tolerance, gridsize)             # <<<<<<<<<<<<<<
+ *             bonds_pair_of_indexes += element1_bonds
+ *         #----------------------------------------------------------------------------------------#
+ */
+      if (!(likely(PyList_CheckExact(__pyx_v_atomic_grid1))||((__pyx_v_atomic_grid1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atomic_grid1)->tp_name), 0))) __PYX_ERR(0, 335, __pyx_L1_error)
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_gridsize); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 335, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_1 = __pyx_f_6vModel_10cDistances_ctype_get_connections_within_grid_element(((PyObject*)__pyx_v_atomic_grid1), __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_tolerance, __pyx_t_3, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_element1_bonds, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
+
+      /* "vModel/cDistances.pyx":336
+ *             pass
+ *             element1_bonds = ctype_get_connections_within_grid_element( atomic_grid1, coords, cov_rad, tolerance, gridsize)
+ *             bonds_pair_of_indexes += element1_bonds             # <<<<<<<<<<<<<<
+ *         #----------------------------------------------------------------------------------------#
+ *         n+=1
+ */
+      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_bonds_pair_of_indexes, __pyx_v_element1_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 336, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF_SET(__pyx_v_bonds_pair_of_indexes, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
+    }
+    __pyx_L5:;
+
+    /* "vModel/cDistances.pyx":338
+ *             bonds_pair_of_indexes += element1_bonds
+ *         #----------------------------------------------------------------------------------------#
+ *         n+=1             # <<<<<<<<<<<<<<
+ *         #----------------------------------------------------------------------------------------#
+ *         for offset_element in  grid_offset_full:
+ */
+    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF_SET(__pyx_v_n, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "vModel/cDistances.pyx":340
+ *         n+=1
+ *         #----------------------------------------------------------------------------------------#
+ *         for offset_element in  grid_offset_full:             # <<<<<<<<<<<<<<
+ * 
+ *             element2  = (element[0]+offset_element[0],
+ */
+    if (unlikely(__pyx_v_grid_offset_full == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+      __PYX_ERR(0, 340, __pyx_L1_error)
+    }
+    __pyx_t_1 = __pyx_v_grid_offset_full; __Pyx_INCREF(__pyx_t_1); __pyx_t_7 = 0;
+    for (;;) {
+      if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_1)) break;
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
+      #else
+      __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      #endif
+      __Pyx_XDECREF_SET(__pyx_v_offset_element, __pyx_t_3);
+      __pyx_t_3 = 0;
+
+      /* "vModel/cDistances.pyx":342
+ *         for offset_element in  grid_offset_full:
+ * 
+ *             element2  = (element[0]+offset_element[0],             # <<<<<<<<<<<<<<
+ *                          element[1]+offset_element[1],
+ *                          element[2]+offset_element[2])
+ */
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_offset_element, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_10 = PyNumber_Add(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+      /* "vModel/cDistances.pyx":343
+ * 
+ *             element2  = (element[0]+offset_element[0],
+ *                          element[1]+offset_element[1],             # <<<<<<<<<<<<<<
+ *                          element[2]+offset_element[2])
+ * 
+ */
+      __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 343, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_offset_element, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 343, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_11 = PyNumber_Add(__pyx_t_9, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 343, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "vModel/cDistances.pyx":344
+ *             element2  = (element[0]+offset_element[0],
+ *                          element[1]+offset_element[1],
+ *                          element[2]+offset_element[2])             # <<<<<<<<<<<<<<
+ * 
+ *             if element2 in atomic_grid:
+ */
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_offset_element, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_12 = PyNumber_Add(__pyx_t_3, __pyx_t_9); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 344, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_12);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+      /* "vModel/cDistances.pyx":342
+ *         for offset_element in  grid_offset_full:
+ * 
+ *             element2  = (element[0]+offset_element[0],             # <<<<<<<<<<<<<<
+ *                          element[1]+offset_element[1],
+ *                          element[2]+offset_element[2])
+ */
+      __pyx_t_9 = PyTuple_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_GIVEREF(__pyx_t_10);
+      PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_10);
+      __Pyx_GIVEREF(__pyx_t_11);
+      PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_11);
+      __Pyx_GIVEREF(__pyx_t_12);
+      PyTuple_SET_ITEM(__pyx_t_9, 2, __pyx_t_12);
+      __pyx_t_10 = 0;
+      __pyx_t_11 = 0;
+      __pyx_t_12 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_element2, ((PyObject*)__pyx_t_9));
+      __pyx_t_9 = 0;
+
+      /* "vModel/cDistances.pyx":346
+ *                          element[2]+offset_element[2])
+ * 
+ *             if element2 in atomic_grid:             # <<<<<<<<<<<<<<
+ *                 n+=1
+ *                 pass
+ */
+      if (unlikely(__pyx_v_atomic_grid == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+        __PYX_ERR(0, 346, __pyx_L1_error)
+      }
+      __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_v_element2, __pyx_v_atomic_grid, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_13 = (__pyx_t_8 != 0);
+      if (__pyx_t_13) {
+
+        /* "vModel/cDistances.pyx":347
+ * 
+ *             if element2 in atomic_grid:
+ *                 n+=1             # <<<<<<<<<<<<<<
+ *                 pass
+ *                 element1_2_bonds = ctype_get_connections_between_grid_elements(atomic_grid1, atomic_grid[element2], coords, cov_rad, tolerance, gridsize)
+ */
+        __pyx_t_9 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __Pyx_DECREF_SET(__pyx_v_n, __pyx_t_9);
+        __pyx_t_9 = 0;
+
+        /* "vModel/cDistances.pyx":349
+ *                 n+=1
+ *                 pass
+ *                 element1_2_bonds = ctype_get_connections_between_grid_elements(atomic_grid1, atomic_grid[element2], coords, cov_rad, tolerance, gridsize)             # <<<<<<<<<<<<<<
+ *                 bonds_pair_of_indexes += element1_2_bonds
+ *         #----------------------------------------------------------------------------------------#
+ */
+        if (!(likely(PyList_CheckExact(__pyx_v_atomic_grid1))||((__pyx_v_atomic_grid1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_atomic_grid1)->tp_name), 0))) __PYX_ERR(0, 349, __pyx_L1_error)
+        if (unlikely(__pyx_v_atomic_grid == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 349, __pyx_L1_error)
+        }
+        __pyx_t_9 = __Pyx_PyDict_GetItem(__pyx_v_atomic_grid, __pyx_v_element2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        if (!(likely(PyList_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 349, __pyx_L1_error)
+        __pyx_t_12 = PyFloat_FromDouble(__pyx_v_gridsize); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_11 = __pyx_f_6vModel_10cDistances_ctype_get_connections_between_grid_elements(((PyObject*)__pyx_v_atomic_grid1), ((PyObject*)__pyx_t_9), __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_tolerance, __pyx_t_12, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_11);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_XDECREF_SET(__pyx_v_element1_2_bonds, ((PyObject*)__pyx_t_11));
+        __pyx_t_11 = 0;
+
+        /* "vModel/cDistances.pyx":350
+ *                 pass
+ *                 element1_2_bonds = ctype_get_connections_between_grid_elements(atomic_grid1, atomic_grid[element2], coords, cov_rad, tolerance, gridsize)
+ *                 bonds_pair_of_indexes += element1_2_bonds             # <<<<<<<<<<<<<<
+ *         #----------------------------------------------------------------------------------------#
+ *     #print('n interaction', n)
+ */
+        __pyx_t_11 = PyNumber_InPlaceAdd(__pyx_v_bonds_pair_of_indexes, __pyx_v_element1_2_bonds); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 350, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_11);
+        __Pyx_DECREF_SET(__pyx_v_bonds_pair_of_indexes, ((PyObject*)__pyx_t_11));
+        __pyx_t_11 = 0;
+
+        /* "vModel/cDistances.pyx":346
+ *                          element[2]+offset_element[2])
+ * 
+ *             if element2 in atomic_grid:             # <<<<<<<<<<<<<<
+ *                 n+=1
+ *                 pass
+ */
+      }
+
+      /* "vModel/cDistances.pyx":340
+ *         n+=1
+ *         #----------------------------------------------------------------------------------------#
+ *         for offset_element in  grid_offset_full:             # <<<<<<<<<<<<<<
+ * 
+ *             element2  = (element[0]+offset_element[0],
+ */
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "vModel/cDistances.pyx":326
+ *     bonds_pair_of_indexes = []
+ * 
+ *     for element in atomic_grid.keys():             # <<<<<<<<<<<<<<
+ * 
+ *         atomic_grid1   = atomic_grid[element]
+ */
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "vModel/cDistances.pyx":353
+ *         #----------------------------------------------------------------------------------------#
+ *     #print('n interaction', n)
+ *     return bonds_pair_of_indexes             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_bonds_pair_of_indexes);
+  __pyx_r = __pyx_v_bonds_pair_of_indexes;
+  goto __pyx_L0;
+
+  /* "vModel/cDistances.pyx":299
+ * 
+ * 
+ * cpdef list ctype_get_atomic_bonds_from_atomic_grids( list indexes,             # <<<<<<<<<<<<<<
+ *                                                       coords,
+ *                                                       cov_rad,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_atomic_bonds_from_atomic_grids", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_atomic_grid);
+  __Pyx_XDECREF(__pyx_v_grid_offset_full);
+  __Pyx_XDECREF(__pyx_v_n);
+  __Pyx_XDECREF(__pyx_v_bonds_pair_of_indexes);
+  __Pyx_XDECREF(__pyx_v_element);
+  __Pyx_XDECREF(__pyx_v_atomic_grid1);
+  __Pyx_XDECREF(__pyx_v_element1_bonds);
+  __Pyx_XDECREF(__pyx_v_offset_element);
+  __Pyx_XDECREF(__pyx_v_element2);
+  __Pyx_XDECREF(__pyx_v_element1_2_bonds);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6vModel_10cDistances_11ctype_get_atomic_bonds_from_atomic_grids(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6vModel_10cDistances_11ctype_get_atomic_bonds_from_atomic_grids(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_indexes = 0;
+  PyObject *__pyx_v_coords = 0;
+  PyObject *__pyx_v_cov_rad = 0;
+  PyObject *__pyx_v_gridpos_list = 0;
+  double __pyx_v_gridsize;
+  double __pyx_v_maxbond;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("ctype_get_atomic_bonds_from_atomic_grids (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_indexes,&__pyx_n_s_coords,&__pyx_n_s_cov_rad,&__pyx_n_s_gridpos_list,&__pyx_n_s_gridsize,&__pyx_n_s_maxbond,0};
+    PyObject* values[6] = {0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexes)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_coords)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_atomic_bonds_from_atomic_grids", 1, 6, 6, 1); __PYX_ERR(0, 299, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cov_rad)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_atomic_bonds_from_atomic_grids", 1, 6, 6, 2); __PYX_ERR(0, 299, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridpos_list)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_atomic_bonds_from_atomic_grids", 1, 6, 6, 3); __PYX_ERR(0, 299, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gridsize)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_atomic_bonds_from_atomic_grids", 1, 6, 6, 4); __PYX_ERR(0, 299, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_maxbond)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ctype_get_atomic_bonds_from_atomic_grids", 1, 6, 6, 5); __PYX_ERR(0, 299, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ctype_get_atomic_bonds_from_atomic_grids") < 0)) __PYX_ERR(0, 299, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+    }
+    __pyx_v_indexes = ((PyObject*)values[0]);
+    __pyx_v_coords = values[1];
+    __pyx_v_cov_rad = values[2];
+    __pyx_v_gridpos_list = ((PyObject*)values[3]);
+    __pyx_v_gridsize = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_gridsize == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 303, __pyx_L3_error)
+    __pyx_v_maxbond = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_maxbond == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 304, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("ctype_get_atomic_bonds_from_atomic_grids", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 299, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_atomic_bonds_from_atomic_grids", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_indexes), (&PyList_Type), 1, "indexes", 1))) __PYX_ERR(0, 299, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gridpos_list), (&PyList_Type), 1, "gridpos_list", 1))) __PYX_ERR(0, 302, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6vModel_10cDistances_10ctype_get_atomic_bonds_from_atomic_grids(__pyx_self, __pyx_v_indexes, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_gridpos_list, __pyx_v_gridsize, __pyx_v_maxbond);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6vModel_10cDistances_10ctype_get_atomic_bonds_from_atomic_grids(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexes, PyObject *__pyx_v_coords, PyObject *__pyx_v_cov_rad, PyObject *__pyx_v_gridpos_list, double __pyx_v_gridsize, double __pyx_v_maxbond) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("ctype_get_atomic_bonds_from_atomic_grids", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6vModel_10cDistances_ctype_get_atomic_bonds_from_atomic_grids(__pyx_v_indexes, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_gridpos_list, __pyx_v_gridsize, __pyx_v_maxbond, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("vModel.cDistances.ctype_get_atomic_bonds_from_atomic_grids", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8850,17 +3999,12 @@ static PyObject *__pyx_pf_6vModel_10cDistances_20generete_full_NB_and_Bonded_lis
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"_determine_the_paired_atomic_grid_elements", (PyCFunction)__pyx_pw_6vModel_10cDistances_1_determine_the_paired_atomic_grid_elements, METH_O, __pyx_doc_6vModel_10cDistances__determine_the_paired_atomic_grid_elements},
-  {"_generate_connections_into_a_grid_element", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_3_generate_connections_into_a_grid_element, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_2_generate_connections_into_a_grid_element},
-  {"_generate_connections_between_grid_elements", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_5_generate_connections_between_grid_elements, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_4_generate_connections_between_grid_elements},
-  {"_build_the_atomic_grid", (PyCFunction)__pyx_pw_6vModel_10cDistances_7_build_the_atomic_grid, METH_O, __pyx_doc_6vModel_10cDistances_6_build_the_atomic_grid},
-  {"_generete_NB_list_from_TrueFalse_list", (PyCFunction)__pyx_pw_6vModel_10cDistances_9_generete_NB_list_from_TrueFalse_list, METH_O, 0},
-  {"generete_full_NB_and_Bonded_lists", (PyCFunction)__pyx_pw_6vModel_10cDistances_11generete_full_NB_and_Bonded_lists, METH_O, __pyx_doc_6vModel_10cDistances_10generete_full_NB_and_Bonded_lists},
-  {"_generate_connections_into_a_grid_element_2", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_13_generate_connections_into_a_grid_element_2, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_12_generate_connections_into_a_grid_element_2},
-  {"_generate_connections_between_grid_elements_2", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_15_generate_connections_between_grid_elements_2, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_14_generate_connections_between_grid_elements_2},
-  {"_determine_the_paired_atomic_grid_elements_2", (PyCFunction)__pyx_pw_6vModel_10cDistances_17_determine_the_paired_atomic_grid_elements_2, METH_O, __pyx_doc_6vModel_10cDistances_16_determine_the_paired_atomic_grid_elements_2},
-  {"_build_the_atomic_grid_2", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_19_build_the_atomic_grid_2, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_18_build_the_atomic_grid_2},
-  {"generete_full_NB_and_Bonded_lists_2", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_21generete_full_NB_and_Bonded_lists_2, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_20generete_full_NB_and_Bonded_lists_2},
+  {"calculate_grid_offset", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_1calculate_grid_offset, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_calculate_grid_offset},
+  {"calculate_sqrt_distance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_3calculate_sqrt_distance, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_2calculate_sqrt_distance},
+  {"ctype_get_connections_within_grid_element", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_5ctype_get_connections_within_grid_element, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_10cDistances_4ctype_get_connections_within_grid_element},
+  {"ctype_get_connections_between_grid_elements", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_7ctype_get_connections_between_grid_elements, METH_VARARGS|METH_KEYWORDS, 0},
+  {"ctype_build_the_atomic_grid", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_9ctype_build_the_atomic_grid, METH_VARARGS|METH_KEYWORDS, 0},
+  {"ctype_get_atomic_bonds_from_atomic_grids", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_10cDistances_11ctype_get_atomic_bonds_from_atomic_grids, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -8906,47 +4050,39 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_kp_s_Bonds, __pyx_k_Bonds, sizeof(__pyx_k_Bonds), 0, 0, 1, 0},
-  {&__pyx_kp_s_Bonds_calcultation_time, __pyx_k_Bonds_calcultation_time, sizeof(__pyx_k_Bonds_calcultation_time), 0, 0, 1, 0},
-  {&__pyx_kp_s_NB_atoms, __pyx_k_NB_atoms, sizeof(__pyx_k_NB_atoms), 0, 0, 1, 0},
-  {&__pyx_kp_s_Number_of_grid_elements, __pyx_k_Number_of_grid_elements, sizeof(__pyx_k_Number_of_grid_elements), 0, 0, 1, 0},
-  {&__pyx_kp_s_Pairs, __pyx_k_Pairs, sizeof(__pyx_k_Pairs), 0, 0, 1, 0},
-  {&__pyx_kp_s_Total_number_of_Atoms, __pyx_k_Total_number_of_Atoms, sizeof(__pyx_k_Total_number_of_Atoms), 0, 0, 1, 0},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
-  {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
-  {&__pyx_n_s_atoms, __pyx_k_atoms, sizeof(__pyx_k_atoms), 0, 0, 1, 1},
-  {&__pyx_n_s_bonds_full_indices, __pyx_k_bonds_full_indices, sizeof(__pyx_k_bonds_full_indices), 0, 0, 1, 1},
-  {&__pyx_n_s_bonds_pair_of_indices, __pyx_k_bonds_pair_of_indices, sizeof(__pyx_k_bonds_pair_of_indices), 0, 0, 1, 1},
-  {&__pyx_kp_s_building_grid_elements, __pyx_k_building_grid_elements, sizeof(__pyx_k_building_grid_elements), 0, 0, 1, 0},
+  {&__pyx_n_s_atomic_grid1, __pyx_k_atomic_grid1, sizeof(__pyx_k_atomic_grid1), 0, 0, 1, 1},
+  {&__pyx_n_s_atomic_grid2, __pyx_k_atomic_grid2, sizeof(__pyx_k_atomic_grid2), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
-  {&__pyx_n_s_frame, __pyx_k_frame, sizeof(__pyx_k_frame), 0, 0, 1, 1},
-  {&__pyx_n_s_get_grid_position, __pyx_k_get_grid_position, sizeof(__pyx_k_get_grid_position), 0, 0, 1, 1},
+  {&__pyx_n_s_coords, __pyx_k_coords, sizeof(__pyx_k_coords), 0, 0, 1, 1},
+  {&__pyx_n_s_cov_rad, __pyx_k_cov_rad, sizeof(__pyx_k_cov_rad), 0, 0, 1, 1},
+  {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
+  {&__pyx_n_s_gridpos_list, __pyx_k_gridpos_list, sizeof(__pyx_k_gridpos_list), 0, 0, 1, 1},
   {&__pyx_n_s_gridsize, __pyx_k_gridsize, sizeof(__pyx_k_gridsize), 0, 0, 1, 1},
+  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
+  {&__pyx_n_s_indexes, __pyx_k_indexes, sizeof(__pyx_k_indexes), 0, 0, 1, 1},
+  {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_keys, __pyx_k_keys, sizeof(__pyx_k_keys), 0, 0, 1, 1},
   {&__pyx_n_s_list_of_atoms, __pyx_k_list_of_atoms, sizeof(__pyx_k_list_of_atoms), 0, 0, 1, 1},
-  {&__pyx_n_s_lits_of_atoms1, __pyx_k_lits_of_atoms1, sizeof(__pyx_k_lits_of_atoms1), 0, 0, 1, 1},
-  {&__pyx_n_s_lits_of_atoms2, __pyx_k_lits_of_atoms2, sizeof(__pyx_k_lits_of_atoms2), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_maxbond, __pyx_k_maxbond, sizeof(__pyx_k_maxbond), 0, 0, 1, 1},
   {&__pyx_n_s_multiprocessing, __pyx_k_multiprocessing, sizeof(__pyx_k_multiprocessing), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_non_bonded_list, __pyx_k_non_bonded_list, sizeof(__pyx_k_non_bonded_list), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
+  {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
-  {&__pyx_n_s_uint32, __pyx_k_uint32, sizeof(__pyx_k_uint32), 0, 0, 1, 1},
-  {&__pyx_n_s_values, __pyx_k_values, sizeof(__pyx_k_values), 0, 0, 1, 1},
+  {&__pyx_n_s_tolerance, __pyx_k_tolerance, sizeof(__pyx_k_tolerance), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 215, __pyx_L1_error)
   return 0;
+  __pyx_L1_error:;
+  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
@@ -8957,12 +4093,13 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
-  __pyx_umethod_PyDict_Type_values.type = (PyObject*)&PyDict_Type;
+  __pyx_umethod_PyDict_Type_keys.type = (PyObject*)&PyDict_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_float_1_4 = PyFloat_FromDouble(1.4); if (unlikely(!__pyx_float_1_4)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_float_2_6 = PyFloat_FromDouble(2.6); if (unlikely(!__pyx_float_2_6)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_3 = PyInt_FromLong(3); if (unlikely(!__pyx_int_3)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -9256,30 +4393,12 @@ if (!__Pyx_RefNanny) {
  * import time
  * import multiprocessing             # <<<<<<<<<<<<<<
  * 
- * 
+ * cpdef list calculate_grid_offset(gridsize, maxbond = 2.6):
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_multiprocessing, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_multiprocessing, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "vModel/cDistances.pyx":1086
- *     return atomic_grid
- * 
- * cpdef generete_full_NB_and_Bonded_lists_2(atoms = [], gridsize = 3, frame = 0):             # <<<<<<<<<<<<<<
- *     '''
- *     atoms = [] it's a list of atom objects
- */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1086, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_k__2 = __pyx_t_1;
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1086, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_k__2 = __pyx_t_1;
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
 
   /* "vModel/cDistances.pyx":1
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -9344,6 +4463,629 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
         return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
 #endif
     return PyObject_GetAttr(obj, attr_name);
+}
+#endif
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
+
+/* PyIntBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
+    (void)inplace;
+    (void)zerodivision_check;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyIntCompare */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED long inplace) {
+    if (op1 == op2) {
+        Py_RETURN_TRUE;
+    }
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long a = PyInt_AS_LONG(op1);
+        if (a == b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        int unequal;
+        unsigned long uintval;
+        Py_ssize_t size = Py_SIZE(op1);
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        if (intval == 0) {
+            if (size == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+        } else if (intval < 0) {
+            if (size >= 0)
+                Py_RETURN_FALSE;
+            intval = -intval;
+            size = -size;
+        } else {
+            if (size <= 0)
+                Py_RETURN_FALSE;
+        }
+        uintval = (unsigned long) intval;
+#if PyLong_SHIFT * 4 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 4)) {
+            unequal = (size != 5) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[4] != ((uintval >> (4 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 3 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 3)) {
+            unequal = (size != 4) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 2 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 2)) {
+            unequal = (size != 3) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+#if PyLong_SHIFT * 1 < SIZEOF_LONG*8
+        if (uintval >> (PyLong_SHIFT * 1)) {
+            unequal = (size != 2) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
+                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
+        } else
+#endif
+            unequal = (size != 1) || (((unsigned long) digits[0]) != (uintval & (unsigned long) PyLong_MASK));
+        if (unequal == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+        if ((double)a == (double)b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
+    }
+    return (
+        PyObject_RichCompare(op1, op2, Py_EQ));
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* GetItemInt */
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
+
+/* PyErrFetchRestore */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+}
+#endif
+
+/* WriteUnraisableException */
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_PyThreadState_declare
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#ifdef _MSC_VER
+    else state = (PyGILState_STATE)-1;
+#endif
+#endif
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
+}
+
+/* SliceTupleAndList */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE void __Pyx_crop_slice(Py_ssize_t* _start, Py_ssize_t* _stop, Py_ssize_t* _length) {
+    Py_ssize_t start = *_start, stop = *_stop, length = *_length;
+    if (start < 0) {
+        start += length;
+        if (start < 0)
+            start = 0;
+    }
+    if (stop < 0)
+        stop += length;
+    else if (stop > length)
+        stop = length;
+    *_length = stop - start;
+    *_start = start;
+    *_stop = stop;
+}
+static CYTHON_INLINE void __Pyx_copy_object_array(PyObject** CYTHON_RESTRICT src, PyObject** CYTHON_RESTRICT dest, Py_ssize_t length) {
+    PyObject *v;
+    Py_ssize_t i;
+    for (i = 0; i < length; i++) {
+        v = dest[i] = src[i];
+        Py_INCREF(v);
+    }
+}
+static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(
+            PyObject* src, Py_ssize_t start, Py_ssize_t stop) {
+    PyObject* dest;
+    Py_ssize_t length = PyList_GET_SIZE(src);
+    __Pyx_crop_slice(&start, &stop, &length);
+    if (unlikely(length <= 0))
+        return PyList_New(0);
+    dest = PyList_New(length);
+    if (unlikely(!dest))
+        return NULL;
+    __Pyx_copy_object_array(
+        ((PyListObject*)src)->ob_item + start,
+        ((PyListObject*)dest)->ob_item,
+        length);
+    return dest;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyTuple_GetSlice(
+            PyObject* src, Py_ssize_t start, Py_ssize_t stop) {
+    PyObject* dest;
+    Py_ssize_t length = PyTuple_GET_SIZE(src);
+    __Pyx_crop_slice(&start, &stop, &length);
+    if (unlikely(length <= 0))
+        return PyTuple_New(0);
+    dest = PyTuple_New(length);
+    if (unlikely(!dest))
+        return NULL;
+    __Pyx_copy_object_array(
+        ((PyTupleObject*)src)->ob_item + start,
+        ((PyTupleObject*)dest)->ob_item,
+        length);
+    return dest;
+}
+#endif
+
+/* ArgTypeTest */
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    else if (exact) {
+        #if PY_MAJOR_VERSION == 2
+        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
+    }
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+    return 0;
+}
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
 }
 #endif
 
@@ -9466,25 +5208,34 @@ done:
 #endif
 #endif
 
-/* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
     }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
     return result;
 }
-#endif
 
 /* PyObjectCallMethO */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -9503,51 +5254,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
             "NULL result without error in PyObject_Call");
     }
     return result;
-}
-#endif
-
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
 }
 #endif
 
@@ -9590,210 +5296,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     return result;
 }
 #endif
-
-/* GetItemInt */
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
-/* ObjectGetItem */
-#if CYTHON_USE_TYPE_SLOTS
-static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
-    PyObject *runerr;
-    Py_ssize_t key_value;
-    PySequenceMethods *m = Py_TYPE(obj)->tp_as_sequence;
-    if (unlikely(!(m && m->sq_item))) {
-        PyErr_Format(PyExc_TypeError, "'%.200s' object is not subscriptable", Py_TYPE(obj)->tp_name);
-        return NULL;
-    }
-    key_value = __Pyx_PyIndex_AsSsize_t(index);
-    if (likely(key_value != -1 || !(runerr = PyErr_Occurred()))) {
-        return __Pyx_GetItemInt_Fast(obj, key_value, 0, 1, 1);
-    }
-    if (PyErr_GivenExceptionMatches(runerr, PyExc_OverflowError)) {
-        PyErr_Clear();
-        PyErr_Format(PyExc_IndexError, "cannot fit '%.200s' into an index-sized integer", Py_TYPE(index)->tp_name);
-    }
-    return NULL;
-}
-static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
-    PyMappingMethods *m = Py_TYPE(obj)->tp_as_mapping;
-    if (likely(m && m->mp_subscript)) {
-        return m->mp_subscript(obj, key);
-    }
-    return __Pyx_PyObject_GetIndex(obj, key);
-}
-#endif
-
-/* SliceTupleAndList */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE void __Pyx_crop_slice(Py_ssize_t* _start, Py_ssize_t* _stop, Py_ssize_t* _length) {
-    Py_ssize_t start = *_start, stop = *_stop, length = *_length;
-    if (start < 0) {
-        start += length;
-        if (start < 0)
-            start = 0;
-    }
-    if (stop < 0)
-        stop += length;
-    else if (stop > length)
-        stop = length;
-    *_length = stop - start;
-    *_start = start;
-    *_stop = stop;
-}
-static CYTHON_INLINE void __Pyx_copy_object_array(PyObject** CYTHON_RESTRICT src, PyObject** CYTHON_RESTRICT dest, Py_ssize_t length) {
-    PyObject *v;
-    Py_ssize_t i;
-    for (i = 0; i < length; i++) {
-        v = dest[i] = src[i];
-        Py_INCREF(v);
-    }
-}
-static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(
-            PyObject* src, Py_ssize_t start, Py_ssize_t stop) {
-    PyObject* dest;
-    Py_ssize_t length = PyList_GET_SIZE(src);
-    __Pyx_crop_slice(&start, &stop, &length);
-    if (unlikely(length <= 0))
-        return PyList_New(0);
-    dest = PyList_New(length);
-    if (unlikely(!dest))
-        return NULL;
-    __Pyx_copy_object_array(
-        ((PyListObject*)src)->ob_item + start,
-        ((PyListObject*)dest)->ob_item,
-        length);
-    return dest;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyTuple_GetSlice(
-            PyObject* src, Py_ssize_t start, Py_ssize_t stop) {
-    PyObject* dest;
-    Py_ssize_t length = PyTuple_GET_SIZE(src);
-    __Pyx_crop_slice(&start, &stop, &length);
-    if (unlikely(length <= 0))
-        return PyTuple_New(0);
-    dest = PyTuple_New(length);
-    if (unlikely(!dest))
-        return NULL;
-    __Pyx_copy_object_array(
-        ((PyTupleObject*)src)->ob_item + start,
-        ((PyTupleObject*)dest)->ob_item,
-        length);
-    return dest;
-}
-#endif
-
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
-    }
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
-    }
-    #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
-}
 
 /* PyObjectGetMethod */
 static int __Pyx_PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method) {
@@ -9922,218 +5424,6 @@ static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x) {
     return 0;
 }
 
-/* SetItemInt */
-static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v) {
-    int r;
-    if (!j) return -1;
-    r = PyObject_SetItem(o, j, v);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v, int is_list,
-                                               CYTHON_NCP_UNUSED int wraparound, CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = (!wraparound) ? i : ((likely(i >= 0)) ? i : i + PyList_GET_SIZE(o));
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o)))) {
-            PyObject* old = PyList_GET_ITEM(o, n);
-            Py_INCREF(v);
-            PyList_SET_ITEM(o, n, v);
-            Py_DECREF(old);
-            return 1;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_ass_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return -1;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_ass_item(o, i, v);
-        }
-    }
-#else
-#if CYTHON_COMPILING_IN_PYPY
-    if (is_list || (PySequence_Check(o) && !PyDict_Check(o)))
-#else
-    if (is_list || PySequence_Check(o))
-#endif
-    {
-        return PySequence_SetItem(o, i, v);
-    }
-#endif
-    return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
-}
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-/* RaiseDoubleKeywords */
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-/* ParseKeywords */
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
-}
-
-/* ArgTypeTest */
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
-{
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    else if (exact) {
-        #if PY_MAJOR_VERSION == 2
-        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
-        #endif
-    }
-    else {
-        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
-    }
-    PyErr_Format(PyExc_TypeError,
-        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
-        name, type->tp_name, Py_TYPE(obj)->tp_name);
-    return 0;
-}
-
 /* DictGetItem */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
 static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
@@ -10157,205 +5447,6 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
     return value;
 }
 #endif
-
-/* PyIntBinop */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
-    (void)inplace;
-    (void)zerodivision_check;
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a + b);
-            if (likely((x^a) >= 0 || (x^b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_add(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-#ifdef HAVE_LONG_LONG
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-#endif
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
-            }
-        }
-                x = a + b;
-            return PyLong_FromLong(x);
-#ifdef HAVE_LONG_LONG
-        long_long:
-                llx = lla + llb;
-            return PyLong_FromLongLong(llx);
-#endif
-        
-        
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("add", return NULL)
-            result = ((double)a) + (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-}
-#endif
-
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
 
 /* UnpackUnboundCMethod */
 static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
@@ -10396,155 +5487,13 @@ bad:
     return result;
 }
 
-/* py_dict_values */
-static CYTHON_INLINE PyObject* __Pyx_PyDict_Values(PyObject* d) {
+/* py_dict_keys */
+static CYTHON_INLINE PyObject* __Pyx_PyDict_Keys(PyObject* d) {
     if (PY_MAJOR_VERSION >= 3)
-        return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyDict_Type_values, d);
+        return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyDict_Type_keys, d);
     else
-        return PyDict_Values(d);
+        return PyDict_Keys(d);
 }
-
-/* RaiseTooManyValuesToUnpack */
-static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
-    PyErr_Format(PyExc_ValueError,
-                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
-}
-
-/* RaiseNeedMoreValuesToUnpack */
-static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
-    PyErr_Format(PyExc_ValueError,
-                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
-                 index, (index == 1) ? "" : "s");
-}
-
-/* RaiseNoneIterError */
-static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-}
-
-/* PyIntBinop */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
-    (void)inplace;
-    (void)zerodivision_check;
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a - b);
-            if (likely((x^a) >= 0 || (x^~b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_subtract(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-#ifdef HAVE_LONG_LONG
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-#endif
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                default: return PyLong_Type.tp_as_number->nb_subtract(op1, op2);
-            }
-        }
-                x = a - b;
-            return PyLong_FromLong(x);
-#ifdef HAVE_LONG_LONG
-        long_long:
-                llx = lla - llb;
-            return PyLong_FromLongLong(llx);
-#endif
-        
-        
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("subtract", return NULL)
-            result = ((double)a) - (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
-}
-#endif
 
 /* Import */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
@@ -10611,27 +5560,29 @@ bad:
     return module;
 }
 
-/* PyErrFetchRestore */
-#if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
 }
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
 }
 #endif
 
@@ -10926,112 +5877,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     }
 }
 
-/* Print */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
 /* CIntFromPy */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
@@ -11220,43 +6065,6 @@ raise_neg_overflow:
         "can't convert negative value to int");
     return (int) -1;
 }
-
-/* PrintOne */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPy */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {

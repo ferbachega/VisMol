@@ -5,6 +5,7 @@ import numpy as np
 #import vModel.atom_types as at 
 import vModel.cDistances as cdist
 from   vModel import VismolObject
+#from   vModel import MolecularProperties
 
 
 '''
@@ -90,7 +91,7 @@ def load_mol2_files (infile = None, vismolSession =  None, gridsize = 3):
     """ Function doc """
     print ('\nstarting: parse_mol2')
 
-    at  =  vismolSession.vConfig.atom_types
+    #at  = MolecularProperties.AtomTypes()
     with open(infile, 'r') as mol2_file:
         filetext = mol2_file.read()
 
@@ -106,7 +107,7 @@ def load_mol2_files (infile = None, vismolSession =  None, gridsize = 3):
     bonds     = bonds.split('\n')
 
     print (raw_atoms)
-    atoms, frames = get_atom_list_from_mol2_frame(raw_atoms = raw_atoms, frame = True,  gridsize = gridsize,  at = at)
+    atoms, frames = get_atom_list_from_mol2_frame(raw_atoms = raw_atoms, frame = True)#,  gridsize = gridsize,  at = at)
 
     #-------------------------------------------------------------------------------------------
     #                         Building   V I S M O L    O B J
@@ -129,7 +130,7 @@ def load_mol2_files (infile = None, vismolSession =  None, gridsize = 3):
 
 
 
-def get_atom_list_from_mol2_frame (raw_atoms, frame = True, gridsize = 3, at =  None):
+def get_atom_list_from_mol2_frame (raw_atoms, frame = True):#, gridsize = 3, at =  None):
     """ Function doc """
     #nCPUs =  multiprocessing.cpu_count()
     #pool  = multiprocessing.Pool(nCPUs)
@@ -162,7 +163,7 @@ def get_atom_list_from_mol2_frame (raw_atoms, frame = True, gridsize = 3, at =  
             at_charge  = float(line[8])
 
 
-            at_symbol  = at.get_symbol(at_name)
+            at_symbol  = None# at.get_symbol(at_name)
             
             #at_symbol= line[5].split('.')
             #at_symbol= at_symbol[0]

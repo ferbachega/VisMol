@@ -310,7 +310,12 @@ class GtkGLAreaWidget(Gtk.GLArea):
                        | Gdk.EventMask.KEY_PRESS_MASK | Gdk.EventMask.KEY_RELEASE_MASK )
         
         
-        self.Vismol_Objects_ListStore         = Gtk.ListStore(bool,str , str ,str, str)
+        self.Vismol_Objects_ListStore         = Gtk.ListStore(bool,  # visible? 
+                                                               str,  # id
+                                                               str,  # name
+                                                               str,  # num of atoms
+                                                               str)  # num of frames
+                                                               
         self.Vismol_selection_modes_ListStore = Gtk.ListStore(str)
         
         self.vm_widget = vismol_widget.VisMolGLCore(self, vismolSession, np.float32(width), np.float32(height))
@@ -321,8 +326,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
         self.glMenu_bg = None
         self.glMenu_obj = None
         #self.glMenu = GLMenu(self)
-    
-    
+
     
     def _ (_):
         """ Function doc """
@@ -762,7 +766,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
         """ Function doc
         """
         self.vm_widget.mouse_pressed(int(event.button), event.x, event.y)
-    
+        
     def mouse_released(self, widget, event):
         """ Function doc
         """
@@ -773,7 +777,21 @@ class GtkGLAreaWidget(Gtk.GLArea):
         """ Function doc
         """
         self.vm_widget.mouse_motion(event.x, event.y)
-    
+        #print('764', event.x, event.y)
+        
+        #GL.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1)
+        #pos = [event.x, event.y -  self.vm_widget.picking_y]
+        ##print(self.mouse_x, self.mouse_y, pos)
+        #data = GL.glReadPixels(pos[0], pos[1], 1, 1, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE)
+        #
+        ##converting RGB values to atoms address (unique id)
+        #pickedID = data[0] + data[1] * 256 + data[2] * 256*256;
+        #if self.vismolSession._picking_selection_mode:
+        #    print('_picking_selection_mode = True',data, pickedID)
+
+
+
+
     def mouse_scroll(self, widget, event):
         """ Function doc
         """

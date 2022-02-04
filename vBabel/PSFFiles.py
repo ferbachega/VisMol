@@ -3,6 +3,8 @@ import os
 import numpy as np
 #import vModel.cDistances as cdist
 from   vModel import VismolObject
+from   vModel import MolecularProperties
+from   vModel.MolecularProperties import ATOM_TYPES
 
 import numpy as np
 
@@ -51,7 +53,7 @@ def load_amber_crd_file (filein = None, visObj = None):
 
 def load_PSF_topology_file (infile = None, vismolSession =  None, gridsize = 3):
     """ Function doc """
-    at       = vismolSession.vConfig.atom_types
+    #at       = MolecularProperties.AtomTypes()
     filename = infile
     infile = open(infile, 'r')
     text = infile.read()
@@ -89,7 +91,7 @@ def load_PSF_topology_file (infile = None, vismolSession =  None, gridsize = 3):
                     
                     #at_symbol  = 'H'
                     
-                    at_symbol  = at.get_symbol(at_name)
+                    at_symbol  = None#at.get_symbol(at_name)
 
                     at_occup   = 0.0   #occupancy
                     at_bfactor = 0.0
@@ -129,7 +131,8 @@ def load_PSF_topology_file (infile = None, vismolSession =  None, gridsize = 3):
                     for i in range(0, len(line2),2):
                         print(int(line2[i]), int(line2[i+1]))
                         #print(line2[i:i+2])
-                        bonds.append([int(line2[i])-1, int(line2[i+1])-1])
+                        bonds.append(int(line2[i])-1)
+                        bonds.append(int(line2[i+1])-1)
         
         else:
             pass

@@ -5,6 +5,8 @@ import numpy as np
 #import vModel.atom_types as at 
 #import vModel.cDistances as cdist
 from   vModel import VismolObject
+from   vModel import MolecularProperties
+
 from pprint import pprint
 
 cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):
@@ -25,7 +27,7 @@ cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):
     #-------------------------------------------------------------------------------------------
     #                                P D B     P A R S E R 
     #-------------------------------------------------------------------------------------------
-    at  =  vismolSession.vConfig.atom_types
+    at  =  MolecularProperties.AtomTypes()
     with open(infile, 'r') as gro_file:
         
         grotext = gro_file.readlines()

@@ -3,6 +3,7 @@ import time
 import numpy as np
 import vModel.cDistances as cdist
 from   vModel import VismolObject
+#from   vModel import MolecularProperties
 
 import numpy as np
 
@@ -92,7 +93,7 @@ def load_amber_crd_file (filein = None, visObj = None):
 
 def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3):
     """ Function doc """
-    at  =  vismolSession.vConfig.atom_types
+    #at  =  MolecularProperties.AtomTypes()
     filename = infile
     infile = open(infile, 'r')
     text = infile.read()
@@ -266,7 +267,7 @@ def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3
         #if at_numbers != []:
         #    at_symbol = at.ATOM_TYPES_BY_ATOMICNUMBER[at_numbers[index]]
         #else:
-        at_symbol = at.get_symbol(at_name)
+        at_symbol = None #at.get_symbol(at_name)
         #cov_rad   = at.get_cov_rad (at_symbol)
         #gridpos   = [0,0,0]
         
@@ -288,16 +289,18 @@ def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3
     #print (total_bonds)
 
     
-    
-    #for bond in total_bonds:
-    #    print(bond, atoms[bond[0]], atoms[bond[1]])
+    bonds_pair_of_indexes = []
+    for bond in total_bonds:
+        bonds_pair_of_indexes.append(bond[0])
+        bonds_pair_of_indexes.append(bond[1])
+        #print(bond, atoms[bond[0]], atoms[bond[1]])
 
 
     name = os.path.basename(filename)
     vismol_object  = VismolObject.VismolObject(name                           = name       , 
                                                atoms                          = atoms      , 
-                                               vismolSession                      = vismolSession  , 
-                                               bonds_pair_of_indexes          = total_bonds,
+                                               vismolSession                  = vismolSession  , 
+                                               bonds_pair_of_indexes          = bonds_pair_of_indexes,
                                                trajectory                     = []         ,
                                                auto_find_bonded_and_nonbonded = False      )
         
