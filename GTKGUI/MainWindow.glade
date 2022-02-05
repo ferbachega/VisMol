@@ -438,12 +438,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="toolbutton5">
+                  <object class="GtkToolButton" id="toolbutton_pDynamo_selections">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">toolbutton8</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image24</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>

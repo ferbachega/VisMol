@@ -818,6 +818,22 @@ button position in the main treeview (active column).""".format(name,self.main_s
     def load_easyhybrid_data_to_session (self, easyhybrid_session_data):
         """ Function doc """
         
+    
+    def pDynamo_selections (self):
+        """ Function doc """
+        
+        #atomref = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
+        #core    = AtomSelection.Within(self.cSystem,atomref,_radius)
+        #core2   = AtomSelection.ByComponent(self.cSystem,core)
+        #self.cSystem = PruneByAtom( self.cSystem , Selection(core2) )
+        ##---------------------------------------------------
+        #self.cSystem.label = self.baseName + "#{} Pruned System ".format(self.systemCoutCurr) 
+        #self.cSystem.DefineNBModel( self.nbModel )
+        #self.cSystem.Energy()
+
+
+
+
 
 def main():
     

@@ -593,6 +593,58 @@ class pDynamoSession:
         self.vismolSession.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.refresh_qc_and_fixed_representations()        
         return vismol_object
+
+    def selections (self, _centerAtom, _radius, _method):
+        """ Function doc """
+        
+        
+        print (_centerAtom)
+        print (_radius)
+        print (_method)
+        vismol_object = self.systems[self.active_id]['vismol_object']
+        
+        atomref = AtomSelection.FromAtomPattern( self.systems[self.active_id]['system'], _centerAtom )
+        core    = AtomSelection.Within(self.systems[self.active_id]['system'],
+                                                                      atomref,
+                                                                      _radius)
+                                                                      
+        #core    = AtomSelection.Complement(self.systems[self.active_id]['system'],core)                                                
+                                                        
+                                                                      
+        
+        #print( core )
+        
+        if _method ==0:
+            core    = AtomSelection.ByComponent(self.systems[self.active_id]['system'],core)
+            core    = list(core)
+            self.vismolSession.selections[self.vismolSession.current_selection].selecting_by_indexes (vismol_object   = vismol_object, 
+                                                                                                              indexes = core , 
+                                                                                                              clear   = True )
+        
+        if _method == 1:
+            core    = AtomSelection.ByComponent(self.systems[self.active_id]['system'],core)
+            core    = list(core)
+            #'''******************** invert ? **********************
+            inverted = []
+            for i in range(0, len(vismol_object.atoms)):
+                if i in core:
+                    pass
+                else:
+                    inverted.append(i)
+            
+            core =  inverted
+            self.vismolSession.selections[self.vismolSession.current_selection].selecting_by_indexes (vismol_object = vismol_object, 
+                                                                                                      indexes = core, 
+                                                                                                      clear   = True )
+
+        if _method == 2:
+            self.vismolSession.selections[self.vismolSession.current_selection].selecting_by_indexes (vismol_object   = vismol_object, 
+                                                                                                              indexes = core , 
+                                                                                                              clear   = True )
+
+
+
+
  
     def get_energy (self):
         """ Function doc """
@@ -669,3 +721,10 @@ class pDynamoSession:
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = False)
 
         
+
+
+
+
+
+
+

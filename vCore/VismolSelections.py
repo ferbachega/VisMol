@@ -446,9 +446,12 @@ class VisMolViewingSelection:
         #self.active = True
         self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
 
-    def selecting_by_indexes (self, vismol_object = None, indexes = []):
+    def selecting_by_indexes (self, vismol_object = None, indexes = [], clear = False):
         """ Function doc """
         print (indexes)
+        
+        if clear:
+            self._clear_selection_buffer ()
         #for atom in vismol_object.atoms:
         for i in indexes:
             vismol_object.atoms[i].selected = True
