@@ -19,6 +19,7 @@ from RelaxedScan 			import SCAN
 from MolecularDynamics  	import MD
 from UmbrellaSampling  		import US
 from PotentialOfMeanForce 	import PMF
+from ReactionCoordinate 	import *
 
 #--------------------------------------------------------------
 #loading pDynamo Libraries
@@ -111,15 +112,13 @@ class Simulation:
 		#-------------------------------------------------------------
 		elif self.simulationType == "Umbrella_Sampling":
 			self.UmbrellaSampling(_parameters)
+
+		#-------------------------------------------------------------
+		elif self.simulationType == "PotentialOfMeanForceAnalysis":
+			self.PMFAnalysis(_parameters)
 		
 		#-------------------------------------------------------------
-		elif self.simulationType == "Normal_Modes":
-			if "temperature" in _parameters:
-				self.temperature = _parameters['temperature']
-			if "cycles" in _parameters:
-				self.NMcycles = _parameters['cycles']
-			if "frames" in _parameters:
-				self.NMframes = _parameters['frames']	
+		elif self.simulationType == "Normal_Modes":				
 			self.NormalModes()
 
 		#-------------------------------------------------------------
@@ -187,7 +186,7 @@ class Simulation:
 		#--------------------------------------------------------------------------------
 		if restraintDimensions == 2:
 			scan.SetReactionCoord(_parameters['ATOMS_RC2'], _parameters['dincre_RC2'], MCR2)
-			scan.RunTWODimensionSCAN(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
+			scan.Run2DScan(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 			#scan.RunTWODimensionSCANnonParallel(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 		else:
 			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])			
@@ -224,86 +223,68 @@ class Simulation:
 		'''
 		Class method to set up and execute molecular dynamics simulations.
 		#Ainda tenho que ver como functiona os arquivos de trajetórias na nova versão
+		List of Parameters:
+			MC_RC1 = 
+			MC_RC2 =
+
 		'''
 		#----------------------------------------------------------------
 		restraints = RestraintModel( )
 		self.molecule.DefineRestraintModel( restraints )
-		distances = []
-		#----------------------------------------------------------------
+		
+		MCR1 = False
+		MCR2 = False
+		if "MC_RC1" in _parameters:
+			MCR1 = True
+		if "MC_RC2" in _parameters:
+			MCR2 = True
+		#---------------
+		rcType1 = "Distance"
+		rcType2 = "Distance"
+		if "type_rc1" in _parameters:
+			rcType1 = _parameters["type_rc1"]
+		if "type_rc2" in _parameters:
+			rcType2 = _parameters["type_rc2"]
+
+		#-------------------------------------------------------------------
 		forcK = _parameters["forceC"]		
 		restrainDimensions = _parameters['ndim']
-		mdistance1 = False
-		mdistance2 = False
-		#---------------------------------------------------------------
-		if len(_parameters["atoms"]) == 3:
-			mdistance1 = True
-		if len(_parameters["atoms"]) == 5:
-			mdistance2 = True 
-		if len(_parameters["atoms"]) == 6:
-			mdistance1 = True
-			mdistance2 = True 
-		#--------------------------------------------------------------
-		#task:
-		#Improve the weights definitions to work with mass constraints
-		weight1 = 1.0
-		weight2 = -1.0 
-		atoms = []
-		
-		for atom in range( len(_parameters["atoms"]) ):
-			atoms.append( _parameters["atoms"][atom] )
-		
-		if restrainDimensions == 1:
-			if mdistance1:
-				distance = self.molecule.coordinates3.Distance(atoms[1],atoms[0]) - self.molecule.coordinates3.Distance(atoms[1],atoms[2]) 
-				rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
-				restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel,  distances= [ [ atoms[1], atoms[0], weight1 ], [ atoms[1], atoms[2], weight2 ] ]) 
-				restraints['ReactionCoord'] =  restraint
-			else:
-				distance = self.molecule.coordinates3.Distance(atoms[1],atoms[0])
-				rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
-				restraint = RestraintDistance.WithOptions( energyModel = rmodel, point1= atoms[0], point2= atoms[1] )
-				restraints['ReactionCoord'] =  restraint
-		
-		elif restrainDimensions == 2:
-			if mdistance1 and mdistance2:
-				distance1 = self.molecule.coordinates3.Distance( atoms[1],atoms[0] ) - self.molecule.coordinates3.Distance(atoms[1],atoms[2]) 
-				rmodel1 = RestraintEnergyModel.Harmonic( distance1, forcK )
-				restraint1 = RestraintMultipleDistance.WithOptions( energyModel = rmodel1,  distances= [ [ atoms[1], atoms[0], weight1 ], [ atoms[1], atoms[2], weight2 ] ]) 
-				restraints['ReactionCoord1'] =  restraint1
-				#
-				distance2 = self.molecule.coordinates3.Distance(atoms[4],atoms[3]) - self.molecule.coordinates3.Distance(atoms[4],atoms[5]) 
-				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
-				restraint2 = RestraintMultipleDistance.WithOptions( energyModel = rmodel2,  distances= [ [ atoms[4], atoms[3], weight1 ], [ atoms[4], atoms[5], weight2 ] ]) 
-				restraints['ReactionCoord2'] =  restraint2
-			elif mdistance1 and mdistance2 == False:
 
-				distance1 = self.molecule.coordinates3.Distance( atoms[1],atoms[0] ) - self.molecule.coordinates3.Distance(atoms[1],atoms[2]) 
-				rmodel1 = RestraintEnergyModel.Harmonic( distance1, forcK )
-				restraint1 = RestraintMultipleDistance.WithOptions( energyModel = rmodel1,  distances= [ [ atoms[1], atoms[0], weight1 ], [ atoms[1], atoms[2], weight2 ] ]) 
-				restraints['ReactionCoord1'] =  restraint1
-				#
-				distance2 = self.molecule.coordinates3.Distance(atoms[4],atoms[3])  
-				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
-				restraint2 = RestraintDistance.WithOptions( energyModel = rmodel2, point1=atoms[3],point2=atoms[4] ) 
-				restraints['ReactionCoord2'] =  restraint2
-			else:
-				distance1 = self.molecule.coordinates3.Distance( atoms[1],atoms[0] ) 
-				rmodel1 = RestraintEnergyModel.Harmonic( distance1, forcK )
-				restraint1 = RestraintDistance.WithOptions( energyModel = rmodel1, point1=atoms[0],point2=atoms[1] ) 
-				restraints['ReactionCoord1'] =  restraint1
-				#
-				distance2 = self.molecule.coordinates3.Distance(atoms[4],atoms[3])  
-				rmodel2 = RestraintEnergyModel.Harmonic( distance2, forcK )
-				restraint2 = RestraintDistance.WithOptions( energyModel = rmodel2, point1=atoms[2],point2=atoms[3] ) 
-				restraints['ReactionCoord2'] =  restraint2
-				
+		rc1 = ReactionCoordinate(_parameters["atoms_M1"],MCR1,_type=rcType1)
+		rc1.SetInformation(self.molecule,0)
+		nDims = _parameters['ndim']
+		rc2 = None
+		if nDims == 2:
+			rc2 = ReactionCoordinate(_parameters["atoms_M2"],MCR2,_type=rcType2)
+			rc2.SetInformation(self.molecule,0)
+
+		
+		distance = rc1.minimumD
+		rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
+		if rc1.nAtoms == 3:				
+			restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ rc1.atoms[1], rc1.atoms[0], rc1.weight13 ], [ rc1.atoms[1], rc1.atoms[2], rc1.weight31 ] ] ) 
+		elif rc1.nAtoms == 2:				
+			restraint = RestraintDistance.WithOptions( energyModel = rmodel, point1= rc1.atoms[0], point2= rc1.atoms[1] )
+		restraints['M1'] =  restraint
+		
+		if nDims == 2:
+			distance = rc2.minimumD
+			rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
+			if rc2.nAtoms == 3:				
+				restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ rc2.atoms[1], rc2.atoms[0], rc2.weight13 ], [ rc2.atoms[1], rc2.atoms[2], rc2.weight31 ] ] ) 
+			elif rc1.nAtoms == 2:				
+				restraint = RestraintDistance.WithOptions( energyModel = rmodel, point1= rc2.atoms[0], point2= rc2.atoms[1] )
+			restraints['M2'] =  restraint
+		
 		#----------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(_parameters)
-		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],20)
+		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["sampling_Factor"])
 		MDrun.Analysis()
-		Atoms = [ atoms ]
-		MDrun.DistAnalysis(Atoms,mdistance1)
+		RCs = [ rc1 ]
+		if nDims == 2:
+			RCs.append(rc2)
+		MDrun.DistAnalysis(RCs)
 		#.............................
 
 	#=======================================================================
@@ -319,27 +300,58 @@ class Simulation:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
+
+		_Restart 	= False
+		_Adaptative = False
+		if "restart" in _parameters:
+			_Restart = True 
+		if "adaptative" in _parameters:
+			_Adaptative = True
+
 		#---------------------------------------
-		USrun = US(self.molecule,self.baseFolder,_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["MD_method"])
+		USrun = US(self.molecule  						,
+			       self.baseFolder 						,
+			       _parameters['equilibration_nsteps']  ,
+			       _parameters['production_nsteps']     ,
+			       _parameters["MD_method"]             ,
+			       RESTART=_Restart                     ,
+			       ADAPTATIVE=_Adaptative               )
+		
 		USrun.ChangeDefaultParameters(_parameters)
 		USrun.SetMode(_parameters["ATOMS_RC1"],MCR1)
 
 		if _parameters["ndim"] == 1:
-			USrun.RunONEDimensional(_parameters["trjFolder"],_parameters["samplingFactor"])
+			USrun.Run1DSampling(_parameters["trjFolder"],_parameters["samplingFactor"])
 		elif _parameters["ndim"] == 2:
 			USrun.SetMode(_parameters["ATOMS_RC2"],MCR2)
-			USrun.RunTWODimensional(_parameters["trjFolder"],_parameters["samplingFactor"])
+			USrun.Run2DSampling(_parameters["trjFolder"],_parameters["samplingFactor"])
 		
 		'''
 		prodfolders = self.baseFolder
 		pmfRun = PMF(self.molecule,self.baseFolder)
 		'''
+	#=========================================================================
+	def PMFAnalysis(self,_parameters):
+		'''
+		'''
+		potmean = PMF( self.cSystem, _parameters["Folder"], self.baseFolder )
+		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ybins"],_parameters["temperature"])
+		proj.FinishRun()
+
 
 	#=========================================================================
 	def NormalModes(self,_mode):
 		'''
 		Simulation preset to calculate the normal modes and to write thr trajectory for a specific mode.
 		'''	
+
+		if "temperature" in _parameters:
+			self.temperature = _parameters['temperature']
+		if "cycles" in _parameters:
+			self.NMcycles = _parameters['cycles']
+		if "frames" in _parameters:
+			self.NMframes = _parameters['frames']
+
 		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
 		if _mode > 0:
 			trajectory = ExportTrajectory ( os.path.join (self.baseFolder, "NormalModes","trj"), self.molecule )

@@ -80,8 +80,8 @@ class SimulationProject:
         self.logfile.separator()
         self.logfile.inputLine("None Current System Found. Creating one from topologies and coordinate files!")
         #------------------------------------------------------------
-        self.cSystem = ImportSystem(_topologyFile)
-        self.cSystem.coordinates3 = ImportCoordinates3(_coordinateFile)
+        self.cSystem = ImportSystem(_topologyFile, log=None)
+        self.cSystem.coordinates3 = ImportCoordinates3(_coordinateFile, log=None)
         self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
         self.systemCoutCurr += 1
         #------------------------------------------------------------
@@ -93,10 +93,11 @@ class SimulationProject:
         self.nbModel = NBModelCutOff.WithDefaults ( )
         self.cSystem.DefineNBModel( self.nbModel )
 
-        energy              = self.cSystem.Energy( doGradients = True )
-        self.hasMMmodel     = True
-        self.hasNBmodel     = True
-        #self.TotalChargeMM  = GetTotalCharge(self.cSystem)    
+        if self.DEBUG:
+            energy      = self.cSystem.Energy( doGradients = True )
+        self.hasMMmodel = True
+        self.hasNBmodel = True
+        
         self.NBmodel = self.cSystem.nbModel
         self.MMmodel = self.cSystem.mmModel
         self.logfile.inputLine("Energy Model loaded: " + self.cSystem.energyModelLabel )
@@ -113,7 +114,7 @@ class SimulationProject:
         if self.cSystem == None: 
             self.logfile.separator()
             self.logfile.inputLine("None Current System Found. Creating one from a coordinate files!")
-            self.cSystem = ImportSystem(_coordinateFile)
+            self.cSystem = ImportSystem(_coordinateFile, log =None)
             self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
             self.systemCoutCurr += 1
         else:
@@ -171,14 +172,11 @@ class SimulationProject:
             self.QClist        = list(self.cSystem.qcState.qcAtoms)
             self.hasQCmodel    = True
 
-        try:
+        if self.DEBUG:
             energy              = self.cSystem.Energy( doGradients = True )
             self.hasMMmodel     = True
             self.hasNBmodel     = True
-        except:
-            print("Problems in testing the MM model loaded from saved pkl file!")
-
-
+        
         self.logfile.inputLine("New System loaded!")
 
     #====================================================================================
@@ -293,7 +291,7 @@ class SimulationProject:
                 atomlist.append( sel[i] )
         #---------------------------------------------
         #define QC atoms selection
-        converger           = DIISSCFConverger.WithOptions( energyTolerance=3.0e-4,densityTolerance=1.0e-8, maximumIterations = 1500 )
+        converger           = DIISSCFConverger.WithOptions( energyTolerance=3.0e-4,densityTolerance=1.0e-8, maximumIterations = 2500 )
         self.QCRegion       = Selection.FromIterable(atomlist)
         self.multiplicity   = _QCmultiplicity
         self.TotalChargeQC  = _QCcharge        
@@ -423,7 +421,7 @@ class SimulationProject:
         #--------------------------------------------------------------------
         #task adjust the parameters for customizable options
         self.QCmodel = QCModelDFTB.WithOptions ( deleteJobFiles = False   ,
-                                                 randomScratch  = False   ,
+                                                 randomScratch  = True   ,
                                                  scratch        = _scratch,
                                                  skfPath        = skfPath ,
                                                  useSCC         = True    )

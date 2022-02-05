@@ -56,6 +56,7 @@ class GeometrySearcher:
         self.traj           = None
         self.outputDCD      = True       
         self.rmsGrad        = 0.1
+        self.maxIt          = 500
 
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
@@ -86,9 +87,9 @@ class GeometrySearcher:
         '''
         #------------------------------------------------------------------
         self.optAlg = _optimizer
-        self.trajectoryName = os.path.join( self.baseName, "Minimization_"+_optimizer+".ptGeo")
         
-        if not self.saveTraj:
+        if self.saveTraj:
+            self.trajectoryName = os.path.join( self.baseName, "Minimization_"+_optimizer+".ptGeo")
             self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
         else:
             self.traj = None
@@ -113,18 +114,32 @@ class GeometrySearcher:
         '''
         Class method to apply the conjugated gradient minimizer
         '''
-        ConjugateGradientMinimize_SystemGeometry(self.molecule                          ,                
+
+        if self.traj == None:
+            ConjugateGradientMinimize_SystemGeometry(self.molecule                      ,                
+                                                 logFrequency           = self.logFreq  ,
+                                                 maximumIterations      = self.maxIt    ,
+                                                 rmsGradientTolerance   = self.rmsGrad  )
+        else:
+            ConjugateGradientMinimize_SystemGeometry(self.molecule                      ,                
                                                  logFrequency           = self.logFreq  ,
                                                  trajectories           = self.traj     ,
                                                  maximumIterations      = self.maxIt    ,
-                                                 rmsGradientTolerance   = self.rmsGrad  )
+                                                 rmsGradientTolerance   = self.rmsGrad  ) 
 
     #=============================================================================
     def RunSteepestDescent(self):
         '''
         Class method to apply the steepest descent minimizer
         '''
-        SteepestDescentMinimize_SystemGeometry(self.molecule                           ,               
+        
+        if self.traj == None:
+            SteepestDescentMinimize_SystemGeometry(self.molecule                       ,               
+                                                logFrequency            = self.logFreq ,
+                                                maximumIterations       = self.maxIt   ,
+                                                rmsGradientTolerance    = self.rmsGrad )
+        else:
+            SteepestDescentMinimize_SystemGeometry(self.molecule                       ,               
                                                 logFrequency            = self.logFreq ,
                                                 trajectories            = self.traj    ,
                                                 maximumIterations       = self.maxIt   ,
@@ -135,7 +150,15 @@ class GeometrySearcher:
         '''
         Class method to apply the LFBGS minimizer
         '''
-        LBFGSMinimize_SystemGeometry(self.molecule                              ,                
+        
+        if self.traj == None:
+            LBFGSMinimize_SystemGeometry(self.molecule                          ,                
+                                    logFrequency         = self.logFreq         ,
+                                    trajectories         = self.traj            ,
+                                    maximumIterations    = self.maxIt           ,
+                                    rmsGradientTolerance = self.rmsGrad         )
+        else:
+            LBFGSMinimize_SystemGeometry(self.molecule                          ,                
                                     logFrequency         = self.logFreq         ,
                                     trajectories         = self.traj            ,
                                     maximumIterations    = self.maxIt           ,
@@ -146,7 +169,14 @@ class GeometrySearcher:
         '''
         Class method to apply the Quaisi-Newton minimizer
         '''
-        QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
+        
+        if self.traj == None: 
+            QuasiNewtonMinimize_SystemGeometry( self.molecule                   ,                
+                                            logFrequency         = self.logFreq ,
+                                            maximumIterations    = self.maxIt   ,
+                                            rmsGradientTolerance = self.rmsGrad )
+        else:
+            QuasiNewtonMinimize_SystemGeometry( self.molecule                   ,                
                                             logFrequency         = self.logFreq ,
                                             trajectories         = self.traj    ,
                                             maximumIterations    = self.maxIt   ,
@@ -156,7 +186,14 @@ class GeometrySearcher:
     def RunFIREmin(self):
         '''
         '''
-        FIREMinimize_SystemGeometry( self.molecule                      ,                
+        
+        if self.traj == None:
+            FIREMinimize_SystemGeometry( self.molecule                  ,                
+                                    logFrequency         = self.logFreq ,
+                                    maximumIterations    = self.maxIt   ,
+                                    rmsGradientTolerance = self.rmsGrad )
+        else:
+            FIREMinimize_SystemGeometry( self.molecule                  ,                
                                     logFrequency         = self.logFreq ,
                                     trajectories         = self.traj    ,
                                     maximumIterations    = self.maxIt   ,
@@ -176,8 +213,8 @@ class GeometrySearcher:
 
         #Note: is interesting to think in a window were the user select the initial and final coords
         # here we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.InitCrd3D  = ImportCoordinates3( _initCoord ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.finalCrd3D = ImportCoordinates3( _finalCoord ) 
+        self.InitCrd3D  = ImportCoordinates3( _initCoord, log=None  ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
+        self.finalCrd3D = ImportCoordinates3( _finalCoord, log=None ) 
 
         #---------------------------------------------------------------------------------
         GrowingStringInitialPath (self.system ,_nBins, self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=_rmdGIS )

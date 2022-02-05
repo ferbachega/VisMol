@@ -24,6 +24,13 @@ from commonFunctions import *
 import pymp
 import numpy as np 
 import matplotlib.pyplot as plt
+#-----------------------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import seaborn as sns
+#-----------------------------------------------------
+
 #==============================================================================
 class PMF:
 	'''
@@ -44,12 +51,8 @@ class PMF:
 		self.text		= ""
 		self.LOG		= open(self.baseName+"_FE.log","w") # free energy log
 		
-		pat = os.path.join( self.srcFolder,"frame*", "*.ptRes")
-		print( pat )	
-		input()	
+		pat = os.path.join( self.srcFolder, "*.ptRes" )
 		self.fileNames = glob.glob ( pat ) # ver como fica o nome dos arquivos de trejetória na nova versão
-		print(self.fileNames)
-		input()
 		self.fileNames.sort()
 		
 	#=================================================================================
@@ -59,12 +62,14 @@ class PMF:
 		'''
 		
 		#-----------------------------------------------------------------------------------------------
-		binslist = [_nbins_x]		
+		binslist = []
+		binslist.append(_nbins_x)		
 		if _nbins_y > 0:
-			binslist.append(_nbins_x,_nbins_y)
+			binslist.append(_nbins_y)
 
+		
 		#-----------------------------------------------------------------------------------------------
-		state = WHAM_ConjugateGradientMinimize(	self.srcFolder 					  ,
+		state = WHAM_ConjugateGradientMinimize(	self.fileNames 					  ,
                                          		bins          		= binslist	  ,
                                          		logFrequency        =      1  	  ,
                                          		maximumIterations   =   1000  	  ,
@@ -78,10 +83,22 @@ class PMF:
 		#-----------------------------------------------------------------------------------------------
 		text = ""
 		for i in range(len(FE)):
-			text += "{} {}".format( os.path.basename( self.fileNames ), FE )
+			text += "{} {}\n".format( os.path.basename( self.fileNames[i] ), FE[i] )
 		#-----------------------------------------------------------------------------------------------
 		self.LOG.write(text)
 		self.LOG.close()
+
+	#=================================================================================
+	def Plots1D(self):
+		'''
+		'''
+		pass
+	#=================================================================================
+	def Plots2D(self):
+		'''
+		'''
+		pass
+
 
 #==================================================================================
 #=============================END OF FILE==========================================
