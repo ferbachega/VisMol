@@ -24,7 +24,6 @@ import matplotlib.pyplot as plt
 #-----------------------------------------------------
 from pMolecule import *
 from pMolecule.QCModel import *
-from scipy.interpolate import griddata
 
 
 #********************************************************************************

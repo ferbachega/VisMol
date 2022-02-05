@@ -187,7 +187,6 @@ class EnergyAnalysis:
 		norm= colors.PowerNorm(gamma=1./2.)
 		norm= colors.Normalize(vmin=vmin, vmax=vmax)
 
-
 		im = ax0.pcolormesh(X,Y,z, cmap=cmap, norm=norm, shading = "gouraud")
 		am = ax0.contour(X,Y,z,contourlines, colors='k')
 		

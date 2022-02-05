@@ -12,7 +12,6 @@
 #==============================================================================
 
 import pymp
-import pymp.shared
 from commonFunctions import *
 from pMolecule import *
 from pMolecule.QCModel import *
