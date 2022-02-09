@@ -14,6 +14,7 @@ from pMolecule.MMModel         import *
 from pMolecule.NBModel         import *                                     
 from pMolecule.QCModel         import *
 import numpy as np
+import os, sys, glob
 #===============================================================================
 orcaScratchBase="/home/igorchem/CCDIR/scratch"
 skfPath        ="/home/igorchem/CCDIR/3ob-3-1"
@@ -264,5 +265,22 @@ def GetAtomicSymbol(atomN):
     ls = list( atomic_dic )
     _symbol = ls[atomN-1]
     return(_symbol)
+
+#=========================================================================================
+def GetFrameIndex(fname):
+    '''
+    Pass file name without extension
+    '''
+    idxs = []
+    wkstr  = os.path.basename(fname)
+    ssplit = wkstr.split("_")
+    if len(ssplit) == 1:
+        if ssplit[0][:5] == "frame":
+            idxs.append( int( ssplit[0][5:] ) )
+    elif len(ssplit) == 2: 
+        if ssplit[0][:5] == "frame":
+            idxs.append( int( ssplit[0][5:] ) )
+            idxs.append( int(ssplit[1]) )
+    return(idxs)
 
 #=========================================================================================

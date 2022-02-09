@@ -85,6 +85,7 @@ class PMF:
 		for i in range(len(FE)):
 			text += "{} {}\n".format( os.path.basename( self.fileNames[i] ), FE[i] )
 		#-----------------------------------------------------------------------------------------------
+		print(pmf)
 		self.LOG.write(text)
 		self.LOG.close()
 

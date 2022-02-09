@@ -12,6 +12,9 @@
 #==============================================================================
 
 from commonFunctions import *
+from pMolecule import *
+from pMolecule.QCModel import *
+from GeometrySearcher import * 
 
 #*****************************************************************************
 class ReactionCoordinate:
@@ -35,6 +38,7 @@ class ReactionCoordinate:
 		self.period 		= 360.0
 		self.increment      = 0.0
 		self.minimumD  		= 0.0
+		self.label 			= "Reaction Coordinate"
 
 		if self.Type == "Distance":
 			if self.nAtoms == 3:
@@ -46,6 +50,10 @@ class ReactionCoordinate:
 		'''	
 		self.increment = _dincre
 		self.molecule  = _molecule
+		
+		sequence = getattr( self.molecule, "sequence", None )
+		if sequence is None: 
+			sequence = Sequence.FromAtoms ( self.molecule.atoms, componentLabel = "UNK.1" )
 
 		if self.Type == "multipleDistance":
             #.----------------------
@@ -60,6 +68,12 @@ class ReactionCoordinate:
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 				dist_a2_a3 = self.molecule.coordinates3.Distance( self.atoms[1], self.atoms[2] )
 				self.minimumD = ( self.weight13 * dist_a1_a2) - ( self.weight31 * dist_a2_a3*-1)
+				sequence.ParseLabel ( self.molecule.atoms.items[self.atoms[0] ] )
+				#resName1 
+				self.label =  self.molecule.atoms.items[ self.atoms[0] ].label + "-"
+				self.label += self.molecule.atoms.items[ self.atoms[1] ].label
+				self.label += "--"
+				self.label += self.molecule.atoms.items[ self.atoms[2] ].label
 
             #.----------------------
 			else:
