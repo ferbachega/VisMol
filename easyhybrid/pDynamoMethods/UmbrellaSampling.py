@@ -25,7 +25,6 @@ import matplotlib.pyplot as plt
 from pMolecule import *
 from pMolecule.QCModel import *
 
-
 #********************************************************************************
 class US:
     '''
@@ -52,8 +51,8 @@ class US:
         self.rmsGT              = 0.1
         self.multipleDistance   = [ False,False ]
         self.massConstraint     = True
-        self.sigma_a1_a3        = [ 0.0,0.0]
-        self.sigma_a3_a1        = [ 0.0,0.0]
+        self.sigma_a1_a3        = [ 0.0,0.0 ]
+        self.sigma_a3_a1        = [ 0.0,0.0 ]
         self.mdMethod           = mdMethod
         self.bins               = 0
         self.restart            = RESTART
@@ -68,8 +67,8 @@ class US:
 
     #-----------------------------------------------------------------
     def ChangeDefaultParameters(self,_parameters):
-    
-
+        '''
+        '''
         if 'temperature'        in _parameters:
             self.temperature    = _parameters['temperature']
         if 'maxIterations_QC'   in _parameters:
@@ -92,34 +91,23 @@ class US:
                             }
 
     #==========================================================================
-    def SetMode(self,_atoms,_massConstraint):
+    def SetMode(self,_RC):
         '''
         Class method to setup modes to be restrained
         '''
         #----------------------------------------------------------------------
         ndim = self.nDim # temp var to hold the index of the curren dim
         self.nDim += 1
-        self.atoms.append(_atoms)
-        self.sigma_a1_a3[ndim]  =  1.0 
-        self.sigma_a3_a1[ndim]  = -1.0
-        self.massConstraint     = _massConstraint
+        self.atoms.append(_RC.atoms)
 
-        #-------------------------------------------------------------------
-        if len(_atoms) == 3:
-            self.multipleDistance[ndim] = True
+        self.DINCREMENT[ndim]       = _RC.increment
+        self.sigma_a1_a3[ndim]      = _RC.weight13
+        self.sigma_a3_a1[ndim]      = _RC.weight31
+        self.DMINIMUM[ndim]         = _RC.minimumD
+        self.massConstraint         = _RC.massConstraint
 
-        #.---------------------------
-        if self.multipleDistance[ndim]:
-            #.----------------------
-            if self.massConstraint:
-                atomic_n1 = self.molecule.atoms.items[ self.atoms[ndim][0] ].atomicNumber
-                atomic_n3 = self.molecule.atoms.items[ self.atoms[ndim][2] ].atomicNumber
-                mass_a1 = GetAtomicMass(atomic_n1)
-                mass_a3 = GetAtomicMass(atomic_n3)
-                self.sigma_a1_a3[ndim] = mass_a1 /(mass_a1+mass_a3)
-                self.sigma_a3_a1[ndim] = mass_a3 /(mass_a1+mass_a3)
-                self.sigma_a3_a1[ndim] = self.sigma_a3_a1[ndim]*-1
- 
+        if len(_RC.atoms) == 3:
+            self.multipleDistance[ndim] = True 
     
     #============================================================================
     def ChangeConvergenceParameters(self):
@@ -240,24 +228,23 @@ class US:
         Class method to execute two-dimesninal sampling 
         ''' 
         self.samplingFactor = _sample
-
-        pkl_path        = os.path.join( _trajFolder, "")
-        self.file_lists = glob.glob( pkl_path+"*.pkl" )
-        self.bins       = len(self.file_lists)
-        self.mdPaths    = []
-
+        pkl_path            = os.path.join( _trajFolder, "")
+        self.file_lists     = glob.glob( pkl_path+"*.pkl" )
+        self.bins           = len(self.file_lists)
+        self.mdPaths        = []
+        #-----------------------------------------------
         for i in range( len(self.file_lists) ):
             coordinate_file = self.file_lists[i]
             temp    = coordinate_file[:-4]
             temp    = os.path.basename(temp)
             md_path = os.path.join(self.baseName, temp )
             self.mdPaths.append(md_path)
-             
+        
+        #-----------------------------------------------    
         if self.restart:   
             for fl in self.mdPaths:
                 if os.path.exists( fl ):
-                    self.mdPaths.remove( fl )
-        
+                    self.mdPaths.remove( fl )        
         #-----------------------------------------------
         self.EnergyRef = self.molecule.Energy()
         self.forceCRef = self.forceC
@@ -273,22 +260,22 @@ class US:
     def Run2DMultipleDistance(self):
         '''
         '''
+        #-----------------------
         atom1 = self.atoms[0][0]
         atom2 = self.atoms[0][1]
         atom3 = self.atoms[0][2]
         atom4 = self.atoms[1][0]
         atom5 = self.atoms[1][1]
         atom6 = self.atoms[1][2]
-
+        #-----------------------
         weight1 = self.sigma_a3_a1[0]
         weight2 = self.sigma_a1_a3[0]
         weight3 = self.sigma_a3_a1[1]
         weight4 = self.sigma_a1_a3[1]
-
+        #-----------------------
         restraints = RestraintModel()
         self.molecule.DefineRestraintModel( restraints )
-
-
+        #-------------------------------------
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( self.bins) :  
                 #--------------------------------------------------------
@@ -315,8 +302,7 @@ class US:
                     self.ChangeConvergenceParameters()
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor) 
-        
+                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)         
         #.....................................................................
         self.molecule.DefineRestraintModel(None) 
         #---------------------------------------            
@@ -324,7 +310,6 @@ class US:
     #==========================================================================================           
     def Run2DMixedDistance(self):
         '''
-
         '''
         atom1 = self.atoms[0][0]
         atom2 = self.atoms[0][1]

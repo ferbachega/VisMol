@@ -156,7 +156,7 @@ def load_pDynamo_system_from_file (filein,  gridsize = 3, vismolSession =  None,
         '''
         
     frame = np.array(frame, dtype=np.float32)
-    name = os.path.basename(filein)
+    name  = os.path.basename(filein)
     
     vismol_object  = VismolObject.VismolObject(name                           = name          ,    
                                                atoms                          = atoms         ,    

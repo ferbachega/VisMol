@@ -13,8 +13,6 @@
 
 from commonFunctions import *
 from pMolecule import *
-from pMolecule.QCModel import *
-from GeometrySearcher import * 
 
 #*****************************************************************************
 class ReactionCoordinate:
@@ -52,14 +50,24 @@ class ReactionCoordinate:
 		self.molecule  = _molecule
 		
 		sequence = getattr( self.molecule, "sequence", None )
-		if sequence is None: 
-			sequence = Sequence.FromAtoms ( self.molecule.atoms, componentLabel = "UNK.1" )
-
+		
 		if self.Type == "multipleDistance":
-            #.----------------------
-			if self.massConstraint:
-				atomic_n1 = self.molecule.atoms.items[ self.atoms[0] ].atomicNumber
-				atomic_n3 = self.molecule.atoms.items[ self.atoms[2] ].atomicNumber
+			A1 = self.molecule.atoms.items[ self.atoms[0] ]
+			A2 = self.molecule.atoms.items[ self.atoms[1] ]
+			A3 = self.molecule.atoms.items[ self.atoms[2] ]
+			A1res = A1.parent.label.split(".")
+			A2res = A2.parent.label.split(".")
+			A3res = A3.parent.label.split(".")
+			#resName1 
+			self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")-"
+			self.label += A2.label + "(" + A2res[0] + A2res[1] + ")--"
+			self.label += "--"
+			self.label += A3.label + "(" + A2res[0] + A2res[1] + ") $\AA$"
+            #.-------------------------------------------------
+			if self.massConstraint:				
+				#------------------------------------------------
+				atomic_n1 = A1.atomicNumber
+				atomic_n3 = A3.atomicNumber
 				mass_a1 = GetAtomicMass(atomic_n1)
 				mass_a3 = GetAtomicMass(atomic_n3)
 				self.weight13 = mass_a1 /(mass_a1+mass_a3)
@@ -68,13 +76,7 @@ class ReactionCoordinate:
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 				dist_a2_a3 = self.molecule.coordinates3.Distance( self.atoms[1], self.atoms[2] )
 				self.minimumD = ( self.weight13 * dist_a1_a2) - ( self.weight31 * dist_a2_a3*-1)
-				sequence.ParseLabel ( self.molecule.atoms.items[self.atoms[0] ] )
-				#resName1 
-				self.label =  self.molecule.atoms.items[ self.atoms[0] ].label + "-"
-				self.label += self.molecule.atoms.items[ self.atoms[1] ].label
-				self.label += "--"
-				self.label += self.molecule.atoms.items[ self.atoms[2] ].label
-
+				#------------------------------------------------				
             #.----------------------
 			else:
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
@@ -82,6 +84,12 @@ class ReactionCoordinate:
 				self.minimumD =  dist_a1_a2 - dist_a2_a3
         #.--------------------------       
 		elif self.Type == "Distance":
+			A1 = self.molecule.atoms.items[ self.atoms[0] ]
+			A2 = self.molecule.atoms.items[ self.atoms[1] ]
+			A1res = A1.parent.label.split(".")
+			A2res = A2.parent.label.split(".")
+			self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")--"
+			self.label += A2.label + "(" + A2res[0] + A2res[1] + ") $\AA$"			
 			self.minimumD = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 
 #===================================================================================================================

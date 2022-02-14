@@ -230,13 +230,12 @@ class SimulationProject:
         self.cSystem.DefineQCModel( _QCmodel, qcSelection=_QCRegion )
         self.cSystem.DefineNBModel( self.NBmodel )       
         #------------------------------------------------------------------------
-        self.logfile.inputLine( "Total Energy of the System: " + str(energy) )           
-        #------------------------------------------------------------------------
         if self.DEBUG:
             qcSystem = PruneByAtom(self.cSystem, _QCRegion)
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
             ExportSystem(self.baseName+"_qcSystemEntire.pdb",self.cSystem)
             energy = self.cSystem.Energy() 
+            self.logfile.inputLine( "Total Energy of the System: " + str(energy) ) 
 
     #=====================================================================================
     def SetOrcaSystem(self,_model,_basis,_region,_QCcharge,_QCmultiplicity):

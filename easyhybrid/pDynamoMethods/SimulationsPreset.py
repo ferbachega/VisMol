@@ -22,7 +22,7 @@ from PotentialOfMeanForce 	import PMF
 from ReactionCoordinate 	import *
 from EnergyRefinement	 	import *
 from Analysis    			import EnergyAnalysis
-from Analysis 				import DistAnalysis
+from Analysis 				import DistanceAnalysis
 
 #--------------------------------------------------------------
 #loading pDynamo Libraries
@@ -120,6 +120,11 @@ class Simulation:
 		elif self.simulationType == "Steered_Molecular_Dynamics":
 			self.SMD(_parameters)
 		#-------------------------------------------------------------
+		elif self.simulationType == "Trajectory_Analysis":
+			self.TrajectoryAnalysis(_parameters,_plotParameters) 
+		#-------------------------------------------------------------
+		elif self.simulationType == "Energy_Plots":
+			self.EnergyPlots(_parameters,_plotParameters)
 
 	#==================================================================
 	def EnergyRefine(self,_parameters,_plotParameters):
@@ -137,8 +142,8 @@ class Simulation:
 			_Restart = True
 		#------------------------------------------------------------------
 		ER = EnergyRefinement(self.molecule  					,
-							  _parameters["Scr_folder"]  		,
-							  _parameters["Out_folder"]         ,dimensions,
+							  _parameters["source_folder"]  	,
+							  _parameters["out_folder"]         ,dimensions,
 							  _parameters["charge"]             ,
 							  _parameters["multiplicity"]		)
 		#------------------------------------------------------------------
@@ -165,6 +170,7 @@ class Simulation:
 		crd2_label = "Reaction Coordinate #2"
 		xlims = [ 0, dimensions[0] ]
 		ylims = [ 0, dimensions[1] ]
+		show  = False
 		#check parameters for plot
 		if "contour_lines" in _plotParameters:
 			cnt_lines  = _plotParameters["contour_lines"]
@@ -176,6 +182,8 @@ class Simulation:
 			xlim = _plotParameters["xlim_list"]
 		if "ylim_list" in _plotParameters:
 			ylim = _plotParameters["ylim_list"]
+		if "show" in _plotParameters:
+			show = True
 		#------------------------------------------------------------
 		ER.WriteLog()
 		if len(dimensions[1]) > 0:
@@ -186,14 +194,13 @@ class Simulation:
 		EA.ReadLog( os.path.join(ER.baseName,"EnergyRefinement.log") )
 		#-------------------------------------------------------------
 		if len(dimensions[1]) > 0:
-			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim)
+			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
 			if "methods_lists" in _parameters:
 				if len(_parameters["methods_lists"]) > 1:
 					EA.MultPlot1D(_plotParameters["crd1_label"])
 			else:
-				EA.Plot1D(_plotParameters["crd1_label"])		
-
+				EA.Plot1D(_plotParameters["crd1_label"],show)
 	#==================================================================
 	def GeometryOptimization(self,_parameters):
 		'''
@@ -209,7 +216,6 @@ class Simulation:
 		Gopt.ChangeDefaultParameters(_parameters)
 		Gopt.Minimization(_Optimizer)
 		Gopt.Finalize()
-
 	#==================================================================
 	def RelaxedSurfaceScan(self,_parameters,_plotParameters):
 		'''
@@ -220,7 +226,7 @@ class Simulation:
 		'''
 		#------------------------------------------------------------------
 		_Adaptative = False
-		_Optimizer  = False
+		_Optmizer   = "ConjugatedGradient"
 		MCR1 		= False
 		MCR2 		= False
 		RD          = _parameters["ndim"]
@@ -248,52 +254,53 @@ class Simulation:
 			rc2.SetInformation(self.molecule,_parameters['dincre_RC2'])				
 		#------------------------------------------------------
 		scan.SetReactionCoord(rc1)
+		xlims = [0, _parameters['nSteps_RC1'] ]
+		ylims = [0,0]
 		#--------------------------------------------------------------------------------
 		if nDims == 2:
 			scan.SetReactionCoord(rc2)
 			scan.Run2DScan(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
+			ylims = [ 0,  _parameters['nSteps_RC2']]
 		elif nDims == 1:
 			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])
 		#...............
 		scan.Finalize()		
-		#---------------------------------------------------------------------------------
-		#===========================================================
+		#================================================================
 		#Set plor parameters
 		cnt_lines  = 12
-		crd1_label = "Reaction Coordinate #1"
-		crd2_label = "Reaction Coordinate #2"
-		xlims = [ 0, dimensions[0] ]
-		ylims = [ 0, dimensions[1] ]
+		crd1_label = rc1.label
+		crd2_label = ""
+		nRC2 = 0
+		show = False
+		if nDims == 2:
+			crd2_label = rc2.label
+		xlims = [ 0,  _parameters['nSteps_RC1'] ]
 		#check parameters for plot
 		if "contour_lines" in _plotParameters:
-			cnt_lines  = _plotParameters["contour_lines"]
-		if "crd1_label" in _plotParameters:
-			crd1_label = _plotParameters["crd1_label"]
-		if "crd2_label" in _plotParameters:
-			crd2_label = _plotParameters["crd2_label"]
+			cnt_lines  = _plotParameters["contour_lines"]		
 		if "xlim_list" in _plotParameters:
-			xlim = _plotParameters["xlim_list"]
+			xlims = _plotParameters["xlim_list"]
 		if "ylim_list" in _plotParameters:
-			ylim = _plotParameters["ylim_list"]
+			ylims = _plotParameters["ylim_list"]
+		if "nSteps_RC2" in _parameters:
+			nRC2= _parameters["nSteps_RC2"]
+		if "show" in _plotParameters:
+			show = True
 		#------------------------------------------------------------
-		ER.WriteLog()
-		if len(dimensions[1]) > 0:
+		if nDims == 2:
 			TYPE = "2D"
-		else: 
+		elif nDims == 1: 
 			TYPE = "1D"		
-		EA = EnergyAnalysis(dimensions[0],dimensions[1],_type=TYPE)
-		EA.ReadLog( os.path.join(ER.baseName,"EnergyRefinement.log") )
-		#-------------------------------------------------------------
-		if len(dimensions[1]) > 0:
-			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim)
-		else:
-			if "methods_lists" in _parameters:
-				if len(_parameters["methods_lists"]) > 1:
-					EA.MultPlot1D(_plotParameters["crd1_label"])
-			else:
-				EA.Plot1D(_plotParameters["crd1_label"])
 
-		
+		#------------------------------------------------------------
+		EA = EnergyAnalysis(_parameters['nSteps_RC1'],nRC2,_type=TYPE)
+		EA.ReadLog( scan.baseName+"_SCAN{}D.log".format(nDims)) 
+		#-------------------------------------------------------------
+		if nDims == 2:
+			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
+		elif nDims == 1:
+			EA.Plot1D(crd1_label,show)
+		#-------------------------------------------------------------
 	#=================================================================
 	def MolecularDynamics(self,_parameters,_plotParameters):
 		'''
@@ -319,8 +326,26 @@ class Simulation:
 				MDrun.RunEquilibration(_parameters['equilibration_nsteps'])
 				MDrun.RunProduction(_parameters['production_nsteps'])
 		#----------------------------------------------------------------
-		MDrun.Analysis()
-		#...............
+		if not _plotParameters == None:
+			show = False
+			RCs  = None
+			if "show" in _plotParameters:
+				show = True
+			t_time = _parameters["production_nsteps"]*0.001
+			DA = DistanceAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
+			DA.CalculateRG_RMSD()
+			DA.PlotRG_RMS(show)
+			
+			if "calculate_distances" in _plotParameters:
+				rc1 = ReactionCoordinate(_plotParameters["ATOMS_RC1"],False,0)
+				rc1.SetInformation(self.molecule,0)
+				RCs = [rc1]
+				rc2 = None
+				if "ATOMS_RC2" in _plotParameters:
+					rc2 = ReactionCoordinate(_plotParameters["ATOMS_RC2"],False,0)
+					rc2.SetInformation(self.molecule,0)
+					RCs.append(rc2)
+				DA.DistancePlots()
 	#==================================================================
 	def RestrictedMolecularDynamics(self,_parameters,_plotParameters):
 		'''
@@ -362,9 +387,9 @@ class Simulation:
 		distance = rc1.minimumD
 		rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
 		if rc1.nAtoms == 3:				
-			restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ rc1.atoms[1], rc1.atoms[0], rc1.weight13 ], [ rc1.atoms[1], rc1.atoms[2], rc1.weight31 ] ] ) 
+			restraint = RestraintMultipleDistance.WithOptions( energyModel=rmodel, distances=[ [ rc1.atoms[1], rc1.atoms[0], rc1.weight13 ], [ rc1.atoms[1], rc1.atoms[2], rc1.weight31 ] ] ) 
 		elif rc1.nAtoms == 2:				
-			restraint = RestraintDistance.WithOptions( energyModel = rmodel, point1= rc1.atoms[0], point2= rc1.atoms[1] )
+			restraint = RestraintDistance.WithOptions( energyModel=rmodel, point1=rc1.atoms[0], point2=rc1.atoms[1] )
 		restraints['M1'] =  restraint
 		#-------------------------------------------------------------------
 		if nDims == 2:
@@ -373,19 +398,25 @@ class Simulation:
 			if rc2.nAtoms == 3:				
 				restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ rc2.atoms[1], rc2.atoms[0], rc2.weight13 ], [ rc2.atoms[1], rc2.atoms[2], rc2.weight31 ] ] ) 
 			elif rc1.nAtoms == 2:				
-				restraint = RestraintDistance.WithOptions( energyModel = rmodel, point1= rc2.atoms[0], point2= rc2.atoms[1] )
+				restraint = RestraintDistance.WithOptions( energyModel=rmodel, point1=rc2.atoms[0], point2=rc2.atoms[1] )
 			restraints['M2'] =  restraint		
 		#----------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(_parameters)
-		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["sampling_Factor"])
-		MDrun.Analysis()
-		RCs = [ rc1 ]
-		if nDims == 2:
-			RCs.append(rc2)
-		MDrun.DistAnalysis(RCs)
-		#.............................
-
+		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["sampling_factor"])
+		#-----------------------------------------------------------------		
+		if not _plotParameters == None:
+			t_time = _parameters["production_nsteps"]*0.001
+			if "show" in _plotParameters:
+				show = True
+			DA = DistanceAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
+			DA.CalculateRG_RMSD()
+			DA.PlotRG_RMS(show)				
+			RCs = [rc1]
+			if nDims > 1:				
+				RCs.append(rc2)							
+			DA.DistancePlots(RCs,show)
+			DA.ExtractFrames()
 	#=======================================================================
 	def UmbrellaSampling(self,_parameters,_plotParameters):
 		'''
@@ -397,18 +428,28 @@ class Simulation:
 		#---------------------------------------
 		MCR1 = False
 		MCR2 = False		
+		rcType1 = "Distance"
+		rcType2 = "Distance"
+		#---------------------------------------
 		if "MC_RC1" in _parameters:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
-
+		#---------------------------------------
 		_Restart 	= False
 		_Adaptative = False
 		if "restart" in _parameters:
 			_Restart = True 
 		if "adaptative" in _parameters:
 			_Adaptative = True
-
+		#-------------------------------------------------------------------
+		rc1 = ReactionCoordinate(_parameters["atoms_M1"],MCR1,_type=rcType1)
+		rc1.SetInformation(self.molecule,0)
+		nDims = _parameters['ndim']
+		rc2 = None
+		if nDims == 2:
+			rc2 = ReactionCoordinate(_parameters["atoms_M2"],MCR2,_type=rcType2)
+			rc2.SetInformation(self.molecule,0)
 		#---------------------------------------
 		USrun = US(self.molecule  						,
 			       self.baseFolder 						,
@@ -417,27 +458,24 @@ class Simulation:
 			       _parameters["MD_method"]             ,
 			       RESTART=_Restart                     ,
 			       ADAPTATIVE=_Adaptative               )
-		
+		#---------------------------------------
 		USrun.ChangeDefaultParameters(_parameters)
-		USrun.SetMode(_parameters["ATOMS_RC1"],MCR1)
-
+		USrun.SetMode(rc1)
 		if _parameters["ndim"] == 1:
-			USrun.Run1DSampling(_parameters["Src_folder"],_parameters["sampling_Factor"])
+			USrun.Run1DSampling(_parameters["source_folder"],_parameters["sampling_factor"])
 		elif _parameters["ndim"] == 2:
-			USrun.SetMode(_parameters["ATOMS_RC2"],MCR2)
-			USrun.Run2DSampling(_parameters["Src_folder"],_parameters["sampling_Factor"])
-		
+			USrun.SetMode(rc2)
+			USrun.Run2DSampling(_parameters["source_folder"],_parameters["sampling_factor"])		
 	#=========================================================================
-	def PMFAnalysis(self,_parameters):
+	def PMFAnalysis(self,_parameters,_plotParameters):
 		'''
 		Calculate potential of mean force and Free energy from restricted molecular dynamics
 		Parameters:
 			_parameters: python dict with parameters for simulation
 			_plotParameters: python dict with parameters for plot graphics and analysis
 		'''
-		potmean = PMF( self.molecule, _parameters["Src_Folder"], self.baseFolder )
+		potmean = PMF( self.molecule, _parameters["source_folder"], self.baseFolder )
 		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ynbins"],_parameters["temperature"])
-
 	#=========================================================================
 	def NormalModes(self,_parameters):
 		'''
@@ -445,24 +483,29 @@ class Simulation:
 		Parameters:
 			_parameters: python dict with parameters for simulation
 		'''	
-
+		mode 		= 0
+		temperature = 300.15
+		Cycles 		= 10 
+		Frames  	= 10 
 		if "temperature" in _parameters:
-			self.temperature = _parameters['temperature']
+			temperature = _parameters['temperature']
 		if "cycles" in _parameters:
-			self.NMcycles = _parameters['cycles']
+			Cycles = _parameters['cycles']
 		if "frames" in _parameters:
-			self.NMframes = _parameters['frames']
+			Frames = _parameters['frames']
+		if "mode" in _parameters:
+			mode = _parameters["mode"]
+
 
 		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
 		if _mode > 0:
 			trajectory = ExportTrajectory ( os.path.join (self.baseFolder, "NormalModes","trj"), self.molecule )
-			NormalModesTrajectory_SystemGeometry(	self.molecule					,
-                                       			 	trajectory          			,
-                                       				mode        = _mode				,
-                                       				cycles      = self.NMcycles    	,
-                                       				frames      = self.NMframes 	,
-                                       				temperature = self.temperature )
-
+			NormalModesTrajectory_SystemGeometry(	self.molecule		      ,
+                                       			 	trajectory                ,
+                                       				mode        = _mode	      ,
+                                       				cycles      = Cycles      ,
+                                       				frames      = Frames 	  ,
+                                       				temperature = temperature )
 	#==========================================================================
 	def DeltaFreeEnergy(self,_parameters):
 		'''
@@ -473,17 +516,24 @@ class Simulation:
 		'''
 		
 		#initial Structure
-		self.molecule.coordinates3 = ImportCoordinates3(_initCoord)
+		pressure       = 1.0
+		temperature    = 300.15 
+		symmetryNumber = 1
+
+		if "pressure" in _parameters:
+			pressure = _parameters["pressure"]
+
+		self.molecule.coordinates3 = ImportCoordinates3(_parameters["initial_coordinates"])
 		e0 = self.molecule.Energy()
-		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
+		NormalModes_SystemGeometry( self.molecule, modify = ModifyOption.Project )
 		Gibbs = [] 
 		tdics = ThermodynamicsRRHO_SystemGeometry ( self.molecule 							,
-                                                    pressure       = self.pressure       	,
+                                                    pressure       = pressure       	,
                                                     symmetryNumber = self.symmetryNumber 	,
                                                     temperature    = self.temperature    	)
 		Gibbs.append( tdics["Gibbs Free Energy"] )
     	# Final struct
-		self.molecule.coordinates3 = ImportCoordinates3(_finalCoord)
+		self.molecule.coordinates3 = ImportCoordinates3(_parameters["final_coordinates"])
 		e1 = self.molecule.Energy()
 		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
     	 
@@ -492,9 +542,6 @@ class Simulation:
                                                     symmetryNumber = self.symmetryNumber 	,
                                                     temperature    = self.temperature    	)
 		Gibbs.append( tdics["Gibbs Free Energy"] )
-
-
-
 	#=========================================================================	
 	def NEB(self,_parameters,_plotParameters):
 		'''
@@ -511,7 +558,6 @@ class Simulation:
 								 _parameters['final_coordinates'] ,  	\
 								 _parameters['NEB_nbins'],				\
 								 _parameters["RMS_growing_intial_string"] )
-
 	#=========================================================================
 	def SAW(self,_parameters):
 		'''
@@ -529,7 +575,6 @@ class Simulation:
 		Set up and execute Steered Molecular Dynamics simulations
 		'''
 		pass
-
 #=============================================================================
 #========================END OF THE FILE======================================
 #=============================================================================
