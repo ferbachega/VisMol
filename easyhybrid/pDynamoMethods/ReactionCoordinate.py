@@ -40,11 +40,13 @@ class ReactionCoordinate:
 
 		if self.Type == "Distance":
 			if self.nAtoms == 3:
-				self.Type == "multipleDistance"
+				self.Type = "multipleDistance"
+				
 
 	#==========================================================================================================
 	def SetInformation(self,_molecule,_dincre):
-		'''		
+		'''
+		Define the values required for the reaction coordinate		
 		'''	
 		self.increment = _dincre
 		self.molecule  = _molecule
@@ -62,7 +64,7 @@ class ReactionCoordinate:
 			self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")-"
 			self.label += A2.label + "(" + A2res[0] + A2res[1] + ")--"
 			self.label += "--"
-			self.label += A3.label + "(" + A2res[0] + A2res[1] + ") $\AA$"
+			self.label += A3.label + "(" + A3res[0] + A3res[1] + ") $\AA$"
             #.-------------------------------------------------
 			if self.massConstraint:				
 				#------------------------------------------------
@@ -72,7 +74,7 @@ class ReactionCoordinate:
 				mass_a3 = GetAtomicMass(atomic_n3)
 				self.weight13 = mass_a1 /(mass_a1+mass_a3)
 				self.weight31 = mass_a3 /(mass_a1+mass_a3)
-				self.weight31 = self.sigma_a3_a1*-1
+				self.weight31 = self.weight31*-1
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 				dist_a2_a3 = self.molecule.coordinates3.Distance( self.atoms[1], self.atoms[2] )
 				self.minimumD = ( self.weight13 * dist_a1_a2) - ( self.weight31 * dist_a2_a3*-1)

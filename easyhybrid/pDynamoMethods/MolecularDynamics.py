@@ -129,16 +129,16 @@ class MD:
         if not os.path.exists( self.trajectoryNameCurr ):
             os.makedirs( self.trajectoryNameCurr )
         #---------------------------------------------------------------------------------------------
-        VelocityVerletDynamics_SystemGeometry(self.molecule                                           ,
-                                            logFrequency              = self.logFreq                  ,
-                                            normalDeviateGenerator    = self.RNG                      ,
-                                            steps                     = self.nsteps                   ,
-                                            timeStep                  = self.timeStep                 ,
-                                            trajectories              = [(trajectory,self.nsteps/100)],
-                                            temperatureScaleFrequency = self.temperatureScaleFreq     ,
-                                            temperatureScaleOption    = self.temperatureScaleOption   ,
-                                            temperatureStart          = self.startTemperature         ,
-                                            temperatureStop           = self.temperature              )
+        VelocityVerletDynamics_SystemGeometry(self.molecule                                                 ,
+                                            logFrequency              = self.logFreq                        ,
+                                            normalDeviateGenerator    = self.RNG                            ,
+                                            steps                     = self.nsteps                         ,
+                                            timeStep                  = self.timeStep                       ,
+                                            trajectories              = [(trajectory,self.samplingFactor)]  ,
+                                            temperatureScaleFrequency = self.temperatureScaleFreq           ,
+                                            temperatureScaleOption    = self.temperatureScaleOption         ,
+                                            temperatureStart          = self.startTemperature               ,
+                                            temperatureStop           = self.temperature                    )
         #..............................................................................................
     
     #===================================================================================
@@ -194,8 +194,7 @@ class MD:
         self.outputDCD          = False
         
         self.RunEquilibration(_equiSteps)
-        self.RunProduction(_prodSteps)       
-    
+        self.RunProduction(_prodSteps)           
 
     #======================================================================================
     def runVerlet(self):

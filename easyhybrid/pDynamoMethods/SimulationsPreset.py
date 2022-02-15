@@ -283,15 +283,14 @@ class Simulation:
 		if "ylim_list" in _plotParameters:
 			ylims = _plotParameters["ylim_list"]
 		if "nSteps_RC2" in _parameters:
-			nRC2= _parameters["nSteps_RC2"]
+			nRC2  = _parameters["nSteps_RC2"]
 		if "show" in _plotParameters:
 			show = True
 		#------------------------------------------------------------
 		if nDims == 2:
 			TYPE = "2D"
 		elif nDims == 1: 
-			TYPE = "1D"		
-
+			TYPE = "1D"	
 		#------------------------------------------------------------
 		EA = EnergyAnalysis(_parameters['nSteps_RC1'],nRC2,_type=TYPE)
 		EA.ReadLog( scan.baseName+"_SCAN{}D.log".format(nDims)) 
@@ -318,7 +317,6 @@ class Simulation:
 		#---------------------------------------------------------------
 		if "protocol" in _parameters:
 			if _parameters["protocol"] 		== "heating":
-				print(_parameters['production_nsteps'])
 				MDrun.HeatingSystem(_parameters['production_nsteps'])
 			elif _parameters["protocol"] 	== "equilibration":
 				MDrun.RunEquilibration(_parameters['equilibration_nsteps'])
@@ -443,12 +441,12 @@ class Simulation:
 		if "adaptative" in _parameters:
 			_Adaptative = True
 		#-------------------------------------------------------------------
-		rc1 = ReactionCoordinate(_parameters["atoms_M1"],MCR1,_type=rcType1)
+		rc1 = ReactionCoordinate(_parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.SetInformation(self.molecule,0)
 		nDims = _parameters['ndim']
 		rc2 = None
 		if nDims == 2:
-			rc2 = ReactionCoordinate(_parameters["atoms_M2"],MCR2,_type=rcType2)
+			rc2 = ReactionCoordinate(_parameters["ATOMS_RC2"],MCR2,_type=rcType2)
 			rc2.SetInformation(self.molecule,0)
 		#---------------------------------------
 		USrun = US(self.molecule  						,
@@ -465,7 +463,9 @@ class Simulation:
 			USrun.Run1DSampling(_parameters["source_folder"],_parameters["sampling_factor"])
 		elif _parameters["ndim"] == 2:
 			USrun.SetMode(rc2)
-			USrun.Run2DSampling(_parameters["source_folder"],_parameters["sampling_factor"])		
+			USrun.Run2DSampling(_parameters["source_folder"],_parameters["sampling_factor"])
+		#---------------
+		USrun.Finalize()		
 	#=========================================================================
 	def PMFAnalysis(self,_parameters,_plotParameters):
 		'''
@@ -476,6 +476,75 @@ class Simulation:
 		'''
 		potmean = PMF( self.molecule, _parameters["source_folder"], self.baseFolder )
 		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ynbins"],_parameters["temperature"])
+
+		#================================================================
+		#Set plor parameters
+		cnt_lines  = 12
+		crd1_label = ""
+		crd2_label = ""
+		nRC2       = 0
+		show       = False
+		xwin       = 0
+		ywin       = 0 
+
+		nDims = 1
+		if _parameters["ynbins"] == 2:
+			nDims = 2
+
+		if nDims == 2:
+			crd2_label = rc2.label
+		xlims = [ 0,  _parameters['xnbins'] ]
+		ylims = [ 0,  _parameters['ynbins'] ]
+		#check parameters for plot
+		if "contour_lines" in _plotParameters:
+			cnt_lines  = _plotParameters["contour_lines"]		
+		if "xlim_list" in _plotParameters:
+			xlims = _plotParameters["xlim_list"]
+		if "ylim_list" in _plotParameters:
+			ylims = _plotParameters["ylim_list"]
+		if "ynbins" in _parameters:
+			nRC2  = _parameters["ynbins"]
+		if "show" in _plotParameters:
+			show = True
+		if "crd1_label" in _plotParameters:
+			crd1_label = _plotParameters["crd1_label"]
+		if "xwindows" in _plotParameters:
+			xwin = _plotParameters["xwindows"]
+		if "ywindows" in _plotParameters:
+			ywin = _plotParameters["ywindows"]
+		#------------------------------------------------------------
+		if nDims == 2:
+			TYPE = "WHAM2D"
+		elif nDims == 1: 
+			TYPE = "WHAM1D"	
+		#------------------------------------------------------------
+		# Plot PMF graphs
+		EA = EnergyAnalysis(_parameters['xnbins'],nRC2,_type=TYPE)
+		EA.ReadLog( potmean.baseName+".dat" ) 
+		#-------------------------------------------------------------
+		if nDims == 2:
+			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
+		elif nDims == 1:
+			EA.Plot1D(crd1_label,show)
+
+		#-------------------------------------------
+		#Plot Free energy of the calculated windows
+		if nDims == 2:
+			TYPE = "FE2D"
+		elif nDims == 1: 
+			TYPE = "FE1D"
+		#------------------------------------------
+		xlims = [ 0,  xwin ]
+		ylims = [ 0,  ywin ]
+		#------------------------------------------
+		EA = EnergyAnalysis(_parameters['xnbins'],nRC2,_type=TYPE)
+		EA.ReadLog( potmean.baseName+"_FE.log" ) 
+		#-------------------------------------------------------------
+		if nDims == 2:
+			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
+		elif nDims == 1:
+			EA.Plot1D(crd1_label,show)
+
 	#=========================================================================
 	def NormalModes(self,_parameters):
 		'''
@@ -487,19 +556,19 @@ class Simulation:
 		temperature = 300.15
 		Cycles 		= 10 
 		Frames  	= 10 
+		#-------------------------------
 		if "temperature" in _parameters:
-			temperature = _parameters['temperature']
+			temperature = _parameters["temperature"]
 		if "cycles" in _parameters:
-			Cycles = _parameters['cycles']
+			Cycles = _parameters["cycles"]
 		if "frames" in _parameters:
-			Frames = _parameters['frames']
+			Frames = _parameters["frames"]
 		if "mode" in _parameters:
-			mode = _parameters["mode"]
-
-
+			mode   = _parameters["mode"]
+		#-------------------------------
 		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
 		if _mode > 0:
-			trajectory = ExportTrajectory ( os.path.join (self.baseFolder, "NormalModes","trj"), self.molecule )
+			trajectory = ExportTrajectory ( os.path.join (self.baseFolder, "NormalModes","ptGeo"), self.molecule )
 			NormalModesTrajectory_SystemGeometry(	self.molecule		      ,
                                        			 	trajectory                ,
                                        				mode        = _mode	      ,

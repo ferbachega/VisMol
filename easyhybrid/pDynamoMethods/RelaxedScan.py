@@ -86,8 +86,8 @@ class SCAN:
             self.logFreq = _paremeters["log_frequency"]
         if "NmaxThreads" in _parameters:
             self.nprocs = _parameters["NmaxThreads"]
-        if "forceConst" in _parameters:
-            self.forceC = _parameters["forceConst"]
+        if "force_constant" in _parameters:
+            self.forceC = _parameters["force_constant"]
 
         #-----------------------------------------------------------
         self.GeoOptPars =   { 
@@ -177,7 +177,7 @@ class SCAN:
             atom3 = self.atoms[0][2]
         #----------------------------------
         weight1 = self.sigma_a1_a3[0]
-        weight2 = self.sigma_a3_a1[0]        
+        weight2 = self.sigma_a3_a1[0]              
         #---------------------------------
         self.text += "x RC1 Energy\n" 
 
@@ -186,8 +186,8 @@ class SCAN:
         
         #----------------------------------------------------------------------------------------
         if self.multipleDistance[0]:
-            for i in range(0,_nsteps):     
-                distance = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) )                
+            for i in range(0,_nsteps):
+                distance = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) ) 
                 #--------------------------------------------------------------------
                 rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
                 restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ] )
@@ -210,7 +210,6 @@ class SCAN:
         else:
              for i in range(_nsteps):       
                 distance = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) )
-                print( distance )
                 #--------------------------------------------------------------------
                 rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
                 restraint = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom1, point2= atom2 )
@@ -248,9 +247,9 @@ class SCAN:
         Y = _nsteps_y
         self.nsteps[0] = X       
         self.nsteps[1] = Y  
-        self.energiesMatrix = pymp.shared.array( (Y,X), dtype=float ) 
-        self.reactionCoordinate1 = pymp.shared.array( (Y,X ), dtype=float )   
-        self.reactionCoordinate2 = pymp.shared.array( (Y,X ), dtype=float )   
+        self.energiesMatrix = pymp.shared.array( (X,Y), dtype=float ) 
+        self.reactionCoordinate1 = pymp.shared.array( (X,Y), dtype=float )   
+        self.reactionCoordinate2 = pymp.shared.array( (X,Y), dtype=float )   
         #-----------------------------------------------------------------------------------------------
         #Define the origin point of the relaxed surface scan, AKA the 0,0 point
         coordinateFile = os.path.join( self.baseName ,"ScanTraj.ptGeo","frame{}_{}.pkl".format( 0, 0 ) )
@@ -260,6 +259,7 @@ class SCAN:
         #-----------------------------------------------------------------------------------------------
         self.EnergyRef = self.en0 = self.molecule.Energy(log=None)         
         Pickle( coordinateFile, self.molecule.coordinates3 )
+
 
         if self.multipleDistance[0] and self.multipleDistance[1]:
             self.Run2DScanMultipleDistance(X,Y)            
@@ -282,6 +282,9 @@ class SCAN:
 
         restraints = RestraintModel( )
         self.molecule.DefineRestraintModel( restraints )
+
+        self.reactionCoordinate1[ 0,0 ] = self.molecule.coordinates3.Distance( atom1, atom2 ) 
+        self.reactionCoordinate2[ 0,0 ] = self.molecule.coordinates3.Distance( atom3, atom4 ) 
 
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( 1, X ):  
@@ -363,7 +366,10 @@ class SCAN:
 
         restraints = RestraintModel( )
         self.molecule.DefineRestraintModel( restraints )
-
+        
+        self.reactionCoordinate1[ 0,0 ] = self.molecule.coordinates3.Distance( atom1, atom2 ) - self.molecule.coordinates3.Distance( atom3, atom2 )
+        self.reactionCoordinate2[ 0,0 ] = self.molecule.coordinates3.Distance( atom4, atom5 )
+       
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( 1, X ):  
                 #--------------------------------------------------------------------------------  
@@ -449,6 +455,9 @@ class SCAN:
         restraints = RestraintModel( )
         self.molecule.DefineRestraintModel( restraints )
 
+        self.reactionCoordinate1[ 0,0 ] = self.molecule.coordinates3.Distance( atom1, atom2 ) - self.molecule.coordinates3.Distance( atom3, atom2 )
+        self.reactionCoordinate2[ 0,0 ] = self.molecule.coordinates3.Distance( atom4, atom5 ) - self.molecule.coordinates3.Distance( atom6, atom5 )
+                
         #-------------------------------------------------------------------------------------
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( 1, X ):  

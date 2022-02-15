@@ -56,6 +56,8 @@ class EnergyAnalysis:
 		self.labely         = ""
 		self.baseName 		= ""
 		self.identifiers    = []
+		self.PMF1D 			= []
+		self.PMF2D  		= np.zeros( (y, x), dtype=float )
 
 		if self.ylen > 0:
 			self.dimensions = 2
@@ -99,8 +101,7 @@ class EnergyAnalysis:
 					m = int( lns[0])				
 					n = int( lns[1])				
 					self.energiesMatrix[n][m] = float(lns[4]) 
-				i += 1
-		
+				i += 1		
 		#----------------------------------
 		elif self.Type == "2DRef":
 			for line in reading:
@@ -108,19 +109,38 @@ class EnergyAnalysis:
 				m = int( lns[0])				
 				n = int( lns[1])				
 				self.energiesMatrix[n][m] = float(lns[2])
-
 		#----------------------------------
 		elif self.Type == "WHAM1D":
-			pass
+			for line in reading:
+				lns = line.split()
+				self.RC1.append( float(lns[0]) )
+				self.PMF1D.append( float(lns[1]) )
 		#----------------------------------
 		elif self.Type == "WHAM2D":
-			pass
+			m = 0
+			n = 0
+			for line in reading:
+				lns = line.split()
+				self.RC1.append( float(lns[0]) )
+				self.RC2.append( float(lns[1]) )
+				self.PMF2D[m][n] = float(lns[2])
+				i+=0
+				n = i				
+				if i % self.xlen == 0:
+					m += 1
+					n = 0
 		#----------------------------------
 		elif self.Type == "FE1D":
-			pass
+			for line in reading:
+				lns = line.split()
+				self.energies1D= float(lns[1])				
 		#----------------------------------
 		elif self.Type == "FE2D":
-			pass
+			for line in reading:
+				lns = line.split()
+				m = int( lns[0])				
+				n = int( lns[1])				
+				self.energiesMatrix[n][m] = float(lns[2]) 
 		#----------------------------------
 		self.nplots1D += 1
 	
@@ -212,7 +232,6 @@ class EnergyAnalysis:
 		y = range(self.ylen)		
 		#-----------------------------------------------------
 		if len(self.RC1) > 0:
-			print(self.RC1[0],self.RC1[-1],self.RC2[0],self.RC2[-1])
 			X = np.linspace(self.RC1[0],self.RC1[-1],self.xlen)
 			Y = np.linspace(self.RC2[0],self.RC2[-1],self.ylen)
 		#------------------------------------------------------
@@ -371,7 +390,6 @@ class DistanceAnalysis:
 			dsSystem.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
 			ExportSystem("mostFrequentRC1RC2.pdb",rmsSystem)
 			ExportSystem("mostFrequentRC1RC2.pkl",rmsSystem)
-			print(self.distances1[fn], self.distances2[fn] )
 
 	#=================================================
 	def PlotRG_RMS(self,SHOW=False):
