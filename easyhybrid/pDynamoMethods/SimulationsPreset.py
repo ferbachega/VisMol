@@ -21,9 +21,9 @@ from UmbrellaSampling  		import US
 from PotentialOfMeanForce 	import PMF
 from ReactionCoordinate 	import *
 from EnergyRefinement	 	import *
-from Analysis    			import EnergyAnalysis
-from Analysis 				import DistanceAnalysis
 
+from EnergyAnalysis import EnergyAnalysis
+from TrajectoryAnalysis import TrajectoryAnalysis
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     
@@ -330,7 +330,7 @@ class Simulation:
 			if "show" in _plotParameters:
 				show = True
 			t_time = _parameters["production_nsteps"]*0.001
-			DA = DistanceAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
+			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
 			DA.PlotRG_RMS(show)
 			
@@ -371,7 +371,7 @@ class Simulation:
 			rcType2 = _parameters["type_rc2"]
 
 		#-------------------------------------------------------------------
-		forcK = _parameters["forceC"]		
+		forcK = _parameters["force_constant"]		
 		restrainDimensions = _parameters['ndim']
 		#-------------------------------------------------------------------
 		rc1 = ReactionCoordinate(_parameters["atoms_M1"],MCR1,_type=rcType1)
@@ -407,7 +407,7 @@ class Simulation:
 			t_time = _parameters["production_nsteps"]*0.001
 			if "show" in _plotParameters:
 				show = True
-			DA = DistanceAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
+			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
 			DA.PlotRG_RMS(show)				
 			RCs = [rc1]
@@ -478,7 +478,7 @@ class Simulation:
 		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ynbins"],_parameters["temperature"])
 
 		#================================================================
-		#Set plor parameters
+		#Set plot parameters
 		cnt_lines  = 12
 		crd1_label = ""
 		crd2_label = ""
@@ -488,13 +488,14 @@ class Simulation:
 		ywin       = 0 
 
 		nDims = 1
-		if _parameters["ynbins"] == 2:
+		if _parameters["ynbins"] > 0:
 			nDims = 2
 
 		if nDims == 2:
 			crd2_label = rc2.label
 		xlims = [ 0,  _parameters['xnbins'] ]
 		ylims = [ 0,  _parameters['ynbins'] ]
+		#-------------------------------------------------------------
 		#check parameters for plot
 		if "contour_lines" in _plotParameters:
 			cnt_lines  = _plotParameters["contour_lines"]		
@@ -537,7 +538,7 @@ class Simulation:
 		xlims = [ 0,  xwin ]
 		ylims = [ 0,  ywin ]
 		#------------------------------------------
-		EA = EnergyAnalysis(_parameters['xnbins'],nRC2,_type=TYPE)
+		EA = EnergyAnalysis(xwin,ywin,_type=TYPE)
 		EA.ReadLog( potmean.baseName+"_FE.log" ) 
 		#-------------------------------------------------------------
 		if nDims == 2:

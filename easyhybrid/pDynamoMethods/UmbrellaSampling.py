@@ -183,7 +183,7 @@ class US:
         self.file_lists = glob.glob( pkl_path+"*.pkl" )
         self.bins       = len(self.file_lists)
         self.mdPaths    = []
-
+        #------------------------------------------------------
         for i in range( len(self.file_lists) ):
             coordinate_file = self.file_lists[i]
             temp    = coordinate_file[:-4]
@@ -191,12 +191,13 @@ class US:
             md_path = os.path.join(self.baseName, temp )
             self.mdPaths.append(md_path)
 
-        if self.restart:   
-            for fl in self.mdPaths:
-                if os.path.exists( fl ):
-                    self.mdPaths.remove( fl ) 
+        if self.restart:               
+            for i in range( len(self.mdPaths) -1 , 0, -1 ):
+                if os.path.exists( self.mdPaths[i] ):
+                    self.mdPaths.remove( self.mdPaths[i] ) 
+                    self.file_lists.remove( self.file_lists[i] ) 
 
-        #---------------------------------------------
+        #-----------------------------------------------------
         distance   = 0.0
         restraints = RestraintModel()
         self.molecule.DefineRestraintModel( restraints )
@@ -256,10 +257,19 @@ class US:
             self.mdPaths.append(md_path)
         
         #-----------------------------------------------    
-        if self.restart:   
-            for fl in self.mdPaths:
-                if os.path.exists( fl ):
-                    self.mdPaths.remove( fl )        
+        for i in range( len(self.file_lists) ):
+            coordinate_file = self.file_lists[i]
+            temp    = coordinate_file[:-4]
+            temp    = os.path.basename(temp)
+            md_path = os.path.join(self.baseName, temp )
+            self.mdPaths.append(md_path)
+
+        if self.restart:               
+            for i in range(len(self.mdPaths)-1,0,-1 ):
+                print(i, len(self.mdPaths) )
+                if os.path.exists( self.mdPaths[i] ):
+                    self.mdPaths.remove( self.mdPaths[i] ) 
+                    self.file_lists.remove( self.file_lists[i] )    
         #-----------------------------------------------
         self.EnergyRef = self.molecule.Energy()
         self.forceCRef = self.forceC
@@ -320,8 +330,7 @@ class US:
                 mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)         
         #.....................................................................
         self.molecule.DefineRestraintModel(None) 
-        #---------------------------------------            
-    
+        #---------------------------------------         
     #==========================================================================================           
     def Run2DMixedDistance(self):
         '''
@@ -409,7 +418,7 @@ class US:
         '''
         fsize = int(self.prodNsteps/self.samplingFactor)
         
-        self.concFolder = os.path.join(self.baseName,"concatenated_trajectory")
+        self.concFolder = os.path.join(self.baseName,"concatenated_trajectory.ptGeo")
         
         if not os.path.exists(self.concFolder):
             os.makedirs( self.concFolder )
@@ -427,7 +436,7 @@ class US:
                     shutil.copy(pkl_paths[cnt],newName)
                     cnt+=1
 
-        Duplicate(self.concFolder,self.baseName+".dcd",self.molecule)
+            Duplicate(self.concFolder,self.baseName+".dcd",self.molecule)
 
 #==================================================================================#
 #================================END OF THE CLASS==================================#

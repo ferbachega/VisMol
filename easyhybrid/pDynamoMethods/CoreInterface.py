@@ -263,9 +263,12 @@ class SimulationProject:
         #---------------------------------------------
         atomlist = []
         for sel in _region:
-            for i in range( len(sel) ):
-                atomlist.append( sel[i] )
-        #---------------------------------------------
+            if type(sel) == int:
+                atomlist.append(sel)
+            elif type(sel) == list:
+                for i in range( len(sel) ):
+                    atomlist.append( sel[i] )
+            
         #define QC atoms selection
         _QCRegion = Selection.FromIterable(atomlist)         
         #---------------------------------------------
@@ -306,8 +309,12 @@ class SimulationProject:
         #----------------------------------------------
         atomlist = []
         for sel in _region:
-            for i in range( len(sel) ):
-                atomlist.append( sel[i] )
+            if type(sel) == int:
+                atomlist.append(sel)
+            elif type(sel) == list:
+                for i in range( len(sel) ):
+                    atomlist.append( sel[i] )
+
         #---------------------------------------------
         #define QC atoms selection
         _QCRegion = Selection.FromIterable(atomlist)
