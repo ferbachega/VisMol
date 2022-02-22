@@ -54,7 +54,6 @@ class EnergyRefinement:
 		_basepath =  os.path.join( _outFolder + "EnergyRefinement")
 		
 		self.baseName = _basepath
-
 		if not os.path.exists(self.baseName):
 			os.makedirs(self.baseName)
 
@@ -120,6 +119,44 @@ class EnergyRefinement:
 		'''
 		'''
 		self.methods.append("DFTB")
+
+		for i in p.range(0, len(self.fileLists) ):				
+			fle2 = os.path.basename(self.fileLists[i][:-4])
+			_scratch = os.path.join(self.baseName, fle2)				
+			if not os.path.exists(_scratch):
+				os.makedirs(_scratch)
+							
+			self.molecule.electronicState = ElectronicState.WithOptions(charge       = self.charge 		, 
+			                                                          	multiplicity = self.multiplicity )
+
+			_QCmodel = QCModelDFTB.WithOptions( deleteJobFiles = False   ,
+			                                 	randomScratch  = True    ,
+			                                 	scratch        = _scratch,
+			                                 	skfPath        = skfPath ,
+			                                 	useSCC         = True    )
+
+			#-----------------------------------------------------------------------
+			NBmodel = NBModelDFTB.WithDefaults()
+			self.molecule.DefineQCModel( _QCmodel, qcSelection=Selection(self.pureQCAtoms) )
+			self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded model
+			#--------------------------------------------------------------------
+			self.molecule.qcModel.maximumSCCIterations=1200
+			energy = self.cSystem.Energy()			
+			self.molecule.coordinates3 = ImportCoordinates3( self.fileLists[i] )
+				
+			if self.ylen > 0:
+				self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy()					
+				self.indexArrayX[ lsFrames[1], lsFrames[0] ]   = lsFrames[1]
+				self.indexArrayY[ lsFrames[1], lsFrames[0] ]   = lsFrames[0]
+				tmpText = "{}".format(self.energiesArray[ lsFrames[1], lsFrames[0] ])
+				tmpLog.write(tmpText)
+				tmpLog.close()
+			else:					
+				self.energiesArray[ lsFrames[0] ] = self.molecule.Energy()
+				self.indexArrayX[ lsFrames[0] ]   = lsFrames[0]
+				tmpText = "{}".format(self.energiesArray[ lsFrames[1], lsFrames[0] ])
+				tmpLog.write(tmpText)
+				tmpLog.close()
 		 
 	#====================================================
 	def SetRestart4Orca(self):

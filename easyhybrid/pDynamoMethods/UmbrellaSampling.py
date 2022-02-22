@@ -246,7 +246,6 @@ class US:
         self.samplingFactor = _sample
         pkl_path            = os.path.join( _trajFolder, "")
         self.file_lists     = glob.glob( pkl_path+"*.pkl" )
-        self.bins           = len(self.file_lists)
         self.mdPaths        = []
         #-----------------------------------------------
         for i in range( len(self.file_lists) ):
@@ -256,20 +255,14 @@ class US:
             md_path = os.path.join(self.baseName, temp )
             self.mdPaths.append(md_path)
         
-        #-----------------------------------------------    
-        for i in range( len(self.file_lists) ):
-            coordinate_file = self.file_lists[i]
-            temp    = coordinate_file[:-4]
-            temp    = os.path.basename(temp)
-            md_path = os.path.join(self.baseName, temp )
-            self.mdPaths.append(md_path)
-
         if self.restart:               
             for i in range(len(self.mdPaths)-1,0,-1 ):
-                print(i, len(self.mdPaths) )
                 if os.path.exists( self.mdPaths[i] ):
                     self.mdPaths.remove( self.mdPaths[i] ) 
-                    self.file_lists.remove( self.file_lists[i] )    
+                    self.file_lists.remove( self.file_lists[i] )   
+
+        self.bins = len(self.file_lists)
+
         #-----------------------------------------------
         self.EnergyRef = self.molecule.Energy()
         self.forceCRef = self.forceC

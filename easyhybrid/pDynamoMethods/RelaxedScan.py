@@ -533,7 +533,7 @@ class SCAN:
             trajName = os.path.join( self.baseName, "ScanTraj.ptGeo" )
             Duplicate( trajName, trajNameDCD, self.molecule )
             #..................................................
-        textLog = open( self.baseName+"_SCAN{}D.log".format(self.nDim), "w" ) 
+        textLog = open( self.baseName+"_energy.log".format(self.nDim), "w" ) 
         textLog.write(self.text)
         textLog.close() 
             #..................................................

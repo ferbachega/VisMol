@@ -61,7 +61,6 @@ class EnergyAnalysis:
 			self.dimensions = 2
 		else:
 			self.dimensions = 1
-
 	#================================================
 	def ReadLog(self, _fileName):
 		'''
@@ -140,8 +139,7 @@ class EnergyAnalysis:
 				n = int( lns[1])				
 				self.energiesMatrix[n][m] = float(lns[2]) 
 		#----------------------------------
-		self.nplots1D += 1
-	
+		self.nplots1D += 1	
 	#================================================
 	def ReadLogs(self,_folder):
 		'''
@@ -151,7 +149,6 @@ class EnergyAnalysis:
 		for log in logs:
 			self.ReadLog(log)
 			self.identifiers.append( os.path.basename(log[:-4]) )
-
 	#==============================================
 	def NormalizeEnergies(self):
 		'''
@@ -173,8 +170,6 @@ class EnergyAnalysis:
 		#------------------------------------------
 		if self.Type == "2D":
 			self.energiesMatrix = self.energiesMatrix - np.min(self.energiesMatrix.min)
-
-
 	#===============================================
 	def FES_HL_SMO(self, logAB, logSMO, logFE):
 		'''
@@ -198,7 +193,7 @@ class EnergyAnalysis:
 			self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
 			self.labely = "Potential of Mean Field (kJ/mol)"
 		
-		plt.plot(self.RC1,self.energies1D,'.b-')
+		plt.plot(self.RC1,self.energies1D,'.k-')
 		plt.xlabel(label)
 		plt.ylabel(self.labely)		
 		#--------------------------------------------
@@ -210,8 +205,7 @@ class EnergyAnalysis:
 		plt.savefig(self.baseName+"_1Denergy.png",dpi=1000)
 		#---------------------------------------------
 		if SHOW:
-			plt.show()
-		
+			plt.show()		
 	#===============================================
 	def MultPlot1D(self,label,SHOW=False):
 		'''
@@ -229,7 +223,6 @@ class EnergyAnalysis:
 		#---------------------------------------------
 		if SHOW:
 			plt.show()		
-
 	#===============================================
 	def Plot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
 		'''

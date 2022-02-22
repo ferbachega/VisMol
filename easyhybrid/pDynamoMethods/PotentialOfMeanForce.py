@@ -65,7 +65,8 @@ class PMF:
 		binslist = []
 		binslist.append(_nbins_x)		
 		if _nbins_y > 0:
-			binslist.append(_nbins_y)		
+			binslist.append(_nbins_y)	
+		input(_nbins_y,_nbins_x)	
 		#-----------------------------------------------------------------------------------------------
 		state = WHAM_ConjugateGradientMinimize(	self.fileNames 					  ,
                                          		bins          		= binslist	  ,
@@ -77,7 +78,10 @@ class PMF:
 		histogram = state["Histogram"]
 		pmf       = state["PMF"      ]
 		FE		  = state["Free Energies"]
-		histogram.ToTextFileWithData ( self.baseName+".dat" , [ pmf ], format = "{:20.3f} {:20.3f}\n" )
+		if _nbins_y > 0:
+			histogram.ToTextFileWithData ( self.baseName+".dat" , [ pmf ], format = "{:20.3f} {:20.3f} {:20.3f}\n" )
+		else: 
+			histogram.ToTextFileWithData ( self.baseName+".dat" , [ pmf ], format = "{:20.3f} {:20.3f} \n" )
 		#-----------------------------------------------------------------------------------------------
 		text = ""
 		for i in range(len(FE)):

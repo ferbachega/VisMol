@@ -121,7 +121,7 @@ class Simulation:
 			self.SMD(_parameters)
 		#-------------------------------------------------------------
 		elif self.simulationType == "Trajectory_Analysis":
-			self.TrajectoryAnalysis(_parameters,_plotParameters) 
+			self.TrajectoryPlots(_parameters,_plotParameters) 
 		#-------------------------------------------------------------
 		elif self.simulationType == "Energy_Plots":
 			self.EnergyPlots(_parameters,_plotParameters)
@@ -293,7 +293,7 @@ class Simulation:
 			TYPE = "1D"	
 		#------------------------------------------------------------
 		EA = EnergyAnalysis(_parameters['nSteps_RC1'],nRC2,_type=TYPE)
-		EA.ReadLog( scan.baseName+"_SCAN{}D.log".format(nDims)) 
+		EA.ReadLog( scan.baseName+"_energy.log".format(nDims)) 
 		#-------------------------------------------------------------
 		if nDims == 2:
 			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
@@ -478,7 +478,7 @@ class Simulation:
 		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ynbins"],_parameters["temperature"])
 
 		#================================================================
-		#Set plot parameters
+		#Set default plot parameters
 		cnt_lines  = 12
 		crd1_label = ""
 		crd2_label = ""
@@ -545,7 +545,6 @@ class Simulation:
 			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1:
 			EA.Plot1D(crd1_label,show)
-
 	#=========================================================================
 	def NormalModes(self,_parameters):
 		'''
@@ -633,6 +632,57 @@ class Simulation:
 		'''
 		Set up and execute Self-Avoid Walking simulations to generate a reaction path trajectory 
 		'''
+	#=========================================================================	
+	def TrajectoryPlots(self,_parameters,_plotParameters) :
+		'''
+		'''
+		pass
+	#=========================================================================
+	def EnergyPlots(self,_parameters,_plotParameters):
+		'''
+		'''		
+		multiPlot = False
+		ndim      = 1 
+		crd1_label= "Reaction Coordinate #"
+		crd2_label= "Reaction Coordinate #"
+		cnt_lines = 0 
+		ysize     = 0
+		if "ysize" in _parameters:
+			ysize = _parameters["ysize"]
+		xlim      = [ 0, _parameters["xsize"] ]
+		ylim 	  = [ 0, ysize ]
+		show 	  = False
+
+		if "contour_lines" in _plotParameters:
+			cnt_lines  = _plotParameters["contour_lines"]
+		if "crd1_label" in _plotParameters:
+			crd1_label = _plotParameters["crd1_label"]
+		if "crd2_label" in _plotParameters:
+			crd2_label = _plotParameters["crd2_label"]
+		if "xlim_list" in _plotParameters:
+			xlim = _plotParameters["xlim_list"]
+		if "ylim_list" in _plotParameters:
+			ylim = _plotParameters["ylim_list"]
+		if "show" in _plotParameters:
+			show = True
+		if "miltiple_plot" in _parameters:
+			multiPlot = True		
+		if ysize > 0:
+			ndim = 2
+		
+		EA = EnergyAnalysis(_parameters["xsize"],ysize,_type=_parameters["type"] )
+		if multiPlot:
+			for log in _parameters["log_names"]:
+				EA.ReadLog( log )
+				EA.MultPlot1D()
+		EA.ReadLog( _parameters["log_name"] )
+
+		if ndim == 1:
+			EA.Plot1D(crd1_label,show)
+		elif ndim == 2:
+			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
+
+
 	#=========================================================================
 	def SimulatingAnnealing(self,_parameters):
 		'''
@@ -645,6 +695,7 @@ class Simulation:
 		Set up and execute Steered Molecular Dynamics simulations
 		'''
 		pass
+
 #=============================================================================
 #========================END OF THE FILE======================================
 #=============================================================================
