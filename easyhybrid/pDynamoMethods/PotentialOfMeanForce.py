@@ -66,7 +66,6 @@ class PMF:
 		binslist.append(_nbins_x)		
 		if _nbins_y > 0:
 			binslist.append(_nbins_y)	
-		input(_nbins_y,_nbins_x)	
 		#-----------------------------------------------------------------------------------------------
 		state = WHAM_ConjugateGradientMinimize(	self.fileNames 					  ,
                                          		bins          		= binslist	  ,

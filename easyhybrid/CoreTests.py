@@ -534,7 +534,7 @@ def FreeEnergy1DSimpleDistance(nsteps):
 	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)	
 	#-------------------------------------------------
 	#path for the ptRes files
-	_path = os.path.join( scratch_path, "FE_multiple_distance" )	
+	_path = os.path.join( scratch_path, "FE_simple_distance" )	
 	parameters = { "source_folder":_path ,
 				   "xnbins":20           ,
 				   "ynbins":0            ,
@@ -550,12 +550,12 @@ def FreeEnergy1DMultipleDistance(nsteps):
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()
 	#-----------------------------------------------------------
-	proj=SimulationProject( os.path.join(scratch_path,"FreeEnergy_multiple_distance") )	
+	proj=SimulationProject( os.path.join(scratch_path,"FE_multiple_distance") )	
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	#-------------------------------------------------
 	_name = "SCAN1D_4FEcalculations_multiple_distance"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo" ) )
-	QCMMScanMultipleDistance(10,0.2)	
+	QCMMScanMultipleDistance(10,0.2,name=_name)	
 	#-------------------------------------------------
 	#set atoms for the reaction coordinates
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
@@ -578,7 +578,7 @@ def FreeEnergy1DMultipleDistance(nsteps):
 	#Run umbrella sampling 
 	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
 
-	_path = os.path.join( scratch_path,"FreeEnergy_multiple_distance")
+	_path = os.path.join( scratch_path,"FE_multiple_distance")
 	parameters = { "source_folder":_path,
 				   "xnbins":20          ,
 				   "ynbins":0           ,
@@ -672,7 +672,7 @@ def FreeEnergy2DsimpleDistance(nsteps):
 	if not os.path.exists(_path):
 		QCMMScan2DsimpleDistance(6,6,0.2,0.2,name=_name)	
 	
-	_plotParameters = { "contour_lines":15,"xwindows":6,"ywindows":6,"crd1_label":"Reaction Coordinate"}	
+	_plotParameters = { "contour_lines":12,"xwindows":6,"ywindows":6,"crd1_label":"Reaction Coordinate"}	
 
 	parameters = { "ATOMS_RC1":atomsf				,
 				   "ATOMS_RC2":atomss				,
@@ -690,8 +690,8 @@ def FreeEnergy2DsimpleDistance(nsteps):
 	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
 	_path = os.path.join( scratch_path, "FE_2D_simple_distance")	
 	parameters = { "source_folder":_path ,
-				   "xnbins":12           ,
-				   "ynbins":12           ,
+				   "xnbins":10           ,
+				   "ynbins":10           ,
 				   "temperature":300.15	 }
 	#RUN WHAM, calculate PMF and free energy
 	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
@@ -700,7 +700,7 @@ def FreeEnergy2DsimpleDistance(nsteps):
 def FreeEnergy2DmixedDistance(nsteps):
 	'''
 	'''
-	proj=SimulationProject( os.path.join(scratch_path,"FreeEnergy_2D_mixed_Distance") )	
+	proj=SimulationProject( os.path.join(scratch_path,"FE_2D_mixed_distance") )	
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
@@ -724,10 +724,10 @@ def FreeEnergy2DmixedDistance(nsteps):
 	parameters = { 'ATOMS_RC1':atomsf			,
 				   "ATOMS_RC2":atomss			,
 				   "ndim": 2 					,
-				   "samplingFactor":nsteps/10 	,
+				   "sampling_factor":nsteps/10 	,
 				   "equilibration_nsteps":nsteps/2,
 				   "production_nsteps":nsteps	,
-				   "trjFolder":_path 			,
+				   "source_folder":_path 		,
 				   "MD_method":"LeapFrog"		,
 				   "MC_RC1":"true"				,
 				   "MC_RC2":"true"				,
@@ -736,19 +736,19 @@ def FreeEnergy2DmixedDistance(nsteps):
 	
 	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
 
-	_path = os.path.join( scratch_path, "FreeEnergy_2D_simple_distance")	
+	_path = os.path.join( scratch_path, "FE_2D_mixed_distance")	
 	parameters = { "source_folder":_path ,
-				   "xnbins":12           ,
-				   "ynbins":12           ,
+				   "xnbins":10           ,
+				   "ynbins":10           ,
 				   "temperature":300.15	 }
 	#RUN WHAM, calculate PMF and free energy
 	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
-	proj,FinishRun()
+	proj.FinishRun()
 #=====================================================
 def FreeEnergy2DmultipleDistance(nsteps):
 	'''
 	'''
-	roj=SimulationProject( os.path.join(scratch_path,"FreeEnergy_2D_mixed_Distance") )	
+	proj=SimulationProject( os.path.join(scratch_path,"FE_2D_multiple_distance") )	
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
@@ -783,14 +783,14 @@ def FreeEnergy2DmultipleDistance(nsteps):
 	
 	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
 
-	_path = os.path.join( scratch_path, "FreeEnergy_2D_simple_distance")	
+	_path = os.path.join( scratch_path, "FE_2D_multiple_distance")	
 	parameters = { "source_folder":_path ,
 				   "xnbins":12           ,
 				   "ynbins":12           ,
 				   "temperature":300.15	 }
 	#RUN WHAM, calculate PMF and free energy
 	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
-	proj,FinishRun()
+	proj.FinishRun()
 #=====================================================
 def EnergyAnalysisPlots():
 	'''
@@ -829,7 +829,6 @@ def EnergyAnalysisPlots():
 	log_path = os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance_energy.log")
 	parameters      = {"xsize":30,"type":"1D","log_name":log_path}
 	_plotParameters = {"show":True,"crd1_label":rc1_sd.label}
-
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
 	#===================================================================================
 	#2D PES plots 
@@ -857,7 +856,7 @@ def EnergyAnalysisPlots():
 	# 1D Free energy and PMF plots 
 	if not os.path.exists( os.path.join(scratch_path,"FE_simple_distance") ):
 		FreeEnergy1DSimpleDistance(600)
-	log_pathFE = os.path.join(scratch_path,"FE_simple_distance_FE.log")
+	log_pathFE  = os.path.join(scratch_path,"FE_simple_distance_FE.log")
 	log_pathPMF = os.path.join(scratch_path,"FE_simple_distance.dat")
 	parameters      = {"xsize":10,"type":"FE1D","log_name":log_pathFE} # xsize is for windowns size
 	_plotParameters = {"show":True,"crd1_label":rc1_sd.label}
@@ -880,43 +879,60 @@ def EnergyAnalysisPlots():
 	#====================================================================================
 	# 2D Free Energy FES and PMF 
 	if not os.path.exists( os.path.join(scratch_path,"FE_2D_simple_distance") ):
-		FreeEnergy2DsimpleDistance(500)
-	log_pathFE = os.path.join(scratch_path,"FE_2D_simple_distance_FE.log")
+		FreeEnergy2DsimpleDistance(1000)
+	log_pathFE  = os.path.join(scratch_path,"FE_2D_simple_distance_FE.log")
 	log_pathPMF = os.path.join(scratch_path,"FE_2D_simple_distance.dat")
-	parameters      = {"xsize":6,"ysize":6,"type":"FE2D","log_name":log_pathFE,"contour_lines":12} # xsize is for windowns size
-	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label}
+	parameters      = {"xsize":6,"ysize":6,"type":"FE2D","log_name":log_pathFE} # xsize is for windowns size
+	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":12}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
-	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF,"contour_lines":12} # xsize is for bins size for PMF
-	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label}
+	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF} # xsize is for bins size for PMF
+	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":12}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
 	#-------------------------------------------------------------------------------
 	if not os.path.exists( os.path.join(scratch_path,"FE_2D_mixed_distance") ):
-		FreeEnergy2DmixedDistance(500)
+		FreeEnergy2DmixedDistance(1000)
 	log_pathFE  = os.path.join(scratch_path,"FE_2D_mixed_distance_FE.log")
 	log_pathPMF = os.path.join(scratch_path,"FE_2D_mixed_distance.dat")
-	parameters      = {"xsize":6,"ysize":6,"type":"FE2D","log_name":log_pathFE,"contour_lines":12} # xsize is for windowns size
-	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label}
+	parameters      = {"xsize":6,"ysize":6,"type":"FE2D","log_name":log_pathFE} # xsize is for windowns size
+	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":12}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
-	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF,"contour_lines":12} # xsize is for bins size for PMF
-	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label}
+	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF} # xsize is for bins size for PMF
+	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":12}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
 	#-------------------------------------------------------------------------------
 	if not os.path.exists( os.path.join(scratch_path,"FE_2D_multiple_distance") ):
-		FreeEnergy2DmultipleDistance(500)
-	log_pathFE = os.path.join(scratch_path,"FE_2D_simple_multiple_FE.log")
-	log_pathPMF = os.path.join(scratch_path,"FE_2D_simple_multiple.dat")
-	parameters      = {"xsize":6,"ysize":6,"type":"FE2D","log_name":log_pathFE,"contour_lines":12} # xsize is for windowns size
-	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label}
+		FreeEnergy2DmultipleDistance(1000)
+	log_pathFE = os.path.join(scratch_path,"FE_2D_multiple_distance_FE.log")
+	log_pathPMF = os.path.join(scratch_path,"FE_2D_multiple_distance.dat")
+	parameters      = {"xsize":6,"ysize":6,"type":"FE2D","log_name":log_pathFE} # xsize is for windowns size
+	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":12}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
-	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF,"contour_lines":12} # xsize is for bins size for PMF
-	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label}
+	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF} # xsize is for bins size for PMF
+	_plotParameters = {"show":True,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":12}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
-	#=============================================================
+	#===========================================================================
 	#internal refinement
-#=====================================================
+#===============================================================================
 def ReacCoordSearchers():	
-	pass 
-#=====================================================
+	'''
+	'''
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()
+	proj=SimulationProject( os.path.join(scratch_path,"ReactionPathsSearchers") )		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+
+	#generate initial and final coordinates for NEB 
+	#generate trajectory for SAW
+	#
+	_name = "SCAN1D_4NEB_and_SAW"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	if not os.path.exists(_name):
+		QCMMScanSimpleDistance(30,0.05,name=_name)
+
+
+
+
+#================================================================================
 def pDynamoEnergyRef_1D():
 	'''
 	'''	

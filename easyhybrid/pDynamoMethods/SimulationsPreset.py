@@ -154,10 +154,10 @@ class Simulation:
 			ER.RunInternalSMO(_parameters["methods_lists"],_parameters["NmaxThreads"])
 			#------------------------------------------------------------
 		elif _parameters["Software"] == "DFTBplus":
-			pass
+			ER.RunDFTB()
 			#------------------------------------------------------------
 		elif _parameters["Software"] == "Mopac":
-			pass
+			ER.RunMopac()
 			#------------------------------------------------------------
 		elif _parameters["Software"] == "ORCA":
 			ER.RunORCA(_parameters["orca_method"],_parameters["basis"],_parameters["NmaxThreads"],_restart=_Restart)
@@ -486,13 +486,11 @@ class Simulation:
 		show       = False
 		xwin       = 0
 		ywin       = 0 
-
+		#-----------------------------------------------------------------
 		nDims = 1
 		if _parameters["ynbins"] > 0:
 			nDims = 2
 
-		if nDims == 2:
-			crd2_label = rc2.label
 		xlims = [ 0,  _parameters['xnbins'] ]
 		ylims = [ 0,  _parameters['ynbins'] ]
 		#-------------------------------------------------------------
@@ -509,6 +507,8 @@ class Simulation:
 			show = True
 		if "crd1_label" in _plotParameters:
 			crd1_label = _plotParameters["crd1_label"]
+		if "crd2_label" in _plotParameters:
+			crd2_label = _plotParameters["crd2_label"]
 		if "xwindows" in _plotParameters:
 			xwin = _plotParameters["xwindows"]
 		if "ywindows" in _plotParameters:
@@ -527,16 +527,12 @@ class Simulation:
 			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1:
 			EA.Plot1D(crd1_label,show)
-
 		#-------------------------------------------
 		#Plot Free energy of the calculated windows
 		if nDims == 2:
 			TYPE = "FE2D"
 		elif nDims == 1: 
-			TYPE = "FE1D"
-		#------------------------------------------
-		xlims = [ 0,  xwin ]
-		ylims = [ 0,  ywin ]
+			TYPE = "FE1D"		
 		#------------------------------------------
 		EA = EnergyAnalysis(xwin,ywin,_type=TYPE)
 		EA.ReadLog( potmean.baseName+"_FE.log" ) 
