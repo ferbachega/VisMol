@@ -32,43 +32,52 @@ class SCAN:
     #---------------------------------------------------------------
     def __init__(self,_system,_baseFolder,_optimizer,ADAPTATIVE=False):
         '''
-        Class constructor
+        Default constructor
+        Parameters:
+            _system    : reference molecular information ; System instance from pDynamo library
+            _baseFolser: path for the folder where the results will be written; string or os.path
+            _optmizer  : Geometry searcher optimizer algorithm to be used in the relaxation steps; string 
+            ADAPTATIVE : flag indicating whether the run is allowed to modified the convergence parameters in regions of high energy; boolean 
+        
+        Future Development Notes: 
+            Implement the possibility of a third coordinate.
+            Implement the possibility to deal with other type of restraits 
+                Angle
+                Dihedral
+                Thether
+
         '''
         self.baseName           = _baseFolder
         self.molecule           = _system 
-        self.nDim               = 0
-        self.reactionCoordinate1= []
-        self.reactionCoordinate2= []
-        self.atoms              = [] 
-        self.nprocs             = NmaxThreads
-        self.textLog            = " "
-        self.energies           = []
-        self.energiesMatrix     = None
-        self.DMINIMUM           = [ 0.0, 0.0 ]
-        self.DINCREMENT         = [ 0.0, 0.0 ]
-        self.forceC             = 2500.0
-        self.massConstraint     = True
-        self.multipleDistance   = [False,False]
-        self.nsteps             = [ 1, 1 ]
-        self.logFreq            = 50
-        self.maxIt              = 800
-        self.rmsGT              = 0.1
-        self.optmizer           = _optimizer
-        self.sigma_a1_a3        = [0.0,0.0]
-        self.sigma_a3_a1        = [0.0,0.0]
-        self.real_distance_1    = []
-        self.real_distance_2    = []
-        self.adaptative         = ADAPTATIVE
-        self.text               = ""
-        self.EnergyRef          = 0.0
-        self.forceCRef          = self.forceC
+        self.nDim               = 0             # Number of active reaction coordinates to Scan
+        self.reactionCoordinate1= []            # array with the first reaction coordinate in angstroms
+        self.reactionCoordinate2= []            # array with the second reaction coordinate in angstroms
+        self.atoms              = []            # array of the atomic indices for the reaction coordinates
+        self.nprocs             = NmaxThreads   # Maximum virtual threads to use in parallel runs using pymp
+        self.energiesMatrix     = None          # Multidimensional array to store calculated energy values
+        self.DMINIMUM           = [ 0.0, 0.0 ]  # List with the Minimum distances for the reaction coordinates
+        self.DINCREMENT         = [ 0.0, 0.0 ]  # List with the increment distances for the reaction coordinates
+        self.forceC             = 2500.0        # Force constant for restraint model
+        self.forceCRef          = self.forceC   # Inital value for the force constant
+        self.EnergyRef          = 0.0           # Float to hold energy reference value for adaptative scheme
+        self.massConstraint     = True          # Boolean indicating if the reaction coordinates have mass constraints 
+        self.multipleDistance   = [False,False] # List of booleand indicating if the reaction coordinates are of multiple distance type
+        self.nsteps             = [ 1, 1 ]      # List of integer indicating the number of steps to be taken
+        self.maxIt              = 800           # Maximum number of iterations in goemtry search 
+        self.rmsGT              = 0.1           # Float with root mean square tolerance for geometry optimization 
+        self.optmizer           = _optimizer    # string with optimizer algorithm for geomtry optimization
+        self.sigma_a1_a3        = [0.0,0.0]     # Mass contraint weight list for the reaction coordinates
+        self.sigma_a3_a1        = [0.0,0.0]     # Mass contraint weight list for the reaction coordinates
+        self.adaptative         = ADAPTATIVE    # Boolean indicating if the scan can use the adptative scheme to change the convergence paramters
+        self.text               = ""            # Text container for energy log
+        
+        #------------------------------------------------------------------------
         if not os.path.exists( os.path.join( self.baseName, "ScanTraj.ptGeo" ) ):
             os.makedirs(  os.path.join( self.baseName, "ScanTraj.ptGeo" ) )
-
+        #------------------------------------------------------------------------
         #set the parameters dict for the geometry search classes
         self.GeoOptPars =   { 
                             "method": self.optmizer           ,\
-                            "logFrequency": self.logFreq      ,\
                             "maxIterations":self.maxIt        ,\
                             "rmsGradient": self.rmsGT
                             }
@@ -92,7 +101,6 @@ class SCAN:
         #-----------------------------------------------------------
         self.GeoOptPars =   { 
                             "method": self.optmizer           ,\
-                            "logFrequency": self.logFreq      ,\
                             "saveTraj": "True"               ,\
                             "maxIterations":self.maxIt        ,\
                             "rmsGradient": self.rmsGT
@@ -180,16 +188,18 @@ class SCAN:
         weight2 = self.sigma_a3_a1[0]              
         #---------------------------------
         self.text += "x RC1 Energy\n" 
-
+        #---------------------------------
         restraints = RestraintModel()
         self.molecule.DefineRestraintModel( restraints )
-        
+        #---------------------------------
+        self.energiesMatrix      = pymp.shared.array( (_nsteps), dtype=float ) 
+        self.reactionCoordinate1 = pymp.shared.array( (_nsteps), dtype=float )         
         #----------------------------------------------------------------------------------------
         if self.multipleDistance[0]:
             for i in range(0,_nsteps):
                 distance = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) ) 
                 #--------------------------------------------------------------------
-                rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                rmodel    = RestraintEnergyModel.Harmonic( distance, self.forceC )
                 restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ] )
                 restraints["RC1"] =  restraint            
                 #--------------------------------------------------------------------
@@ -199,12 +209,12 @@ class SCAN:
                 #--------------------------------------------------------------------
                 if i == 0:
                     en0 = self.molecule.Energy()
-                    self.energies.append(0.0)
+                    self.energiesMatrix[0] = 0.0
                 else:
-                    self.energies.append( self.molecule.Energy() - en0 )
-                self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1 , atom2  ) - self.molecule.coordinates3.Distance( atom2, atom3  ) ) 
+                    self.energiesMatrix[i] = self.molecule.Energy() - en0 
+                self.reactionCoordinate1[i] = self.molecule.coordinates3.Distance( atom1 , atom2  ) - self.molecule.coordinates3.Distance( atom2, atom3  ) 
                 Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 )
-                self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energies[i]) 
+                self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
 
         #..........................................................................................
         else:
@@ -221,13 +231,13 @@ class SCAN:
                 #--------------------------------------------------------------------
                 if i == 0:
                     en0 = self.molecule.Energy()
-                    self.energies.append(0.0)
+                    self.energiesMatrix = 0.0
                 else:
-                    self.energies.append( self.molecule.Energy() - en0 )
+                    self.energiesMatrix[i] = self.molecule.Energy() - en0 
                 #--------------------------------------------------------------------
-                self.reactionCoordinate1.append( self.molecule.coordinates3.Distance( atom1 , atom2  ) )  
+                self.reactionCoordinate1[i] = self.molecule.coordinates3.Distance( atom1 , atom2  )   
                 Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 ) 
-                self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i], self.energies[i] )
+                self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i], self.enersgiesMatrix[i] )
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
     #===================================================================================================

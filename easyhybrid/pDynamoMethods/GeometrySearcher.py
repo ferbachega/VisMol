@@ -201,7 +201,7 @@ class GeometrySearcher:
         
     #=============================================================================-
     # Reaction path searchers
-    def NudgedElasticBand(self,_initCoord,_finalCoord,_nbins,_rmsGIS):
+    def NudgedElasticBand(self,_parameters):
         '''
         Nudget Elastic Band procedure to estimate a reaction path
         '''
@@ -212,24 +212,25 @@ class GeometrySearcher:
 
         #Note: is interesting to think in a window were the user select the initial and final coords
         # here we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.InitCrd3D  = ImportCoordinates3( _initCoord, log=None  ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.finalCrd3D = ImportCoordinates3( _finalCoord, log=None ) 
+        self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
+        self.finalCrd3D = ImportCoordinates3( _parameters["final_coord"], log=None ) 
 
         #---------------------------------------------------------------------------------
-        GrowingStringInitialPath (self.system ,_nBins, self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=_rmdGIS )
+        GrowingStringInitialPath (self.molecule ,_parameters["NEB_nbins"], self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=_parameters["RMS_growing_intial_string"] )
 
         self.traj = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
 
-        ChainOfStatesOptimizePath_SystemGeometry (  self.system                 , 
+        ChainOfStatesOptimizePath_SystemGeometry (  self.molecule               , 
                                                     self.traj                   ,
                                                     logFrequency         = 1    ,
                                                     maximumIterations    = 1000 ,
                                                     fixedTerminalImages  = True ,
                                                     rmsGradientTolerance = 0.1  )
-        
         self.saveTraj = True
         trajNameDCD = self.baseName + ".dcd";
         Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
+
+        
 
     #========================================================================================
     def SelfAvoidWalking(self,_parameters):

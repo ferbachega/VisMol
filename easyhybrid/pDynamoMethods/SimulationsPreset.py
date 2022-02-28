@@ -49,25 +49,12 @@ class Simulation:
 	'''
 	def __init__(self,_system,_simulationType,baseFolder):
 		'''
+		Deafault constructor
 		'''
 		self.molecule 			= _system
 		self.simulationType 	= _simulationType
 		self.baseFolder  		= baseFolder# the baseFolder for the simulations will be the current dir for now.
-		self.MAXnprocs 			= 1 # maximum number of virtual threads to be used in the simulations
-		self.coorddinatesFolder = "" # Name of the folder containing the pkls to be read. Used in more than one preset here
-		self.logFreq 			= 1
-		self.samplingFactor 	= 1 # this is usually let to the default class value, unless the user want to modify
-		self.nProcs 			= NmaxThreads
-		#for restricted simulations
 		
-		#enviromental parameters and their default values 
-		self.temperature = 300.15
-		self.pressure 	 = 1
-
-		#specific parameters for molecular dynamics run
-		self.equiNsteps = 0
-		self.prodNsteps = 0	
-
 		#--------------------------------------------------
 		if not os.path.exists( self.baseFolder ):
 			os.makedirs(self.baseFolder)
@@ -109,10 +96,10 @@ class Simulation:
 			self.DeltaFreeEnergy(_parameters)
 		#-------------------------------------------------------------
 		elif self.simulationType == "NEB":
-			self.NEB(_parameters)
+			self.NEB(_parameters,_plotParameters)
 		#-------------------------------------------------------------
 		elif self.simulationType == "SAW":
-			self.SAW(_parameters)
+			self.SAW(_parameters,_plotParameters)
 		#-------------------------------------------------------------
 		elif self.simulationType == "Simulating_Annealing":
 			self.SimulatingAnnealing(_parameters)
@@ -132,14 +119,35 @@ class Simulation:
 		Set up and execute energy refinement using a series of methods
 		Parameters:
 			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+					"xbins"			: Number of frames for first/only coordinate 
+					"source_folder" : path of folder containing frames to refine 
+					"out_folder"    : path to output logs and other results
+					"charge"        : charge for QM region
+					"multiplicity"  : multiplicity for QM region
+					"Software"  	: engine used to calculate the energy refinement
+				Optinal :
+					"ybins" 		  : Number of frames for second coordinate
+					"change_qc_region": Flag indicating the intention of modifying the QC regions
+					"center"		  : The center of the new QC region
+					"radius"		  : The radius from the center of the new QC region
+					"orca_method"     : Energy method provided in ORCA (eg.: HF, b3lyp, mp2...)
+					"basis"           :
+					"NmaxThreads"     :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		_Restart      = False
 		dimensions    = [ 0,0 ] 
-		dimensions[0] =  _parameters["xnbins"] 
+		dimensions[0] =  _parameters["xnbins"]
+		nmaxthreads   = 1 
 		if "ynbins" in _parameters:
 			dimensions[1] = _parameters["ynbins"]
 		if "restart" in _parameters:
 			_Restart = True
+		if "NmaxThreads" in _parameters:
+			nmaxthreads = _parameters["NmaxThreads"]
 		#------------------------------------------------------------------
 		ER = EnergyRefinement(self.molecule  					,
 							  _parameters["source_folder"]  	,
@@ -151,18 +159,20 @@ class Simulation:
 			ER.ChangeQCRegion(_parameters["center"],_parameters["radius"])
 			#------------------------------------------------------------
 		if _parameters["Software"] == "pDynamo":
-			ER.RunInternalSMO(_parameters["methods_lists"],_parameters["NmaxThreads"])
+			ER.RunInternalSMO(_parameters["methods_lists"],nmaxthreads)
 			#------------------------------------------------------------
 		elif _parameters["Software"] == "DFTBplus":
 			ER.RunDFTB()
 			#------------------------------------------------------------
-		elif _parameters["Software"] == "Mopac":
-			ER.RunMopac()
+		elif _parameters["Software"] == "mopac" or _parameters["Software"]=="MOPAC":
+			_mopacKeyWords = ["AUX","LARGE",]
+			if "mopac_keywords" in _parameters:
+				for key in _parameters["mopac_keywords"]:
+					_mopacKeyWords.append(key)
+			ER.RunMopacSMO(_parameters["methods_lists"],_mopacKeyWords)
 			#------------------------------------------------------------
 		elif _parameters["Software"] == "ORCA":
-			ER.RunORCA(_parameters["orca_method"],_parameters["basis"],_parameters["NmaxThreads"],_restart=_Restart)
-			#------------------------------------------------------------
-				
+			ER.RunORCA(_parameters["orca_method"],_parameters["basis"],nmaxthreads,_restart=_Restart)
 		#===========================================================
 		#Set plor parameters
 		cnt_lines  = 12
@@ -186,27 +196,32 @@ class Simulation:
 			show = True
 		#------------------------------------------------------------
 		ER.WriteLog()
-		if len(dimensions[1]) > 0:
+		if dimensions[1] > 0:
 			TYPE = "2DRef"
 		else: 
 			TYPE = "1DRef"		
 		EA = EnergyAnalysis(dimensions[0],dimensions[1],_type=TYPE)
-		EA.ReadLog( os.path.join(ER.baseName,"EnergyRefinement.log") )
+		EA.ReadLog( os.path.join(ER.baseName+"_energy.log") )
 		#-------------------------------------------------------------
-		if len(dimensions[1]) > 0:
+		if dimensions[1] > 0:
 			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
 			if "methods_lists" in _parameters:
 				if len(_parameters["methods_lists"]) > 1:
-					EA.MultPlot1D(_plotParameters["crd1_label"])
+					EA.MultPlot1D(crd1_label)
 			else:
-				EA.Plot1D(_plotParameters["crd1_label"],show)
+				EA.Plot1D(crd1_label,show)
 	#==================================================================
 	def GeometryOptimization(self,_parameters):
 		'''
 		Set up and execture the search of local minima for the system passed
-		Parameters:
+		Parameters:		
 			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		_Optimizer = "ConjugatedGradient"
 		if "optmizer" in _parameters:
@@ -222,7 +237,12 @@ class Simulation:
 		Set up and execute one/two-dimensional relaxed surface scans 
 		Parameters:
 			_parameters: python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+
 		'''
 		#------------------------------------------------------------------
 		_Adaptative = False
@@ -306,7 +326,11 @@ class Simulation:
 		Set up and execute molecular dynamics simulations.
 		Parameters:
 			_parameters: python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		#-------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
@@ -350,7 +374,11 @@ class Simulation:
 		Set up and execute molecular dynamics simulations.
 		Parameters:
 			_parameters: python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		#----------------------------------------------------------------
 		restraints = RestraintModel( )
@@ -421,7 +449,11 @@ class Simulation:
 		Set up and execute umbrella sampling simulations and Free energy calculations for reaction path trajectory.
 		Parameters:
 			_parameters: python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		#---------------------------------------
 		MCR1 = False
@@ -472,7 +504,11 @@ class Simulation:
 		Calculate potential of mean force and Free energy from restricted molecular dynamics
 		Parameters:
 			_parameters: python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		potmean = PMF( self.molecule, _parameters["source_folder"], self.baseFolder )
 		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ynbins"],_parameters["temperature"])
@@ -547,6 +583,11 @@ class Simulation:
 		Simulation preset to calculate the normal modes and to write thr trajectory for a specific mode.
 		Parameters:
 			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''	
 		mode 		= 0
 		temperature = 300.15
@@ -578,6 +619,11 @@ class Simulation:
 		statistical thermodynamics partition functions from through the normal modes calculations
 		Parameters:
 			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 		
 		#initial Structure
@@ -613,29 +659,56 @@ class Simulation:
 		Class method to set up and execute Nudget Elastic Band simulations to generate a reaction path trajectory
 		Parameters:
 			_parameters: python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
-		NEBrun = GeometrySearcher(self.system,self.baseFolder)
+		NEBrun = GeometrySearcher(self.molecule,self.baseFolder)
 
 		#if there any parameters to be modified 
-		NEBrun.ChengeDefaultParameters(_parameters)
-		NEBrun.NudgedElasticBand(_parameters['initial_coordinates'], 	\
-								 _parameters['final_coordinates'] ,  	\
-								 _parameters['NEB_nbins'],				\
-								 _parameters["RMS_growing_intial_string"] )
+		NEBrun.ChangeDefaultParameters(_parameters)
+		NEBrun.NudgedElasticBand(_parameters)
+
+
 	#=========================================================================
 	def SAW(self,_parameters):
 		'''
 		Set up and execute Self-Avoid Walking simulations to generate a reaction path trajectory 
+		Parameters:
+			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
 	#=========================================================================	
 	def TrajectoryPlots(self,_parameters,_plotParameters) :
 		'''
+		Produce graphical analysis from provided trajectories.
+		Parameters:
+			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''
+
 		pass
 	#=========================================================================
 	def EnergyPlots(self,_parameters,_plotParameters):
 		'''
+		Produce Energy plots from previus simulations log files
+		Parameters:
+			_parameters: python dict with parameters for simulation
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
+			_plotParameters:python dict with paramters for post-analysis and plots
+				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Optinal :
 		'''		
 		multiPlot = False
 		ndim      = 1 
@@ -648,7 +721,7 @@ class Simulation:
 		xlim      = [ 0, _parameters["xsize"] ]
 		ylim 	  = [ 0, ysize ]
 		show 	  = False
-
+		#--------------------------------------------------------
 		if "contour_lines" in _plotParameters:
 			cnt_lines  = _plotParameters["contour_lines"]
 		if "crd1_label" in _plotParameters:
@@ -665,14 +738,14 @@ class Simulation:
 			multiPlot = True		
 		if ysize > 0:
 			ndim = 2
-		
+		#--------------------------------------------------------
 		EA = EnergyAnalysis(_parameters["xsize"],ysize,_type=_parameters["type"] )
 		if multiPlot:
 			for log in _parameters["log_names"]:
 				EA.ReadLog( log )
 				EA.MultPlot1D()
 		EA.ReadLog( _parameters["log_name"] )
-
+		#--------------------------------------------------------
 		if ndim == 1:
 			EA.Plot1D(crd1_label,show)
 		elif ndim == 2:
