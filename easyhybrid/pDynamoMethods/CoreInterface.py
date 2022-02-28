@@ -40,118 +40,70 @@ class SimulationProject:
     def __init__(self,_projectName,DEBUG=False):
         '''
         Class constructor
-        DEBUG: if this paramters it set True, some extra steps in the system setting will be performe to check the things up
+        Parameters:
+            _projectName: name of the project; string or path
+            DEBUG       : if this paramters it set True, some extra steps in the system setting will be performe to check the things up
         '''        
         self.baseName       = _projectName
         self.cSystem        = None          #current system
         self.SystemStates   = []            #list of Systems as hystory 
-        self.simulation     = "Single-Point"#Name of the Simulation type
-        self.simulationHys  = []            #Simulation type Hystory
-        self.TheoryLevel    = "MM"          #Current state of the theory level; other types: QM and Hybrid
-        self.QClist         = []
-        self.BoundaryAtoms  = [] 
-        self.TotalChargeMM  = 0 
-        self.TotalChargeQC  = 0
-        self.multiplicity   = 1 
+        self.simulation     = "Single-Point"#Name of the Simulation type        
         self.systemCoutCurr = 0 
-        self.QCRegion       = None
-
         self.DEBUG          = DEBUG
 
         #Some status variable for current Sytem instance ( For now without any great utility )
-        self.hasNBmodel     = False
-        self.hasMMmodel     = False
-        self.hasQCmodel     = False
         self.NBmodel        = None 
         self.QCmodel        = None
         self.MMmodel        = None
-        self.ORCA           = False
-        self.DFTB           = False
-
+        
         self.logfile = LogFile.LogFile(_projectName+"_EasyHybrid3.log")
 
     #===================================================================================
     def LoadSystemFromForceField(self,_topologyFile,_coordinateFile):
         '''
-        Class method to load the current system from topology and coordinate files from molecular dynamics packages
+        Load the current system from topology and coordinate files from molecular dynamics packages
+        Parameters:
+            _topologyFile  : topology file name; string or path
+            _coordinateFile: coordinate file name; string or path
         '''
         #------------------------------------------------------------
         oldSystem = Clone(self.cSystem) 
         self.logfile.separator()
         self.logfile.inputLine("None Current System Found. Creating one from topologies and coordinate files!")
         #------------------------------------------------------------
-        self.cSystem = ImportSystem(_topologyFile, log=None)
+        self.cSystem              = ImportSystem(_topologyFile, log=None)
         self.cSystem.coordinates3 = ImportCoordinates3(_coordinateFile, log=None)
-        self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
-        self.systemCoutCurr += 1
+        self.cSystem.label        = self.baseName + "_#" + str(self.systemCoutCurr)
+        self.systemCoutCurr      += 1
         #------------------------------------------------------------
         if not oldSystem == None:
             oldSystem = copySystem(self.cSystem)
             self.SystemStates.append(oldSystem) # put the current system 
         #------------------------------------------------------------
         #testing the MMmodel
-        self.nbModel = NBModelCutOff.WithDefaults ( )
-        self.cSystem.DefineNBModel( self.nbModel )
+        self.NBmodel = NBModelCutOff.WithDefaults ( )
+        self.cSystem.DefineNBModel( self.NBmodel )
 
         if self.DEBUG:
-            energy      = self.cSystem.Energy( doGradients = True )
-        self.hasMMmodel = True
-        self.hasNBmodel = True
-        
+            energy = self.cSystem.Energy( doGradients = True )
+            self.cSystem.Summary()
+                
         self.NBmodel = self.cSystem.nbModel
         self.MMmodel = self.cSystem.mmModel
         self.logfile.inputLine("Energy Model loaded: " + self.cSystem.energyModelLabel )
         self.logfile.inputLine("New System loaded!")
 
-
-    #=====================================================================================
-    def LoadSystemFromCoordinates(self,_coordinateFile):
-        '''
-        Class method to Load the current system from coordinate file
-        #this method has import problems
-        Though the use of the remote easyhtbrid without preprare topologies is unexpected
-        '''
-        if self.cSystem == None: 
-            self.logfile.separator()
-            self.logfile.inputLine("None Current System Found. Creating one from a coordinate files!")
-            self.cSystem = ImportSystem(_coordinateFile, log =None)
-            self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
-            self.systemCoutCurr += 1
-        else:
-            self.logfile.separator()
-            self.logfile.inputLine("There is already a loaded System. Back off the current System and Creating one new from a coordinate file!")
-            oldSystem = copySystem(self.cSystem)
-            self.SystemStates.append(oldSystem) # put the current system 
-            self.cSystem = ImportSystem(_coordinateFile) 
-            self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)          
-            self.systemCoutCurr += 1
-
-        self.mmModel = MMModelOPLS.WithParameterSet( "protein" )
-        self.cSystem.DefineMMModel( self.mmModel )
-        self.nbModel = NBModelCutOff.WithDefaults ( )
-        self.cSystem.DefineNBModel( self.nbModel )      
-
-        try:
-            energy              = self.cSystem.Energy( doGradients = True )
-            self.hasMMmodel     = True
-            self.hasNBmodel     = True
-        except:
-            print("Problems in testing the MM model loaded from topology file!")
-
-        self.NBmodel = self.cSystem.nbModel
-        self.MMmodel = self.cSystem.mmModel         
-        self.logfile.inputLine("New System loaded!")
-
     #====================================================================================
     def LoadSystemFromSavedProject(self,_pklPath):
         '''
-        Class method to load the current system from a pDynamo pkl. 
-        The system saved on the pkl is expected to have Non-bonded and MM models
+        Load the current system from a pDynamo pkl. 
+        Parameters:
+            _pklPath: PKL file path; string or path 
         '''
         if self.cSystem == None:
             self.logfile.separator()
             self.logfile.inputLine("None Current System Found. Creating one from a coordinate files!")
-            self.cSystem = ImportSystem(_pklPath)
+            self.cSystem = ImportSystem(_pklPath,log=None)
             self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
             self.systemCoutCurr += 1
         else:
@@ -159,30 +111,28 @@ class SimulationProject:
             self.logfile.inputLine("There is already a loaded System. Back off the current System and Creating one new from a coordinate file!")
             oldSystem = copySystem(self.cSystem)
             self.SystemStates.append( oldSystem ) # put the current system 
-            self.cSystem = ImportSystem(_pklPath)
-            self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
+            #------------------------------------------------------
+            self.cSystem         = ImportSystem(_pklPath, log=None)
+            self.cSystem.label   = self.baseName + "_#" + str(self.systemCoutCurr)
             self.systemCoutCurr += 1
-
+        #----------------------------------------------------------
         self.NBmodel = self.cSystem.nbModel
         self.MMmodel = self.cSystem.mmModel
-        self.QCmodel = self.cSystem.qcModel 
-
-        if not self.QCmodel == None:
-            self.BoundaryAtoms = list(self.cSystem.qcState.boundaryAtoms)
-            self.QClist        = list(self.cSystem.qcState.qcAtoms)
-            self.hasQCmodel    = True
-
+        self.QCmodel = self.cSystem.qcModel
+        #----------------------------------------------------------
         if self.DEBUG:
-            energy              = self.cSystem.Energy( doGradients = True )
-            self.hasMMmodel     = True
-            self.hasNBmodel     = True
-        
+            energy = self.cSystem.Energy( doGradients = True )            
+            self.cSystem.Summary()
+
         self.logfile.inputLine("New System loaded!")
 
     #====================================================================================
     def SphericalPruning(self, _centerAtom, _radius):
         '''
         Perform a spherical pruning from a certain atom center coordinates.
+        Parameters:
+            _centerAtom:
+            _radius    :
         '''
         #---------------------------------------------------
         self.logfile.separator()
@@ -193,19 +143,24 @@ class SimulationProject:
         self.SystemStates.append(oldSystem)
         self.systemCoutCurr += 1
         #---------------------------------------------------
-        atomref = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
-        core    = AtomSelection.Within(self.cSystem,atomref,_radius)
-        core2   = AtomSelection.ByComponent(self.cSystem,core)
+        atomref      = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
+        core         = AtomSelection.Within(self.cSystem,atomref,_radius)
+        core2        = AtomSelection.ByComponent(self.cSystem,core)
         self.cSystem = PruneByAtom( self.cSystem , Selection(core2) )
         #---------------------------------------------------
         self.cSystem.label = self.baseName + "#{} Pruned System ".format(self.systemCoutCurr) 
-        self.cSystem.DefineNBModel( self.nbModel )
-        self.cSystem.Energy()
+        self.cSystem.DefineNBModel( self.NBmodel )
+        #---------------------------------------------------
+        if self.DEBUG:
+            self.cSystem.Energy()
 
     #======================================================================================
     def SettingFixedAtoms(self,_centerAtom,_radius):
         '''
         Set the list of atoms to keep with the positions fixed through the next simulations
+        Parameters:
+            _centerAtom:
+            _radius    :
         '''
         #-----------------------------------------------------
         self.logfile.separator()
@@ -216,10 +171,9 @@ class SimulationProject:
         self.SystemStates.append(oldSystem)
         self.systemCoutCurr += 1
         #-----------------------------------------------------
-        atomref   = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
-        core      = AtomSelection.Within(self.cSystem,atomref,_radius)
-        mobile    = AtomSelection.ByComponent(self.cSystem,core)        
-        
+        atomref = AtomSelection.FromAtomPattern( self.cSystem, _centerAtom )
+        core    = AtomSelection.Within(self.cSystem,atomref,_radius)
+        mobile  = AtomSelection.ByComponent(self.cSystem,core)        
         #-----------------------------------------------------
         if self.DEBUG:
             MobileSys = PruneByAtom( self.cSystem, Selection(mobile) )
@@ -227,54 +181,19 @@ class SimulationProject:
         #-----------------------------------------------------        
         self.cSystem.freeAtoms = mobile       
         self.cSystem.label = self.baseName + "#{} With Fixed Atoms ".format(self.systemCoutCurr) 
-        self.cSystem.DefineNBModel( self.nbModel )
+        self.cSystem.DefineNBModel( self.NBmodel )
         self.cSystem.Energy()
     
-    #=======================================================================================
-    def ChangeQCRegion(self,_region,_QCcharge,_QCmultiplicity):
-        '''
-        Class method to select or change the Quantum Chemistry treated region for the system.
-        If the system already has a QC energy model associated it will be kept. 
-
-        '''
-        #---------------------------------------------------------------------------------
-        self.QCRegion = _region # must be already a instance o Selection class 
-        #---------------------------------------------------------------------------------
-        self.logfile.separator()
-        self.logfile.inputLine("Changing the QC selected atoms!")
-        #---------------------------------------------------------------------------------
-        self.TotalChargeQC = _QCcharge  
-        self.multiplicity  = _QCmultiplicity
-        #---------------------------------------------------------------------------------
-        #Back offing older system   
-        self.logfile.inputLine("Back off the current System and Creating one!") 
-        oldSystem = copySystem(self.cSystem)
-        self.SystemStates.append( oldSystem )
-        self.cSystem.label = self.baseName + "#{} Changed QC region".format(self.systemCoutCurr)
-        self.systemCoutCurr += 1
-        #--------------------------------------------------------------------------------
-        self.logfile.inputLine("QC region charge: " + str(self.TotalChargeQC) )
-        self.logfile.inputLine("QC region multiplicity: " + str(self.multiplicity) )        
-        # Task:
-        #   output the information of QC atoms in the logfile      
-        self.cSystem.electronicState = ElectronicState.WithOptions ( charge = self.TotalChargeQC, multiplicity = self.multiplicity )
-        self.cSystem.DefineQCModel( self.QCmodel , _region )
-        self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded model
-        #--------------------------------------------------------------------------------
-        self.BoundaryAtoms = list(self.cSystem.qcState.boundaryAtoms)
-        self.QClist        = list(self.cSystem.qcState.qcAtoms)
-        self.hasQCmodel    = True
-        #--------------------------------------------------------------------------------
-        energy = 0.0
-        if not self.ORCA:
-            energy = self.cSystem.Energy()
-        #---------------------------------------------------------------------------------
-        self.logfile.inputLine("Total Energy of the System: " + str(energy) )
-
+    
     #=====================================================================================
     def SetSMOHybridModel(self,_method,_region,_QCcharge,_QCmultiplicity):
         '''
-        Set a semiempirical quantum chemistry Energy Model for the current system. 
+        Set a semiempirical quantum chemistry Energy Model for the current system.
+        Parameters:
+            _method        :
+            _region        :
+            _QCcharge      :
+            _QCmultiplicity: 
         '''
         #---------------------------------------------------------------------
         self.logfile.separator()
@@ -291,10 +210,11 @@ class SimulationProject:
                 atomlist.append( sel[i] )
         #---------------------------------------------
         #define QC atoms selection
-        converger           = DIISSCFConverger.WithOptions( energyTolerance=3.0e-4,densityTolerance=1.0e-8, maximumIterations = 2500 )
-        self.QCRegion       = Selection.FromIterable(atomlist)
-        self.multiplicity   = _QCmultiplicity
-        self.TotalChargeQC  = _QCcharge        
+        converger = DIISSCFConverger.WithOptions( energyTolerance   = 3.0e-4,
+                                                  densityTolerance  = 1.0e-8,
+                                                  maximumIterations = 2500  )
+
+        _QCRegion = Selection.FromIterable(atomlist)    
         #---------------------------------------------
         #Appending sytem
         self.NBmodel = self.cSystem.nbModel
@@ -304,30 +224,29 @@ class SimulationProject:
         self.cSystem.label = self.baseName + "#{} {} Hamiltonian and QC region Set".format(self.systemCoutCurr,_method)
         self.systemCoutCurr += 1
         #Setting QC model 
-        self.cSystem.electronicState = ElectronicState.WithOptions ( charge = self.TotalChargeQC, multiplicity = self.multiplicity )
-        self.QCmodel = QCModelMNDO.WithOptions( hamiltonian = _method, converger=converger )
-        
+        self.cSystem.electronicState = ElectronicState.WithOptions ( charge =_QCcharge , multiplicity =_QCmultiplicity )
+        _QCmodel = QCModelMNDO.WithOptions( hamiltonian = _method, converger=converger )        
+        #------------------------------------------------------------------------
+        self.cSystem.DefineQCModel( _QCmodel, qcSelection=_QCRegion )
+        self.cSystem.DefineNBModel( self.NBmodel )       
         #------------------------------------------------------------------------
         if self.DEBUG:
-            #Export the set QC region for visual inspection        
-            qcSystem = PruneByAtom(self.cSystem, self.QCRegion)
+            qcSystem = PruneByAtom(self.cSystem, _QCRegion)
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
             ExportSystem(self.baseName+"_qcSystemEntire.pdb",self.cSystem)
-        #------------------------------------------------------------------------
-        self.cSystem.DefineQCModel( self.QCmodel, qcSelection = self.QCRegion )
-        self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded mode        
-        #------------------------------------------------------------------------
-        energy = self.cSystem.Energy()  
-        self.logfile.inputLine("Total Energy of the System: " + str(energy) )
-        #Checking status
-        self.BoundaryAtoms = list(self.cSystem.qcState.boundaryAtoms)
-        self.QClist        = list(self.cSystem.qcState.qcAtoms)
-        self.hasQCmodel    = True   
+            energy = self.cSystem.Energy() 
+            self.logfile.inputLine( "Total Energy of the System: " + str(energy) ) 
 
     #=====================================================================================
     def SetOrcaSystem(self,_model,_basis,_region,_QCcharge,_QCmultiplicity):
         '''
         Set or modify the QC model to run with ORCA.
+        Parameters:
+            _model         :
+            _basis         :
+            _region        :
+            _QCcharge      :
+            _QCmultiplicity:
         '''
         #----------------------------------------------
         self.logfile.separator()
@@ -344,75 +263,77 @@ class SimulationProject:
         #---------------------------------------------
         atomlist = []
         for sel in _region:
-            for i in range( len(sel) ):
-                atomlist.append( sel[i] )
-        #---------------------------------------------
+            if type(sel) == int:
+                atomlist.append(sel)
+            elif type(sel) == list:
+                for i in range( len(sel) ):
+                    atomlist.append( sel[i] )
+            
         #define QC atoms selection
-        self.QCRegion = Selection.FromIterable(atomlist)        
-        self.multiplicity   = _QCmultiplicity
-        self.TotalChargeQC  = _QCcharge 
+        _QCRegion = Selection.FromIterable(atomlist)         
         #---------------------------------------------
         #Appending qc system
         self.cSystem.nbModel = None
-        oldSystem = Clone( self.cSystem )
+        oldSystem            = Clone( self.cSystem )
         self.SystemStates.append( oldSystem )
-        self.cSystem.label = self.baseName + "#{} ORCA and QC region Set".format(self.systemCoutCurr)
+        self.cSystem.label  = self.baseName + "#{} ORCA and QC region Set".format(self.systemCoutCurr)
         self.systemCoutCurr += 1
-        #---------------------------------------------
+        #--------------------------------------------------------------------------------
         #Setting QC model
-        self.cSystem.electronicState = ElectronicState.WithOptions(charge       = self.TotalChargeQC, 
-                                                                   multiplicity = self.multiplicity )
-        #....................................................................................................
-        self.QCmodel = QCModelORCA.WithOptions( keywords        = [ _model, _basis, options ], 
-                                                deleteJobFiles  = False                      ,
-                                                scratch         =_scratch                    )
+        self.cSystem.electronicState = ElectronicState.WithOptions(charge       = _QCcharge       , 
+                                                                   multiplicity = _QCmultiplicity )
+        #................................................................................
+        _QCmodel = QCModelORCA.WithOptions( keywords        = [ _model, _basis, options ], 
+                                            deleteJobFiles  = False                      ,
+                                            scratch         =_scratch                    )
         #Export the set QC region for visual inspection
-        #---------------------------------------------
+        #---------------------------------------------------------------------------------
         if self.DEBUG:
-            qcSystem = PruneByAtom(self.cSystem, self.QCRegion)
+            qcSystem = PruneByAtom(self.cSystem, _QCRegion)
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)        
         #---------------------------------------------
         self.NBmodel = NBModelORCA.WithDefaults()
-        self.cSystem.DefineQCModel( self.QCmodel , qcSelection=self.QCRegion )
+        self.cSystem.DefineQCModel( _QCmodel , qcSelection=_QCRegion )
         self.cSystem.DefineNBModel(self.NBmodel)
         #---------------------------------------------
-        self.BoundaryAtoms = list(self.cSystem.qcState.boundaryAtoms)
-        self.QClist        = list(self.cSystem.qcState.qcAtoms)
-        self.hasQCmodel    = True 
-
 
     #==========================================================================
     def SetDFTBsystem(self,_region,_QCcharge,_QCmultiplicity):
         '''
         Set or modify the QC model to run with DFTB model.
+        Parameters:
+            _region:
+            _QCcharge:
+            _QCmultiplicity:
         '''
         #----------------------------------------------
         atomlist = []
         for sel in _region:
-            for i in range( len(sel) ):
-                atomlist.append( sel[i] )
+            if type(sel) == int:
+                atomlist.append(sel)
+            elif type(sel) == list:
+                for i in range( len(sel) ):
+                    atomlist.append( sel[i] )
+
         #---------------------------------------------
         #define QC atoms selection
-        self.QCRegion = Selection.FromIterable(atomlist)
+        _QCRegion = Selection.FromIterable(atomlist)
         #---------------------------------------------
         self.logfile.separator()
-        self.logfile.inputLine("Defining DFTB method and QC atoms regions!")
-        self.multiplicity   = _QCmultiplicity
-        self.TotalChargeQC  = _QCcharge 
+        self.logfile.inputLine("Defining DFTB method and QC atoms regions!")        
         #---------------------------------------------
         #Sending the system
         self.cSystem.nbModel = None
         oldSystem = Clone( self.cSystem )      
         self.SystemStates.append( oldSystem )
-        self.cSystem.label = self.baseName + "#{} DFTB and QC region Set".format(self.systemCoutCurr)
+        self.cSystem.label   = self.baseName + "#{} DFTB and QC region Set".format(self.systemCoutCurr)
         self.systemCoutCurr += 1
 
-        self.cSystem.electronicState = ElectronicState.WithOptions ( charge = self.TotalChargeQC, multiplicity = self.multiplicity )
-       
+        self.cSystem.electronicState = ElectronicState.WithOptions( charge = _QCcharge, multiplicity = _QCmultiplicity )
         #---------------------------------------------
         #Export the set QC region for visual inspection
         if self.DEBUG:
-            qcSystem = PruneByAtom(self.cSystem, self.QCRegion)
+            qcSystem = PruneByAtom(self.cSystem, _QCRegion)
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
         #---------------------------------------------
         _scratch = os.path.join(os.getcwd(),self.baseName,"dftbjob")
@@ -420,24 +341,21 @@ class SimulationProject:
             os.makedirs(_scratch)
         #--------------------------------------------------------------------
         #task adjust the parameters for customizable options
-        self.QCmodel = QCModelDFTB.WithOptions ( deleteJobFiles = False   ,
-                                                 randomScratch  = True   ,
-                                                 scratch        = _scratch,
-                                                 skfPath        = skfPath ,
-                                                 useSCC         = True    )
+        _QCmodel = QCModelDFTB.WithOptions ( deleteJobFiles = False   ,
+                                             randomScratch  = True    ,
+                                             scratch        = _scratch,
+                                             skfPath        = skfPath ,
+                                             useSCC         = True    )
 
         #-----------------------------------------------------------------------
         self.NBmodel = NBModelDFTB.WithDefaults()
-        self.cSystem.DefineQCModel( self.QCmodel, qcSelection=self.QCRegion )
+        self.cSystem.DefineQCModel( _QCmodel, qcSelection=_QCRegion )
         self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded model
         #--------------------------------------------------------------------
         self.cSystem.qcModel.maximumSCCIterations=1200
         energy = self.cSystem.Energy()      
         self.logfile.inputLine("Total Energy of the System: " + str(energy) )
-        #--------------------------------------------------------------------
-        self.BoundaryAtoms = list(self.cSystem.qcState.boundaryAtoms)
-        self.QClist        = list(self.cSystem.qcState.qcAtoms)
-        self.hasQCmodel    = True 
+                
 
     #=========================================================================
     def RunSinglePoint(self):
@@ -457,25 +375,27 @@ class SimulationProject:
         return(energy)
 
     #=========================================================================
-    def RunSimulation(self,_parameters,_simulationType):
+    def RunSimulation(self,_parameters,_simulationType,_plotParameters):
         '''
         Execute a preset simulation for the current system. 
+        Parameters:
+           _parameters:
+           _simulationType:
+           _plotParameters:
         '''
         #----------------------------------------------------------------------        
-        self.simulationHys.append(_simulationType)
         self.logfile.separator()
         self.logfile.inputLine("Setting Simulation Protocol:")
         self.logfile.inputLine( "\t{}".format(_simulationType) )
         #----------------------------------------------------------------------
         oldSystem = copySystem( self.cSystem )
         self.SystemStates.append( oldSystem )
-        self.cSystem.label = self.baseName + "#{} Input for Simulation: {}".format(self.systemCoutCurr,_simulationType)
+        self.cSystem.label   = self.baseName + "#{} Input for Simulation: {}".format(self.systemCoutCurr,_simulationType)
         self.systemCoutCurr += 1
         #---------------------------------------------------------------------
-        bsname = os.path.join( os.getcwd(), self.baseName )
+        bsname  = os.path.join( os.getcwd(), self.baseName )
         process = Simulation(self.cSystem,_simulationType, bsname )
-        process.Execute(_parameters)
-              
+        process.Execute(_parameters,_plotParameters)              
         
     #.-------------------------------------------------------------------------
     def PrintSystems(self):
@@ -505,10 +425,12 @@ class SimulationProject:
         Though, in the current state only will save the current system to a pkl file
         '''
         Pickle(self.baseName+".pkl",self.cSystem)
+        ExportSystem(self.baseName+".pdb",self.cSystem)
         
     #.-------------------------------------------------------------------------
     def FinishRun(self):
         '''
+        Finalize the run.
         '''
         self.logfile.inputLine("Finishing simulation project using pDynamo3 methods!")
         self.logfile.close()

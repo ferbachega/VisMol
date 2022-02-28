@@ -154,7 +154,6 @@ class GeometrySearcher:
         if self.traj == None:
             LBFGSMinimize_SystemGeometry(self.molecule                          ,                
                                     logFrequency         = self.logFreq         ,
-                                    trajectories         = self.traj            ,
                                     maximumIterations    = self.maxIt           ,
                                     rmsGradientTolerance = self.rmsGrad         )
         else:
