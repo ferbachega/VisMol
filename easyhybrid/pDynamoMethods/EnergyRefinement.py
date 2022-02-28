@@ -14,7 +14,7 @@ from commonFunctions import *
 from pMolecule import *
 from pMolecule.QCModel import *
 from GeometrySearcher import * 
-
+from MopacQCMMinput import *
 import os, glob, sys, shutil
 import numpy as np 
 #================================
@@ -60,9 +60,14 @@ class EnergyRefinement:
 		_path = os.path.join( _trajFolder,"")
 		self.fileLists   = glob.glob(_path + "*.pkl")
 
-		self.energiesArray = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')
-		self.indexArrayX   = pymp.shared.array( (self.ylen,self.xlen) , dtype='uint8')
-		self.indexArrayY   = pymp.shared.array( (self.ylen,self.xlen) , dtype='uint8')
+		if self.ylen  == 0:
+			self.energiesArray = pymp.shared.array( (self.xlen) , dtype='float')
+			self.indexArrayX   = pymp.shared.array( (self.xlen) , dtype='uint8')
+			self.indexArrayY   = pymp.shared.array( (self.xlen) , dtype='uint8')
+		else:
+			self.energiesArray = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')
+			self.indexArrayX   = pymp.shared.array( (self.ylen,self.xlen) , dtype='uint8')
+			self.indexArrayY   = pymp.shared.array( (self.ylen,self.xlen) , dtype='uint8')
 		self.SMOenergies   = None
 
 	#====================================================
@@ -77,11 +82,14 @@ class EnergyRefinement:
 	#====================================================
 	def RunInternalSMO(self,_methods,_NmaxThreads):
 		'''
+		Run energy refinement with the semiempirical hamiltonians available wihthin pDynamo
+		Parameters:
+			_methods:     List of Hamiltoninas
+			_NmaxThreads: Number of maximum threds to be used in the parallel section
 		'''
 		self.SMOenergies = {}
 		self.methods 	 = _methods
 		NBmodel 	 	 = self.molecule.nbModel
-		
 		for smo in _methods:
 			if VerifyMNDOKey(smo):
 				with pymp.Parallel(_NmaxThreads) as p:
@@ -91,32 +99,67 @@ class EnergyRefinement:
 						self.molecule.DefineQCModel( qcModel, qcSelection=Selection(self.pureQCAtoms) )
 						self.molecule.DefineNBModel( NBmodel )
 						self.molecule.coordinates3 = ImportCoordinates3( self.fileLists[i],log=None )
-						lsFrames= GetFrameIndex(self.fileLists[i][:-4])
+						lsFrames= GetFrameIndex(self.fileLists[i][:-4])						
 						if self.ylen > 0:
 							self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy(log=None)
 							self.indexArrayX[ lsFrames[1], lsFrames[0] ] = lsFrames[0]
 							self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
 						else:
 							self.energiesArray[ lsFrames[0] ] = self.molecule.Energy(log=None)
-							self.indexArrayX[ lsFrames[0] ]   = lsFrames[0]
+							self.indexArrayX[ lsFrames[0] ] = lsFrames[0]							
 
 				#-----------------------------------------
-				self.SMOenergies[smo] = self.energiesArray
-				self.energiesArray = pymp.shared.array( (self.xlen,self.ylen) , dtype='float')			
+				if self.ylen > 0:
+					self.SMOenergies[smo] = self.energiesArray
+					self.energiesArray = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')	
+				else:
+					self.SMOenergies[smo] = self.energiesArray
+					self.energiesArray = pymp.shared.array( (self.xlen) , dtype='float')		
 			else:
-				continue
+				continue		
 	
 	#====================================================
-	def RunMopacSMO(self,_methods,_NmaxThreads):
+	def RunMopacSMO(self,_methods,_keyWords):
 		'''
+		Create input for Mopac with its available Hamiltonians enabling the QC(QM)/MM potential
+		Parameters:
+			_methods: List of hamiltonians available in MOPAC 
+			_NmaxThreads: Number of maximum threds to be used in the parallel section
 		'''
 		self.SMOenergies = {}
 		self.methods     = _methods
-		NBmodel          = self.molecule.nbModel		
+		NBmodel          = self.molecule.nbModel	
+		_mopacKeys       = _keyWords
+		
+		for smo in _methods:
+			for i in range( len(self.fileLists) ):
+				mop = MopacQCMMinput(self.molecule,self.baseName,self.fileLists[i][:-4],_mopacKeys,smo)
+				mop.CalculateGradVectors()
+				mop.write_input(self.charge,self.multiplicity)
+				mop.Execute()
+				lsFrames= GetFrameIndex(self.fileLists[i][:-4])						
+				if self.ylen > 0:
+					self.energiesArray[ lsFrames[1], lsFrames[0] ] = mop.GetEnergy()
+					self.indexArrayX[ lsFrames[1], lsFrames[0] ] = lsFrames[0]
+					self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
+				else:
+					self.energiesArray[ lsFrames[0] ] = mop.GetEnergy()
+					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
+			#----------------
+			if self.ylen > 0:
+					self.SMOenergies[smo] = self.energiesArray
+					self.energiesArray    = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')	
+			else:
+				self.SMOenergies[smo] = self.energiesArray
+				self.energiesArray    = pymp.shared.array( (self.xlen) , dtype='float')	
+
 
 	#====================================================
 	def RunDFTB(self,_NmaxThreads):
 		'''
+		Perform energy refinement using the interface available on the pDynamo with the DFTB+ software, enabling QC(QM)/MM potential.
+		Parameters:
+			_NmaxThreads: Number of maximum threds to be used in the parallel section
 		'''
 		self.methods.append("DFTB")
 
@@ -128,14 +171,13 @@ class EnergyRefinement:
 							
 			self.molecule.electronicState = ElectronicState.WithOptions(charge       = self.charge 		, 
 			                                                          	multiplicity = self.multiplicity )
-
+			#-------------------------------------------------------------
 			_QCmodel = QCModelDFTB.WithOptions( deleteJobFiles = False   ,
-			                                 	randomScratch  = True    ,
+			                                	randomScratch  = True    ,
 			                                 	scratch        = _scratch,
 			                                 	skfPath        = skfPath ,
 			                                 	useSCC         = True    )
-
-			#-----------------------------------------------------------------------
+			#-------------------------------------------------------------
 			NBmodel = NBModelDFTB.WithDefaults()
 			self.molecule.DefineQCModel( _QCmodel, qcSelection=Selection(self.pureQCAtoms) )
 			self.cSystem.DefineNBModel( self.NBmodel ) # reseting the non-bonded model
@@ -191,13 +233,14 @@ class EnergyRefinement:
 	#====================================================
 	def RunORCA(self,_method,_base,_NmaxThreads,_restart=False):
 		'''
+		Perform energy refinement using the interface available on the pDynamo with the ORCA software, enabling QC(QM)/MM potential.
+		Parameters:
+			_NmaxThreads: Number of maximum threds to be used in the parallel section
 		'''
 		self.methods.append(_method+"/"+_base)
 		self.restart = _restart		
-
 		if self.restart:
-			self.SetRestart4Orca()
-				
+			self.SetRestart4Orca()				
 		#---------------------------------------------------------
 		#Initiate parallel run
 		with pymp.Parallel(_NmaxThreads) as p:
@@ -219,17 +262,19 @@ class EnergyRefinement:
 				options +=  "print [ p_mos ] 1\n"
 				options +=  "print [ p_overlap ] 5\n"
 				options +=  "end # output"
-	
+				#...............................................................................................
 				self.molecule.electronicState = ElectronicState.WithOptions(charge       = self.charge 		, 
 				                                                          	multiplicity = self.multiplicity )
+				#...............................................................................................
 				QCmodel = QCModelORCA.WithOptions( keywords        = [ _method, _base, options], 
-				                                   deleteJobFiles  = False                      ,
-				                                   scratch         =_scratch                    )
+				                                   deleteJobFiles  = False                     ,
+				                                   scratch         =_scratch                   )
+				#...............................................................................................
 				NBmodel = NBModelORCA.WithDefaults()
 				self.molecule.DefineQCModel( QCmodel , qcSelection=Selection(self.pureQCAtoms) )
 				self.molecule.DefineNBModel( NBmodel)
 				self.molecule.coordinates3 = ImportCoordinates3( self.fileLists[i] )
-				
+				#---------------------------------------------------------------------------
 				if self.ylen > 0:
 					self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy()					
 					self.indexArrayX[ lsFrames[1], lsFrames[0] ]   = lsFrames[1]
@@ -243,14 +288,12 @@ class EnergyRefinement:
 					tmpText = "{}".format(self.energiesArray[ lsFrames[1], lsFrames[0] ])
 					tmpLog.write(tmpText)
 					tmpLog.close()
-
 		#--------------------
-		self.TreatOrcaFiles()
-
-		
+		self.TreatOrcaFiles()		
 	#====================================================
 	def TreatOrcaFiles(self):
 		'''
+		Rename orca files on the scratch folder, bringing them to the base folder with the name related with the respective frames
 		'''
 		_path    = os.path.join( self.baseName, "" )
 		outFiles = glob.glob( _path+"frame*" )
@@ -263,23 +306,29 @@ class EnergyRefinement:
 	#====================================================
 	def WriteLog(self):
 		'''
+		Write calculate energies to file.
 		'''
-		if len(self.methods) > 1:
-			for smo in self.methods:
+		if self.ylen > 0:
+			if len(self.methods) > 1:
+				for smo in self.methods:
+					for i in range(self.xlen):
+						for j in range(self.ylen):
+							self.text +="{} {} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.SMOenergies[smo][i,j] - self.SMOenergies[smo][0,0], smo)
+			else:
 				for i in range(self.xlen):
 					for j in range(self.ylen):
-						self.text +="{} {} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.SMOenergies[smo][i,j] - self.SMOenergies[smo][0,0], smo)
+						self.text +="{} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.energiesArray[ i, j ] - self.energiesArray[ 0, 0 ] )
 		else:
-			for i in range(self.xlen):
-				for j in range(self.ylen):
-					self.text +="{} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.energiesArray[ i, j ]- self.energiesArray[ 0, 0 ] )
+			if len(self.methods) > 1:
+				for smo in self.methods:
+					for i in range(self.xlen):
+						self.text +="{} {} {}\n".format(self.indexArrayX[i], self.SMOenergies[smo][i] - self.SMOenergies[smo][0], smo)
+			else:
+				for i in range(self.xlen):
+					for j in range(self.ylen):
+						self.text +="{} {}\n".format(self.indexArrayX[i], self.energiesArray[i] - self.energiesArray[0] )
 		#--------------------------------------------------------------
-		_filename = os.path.join(self.baseName,"EnergyRefinement.log")
-		i=0
-		while os.path.exists(_filename):
-			i+=i
-			_filename = _filename[:-4] +"_#{}.log".format(i)		
-
+		_filename = os.path.join(self.baseName+"_energy.log")
 		#----------------------------
 		logFile = open(_filename,'w')
 		logFile.write(self.text)

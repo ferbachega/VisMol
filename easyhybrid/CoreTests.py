@@ -912,6 +912,17 @@ def EnergyAnalysisPlots():
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
 	#===========================================================================
 	#internal refinement
+
+#===============================================================================
+def TrajectoryAnalysisPlots():
+	'''
+	Test the analysis and plotting for molecular dynamics simulations.
+	'''
+	# Root mean square and radius of gyration plots 
+	# Distance analysis in restricted molecular dynamics 
+	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
+
+
 #===============================================================================
 def ReacCoordSearchers():	
 	'''
@@ -923,39 +934,66 @@ def ReacCoordSearchers():
 
 	#generate initial and final coordinates for NEB 
 	#generate trajectory for SAW
-	#
+		
 	_name = "SCAN1D_4NEB_and_SAW"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
-	if not os.path.exists(_name):
-		QCMMScanSimpleDistance(30,0.05,name=_name)
+	if not os.path.exists(_path):
+		QCMMScanMultipleDistance(30,0.05,name=_name)
+	init_path = os.path.join( _path, "frame0.pkl")
+	final_path = os.path.join( _path, "frame29.pkl")
 
+	parameters      = {"init_coord":init_path,"final_coord":final_path,"NEB_nbins":16,"RMS_growing_intial_string":0.3}
+	_plotParameters = None 
 
-
+	proj.RunSimulation(parameters,"NEB",_plotParameters)
 
 #================================================================================
 def pDynamoEnergyRef_1D():
 	'''
+	Tested
 	'''	
-	proj=SimulationProject( os.path.join(scratch_path, "SMO_EnergyRefinement") )
+	proj=SimulationProject( os.path.join(scratch_path, "pDynamoSMO") )
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 
 	methods = ["am1","rm1","pm3","pm6","pddgpm3"]
-	_path = os.path.join( scratch_path, "QCMM_Scans2DmultipleDistance","ScanTraj.ptGeo")
-	_plotParameters = {	}
 
-	parameters = { "xnbins":6			,
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	#setting reaction coordinates for ploting labels
+	a1 = [atom1[0],atom2[0],atom3[0]]
+	rc1_md = ReactionCoordinate(a1,False)
+	rc1_md.SetInformation(proj.cSystem,0)	
+	a2 = [atom4[0],atom5[0],atom6[0]]
+	rc2_md = ReactionCoordinate(a2,False)
+	rc2_md.SetInformation(proj.cSystem,0)
+
+
+	_name = "SCAN1D_4Refinement"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	if not os.path.exists(_path):
+		QCMMScanMultipleDistance(30,0.05,name=_name)
+
+	_plotParameters = {	"show":True,
+						"crd1_label":rc1_md.label,
+						"crd2_label":rc2_md.label,
+						"contour_lines":12 ,
+						"xlim_list": [-1.2,2.0] }
+
+	parameters = { "xnbins":30			,
 				   "ynbins":0			,
-				   "Scr_folder":_path   ,
+				   "source_folder":_path,
+				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
 				   "charge":-3		    ,
 				   "multiplicity":1 	,
 				   "methods_lists":methods,					   
 				   "NmaxThreads":8 		,
-				   "Software":"pDynamo"	,
-				   "rc1_min":-1.0       ,
-				   "rc1_max":-0.2       ,
-				   "rc1_name":"Reaction Coord1" }
+				   "Software":"pDynamo"	}
 
 	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)	
 	
@@ -967,7 +1005,51 @@ def DFTBplusEnergy():
 	pass
 #=====================================================
 def MopacEnergyRef():
-	pass
+	'''
+	'''
+	proj=SimulationProject( os.path.join(scratch_path, "mopacSMO") )
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+	methods = ["am1","pm3","pm6","pm7","rm1"]
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	#setting reaction coordinates for ploting labels
+	a1 = [atom1[0],atom2[0],atom3[0]]
+	rc1_md = ReactionCoordinate(a1,False)
+	rc1_md.SetInformation(proj.cSystem,0)	
+	a2 = [atom4[0],atom5[0],atom6[0]]
+	rc2_md = ReactionCoordinate(a2,False)
+	rc2_md.SetInformation(proj.cSystem,0)
+	_name = "SCAN1D_4MopacRefinement"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	
+	if not os.path.exists(_path):
+		QCMMScanMultipleDistance(20,0.08,name=_name)
+
+	_plotParameters = {	"show":True,
+						"crd1_label":rc1_md.label,
+						"crd2_label":rc2_md.label,
+						"contour_lines":12 ,
+						"xlim_list": [-1.2,2.0] }
+
+	parameters = { "xnbins":30			,
+				   "ynbins":0			,
+				   "mopac_keywords":["grad qmmm","ITRY=5000"] ,
+				   "source_folder":_path,
+				   "out_folder":os.path.join(scratch_path, "MOPAC_EnergyRefinement"),
+				   "charge":-3		    ,
+				   "multiplicity":1 	,
+				   "methods_lists":methods,					   
+				   "NmaxThreads":1 		,
+				   "Software":"mopac"	}
+
+	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)	
+	
 #=====================================================
 def ORCAEnergy():
 	pass
@@ -976,25 +1058,27 @@ def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":
-	#MMMD_Algorithms()
-	#MMMD_Protocols()
-	#QCMM_Energies()
-	#QCMM_DFTBplus()
-	#QCMM_Orca()
-	#QCMM_optimizations()
-	#QCMM_MD()
-	#QCMM_MDrestricted()
-	#QCMMScanSimpleDistance(30,0.05)
-	#QCMMScanMultipleDistance(30,0.05)
-	#QCMMScan2DSimpleDistance(12,12,0.1,0.1)
-	#QCMMScan2DmixedDistance(12,12,0.1,0.1)
-	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)
-	#QCMMScans2D_Adaptative(12,12,0.2,0.2)
-	#FreeEnergy1DSimpleDistance(600)
-	#FreeEnergy1DMultipleDistance(600)
-	#UmbrellaSampling1Drestart(500)
-	#FreeEnergy2DsimpleDistance(500)
-	#FreeEnergy2DmixedDistance(500)
-	#FreeEnergy2DmultipleDistance(500)
-	#pDynamoEnergyRef_1D()
-	EnergyAnalysisPlots()
+	#MMMD_Algorithms()                         			#TESTED
+	#MMMD_Protocols()									#TESTED
+	#QCMM_Energies()									#TESTED
+	#QCMM_DFTBplus()									#TESTED
+	#QCMM_Orca()										#TESTED
+	#QCMM_optimizations()								#TESTED
+	#QCMM_MD()											#TESTED
+	#QCMM_MDrestricted()								#TESTED
+	#QCMMScanSimpleDistance(30,0.05)					#TESTED
+	#QCMMScanMultipleDistance(30,0.05)					#TESTED
+	#QCMMScan2DSimpleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	#FreeEnergy1DSimpleDistance(600)					#TESTED
+	#FreeEnergy1DMultipleDistance(600)					#TESTED
+	#UmbrellaSampling1Drestart(500)						#TESTED
+	#FreeEnergy2DsimpleDistance(500)					#TESTED
+	#FreeEnergy2DmixedDistance(500)						#TESTED
+	#FreeEnergy2DmultipleDistance(500)					#TESTED
+	#pDynamoEnergyRef_1D()								#TESTED
+	#EnergyAnalysisPlots()								#TESTED
+	#ReacCoordSearchers()								#NEB TESTED
+	MopacEnergyRef()

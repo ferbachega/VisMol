@@ -86,7 +86,26 @@ class EnergyAnalysis:
 
 		#-----------------------------------
 		elif self.Type == "1DRef":
-			pass
+			oldMethod = "none"
+			method    = "none"
+			for line in reading:
+				lns = line.split()
+				if oldMethod == "none":
+					oldMethod = lns[2]
+				method = lns[2]
+				if not method == oldMethod:
+					self.multiple1Dplot.append(energyTmp)
+					self.identifiers.append(oldMethod)
+					oldMethod = method
+					self.nplots1D += 1	
+					energyTmp = []		
+				energyTmp.append( float(lns[1]) )
+				self.energies1D.append( float(lns[1]) )
+
+			self.multiple1Dplot.append(energyTmp)
+			self.identifiers.append(method)
+
+			self.labely = "Potential Energy (kJ/mol)"
 
 		#----------------------------------
 		elif self.Type == "2D":
@@ -226,9 +245,10 @@ class EnergyAnalysis:
 		'''
 		#---------------------------------------------
 		self.NormalizeEnergies()
-		x = np.linspace(0, self.xlen, self.xlen)
+		x = np.linspace(0, self.xlen, self.xlen )
+		
 		for i in range(self.nplots1D):
-			plt.plot(x,self.multiple1Dplot[i],label=self.identifiers[i],linestyle="-.")
+			plt.plot(x,self.multiple1Dplot[i],label=self.identifiers[i])
 		#---------------------------------------------
 		plt.xlabel(label)
 		plt.ylabel(self.labely)
