@@ -1480,27 +1480,29 @@ class TreeViewMenu:
         (model, iter)    = selection.get_selected()
         self.selectedID  = int(model.get_value(iter, 1))  # @+
         
-        visObj = self.treeview.vismolSession.vismol_objects[self.selectedID]
+        print(selection, model, iter, self.selectedID)
+        visObj = self.treeview.vismolSession.vismol_objects_dic[self.selectedID]
         
-        infile = self.filechooser.open()
+        #infile = self.filechooser.open()
+        self.treeview.main_session.import_trajectory_window.OpenWindow()
+        #self.import_trajectory_window.OpenWindow()
         
-        self.treeview.vismolSession.load_xyz_coords_to_vismol_object(infile , visObj)
+        #self.treeview.vismolSession.load_xyz_coords_to_vismol_object(infile , visObj)
+        #print (infile)
         
-        print (infile)
-        
-        
-        self.treeview.store .clear()
-        #self.vismolSession.vismol_objects_dic.items()
-        for index, vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
-            print ('\n\n',vis_object.name,'\n\n')
-            data = [vis_object.active          , 
-                    #str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
-                    str(index),
-                    vis_object.name            , 
-                    str(len(vis_object.atoms)) , 
-                    str(len(vis_object.frames)),
-                   ]
-            model.append(data)
+        #
+        #self.treeview.store .clear()
+        ##self.vismolSession.vismol_objects_dic.items()
+        #for index, vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
+        #    print ('\n\n',vis_object.name,'\n\n')
+        #    data = [vis_object.active          , 
+        #            #str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
+        #            str(index),
+        #            vis_object.name            , 
+        #            str(len(vis_object.atoms)) , 
+        #            str(len(vis_object.frames)),
+        #           ]
+        #    model.append(data)
 
     def f2 (self, visObj = None):
         """ Function doc """
