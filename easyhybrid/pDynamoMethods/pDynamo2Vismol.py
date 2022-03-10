@@ -33,7 +33,8 @@ from pSimulation               import *
 from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER
 from vModel.MolecularProperties import COLOR_PALETTE
-
+import os
+HOME = os.environ.get('HOME')
 
 import numpy as np
 
@@ -220,6 +221,7 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
+                  'working_folder': HOME , 
                    }
         
         
@@ -276,9 +278,9 @@ class pDynamoSession:
         self.systems[psystem['id']] = psystem 
         
         #self.systems_list.append(psystem)
+        self.active_id   = self.counter  
         self.counter    += 1
-        self.active_id   = self.counter -1
-        
+
         if self.color_palette_counter >= len(COLOR_PALETTE)-1:
             self.color_palette_counter = 0
         else:
@@ -372,9 +374,30 @@ class pDynamoSession:
         #if self.selection_fixed_table:
         print('\n\n\nselection_fixed_table', self.systems[self.active_id]['fixed_table'])
         
-        self.vismolSession.set_color_by_index(vismol_object = self.systems[self.active_id]['vismol_object'] , 
-                                              indexes       = self.systems[self.active_id]['fixed_table']   , 
-                                              color         = self.fixed_color)
+
+
+
+        '''
+        This loop is assigning the color of the fixed atoms to all objects 
+        belonging to the pdynamo project that is active. 
+        '''
+        for key, visObj in self.vismolSession.vismol_objects_dic.items():
+            print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+            
+            if visObj.easyhybrid_system_id == self.active_id:
+               
+                self.vismolSession.set_color_by_index(vismol_object = visObj , 
+                                                      indexes       = self.systems[self.active_id]['fixed_table'], 
+                                                      color         = self.fixed_color)
+
+
+
+
+
+
+        #self.vismolSession.set_color_by_index(vismol_object = self.systems[self.active_id]['vismol_object'] , 
+        #                                      indexes       = self.systems[self.active_id]['fixed_table']   , 
+        #                                      color         = self.fixed_color)
         
         if self.systems[self.active_id]['system'].qcModel:
 

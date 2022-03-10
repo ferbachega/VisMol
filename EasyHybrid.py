@@ -443,16 +443,37 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 freelist = []                
                 for atom in selection.selected_atoms:
                     #print(atom.index, atom.name, atom.color) 
-                    true_or_false = self.check_selected_atom(atom, dialog = True)
                     
+                    '''checks if the selected atoms belong to the active project'''
+                    true_or_false = self.check_selected_atom(atom, dialog = True)
                     if true_or_false:
                         freelist.append(atom.index -1)
-                        atom.color = atom.init_color(atom.symbol) 
+                        #index = atom.index -1
+                        
+
+                        #atom.color = atom.init_color(atom.symbol) 
                         #true_or_false = self.check_selected_atom( atom, dialog = True)
                     else:
                         return False
                     
-                    #print(atom.index, atom.name, atom.color) 
+                
+                
+                '''here we are returning the original color of the selected atoms'''
+                for key, visObj in self.vismol_objects_dic.items():
+                    if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
+                        print('key',key, visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                        for index in freelist:
+                            print(index,visObj. atoms[index])
+                            atom = visObj.atoms[index]
+                            atom.color = atom.init_color(atom.symbol)
+                            #visObj.atoms[index]
+                            #visObj.atoms[index].init_color(atom.symbol) 
+                
+                
+                
+                
+                
+                #print(atom.index, atom.name, atom.color) 
                 #----------------------------------------------
                 pdmsys_active =   self.main_session.pDynamo_session.active_id
                 #fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
