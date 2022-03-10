@@ -962,9 +962,6 @@ def pDynamoEnergyRef_1D():
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
-	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
-	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
-	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
@@ -999,9 +996,57 @@ def pDynamoEnergyRef_1D():
 	
 #=====================================================
 def pDynamoEnergyRef_2D():
-	pass
+	'''
+
+	'''
+	proj=SimulationProject( os.path.join(scratch_path, "pDynamoSMO") )
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+
+	methods = ["am1","rm1"]
+
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	#setting reaction coordinates for ploting labels
+	a1 = [atom1[0],atom2[0],atom3[0]]
+	rc1_md = ReactionCoordinate(a1,False)
+	rc1_md.SetInformation(proj.cSystem,0)	
+	a2 = [atom4[0],atom5[0],atom6[0]]
+	rc2_md = ReactionCoordinate(a2,False)
+	rc2_md.SetInformation(proj.cSystem,0)
+
+	_name = "SCAN2D_4Refinement"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	if not os.path.exists(_path):
+		QCMMScan2DmultipleDistance(6,6,0.1,0.1,name=_name)
+
+	_plotParameters = {	"show":True              ,
+						"crd1_label":rc1_md.label,
+						"crd2_label":rc2_md.label,
+						"contour_lines":12       ,
+						"xlim_list": [-1.2,-0.3] ,
+						"ylim_list": [-0.9,-0.2] }
+
+	parameters = { "xnbins":6			,
+				   "ynbins":6			,
+				   "source_folder":_path,
+				   "out_folder":os.path.join(scratch_path, "SMO2D_EnergyRefinement"),
+				   "charge":-3		    ,
+				   "multiplicity":1 	,
+				   "methods_lists":methods,					   
+				   "NmaxThreads":4		,
+				   "Software":"pDynamo"	}
+
+	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)
 #=====================================================
 def DFTBplusEnergy():
+	'''
+	'''
 	pass
 #=====================================================
 def MopacEnergyRef():
@@ -1037,7 +1082,7 @@ def MopacEnergyRef():
 						"contour_lines":12 ,
 						"xlim_list": [-1.2,2.0] }
 
-	parameters = { "xnbins":30			,
+	parameters = { "xnbins":20			,
 				   "ynbins":0			,
 				   "mopac_keywords":["grad qmmm","ITRY=5000"] ,
 				   "source_folder":_path,
@@ -1081,4 +1126,5 @@ if __name__ == "__main__":
 	#pDynamoEnergyRef_1D()								#TESTED
 	#EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
-	MopacEnergyRef()
+	#MopacEnergyRef()									#TESTED
+	#pDynamoEnergyRef_2D()

@@ -178,8 +178,8 @@ class Simulation:
 		cnt_lines  = 12
 		crd1_label = "Reaction Coordinate #1"
 		crd2_label = "Reaction Coordinate #2"
-		xlims = [ 0, dimensions[0] ]
-		ylims = [ 0, dimensions[1] ]
+		xlim = [ 0, dimensions[0] ]
+		ylim = [ 0, dimensions[1] ]
 		show  = False
 		#check parameters for plot
 		if "contour_lines" in _plotParameters:
@@ -204,7 +204,7 @@ class Simulation:
 		EA.ReadLog( os.path.join(ER.baseName+"_energy.log") )
 		#-------------------------------------------------------------
 		if dimensions[1] > 0:
-			EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
+			EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
 			if "methods_lists" in _parameters:
 				if len(_parameters["methods_lists"]) > 1:
