@@ -3,41 +3,39 @@
 
 #Lembrar de colocar uma header nesse arquivo
 
-
+##############################################################
+#-----------------...EasyHybrid 3.0...-----------------------#
+#-----------Credits and other information here---------------#
+##############################################################
 
 import glob, math, os, os.path
-
-from pBabel                    import *
-                                     
-from pCore                     import*
-                                     
-from pMolecule                 import*
-                              
+import numpy as np
+#---------------------------------------
+from pBabel                    import*                                     
+from pCore                     import*  
+#---------------------------------------
+from pMolecule                 import*                              
 from pMolecule.MMModel         import*
-from pMolecule.NBModel         import*
-   
-                                     
-from pMolecule.QCModel         import *
-from pScientific               import *
-                                     
-from pScientific.Arrays        import *
-                                     
-from pScientific.Geometry3     import *
-                                     
-from pScientific.RandomNumbers import *
-                                     
-from pScientific.Statistics    import *
-from pScientific.Symmetry      import *
-                                     
-from pSimulation               import *
+from pMolecule.NBModel         import*                                     
+from pMolecule.QCModel         import*
+#---------------------------------------
+from pScientific               import*                                     
+from pScientific.Arrays        import*                                     
+from pScientific.Geometry3     import*                                     
+from pScientific.RandomNumbers import*                                     
+from pScientific.Statistics    import*
+from pScientific.Symmetry      import*
+#---------------------------------------                              
+from pSimulation               import*
+#---------------------------------------
+#import our core lib
+from SimulationPreset import Simulation 
+#---------------------------------------
 from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER
 from vModel.MolecularProperties import COLOR_PALETTE
-import os
+
 HOME = os.environ.get('HOME')
-
-import numpy as np
-
 
 #==========================================================================
 def get_atom_coords_from_pdynamo_system (system, atom, frame = None):
@@ -122,8 +120,7 @@ def load_pDynamo_system_from_file (filein,  gridsize = 3, vismolSession =  None,
         ##print(atom.index, atom.label, atom.atomicNumber, atom.connections, xyz[0], xyz[1], xyz[2] )
         frame.append(float(xyz[0]))
         frame.append(float(xyz[1]))
-        frame.append(float(xyz[2]))
-        
+        frame.append(float(xyz[2]))        
         
         entityLabel = atom.parent.parent.label
         useSegmentEntityLabels = False
@@ -132,9 +129,7 @@ def load_pDynamo_system_from_file (filein,  gridsize = 3, vismolSession =  None,
             segID   = entityLabel[0:4]
         else:
             chainID = entityLabel[0:1]
-            segID   = ""
-    
-        
+            segID   = ""        
 
         resName, resSeq, iCode = sequence.ParseLabel ( atom.parent.label, fields = 3 )
         #print(atom.index, atom.label,resName, resSeq, iCode,chainID, segID,  atom.atomicNumber, atom.connections, xyz[0], xyz[1], xyz[2] )
@@ -664,11 +659,6 @@ class pDynamoSession:
             self.vismolSession.selections[self.vismolSession.current_selection].selecting_by_indexes (vismol_object   = vismol_object, 
                                                                                                               indexes = core , 
                                                                                                               clear   = True )
-
-
-
-
- 
     def get_energy (self):
         """ Function doc """
         self.systems[self.active_id]['system'].Summary( )
