@@ -241,6 +241,51 @@ class SCAN:
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
     #===================================================================================================
+    def Run1DScanDihedral(self,_nsteps):
+        '''
+        '''
+        self.nsteps[0] = _nsteps
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[0][2]
+        atom4 = self.atoms[0][3]
+               
+        #---------------------------------
+        self.text += "x RC1 Energy\n" 
+        #---------------------------------
+        restraints = RestraintModel()
+        self.molecule.DefineRestraintModel( restraints )
+        #---------------------------------
+        self.energiesMatrix      = pymp.shared.array( (_nsteps), dtype=float ) 
+        self.reactionCoordinate1 = pymp.shared.array( (_nsteps), dtype=float )  
+        self.DINCREMENT[0]       = 360.0 / float(_nsteps)       
+        #----------------------------------------------------------------------------------------
+        for i in range(0,_nsteps):
+            angle = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) ) 
+            #--------------------------------------------------------------------
+            rmodel    = RestraintEnergyModel.Harmonic( angle, self.forceC )
+            restraint = RestraintDihedral.WithOptions( energyModel = rmodel    ,
+                                                           point1 = atom1      ,
+                                                           point2 = atom2      ,
+                                                           point3 = atom3      ,
+                                                           point4 = atom4      ) 
+            restraints["RC1"] =  restraint            
+            #--------------------------------------------------------------------
+            relaxRun = GeometrySearcher(self.molecule, self.baseName  )
+            relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+            relaxRun.Minimization(self.optmizer)
+            #--------------------------------------------------------------------
+            if i == 0:
+                en0 = self.molecule.Energy()
+                self.energiesMatrix[0] = 0.0
+            else:
+                self.energiesMatrix[i] = self.molecule.Energy() - en0 
+            self.reactionCoordinate1[i] = self.molecule.coordinates3.Dihedral( atom1 , atom2, atom3,atom4  ) 
+            Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 )
+            self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
+        self.molecule.DefineRestraintModel(None)
+
+    #===================================================================================================
     def Run2DScan(self,_nsteps_x,_nsteps_y):
         '''
         '''

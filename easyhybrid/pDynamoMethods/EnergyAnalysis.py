@@ -46,10 +46,12 @@ class EnergyAnalysis:
 		self.energies1D 	= []
 		self.energiesMatrix = np.zeros( (y, x), dtype=float )
 		self.multiple1Dplot = []
+		self.multiple2Dplot = []
 		self.RC1            = []
 		self.RC2            = []
 		self.dimensions     = 0
 		self.nplots1D       = 0
+		self.nplots2D 		= 0
 		self.xlen 			= x
 		self.ylen  			= y
 		self.Type 			= _type
@@ -104,7 +106,6 @@ class EnergyAnalysis:
 
 			self.multiple1Dplot.append(energyTmp)
 			self.identifiers.append(method)
-
 			self.labely = "Potential Energy (kJ/mol)"
 
 		#----------------------------------
@@ -120,43 +121,77 @@ class EnergyAnalysis:
 				i += 1		
 		#----------------------------------
 		elif self.Type == "2DRef":
+			oldMethod = "none"
+			method    = "none"
 			for line in reading:
 				lns = line.split()
+				if oldMethod == "none":
+					oldMethod = lns[3]
+				method = lns[3]
+				if not method == oldMethod:
+					self.multiple2Dplot.append(self.energiesMatrix)
+					self.identifiers.append(oldMethod)
+					oldMethod = method
+					self.nplots2D += 1
+					self.energiesMatrix = np.zeros( (self.ylen, self.xlen), dtype=float )
 				m = int( lns[0])				
 				n = int( lns[1])				
 				self.energiesMatrix[n][m] = float(lns[2])
+			
+			self.multiple2Dplot.append(self.energiesMatrix)
+			self.identifiers.append(method)
+			self.nplots2D += 1
 		#----------------------------------
 		elif self.Type == "WHAM1D":
+			MaX = 0.0
 			for line in reading:
 				lns = line.split()
+				pmf = float(lns[1])
+				if pmf > MaX:
+					MaX = pmf
 				self.RC1.append( float(lns[0]) )
 				if lns[1] == "inf":
-					self.energies1D.append( 180.0 )
+					self.energies1D.append( 43434.0000 )
 				else:
 					self.energies1D.append( float(lns[1]) )
+
+			for i in range(len(self.energies1D)):
+				if self.energies1D[i] == 43434.0000:
+					self.energies1D[i] == MaX
+
 		#----------------------------------
 		elif self.Type == "WHAM2D":
 			m = 0
 			n = 0
+			MaX = 0.0
 			for line in reading:
+				pmf = float(lns[2])
+				if pmf > MaX:
+					MaX = pmf
 				lns = line.split()
 				self.RC1.append( float(lns[0]) )
 				self.RC2.append( float(lns[1]) )
 				if lns[2] == "inf":
-					self.energiesMatrix[m][n] = 180.0
+					self.energiesMatrix[m][n] = 43434.0000
 				else:
-					self.energiesMatrix[m][n] = float(lns[2])				
+					self.energiesMatrix[m][n] = pmf				
 				i +=1
 				n +=1 						
 				if i % self.xlen == 0:
 					m += 1
 					n = 0
+			
+			for j in range(self.xlen):
+				for i in range(self.ylen):
+					if self.energiesMatrix[i][j] == 43434.0000:
+						self.energiesMatrix[i][j] = MaX
+
 		#----------------------------------
 		elif self.Type == "FE1D":
 			for line in reading:
 				lns = line.split()
 				if lns[1] == "inf":
-					self.energies1D.append( 200.0 )
+					self.energies1D.append( 180.0 )
 				else:
 					self.energies1D.append( float(lns[1]) )				
 		#----------------------------------
@@ -166,7 +201,7 @@ class EnergyAnalysis:
 				m = int( lns[0])				
 				n = int( lns[1])
 				if lns[1] == "inf":
-					self.energies1D.append( 200.0 )	
+					self.energies1D.append( 180.0 )	
 				else:		
 					self.energiesMatrix[n][m] = float(lns[2]) 
 		#----------------------------------
@@ -308,7 +343,10 @@ class EnergyAnalysis:
 		ax0.set_ylabel(crd2label, **axis_font)
 		fig.tight_layout()
 
-		plotName = self.baseName
+		_method = ""
+		if len(self.identifiers) > 0:
+			_method = self.identifiers[-1]
+		plotName = self.baseName + _method
 		if self.Type == "WHAM2D":
 			plotName += "_PMF2D.png" 
 		elif self.Type == "FE2D":
@@ -320,6 +358,15 @@ class EnergyAnalysis:
 		plt.savefig(plotName,dpi=1000)
 		if SHOW:
 			plt.show()
+	#----------------------------------------------------------------------------------------
+	def MultPlot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
+		'''
+		'''
+		for i in range(self.nplots2D):
+			self.identifiers.append( self.identifiers[i] )
+			self.energiesMatrix = self.multiple2Dplot[i]
+			self.Plot2D(contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False)
+
 #=====================================================================
 
 
