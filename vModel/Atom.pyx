@@ -136,7 +136,7 @@ class Atom:
     def coords (self, frame = None):
         """ Function doc """
         if frame is None:
-            frame  = self.Vobject.vismolSession.glwidget.vm_widget.frame
+            frame  = self.Vobject.vm_session.glwidget.vm_widget.frame
 
         coords = [self.Vobject.frames[frame][(self.index-1)*3  ],
                   self.Vobject.frames[frame][(self.index-1)*3+1],
@@ -157,11 +157,11 @@ class Atom:
 
     #def get_color (self):
     #    """ Function doc """
-    #    #self.at = Vobject.vismolSession.vConfig.atom_types
+    #    #self.at = Vobject.vm_session.vConfig.atom_types
     #
     #    self.color   = self.at.get_color(self.symbol)
  
-    def _generate_atom_unique_color_id (self): #, vismolSession = None):
+    def _generate_atom_unique_color_id (self): #, vm_session = None):
         """ Function doc """
         i = self.atom_id
         r = (i & 0x000000FF) >>  0
@@ -172,7 +172,7 @@ class Atom:
         self.color_id = [r/255.0, g/255.0, b/255.0]
         #print ('pickedID',pickedID, self.atom_id)
         #return pickedID
-        #self.Vobject.vismolSession.atom_dic_id[pickedID] = self
+        #self.Vobject.vm_session.atom_dic_id[pickedID] = self
 
 
 

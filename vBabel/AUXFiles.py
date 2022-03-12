@@ -87,7 +87,7 @@ USER_CHARGES
 @<TRIPOS>SUBSTRUCTURE
 '''
 
-def load_aux_file (infile = None, vismolSession =  None, gridsize = 3):
+def load_aux_file (infile = None, vm_session =  None, gridsize = 3):
     """ Function doc """
     print ('\nstarting: parse_aux')
     #at  =  MolecularProperties.AtomTypes()
@@ -201,7 +201,7 @@ def load_aux_file (infile = None, vismolSession =  None, gridsize = 3):
 
     vismol_object  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
-                                               vismolSession   = vismolSession, 
+                                               vm_session   = vm_session, 
                                                trajectory  = frames)
     
     return vismol_object

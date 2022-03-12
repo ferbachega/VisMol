@@ -9,7 +9,7 @@ from   vModel import MolecularProperties
 
 from pprint import pprint
 
-cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):
+cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):
     """ Function doc 
 
     gridsize =
@@ -48,7 +48,7 @@ cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):
     name = os.path.basename(infile)
     vismol_object  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
-                                               vismolSession   = vismolSession, 
+                                               vm_session   = vm_session, 
                                                trajectory  = frames,
                                                auto_find_bonded_and_nonbonded = True)
     '''

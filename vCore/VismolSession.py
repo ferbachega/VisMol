@@ -542,7 +542,7 @@ class VisMolSession (ShowHideVisMol):
         self.vismol_objects_dic = {} # old Vobjects dic - include molecules
         self.vobj_counter       = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vismol_object_to_vismol_session.
         self.vismol_geometric_object     = []
-        self.vismolSession_vbos = []
+        self.vm_session_vbos = []
 
         self.vismol_geometric_object_dic = {
                                            'pk1pk2' :  None,
@@ -630,13 +630,13 @@ class VisMolSession (ShowHideVisMol):
                 #self.player = PlayerFrame(self)
                 #self.player_frame = self.player.main_frame
                 #self.player.show_player_main_window ()
-                statusbar             = VismolStatusBar(vismolSession = self)
+                statusbar             = VismolStatusBar(vm_session = self)
                 self.statusbar         = statusbar.statusbar
-                self.go_to_atom_window = VismolGoToAtomWindow2( vismolSession = self)
-                TrajectoryFrame        = VismolTrajectoryFrame( vismolSession = self)
+                self.go_to_atom_window = VismolGoToAtomWindow2( vm_session = self)
+                TrajectoryFrame        = VismolTrajectoryFrame( vm_session = self)
                 self.trajectory_frame  = TrajectoryFrame.get_box()
                 
-                self.selection_box_frane = VismolSelectionTypeBox( vismolSession = self)
+                self.selection_box_frane = VismolSelectionTypeBox( vm_session = self)
                 self.selection_box       = self.selection_box_frane.box
                 #self.go_to_atom_window.show_window()
                 
@@ -742,7 +742,7 @@ class VisMolSession (ShowHideVisMol):
         from vModel.Chain             import Chain
         from vModel.Residue           import Residue
         #print('  funcao teste   ')
-        vismol_object  = NewObj.create_empty_vismol_obj (infile = None, vismolSession = self, gridsize = 3)
+        vismol_object  = NewObj.create_empty_vismol_obj (infile = None, vm_session = self, gridsize = 3)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         vismol_object.active = True
         
@@ -1631,7 +1631,7 @@ class VisMolSession (ShowHideVisMol):
     
     def _load_pdb_coords_to_vismol_object(self, infile , visObj = None):
         """ Function doc """
-        frames = PDBFiles.load_pdb_file (infile = infile, vismolSession = self, frames_only = True) 
+        frames = PDBFiles.load_pdb_file (infile = infile, vm_session = self, frames_only = True) 
         
         print ('system size: ', len(visObj.atoms),'frame size: ',len(frames[0])/3)
         for frame in frames:
@@ -1644,27 +1644,27 @@ class VisMolSession (ShowHideVisMol):
 
     def _load_gro_file (self, infile):
         ##print(infile)
-        vismol_object  = GROFiles.load_gro_file (infile = infile, vismolSession = self)     
+        vismol_object  = GROFiles.load_gro_file (infile = infile, vm_session = self)     
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)        
     
     def _load_amber_top_file (self, infile):
         ##print(infile)
-        vismol_object  = AMBERFiles.load_amber_topology_file (infile = infile, vismolSession = self)     
+        vismol_object  = AMBERFiles.load_amber_topology_file (infile = infile, vm_session = self)     
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)    
     def _load_psf_file (self, infile):
         ##print(infile)
-        vismol_object  = PSFFiles.load_PSF_topology_file (infile = infile, vismolSession = self)     
+        vismol_object  = PSFFiles.load_PSF_topology_file (infile = infile, vm_session = self)     
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)    
     def _load_pdb_file (self, infile):
         """ Function doc """      
         #print(infile)
-        vismol_object  = PDBFiles.load_pdb_file (infile = infile, vismolSession = self)     
+        vismol_object  = PDBFiles.load_pdb_file (infile = infile, vm_session = self)     
         
         #self._load_pdb_coords_to_vismol_object(infile , vismol_object)
         
@@ -1675,7 +1675,7 @@ class VisMolSession (ShowHideVisMol):
     def _load_aux_file (self, infile):
         """ Function doc """
         #print(infile)
-        vismol_object  = AUXFiles.load_aux_file (infile = infile, vismolSession = self)
+        vismol_object  = AUXFiles.load_aux_file (infile = infile, vm_session = self)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)
@@ -1683,7 +1683,7 @@ class VisMolSession (ShowHideVisMol):
     def _load_mol2_file (self, infile):
         """ Function doc """
         #print(infile)
-        vismol_object  = MOL2Files.load_mol2_files (infile = infile, vismolSession = self)
+        vismol_object  = MOL2Files.load_mol2_files (infile = infile, vm_session = self)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)        
@@ -1692,7 +1692,7 @@ class VisMolSession (ShowHideVisMol):
         """ Function doc """
         #load_xyz_file
         #print(infile)
-        vismol_object  = XYZFiles.load_xyz_file (infile = infile, vismolSession = self)
+        vismol_object  = XYZFiles.load_xyz_file (infile = infile, vm_session = self)
         vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)        
         return vismol_object
         #self.vismol_objects.append(vismol_object)
@@ -1919,7 +1919,7 @@ class VisMolSession (ShowHideVisMol):
         # - - - - - - - - - - - -  - - - - - - - - - - - -               
                                        
         #---------------------------------------------------------------------------  
-        #self.vismolSession  =  VisMolSession(glwidget = True, toolkit = 'gtk3')       
+        #self.vm_session  =  VisMolSession(glwidget = True, toolkit = 'gtk3')       
         self.container.pack_start(self.glwidget, True, True, 0)         
                                          
         self.window.connect("key-press-event"  , self.glwidget.key_pressed)  

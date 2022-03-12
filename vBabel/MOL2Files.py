@@ -87,7 +87,7 @@ USER_CHARGES
 @<TRIPOS>SUBSTRUCTURE
 '''
 
-def load_mol2_files (infile = None, vismolSession =  None, gridsize = 3):
+def load_mol2_files (infile = None, vm_session =  None, gridsize = 3):
     """ Function doc """
     print ('\nstarting: parse_mol2')
 
@@ -115,7 +115,7 @@ def load_mol2_files (infile = None, vismolSession =  None, gridsize = 3):
     name = os.path.basename(infile)
     vismol_object  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
-                                               vismolSession   = vismolSession, 
+                                               vm_session   = vm_session, 
                                                trajectory  = frames)
     #-------------------------------------------------------------------------------------------
     return vismol_object

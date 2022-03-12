@@ -91,7 +91,7 @@ def load_amber_crd_file (filein = None, visObj = None):
     return frames
 
 
-def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3):
+def load_amber_topology_file (infile = None, vm_session =  None, gridsize = 3):
     """ Function doc """
     #at  =  MolecularProperties.AtomTypes()
     filename = infile
@@ -299,7 +299,7 @@ def load_amber_topology_file (infile = None, vismolSession =  None, gridsize = 3
     name = os.path.basename(filename)
     vismol_object  = VismolObject.VismolObject(name                           = name       , 
                                                atoms                          = atoms      , 
-                                               vismolSession                  = vismolSession  , 
+                                               vm_session                  = vm_session  , 
                                                bonds_pair_of_indexes          = bonds_pair_of_indexes,
                                                trajectory                     = []         ,
                                                auto_find_bonded_and_nonbonded = False      )

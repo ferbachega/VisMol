@@ -858,10 +858,10 @@ button position in the main treeview (active column).""".format(name,self.main_s
 
 def main():
     
-    #vismolSession  =  VisMolSession(glwidget = True, toolkit = 'gtk3')
-    vismolSession  =  EasyHybridVismolSession(glwidget = True, toolkit = 'gtk3')
+    #vm_session  =  VisMolSession(glwidget = True, toolkit = 'gtk3')
+    vm_session  =  EasyHybridVismolSession(glwidget = True, toolkit = 'gtk3')
     
-    vismolSession.treestore = Gtk.TreeStore(
+    vm_session.treestore = Gtk.TreeStore(
                                             str  ,   #                                   # 0
                                             bool ,   # toggle active=1                   # 1
                                             bool ,   # toggle visible = 3                # 2 
@@ -878,8 +878,20 @@ def main():
     
     
     
+    vm_session.combobox_starting_coordinates = Gtk.ComboBox()
+    vm_session.filechooser_working_folder    = Gtk.FileChooserButton()
+    vm_session.starting_coords_liststore     = Gtk.ListStore(str)
+    
+    
+    
+    
+    
+    
+    
+    
+    
     '''
-    vismolSession.treestore = Gtk.TreeStore(
+    vm_session.treestore = Gtk.TreeStore(
                                         str , # Name
                                         
                                         bool, # toggle active=1
@@ -895,9 +907,9 @@ def main():
                                         bool, # is pdynamo system index visible?
                                         )
     '''
-    vismolSession.parents = {}
-    vismolSession.insert_glmenu()
-    window = EasyHybridMainWindow(vismolSession)
+    vm_session.parents = {}
+    vm_session.insert_glmenu()
+    window = EasyHybridMainWindow(vm_session)
     Gtk.main()
  
 

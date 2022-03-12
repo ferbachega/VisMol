@@ -59,7 +59,7 @@ class Representation:
     def _make_gl_index_buffer(self, indexes):
         """ Function doc """
         ind_vbo = GL.glGenBuffers(1)
-        self.visObj.vismolSession.vismolSession_vbos.append(ind_vbo)
+        self.visObj.vm_session.vm_session_vbos.append(ind_vbo)
 
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)
         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, indexes.nbytes, indexes, GL.GL_DYNAMIC_DRAW)
@@ -103,7 +103,7 @@ class Representation:
     def _make_gl_size_buffer (self, dot_sizes, program):
         """ Function doc """
         size_vbo = GL.glGenBuffers(1)
-        self.visObj.vismolSession.vismolSession_vbos.append(size_vbo)
+        self.visObj.vm_session.vm_session_vbos.append(size_vbo)
         
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, size_vbo)
         GL.glBufferData(GL.GL_ARRAY_BUFFER, dot_sizes.nbytes, dot_sizes, GL.GL_STATIC_DRAW)
@@ -178,7 +178,7 @@ class Representation:
         self.col_vbo    =   self._make_gl_color_buffer( colors   , self.shader_program )
         
         if dot_sizes is not None:
-            self.col_vbo    =   self._make_gl_color_buffer( colors   , self.shader_program )
+            self.dot_sizes    =   self._make_gl_size_buffer(np.array(dot_sizes, dtype = np.float32), self.shader_program )
         
         if normals is not None and self.name == "surface":
             self.norm_vbo   =   self._make_gl_normal_buffer ( normals , self.shader_program )
@@ -199,7 +199,7 @@ class Representation:
         self.sel_coord_vbo  =   self._make_gl_coord_buffer( coords    , self.sel_shader_program )
         self.sel_col_vbo    =   self._make_gl_color_buffer( colors    , self.sel_shader_program )
         if dot_sizes is not None:
-            self.sel_size_vbo   =   self._make_gl_size_buffer ( dot_sizes , self.sel_shader_program )
+            self.sel_size_vbo   =   self._make_gl_size_buffer ( np.array(dot_sizes, dtype = np.float32) , self.sel_shader_program )
         else:
             pass
         
@@ -259,7 +259,7 @@ class LinesRepresentation (Representation):
         self.type               = _type
 
         self.visObj             = visObj
-        self.vismolSession      = visObj.vismolSession
+        self.vm_session      = visObj.vm_session
         
         self.glCore             = glCore
         self.indexes            = indexes
@@ -328,7 +328,7 @@ class LinesRepresentation (Representation):
         self._enable_anti_alis_to_lines()
         GL.glUseProgram(self.shader_program)
         
-        line_width = self.visObj.vismolSession.vConfig.gl_parameters['line_width']
+        line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width']
         line_width = (line_width*200/abs(self.glCore.dist_cam_zrp)/2)**0.5  #40/abs(self.glCore.dist_cam_zrp)
         GL.glLineWidth(line_width)
 
@@ -367,7 +367,7 @@ class LinesRepresentation (Representation):
         #    self._make_gl_vao_and_vbos ()
         #else:
         #    pass
-        line_width = self.visObj.vismolSession.vConfig.gl_parameters['line_width_selection'] 
+        line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width_selection'] 
         GL.glEnable(GL.GL_DEPTH_TEST)
         GL.glUseProgram(self.sel_shader_program)
         GL.glLineWidth(line_width)#*line_width_factor) # line_width_factor -> turn the lines thicker
@@ -800,7 +800,7 @@ class RibbonsRepresentation (Representation):
         self._enable_anti_alis_to_lines()
         GL.glUseProgram(self.shader_program)
         
-        ribbon_width = self.visObj.vismolSession.vConfig.gl_parameters['ribbon_width']
+        ribbon_width = self.visObj.vm_session.vConfig.gl_parameters['ribbon_width']
         LineWidth = ((ribbon_width*20)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
         #print(LineWidth)
         GL.glLineWidth(LineWidth)
@@ -838,7 +838,7 @@ class RibbonsRepresentation (Representation):
         #    self._make_gl_vao_and_vbos ()
         #else:
         #    pass
-        line_width = self.visObj.vismolSession.vConfig.gl_parameters['line_width_selection'] 
+        line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width_selection'] 
         GL.glEnable(GL.GL_DEPTH_TEST)
         GL.glUseProgram(self.sel_shader_program)
         GL.glLineWidth(line_width)
@@ -944,7 +944,7 @@ class NonBondedRepresentation (Representation):
         self._check_VAO_and_VBOs ()
         self._enable_anti_alis_to_lines()
 
-        line_width = self.visObj.vismolSession.vConfig.gl_parameters['line_width']
+        line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width']
         
         GL.glUseProgram(self.shader_program)
         GL.glLineWidth(line_width*20/abs(self.glCore.dist_cam_zrp))
@@ -1066,18 +1066,18 @@ class DotsRepresentation (Representation):
         #indexes = np.array(self.visObj.idex, dtype=np.uint32)
         coords  = self.visObj.frames[0]
         colors  = self.visObj.colors
-
+        radiues = self.visObj.cov_radiues_list
 
         self._make_gl_representation_vao_and_vbos (indexes    = indexes,
                                                    coords     = coords ,
                                                    colors     = colors ,
-                                                   dot_sizes  = None   ,
+                                                   dot_sizes  = radiues,
                                                    )
         colors_idx = self.visObj.color_indexes
         self._make_gl_sel_representation_vao_and_vbos (indexes    = indexes    ,
                                                        coords     = coords     ,
                                                        colors     = colors_idx ,
-                                                       dot_sizes  = None       ,
+                                                       dot_sizes  = radiues    ,
                                                        )
 
     def draw_representation (self):
@@ -1085,13 +1085,20 @@ class DotsRepresentation (Representation):
         self._check_VAO_and_VBOs ()
         self._enable_anti_alis_to_lines()
         #print ('DotsRepresentation')
-        height = self.visObj.vismolSession.glwidget.vm_widget.height
+        height = self.visObj.vm_session.glwidget.vm_widget.height
 
         GL.glUseProgram(self.shader_program)
         #1*self.height dot_size
         #GL.glLineWidth(40/abs(self.glCore.dist_cam_zrp))
-        GL.glPointSize(1.5*height/abs(self.glCore.dist_cam_zrp)) # dot size not included yet
+        #GL.glPointSize(1.5*height/abs(self.glCore.dist_cam_zrp)) # dot size not included yet
         self.glCore.load_matrices(self.shader_program, self.visObj.model_mat)
+        self.glCore.load_lights(self.shader_program)
+        
+        xyz_coords = self.glCore.glcamera.get_modelview_position(self.visObj.model_mat)
+        u_campos   = GL.glGetUniformLocation(self.shader_program, "u_campos")
+        GL.glUniform3fv(u_campos, 1, xyz_coords)
+        
+        
         self.glCore.load_fog(self.shader_program)
         GL.glBindVertexArray(self.vao)
 
@@ -1104,6 +1111,7 @@ class DotsRepresentation (Representation):
             the limit of frames that each object has. Allowing two objects with 
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
+            #print('aqui')
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
             GL.glDrawElements(GL.GL_POINTS, int(len(self.visObj.atoms)), GL.GL_UNSIGNED_INT, None)
 
@@ -1168,8 +1176,8 @@ class SpheresRepresentation (Representation):
         
         # --------------------------------
         #self.level              = level
-        self.level              = self.visObj.vismolSession.vConfig.gl_parameters['sphere_quality']
-        self.scale              = self.visObj.vismolSession.vConfig.gl_parameters['sphere_scale']
+        self.level              = self.visObj.vm_session.vConfig.gl_parameters['sphere_quality']
+        self.scale              = self.visObj.vm_session.vConfig.gl_parameters['sphere_scale']
         
         
         if self.atomic_indexes is None:
@@ -1657,8 +1665,8 @@ class GlumpyRepresentation (Representation):
         self._enable_anti_alis_to_lines()
         GL.glUseProgram(self.shader_program)
         #GL.glEnable(GL.GL_VERTEX_PROGRAM_POINT_SIZE)
-        height = self.visObj.vismolSession.glwidget.vm_widget.height
-        dist_cam_zrp = self.visObj.vismolSession.glwidget.vm_widget.dist_cam_zrp
+        height = self.visObj.vm_session.glwidget.vm_widget.height
+        dist_cam_zrp = self.visObj.vm_session.glwidget.vm_widget.dist_cam_zrp
         
         #GL.glPointSize((50*height/(abs(dist_cam_zrp)))**0.5)
         #GL.glPointSize(55)
@@ -1889,7 +1897,7 @@ class CartoonRepresentation (Representation):
         
         '''
         #print ('DotsRepresentation')
-        height = self.visObj.vismolSession.glwidget.vm_widget.height
+        height = self.visObj.vm_session.glwidget.vm_widget.height
         
         GL.glUseProgram(self.shader_program)
         #1*self.height dot_size
@@ -2176,7 +2184,7 @@ class SurfaceRepresentation (Representation):
         
         '''
         #print ('DotsRepresentation')
-        height = self.visObj.vismolSession.glwidget.vm_widget.height
+        height = self.visObj.vm_session.glwidget.vm_widget.height
         
         GL.glUseProgram(self.shader_program)
         #1*self.height dot_size

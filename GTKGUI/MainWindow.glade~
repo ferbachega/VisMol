@@ -82,6 +82,11 @@
     <property name="can_focus">False</property>
     <property name="pixbuf">icons/icon_scan_24x24.png</property>
   </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixbuf">icons/icon_umbrella_sampling_24x24.png</property>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">VisMol Main Window</property>
@@ -519,7 +524,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="run_md">
+                  <object class="GtkToolButton" id="toolbutton_molecular_dynamics">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">__glade_unnamed_9</property>
@@ -547,12 +552,26 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="pes_scan">
+                  <object class="GtkToolButton" id="toolbutton_pes_scan">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">__glade_unnamed_8</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image5</property>
+                    <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="toolbutton_umbrella_sampling">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">__glade_unnamed_7</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_widget">image6</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

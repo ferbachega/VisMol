@@ -58,8 +58,8 @@ class Residue:
 
     def is_protein (self):
         """ Function doc """
-        #residues_dictionary = MolecularProperties.#self.Vobject.vismolSession.vConfig.residues_dictionary
-        #solvent_dictionary  = MolecularProperties.#self.Vobject.vismolSession.vConfig.solvent_dictionary
+        #residues_dictionary = MolecularProperties.#self.Vobject.vm_session.vConfig.residues_dictionary
+        #solvent_dictionary  = MolecularProperties.#self.Vobject.vm_session.vConfig.solvent_dictionary
         # is it a protein residue?
         if self.resn in residues_dictionary.keys():
             self.isProtein = True

@@ -29,11 +29,11 @@ from vModel import VismolObject
 class VisMolPickingSelection:
     """ Class doc """
     
-    def __init__ (self, vismolSession):
+    def __init__ (self, vm_session):
         """ Class initialiser """
         self.picking_selections_list = [None]*4
         self.picking_selections_list_index = []
-        self.vismolSession = vismolSession
+        self.vm_session = vm_session
 
     
     def _generate_picking_selection_coordinates (self):
@@ -77,7 +77,7 @@ class VisMolPickingSelection:
             for atom2 in self.picking_selections_list[c+1:]:
             
                 if atom1 and atom2:
-                    dist = self.vismolSession._get_distance_atom1_atom2 ( atom1, atom2 )
+                    dist = self.vm_session._get_distance_atom1_atom2 ( atom1, atom2 )
                     name1 = atom1.name
                     name2 = atom2.name
                     print ('atom',name1, 'atom',name2,  dist)
@@ -97,7 +97,7 @@ class VisMolPickingSelection:
             self.refresh_pk1pk2_representations( vobj_label =  'pk1pk2',
                                                       atom1 = atom1    , 
                                                       atom2 = atom2    )
-            self.vismolSession.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  True
+            self.vm_session.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  True
             if atom3:
                 xyz1 = atom1.coords()
                 xyz2 = atom2.coords()
@@ -109,17 +109,17 @@ class VisMolPickingSelection:
                 angle = LA.angle(xyz1, xyz3)
                 print ('Angle: ', angle*57.297)
                 text =  'Angle: '+ str( angle*57.297)
-                self.vismolSession.main_session.statusbar_main.push(1,text)
+                self.vm_session.main_session.statusbar_main.push(1,text)
                 if atom4:
                     xyz4 = atom4.coords()
                     angle = LA.dihedral(xyz1, xyz2, xyz3, xyz4)
                     print ('Dihedral: ', angle*57.297)
         
         else:
-            ##print(self.vismolSession.vismol_geometric_object_dic['pk1pk2'],self.vismolSession.vismol_geometric_object_dic['pk1pk2'].active )
-            if self.vismolSession.vismol_geometric_object_dic['pk1pk2']:
+            ##print(self.vm_session.vismol_geometric_object_dic['pk1pk2'],self.vm_session.vismol_geometric_object_dic['pk1pk2'].active )
+            if self.vm_session.vismol_geometric_object_dic['pk1pk2']:
                 #print('120')
-                self.vismolSession.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  False
+                self.vm_session.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  False
                                                                             
                                                                             
         if atom2 and atom3:                                                 
@@ -127,22 +127,22 @@ class VisMolPickingSelection:
             self.refresh_pk1pk2_representations( vobj_label = 'pk2pk3' ,    
                                                       atom1 = atom2    ,    
                                                       atom2 = atom3    )    
-            self.vismolSession.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  True
+            self.vm_session.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  True
         else:
             #print('128')
-            if self.vismolSession.vismol_geometric_object_dic['pk2pk3']:
-                self.vismolSession.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  False
+            if self.vm_session.vismol_geometric_object_dic['pk2pk3']:
+                self.vm_session.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  False
                                                                             
                                                                             
         if atom3 and atom4:                                                 
             self.refresh_pk1pk2_representations( vobj_label =  'pk3pk4',    
                                                       atom1 = atom3    ,    
                                                       atom2 = atom4    )    
-            self.vismolSession.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  True
+            self.vm_session.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  True
 
         else:
-            if self.vismolSession.vismol_geometric_object_dic['pk3pk4']:
-                self.vismolSession.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  False
+            if self.vm_session.vismol_geometric_object_dic['pk3pk4']:
+                self.vm_session.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  False
 
     
     def refresh_pk1pk2_representations( self, vobj_label ='pk1pk2',
@@ -154,12 +154,12 @@ class VisMolPickingSelection:
         xyz2 = atom2.coords()
         frame = np.array(xyz1 + xyz2, dtype=np.float32)
         
-        if self.vismolSession.vismol_geometric_object_dic[vobj_label]:
+        if self.vm_session.vismol_geometric_object_dic[vobj_label]:
             #print('bulding vobject_picking line 125')
-            self.vismolSession.vismol_geometric_object_dic[vobj_label].frames = [frame]
+            self.vm_session.vismol_geometric_object_dic[vobj_label].frames = [frame]
             #print('bulding vobject_picking line 133')
-            self.vismolSession.vismol_geometric_object_dic[vobj_label].representations['dotted_lines']._make_gl_vao_and_vbos()
-            self.vismolSession.vismol_geometric_object_dic[vobj_label].active = True
+            self.vm_session.vismol_geometric_object_dic[vobj_label].representations['dotted_lines']._make_gl_vao_and_vbos()
+            self.vm_session.vismol_geometric_object_dic[vobj_label].active = True
         else:
             #print('bulding vobject_picking line 131')
             atoms = []
@@ -191,16 +191,16 @@ class VisMolPickingSelection:
             #print('bulding vobject_picking line 161')
             self.vobject_picking = VismolObject.VismolObject(name                           = 'UNK'              , 
                                                              atoms                          = atoms              ,
-                                                             vismolSession                  = self.vismolSession , 
+                                                             vm_session                  = self.vm_session , 
                                                              trajectory                     = [frame],
                                                              bonds_pair_of_indexes          = [0,1] , 
                                                              auto_find_bonded_and_nonbonded = False)
             
             self.vobject_picking.active = True
-            self.vobject_picking.set_model_matrix(self.vismolSession.glwidget.vm_widget.model_mat)
+            self.vobject_picking.set_model_matrix(self.vm_session.glwidget.vm_widget.model_mat)
             
             self.vobject_picking.create_new_representation(rtype = 'dotted_lines')
-            self.vismolSession.vismol_geometric_object_dic[vobj_label] = self.vobject_picking
+            self.vm_session.vismol_geometric_object_dic[vobj_label] = self.vobject_picking
             #print('bulding vobject_picking line 174')
 
         
@@ -210,7 +210,7 @@ class VisMolPickingSelection:
 class VisMolViewingSelection:
     """ Class doc """
     
-    def __init__ (self, vismolSession):
+    def __init__ (self, vm_session):
         #---------------------------------------------------------------
         #                S E L E C T I O N S
         #---------------------------------------------------------------
@@ -220,7 +220,7 @@ class VisMolViewingSelection:
         self.selected_objects      = {} #dic of VisMol objects (obj)
         self.selected_atoms        = [] #List of atoms objects (obj)
         self.selected_atoms_coords = [] #coordinate (floats) x y z
-        self.vismolSession             = vismolSession
+        self.vm_session             = vm_session
     
     def get_selection_info (self):
         """ Function doc """
@@ -330,11 +330,11 @@ class VisMolViewingSelection:
         selection by area (selection box) 
         
         '''
-        #vismolSession      = selected_atom.Vobject.vismolSession
+        #vm_session      = selected_atom.Vobject.vm_session
         self._clear_selection_buffer(selected_atom)
         
         '''
-        vismolSession      = selected_atom.Vobject.vismolSession
+        vm_session      = selected_atom.Vobject.vm_session
         
         #------------------------------------------------
         # Clearing the selections buffer
@@ -342,7 +342,7 @@ class VisMolViewingSelection:
         if self.active:
             pass
         else:
-            for Vobject in vismolSession.vismol_objects:
+            for Vobject in vm_session.vismol_objects:
                 for atom in Vobject.atoms:
                     atom.selected = False
         #------------------------------------------------
@@ -425,15 +425,15 @@ class VisMolViewingSelection:
     def unselecting_by_indexes (self, vismol_object = None, indexes = []):
         """ Function doc """
         print (indexes)
-        #for atom in vismol_object.atoms: self.vismolSession.vismol_objects_dic.items()
+        #for atom in vismol_object.atoms: self.vm_session.vismol_objects_dic.items()
         
         if vismol_object:
             for i in indexes:
                 vismol_object.atoms[i].selected = False
         
         else:
-            #for vismol_object in self.vismolSession.vismol_objects:
-            for vobj_index, vismol_object in self.vismolSession.vismol_objects_dic.items():
+            #for vismol_object in self.vm_session.vismol_objects:
+            for vobj_index, vismol_object in self.vm_session.vismol_objects_dic.items():
                 if indexes:
                     for i in indexes:
                         vismol_object.atoms[i].selected = False
@@ -470,8 +470,8 @@ class VisMolViewingSelection:
                     atom.selected = True
         
         else:
-            #for vismol_object in self.vismolSession.vismol_objects:
-            for index, vismol_object in self.vismolSession.vismol_objects_dic.items():
+            #for vismol_object in self.vm_session.vismol_objects:
+            for index, vismol_object in self.vm_session.vismol_objects_dic.items():
                 for atom in vismol_object.atoms:
                     if atom.selected:
                         print (atom.name, atom.selected)
@@ -487,8 +487,8 @@ class VisMolViewingSelection:
         """ Function doc """
         self.selected_atoms = []
         
-        #for Vobject in self.vismolSession.vismol_objects:
-        for index, Vobject in self.vismolSession.vismol_objects_dic.items():
+        #for Vobject in self.vm_session.vismol_objects:
+        for index, Vobject in self.vm_session.vismol_objects_dic.items():
             for atom in Vobject.atoms:
                 if atom.selected:
                     #print ('',atom )
@@ -507,8 +507,8 @@ class VisMolViewingSelection:
         if self.active:
             pass
         else:
-            #for Vobject in self.vismolSession.vismol_objects:
-            for index, Vobject in self.vismolSession.vismol_objects_dic.items():
+            #for Vobject in self.vm_session.vismol_objects:
+            for index, Vobject in self.vm_session.vismol_objects_dic.items():
                 for atom in Vobject.atoms:
                     atom.selected = False
         #------------------------------------------------""

@@ -38,11 +38,11 @@ def main():
     window = Gtk.Window(title="VisMol window")                                   #
     container = Gtk.Box (orientation = Gtk.Orientation.VERTICAL)                 #
     #--------------------------------------------------------------------------- #
-    vismolSession  =  VisMolSession(glwidget = True, toolkit = 'gtk3')           #
-    vismolSession.insert_glmenu()
-    container.pack_start(vismolSession.glwidget, True, True, 0)                  #
-    window.connect("key-press-event"  , vismolSession.glwidget.key_pressed)      #
-    window.connect("key-release-event", vismolSession.glwidget.key_released)     #
+    vm_session  =  VisMolSession(glwidget = True, toolkit = 'gtk3')           #
+    vm_session.insert_glmenu()
+    container.pack_start(vm_session.glwidget, True, True, 0)                  #
+    window.connect("key-press-event"  , vm_session.glwidget.key_pressed)      #
+    window.connect("key-release-event", vm_session.glwidget.key_released)     #
     window.add(container)                                                        #
     #--------------------------------------------------------------------------- #
 
@@ -59,7 +59,7 @@ def main():
     try:
         filein = args[-1]
         #---------------------------------------------------------------------------
-        vismolSession.load(filein)
+        vm_session.load(filein)
         #---------------------------------------------------------------------------
     except:
         pass

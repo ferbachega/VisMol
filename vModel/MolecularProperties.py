@@ -1465,11 +1465,11 @@ residues_dictionary = {'CYS': 'C',
 
 
 class ResidueTypes :
-    def __init__ (self, vSession = None):
+    def __init__ (self, vm_session = None):
         """ Class initialiser """
 
 
-        self.vSession = vSession 
+        self.vm_session = vm_session 
         
         self.solvent_dictionary  = {
                                     'WAT': 'O', 
@@ -1516,11 +1516,11 @@ class ResidueTypes :
 
 class AtomTypes :
     """ Class doc """
-    def __init__ (self, vSession = None):
+    def __init__ (self, vm_session = None):
         """ Class initialiser """
 
 
-        self.vSession = vSession 
+        self.vm_session = vm_session 
         
         self.solvent_dictionary  = {
                                     'WAT': 'O', 

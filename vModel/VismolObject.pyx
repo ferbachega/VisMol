@@ -51,9 +51,9 @@ import vModel.cDistances as cdist
 class VismolGeometricObject:
     """ Class doc """
     
-    def __init__ (self, vismolSession =  None):
+    def __init__ (self, vm_session =  None):
         """ Class initialiser """
-        self.vismolSession = vismolSession
+        self.vm_session = vm_session
         
         self.atoms              = []    # this a list  atom objects!
         #-----------------------#
@@ -77,8 +77,8 @@ class VismolGeometricObject:
     
     def add_new_atom_list_to_vismol_geometric_object (self, atoms):
         """ Function doc """
-        frame_number = self.vismolSession.frame -1
-        #self.set_model_matrix(self.self.vismolSession.glwidget.vm_widget.model_mat)
+        frame_number = self.vm_session.frame -1
+        #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
         self.frames      = [] 
         self.index_bonds = []
         self.atoms       = atoms
@@ -129,7 +129,7 @@ class VismolGeometricObject:
         print (self.index_bonds)
         if len(self.index_bonds)>= 2:
             
-            rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vismolSession.glwidget.vm_widget)
+            rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
             self.representations['lines'] = rep
         else:
             if self.representations['lines']:
@@ -206,7 +206,7 @@ class VismolGeometricObject:
                 pickedID = r + g * 256 + b * 256*256
                 atom.color_id = [r/255.0, g/255.0, b/255.0]
                 #print (pickedID)
-                self.vismolSession.atom_dic_id[pickedID] = atom
+                self.vm_session.atom_dic_id[pickedID] = atom
                 '''
                 #-------------------------------------------------------
                 # (2)                   Colors
@@ -276,8 +276,8 @@ class VismolObject:
     
     name       = string  - Label that describes the object  
     atoms      = list of atoms  - [index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch]
-    vismolSession  = Vismol Session - Necessary to build the "atomtree_structure"
-                 vismolSession contains the atom_id_counter (self.vismolSession.atom_id_counter)
+    vm_session  = Vismol Session - Necessary to build the "atomtree_structure"
+                 vm_session contains the atom_id_counter (self.vm_session.atom_id_counter)
     
     trajectory = A list of coordinates - eg [ [x1,y1,z1, x2,y2,z2...], [x1,y1,z1, x2,y2,z2...]...]
                  One frame is is required at last.
@@ -316,7 +316,7 @@ class VismolObject:
                   active                         = False,
                   name                           = 'UNK', 
                   atoms                          = []   ,
-                  vismolSession                  = None , 
+                  vm_session                  = None , 
                   trajectory                     = None ,
                   bonds_pair_of_indexes          = None , 
                   color_palette                  = None , 
@@ -326,8 +326,8 @@ class VismolObject:
         #-----------------------------------------------------------------
         #                V I S M O L   a t t r i b u t e s
         #----------------------------------------------------------------- 
-        self.vismolSession    = vismolSession     #
-        self.index            = 0             # import to find vboject in self.vismolSession.vismol_objects_dic
+        self.vm_session    = vm_session     #
+        self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
         self.active           = active        # for "show and hide"   enable/disable
         self.editing          = False         # for translate and rotate  xyz coords 
         self.Type             = 'molecule'    # Not used yet
@@ -443,9 +443,9 @@ class VismolObject:
             # this used just when the vobject is initialized
             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,
                                                        frame     = 0         , 
-                                                       gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'], 
-                                                       maxbond   = self.vismolSession.vConfig.gl_parameters['maxbond' ],
-                                                       tolerance = self.vismolSession.vConfig.gl_parameters['bond_tolerance'])
+                                                       gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'], 
+                                                       maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],
+                                                       tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
 
             '''the nonbonded attribute of the atom object concerns representation. 
             When true, I mean that the atom must be drawn with a small cross'''
@@ -551,8 +551,8 @@ class VismolObject:
         #sum_y += atom.pos[1]
         #sum_z += atom.pos[2]
         
-        self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
-        self.vismolSession.atom_id_counter +=1
+        self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
+        self.vm_session.atom_id_counter +=1
     
     
     def create_new_representation (self, rtype = 'lines', indexes = None):
@@ -565,7 +565,7 @@ class VismolObject:
                                                                      _type = 'geo', 
                                                                    indexes = indexes, 
                                                                     visObj = self, 
-                                                                    glCore = self.vismolSession.glwidget.vm_widget)
+                                                                    glCore = self.vm_session.glwidget.vm_widget)
         if rtype == 'nonbonded':
 
             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded', 
@@ -573,7 +573,7 @@ class VismolObject:
                                                                  _type = 'geo', 
                                                                indexes = indexes, 
                                                                 visObj =  self, 
-                                                                glCore = self.vismolSession.glwidget.vm_widget)
+                                                                glCore = self.vm_session.glwidget.vm_widget)
 
         if rtype == 'dots':
 
@@ -582,7 +582,7 @@ class VismolObject:
                                                                  _type = 'geo', 
                                                                indexes = indexes, 
                                                                 visObj =  self, 
-                                                                glCore = self.vismolSession.glwidget.vm_widget)
+                                                                glCore = self.vm_session.glwidget.vm_widget)
         
 
         if rtype == 'sticks':
@@ -592,14 +592,14 @@ class VismolObject:
                                                                  _type = 'geo', 
                                                                indexes = indexes, 
                                                                 visObj =  self, 
-                                                                glCore = self.vismolSession.glwidget.vm_widget )               
+                                                                glCore = self.vm_session.glwidget.vm_widget )               
         if rtype == 'ribbons':
 
             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons', 
                                                                 active =  True, 
                                                                  _type = 'geo', 
                                                                 visObj =  self, 
-                                                                glCore = self.vismolSession.glwidget.vm_widget )               
+                                                                glCore = self.vm_session.glwidget.vm_widget )               
                                                                 
         if rtype == 'spheres':
 
@@ -607,7 +607,7 @@ class VismolObject:
                                                                       active  = True, 
                                                                       _type   = 'mol', 
                                                                       visObj  = self,
-                                                                      glCore  = self.vismolSession.glwidget.vm_widget,
+                                                                      glCore  = self.vm_session.glwidget.vm_widget,
                                                                       indexes  = indexes
                                                                      )
                             
@@ -631,7 +631,7 @@ class VismolObject:
                                                                        active =  True, 
                                                                         _type = 'geo', 
                                                                        visObj =  self, 
-                                                                       glCore = self.vismolSession.glwidget.vm_widget)
+                                                                       glCore = self.vm_session.glwidget.vm_widget)
         
         
         
@@ -709,7 +709,7 @@ class VismolObject:
                                resn          = d_atom['resn']                      ,
                                chain         = d_atom['chain']                     ,
                                
-                               atom_id       = self.vismolSession.atom_id_counter  , 
+                               atom_id       = self.vm_session.atom_id_counter  , 
                                
                                color         = d_atom['color']                     , 
                                
@@ -738,7 +738,7 @@ class VismolObject:
             atom.bonds          = d_atom['bonds'] 
             atom.isfree         = d_atom['isfree'] 
 
-            self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+            self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
             self._add_new_atom_to_vobj(atom)  
             
         
@@ -779,13 +779,13 @@ class VismolObject:
                                resi          = atom2['resi']                      ,
                                resn          = atom2['resn']                      ,
                                chain         = atom2['chain']                     ,
-                               atom_id       = self.vismolSession.atom_id_counter , 
+                               atom_id       = self.vm_session.atom_id_counter , 
                                occupancy     = atom2['occupancy']                 ,
                                bfactor       = atom2['bfactor']                   ,
                                charge        = atom2['charge']                    ,
                                Vobject       = self                               ,
                                )
-            self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+            self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
             self._add_new_atom_to_vobj(atom)  
             
         
@@ -885,7 +885,7 @@ class VismolObject:
             pickedID = r + g * 256 + b * 256*256
             atom.color_id = [r/255.0, g/255.0, b/255.0]
             #print (pickedID)
-            self.vismolSession.atom_dic_id[pickedID] = atom
+            self.vm_session.atom_dic_id[pickedID] = atom
             '''
             #-------------------------------------------------------
             # (2)                   Colors
