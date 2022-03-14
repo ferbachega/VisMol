@@ -218,10 +218,17 @@ class Simulation:
 		Parameters:		
 			_parameters: python dict with parameters for simulation
 				Mandatory ( if not provided a "key-Error" will be thrown ):
+					optimizer: name of the optimization algorithm 
 				Optinal :
 			_plotParameters:python dict with paramters for post-analysis and plots
 				Mandatory ( if not provided a "key-Error" will be thrown ):
 				Optinal :
+					maxIterations:
+					log_frequency:
+					save_pdb     :
+					save_traj    :
+					not_save_dcd :
+					rmsGradient  :				
 		'''
 		_Optimizer = "ConjugatedGradient"
 		if "optmizer" in _parameters:
