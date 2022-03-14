@@ -10,6 +10,7 @@ from easyhybrid.gui.ImportNewSystem                         import  ImportANewSy
 from easyhybrid.gui.easyhybrid_import_trajectory_window     import  ImportTrajectoryWindow 
 from easyhybrid.gui.PES_scan_window                         import  PotentialEnergyScanWindow 
 from easyhybrid.gui.molecular_dynamics_window               import  MolecularDynamicsWindow 
+from easyhybrid.gui.umbrella_sampling_window                import  UmbrellaSamplingWindow 
 from easyhybrid.gui.geometry_optimization_window            import  GeometryOptimizatrionWindow 
 from easyhybrid.gui.QCSetup_window                          import  EasyHybridSetupQCModelWindow 
 from easyhybrid.gui.merge_systems                           import  MergeSystemsWindow 
@@ -216,8 +217,8 @@ class EasyHybridMainWindow ( ):
         self.molecular_dynamics_window    = MolecularDynamicsWindow(main = self)
         self.merge_pdynamo_systems_window = MergeSystemsWindow(main = self)
         self.pDynamo_selection_window     = PDynamoSelectionWindow(main = self)
-        self.PES_scan_window      = PotentialEnergyScanWindow(main=  self)
-        
+        self.PES_scan_window              = PotentialEnergyScanWindow(main=  self)
+        self.umbrella_sampling_window     = UmbrellaSamplingWindow (main=  self)
         self.window.connect("destroy", Gtk.main_quit)
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
@@ -322,15 +323,10 @@ class EasyHybridMainWindow ( ):
             self.molecular_dynamics_window.OpenWindow()
 
         if button  == self.builder.get_object('toolbutton_umbrella_sampling'):
-            print('toolbutton_umbrella_sampling')
-            #self.molecular_dynamics_window.OpenWindow()
+            #print('toolbutton_umbrella_sampling')
+            self.umbrella_sampling_window.OpenWindow()
 
-    
-        
-    
-    
-    
-    
+            
     def menubar_togglebutton1 (self, button):
         """ Function doc """
         if button.get_active():
@@ -344,7 +340,6 @@ class EasyHybridMainWindow ( ):
             self.vm_session._picking_selection_mode = False
             button.set_label('Viewing')
 
-        #print("was turned", state)            
     
     def test (self, widget):
         """ Function doc """
@@ -367,6 +362,44 @@ class EasyHybridMainWindow ( ):
         if menuitem == self.builder.get_object('menu_item_merge_system'):
             print(menuitem, 'menu_item_merge_system')
             self.merge_pdynamo_systems_window.OpenWindow()
+
+
+    def update_gui_widgets (self, update_folder = True, update_coords = True):
+        """ Function doc """
+        
+        # should be a function . in the future!!!
+        if update_coords:
+            print(self.vm_session.starting_coords_liststore)
+            starting_coords = []
+            #self.easyhybrid_main.pDynamo_session
+            self.vm_session.starting_coords_liststore.clear()
+            for key, visObj in self.vm_session.vismol_objects_dic.items():
+                
+                print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                
+                if visObj.easyhybrid_system_id == self.pDynamo_session.active_id:
+                    starting_coords.append(visObj.name)
+            
+            for coords in starting_coords:
+                self.vm_session.starting_coords_liststore.append([coords])
+                print (coords)
+            
+            
+        
+        '''--------------------------------------------------------------------------------------------'''
+        if update_folder:
+            active_id = self.pDynamo_session.active_id
+            working_folder = self.pDynamo_session.systems[active_id]['working_folder']
+            
+            if self.geometry_optimization_window.Visible:
+                self.geometry_optimization_window.update_working_folder_chooser(folder = working_folder)
+            
+            if self.molecular_dynamics_window.Visible:
+                self.molecular_dynamics_window.update_working_folder_chooser(folder = working_folder)
+        
+
+
+
 
 class GtkEasyHybridMainTreeView(Gtk.TreeView):
     
@@ -492,9 +525,9 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         '''
         
         selected_path = Gtk.TreePath(path)
-        print('selected_path', selected_path)
+        #print('selected_path', selected_path)
         print(widget)
-        print('alo bacheguinha')
+        #print('alo bacheguinha')
         
         for row in self.treestore:
             row[3] = row.path == selected_path
@@ -507,36 +540,38 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             #    print(i, j, 'row[2]', row[2], row[8],selected_path,row.path)#(row[2], row.path, selected_path)
         
         print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
-        '''
-        try:
-            print(self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder'])
-            folder = self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder']
-            self.vm_session.filechooser_working_folder.set_current_folder(folder)
-        except:
-            self.vm_session.filechooser_working_folder.set_current_folder(HOME)
-        '''
         
-        
-        '''--------------------------------------------------------------------------------------------'''
-        # should be a function . in the future!!!
-        print(self.vm_session.starting_coords_liststore)
-        starting_coords = []
-        #self.easyhybrid_main.pDynamo_session
-        self.vm_session.starting_coords_liststore.clear()
-        for key, visObj in self.vm_session.vismol_objects_dic.items():
-            print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
-            if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
-                starting_coords.append(visObj.name)
-        
-        for coords in starting_coords:
-            self.vm_session.starting_coords_liststore.append([coords])
-            print (coords)
-        '''--------------------------------------------------------------------------------------------'''
-    
-        
-        if self.main_session.geometry_optimization_window.Visible:
-           
-            self.main_session.geometry_optimization_window.update_working_folder_chooser(folder = '/home/fernando/programs/VisMol/easyhybrid/pDynamoMethods/__pycache__')
+        self.main_session.update_gui_widgets()
+        #'''
+        #try:
+        #    print(self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder'])
+        #    folder = self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder']
+        #    self.vm_session.filechooser_working_folder.set_current_folder(folder)
+        #except:
+        #    self.vm_session.filechooser_working_folder.set_current_folder(HOME)
+        #'''
+        #
+        #
+        #'''--------------------------------------------------------------------------------------------'''
+        ## should be a function . in the future!!!
+        #print(self.vm_session.starting_coords_liststore)
+        #starting_coords = []
+        ##self.easyhybrid_main.pDynamo_session
+        #self.vm_session.starting_coords_liststore.clear()
+        #for key, visObj in self.vm_session.vismol_objects_dic.items():
+        #    print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+        #    if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
+        #        starting_coords.append(visObj.name)
+        #
+        #for coords in starting_coords:
+        #    self.vm_session.starting_coords_liststore.append([coords])
+        #    print (coords)
+        #'''--------------------------------------------------------------------------------------------'''
+        #
+        #
+        #if self.main_session.geometry_optimization_window.Visible:
+        #   
+        #    self.main_session.geometry_optimization_window.update_working_folder_chooser(folder = '/home/fernando/programs/VisMol/easyhybrid/pDynamoMethods/__pycache__')
         
         #self.NewSystemWindow              = ImportANewSystemWindow(main = self)
         #self.setup_QCModel_window         = EasyHybridSetupQCModelWindow(main = self)

@@ -240,37 +240,15 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             '''--------------------------------------------------------------------------------------------'''
 
             
-            
-            
 
-            
-            
-            
-            
-            
-            
-            
             self.save_trajectory_box = SaveTrajectoryBox(parent = self.window)
             self.builder.get_object('geo_opt_parm_box').pack_end(self.save_trajectory_box.box, True, True, 0)
             
 
             
-
+            # updating data 
             self.update_working_folder_chooser()
-            
-            
-            
-            
-            
-            #self.working_folder_chooser = self.builder.get_object('file_chooser_working_folder')
-            #try:
-            #    active_id      = self.easyhybrid_main.pDynamo_session.active_id
-            #    working_folder = self.easyhybrid_main.pDynamo_session.systems[active_id]['working_folder']
-            #    self.working_folder_chooser.set_current_folder(working_folder)
-            #except:
-            #    self.working_folder_chooser.set_current_folder(HOME)
-            
-            
+
             
             
             self.window.show_all()
@@ -317,13 +295,19 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         """ Function doc """
         entry_name    = None
         method_id     = self.builder.get_object('combobox_geo_opt').get_active()
-        traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
+        #traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
         logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
         max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
         rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
-        entry_name    =        self.builder.get_object('entry_name').get_text()  
+        #entry_name    =        self.builder.get_object('entry_name').get_text()  
         
-        save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
+        
+        if self.save_trajectory_box.builder.get_object('checkbox_save_traj').get_active():
+            folder = self.folder_chooser_button.get_folder ()
+        
+        
+        
+        #save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
         
         if method_id == 0:
             self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry(                  
@@ -341,6 +325,9 @@ class GeometryOptimizatrionWindow(Gtk.Window):
     
         self.window.destroy()
         self.Visible    =  False
+
+
+
     
     def on_name_combo_changed(self, widget):
         """ Function doc """

@@ -265,7 +265,7 @@ class pDynamoSession:
 
         #self.name  =  name
         self.append_system_to_pdynamo_session(psystem)
-        
+        self.vm_session.main_session.update_gui_widgets()
 
 
     def append_system_to_pdynamo_session (self, psystem):
