@@ -253,6 +253,12 @@ class Simulation:
 		rcType1     = "Distance"
 		rcType2     = "Distance"
 		nDims       = _parameters['ndim']
+		dincre1     = 0.0
+		dincre2     = 0.0
+		if "dincre_RC1" in _parameters:
+			dincre1 = _parameters["dincre_RC1"]
+		if "dincre_RC2" in _parameters:
+			dincre2 = _parameters["dincre_RC2"]	
 		#-------------------------------------------------------------------
 		if "optmizer" in _parameters:
 			_Optmizer   = _parameters["optmizer"]
@@ -262,16 +268,22 @@ class Simulation:
 			MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True	
+		if "rc_type_1" in _parameters:
+			if _parameters["rc_type_1"] == "dihedral":
+				rcType1 = "Dihedral"
+		if "rc_type_2" in _parameters:
+			if _parameters["rc_type_2"] == "dihedral":
+				rcType2 = "Dihedral"
 		#--------------------------------------------------------------------
 		scan = SCAN(self.molecule,self.baseFolder,_Optmizer,ADAPTATIVE=_Adaptative)
 		scan.ChangeDefaultParameters(_parameters)	
 		#--------------------------------------------------------------------
 		rc1 = ReactionCoordinate(_parameters["ATOMS_RC1"], MCR1,_type=rcType1)
-		rc1.SetInformation(self.molecule,_parameters['dincre_RC1'])
+		rc1.SetInformation(self.molecule,dincre1)
 		rc2 = None
 		if nDims == 2:
 			rc2 = ReactionCoordinate(_parameters["ATOMS_RC2"], MCR2,_type=rcType2)
-			rc2.SetInformation(self.molecule,_parameters['dincre_RC2'])				
+			rc2.SetInformation(self.molecule,dincre2)				
 		#------------------------------------------------------
 		scan.SetReactionCoord(rc1)
 		xlims = [0, _parameters['nSteps_RC1'] ]
@@ -282,7 +294,7 @@ class Simulation:
 			scan.Run2DScan(_parameters['nSteps_RC1'], _parameters['nSteps_RC2'] )
 			ylims = [ 0,  _parameters['nSteps_RC2']]
 		elif nDims == 1:
-			scan.RunONEDimensionSCAN(_parameters['nSteps_RC1'])
+			scan.Run1DScan(_parameters['nSteps_RC1'])
 		#...............
 		scan.Finalize()		
 		#================================================================

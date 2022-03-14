@@ -13,6 +13,10 @@
 
 #=================================================================
 import os, glob, sys 
+
+os.environ['MPLCONFIGDIR'] = '/tmp'
+
+
 #path fo the core python files on your machine
 sys.path.append("/home/igorchem/VisMol/easyhybrid/pDynamoMethods") 
 #------------------------------------------------------
@@ -43,7 +47,8 @@ ex_path      = "/home/igorchem/VisMol/examples/"
 scratch_path = os.path.join(easyhybrid,"TestsScratch")
 timTop       = os.path.join(ex_path,"TIM","7tim.top")
 timCrd       = os.path.join(ex_path,"TIM","7tim.crd")
-
+balapkl      = os.path.join(ex_path,"bala","bAla.pkl")
+#--------------------------------------------------------
 if not os.path.exists(scratch_path):
 	os.makedirs(scratch_path)
 
@@ -352,7 +357,68 @@ def QCMMScanMultipleDistance(_nsteps,_dincre,name="Default"):
     #run the simulation
     #---------------------------------------------------------------------
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
-	proj.FinishRun()	
+	proj.FinishRun()
+#=====================================================
+def Scan1D_Dihedral(_nsteps,name="Default"):
+	'''
+	Test relaxed scan with dihedral reaction coordinates
+	'''
+	#---------------------------------------------	
+	_scanFolder = "SCAN1D_dihedral"
+	if not name == "Default":
+		_scanFolder = name
+	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
+	proj.LoadSystemFromSavedProject( balapkl )
+	proj.cSystem.Summary()
+	#---------------------------------------------
+	#setting atoms for scan
+	
+	atomsf = [ 4, 6,  8, 14] 
+	#setting parameters
+	_plotParameters = { "contour_lines":15 }
+	parameters = { "ATOMS_RC1":atomsf     ,
+				   "nSteps_RC1":_nsteps   ,
+				   "rc_type_1" :"dihedral", 
+				   "ndim":1               ,
+				   "MC_RC1":"true"        ,
+				   "force_constant":25.0}
+    #run the simulation
+    #---------------------------------------------------------------------
+	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
+	proj.FinishRun()
+#=====================================================
+def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
+	'''
+	Test relaxed scan with dihedral reaction coordinates
+	'''
+	#---------------------------------------------	
+	_scanFolder = "SCAN2D_dihedral"
+	if not name == "Default":
+		_scanFolder = name
+	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
+	proj.LoadSystemFromSavedProject( balapkl )
+	proj.cSystem.Summary()
+	#---------------------------------------------
+	#setting atoms for scan
+	
+	atomsf = [ 4, 6,  8, 14] 
+	atomss = [ 6, 8, 14, 16]
+	#setting parameters
+	_plotParameters = { "contour_lines":10 }
+	parameters = { "ATOMS_RC1":atomsf     ,
+				   "ATOMS_RC2":atomss     ,
+				   "nSteps_RC1":_xnsteps  ,
+				   "nSteps_RC2":_ynsteps  ,
+				   "rc_type_1" :"dihedral", 
+				   "rc_type_2" :"dihedral", 
+				   "ndim":2               ,
+				   "force_constant_1":25.0,
+				   "force_constant_2":25.0,
+				   "NmaxThreads":4        }
+    #run the simulation
+    #---------------------------------------------------------------------
+	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
+	proj.FinishRun()
 #=====================================================
 def QCMMScan2DsimpleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default"):
 	'''
@@ -922,7 +988,6 @@ def TrajectoryAnalysisPlots():
 	# Distance analysis in restricted molecular dynamics 
 	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
 
-
 #===============================================================================
 def ReacCoordSearchers():	
 	'''
@@ -1111,12 +1176,12 @@ if __name__ == "__main__":
 	#QCMM_optimizations()								#TESTED
 	#QCMM_MD()											#TESTED
 	#QCMM_MDrestricted()								#TESTED
-	#QCMMScanSimpleDistance(30,0.05)					#TESTED
-	#QCMMScanMultipleDistance(30,0.05)					#TESTED
-	#QCMMScan2DSimpleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	QCMMScanSimpleDistance(30,0.05)						#TESTED
+	QCMMScanMultipleDistance(30,0.05)					#TESTED
+	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
 	#FreeEnergy1DSimpleDistance(600)					#TESTED
 	#FreeEnergy1DMultipleDistance(600)					#TESTED
 	#UmbrellaSampling1Drestart(500)						#TESTED
@@ -1127,4 +1192,6 @@ if __name__ == "__main__":
 	#EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
-	#pDynamoEnergyRef_2D()
+	#pDynamoEnergyRef_2D()								#TESTED
+	#Scan1D_Dihedral(36)								#TESTED
+	Scan2D_Dihedral(12,12)

@@ -66,6 +66,7 @@ class US:
         self.samplingFactor     = 0
         self.restart            = RESTART
         self.adaptative         = ADAPTATIVE
+        self.angle              = False
 
         #qc/mm parameters 
         self.maxItQC            = 1000
@@ -114,6 +115,8 @@ class US:
 
         if len(_RC.atoms) == 3:
             self.multipleDistance[ndim] = True 
+        if len(_RC.atoms) == 4:
+            self.angle = True
     
     #============================================================================
     def ChangeConvergenceParameters(self):
@@ -167,17 +170,7 @@ class US:
         #-----------------------------------------------
         self.inputTraj = _trajFolder
         self.samplingFactor = _sample
-        #-----------------------------------------------
-        atom1 = self.atoms[0][0]
-        atom2 = self.atoms[0][1]
-        atom3 = 0
-
-        if len(self.atoms[0]) == 3:
-            atom3 = self.atoms[0][2]
-        #----------------------------------------------        
-        weight1 = self.sigma_a3_a1[0]
-        weight2 = self.sigma_a1_a3[0]        
-        #---------------------------------------------
+        #-----------------------------------------------               
         #Adicionar outras possibilidades de carregar cordenadas
         pkl_path        = os.path.join( _trajFolder, "")
         self.file_lists = glob.glob( pkl_path+"*.pkl" )
@@ -198,46 +191,94 @@ class US:
                     self.file_lists.remove( self.file_lists[i] ) 
 
         #-----------------------------------------------------
-        distance   = 0.0
+        if self.angle:
+            self.Run1DSamplingDihedral()
+        else:        
+            if self.multipleDistance[0]:
+                self.Run1DSamplingMultipleDistance()
+            else:
+                self.Run1DSamplingSimpleDistance()
+    
+    #==============================================================================
+    def Run1DSamplingSimpleDistance(self):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
         restraints = RestraintModel()
         self.molecule.DefineRestraintModel( restraints )
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range( len(self.file_lists) ):
+                self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
+                #------------------------------------------------------------                
+                distance    = self.molecule.coordinates3.Distance( atom1, atom2 )
+                rmodel      = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                restraint   = RestraintDistance.WithOptions( energyModel = rmodel, point1=atom1, point2=atom2 ) 
+                restraints['M1'] = restraint
+                #------------------------------------------------------------
+                mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
+                mdRun.ChangeDefaultParameters(self.mdParameters)
+                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
 
-        #...................................................................................
-        if self.multipleDistance[0]:            
-            with pymp.Parallel(self.nprocs) as p:
-                for i in p.range( len(self.file_lists) ):
-                    self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
-                    #------------------------------------------------------------
-                    dist_12 = self.molecule.coordinates3.Distance( atom1, atom2 )
-                    dist_23 = self.molecule.coordinates3.Distance( atom2, atom3 )
-                    distance = ( weight1 * dist_12) - ( weight2 * dist_23*-1)
-                    #------------------------------------------------------------
-                    rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
-                    restraint = RestraintMultipleDistance.WithOptions(energyModel = rmodel,  distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ]) 
-                    restraints['M1'] = restraint
-                    #------------------------------------------------------------
-                    mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
-                    mdRun.ChangeDefaultParameters(self.mdParameters)
-                    mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
-                    #..................................................................... 
-        #----------------------------------------------------------------------------------
-        else:
-            with pymp.Parallel(self.nprocs) as p:
-                for i in p.range( len(self.file_lists) ):
-                    self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
-                    #------------------------------------------------------------                
-                    distance    = self.molecule.coordinates3.Distance( atom1, atom2 )
-                    rmodel      = RestraintEnergyModel.Harmonic( distance, self.forceC )
-                    restraint   = RestraintDistance.WithOptions( energyModel = rmodel, point1=atom1, point2=atom2 ) 
-                    restraints['M1'] = restraint
-                    #------------------------------------------------------------
-                    mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
-                    mdRun.ChangeDefaultParameters(self.mdParameters)
-                    mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor) 
-                    #............................................................
+        self.molecule.DefineRestraintModel(None)
 
-        self.molecule.DefineRestraintModel(None) 
-    
+    #==============================================================================
+    def Run1DSamplingMultipleDistance(self):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[0][2]
+        weight1 = self.sigma_a3_a1[0]
+        weight2 = self.sigma_a1_a3[0] 
+        restraints = RestraintModel()
+        self.molecule.DefineRestraintModel( restraints )
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range( len(self.file_lists) ):
+                self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
+                #------------------------------------------------------------
+                dist_12 = self.molecule.coordinates3.Distance( atom1, atom2 )
+                dist_23 = self.molecule.coordinates3.Distance( atom2, atom3 )
+                distance = ( weight1 * dist_12) - ( weight2 * dist_23*-1)
+                #------------------------------------------------------------
+                rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                restraint = RestraintMultipleDistance.WithOptions(energyModel = rmodel,  distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ]) 
+                restraints['M1'] = restraint
+                #------------------------------------------------------------
+                mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
+                mdRun.ChangeDefaultParameters(self.mdParameters)
+                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+        
+        self.molecule.DefineRestraintModel(None)
+    #==============================================================================
+    def Run1DSamplingDihedral(self):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[0][2]
+        atom4 = self.atoms[0][3]
+        restraints = RestraintModel()
+        self.molecule.DefineRestraintModel( restraints )
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range( len(self.file_lists) ):
+                self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
+                #------------------------------------------------------------
+                angle = self.molecule.coordinates3.Dihedral( atom1, atom2, atom3, atom4 )
+                #------------------------------------------------------------
+                rmodel      = RestraintEnergyModel.Harmonic( angle, self.forceC )
+                restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, point1=atom1,
+                                                                                          point2=atom2,
+                                                                                          point3=atom3,
+                                                                                          point4=atom4) 
+                restraints['M1'] = restraint
+                #------------------------------------------------------------
+                mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
+                mdRun.ChangeDefaultParameters(self.mdParameters)
+                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+        #---------------------------------------
+        self.molecule.DefineRestraintModel(None)
+
     #==============================================================================
     def Run2DSampling(self,_trajFolder,_sample):
         '''
@@ -267,12 +308,15 @@ class US:
         self.EnergyRef = self.molecule.Energy()
         self.forceCRef = self.forceC
         #-----------------------------------------------
-        if self.multipleDistance[0] and self.multipleDistance[1]:
-            self.Run2DMultipleDistance()            
-        elif self.multipleDistance[0] and self.multipleDistance[1] == False:            
-            self.Run2DMixedDistance()
+        if self.angle: 
+            self.Run2DSamplingDihedral()
         else:
-            self.Run2DSimpleDistance()  
+            if self.multipleDistance[0] and self.multipleDistance[1]:
+                self.Run2DMultipleDistance()            
+            elif self.multipleDistance[0] and self.multipleDistance[1] == False:            
+                self.Run2DMixedDistance()
+            else:
+                self.Run2DSimpleDistance()  
             
     #===========================================================================================
     def Run2DMultipleDistance(self):
@@ -403,6 +447,48 @@ class US:
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
         #.......................................
+        
+    #===========================================================================================
+    def Run2DSamplingDihedral(self):
+        '''
+        '''
+        atom1 = self.atoms[0][0]
+        atom2 = self.atoms[0][1]
+        atom3 = self.atoms[0][2]
+        atom4 = self.atoms[0][3]
+        atom5 = self.atoms[1][0]
+        atom6 = self.atoms[1][1]
+        atom7 = self.atoms[1][2]
+        atom8 = self.atoms[1][3]
+
+        restraints = RestraintModel()
+        self.molecule.DefineRestraintModel( restraints )
+        with pymp.Parallel(self.nprocs) as p:
+            for i in p.range( len(self.file_lists) ):
+                self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
+                #------------------------------------------------------------
+                angle_1 = self.molecule.coordinates3.Dihedral( atom1, atom2, atom3, atom4 )
+                #------------------------------------------------------------
+                rmodel      = RestraintEnergyModel.Harmonic( angle_1, self.forceC )
+                restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, point1=atom1,
+                                                                                          point2=atom2,
+                                                                                          point3=atom3,
+                                                                                          point4=atom4) 
+                restraints['M1'] = restraint
+                angle_2 = self.molecule.coordinates3.Dihedral( atom5, atom6, atom7, atom8 )
+                #------------------------------------------------------------
+                rmodel      = RestraintEnergyModel.Harmonic( angle_2, self.forceC )
+                restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, point1=atom5,
+                                                                                          point2=atom6,
+                                                                                          point3=atom7,
+                                                                                          point4=atom8) 
+                restraints['M2'] = restraint
+                #------------------------------------------------------------
+                mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
+                mdRun.ChangeDefaultParameters(self.mdParameters)
+                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+        #---------------------------------------
+        self.molecule.DefineRestraintModel(None)
 
     #===========================================================================================
     def Finalize(self):

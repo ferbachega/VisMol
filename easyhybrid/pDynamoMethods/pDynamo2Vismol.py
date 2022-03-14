@@ -733,9 +733,17 @@ class pDynamoSession:
         
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = False)
 
+    #--------------------------------------------------------------------------------
+    def RunSimulation(self, _parametersList, _parameters4Plot=None, _simulationType):
+        '''
+        bsname = base name of the folder where will be created the next
+        '''
+        run = Simulation(self.system[self.active_id],_simulationType, bsname )
+        run.Execute(_parametersList,_parameters4Plot)
+
         
-
-
+#======================================================================================================
+ 
 
 
 

@@ -259,13 +259,13 @@ class EnergyAnalysis:
 			self.labely = "Free Energy (kJ/mol)"
 			_pathOut += "_1Dfree_energy.png"
 		elif self.Type == "WHAM1D":
-			#self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
+			self.RC1 = np.linspace( np.min(self.RC1), np.max(self.RC1), len(self.RC1) )
 			self.labely = "Potential of Mean Field (kJ/mol)"
 			_pathOut += "_1D_PMF.png"
 		elif self.Type == "1D" and self.Type == "1DRef" :
 			_pathOut += "_1Denergy.png"
 		#--------------------------------------------
-		plt.plot(self.RC1,self.energies1D,'.k-')
+		plt.plot(self.RC1,self.energies1D,'-ok')
 		plt.xlabel(label)
 		plt.ylabel(self.labely)		
 		#--------------------------------------------
@@ -300,8 +300,8 @@ class EnergyAnalysis:
 		#-----------------------------------------------------
 		self.NormalizeEnergies()
 		if len(self.RC1) > 0:
-			X = np.linspace(self.RC1[0],self.RC1[-1],self.xlen)
-			Y = np.linspace(self.RC2[0],self.RC2[-1],self.ylen)
+			X = np.linspace( np.min(self.RC1) , np.max(self.RC1), self.xlen )
+			Y = np.linspace( np.min(self.RC2) , np.max(self.RC2), self.ylen )
 		#------------------------------------------------------
 		else:
 			if _xlim == None:

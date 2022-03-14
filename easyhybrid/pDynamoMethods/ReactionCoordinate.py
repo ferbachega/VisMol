@@ -52,19 +52,23 @@ class ReactionCoordinate:
 		self.molecule  = _molecule
 		
 		sequence = getattr( self.molecule, "sequence", None )
+		print(sequence)
 		
 		if self.Type == "multipleDistance":
 			A1 = self.molecule.atoms.items[ self.atoms[0] ]
 			A2 = self.molecule.atoms.items[ self.atoms[1] ]
 			A3 = self.molecule.atoms.items[ self.atoms[2] ]
-			A1res = A1.parent.label.split(".")
-			A2res = A2.parent.label.split(".")
-			A3res = A3.parent.label.split(".")
-			#resName1 
-			self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")-"
-			self.label += A2.label + "(" + A2res[0] + A2res[1] + ")--"
-			self.label += "--"
-			self.label += A3.label + "(" + A3res[0] + A3res[1] + ") $\AA$"
+			if not sequence == None:
+				A1res = A1.parent.label.split(".")
+				A2res = A2.parent.label.split(".")
+				A3res = A3.parent.label.split(".")
+				#resName1 
+				self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")-"
+				self.label += A2.label + "(" + A2res[0] + A2res[1] + ")--"
+				self.label += A3.label + "(" + A3res[0] + A3res[1] + ") $\AA$"
+			else: 
+				self.label = A1.label + "-" + A2.label +"-"+ A3.label  
+
             #.-------------------------------------------------
 			if self.massConstraint:				
 				#------------------------------------------------
@@ -88,10 +92,34 @@ class ReactionCoordinate:
 		elif self.Type == "Distance":
 			A1 = self.molecule.atoms.items[ self.atoms[0] ]
 			A2 = self.molecule.atoms.items[ self.atoms[1] ]
-			A1res = A1.parent.label.split(".")
-			A2res = A2.parent.label.split(".")
-			self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")--"
-			self.label += A2.label + "(" + A2res[0] + A2res[1] + ") $\AA$"			
+			if not sequence == None:
+				A1res = A1.parent.label.split(".")
+				A2res = A2.parent.label.split(".")
+				self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")--"
+				self.label += A2.label + "(" + A2res[0] + A2res[1] + ") $\AA$"	
+			else:
+				self.label = A1.label + "-" + A2.label 	
 			self.minimumD = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
+		#.--------------------------
+		elif self.Type == "Dihedral":
+			A1 = self.molecule.atoms.items[ self.atoms[0] ]
+			A2 = self.molecule.atoms.items[ self.atoms[1] ]
+			A3 = self.molecule.atoms.items[ self.atoms[2] ]
+			A4 = self.molecule.atoms.items[ self.atoms[3] ]
+			if not sequence == None:
+				A1res = A1.parent.label.split(".")
+				A2res = A2.parent.label.split(".")
+				A3res = A3.parent.label.split(".")
+				A4res = A4.parent.label.split(".")
+				self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")-"
+				self.label += A2.label + "(" + A2res[0] + A2res[1] + ")-"
+				self.label += A3.label + "(" + A3res[0] + A3res[1] + ")-"
+				self.label += A4.label + "(" + A4res[0] + A4res[1] + ") $\AA$"
+			else:
+				self.label =  A1.label + "-" + A2.label +"-" + A3.label +"-"+A4.label
+				
+			self.minimumD = self.molecule.coordinates3.Dihedral(self.atoms[0],self.atoms[1],self.atoms[2],self.atoms[3])
+
+			
 
 #===================================================================================================================
