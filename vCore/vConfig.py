@@ -30,11 +30,11 @@ from vModel.AtomTypes import AtomicProperties
 class VisMolConfig:
     """ Class doc """
 
-    def __init__ (self, vSession):
+    def __init__ (self, vm_session):
         """ Class initialiser """
 
 
-        self.vSession = vSession 
+        self.vm_session = vm_session 
         
         #self.solvent_dictionary  = {
         #                            'WAT': 'O', 
@@ -334,7 +334,7 @@ class VisMolConfig:
                                                                                          
                                                                                          
                                   'dot_size'                   : 20                    ,  
-                                  'dot_type'                   : 1                    ,  # 0 - square    1 - rounded
+                                  'dot_type'                   : 0                    ,  # 0 - square    1 - rounded
                                   'dot_sel_size'               : 1.5                  , 
                                                                                          
                                   'line_width'                 : 2                    ,  

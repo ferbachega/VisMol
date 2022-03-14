@@ -281,7 +281,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
         add a function to change the shaders.
     """
     
-    def __init__(self, vismolSession = None, width=640, height=420):
+    def __init__(self, vm_session = None, width=640, height=420):
         """ Constructor of the class, needs two String objects,
             the vertex and fragment shaders.
             
@@ -318,8 +318,8 @@ class GtkGLAreaWidget(Gtk.GLArea):
                                                                
         self.Vismol_selection_modes_ListStore = Gtk.ListStore(str)
         
-        self.vm_widget = vismol_widget.VisMolGLCore(self, vismolSession, np.float32(width), np.float32(height))
-        self.vismolSession = vismolSession
+        self.vm_widget = vismol_widget.VisMolGLCore(self, vm_session, np.float32(width), np.float32(height))
+        self.vm_session = vm_session
         
         
         self.glMenu_sele = None
@@ -541,15 +541,15 @@ class GtkGLAreaWidget(Gtk.GLArea):
         self.vm_widget.key_pressed(k_name)
 
         if k_name == 'l':
-            filename = self.vismolSession.main_session.filechooser.open()
-            self.vismolSession.load(filename)
+            filename = self.vm_session.main_session.filechooser.open()
+            self.vm_session.load(filename)
             #self.main_treeview.refresh_gtk_main_treeview()
-            visObj = self.vismolSession.vismol_objects[-1]
-            self.vismolSession.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+            visObj = self.vm_session.vismol_objects[-1]
+            self.vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
 
         #if k_name == 'r':
-        #    #self.vismolSession.show(_type = 'ball_and_stick', Vobjects =  [self.vismolSession.vismol_objects[-1]])
-        #    visObj = self.vismolSession.vismol_objects[0]
+        #    #self.vm_session.show(_type = 'ball_and_stick', Vobjects =  [self.vm_session.vismol_objects[-1]])
+        #    visObj = self.vm_session.vismol_objects[0]
         #    #visObj.ribbons_active =  True
         #    if visObj.ribbons_active:
         #        visObj.ribbons_active =  False
@@ -561,21 +561,21 @@ class GtkGLAreaWidget(Gtk.GLArea):
 
 
         #if k_name == 'f':
-        #    #self.vismolSession.show(_type = 'ball_and_stick', Vobjects =  [self.vismolSession.vismol_objects[-1]])
-        #    visObj = self.vismolSession.vismol_objects[0]
+        #    #self.vm_session.show(_type = 'ball_and_stick', Vobjects =  [self.vm_session.vismol_objects[-1]])
+        #    visObj = self.vm_session.vismol_objects[0]
         #    
         #    if visObj.spheres_ON_THE_FLY_active:
         #        visObj.spheres_ON_THE_FLY_active =  False
         #    else:
         #        visObj.spheres_ON_THE_FLY_active =  True
-        #    #self.vismolSession.show (_type = 'lines', Vobjects =  [])
+        #    #self.vm_session.show (_type = 'lines', Vobjects =  [])
 
 
 
 
         #if k_name == 't':
-        #    #self.vismolSession.show(_type = 'ball_and_stick', Vobjects =  [self.vismolSession.vismol_objects[-1]])
-        #    for visObj in self.vismolSession.vismol_objects:
+        #    #self.vm_session.show(_type = 'ball_and_stick', Vobjects =  [self.vm_session.vismol_objects[-1]])
+        #    for visObj in self.vm_session.vismol_objects:
         #        
         #        if visObj.sticks_active:
         #            print (visObj.sticks_active)
@@ -590,13 +590,13 @@ class GtkGLAreaWidget(Gtk.GLArea):
         #            visObj.representations['sticks'].active =  True
 
         #if k_name == 'd':
-        #    self.vismolSession.show(_type = 'dots', Vobjects =  [self.vismolSession.vismol_objects[-1]])
-        #    #visObj = self.vismolSession.vismol_objects[0]
+        #    self.vm_session.show(_type = 'dots', Vobjects =  [self.vm_session.vismol_objects[-1]])
+        #    #visObj = self.vm_session.vismol_objects[0]
         #    #visObj.dots_active =  True
         
         if k_name == 'v':
-            #self.vismolSession.show(_type = 'dots', Vobjects =  [self.vismolSession.vismol_objects[-1]])
-            visObj = self.vismolSession.vismol_objects[0]
+            #self.vm_session.show(_type = 'dots', Vobjects =  [self.vm_session.vismol_objects[-1]])
+            visObj = self.vm_session.vismol_objects[0]
             if visObj.dots_surface_active:
                 visObj.dots_surface_active =  False
             else:
@@ -604,41 +604,41 @@ class GtkGLAreaWidget(Gtk.GLArea):
 
 
         if k_name == 'e':                             
-            self.vismolSession.show_or_hide( _type = 'spheres', show = True)
+            self.vm_session.show_or_hide( _type = 'spheres', show = True)
         if k_name == 'd':
-            self.vismolSession.show_or_hide( _type = 'spheres', show = False) 
+            self.vm_session.show_or_hide( _type = 'spheres', show = False) 
 
 
         if k_name == 'w':                             
-            self.vismolSession.show_or_hide( _type = 'sticks', show = True)
+            self.vm_session.show_or_hide( _type = 'sticks', show = True)
         if k_name == 's':
-            self.vismolSession.show_or_hide( _type = 'sticks', show = False)     
+            self.vm_session.show_or_hide( _type = 'sticks', show = False)     
         
         
         if k_name == 'q':
-            self.vismolSession.show_or_hide( _type = 'lines', show = True)    
+            self.vm_session.show_or_hide( _type = 'lines', show = True)    
         if k_name == 'a':
-            self.vismolSession.show_or_hide( _type = 'lines', show = False)
+            self.vm_session.show_or_hide( _type = 'lines', show = False)
 
 
         if k_name == 'r':
-            self.vismolSession.show_or_hide( _type = 'dots', show = True)    
+            self.vm_session.show_or_hide( _type = 'dots', show = True)    
         if k_name == 'f':
-            self.vismolSession.show_or_hide( _type = 'dots', show = False)
+            self.vm_session.show_or_hide( _type = 'dots', show = False)
 
 
        
         if k_name == 'z':
-            #self.vismolSession.glwidget._set_draw_dots_indexes (visObj = self.vismolSession.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
 
             # Associates selected bonds as false / true
-            for atom in self.vismolSession.selections[self.vismolSession.current_selection].selected_atoms:
+            for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
                 #print (atom.name)
                 for bond in atom.bonds:
                     bond.line_active = False
 
             # Build a list of the connections that are active -> this list will be sent to the openGL buffer
-            for vobject in self.vismolSession.selections[self.vismolSession.current_selection].selected_objects:
+            for vobject in self.vm_session.selections[self.vm_session.current_selection].selected_objects:
                 indexes_bonds = []
                 
                 for bonds in vobject.bonds:
@@ -658,16 +658,16 @@ class GtkGLAreaWidget(Gtk.GLArea):
                     #self.vm_widget.set_draw_lines_indexes (visObj = vobject,  show = False, input_indexes = indexes_bonds)
 
         if k_name == 'x':
-            #self.vismolSession.glwidget._set_draw_dots_indexes (visObj = self.vismolSession.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
             
             # Associates selected bonds as false / true
-            for atom in self.vismolSession.selections[self.vismolSession.current_selection].selected_atoms:
+            for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
                 #print (atom.name)
                 for bond in atom.bonds:
                     bond.stick_active = False
 
             # Build a list of the connections that are active -> this list will be sent to the openGL buffer
-            for vobject in self.vismolSession.selections[self.vismolSession.current_selection].selected_objects:
+            for vobject in self.vm_session.selections[self.vm_session.current_selection].selected_objects:
                 indexes_bonds = []
                 
                 for bond in vobject.bonds:
@@ -690,14 +690,14 @@ class GtkGLAreaWidget(Gtk.GLArea):
 
 
         if k_name == 'c':
-            #self.vismolSession.glwidget._set_draw_dots_indexes (visObj = self.vismolSession.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
             
             # Associates selected bonds as false / true
-            for atom in self.vismolSession.selections[self.vismolSession.current_selection].selected_atoms:
+            for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
                 atom.nonbonded = False
                 #print (atom.name)
                 
-            for vobject in self.vismolSession.selections[self.vismolSession.current_selection].selected_objects:
+            for vobject in self.vm_session.selections[self.vm_session.current_selection].selected_objects:
                 indexes = []
                 
                 for atom in vobject.atoms:
@@ -715,14 +715,14 @@ class GtkGLAreaWidget(Gtk.GLArea):
                     vobject.representations['nonbonded'].define_new_indexes_to_VBO(indexes)
 
         if k_name == 'b':
-            #self.vismolSession.glwidget._set_draw_dots_indexes (visObj = self.vismolSession.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
             
             # Associates selected bonds as false / true
-            for atom in self.vismolSession.selections[self.vismolSession.current_selection].selected_atoms:
+            for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
                 atom.spheres = False
                 #print (atom.name)
                 
-            for vobject in self.vismolSession.selections[self.vismolSession.current_selection].selected_objects:
+            for vobject in self.vm_session.selections[self.vm_session.current_selection].selected_objects:
                 indexes = []
                 
                 for atom in vobject.atoms:
@@ -747,13 +747,13 @@ class GtkGLAreaWidget(Gtk.GLArea):
 
 
         if k_name == 'period':
-            #self.vismolSession.get_frame()
-            frame = self.vismolSession.get_frame()+1
-            self.vismolSession.set_frame(frame)
+            #self.vm_session.get_frame()
+            frame = self.vm_session.get_frame()+1
+            self.vm_session.set_frame(frame)
             print (frame)
         if k_name == 'comma':
-            frame = self.vismolSession.get_frame()-1
-            self.vismolSession.set_frame(frame)
+            frame = self.vm_session.get_frame()-1
+            self.vm_session.set_frame(frame)
             print (frame)	
             
     def key_released(self, widget, event):
@@ -786,7 +786,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
         #
         ##converting RGB values to atoms address (unique id)
         #pickedID = data[0] + data[1] * 256 + data[2] * 256*256;
-        #if self.vismolSession._picking_selection_mode:
+        #if self.vm_session._picking_selection_mode:
         #    print('_picking_selection_mode = True',data, pickedID)
 
 

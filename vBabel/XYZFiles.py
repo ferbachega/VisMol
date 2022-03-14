@@ -88,7 +88,7 @@ USER_CHARGES
 @<TRIPOS>SUBSTRUCTURE
 '''
 
-def load_xyz_file (infile = None, vismolSession =  None, gridsize = 3):
+def load_xyz_file (infile = None, vm_session =  None, gridsize = 3):
     """ Function doc """
     print ('\nstarting: parse_mol2')
     #at  =  MolecularProperties.AtomTypes()
@@ -154,7 +154,7 @@ def load_xyz_file (infile = None, vismolSession =  None, gridsize = 3):
     #print (frames)
     vismol_object  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
-                                               vismolSession   = vismolSession, 
+                                               vm_session   = vm_session, 
                                                trajectory  = frames)
     
     

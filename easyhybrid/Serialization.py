@@ -6,7 +6,7 @@ import ctypes
 class LoadAndSaveFiles:
     """ Class doc """
     
-    def __init__ (self, vismolSession, pDynamo_session):
+    def __init__ (self, vm_session, pDynamo_session):
         """ Class initialiser """
         
         self.pDynamo_session = self.main_session.pDynamo_session
@@ -122,12 +122,12 @@ class LoadAndSaveFiles:
         #               V I S M O L   S E S S I O N
         #---------------------------------------------------------------
         
-        vismol_session = {'vobj_counter': self.vobj_counter}
+        vm_session = {'vobj_counter': self.vobj_counter}
 
         easyhybrid_session_data = { 
                                     'pdynamo_projects'   : pdynamo_projects  ,
                                     'vismol_objects_dic' : vismol_objects_dic,
-                                    'vismol_session'     : vismol_session    ,
+                                    'vm_session'         : vm_session    ,
                                     }
         
         with open(filename,'wb') as outfile:
@@ -143,10 +143,10 @@ class LoadAndSaveFiles:
         easyhybrid_session_data = pickle.load(infile)
         
         '''
-        self.main_session.vismolSession.vismol_objects = []
+        self.main_session.vm_session.vismol_objects = []
         #---------------------------------------------------------------
-        print(self.main_session.vismolSession.vismolSession_vbos)
-        for index in self.main_session.vismolSession.vismolSession_vbos:
+        print(self.main_session.vm_session.vm_session_vbos)
+        for index in self.main_session.vm_session.vm_session_vbos:
             #GL.glDeleteBuffers(1, index)
             idn_array = []
             idn_array.append(index)
@@ -154,14 +154,14 @@ class LoadAndSaveFiles:
             GL.glDeleteBuffers( 1 , ctypes.byref( array) )
         
         
-        #for vismol_object in self.main_session.vismolSession.vismol_objects:
+        #for vismol_object in self.main_session.vm_session.vismol_objects:
             
         #---------------------------------------------------------------
         #'''
         
 
         
-        self.vobj_counter = easyhybrid_session_data['vismol_session']['vobj_counter']
+        self.vobj_counter = easyhybrid_session_data['vm_session']['vobj_counter']
         
         self.pDynamo_session.name            = easyhybrid_session_data['pdynamo_projects']['name']
         self.pDynamo_session.nbModel_default = easyhybrid_session_data['pdynamo_projects']['nbModel_default']
@@ -192,7 +192,7 @@ class LoadAndSaveFiles:
                                                        #active                         = easyhybrid_session_data['vismol_objects_dic'][vobj_id]['active']
                                                        name                           = name, 
                                                        atoms                          = atoms, 
-                                                       vismolSession                  = self, 
+                                                       vm_session                  = self, 
                                                        bonds_pair_of_indexes          = list(bonds),
                                                        auto_find_bonded_and_nonbonded = False,
                                                        trajectory                     = frames,

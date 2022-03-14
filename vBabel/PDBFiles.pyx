@@ -12,7 +12,7 @@ from   vModel.MolecularProperties import COLOR_PALETTE
 
 from pprint import pprint
 
-cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):
+cpdef load_pdb_file (infile = None, gridsize = 3, vm_session =  None, frames_only = False):
     """ Function doc 
 
     gridsize =
@@ -71,7 +71,7 @@ cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_
     
     vismol_object  = VismolObject.VismolObject(name            = name, 
                                                atoms           = atoms, 
-                                               vismolSession   = vismolSession, 
+                                               vm_session   = vm_session, 
                                                trajectory      = frames)
     '''
     #-------------------------------------------------------------------------------------------

@@ -39,13 +39,13 @@ class GtkMainTreeView():
     """ 
     """
     
-    def __init__(self, vismolSession):
+    def __init__(self, vm_session):
         """ 
         """
         self.builder = Gtk.Builder()
         self.builder.add_from_file('GTK3VisMol/VISMOL/gtkWidgets/main_treeview.glade')
         self.builder.connect_signals(self)
-        self.vismolSession = vismolSession
+        self.vm_session = vm_session
         self.treeView = self.builder.get_object('treeview1')
         
         #self.liststore = self.builder.get_object('liststore1')
@@ -64,7 +64,7 @@ class GtkMainTreeView():
         n = 0
         i = 1
         
-        for vis_object in self.vismolSession.vismol_objects:
+        for vis_object in self.vm_session.vismol_objects:
             print ('\n\n',vis_object.name,'\n\n')
             
             if vis_object.actived:
@@ -110,7 +110,7 @@ class GtkMainTreeView():
             print ('button == 2')
             
             #self.selectedID  = int(model.get_value(iter, 1))  # @+
-            #self.vismolSession.center(Vobject_index = self.selectedID -1)
+            #self.vm_session.center(Vobject_index = self.selectedID -1)
 
         if event.button == 1:
             selection     = tree.get_selection()
@@ -125,17 +125,17 @@ class GtkMainTreeView():
                 obj_index     = model.get_value(iter, 1)
                 #print pymol_object
                 if true_or_false == False:
-                    self.vismolSession.enable_by_index(int(obj_index)-1)
+                    self.vm_session.enable_by_index(int(obj_index)-1)
                     true_or_false = True
                     model.set(iter, 0, true_or_false)
                     # print true_or_false
-                    self.vismolSession.glwidget.queue_draw()
+                    self.vm_session.glwidget.queue_draw()
                 
                 else:
-                    self.vismolSession.disable_by_index(int(obj_index)-1)
+                    self.vm_session.disable_by_index(int(obj_index)-1)
                     true_or_false = False
                     model.set(iter, 0, true_or_false)
-                    self.vismolSession.glwidget.queue_draw()
+                    self.vm_session.glwidget.queue_draw()
        
     def on_treemenu_item_selection (self, widget, event = None , data = None):
         """ Function doc """
@@ -146,8 +146,8 @@ class GtkMainTreeView():
             model = tree.get_model()
             (model, iter) = selection.get_selected()
             obj_index = model.get_value(iter, 1)
-            self.vismolSession.edit_by_index(int(obj_index)-1)
-            self.vismolSession.glwidget.vm_widget.editing_mols = not self.vismolSession.glwidget.vm_widget.editing_mols
+            self.vm_session.edit_by_index(int(obj_index)-1)
+            self.vm_session.glwidget.vm_widget.editing_mols = not self.vm_session.glwidget.vm_widget.editing_mols
     
 
 
@@ -156,16 +156,16 @@ class GtkMainTreeView():
         model = tree.get_model()
         (model, iter) = selection.get_selected()
         obj_index = model.get_value(iter, 1)
-        visObj = self.vismolSession.vismol_objects[(int(obj_index)-1)]
+        visObj = self.vm_session.vismol_objects[(int(obj_index)-1)]
 
         
         if widget == self.builder.get_object('menuitem_center'):
-            self.vismolSession.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+            self.vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
 
         
         if widget == self.builder.get_object('menu_show_lines'):
             visObj.lines_actived     =  True
-            #self.vismolSession._show_lines (visObj = visObj)
+            #self.vm_session._show_lines (visObj = visObj)
 
 
         if widget == self.builder.get_object('menu_show_sticks'):
@@ -179,14 +179,14 @@ class GtkMainTreeView():
 
         if widget == self.builder.get_object('menu_show_dots'):
             visObj.dots_actived      =  True
-            self.vismolSession.glwidget.vm_widget.queue_draw()
+            self.vm_session.glwidget.vm_widget.queue_draw()
 
 
         
         
         if widget == self.builder.get_object('menu_hide_lines'):
             visObj.lines_actived     = False
-            #self.vismolSession._hide_lines (visObj = visObj)
+            #self.vm_session._hide_lines (visObj = visObj)
 
         if widget == self.builder.get_object('menu_hide_sticks'):
             visObj.sticks_actived = False
@@ -199,6 +199,6 @@ class GtkMainTreeView():
             
         if widget == self.builder.get_object('menu_hide_dots'):
             visObj.dots_actived      = False
-            self.vismolSession.glwidget.vm_widget.queue_draw()
+            self.vm_session.glwidget.vm_widget.queue_draw()
         
 

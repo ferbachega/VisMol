@@ -826,7 +826,7 @@ struct __pyx_opt_args_6vBabel_8GROFiles_get_atom_info_from_raw_line;
 /* "vBabel/GROFiles.pyx":12
  * from pprint import pprint
  * 
- * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
+ * cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
@@ -834,7 +834,7 @@ struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file {
   int __pyx_n;
   PyObject *infile;
   PyObject *gridsize;
-  PyObject *vismolSession;
+  PyObject *vm_session;
 };
 
 /* "vBabel/GROFiles.pyx":82
@@ -1314,9 +1314,9 @@ static const char __pyx_k_occupancy[] = "occupancy";
 static const char __pyx_k_readlines[] = "readlines";
 static const char __pyx_k_get_symbol[] = "get_symbol";
 static const char __pyx_k_trajectory[] = "trajectory";
+static const char __pyx_k_vm_session[] = "vm_session";
 static const char __pyx_k_get_cov_rad[] = "get_cov_rad";
 static const char __pyx_k_VismolObject[] = "VismolObject";
-static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_multiprocessing[] = "multiprocessing";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_MolecularProperties[] = "MolecularProperties";
@@ -1366,8 +1366,8 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_trajectory;
 static PyObject *__pyx_n_s_vModel;
-static PyObject *__pyx_n_s_vismolSession;
-static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession); /* proto */
+static PyObject *__pyx_n_s_vm_session;
+static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vm_session); /* proto */
 static PyObject *__pyx_pf_6vBabel_8GROFiles_2get_atom_info_from_raw_line(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_lines, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -1392,7 +1392,7 @@ static PyObject *__pyx_slice__7;
 /* "vBabel/GROFiles.pyx":12
  * from pprint import pprint
  * 
- * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
+ * cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
@@ -1400,7 +1400,7 @@ static PyObject *__pyx_slice__7;
 static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8GROFiles_load_gro_file *__pyx_optional_args) {
   PyObject *__pyx_v_infile = ((PyObject *)Py_None);
-  PyObject *__pyx_v_vismolSession = ((PyObject *)Py_None);
+  PyObject *__pyx_v_vm_session = ((PyObject *)Py_None);
   PyObject *__pyx_v_at = NULL;
   PyObject *__pyx_v_gro_file = NULL;
   PyObject *__pyx_v_grotext = NULL;
@@ -1430,7 +1430,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_infile = __pyx_optional_args->infile;
       if (__pyx_optional_args->__pyx_n > 2) {
-        __pyx_v_vismolSession = __pyx_optional_args->vismolSession;
+        __pyx_v_vm_session = __pyx_optional_args->vm_session;
       }
     }
   }
@@ -1777,7 +1777,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
  *                                                atoms       = atoms,
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -1792,7 +1792,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,             # <<<<<<<<<<<<<<
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  *                                                trajectory  = frames,
  */
   if (unlikely(!__pyx_v_atoms)) { __Pyx_RaiseUnboundLocalError("atoms"); __PYX_ERR(0, 50, __pyx_L1_error) }
@@ -1801,15 +1801,15 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
   /* "vBabel/GROFiles.pyx":51
  *     vismol_object  = VismolObject.VismolObject(name        = name,
  *                                                atoms       = atoms,
- *                                                vismolSession   = vismolSession,             # <<<<<<<<<<<<<<
+ *                                                vm_session   = vm_session,             # <<<<<<<<<<<<<<
  *                                                trajectory  = frames,
  *                                                auto_find_bonded_and_nonbonded = True)
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
   /* "vBabel/GROFiles.pyx":52
  *                                                atoms       = atoms,
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  *                                                trajectory  = frames,             # <<<<<<<<<<<<<<
  *                                                auto_find_bonded_and_nonbonded = True)
  *     '''
@@ -1818,7 +1818,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_trajectory, __pyx_v_frames) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
 
   /* "vBabel/GROFiles.pyx":53
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  *                                                trajectory  = frames,
  *                                                auto_find_bonded_and_nonbonded = True)             # <<<<<<<<<<<<<<
  *     '''
@@ -1831,7 +1831,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
  *     name = os.path.basename(infile)
  *     vismol_object  = VismolObject.VismolObject(name        = name,             # <<<<<<<<<<<<<<
  *                                                atoms       = atoms,
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  */
   __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
@@ -1855,7 +1855,7 @@ static PyObject *__pyx_f_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED int __pyx
   /* "vBabel/GROFiles.pyx":12
  * from pprint import pprint
  * 
- * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):             # <<<<<<<<<<<<<<
+ * cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
@@ -1889,12 +1889,12 @@ static char __pyx_doc_6vBabel_8GROFiles_load_gro_file[] = " Function doc \n\n   
 static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_infile = 0;
   PyObject *__pyx_v_gridsize = 0;
-  PyObject *__pyx_v_vismolSession = 0;
+  PyObject *__pyx_v_vm_session = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("load_gro_file (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_infile,&__pyx_n_s_gridsize,&__pyx_n_s_vismolSession,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_infile,&__pyx_n_s_gridsize,&__pyx_n_s_vm_session,0};
     PyObject* values[3] = {0,0,0};
     values[0] = ((PyObject *)Py_None);
     values[1] = ((PyObject *)__pyx_int_3);
@@ -1928,7 +1928,7 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self,
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vismolSession);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vm_session);
           if (value) { values[2] = value; kw_args--; }
         }
       }
@@ -1949,7 +1949,7 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self,
     }
     __pyx_v_infile = values[0];
     __pyx_v_gridsize = values[1];
-    __pyx_v_vismolSession = values[2];
+    __pyx_v_vm_session = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -1959,14 +1959,14 @@ static PyObject *__pyx_pw_6vBabel_8GROFiles_1load_gro_file(PyObject *__pyx_self,
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6vBabel_8GROFiles_load_gro_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vismolSession);
+  __pyx_r = __pyx_pf_6vBabel_8GROFiles_load_gro_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vm_session);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession) {
+static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vm_session) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1976,7 +1976,7 @@ static PyObject *__pyx_pf_6vBabel_8GROFiles_load_gro_file(CYTHON_UNUSED PyObject
   __pyx_t_2.__pyx_n = 3;
   __pyx_t_2.infile = __pyx_v_infile;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
-  __pyx_t_2.vismolSession = __pyx_v_vismolSession;
+  __pyx_t_2.vm_session = __pyx_v_vm_session;
   __pyx_t_1 = __pyx_f_6vBabel_8GROFiles_load_gro_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -2866,7 +2866,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_trajectory, __pyx_k_trajectory, sizeof(__pyx_k_trajectory), 0, 0, 1, 1},
   {&__pyx_n_s_vModel, __pyx_k_vModel, sizeof(__pyx_k_vModel), 0, 0, 1, 1},
-  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
+  {&__pyx_n_s_vm_session, __pyx_k_vm_session, sizeof(__pyx_k_vm_session), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -3335,7 +3335,7 @@ if (!__Pyx_RefNanny) {
  * 
  * from pprint import pprint             # <<<<<<<<<<<<<<
  * 
- * cpdef load_gro_file (infile = None, gridsize = 3, vismolSession =  None):
+ * cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

@@ -46,12 +46,12 @@ class VismolGTK3Session():
                                          
                                          
         #---------------------------------------------------------------------------  
-        self.vismolSession  =  VisMolSession(glwidget = True, toolkit = 'gtk3')       
-        self.vismolSession.insert_glmenu()
-        self.container.pack_start(self.vismolSession.glwidget, True, True, 0)         
+        self.vm_session  =  VisMolSession(glwidget = True, toolkit = 'gtk3')       
+        self.vm_session.insert_glmenu()
+        self.container.pack_start(self.vm_session.glwidget, True, True, 0)         
                                          
-        self.window.connect("key-press-event"  , self.vismolSession.glwidget.key_pressed)  
-        self.window.connect("key-release-event", self.vismolSession.glwidget.key_released) 
+        self.window.connect("key-press-event"  , self.vm_session.glwidget.key_pressed)  
+        self.window.connect("key-release-event", self.vm_session.glwidget.key_released) 
         self.window.add(self.container)                                                    
         #------------------------------------------------------------------------
         self.entry = Gtk.Entry()
@@ -69,12 +69,12 @@ class VismolGTK3Session():
         #filein = args[-1]
         
         #---------------------------------------------------------------------------
-        self.vismolSession.load(filein)
-        #self.vismolSession._picking_selection_mode = False
-        #self.vismolSession.load('/home/fernando/programs/EasyHybrid3/Coords/pdbs/1gab.pdb')
+        self.vm_session.load(filein)
+        #self.vm_session._picking_selection_mode = False
+        #self.vm_session.load('/home/fernando/programs/EasyHybrid3/Coords/pdbs/1gab.pdb')
 
-        #visObj = vismolSession.vismol_objects[-1]
-        #vismolSession.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+        #visObj = vm_session.vismol_objects[-1]
+        #vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
         #---------------------------------------------------------------------------
 
         #def run(self):

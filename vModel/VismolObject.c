@@ -1480,6 +1480,7 @@ static const char __pyx_k_bonds_list[] = "bonds_list";
 static const char __pyx_k_color_step[] = "color_step";
 static const char __pyx_k_frame_size[] = "frame_size";
 static const char __pyx_k_trajectory[] = "trajectory";
+static const char __pyx_k_vm_session[] = "vm_session";
 static const char __pyx_k_atom_before[] = "atom_before";
 static const char __pyx_k_atom_dic_id[] = "atom_dic_id";
 static const char __pyx_k_ball_radius[] = "ball_radius";
@@ -1511,7 +1512,6 @@ static const char __pyx_k_cov_dot_sizes[] = "cov_dot_sizes";
 static const char __pyx_k_do_colors_idx[] = "do_colors_idx";
 static const char __pyx_k_gl_parameters[] = "gl_parameters";
 static const char __pyx_k_vdw_dot_sizes[] = "vdw_dot_sizes";
-static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_ball_and_stick[] = "ball_and_stick";
 static const char __pyx_k_bond_tolerance[] = "bond_tolerance";
 static const char __pyx_k_colors_rainbow[] = "colors_rainbow";
@@ -1572,7 +1572,7 @@ static const char __pyx_k_VismolGeometricObject___init[] = "VismolGeometricObjec
 static const char __pyx_k_VismolObject_set_model_matrix[] = "VismolObject.set_model_matrix";
 static const char __pyx_k_auto_find_bonded_and_nonbonded[] = "auto_find_bonded_and_nonbonded";
 static const char __pyx_k_init_find_bonded_and_nonbonded[] = "_init_find_bonded_and_nonbonded_atoms";
-static const char __pyx_k_Class_doc_Visual_Object_contain[] = " Class doc \n    \n    \n    Visual Object contains the information necessary for openGL to draw \n    a model on the screen. Everything that is represented in the graphical \n    form is stored in the form of a VismolObject.\n    \n    Arguments\n    \n    name       = string  - Label that describes the object  \n    atoms      = list of atoms  - [index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch]\n    vismolSession  = Vismol Session - Necessary to build the \"atomtree_structure\"\n                 vismolSession contains the atom_id_counter (self.vismolSession.atom_id_counter)\n    \n    trajectory = A list of coordinates - eg [ [x1,y1,z1, x2,y2,z2...], [x1,y1,z1, x2,y2,z2...]...]\n                 One frame is is required at last.\n    \n    \n    Attributes \n    \n    self.active            = False\n    self.editing            = False\n    self.Type               = 'molecule'\n    self.name               = name #self._get_name(name)\n    self.mass_center        = Center of mass <- necessary to center the object on the screen\n                              calculated on _generate_atomtree_structure\n    \n    self.atoms2             = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n    self.atoms              = [Atom1, atom2, ...] <--- Atom objects (from vModel.Atom       import Atom)\n    \n    self.residues           = []\n    self.chains             = {}\n    self.frames             = trajectory    \n    self.atom_unique_id_dic = {}    \n    \n    \n    #-----------------------#\n    #         Bonds         #\n    #-----------------------#\n    \n    self.index_bonds        = []\n    self.index_bonds_rep    = []\n    self.index_bonds_pairs  = [] \n    \n    self.non_bonded_atoms   = None    \n    ";
+static const char __pyx_k_Class_doc_Visual_Object_contain[] = " Class doc \n    \n    \n    Visual Object contains the information necessary for openGL to draw \n    a model on the screen. Everything that is represented in the graphical \n    form is stored in the form of a VismolObject.\n    \n    Arguments\n    \n    name       = string  - Label that describes the object  \n    atoms      = list of atoms  - [index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch]\n    vm_session  = Vismol Session - Necessary to build the \"atomtree_structure\"\n                 vm_session contains the atom_id_counter (self.vm_session.atom_id_counter)\n    \n    trajectory = A list of coordinates - eg [ [x1,y1,z1, x2,y2,z2...], [x1,y1,z1, x2,y2,z2...]...]\n                 One frame is is required at last.\n    \n    \n    Attributes \n    \n    self.active            = False\n    self.editing            = False\n    self.Type               = 'molecule'\n    self.name               = name #self._get_name(name)\n    self.mass_center        = Center of mass <- necessary to center the object on the screen\n                              calculated on _generate_atomtree_structure\n    \n    self.atoms2             = [[index, at_name, cov_rad,  at_pos, at_res_i, at_res_n, at_ch], ...]\n    self.atoms              = [Atom1, atom2, ...] <--- Atom objects (from vModel.Atom       import Atom)\n    \n    self.residues           = []\n    self.chains             = {}\n    self.frames             = trajectory    \n    self.atom_unique_id_dic = {}    \n    \n    \n    #-----------------------#\n    #         Bonds         #\n    #-----------------------#\n    \n    self.index_bonds        = []\n    self.index_bonds_rep    = []\n    self.index_bonds_pairs  = [] \n    \n    self.non_bonded_atoms   = None    \n    ";
 static const char __pyx_k_VismolGeometricObject__generate[] = "VismolGeometricObject._generate_color_vectors";
 static const char __pyx_k_VismolGeometricObject_set_model[] = "VismolGeometricObject.set_model_matrix";
 static const char __pyx_k_VismolObject__generate_atomtree[] = "VismolObject._generate_atomtree_structure";
@@ -1857,18 +1857,18 @@ static PyObject *__pyx_n_s_vModel_cDistances;
 static PyObject *__pyx_n_s_vdw_dot_sizes;
 static PyObject *__pyx_n_s_vdw_rad;
 static PyObject *__pyx_n_s_visObj;
-static PyObject *__pyx_n_s_vismolSession;
 static PyObject *__pyx_n_s_vm_font;
+static PyObject *__pyx_n_s_vm_session;
 static PyObject *__pyx_n_s_vm_widget;
 static PyObject *__pyx_n_s_vmf;
 static PyObject *__pyx_n_s_vobj_selected_atoms;
 static PyObject *__pyx_n_s_wires;
-static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vismolSession); /* proto */
+static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vm_session); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_new_atom_list_to_vismol_geometric_object(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_atoms); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_4set_model_matrix(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_mat); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_generate_color_vectors(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject___defaults__(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_active, PyObject *__pyx_v_name, PyObject *__pyx_v_atoms, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_trajectory, PyObject *__pyx_v_bonds_pair_of_indexes, PyObject *__pyx_v_color_palette, PyObject *__pyx_v_auto_find_bonded_and_nonbonded); /* proto */
+static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_active, PyObject *__pyx_v_name, PyObject *__pyx_v_atoms, PyObject *__pyx_v_vm_session, PyObject *__pyx_v_trajectory, PyObject *__pyx_v_bonds_pair_of_indexes, PyObject *__pyx_v_color_palette, PyObject *__pyx_v_auto_find_bonded_and_nonbonded); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_to_vobj(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_atom); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_representation(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_rtype, PyObject *__pyx_v_indexes); /* proto */
 static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_mass(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_frame); /* proto */
@@ -1942,9 +1942,9 @@ static PyObject *__pyx_codeobj__44;
 /* "vModel/VismolObject.pyx":54
  *     """ Class doc """
  * 
- *     def __init__ (self, vismolSession =  None):             # <<<<<<<<<<<<<<
+ *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
- *         self.vismolSession = vismolSession
+ *         self.vm_session = vm_session
  */
 
 /* Python wrapper */
@@ -1953,12 +1953,12 @@ static char __pyx_doc_6vModel_12VismolObject_21VismolGeometricObject___init__[] 
 static PyMethodDef __pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6vModel_12VismolObject_21VismolGeometricObject___init__};
 static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
-  PyObject *__pyx_v_vismolSession = 0;
+  PyObject *__pyx_v_vm_session = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_vismolSession,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_vm_session,0};
     PyObject* values[2] = {0,0};
     values[1] = ((PyObject *)((PyObject *)Py_None));
     if (unlikely(__pyx_kwds)) {
@@ -1980,7 +1980,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vismolSession);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vm_session);
           if (value) { values[1] = value; kw_args--; }
         }
       }
@@ -1997,7 +1997,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init
       }
     }
     __pyx_v_self = values[0];
-    __pyx_v_vismolSession = values[1];
+    __pyx_v_vm_session = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -2007,14 +2007,14 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init__(__pyx_self, __pyx_v_self, __pyx_v_vismolSession);
+  __pyx_r = __pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init__(__pyx_self, __pyx_v_self, __pyx_v_vm_session);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vismolSession) {
+static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_vm_session) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2024,16 +2024,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init_
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "vModel/VismolObject.pyx":56
- *     def __init__ (self, vismolSession =  None):
+ *     def __init__ (self, vm_session =  None):
  *         """ Class initialiser """
- *         self.vismolSession = vismolSession             # <<<<<<<<<<<<<<
+ *         self.vm_session = vm_session             # <<<<<<<<<<<<<<
  * 
  *         self.atoms              = []    # this a list  atom objects!
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
 
   /* "vModel/VismolObject.pyx":58
- *         self.vismolSession = vismolSession
+ *         self.vm_session = vm_session
  * 
  *         self.atoms              = []    # this a list  atom objects!             # <<<<<<<<<<<<<<
  *         #-----------------------#
@@ -2160,9 +2160,9 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init_
   /* "vModel/VismolObject.pyx":54
  *     """ Class doc """
  * 
- *     def __init__ (self, vismolSession =  None):             # <<<<<<<<<<<<<<
+ *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
- *         self.vismolSession = vismolSession
+ *         self.vm_session = vm_session
  */
 
   /* function exit code */
@@ -2186,7 +2186,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init_
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
  *         """ Function doc """
- *         frame_number = self.vismolSession.frame -1
+ *         frame_number = self.vm_session.frame -1
  */
 
 /* Python wrapper */
@@ -2276,11 +2276,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   /* "vModel/VismolObject.pyx":80
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):
  *         """ Function doc """
- *         frame_number = self.vismolSession.frame -1             # <<<<<<<<<<<<<<
- *         #self.set_model_matrix(self.self.vismolSession.glwidget.vm_widget.model_mat)
+ *         frame_number = self.vm_session.frame -1             # <<<<<<<<<<<<<<
+ *         #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
  *         self.frames      = []
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_frame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2292,8 +2292,8 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   __pyx_t_1 = 0;
 
   /* "vModel/VismolObject.pyx":82
- *         frame_number = self.vismolSession.frame -1
- *         #self.set_model_matrix(self.self.vismolSession.glwidget.vm_widget.model_mat)
+ *         frame_number = self.vm_session.frame -1
+ *         #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
  *         self.frames      = []             # <<<<<<<<<<<<<<
  *         self.index_bonds = []
  *         self.atoms       = atoms
@@ -2304,7 +2304,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "vModel/VismolObject.pyx":83
- *         #self.set_model_matrix(self.self.vismolSession.glwidget.vm_widget.model_mat)
+ *         #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
  *         self.frames      = []
  *         self.index_bonds = []             # <<<<<<<<<<<<<<
  *         self.atoms       = atoms
@@ -2839,7 +2839,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
  *         print (self.index_bonds)
  *         if len(self.index_bonds)>= 2:             # <<<<<<<<<<<<<<
  * 
- *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vismolSession.glwidget.vm_widget)
+ *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
  */
   __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
@@ -2851,7 +2851,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     /* "vModel/VismolObject.pyx":132
  *         if len(self.index_bonds)>= 2:
  * 
- *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vismolSession.glwidget.vm_widget)             # <<<<<<<<<<<<<<
+ *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  *             self.representations['lines'] = rep
  *         else:
  */
@@ -2863,7 +2863,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
     if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
     if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -2882,7 +2882,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
 
     /* "vModel/VismolObject.pyx":133
  * 
- *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vismolSession.glwidget.vm_widget)
+ *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
  *             self.representations['lines'] = rep             # <<<<<<<<<<<<<<
  *         else:
  *             if self.representations['lines']:
@@ -2897,7 +2897,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
  *         print (self.index_bonds)
  *         if len(self.index_bonds)>= 2:             # <<<<<<<<<<<<<<
  * 
- *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vismolSession.glwidget.vm_widget)
+ *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
  */
     goto __pyx_L12;
   }
@@ -2950,7 +2950,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
  *         """ Function doc """
- *         frame_number = self.vismolSession.frame -1
+ *         frame_number = self.vm_session.frame -1
  */
 
   /* function exit code */
@@ -4202,7 +4202,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
   PyObject *__pyx_v_active = 0;
   PyObject *__pyx_v_name = 0;
   PyObject *__pyx_v_atoms = 0;
-  PyObject *__pyx_v_vismolSession = 0;
+  PyObject *__pyx_v_vm_session = 0;
   PyObject *__pyx_v_trajectory = 0;
   PyObject *__pyx_v_bonds_pair_of_indexes = 0;
   PyObject *__pyx_v_color_palette = 0;
@@ -4211,7 +4211,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_active,&__pyx_n_s_name,&__pyx_n_s_atoms,&__pyx_n_s_vismolSession,&__pyx_n_s_trajectory,&__pyx_n_s_bonds_pair_of_indexes,&__pyx_n_s_color_palette,&__pyx_n_s_auto_find_bonded_and_nonbonded,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_active,&__pyx_n_s_name,&__pyx_n_s_atoms,&__pyx_n_s_vm_session,&__pyx_n_s_trajectory,&__pyx_n_s_bonds_pair_of_indexes,&__pyx_n_s_color_palette,&__pyx_n_s_auto_find_bonded_and_nonbonded,0};
     PyObject* values[9] = {0,0,0,0,0,0,0,0,0};
     __pyx_defaults *__pyx_dynamic_args = __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_self);
     values[1] = ((PyObject *)((PyObject *)Py_False));
@@ -4273,7 +4273,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
         CYTHON_FALLTHROUGH;
         case  4:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vismolSession);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vm_session);
           if (value) { values[4] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
@@ -4331,7 +4331,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
     __pyx_v_active = values[1];
     __pyx_v_name = values[2];
     __pyx_v_atoms = values[3];
-    __pyx_v_vismolSession = values[4];
+    __pyx_v_vm_session = values[4];
     __pyx_v_trajectory = values[5];
     __pyx_v_bonds_pair_of_indexes = values[6];
     __pyx_v_color_palette = values[7];
@@ -4345,14 +4345,14 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6vModel_12VismolObject_12VismolObject___init__(__pyx_self, __pyx_v_self, __pyx_v_active, __pyx_v_name, __pyx_v_atoms, __pyx_v_vismolSession, __pyx_v_trajectory, __pyx_v_bonds_pair_of_indexes, __pyx_v_color_palette, __pyx_v_auto_find_bonded_and_nonbonded);
+  __pyx_r = __pyx_pf_6vModel_12VismolObject_12VismolObject___init__(__pyx_self, __pyx_v_self, __pyx_v_active, __pyx_v_name, __pyx_v_atoms, __pyx_v_vm_session, __pyx_v_trajectory, __pyx_v_bonds_pair_of_indexes, __pyx_v_color_palette, __pyx_v_auto_find_bonded_and_nonbonded);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_active, PyObject *__pyx_v_name, PyObject *__pyx_v_atoms, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_trajectory, PyObject *__pyx_v_bonds_pair_of_indexes, PyObject *__pyx_v_color_palette, PyObject *__pyx_v_auto_find_bonded_and_nonbonded) {
+static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_active, PyObject *__pyx_v_name, PyObject *__pyx_v_atoms, PyObject *__pyx_v_vm_session, PyObject *__pyx_v_trajectory, PyObject *__pyx_v_bonds_pair_of_indexes, PyObject *__pyx_v_color_palette, PyObject *__pyx_v_auto_find_bonded_and_nonbonded) {
   PyObject *__pyx_v_index = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -4368,24 +4368,24 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
   /* "vModel/VismolObject.pyx":329
  *         #                V I S M O L   a t t r i b u t e s
  *         #-----------------------------------------------------------------
- *         self.vismolSession    = vismolSession     #             # <<<<<<<<<<<<<<
- *         self.index            = 0             # import to find vboject in self.vismolSession.vismol_objects_dic
+ *         self.vm_session    = vm_session     #             # <<<<<<<<<<<<<<
+ *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
  *         self.active           = active        # for "show and hide"   enable/disable
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
 
   /* "vModel/VismolObject.pyx":330
  *         #-----------------------------------------------------------------
- *         self.vismolSession    = vismolSession     #
- *         self.index            = 0             # import to find vboject in self.vismolSession.vismol_objects_dic             # <<<<<<<<<<<<<<
+ *         self.vm_session    = vm_session     #
+ *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic             # <<<<<<<<<<<<<<
  *         self.active           = active        # for "show and hide"   enable/disable
  *         self.editing          = False         # for translate and rotate  xyz coords
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index, __pyx_int_0) < 0) __PYX_ERR(0, 330, __pyx_L1_error)
 
   /* "vModel/VismolObject.pyx":331
- *         self.vismolSession    = vismolSession     #
- *         self.index            = 0             # import to find vboject in self.vismolSession.vismol_objects_dic
+ *         self.vm_session    = vm_session     #
+ *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
  *         self.active           = active        # for "show and hide"   enable/disable             # <<<<<<<<<<<<<<
  *         self.editing          = False         # for translate and rotate  xyz coords
  *         self.Type             = 'molecule'    # Not used yet
@@ -4393,7 +4393,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_active, __pyx_v_active) < 0) __PYX_ERR(0, 331, __pyx_L1_error)
 
   /* "vModel/VismolObject.pyx":332
- *         self.index            = 0             # import to find vboject in self.vismolSession.vismol_objects_dic
+ *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
  *         self.active           = active        # for "show and hide"   enable/disable
  *         self.editing          = False         # for translate and rotate  xyz coords             # <<<<<<<<<<<<<<
  *         self.Type             = 'molecule'    # Not used yet
@@ -5059,7 +5059,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  *             # this used just when the vobject is initialized
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,             # <<<<<<<<<<<<<<
  *                                                        frame     = 0         ,
- *                                                        gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'],
+ *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
  */
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_init_find_bonded_and_nonbonded); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 444, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -5074,11 +5074,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     /* "vModel/VismolObject.pyx":446
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,
  *                                                        frame     = 0         ,
- *                                                        gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'],             # <<<<<<<<<<<<<<
- *                                                        maxbond   = self.vismolSession.vConfig.gl_parameters['maxbond' ],
- *                                                        tolerance = self.vismolSession.vConfig.gl_parameters['bond_tolerance'])
+ *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],             # <<<<<<<<<<<<<<
+ *                                                        maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],
+ *                                                        tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -5094,12 +5094,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
 
     /* "vModel/VismolObject.pyx":447
  *                                                        frame     = 0         ,
- *                                                        gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'],
- *                                                        maxbond   = self.vismolSession.vConfig.gl_parameters['maxbond' ],             # <<<<<<<<<<<<<<
- *                                                        tolerance = self.vismolSession.vConfig.gl_parameters['bond_tolerance'])
+ *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
+ *                                                        maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],             # <<<<<<<<<<<<<<
+ *                                                        tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -5114,13 +5114,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "vModel/VismolObject.pyx":448
- *                                                        gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'],
- *                                                        maxbond   = self.vismolSession.vConfig.gl_parameters['maxbond' ],
- *                                                        tolerance = self.vismolSession.vConfig.gl_parameters['bond_tolerance'])             # <<<<<<<<<<<<<<
+ *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
+ *                                                        maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],
+ *                                                        tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])             # <<<<<<<<<<<<<<
  * 
  *             '''the nonbonded attribute of the atom object concerns representation.
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -5139,7 +5139,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  *             # this used just when the vobject is initialized
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,             # <<<<<<<<<<<<<<
  *                                                        frame     = 0         ,
- *                                                        gridsize  = self.vismolSession.vConfig.gl_parameters['gridsize'],
+ *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
  */
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -6169,16 +6169,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
   /* "vModel/VismolObject.pyx":554
  *         #sum_z += atom.pos[2]
  * 
- *         self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom             # <<<<<<<<<<<<<<
- *         self.vismolSession.atom_id_counter +=1
+ *         self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom             # <<<<<<<<<<<<<<
+ *         self.vm_session.atom_id_counter +=1
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -6189,12 +6189,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
 
   /* "vModel/VismolObject.pyx":555
  * 
- *         self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
- *         self.vismolSession.atom_id_counter +=1             # <<<<<<<<<<<<<<
+ *         self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
+ *         self.vm_session.atom_id_counter +=1             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -6367,7 +6367,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                      _type = 'geo',
  *                                                                    indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                     visObj = self,
- *                                                                     glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
 
@@ -6375,7 +6375,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                      _type = 'geo',
  *                                                                    indexes = indexes,
  *                                                                     visObj = self,             # <<<<<<<<<<<<<<
- *                                                                     glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  *         if rtype == 'nonbonded':
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
@@ -6383,11 +6383,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":568
  *                                                                    indexes = indexes,
  *                                                                     visObj = self,
- *                                                                     glCore = self.vismolSession.glwidget.vm_widget)             # <<<<<<<<<<<<<<
+ *                                                                     glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  *         if rtype == 'nonbonded':
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 568, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6426,7 +6426,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
 
   /* "vModel/VismolObject.pyx":569
  *                                                                     visObj = self,
- *                                                                     glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  *         if rtype == 'nonbonded':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',
@@ -6462,7 +6462,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
 
@@ -6470,7 +6470,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
@@ -6478,11 +6478,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":576
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)             # <<<<<<<<<<<<<<
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  * 
  *         if rtype == 'dots':
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 576, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6512,7 +6512,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
 
     /* "vModel/VismolObject.pyx":569
  *                                                                     visObj = self,
- *                                                                     glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  *         if rtype == 'nonbonded':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',
@@ -6520,7 +6520,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
   }
 
   /* "vModel/VismolObject.pyx":578
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  *         if rtype == 'dots':             # <<<<<<<<<<<<<<
  * 
@@ -6557,7 +6557,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
 
@@ -6565,7 +6565,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
@@ -6573,11 +6573,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":585
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)             # <<<<<<<<<<<<<<
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 585, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 585, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 585, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6606,7 +6606,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
     /* "vModel/VismolObject.pyx":578
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  *         if rtype == 'dots':             # <<<<<<<<<<<<<<
  * 
@@ -6652,7 +6652,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
 
@@ -6660,7 +6660,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  *         if rtype == 'ribbons':
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
@@ -6668,11 +6668,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":595
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )             # <<<<<<<<<<<<<<
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )             # <<<<<<<<<<<<<<
  *         if rtype == 'ribbons':
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6711,7 +6711,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
 
   /* "vModel/VismolObject.pyx":596
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  *         if rtype == 'ribbons':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons',
@@ -6746,7 +6746,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  * 
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
@@ -6754,11 +6754,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":602
  *                                                                  _type = 'geo',
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )             # <<<<<<<<<<<<<<
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )             # <<<<<<<<<<<<<<
  * 
  *         if rtype == 'spheres':
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6788,7 +6788,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
 
     /* "vModel/VismolObject.pyx":596
  *                                                                 visObj =  self,
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  *         if rtype == 'ribbons':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons',
@@ -6796,7 +6796,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
   }
 
   /* "vModel/VismolObject.pyx":604
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  * 
  *         if rtype == 'spheres':             # <<<<<<<<<<<<<<
  * 
@@ -6832,7 +6832,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                       active  = True,
  *                                                                       _type   = 'mol',
  *                                                                       visObj  = self,             # <<<<<<<<<<<<<<
- *                                                                       glCore  = self.vismolSession.glwidget.vm_widget,
+ *                                                                       glCore  = self.vm_session.glwidget.vm_widget,
  *                                                                       indexes  = indexes
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
@@ -6840,11 +6840,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":610
  *                                                                       _type   = 'mol',
  *                                                                       visObj  = self,
- *                                                                       glCore  = self.vismolSession.glwidget.vm_widget,             # <<<<<<<<<<<<<<
+ *                                                                       glCore  = self.vm_session.glwidget.vm_widget,             # <<<<<<<<<<<<<<
  *                                                                       indexes  = indexes
  *                                                                      )
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 610, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 610, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 610, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -6857,7 +6857,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
 
     /* "vModel/VismolObject.pyx":611
  *                                                                       visObj  = self,
- *                                                                       glCore  = self.vismolSession.glwidget.vm_widget,
+ *                                                                       glCore  = self.vm_session.glwidget.vm_widget,
  *                                                                       indexes  = indexes             # <<<<<<<<<<<<<<
  *                                                                      )
  * 
@@ -6914,7 +6914,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "vModel/VismolObject.pyx":604
- *                                                                 glCore = self.vismolSession.glwidget.vm_widget )
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  * 
  *         if rtype == 'spheres':             # <<<<<<<<<<<<<<
  * 
@@ -6959,7 +6959,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  *                                                                        active =  True,
  *                                                                         _type = 'geo',
  *                                                                        visObj =  self,             # <<<<<<<<<<<<<<
- *                                                                        glCore = self.vismolSession.glwidget.vm_widget)
+ *                                                                        glCore = self.vm_session.glwidget.vm_widget)
  * 
  */
     if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 630, __pyx_L1_error)
@@ -6967,11 +6967,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     /* "vModel/VismolObject.pyx":634
  *                                                                         _type = 'geo',
  *                                                                        visObj =  self,
- *                                                                        glCore = self.vismolSession.glwidget.vm_widget)             # <<<<<<<<<<<<<<
+ *                                                                        glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 634, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 634, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 634, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -8009,7 +8009,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
  *                                resn          = d_atom['resn']                      ,
  *                                chain         = d_atom['chain']                     ,             # <<<<<<<<<<<<<<
  * 
- *                                atom_id       = self.vismolSession.atom_id_counter  ,
+ *                                atom_id       = self.vm_session.atom_id_counter  ,
  */
     __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 710, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
@@ -8019,11 +8019,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     /* "vModel/VismolObject.pyx":712
  *                                chain         = d_atom['chain']                     ,
  * 
- *                                atom_id       = self.vismolSession.atom_id_counter  ,             # <<<<<<<<<<<<<<
+ *                                atom_id       = self.vm_session.atom_id_counter  ,             # <<<<<<<<<<<<<<
  * 
  *                                color         = d_atom['color']                     ,
  */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 712, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 712, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 712, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
@@ -8032,7 +8032,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "vModel/VismolObject.pyx":714
- *                                atom_id       = self.vismolSession.atom_id_counter  ,
+ *                                atom_id       = self.vm_session.atom_id_counter  ,
  * 
  *                                color         = d_atom['color']                     ,             # <<<<<<<<<<<<<<
  * 
@@ -8299,7 +8299,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
  *             atom.bonds          = d_atom['bonds']
  *             atom.isfree         = d_atom['isfree']             # <<<<<<<<<<<<<<
  * 
- *             self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+ *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  */
     __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_isfree); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 739, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
@@ -8309,16 +8309,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     /* "vModel/VismolObject.pyx":741
  *             atom.isfree         = d_atom['isfree']
  * 
- *             self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom             # <<<<<<<<<<<<<<
+ *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom             # <<<<<<<<<<<<<<
  *             self._add_new_atom_to_vobj(atom)
  * 
  */
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 741, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 741, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -8329,7 +8329,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
 
     /* "vModel/VismolObject.pyx":742
  * 
- *             self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+ *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  *             self._add_new_atom_to_vobj(atom)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -8849,7 +8849,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
  *                                resi          = atom2['resi']                      ,
  *                                resn          = atom2['resn']                      ,             # <<<<<<<<<<<<<<
  *                                chain         = atom2['chain']                     ,
- *                                atom_id       = self.vismolSession.atom_id_counter ,
+ *                                atom_id       = self.vm_session.atom_id_counter ,
  */
     __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_resn); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
@@ -8860,7 +8860,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
  *                                resi          = atom2['resi']                      ,
  *                                resn          = atom2['resn']                      ,
  *                                chain         = atom2['chain']                     ,             # <<<<<<<<<<<<<<
- *                                atom_id       = self.vismolSession.atom_id_counter ,
+ *                                atom_id       = self.vm_session.atom_id_counter ,
  *                                occupancy     = atom2['occupancy']                 ,
  */
     __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_chain); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 781, __pyx_L1_error)
@@ -8871,11 +8871,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     /* "vModel/VismolObject.pyx":782
  *                                resn          = atom2['resn']                      ,
  *                                chain         = atom2['chain']                     ,
- *                                atom_id       = self.vismolSession.atom_id_counter ,             # <<<<<<<<<<<<<<
+ *                                atom_id       = self.vm_session.atom_id_counter ,             # <<<<<<<<<<<<<<
  *                                occupancy     = atom2['occupancy']                 ,
  *                                bfactor       = atom2['bfactor']                   ,
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
@@ -8885,7 +8885,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
 
     /* "vModel/VismolObject.pyx":783
  *                                chain         = atom2['chain']                     ,
- *                                atom_id       = self.vismolSession.atom_id_counter ,
+ *                                atom_id       = self.vm_session.atom_id_counter ,
  *                                occupancy     = atom2['occupancy']                 ,             # <<<<<<<<<<<<<<
  *                                bfactor       = atom2['bfactor']                   ,
  *                                charge        = atom2['charge']                    ,
@@ -8896,7 +8896,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "vModel/VismolObject.pyx":784
- *                                atom_id       = self.vismolSession.atom_id_counter ,
+ *                                atom_id       = self.vm_session.atom_id_counter ,
  *                                occupancy     = atom2['occupancy']                 ,
  *                                bfactor       = atom2['bfactor']                   ,             # <<<<<<<<<<<<<<
  *                                charge        = atom2['charge']                    ,
@@ -8924,7 +8924,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
  *                                charge        = atom2['charge']                    ,
  *                                Vobject       = self                               ,             # <<<<<<<<<<<<<<
  *                                )
- *             self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+ *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  */
     if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
 
@@ -8945,16 +8945,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     /* "vModel/VismolObject.pyx":788
  *                                Vobject       = self                               ,
  *                                )
- *             self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom             # <<<<<<<<<<<<<<
+ *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom             # <<<<<<<<<<<<<<
  *             self._add_new_atom_to_vobj(atom)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 788, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 788, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 788, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -8965,7 +8965,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
 
     /* "vModel/VismolObject.pyx":789
  *                                )
- *             self.vismolSession.atom_dic_id[self.vismolSession.atom_id_counter] = atom
+ *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  *             self._add_new_atom_to_vobj(atom)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -13589,8 +13589,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_vdw_dot_sizes, __pyx_k_vdw_dot_sizes, sizeof(__pyx_k_vdw_dot_sizes), 0, 0, 1, 1},
   {&__pyx_n_s_vdw_rad, __pyx_k_vdw_rad, sizeof(__pyx_k_vdw_rad), 0, 0, 1, 1},
   {&__pyx_n_s_visObj, __pyx_k_visObj, sizeof(__pyx_k_visObj), 0, 0, 1, 1},
-  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
   {&__pyx_n_s_vm_font, __pyx_k_vm_font, sizeof(__pyx_k_vm_font), 0, 0, 1, 1},
+  {&__pyx_n_s_vm_session, __pyx_k_vm_session, sizeof(__pyx_k_vm_session), 0, 0, 1, 1},
   {&__pyx_n_s_vm_widget, __pyx_k_vm_widget, sizeof(__pyx_k_vm_widget), 0, 0, 1, 1},
   {&__pyx_n_s_vmf, __pyx_k_vmf, sizeof(__pyx_k_vmf), 0, 0, 1, 1},
   {&__pyx_n_s_vobj_selected_atoms, __pyx_k_vobj_selected_atoms, sizeof(__pyx_k_vobj_selected_atoms), 0, 0, 1, 1},
@@ -13622,11 +13622,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "vModel/VismolObject.pyx":54
  *     """ Class doc """
  * 
- *     def __init__ (self, vismolSession =  None):             # <<<<<<<<<<<<<<
+ *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
- *         self.vismolSession = vismolSession
+ *         self.vm_session = vm_session
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_vismolSession); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
   __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 54, __pyx_L1_error)
@@ -13639,7 +13639,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
  *         """ Function doc """
- *         frame_number = self.vismolSession.frame -1
+ *         frame_number = self.vm_session.frame -1
  */
   __pyx_tuple__7 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_atoms, __pyx_n_s_frame_number, __pyx_n_s_frame, __pyx_n_s_atom1, __pyx_n_s_atom2, __pyx_n_s_atom3, __pyx_n_s_atom4, __pyx_n_s_rep); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
@@ -13677,7 +13677,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *                   active                         = False,
  *                   name                           = 'UNK',
  */
-  __pyx_tuple__13 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_active, __pyx_n_s_name, __pyx_n_s_atoms, __pyx_n_s_vismolSession, __pyx_n_s_trajectory, __pyx_n_s_bonds_pair_of_indexes, __pyx_n_s_color_palette, __pyx_n_s_auto_find_bonded_and_nonbonded, __pyx_n_s_index); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_active, __pyx_n_s_name, __pyx_n_s_atoms, __pyx_n_s_vm_session, __pyx_n_s_trajectory, __pyx_n_s_bonds_pair_of_indexes, __pyx_n_s_color_palette, __pyx_n_s_auto_find_bonded_and_nonbonded, __pyx_n_s_index); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
   __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(9, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init, 315, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 315, __pyx_L1_error)
@@ -14505,9 +14505,9 @@ if (!__Pyx_RefNanny) {
   /* "vModel/VismolObject.pyx":54
  *     """ Class doc """
  * 
- *     def __init__ (self, vismolSession =  None):             # <<<<<<<<<<<<<<
+ *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
- *         self.vismolSession = vismolSession
+ *         self.vm_session = vm_session
  */
   __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_1__init__, 0, __pyx_n_s_VismolGeometricObject___init, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -14520,7 +14520,7 @@ if (!__Pyx_RefNanny) {
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
  *         """ Function doc """
- *         frame_number = self.vismolSession.frame -1
+ *         frame_number = self.vm_session.frame -1
  */
   __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_3add_new_atom_list_to_vismol_geometric_object, 0, __pyx_n_s_VismolGeometricObject_add_new_at, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -14589,7 +14589,7 @@ if (!__Pyx_RefNanny) {
  *                   active                         = False,
  *                   name                           = 'UNK',
  *                   atoms                          = []   ,             # <<<<<<<<<<<<<<
- *                   vismolSession                  = None ,
+ *                   vm_session                  = None ,
  *                   trajectory                     = None ,
  */
   __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 318, __pyx_L1_error)

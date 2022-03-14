@@ -108,7 +108,7 @@ if __name__ == '__main__':
 class PlayerFrame:
     """ Class doc """
     
-    def __init__ (self, vismol_session):
+    def __init__ (self, vm_session):
         """ Class initialiser """
         pass
         xml ='''
@@ -247,7 +247,7 @@ class PlayerFrame:
 
         '''
         
-        self.vismol_session = vismol_session
+        self.vm_session = vm_session
         
         self.builder = Gtk.Builder()
         #self.builder.add_from_string(xml)
@@ -269,7 +269,7 @@ class PlayerFrame:
         
         # combo box  - using the same Vismol_Objects_ListStore
         self.combo_box_objs = self.builder.get_object('combo_box_objects')
-        self.combo_box_objs.set_model(self.vismol_session.Vismol_Objects_ListStore)
+        self.combo_box_objs.set_model(self.vm_session.Vismol_Objects_ListStore)
         renderer_text = Gtk.CellRendererText()
         self.combo_box_objs.pack_start(renderer_text, True)
         self.combo_box_objs.add_attribute(renderer_text, "text", 2)
@@ -307,7 +307,7 @@ class PlayerFrame:
         value =  int(self.scale.get_value())
         value = value+1
         self.scale.set_value(int(value))
-        self.vismol_session.set_frame(int(value))
+        self.vm_session.set_frame(int(value))
         print(value)
 
     def reverse (self, button):
@@ -319,7 +319,7 @@ class PlayerFrame:
         else:
            value = value-1
 
-        self.vismol_session.set_frame(int(value))
+        self.vm_session.set_frame(int(value))
         self.scale.set_value(value)
         print(value)
 
@@ -330,7 +330,7 @@ class PlayerFrame:
         
         while value != 100:
             value += 1
-            self.vismol_session.set_frame(int(value))
+            self.vm_session.set_frame(int(value))
             
             self.scale.set_value(int(value))
             time.sleep(0.1)
@@ -352,7 +352,7 @@ class PlayerFrame:
         #scale = self.builder.get_object("trajectory_hscale")
         #scale.set_increments(1, 10)
         #scale.set_digits(0)
-        self.vismol_session.set_frame(int(value)) 
+        self.vm_session.set_frame(int(value)) 
         #print(value)
         
     def show_player (self, show = True):

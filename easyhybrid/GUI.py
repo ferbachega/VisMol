@@ -4,1240 +4,23 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from GTKGUI.gtkWidgets.filechooser import FileChooser
 from easyhybrid.pDynamoMethods.pDynamo2Vismol import *
+
+from easyhybrid.gui.easyhybrid_pDynamo_selection            import  PDynamoSelectionWindow
+from easyhybrid.gui.ImportNewSystem                         import  ImportANewSystemWindow 
+from easyhybrid.gui.easyhybrid_import_trajectory_window     import  ImportTrajectoryWindow 
+from easyhybrid.gui.PES_scan_window                         import  PotentialEnergyScanWindow 
+from easyhybrid.gui.molecular_dynamics_window               import  MolecularDynamicsWindow 
+from easyhybrid.gui.umbrella_sampling_window                import  UmbrellaSamplingWindow 
+from easyhybrid.gui.geometry_optimization_window            import  GeometryOptimizatrionWindow 
+from easyhybrid.gui.QCSetup_window                          import  EasyHybridSetupQCModelWindow 
+from easyhybrid.gui.merge_systems                           import  MergeSystemsWindow 
+
 import gc
 import os
 
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
 
-
-#from GTKGUI.gtkWidgets.main_treeview import GtkMainTreeView
-class EasyHydridPDynamoSelectionWindow:
-    """ Class doc """
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_pDynamo_selection.glade'))
-            self.builder.connect_signals(self)
-            
-            self.window = self.builder.get_object('pdynamo_selection_window')
-            self.window.set_title('pDynamo Selection Window')
-            self.window.set_keep_above(True)
-            
-            #self.chain_entry  = self.builder.get_object('chain_entry')
-            #self.resn_entry   = self.builder.get_object('resn_entry' )
-            #self.resi_entry   = self.builder.get_object('resi_entry' )
-            #self.atom_entry   = self.builder.get_object('atom_entry' )
-            self.builder.get_object('chain_entry').set_text(str(self.chain) )
-            self.builder.get_object('resn_entry' ).set_text(str(self.resn ) )
-            self.builder.get_object('resi_entry' ).set_text(str(self.resi ) )
-            self.builder.get_object('atom_entry' ).set_text(str(self.atom ) )
-            
-            
-            self.box_combo_methods = self.builder.get_object('box_combo_methods')
-            
-            #self.self.method_combobox   = self.builder.get_object('self.method_combobox'   )
-            #self.radius_spinbutton = self.builder.get_object('radius_spinbutton' )
-            #self.action_combobox   = self.builder.get_object('action_combobox'   )
-
-            method_store = Gtk.ListStore(str)
-            method_store.append(["ByComponent"])
-            method_store.append(["Complement"])
-            method_store.append(["ByAtom"])
-
-
-            #------------------------------------------------------------------
-            self.method_combo = Gtk.ComboBox.new_with_model(method_store)
-            renderer_text = Gtk.CellRendererText()
-            self.method_combo.pack_start(renderer_text, True)
-            self.method_combo.add_attribute(renderer_text, "text", 0)            
-            
-            self.method_combo.set_entry_text_column(0)
-            self.method_combo.set_active(0)
-            self.box_combo_methods.pack_start(self.method_combo, False, False, 0)
-            #------------------------------------------------------------------
-
-            
-            
-            
-            
-            self.radius_spinbutton  = self.builder.get_object('radius_spinbutton' )
-            #------------------------------------------------------------------
-            self.fps_adjustment = Gtk.Adjustment(value          = 24 , 
-                                                 upper          = 100, 
-                                                 step_increment = 1  , 
-                                                 page_increment = 10 )
-
-            self.radius_spinbutton.set_adjustment ( self.fps_adjustment)
-            #------------------------------------------------------------------
-
-
-
-
-            '''
-            self.box_combo_action = self.builder.get_object('box_combo_action' )
-            
-            action_store = Gtk.ListStore(str)
-            action_store.append(["ByComponent"])
-            action_store.append(["Complement"])
-            action_store.append(["ByLinearPolymer"])
-            #------------------------------------------------------------------
-            self.action_combo = Gtk.ComboBox.new_with_model(action_store)
-            renderer_text = Gtk.CellRendererText()
-            self.action_combo.pack_start(renderer_text, True)
-            self.action_combo.add_attribute(renderer_text, "text", 0)            
-            
-            self.action_combo.set_entry_text_column(0)
-            self.action_combo.set_active(0)
-            
-            self.box_combo_action.pack_start(self.action_combo, False, False, 0)
-            #------------------------------------------------------------------
-            '''
-                
-                
-                
-
-            self.window.show_all()
-            self.Visible  = True
-    
-    def import_data (self, button):
-        """ Function doc """
-        entry_name    = None
-        idnum     = self.combobox_pdynamo_system.get_active()
-        text      = self.combobox_pdynamo_system.get_active_text()
-        
-        print(idnum, text )
-
-    
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        self.window.destroy()
-        self.Visible    =  False
-    
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.vismolSession       = main.vismolSession
-        self.Visible             =  False        
-
-        self.chain = ''
-        self.resn  = ''
-        self.resi  = ''
-        self.atom  = ''
-
-    def run_selection (self, button):
-        """ Function doc """
-        #print('run_selection', self.method_combo.get_active(), self.radius_spinbutton.get_value ())
-        self.chain = self.builder.get_object('chain_entry').get_text()
-        self.resn  = self.builder.get_object('resn_entry' ).get_text()
-        self.resi  = self.builder.get_object('resi_entry' ).get_text()
-        self.atom  = self.builder.get_object('atom_entry' ).get_text()
-        
-        #print(chain,resn,resi, atom)
-        #'''
-        #atom1 = self.vismolSession.picking_selections.picking_selections_list[0]
-        #print (atom1.chain, atom1.resn, atom1.resi, atom1.name)
-        #print ("%s:%s.%s:%s" %(chain,resn,resi,atom))
-        
-        _centerAtom = "%s:%s.%s:%s" %(self.chain, 
-                                      self.resn,
-                                      self.resi,
-                                      self.atom)
-        _radius     =  self.radius_spinbutton.get_value ()
-        _method     =  self.method_combo.get_active()
-        
-        self.easyhybrid_main.pDynamo_session.selections (_centerAtom, _radius, _method )
-
-        if self.easyhybrid_main.vismolSession.selection_box_frane:
-            self.easyhybrid_main.vismolSession.selection_box_frane.change_toggle_button_selecting_mode_status(False)
-        else:
-            self.easyhybrid_main.vismolSession._picking_selection_mode = False
-        self.easyhybrid_main.vismolSession.glwidget.vm_widget.queue_draw()
-        
-        
-          
-    def get_info_from_selection (self, button):
-        """ Function doc """
-        #chain = self.builder.get_object('chain_entry').get_text()
-        #resn  = self.builder.get_object('resn_entry' ).get_text()
-        #resi  = self.builder.get_object('resi_entry' ).get_text()
-        #atom  = self.builder.get_object('atom_entry' ).get_text()
-        
-        atom1 = self.vismolSession.picking_selections.picking_selections_list[0]
-        if atom1:
-            #atom1.chain, atom1.resn, atom1.resi, atom1.name
-            
-            if atom1.chain =='':
-                chain = '*'
-            else:
-                chain = atom1.chain
-            
-            self.builder.get_object('chain_entry').set_text(str(chain)      )
-            self.builder.get_object('resn_entry' ).set_text(str(atom1.resn) )
-            self.builder.get_object('resi_entry' ).set_text(str(atom1.resi) )
-            self.builder.get_object('atom_entry' ).set_text(str(atom1.name) )
-        else:
-            print('use picking selection to chose the central atom')
-            
-            
-            
-            
-            
-
-class EasyHybridImportANewSystemWindow(Gtk.Window):
-    """ Class doc """
-    
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_widgets.glade'))
-            self.builder.connect_signals(self)
-            
-            self.window = self.builder.get_object('ImportNewSystemWindow')
-            self.window.set_border_width(10)
-            self.window.set_default_size(500, 370)  
-
-            
-            '''--------------------------------------------------------------------------------------------'''
-            self.system_type_store = Gtk.ListStore(str)
-            system_types = [
-                "AMBER",
-                "CHARMM",
-                "OPLS",
-                "pdynamo files (*.pkl, *.yaml)",
-                "other (*.pdb, *.xyz, *.mol2)",
-                ]
-            for system_type in system_types:
-                self.system_type_store.append([system_type])
-                print (system_type)
-            
-            self.system_types_combo = Gtk.ComboBox.new_with_model(self.system_type_store)
-            #self.system_types_combo = self.builder.get_object('system_type_combox_from_import_a_new_system')
-            self.box_combo = self.builder.get_object('box')
-            self.box_combo.pack_start(self.system_types_combo, True, True, 0)
-            
-            self.system_types_combo.connect("changed", self.on_name_combo_changed)
-            self.system_types_combo.set_model(self.system_type_store)
-            
-            renderer_text = Gtk.CellRendererText()
-            self.system_types_combo.pack_start(renderer_text, True)
-            self.system_types_combo.add_attribute(renderer_text, "text", 0)
-            '''--------------------------------------------------------------------------------------------'''
-           
-            
-            self.treeview = self.builder.get_object('gtktreeview_import_system')
-            for i, column_title in enumerate(['file', "type", "number of atoms"]):
-                renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-                self.treeview.append_column(column)
-
-            
-            self.window.show_all()                                               
-            self.builder.connect_signals(self)                                   
-            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-
-            self.Visible  =  True
-            
-            self.files    = {
-                            'amber_prmtop': None,
-                            'charmm_par'  : [],
-                            'charmm_psf'  : None,
-                            'charmm_extra': None, 
-                            'opls_folder' : [],
-                            'coordinates' : None,
-                            }
-            self.system_types_combo.set_active(0)
-
-            #----------------------------------------------------------------
-
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        #self.BackUpWindowData()
-        self.window.destroy()
-        self.Visible    =  False
-        #print('self.Visible',self.Visible)
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-        
-        self.residue_liststore = Gtk.ListStore(str, str, str)
-        #self.atom_liststore    = Gtk.ListStore(bool, int, str, str, int, int)
-        #self.residue_filter    = False
-        
-        self.charmm_txt = '''For systems prepared in the traditional CHARMM / PSF format, the required files are: parameters (prm / par), topologies (psf) and coordinates (chm, crd, pdb, xyz, ...)
-
-NOTE: You can include more than one parameter file if needed.'''
-        self.amber_txt = '''Systems prepared using the AMBER force field require  two files: topologies (top / prmtop) and coordinates (crd, pdb, xyz, ...).  '''
-        self.OPLS_txt = '''Systems prepared natively in pDynamo using the OPLS force field require: A parameter folder and a topology/coordinate file (pdb, mol2, mol, ...) .  '''
-        self.gmx_txt = '''Systems prepared natively in GROMACS using the CHARMM(or AMBER) force field require: A parameter/topology (top) file and coordinate file (pdb, mol2, mol, ...) .  '''
-        
-    
-    def on_name_combo_changed(self, widget):
-        """ Function doc """
-        fftype = self.system_types_combo.get_active()
-        print (fftype)
-        self.files    = {
-            'amber_prmtop': None,
-            'charmm_par'  : [],
-            'charmm_psf'  : None,
-            'charmm_extra': None, 
-            'opls_folder' : [],
-            'coordinates' : None,
-            }
-        self.residue_liststore = Gtk.ListStore(str, str, str)
-        self.treeview.set_model(self.residue_liststore)
-            
-        if fftype == 0: #AMBER
-            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-            self.builder.get_object('gtk_label_fftype').set_text(self.amber_txt)
- 
-            
-        if fftype == 1: # "CHARMM":
-            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-            self.builder.get_object('gtk_label_fftype').set_text(self.charmm_txt)
-
-            
-        if fftype == 10: #"GROMACS":
-            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-            self.builder.get_object('gtk_label_fftype').set_text(self.gmx_txt)
-
-            
-        if fftype == 2:#"OPLS":
-            self.builder.get_object('gtkbox_OPLS_folderchooser').show()
-            self.builder.get_object('gtk_label_fftype').set_text(self.OPLS_txt)
-            
-        if fftype == 3: #"pDynamo files(*.pkl,*.yaml)":
-            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-            
-        if fftype == 4: #"Other(*.pdb,*.xyz,*.mol2...)":
-            self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-
-
-    def filetype_parser(self, filein, systemtype):
-        filetype = self.GetFileType(filein)
-        print (filetype, systemtype)
-        if filetype in ['top', 'prmtop', 'TOP', 'PRMTOP', ]:
-            if systemtype == 0:
-                self.files['amber_prmtop'] = filein
-                return 'amber parameters/topologies'
-                
-   
-        
-        elif filetype in ['par', 'prmtop', 'prm', 'PAR', 'PRM']:
-            if systemtype == 1:
-                self.files['charmm_par'].append(filein)
-                return 'charmm parameters'
-        
-        
-        
-        
-        elif filetype in ['psf', 'PSF','psfx', 'PSFX']:
-            if systemtype == 1:
-                self.files['charmm_psf'] = filein
-                return 'charmm topologies'
-        
-        
-        
-        elif filetype in ['pdb', 'PDB','mol','MOL','mol2','MOL2', 'xyz', 'XYZ', 'crd', 'inpcrd', 'chm']:
-            #if systemtype == 1:
-            self.files['coordinates'] = filein
-            return 'coordinates'
-        
-        
-        
-        elif filetype in ['pkl', 'PKL']:
-            #if systemtype == 1:
-            self.files['coordinates'] = filein
-            return 'pDynamo coordinates'
-        else:
-            return 'unknow type'
-        
-
-    
-    
-    def GetFileType(self, filename):
-        file_type = filename.split('.')
-        return file_type[-1]
-
-
-
-    def on_delete_files_button_clicked (self, button):
-        """ Function doc """
-        files = self.easyhybrid_main.filechooser.open(select_multiple = True)
-        #print(files)
-    
-    def on_import_files_button_clicked (self, button):
-        """ Function doc """
-        files = self.easyhybrid_main.filechooser.open(select_multiple = True)
-        #print(files)
-
-        for _file in files:
-            #for res in self.VObj.chains[chain].residues:
-                ##print(res.resi, res.resn, chain,  len(res.atoms) ) 
-            systemtype = self.system_types_combo.get_active()
-            filetype = self.filetype_parser( _file, systemtype)
-            self.residue_liststore.append(list([_file, filetype, '10' ]))
-        self.treeview.set_model(self.residue_liststore)
-        self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
-        #print(self.files)
-
-
-    def on_button_import_a_new_system_clicked (self, button):
-        """ Function doc """
-        
-        if button == self.builder.get_object('ok_button_import_a_new_system'):
-            print('ok_button_import_a_new_system')
-            #self.on_button1_clicked_create_new_project(button)
-            #self.dialog.hide()
-        if button == self.builder.get_object('cancel_button_import_a_new_system'):
-            print('cancel_button_import_a_new_system')
-            self.dialog.hide()
-            
-    def on_button4_import_system_clicked (self, button):
-        #print('ok_button_import_a_new_system')
-        systemtype = self.system_types_combo.get_active()
-        
-        name =  self.builder.get_object('entry_system_name').get_text()
-
-        self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin = self.files, 
-                                                                                 systype = systemtype, 
-                                                                                 name = name)
-        
-        #if systemtype == 2:
-        #    self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
-        
-        #print ('systemtype',systemtype, self.files )
-        ##self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
-        #
-        #vismol_object = self.easyhybrid_main.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
-        self.CloseWindow(button, data  = None)
-
-
-class EasyHybridImportTrajectoryWindow:
-    """ Class doc """
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_import_trajectory_window.glade'))
-            self.builder.connect_signals(self)
-            
-            self.window = self.builder.get_object('import_trajectory_window')
-            self.window.set_title('Import Trajectory Window')
-            self.window.set_keep_above(True)
-            '''--------------------------------------------------------------------------------------------'''
-            
-            self.combobox_pdynamo_system = self.builder.get_object('combobox_pdynamo_system')
-            renderer_text = Gtk.CellRendererText()
-            self.combobox_pdynamo_system.add_attribute(renderer_text, "text", 0)
-
-            self.system_liststore = Gtk.ListStore(str)
-            
-            names = [ ]
-            for system_key in self.easyhybrid_main.pDynamo_session.systems.keys():
-                sys = self.easyhybrid_main.pDynamo_session.systems[system_key]
-                names.append(sys['name'] )
-                print(sys['name'] )
-            
-            for name in names:
-                self.system_liststore.append([name])
-            
-            self.combobox_pdynamo_system.set_model(self.system_liststore)
-            self.combobox_pdynamo_system.set_active(0)
-            
-            #methods = [
-            #    "Conjugate Gradient" ,
-            #    "FIRE"               ,
-            #    "L-BFGS"             ,
-            #    "Steepest Descent"   ,
-            #    ]
-            #for method in methods:
-            #    self.method_store.append([method])
-            #    print (method)
-            #
-            #self.methods_combo = self.builder.get_object('combobox_geo_opt')
-            #self.methods_combo.set_model(self.method_store)
-            #self.methods_combo.connect("changed", self.on_name_combo_changed)
-            #self.methods_combo.set_model(self.method_store)
-            #
-            #renderer_text = Gtk.CellRendererText()
-            #self.methods_combo.pack_start(renderer_text, True)
-            #self.methods_combo.add_attribute(renderer_text, "text", 0)
-            #'''--------------------------------------------------------------------------------------------'''
-            self.combox = self.builder.get_object('combobox_trajectory_type')
-            self.combox.set_active(0)
-            self.window.show_all()
-            self.Visible  = True
-    
-    def import_data (self, button):
-        """ Function doc """
-        entry_name    = None
-        idnum     = self.combobox_pdynamo_system.get_active()
-        text      = self.combobox_pdynamo_system.get_active_text()
-        
-        print(idnum, text )
-        #traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
-        #logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
-        #max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
-        #rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
-        #entry_name    =        self.builder.get_object('entry_name').get_text()  
-        #
-        #save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
-    
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        self.window.destroy()
-        self.Visible    =  False
-    
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-
-
-
-
-class EasyHybridPotentialEnergyScanWindow():
-    
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_scan_2D_window.glade'))
-            self.builder.connect_signals(self)
-            #
-            self.window = self.builder.get_object('pes_scan_window')
-            self.window.set_title('PES Scan Window')
-            self.window.set_keep_above(True)
-            
-            
-            self.box_reaction_coordinate2 =  self.builder.get_object('box_reaction_coordinate2')
-            
-            
-            #'''--------------------------------------------------------------------------------------------'''
-            #'''
-            self.method_store = Gtk.ListStore(str)
-            
-            methods = ["simple distance", "combined distance","angle", 'dihidral']
-            
-            for method in methods:
-                self.method_store.append([method])
-                print (method)
-            
-            self.combobox_reaction_coord1 = self.builder.get_object('combobox_reaction_coord1')
-            self.combobox_reaction_coord1.set_model(self.method_store)
-            #self.combobox_reaction_coord1.connect("changed", self.on_name_combo_changed)
-            
-            self.combobox_reaction_coord2 = self.builder.get_object('combobox_reaction_coord2')
-            self.combobox_reaction_coord2.set_model(self.method_store)
-            #
-            renderer_text = Gtk.CellRendererText()
-            self.combobox_reaction_coord1.pack_start(renderer_text, True)
-            self.combobox_reaction_coord1.add_attribute(renderer_text, "text", 0)
-            
-            self.combobox_reaction_coord2.pack_start(renderer_text, True)
-            self.combobox_reaction_coord2.add_attribute(renderer_text, "text", 0)
-            
-            self.combobox_reaction_coord1.set_active(0)
-            self.combobox_reaction_coord2.set_active(0)
-            
-            #'''
-            #'''--------------------------------------------------------------------------------------------'''
-            
-
-
-            #'''--------------------------------------------------------------------------------------------'''
-            self.method_store = Gtk.ListStore(str)
-            
-            methods = [
-                "Conjugate Gradient" ,
-                "FIRE"               ,
-                "L-BFGS"             ,
-                "Steepest Descent"   ,
-                ]
-            
-            for method in methods:
-                self.method_store.append([method])
-                print (method)
-            
-            self.methods_combo = self.builder.get_object('combobox_methods')
-            self.methods_combo.set_model(self.method_store)
-            #self.methods_combo.connect("changed", self.on_name_combo_changed)
-            self.methods_combo.set_model(self.method_store)
-            #
-            renderer_text = Gtk.CellRendererText()
-            self.methods_combo.pack_start(renderer_text, True)
-            self.methods_combo.add_attribute(renderer_text, "text", 0)
-            #'''--------------------------------------------------------------------------------------------'''
-            self.methods_combo.set_active(0)
-
-
-
-
-            
-
-
-
-
-
-
-
-            
-            # 
-            # 
-            # 
-            # 
-            # 
-            # 
-            # #'''--------------------------------------------------------------------------------------------'''
-            # 
-            # '''
-            # self.temp_scale_option_store = Gtk.ListStore(str)
-            # 
-            # temp_scale_options = ["constant", "linear","exponential"]
-            # 
-            # for temp_scale_option in temp_scale_options:
-            #     self.temp_scale_option_store.append([temp_scale_option])
-            #     print (temp_scale_option)
-            # 
-            # self.temp_scale_options_combo = self.builder.get_object('temperature_scale_option_combobox')
-            # self.temp_scale_options_combo.set_model(self.temp_scale_option_store)
-            # #self.temp_scale_options_combo.connect("changed", self.on_name_combo_changed)
-            # self.temp_scale_options_combo.set_model(self.temp_scale_option_store)
-            # #
-            # renderer_text = Gtk.CellRendererText()
-            # self.temp_scale_options_combo.pack_start(renderer_text, True)
-            # self.temp_scale_options_combo.add_attribute(renderer_text, "text", 0)
-            # #'''--------------------------------------------------------------------------------------------'''
-            # self.temp_scale_options_combo.set_active(0)
-            # 
-            # 
-            # 
-            # 
-            # job_list_canvas = self.builder.get_object('job_list_canvas')
-            # 
-            # software_list = [
-            #     ("heating"        , '2002', "300"),
-            #     ("Equilibration"  , '2004', "300"),
-            #     ("Data-collection", '2004', "300"),
-            #     #("Netbeans", 1996, "Java"),
-            #     #("Chrome", 2008, "C++"),
-            #     #("Filezilla", 2001, "C++"),
-            #     #("Bazaar", 2005, "Python"),
-            #     #("Git", 2005, "C"),
-            #     #("Linux Kernel", 1991, "C"),
-            #     #("GCC", 1987, "C"),
-            #     #("Frostwire", 2004, "Java"),
-            # ]
-            #             
-            # # Creating the ListStore model
-            # self.software_liststore = Gtk.ListStore(str, str, str)
-            # for software_ref in software_list:
-            #     self.software_liststore.append(list(software_ref))
-            # self.current_filter_language = None
-            # 
-            # # creating the treeview, making it use the filter as a model, and adding the columns
-            # self.treeview = Gtk.TreeView(model=self.software_liststore)
-            # for i, column_title in enumerate(
-            #     ["Job", "nSteps", "temp"]
-            # ):
-            #     renderer = Gtk.CellRendererText()
-            #     column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-            #     self.treeview.append_column(column)
-            # 
-            # ## creating buttons to filter by programming language, and setting up their events
-            # #self.buttons = list()
-            # #for prog_language in ["Java", "C", "C++", "Python", "None"]:
-            # #    button = Gtk.Button(label=prog_language)
-            # #    self.buttons.append(button)
-            # #    button.connect("clicked", self.on_selection_button_clicked)
-            # 
-            # # setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
-            # self.scrollable_treelist = Gtk.ScrolledWindow()
-            # self.scrollable_treelist.set_vexpand(True)
-            # #self.grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
-            # #self.grid.attach_next_to(
-            # #    self.buttons[0], self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1
-            # #)
-            # #for i, button in enumerate(self.buttons[1:]):
-            # #    self.grid.attach_next_to(
-            # #        button, self.buttons[i], Gtk.PositionType.RIGHT, 1, 1
-            # #    )
-            # self.scrollable_treelist.add(self.treeview)
-            # 
-            # job_list_canvas.add(self.scrollable_treelist)
-            # '''
-            # 
-            # #
-            # #
-            # #
-            # #'''--------------------------------------------------------------------------------------------'''
-            # #self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-            # #self.starting_coords_liststore = Gtk.ListStore(str)
-            # #starting_coords = []
-            # ##self.easyhybrid_main.pDynamo_session
-            # #
-            # #
-            # #for key, visObj in self.easyhybrid_main.vismolSession.vismol_objects_dic.items():
-            # #    print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
-            # #    if visObj.easyhybrid_system_id == self.easyhybrid_main.pDynamo_session.active_id:
-            # #        starting_coords.append(visObj.name)
-            # #
-            # #for method in starting_coords:
-            # #    self.starting_coords_liststore.append([method])
-            # #    print (method)
-            # ##self.starting_coords_combo = self.builder.get_object('combobox_geo_opt')
-            # #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            # ##self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
-            # #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            # #
-            # #renderer_text = Gtk.CellRendererText()
-            # #self.combobox_starting_coordinates.pack_start(renderer_text, True)
-            # #self.combobox_starting_coordinates.add_attribute(renderer_text, "text", 0)
-            # #
-            # #size = len(starting_coords)
-            # #self.combobox_starting_coordinates.set_active(size-1)
-            # '''--------------------------------------------------------------------------------------------'''
-
-            self.window.show_all()
-            self.box_reaction_coordinate2.set_sensitive(False)
-            self.Visible  = True
-    
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        self.window.destroy()
-        self.Visible    =  False
-    
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-        self.residue_liststore = Gtk.ListStore(str, str, str)
-
-
-    def add_job_to_list (self, button):
-        """ Function doc """
-        self.software_liststore.append(list(['aqui', '123' ,'cocozao']))
-
-    def change_radio_button_reaction_coordinate (self, widget):
-        """ Function doc """
-        #radiobutton_bidimensional = self.builder.get_object('radiobutton_bidimensional')
-        if self.builder.get_object('radiobutton_bidimensional').get_active():
-            self.box_reaction_coordinate2.set_sensitive(True)
-        else:
-            self.box_reaction_coordinate2.set_sensitive(False)
-        
-        #print(widget)
-
-
-class EasyHybridMolecularDynamicsWindow():
-    
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_molecular_dynamics_window.glade'))
-            self.builder.connect_signals(self)
-            #
-            self.window = self.builder.get_object('molecular_dynamics_window')
-            self.window.set_title('Molecular Dynamics Window')
-            #self.window.set_keep_above(True)
-            
-            
-            
-            #'''--------------------------------------------------------------------------------------------'''
-            self.method_store = Gtk.ListStore(str)
-            
-            methods = ["Velocity Verlet Dynamics", "Leap Frog Dynamics","Langevin Dynamics"]
-            
-            for method in methods:
-                self.method_store.append([method])
-                print (method)
-            
-            self.methods_combo = self.builder.get_object('md_integrator_comobobox')
-            self.methods_combo.set_model(self.method_store)
-            #self.methods_combo.connect("changed", self.on_name_combo_changed)
-            self.methods_combo.set_model(self.method_store)
-            #
-            renderer_text = Gtk.CellRendererText()
-            self.methods_combo.pack_start(renderer_text, True)
-            self.methods_combo.add_attribute(renderer_text, "text", 0)
-            #'''--------------------------------------------------------------------------------------------'''
-            self.methods_combo.set_active(0)
-            
-            
-            
-            
-            
-            
-            
-            #'''--------------------------------------------------------------------------------------------'''
-            self.temp_scale_option_store = Gtk.ListStore(str)
-            
-            temp_scale_options = ["constant", "linear","exponential"]
-            
-            for temp_scale_option in temp_scale_options:
-                self.temp_scale_option_store.append([temp_scale_option])
-                print (temp_scale_option)
-            
-            self.temp_scale_options_combo = self.builder.get_object('temperature_scale_option_combobox')
-            self.temp_scale_options_combo.set_model(self.temp_scale_option_store)
-            #self.temp_scale_options_combo.connect("changed", self.on_name_combo_changed)
-            self.temp_scale_options_combo.set_model(self.temp_scale_option_store)
-            #
-            renderer_text = Gtk.CellRendererText()
-            self.temp_scale_options_combo.pack_start(renderer_text, True)
-            self.temp_scale_options_combo.add_attribute(renderer_text, "text", 0)
-            #'''--------------------------------------------------------------------------------------------'''
-            self.temp_scale_options_combo.set_active(0)
-            
-            
-            
-            
-            job_list_canvas = self.builder.get_object('job_list_canvas')
-            
-            software_list = [
-                ("heating"        , '2002', "300"),
-                ("Equilibration"  , '2004', "300"),
-                ("Data-collection", '2004', "300"),
-                #("Netbeans", 1996, "Java"),
-                #("Chrome", 2008, "C++"),
-                #("Filezilla", 2001, "C++"),
-                #("Bazaar", 2005, "Python"),
-                #("Git", 2005, "C"),
-                #("Linux Kernel", 1991, "C"),
-                #("GCC", 1987, "C"),
-                #("Frostwire", 2004, "Java"),
-            ]
-                        
-            # Creating the ListStore model
-            self.software_liststore = Gtk.ListStore(str, str, str)
-            for software_ref in software_list:
-                self.software_liststore.append(list(software_ref))
-            self.current_filter_language = None
-            
-            # creating the treeview, making it use the filter as a model, and adding the columns
-            self.treeview = Gtk.TreeView(model=self.software_liststore)
-            for i, column_title in enumerate(
-                ["Job", "nSteps", "temp"]
-            ):
-                renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-                self.treeview.append_column(column)
-
-            ## creating buttons to filter by programming language, and setting up their events
-            #self.buttons = list()
-            #for prog_language in ["Java", "C", "C++", "Python", "None"]:
-            #    button = Gtk.Button(label=prog_language)
-            #    self.buttons.append(button)
-            #    button.connect("clicked", self.on_selection_button_clicked)
-
-            # setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
-            self.scrollable_treelist = Gtk.ScrolledWindow()
-            self.scrollable_treelist.set_vexpand(True)
-            #self.grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
-            #self.grid.attach_next_to(
-            #    self.buttons[0], self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1
-            #)
-            #for i, button in enumerate(self.buttons[1:]):
-            #    self.grid.attach_next_to(
-            #        button, self.buttons[i], Gtk.PositionType.RIGHT, 1, 1
-            #    )
-            self.scrollable_treelist.add(self.treeview)
-            
-            job_list_canvas.add(self.scrollable_treelist)
-            
-            
-            #
-            #
-            #
-            #'''--------------------------------------------------------------------------------------------'''
-            #self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-            #self.starting_coords_liststore = Gtk.ListStore(str)
-            #starting_coords = []
-            ##self.easyhybrid_main.pDynamo_session
-            #
-            #
-            #for key, visObj in self.easyhybrid_main.vismolSession.vismol_objects_dic.items():
-            #    print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
-            #    if visObj.easyhybrid_system_id == self.easyhybrid_main.pDynamo_session.active_id:
-            #        starting_coords.append(visObj.name)
-            #
-            #for method in starting_coords:
-            #    self.starting_coords_liststore.append([method])
-            #    print (method)
-            ##self.starting_coords_combo = self.builder.get_object('combobox_geo_opt')
-            #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            ##self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
-            #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            #
-            #renderer_text = Gtk.CellRendererText()
-            #self.combobox_starting_coordinates.pack_start(renderer_text, True)
-            #self.combobox_starting_coordinates.add_attribute(renderer_text, "text", 0)
-            #
-            #size = len(starting_coords)
-            #self.combobox_starting_coordinates.set_active(size-1)
-            '''--------------------------------------------------------------------------------------------'''
-
-            self.window.show_all()
-            self.Visible  = True
-    
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        self.window.destroy()
-        self.Visible    =  False
-    
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-        self.residue_liststore = Gtk.ListStore(str, str, str)
-
-
-    def add_job_to_list (self, button):
-        """ Function doc """
-        self.software_liststore.append(list(['aqui', '123' ,'cocozao']))
-
-
-class EasyHybridGeometryOptimizatrionWindow(Gtk.Window):
-    """ Class doc """
-    
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_geometry_optimization_window.glade'))
-            self.builder.connect_signals(self)
-            
-            self.window = self.builder.get_object('geometry_optimization_window')
-            self.window.set_title('Geometry Optmization Window')
-            self.window.set_keep_above(True)
-            '''--------------------------------------------------------------------------------------------'''
-            self.method_store = Gtk.ListStore(str)
-            methods = [
-                "Conjugate Gradient" ,
-                "FIRE"               ,
-                "L-BFGS"             ,
-                "Steepest Descent"   ,
-                ]
-            for method in methods:
-                self.method_store.append([method])
-                print (method)
-            self.methods_combo = self.builder.get_object('combobox_geo_opt')
-            self.methods_combo.set_model(self.method_store)
-            self.methods_combo.connect("changed", self.on_name_combo_changed)
-            self.methods_combo.set_model(self.method_store)
-            
-            renderer_text = Gtk.CellRendererText()
-            self.methods_combo.pack_start(renderer_text, True)
-            self.methods_combo.add_attribute(renderer_text, "text", 0)
-            '''--------------------------------------------------------------------------------------------'''
-            self.methods_combo.set_active(0)
-            
-            
-            
-            '''--------------------------------------------------------------------------------------------'''
-            self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-            self.starting_coords_liststore = Gtk.ListStore(str)
-            starting_coords = []
-            #self.easyhybrid_main.pDynamo_session
-            
-            
-            for key, visObj in self.easyhybrid_main.vismolSession.vismol_objects_dic.items():
-                print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
-                if visObj.easyhybrid_system_id == self.easyhybrid_main.pDynamo_session.active_id:
-                    starting_coords.append(visObj.name)
-            
-            for method in starting_coords:
-                self.starting_coords_liststore.append([method])
-                print (method)
-            #self.starting_coords_combo = self.builder.get_object('combobox_geo_opt')
-            self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            #self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
-            self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            
-            renderer_text = Gtk.CellRendererText()
-            self.combobox_starting_coordinates.pack_start(renderer_text, True)
-            self.combobox_starting_coordinates.add_attribute(renderer_text, "text", 0)
-            
-            size = len(starting_coords)
-            self.combobox_starting_coordinates.set_active(size-1)
-            '''--------------------------------------------------------------------------------------------'''
-
-            
-            
-            
-            
-            
-            '''--------------------------------------------------------------------------------------------'''
-            self.format_store = Gtk.ListStore(str)
-            formats = [
-                "pDynamo / pkl" ,
-                "amber / crd"               ,
-                "charmm / dcd"             ,
-                "xyz"   ,
-                ]
-            for format in formats:
-                self.format_store.append([format])
-                print (format)
-            self.formats_combo = self.builder.get_object('combobox_format')
-            self.formats_combo.set_model(self.format_store)
-            #self.formats_combo.connect("changed", self.on_name_combo_changed)
-            self.formats_combo.set_model(self.format_store)
-            
-            renderer_text = Gtk.CellRendererText()
-            self.formats_combo.pack_start(renderer_text, True)
-            self.formats_combo.add_attribute(renderer_text, "text", 0)
-            '''--------------------------------------------------------------------------------------------'''
-            self.formats_combo.set_active(0)
-            
-            
-            
-            
-
-            
-            self.folderchooser = self.builder.get_object('file_chooser_working_folder')
-            try:
-                active_id      = self.easyhybrid_main.pDynamo_session.active_id
-                working_folder = self.easyhybrid_main.pDynamo_session.systems[active_id]['working_folder']
-                self.folderchooser.set_current_folder(working_folder)
-            except:
-                self.folderchooser.set_current_folder(HOME)
-            
-            
-            
-            
-            self.window.show_all()
-            self.Visible  = True
-    
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        self.window.destroy()
-        self.Visible    =  False
-    
-    def on_toggle_save_checkbox (self, widget):
-        """ Function doc """
-        if self.builder.get_object('checkbox_save_traj').get_active():
-            self.builder.get_object('entry_trajectory_name').set_sensitive(True)
-            
-            self.builder.get_object('label_working_folder').set_sensitive(True)
-            self.builder.get_object('file_chooser_working_folder').set_sensitive(True)
-            self.builder.get_object('label_format').set_sensitive(True)
-            self.builder.get_object('combobox_format').set_sensitive(True)
-            self.builder.get_object('label_trajectory_frequence').set_sensitive(True)
-            self.builder.get_object('entry_trajectory_frequence').set_sensitive(True)
-        
-        else:
-            self.builder.get_object('entry_trajectory_name').set_sensitive(False)
-
-            self.builder.get_object('label_working_folder').set_sensitive(False)
-            self.builder.get_object('file_chooser_working_folder').set_sensitive(False)
-            self.builder.get_object('label_format').set_sensitive(False)
-            self.builder.get_object('combobox_format').set_sensitive(False)
-            self.builder.get_object('label_trajectory_frequence').set_sensitive(False)
-            self.builder.get_object('entry_trajectory_frequence').set_sensitive(False)
-    
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-        self.residue_liststore = Gtk.ListStore(str, str, str)
-
-
-    def run_opt (self, button):
-        """ Function doc """
-        entry_name    = None
-        method_id     = self.builder.get_object('combobox_geo_opt').get_active()
-        traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
-        logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
-        max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
-        rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
-        entry_name    =        self.builder.get_object('entry_name').get_text()  
-        
-        save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
-        
-        if method_id == 0:
-            self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry(                  
-                                                                                           
-                                                                                           logFrequency         = logFrequency  , 
-                                                                                           
-                                                                                           maximumIterations    = max_int       , 
-                                                                                           
-                                                                                           rmsGradientTolerance = rmsd_tol      , 
-                                                                                           save_trajectory      = save_trajectory,
-                                                                                           trajectory_path      = None  
-                                                                                           )
-
-
-    
-        self.window.destroy()
-        self.Visible    =  False
-    
-    def on_name_combo_changed(self, widget):
-        """ Function doc """
-        print('eba - apagar')
-
-    
-    def _ (_):
-        """ Function doc """
-        
-   
-   
-   
-
-class EasyHybridSetupQCModelWindow:
-    """ Class doc """
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-        
-        self.methods_liststore = Gtk.ListStore(str, str, str)
-        
-        self.method_id    = 0    # 0 for am1, 1 for pm3  and...
-        self.charge       = 0
-        self.multiplicity = 1
-        self.restricted   = True
-        
-        self.adjustment_charge = Gtk.Adjustment(value=0,
-                                           lower=-100,
-                                           upper=100,
-                                           step_increment=1,
-                                           page_increment=1,
-                                           page_size=0)
-        
-        self.adjustment_multiplicity = Gtk.Adjustment(value=1,
-                                           lower=1,
-                                           upper=100,
-                                           step_increment=1,
-                                           page_increment=1,
-                                           page_size=0)
-        
-        self.methods_id_dictionary = {
-                                      0 : 'am1'     ,
-                                      1 : 'am1dphot',
-                                      2 : 'pm3'     ,
-                                      3 : 'pm6'     ,
-                                      4 : 'mndo'    ,
-                                
-                                      }
-        
-        
-        
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_QCSetup_window.glade'))
-            self.builder.connect_signals(self)
-            
-            self.window = self.builder.get_object('SetupQCModelWindow')
-            self.window.set_keep_above(True)
-            #self.window.set_border_width(10)
-            #self.window.set_default_size(500, 370)  
-
-            
-            '''--------------------------------------------------------------------------------------------'''
-            self.methods_type_store = Gtk.ListStore(str)
-            methods_types = [
-                "am1",
-                "am1dphot",
-                "pm3",
-                "pm6",
-                "mndo",
-                "ab initio - ORCA",
-                "DFT / DFTB",
-                ]
-            for method_type in methods_types:
-                self.methods_type_store.append([method_type])
-                print (method_type)
-            
-            self.methods_combo = self.builder.get_object('QCModel_methods_combobox')
-            self.methods_combo.connect("changed", self.on_name_combo_changed)
-            self.methods_combo.set_model(self.methods_type_store)
-            renderer_text = Gtk.CellRendererText()
-            self.methods_combo.pack_start(renderer_text, True)
-            self.methods_combo.add_attribute(renderer_text, "text", 0)
-            self.methods_combo.set_active(self.method_id)
-            '''--------------------------------------------------------------------------------------------'''
-
-
-            self.spinbutton_charge       = self.builder.get_object('spinbutton_charge'      )
-            self.spinbutton_multiplicity = self.builder.get_object('spinbutton_multiplicity')
-            self.spinbutton_charge      .set_adjustment(self.adjustment_charge)
-            self.spinbutton_multiplicity.set_adjustment(self.adjustment_multiplicity)
-            
-            self.window.show_all()                                               
-            self.builder.connect_signals(self)                                   
-
-            self.Visible  =  True
-            #self.builder.get_object('dftp_setup_box').hide()
-            #self.builder.get_object('orca_setup_box').hide()
-
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        #self.BackUpWindowData()
-        self.window.destroy()
-        self.Visible    =  False
-        #print('self.Visible',self.Visible)
-    
-            #----------------------------------------------------------------
-    def on_spian_button_change (self, widget):
-        """ Function doc """
-        self.charge       = self.spinbutton_charge.get_value_as_int()
-        self.multiplicity = self.spinbutton_multiplicity.get_value_as_int()
-        
-        
-    def on_name_combo_changed (self, combobox):
-        """ Function doc """
-        self.method_id = self.builder.get_object('QCModel_methods_combobox').get_active()
-    
-    def on_button_ok (self, button):
-        """ Function doc """
-        #print(button)
-        #charge         = self.spinbutton_charge.get_value_as_int()
-        #multiplicity   = self.spinbutton_multiplicity.get_value_as_int()
-        #print('\n\ncharge'  , self.charge      )
-        #print('multiplicity', self.multiplicity)
-        #print('method_id'   , self.method_id   )
-        
-        if self.builder.get_object('radio_button_restricted').get_active():
-            #print("%s is active" % (self.builder.get_object('radio_button_restricted').get_label()))
-            self.restricted = True
-        else:
-            #print("%s is not active" % (self.builder.get_object('radio_button_restricted').get_label()))
-            self.restricted = False
-        
-        
-        parameters = {
-                    'charge'       : self.charge      ,
-                    'multiplicity' : self.multiplicity,
-                    'method'       : self.methods_id_dictionary[self.method_id]   ,
-                    'restricted'   : self.restricted  ,
-                    
-                     
-                     }
-        
-        
-        ##print(parameters)
-        
-        self.easyhybrid_main.pDynamo_session.define_a_new_QCModel(parameters =parameters)
-        
-        
-        #self.easyhybrid_main.vismolSession.
-        
-        self.window.destroy()
-        self.Visible    =  False
 
 
 class EasyHybridDialogGeneric(Gtk.Dialog):
@@ -1286,210 +69,14 @@ class EasyHybridDialogEnergy(Gtk.Dialog):
 
 
 
-class EasyHybridMergeSystem(Gtk.Window):
-    """ Class doc """
-    
-    def OpenWindow (self):
-        """ Function doc """
-        if self.Visible  ==  False:
-            self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/merge_systems.glade'))
-            self.builder.connect_signals(self)
-            
-            self.window = self.builder.get_object('Merge_systems_window')
-            self.box1   = self.builder.get_object('box1')
-            self.box2   = self.builder.get_object('box2')
-            self.entry  = self.builder.get_object('merge_entry')
-            '''--------------------------------------------------------------------------------------------'''
-            self.system_type_store = Gtk.ListStore(int, str)
-            
-            for index, system in self.easyhybrid_main.pDynamo_session.systems.items():
-                
-                name  = "{} {}".format(index, system['name'] )
-                print(name)
-                #name = 'teste'
-                self.system_type_store.append([index, name])
-           
-            
-            self.combo1 = Gtk.ComboBox.new_with_model(self.system_type_store)
-            self.combo2 = Gtk.ComboBox.new_with_model(self.system_type_store)
-            
-            self.box1.pack_start(self.combo1, True, True, 0)
-            self.box2.pack_start(self.combo2, True, True, 0)
-
-            
-            renderer_text = Gtk.CellRendererText()
-            self.combo1.pack_start(renderer_text, True)
-            self.combo1.add_attribute(renderer_text, "text", 1)
-            
-            renderer_text = Gtk.CellRendererText()
-            self.combo2.pack_start(renderer_text, True)
-            self.combo2.add_attribute(renderer_text, "text", 1)
-            '''--------------------------------------------------------------------------------------------'''
-
-            
-            self.window.show_all()                                               
-            self.builder.connect_signals(self)                                   
-
-            self.Visible  =  True
-            #----------------------------------------------------------------
-    
-    def ok_button (self, button):
-        """ Function doc """
-        print(button)
-        print(self.combo1.get_active())
-        print(self.combo1.get_active_id())
-        print(self.combo1.get_active_iter())
-        print(self.combo2.get_active())
-        
-        name1 = None
-        name2 = None
-        
-        tree_iter = self.combo1.get_active_iter()
-        if tree_iter is not None:
-            model    = self.combo1.get_model()
-            name1    = model[tree_iter][1]
-            index1   = model[tree_iter][0]
-            print("Selected: system =%s" % index1, name1)
-        
-        tree_iter = self.combo2.get_active_iter()
-        if tree_iter is not None:
-            model    = self.combo2.get_model()
-            name2    = model[tree_iter][1]
-            index2   = model[tree_iter][0]
-            print("Selected: system =%s" % index2, name2)
-        
-        
-        new_system_label = self.entry.get_text()
-        
-        
-        if index2 != index1 and name1 is not None and name2 is not None:
-            
-            
-            system1 = self.easyhybrid_main.pDynamo_session.systems[index1]['system']
-            system2 = self.easyhybrid_main.pDynamo_session.systems[index2]['system']
-            system1.Summary()
-            system2.Summary()
-            print(system1)
-            print(system2)
-            self.easyhybrid_main.pDynamo_session.merge_systems (system1 = system1, 
-                                                                system2 = system2, 
-                                                                label   = 'Merged System', 
-                                                                summary = True)
-            
-            
-            
-            
-            
-        
-        
-        
-    
-    
-    
-    def CloseWindow (self, button, data  = None):
-        """ Function doc """
-        self.window.destroy()
-        self.Visible    =  False
-    
-    def __init__(self, main = None):
-        """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.Visible             =  False        
-        
-
-
-
-
-
-#
-#class EasyHybridMergeSystem:
-#    """ Class doc """
-#    def OpenWindow (self):
-#        """ Function doc """
-#        if self.Visible  ==  False:
-#            self.builder = Gtk.Builder()
-#            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/merge_systems.glade'))
-#            self.builder.connect_signals(self)
-#            
-#            self.window = self.builder.get_object('Merge_systems_window')
-#            self.window.set_title('Merge pDynamo Systems - Window')
-#            self.window.set_keep_above(True)
-#            '''--------------------------------------------------------------------------------------------'''
-#            
-#            #'''
-#            self.system_liststore = Gtk.ListStore(int, str)
-#            
-#            self.box1 = self.builder.get_object('box1')
-#            self.box2 = self.builder.get_object('box2')
-#            self.main_box = self.builder.get_object('main_box')
-#            #renderer_text  = Gtk.CellRendererText()
-#            #renderer_text2 = Gtk.CellRendererText()
-#            
-#            #self.combobox_1.add_attribute(renderer_text, "text", 1)
-#            #self.combobox_2.add_attribute(renderer_text2, "text", 1)
-#            
-#            
-#            for index, system in self.easyhybrid_main.pDynamo_session.systems.items():
-#                
-#                name  = "{} {}".format(index, system['name'] )
-#                print(name)
-#                name = 'teste'
-#                self.system_liststore.append([1,name])
-#
-#            #self.system_types_combo = Gtk.ComboBox.new_with_model(self.system_type_store)
-#            
-#            
-#            self.combobox_1 = Gtk.ComboBox.new_with_model(self.system_liststore) 
-#            renderer_text = Gtk.CellRendererText()
-#            self.combobox_1.pack_start(renderer_text, True)
-#            
-#            self.combobox_2 = Gtk.ComboBox.new_with_model(self.system_liststore)
-#            renderer_text = Gtk.CellRendererText()            
-#            self.combobox_2.pack_start(renderer_text, True)
-#
-#            
-#            self.box1.pack_start(self.box1, True, True, 0)
-#            self.box2.pack_start(self.box2, True, True, 0)
-#            
-#            #self.button = Gtk.Button()
-#            #self.main_box.pack_start(self.button, True, True, 0)
-#            
-#            self.combobox_1.show_all()
-#            self.combobox_2.show_all()
-#
-#            self.window.show_all()
-#            self.Visible  = True
-#    
-#    def ok_button (self, button):
-#        """ Function doc """
-#        print(button)
-#        #entry_name    = None
-#        #idnum     = self.combobox_pdynamo_system.get_active()
-#        #text      = self.combobox_pdynamo_system.get_active_text()
-#        
-#        #print(idnum, text )
-#    
-#    def CloseWindow (self, button, data  = None):
-#        """ Function doc """
-#        self.window.destroy()
-#        self.Visible    =  False
-#    
-#    
-#    def __init__(self, main = None):
-#        """ Class initialiser """
-#        self.easyhybrid_main     = main
-#        self.Visible             =  False        
-#
-
 
 class EasyHybridMainWindow ( ):
     """ Class doc """
 
-    def __init__ (self, vismolSession = None):
+    def __init__ (self, vm_session = None):
         """ Class initialiser """
         self.builder = Gtk.Builder()
-        self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/MainWindow.glade'))
+        self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/MainWindow.glade'))
         #self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/toolbar_builder.glade'))
         self.builder.connect_signals(self)
         self.window = self.builder.get_object('window1')
@@ -1507,28 +94,28 @@ class EasyHybridMainWindow ( ):
         #self.nootbook  =  self.builder.get_object('notebook2')
         #self.window = Gtk.Window(title="VisMol window")
         #self.main_box = Gtk.Box()
-        self.vismolSession = vismolSession#( main_session = None)
-        self.vismolSession.main_session = self
+        self.vm_session = vm_session#( main_session = None)
+        self.vm_session.main_session = self
         
-        self.window.connect("key-press-event",   self.vismolSession.glwidget.key_pressed)
-        self.window.connect("key-release-event", self.vismolSession.glwidget.key_released)
+        self.window.connect("key-press-event",   self.vm_session.glwidget.key_pressed)
+        self.window.connect("key-release-event", self.vm_session.glwidget.key_released)
         
                 
         
         self.menu_box = self.builder.get_object('toolbutton_selection_box')
         self.box2 = self.builder.get_object('box2')
-        self.selection_box = self.vismolSession.selection_box
+        self.selection_box = self.vm_session.selection_box
         #self.box2.pack_start(self.selection_box, True, True, 0)
         self.menu_box.add(self.selection_box)
         #remove this combobox for vismol tools after
         #self.combobox1 = self.builder.get_object('combobox1')
-        #self.combobox1.set_model(self.vismolSession.Vismol_selection_modes_ListStore)
+        #self.combobox1.set_model(self.vm_session.Vismol_selection_modes_ListStore)
         #self.renderer_text = Gtk.CellRendererText()
         #self.combobox1.pack_start(self.renderer_text, True)
         #self.combobox1.add_attribute(self.renderer_text, "text", 0)        
         '''This gtk list is declared in the VismolGLWidget file 
            (it does not depend on the creation of Treeview)'''
-        #self.Vismol_Objects_ListStore = self.vismolSession.Vismol_Objects_ListStore
+        #self.Vismol_Objects_ListStore = self.vm_session.Vismol_Objects_ListStore
         
         #self.box2.pack_start(self.toolbar_builder, True, True, 1)
         
@@ -1554,8 +141,8 @@ class EasyHybridMainWindow ( ):
         self.ScrolledWindow_notebook_H1 = Gtk.ScrolledWindow()
         
         #self.Tree_notebook_H1           = Gtk.TreeView()
-        #self.treeview = GtkMainTreeView(vismolSession)
-        self.treeview = GtkEasyHybridMainTreeView(self, vismolSession)
+        #self.treeview = GtkMainTreeView(vm_session)
+        self.treeview = GtkEasyHybridMainTreeView(self, vm_session)
         
         #self.treeview  = self.gtkTreeViewObj.treeview
         self.ScrolledWindow_notebook_H1.add(self.treeview)
@@ -1577,7 +164,7 @@ class EasyHybridMainWindow ( ):
         self.paned_H = Gtk.Paned(orientation = Gtk.Orientation.HORIZONTAL)
         self.button = Gtk.Button(label="Click Here")
         #-------------------------------------------------------------------
-        self.vismolSession = vismolSession#( main_session = None)
+        self.vm_session = vm_session#( main_session = None)
         self.filechooser   = FileChooser()
         #-------------------------------------------------------------------
         
@@ -1586,12 +173,12 @@ class EasyHybridMainWindow ( ):
         self.command_line_entry = Gtk.Entry()
 
         
-        if self.vismolSession is not None:
+        if self.vm_session is not None:
             #player
 
-            self.container.pack_start(self.vismolSession.glwidget, True, True, 0)
+            self.container.pack_start(self.vm_session.glwidget, True, True, 0)
             
-            self.traj_frame = self.vismolSession.trajectory_frame
+            self.traj_frame = self.vm_session.trajectory_frame
             #self.container.pack_start(self.traj_frame, False, False, 1)
             #self.container.pack_start(self.command_line_entry, False, False, 0)
 
@@ -1614,24 +201,24 @@ class EasyHybridMainWindow ( ):
             #self.paned_V.add(self.traj_frame)
         
 
-        #self.player_frame = self.vismolSession.player_frame
+        #self.player_frame = self.vm_session.player_frame
         #self.player_frame.show_all()
         
         
         '''#- - - - - - - - - - - -  pDynamo - - - - - - - - - - - - - - -#'''
         
-        self.pDynamo_session = pDynamoSession(vismolSession = vismolSession)
+        self.pDynamo_session = pDynamoSession(vm_session = vm_session)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
-        self.NewSystemWindow              = EasyHybridImportANewSystemWindow(main = self)
+        self.NewSystemWindow              = ImportANewSystemWindow(main = self)
         self.setup_QCModel_window         = EasyHybridSetupQCModelWindow(main = self)
-        self.import_trajectory_window     = EasyHybridImportTrajectoryWindow(main = self)
-        self.geometry_optimization_window = EasyHybridGeometryOptimizatrionWindow(main = self)
-        self.molecular_dynamics_window    = EasyHybridMolecularDynamicsWindow(main = self)
-        self.merge_pdynamo_systems_window = EasyHybridMergeSystem(main = self)
-        self.pDynamo_selection_window     = EasyHydridPDynamoSelectionWindow(main = self)
-        self.PES_scan_window      = EasyHybridPotentialEnergyScanWindow(main=  self)
-        
+        self.import_trajectory_window     = ImportTrajectoryWindow(main = self)
+        self.geometry_optimization_window = GeometryOptimizatrionWindow(main = self)
+        self.molecular_dynamics_window    = MolecularDynamicsWindow(main = self)
+        self.merge_pdynamo_systems_window = MergeSystemsWindow(main = self)
+        self.pDynamo_selection_window     = PDynamoSelectionWindow(main = self)
+        self.PES_scan_window              = PotentialEnergyScanWindow(main=  self)
+        self.umbrella_sampling_window     = UmbrellaSamplingWindow (main=  self)
         self.window.connect("destroy", Gtk.main_quit)
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
@@ -1665,10 +252,10 @@ class EasyHybridMainWindow ( ):
         if filename:
             if filename[-4:] == 'easy':
                 print('ehf file')            
-                self.vismolSession.load_easyhybrid_serialization_file(filename)
+                self.vm_session.load_easyhybrid_serialization_file(filename)
                 #infile = open(filename,'wb')
                 #data = pickle.load(infile)
-                #self.vismolSession.
+                #self.vm_session.
                 #pickle.dump(data, outfile)
                 #outfile.close()
             
@@ -1692,7 +279,7 @@ class EasyHybridMainWindow ( ):
         
         
         if button  == self.builder.get_object('toolbutton_save'):
-            self.vismolSession.save_serialization_file()
+            self.vm_session.save_serialization_file()
 
             
             
@@ -1716,11 +303,11 @@ class EasyHybridMainWindow ( ):
         
         if button  == self.builder.get_object('toolbutton_pDynamo_selections'):
             #print('toolbutton_pDynamo_selections')
-            #print('self.pDynamo_session.picking_selections_list', self.vismolSession.picking_selections.picking_selections_list)
+            #print('self.pDynamo_session.picking_selections_list', self.vm_session.picking_selections.picking_selections_list)
             self.pDynamo_selection_window.OpenWindow()
             
             '''
-            atom1 = self.vismolSession.picking_selections.picking_selections_list[0]
+            atom1 = self.vm_session.picking_selections.picking_selections_list[0]
             #print (atom1.chain, atom1.resn, atom1.resi, atom1.name)
             print ("%s:%s.%s:%s" %(atom1.chain, atom1.resn, atom1.resi, atom1.name))
             
@@ -1729,36 +316,30 @@ class EasyHybridMainWindow ( ):
             
             self.pDynamo_session.selections (_centerAtom, _radius)
             '''
-        if button  == self.builder.get_object('pes_scan'):
+        if button  == self.builder.get_object('toolbutton_pes_scan'):
             self.PES_scan_window.OpenWindow()
         
-        if button  == self.builder.get_object('run_md'):
-            #self.geometry_optimization_window.OpenWindow()
-            #self.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry()
-            
+        if button  == self.builder.get_object('toolbutton_molecular_dynamics'):
             self.molecular_dynamics_window.OpenWindow()
-            #self.import_trajectory_window.OpenWindow()
-            #self.pDynamo_session.import_trajectory()
-    
-        
-    
-    
-    
-    
+
+        if button  == self.builder.get_object('toolbutton_umbrella_sampling'):
+            #print('toolbutton_umbrella_sampling')
+            self.umbrella_sampling_window.OpenWindow()
+
+            
     def menubar_togglebutton1 (self, button):
         """ Function doc """
         if button.get_active():
             state = "on"
-            self.vismolSession._picking_selection_mode = True
+            self.vm_session._picking_selection_mode = True
             button.set_label('Picking')
             
             
         else:
             state = "off"
-            self.vismolSession._picking_selection_mode = False
+            self.vm_session._picking_selection_mode = False
             button.set_label('Viewing')
 
-        #print("was turned", state)            
     
     def test (self, widget):
         """ Function doc """
@@ -1782,14 +363,52 @@ class EasyHybridMainWindow ( ):
             print(menuitem, 'menu_item_merge_system')
             self.merge_pdynamo_systems_window.OpenWindow()
 
+
+    def update_gui_widgets (self, update_folder = True, update_coords = True):
+        """ Function doc """
+        
+        # should be a function . in the future!!!
+        if update_coords:
+            print(self.vm_session.starting_coords_liststore)
+            starting_coords = []
+            #self.easyhybrid_main.pDynamo_session
+            self.vm_session.starting_coords_liststore.clear()
+            for key, visObj in self.vm_session.vismol_objects_dic.items():
+                
+                print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                
+                if visObj.easyhybrid_system_id == self.pDynamo_session.active_id:
+                    starting_coords.append(visObj.name)
+            
+            for coords in starting_coords:
+                self.vm_session.starting_coords_liststore.append([coords])
+                print (coords)
+            
+            
+        
+        '''--------------------------------------------------------------------------------------------'''
+        if update_folder:
+            active_id = self.pDynamo_session.active_id
+            working_folder = self.pDynamo_session.systems[active_id]['working_folder']
+            
+            if self.geometry_optimization_window.Visible:
+                self.geometry_optimization_window.update_working_folder_chooser(folder = working_folder)
+            
+            if self.molecular_dynamics_window.Visible:
+                self.molecular_dynamics_window.update_working_folder_chooser(folder = working_folder)
+        
+
+
+
+
 class GtkEasyHybridMainTreeView(Gtk.TreeView):
     
-    def __init__ (self,  main, vismolSession):
+    def __init__ (self,  main, vm_session):
         Gtk.TreeView.__init__(self)
         self.main_session  = main
-        self.vismolSession = vismolSession
+        self.vm_session = vm_session
         self.treeview_menu = TreeViewMenu(self)
-        self.treestore     = self.vismolSession.treestore
+        self.treestore     = self.vm_session.treestore
         #--------------------------------------------------------------                                  
                                                                                                          
         self.set_model(self.treestore)                                                                   
@@ -1848,13 +467,13 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         if self.treestore[path][1]:
             obj_index = self.treestore[path][7]
             #print('obj_index', obj_index)
-            self.vismolSession.enable_by_index(index = int(obj_index))
-            self.vismolSession.glwidget.queue_draw()
+            self.vm_session.enable_by_index(index = int(obj_index))
+            self.vm_session.glwidget.queue_draw()
         else:
             obj_index = self.treestore[path][7]
 
-            self.vismolSession.disable_by_index(index = int(obj_index))
-            self.vismolSession.glwidget.queue_draw()
+            self.vm_session.disable_by_index(index = int(obj_index))
+            self.vm_session.glwidget.queue_draw()
 
 
     def on_cell_radio_toggled2(self, widget, path):
@@ -1866,7 +485,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         print('path:', path)
         print(widget)
         
-        for treeview_iter in self.vismolSession.gtk_treeview_iters:
+        for treeview_iter in self.vm_session.gtk_treeview_iters:
             self.treestore[treeview_iter][5] = False
             print(self.treestore[treeview_iter][0])
         self.treestore[path][5] = True
@@ -1893,9 +512,22 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         
   
     def on_cell_radio_toggled(self, widget, path):
+        '''This function changes the status of radio buttons in the main tree. 
+        
+        It must also change the working directory and the list of coordinates 
+        that will be available in each system.
+        
+        see:
+        
+        self.vm_session.combobox_initial_coordinates
+        self.vm_session.filechooser_working_folder  
+        
+        '''
+        
         selected_path = Gtk.TreePath(path)
-        print('selected_path', selected_path)
+        #print('selected_path', selected_path)
         print(widget)
+        #print('alo bacheguinha')
         
         for row in self.treestore:
             row[3] = row.path == selected_path
@@ -1908,8 +540,72 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             #    print(i, j, 'row[2]', row[2], row[8],selected_path,row.path)#(row[2], row.path, selected_path)
         
         print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
-
-
+        
+        self.main_session.update_gui_widgets()
+        #'''
+        #try:
+        #    print(self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder'])
+        #    folder = self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder']
+        #    self.vm_session.filechooser_working_folder.set_current_folder(folder)
+        #except:
+        #    self.vm_session.filechooser_working_folder.set_current_folder(HOME)
+        #'''
+        #
+        #
+        #'''--------------------------------------------------------------------------------------------'''
+        ## should be a function . in the future!!!
+        #print(self.vm_session.starting_coords_liststore)
+        #starting_coords = []
+        ##self.easyhybrid_main.pDynamo_session
+        #self.vm_session.starting_coords_liststore.clear()
+        #for key, visObj in self.vm_session.vismol_objects_dic.items():
+        #    print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+        #    if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
+        #        starting_coords.append(visObj.name)
+        #
+        #for coords in starting_coords:
+        #    self.vm_session.starting_coords_liststore.append([coords])
+        #    print (coords)
+        #'''--------------------------------------------------------------------------------------------'''
+        #
+        #
+        #if self.main_session.geometry_optimization_window.Visible:
+        #   
+        #    self.main_session.geometry_optimization_window.update_working_folder_chooser(folder = '/home/fernando/programs/VisMol/easyhybrid/pDynamoMethods/__pycache__')
+        
+        #self.NewSystemWindow              = ImportANewSystemWindow(main = self)
+        #self.setup_QCModel_window         = EasyHybridSetupQCModelWindow(main = self)
+        #self.import_trajectory_window     = ImportTrajectoryWindow(main = self)
+        #self.geometry_optimization_window = GeometryOptimizatrionWindow(main = self)
+        #self.molecular_dynamics_window    = MolecularDynamicsWindow(main = self)
+        #self.merge_pdynamo_systems_window = MergeSystemsWindow(main = self)
+        #self.pDynamo_selection_window     = PDynamoSelectionWindow(main = self)
+        #self.PES_scan_window      = PotentialEnergyScanWindow(main=  self)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def on_treeview_Objects_button_release_event(self, tree, event):
         if event.button == 3:
             
@@ -1948,8 +644,8 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             self.selectedID  = int(model.get_value(iter, 7))  # @+
             print(self.selectedID, model.get_value(iter, 7))
             print (model[iter][:], iter)
-            visObj = self.vismolSession.vismol_objects_dic[self.selectedID]
-            self.vismolSession.center(visObj)
+            visObj = self.vm_session.vismol_objects_dic[self.selectedID]
+            self.vm_session.center(visObj)
 
         if event.button == 1:
             print ('event.button == 1:')
@@ -1989,22 +685,22 @@ class TreeViewMenu:
         self.selectedID  = int(model.get_value(iter, 1))  # @+
         
         print(selection, model, iter, self.selectedID)
-        visObj = self.treeview.vismolSession.vismol_objects_dic[self.selectedID]
+        visObj = self.treeview.vm_session.vismol_objects_dic[self.selectedID]
         
         #infile = self.filechooser.open()
         self.treeview.main_session.import_trajectory_window.OpenWindow()
         #self.import_trajectory_window.OpenWindow()
         
-        #self.treeview.vismolSession.load_xyz_coords_to_vismol_object(infile , visObj)
+        #self.treeview.vm_session.load_xyz_coords_to_vismol_object(infile , visObj)
         #print (infile)
         
         #
         #self.treeview.store .clear()
-        ##self.vismolSession.vismol_objects_dic.items()
-        #for index, vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
+        ##self.vm_session.vismol_objects_dic.items()
+        #for index, vis_object in self.treeview.vm_session.vismol_objects_dic.items():
         #    print ('\n\n',vis_object.name,'\n\n')
         #    data = [vis_object.active          , 
-        #            #str(self.treeview.vismolSession.vismol_objects.index(vis_object)),
+        #            #str(self.treeview.vm_session.vismol_objects.index(vis_object)),
         #            str(index),
         #            vis_object.name            , 
         #            str(len(vis_object.atoms)) , 
@@ -2016,7 +712,7 @@ class TreeViewMenu:
         """ Function doc """
         #print('f2')
         #self._show_lines(visObj = self.vismol_objects[0], indices = [0,1,2,3,4] )
-        self.treeview.vismolSession.go_to_atom_window.OpenWindow()
+        self.treeview.vm_session.go_to_atom_window.OpenWindow()
 
     def f3 (self, visObj = None):
         """ Function doc """
@@ -2029,18 +725,18 @@ class TreeViewMenu:
         
         
         
-        del self.treeview.vismolSession.vismol_objects_dic[self.selectedID]
+        del self.treeview.vm_session.vismol_objects_dic[self.selectedID]
         '''
-        visObj = self.treeview.vismolSession.vismol_objects_dic.pop(self.selectedID)
+        visObj = self.treeview.vm_session.vismol_objects_dic.pop(self.selectedID)
         del visObj
         '''
         self.treeview.store.clear()
         #n = 0
         #i = 1
         
-        #self.vismolSession.vismol_objects_dic.items()
-        #for vis_object in self.treeview.vismolSession.vismol_objects:
-        for vobj_index ,vis_object in self.treeview.vismolSession.vismol_objects_dic.items():
+        #self.vm_session.vismol_objects_dic.items()
+        #for vis_object in self.treeview.vm_session.vismol_objects:
+        for vobj_index ,vis_object in self.treeview.vm_session.vismol_objects_dic.items():
             print ('\n\n',vis_object.name,'\n\n')
 
             data = [vis_object.active          , 
@@ -2050,12 +746,12 @@ class TreeViewMenu:
                     str(len(vis_object.frames)),
                    ]
             model.append(data)
-        self.treeview.vismolSession.glwidget.queue_draw()
+        self.treeview.vm_session.glwidget.queue_draw()
             #i +=1
             #n = n + 1
         
         
-        #self.treeview.vismolSession.center(visObj)
+        #self.treeview.vm_session.center(visObj)
 
         
         #print('f3')

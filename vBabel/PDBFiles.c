@@ -827,7 +827,7 @@ struct __pyx_opt_args_6vBabel_8PDBFiles_get_list_of_frames_from_pdb_rawframes;
 /* "vBabel/PDBFiles.pyx":15
  * from pprint import pprint
  * 
- * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):             # <<<<<<<<<<<<<<
+ * cpdef load_pdb_file (infile = None, gridsize = 3, vm_session =  None, frames_only = False):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
@@ -835,7 +835,7 @@ struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file {
   int __pyx_n;
   PyObject *infile;
   PyObject *gridsize;
-  PyObject *vismolSession;
+  PyObject *vm_session;
   PyObject *frames_only;
 };
 
@@ -1409,11 +1409,11 @@ static const char __pyx_k_occupancy[] = "occupancy";
 static const char __pyx_k_rawframes[] = "rawframes";
 static const char __pyx_k_ATOM_TYPES[] = "ATOM_TYPES";
 static const char __pyx_k_trajectory[] = "trajectory";
+static const char __pyx_k_vm_session[] = "vm_session";
 static const char __pyx_k_frames_only[] = "frames_only";
 static const char __pyx_k_vModel_Atom[] = "vModel.Atom";
 static const char __pyx_k_VismolObject[] = "VismolObject";
 static const char __pyx_k_COLOR_PALETTE[] = "COLOR_PALETTE";
-static const char __pyx_k_vismolSession[] = "vismolSession";
 static const char __pyx_k_multiprocessing[] = "multiprocessing";
 static const char __pyx_k_P_D_B_P_A_R_S_E_R[] = "\\P D B     P A R S E R";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -1485,8 +1485,8 @@ static PyObject *__pyx_n_s_trajectory;
 static PyObject *__pyx_n_s_vModel;
 static PyObject *__pyx_n_s_vModel_Atom;
 static PyObject *__pyx_n_s_vModel_MolecularProperties;
-static PyObject *__pyx_n_s_vismolSession;
-static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_frames_only); /* proto */
+static PyObject *__pyx_n_s_vm_session;
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vm_session, PyObject *__pyx_v_frames_only); /* proto */
 static PyObject *__pyx_pf_6vBabel_8PDBFiles_2get_list_of_atoms_from_rawframe(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframe, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_at); /* proto */
 static PyObject *__pyx_pf_6vBabel_8PDBFiles_4get_list_of_frames_from_pdb_rawframes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rawframes); /* proto */
 static PyObject *__pyx_pf_6vBabel_8PDBFiles_6get_pdb_frame_coordinates(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_frame); /* proto */
@@ -1527,7 +1527,7 @@ static PyObject *__pyx_slice__14;
 /* "vBabel/PDBFiles.pyx":15
  * from pprint import pprint
  * 
- * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):             # <<<<<<<<<<<<<<
+ * cpdef load_pdb_file (infile = None, gridsize = 3, vm_session =  None, frames_only = False):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
@@ -1536,7 +1536,7 @@ static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self,
 static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6vBabel_8PDBFiles_load_pdb_file *__pyx_optional_args) {
   PyObject *__pyx_v_infile = ((PyObject *)Py_None);
   PyObject *__pyx_v_gridsize = ((PyObject *)__pyx_int_3);
-  PyObject *__pyx_v_vismolSession = ((PyObject *)Py_None);
+  PyObject *__pyx_v_vm_session = ((PyObject *)Py_None);
   PyObject *__pyx_v_frames_only = ((PyObject *)Py_False);
   PyObject *__pyx_v_initial = NULL;
   PyObject *__pyx_v_at = NULL;
@@ -1573,7 +1573,7 @@ static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx
       if (__pyx_optional_args->__pyx_n > 1) {
         __pyx_v_gridsize = __pyx_optional_args->gridsize;
         if (__pyx_optional_args->__pyx_n > 2) {
-          __pyx_v_vismolSession = __pyx_optional_args->vismolSession;
+          __pyx_v_vm_session = __pyx_optional_args->vm_session;
           if (__pyx_optional_args->__pyx_n > 3) {
             __pyx_v_frames_only = __pyx_optional_args->frames_only;
           }
@@ -2173,7 +2173,7 @@ static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx
  * 
  *     vismol_object  = VismolObject.VismolObject(name            = name,             # <<<<<<<<<<<<<<
  *                                                atoms           = atoms,
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_VismolObject); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -2188,7 +2188,7 @@ static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx
  * 
  *     vismol_object  = VismolObject.VismolObject(name            = name,
  *                                                atoms           = atoms,             # <<<<<<<<<<<<<<
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  *                                                trajectory      = frames)
  */
   if (unlikely(!__pyx_v_atoms)) { __Pyx_RaiseUnboundLocalError("atoms"); __PYX_ERR(0, 73, __pyx_L1_error) }
@@ -2197,15 +2197,15 @@ static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx
   /* "vBabel/PDBFiles.pyx":74
  *     vismol_object  = VismolObject.VismolObject(name            = name,
  *                                                atoms           = atoms,
- *                                                vismolSession   = vismolSession,             # <<<<<<<<<<<<<<
+ *                                                vm_session   = vm_session,             # <<<<<<<<<<<<<<
  *                                                trajectory      = frames)
  *     '''
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_vismolSession, __pyx_v_vismolSession) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 72, __pyx_L1_error)
 
   /* "vBabel/PDBFiles.pyx":75
  *                                                atoms           = atoms,
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  *                                                trajectory      = frames)             # <<<<<<<<<<<<<<
  *     '''
  *     #-------------------------------------------------------------------------------------------
@@ -2218,7 +2218,7 @@ static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx
  * 
  *     vismol_object  = VismolObject.VismolObject(name            = name,             # <<<<<<<<<<<<<<
  *                                                atoms           = atoms,
- *                                                vismolSession   = vismolSession,
+ *                                                vm_session   = vm_session,
  */
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2242,7 +2242,7 @@ static PyObject *__pyx_f_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED int __pyx
   /* "vBabel/PDBFiles.pyx":15
  * from pprint import pprint
  * 
- * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):             # <<<<<<<<<<<<<<
+ * cpdef load_pdb_file (infile = None, gridsize = 3, vm_session =  None, frames_only = False):             # <<<<<<<<<<<<<<
  *     """ Function doc
  * 
  */
@@ -2279,13 +2279,13 @@ static char __pyx_doc_6vBabel_8PDBFiles_load_pdb_file[] = " Function doc \n\n   
 static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_infile = 0;
   PyObject *__pyx_v_gridsize = 0;
-  PyObject *__pyx_v_vismolSession = 0;
+  PyObject *__pyx_v_vm_session = 0;
   PyObject *__pyx_v_frames_only = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("load_pdb_file (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_infile,&__pyx_n_s_gridsize,&__pyx_n_s_vismolSession,&__pyx_n_s_frames_only,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_infile,&__pyx_n_s_gridsize,&__pyx_n_s_vm_session,&__pyx_n_s_frames_only,0};
     PyObject* values[4] = {0,0,0,0};
     values[0] = ((PyObject *)Py_None);
     values[1] = ((PyObject *)__pyx_int_3);
@@ -2322,7 +2322,7 @@ static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self,
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vismolSession);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vm_session);
           if (value) { values[2] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
@@ -2351,7 +2351,7 @@ static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self,
     }
     __pyx_v_infile = values[0];
     __pyx_v_gridsize = values[1];
-    __pyx_v_vismolSession = values[2];
+    __pyx_v_vm_session = values[2];
     __pyx_v_frames_only = values[3];
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -2362,14 +2362,14 @@ static PyObject *__pyx_pw_6vBabel_8PDBFiles_1load_pdb_file(PyObject *__pyx_self,
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6vBabel_8PDBFiles_load_pdb_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vismolSession, __pyx_v_frames_only);
+  __pyx_r = __pyx_pf_6vBabel_8PDBFiles_load_pdb_file(__pyx_self, __pyx_v_infile, __pyx_v_gridsize, __pyx_v_vm_session, __pyx_v_frames_only);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vismolSession, PyObject *__pyx_v_frames_only) {
+static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_infile, PyObject *__pyx_v_gridsize, PyObject *__pyx_v_vm_session, PyObject *__pyx_v_frames_only) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2379,7 +2379,7 @@ static PyObject *__pyx_pf_6vBabel_8PDBFiles_load_pdb_file(CYTHON_UNUSED PyObject
   __pyx_t_2.__pyx_n = 4;
   __pyx_t_2.infile = __pyx_v_infile;
   __pyx_t_2.gridsize = __pyx_v_gridsize;
-  __pyx_t_2.vismolSession = __pyx_v_vismolSession;
+  __pyx_t_2.vm_session = __pyx_v_vm_session;
   __pyx_t_2.frames_only = __pyx_v_frames_only;
   __pyx_t_1 = __pyx_f_6vBabel_8PDBFiles_load_pdb_file(0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3969,7 +3969,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_vModel, __pyx_k_vModel, sizeof(__pyx_k_vModel), 0, 0, 1, 1},
   {&__pyx_n_s_vModel_Atom, __pyx_k_vModel_Atom, sizeof(__pyx_k_vModel_Atom), 0, 0, 1, 1},
   {&__pyx_n_s_vModel_MolecularProperties, __pyx_k_vModel_MolecularProperties, sizeof(__pyx_k_vModel_MolecularProperties), 0, 0, 1, 1},
-  {&__pyx_n_s_vismolSession, __pyx_k_vismolSession, sizeof(__pyx_k_vismolSession), 0, 0, 1, 1},
+  {&__pyx_n_s_vm_session, __pyx_k_vm_session, sizeof(__pyx_k_vm_session), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -4551,7 +4551,7 @@ if (!__Pyx_RefNanny) {
  * 
  * from pprint import pprint             # <<<<<<<<<<<<<<
  * 
- * cpdef load_pdb_file (infile = None, gridsize = 3, vismolSession =  None, frames_only = False):
+ * cpdef load_pdb_file (infile = None, gridsize = 3, vm_session =  None, frames_only = False):
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
