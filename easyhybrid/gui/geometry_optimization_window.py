@@ -259,29 +259,29 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         self.window.destroy()
         self.Visible    =  False
     
-    def on_toggle_save_checkbox (self, widget):
-        """ Function doc """
-        if self.builder.get_object('checkbox_save_traj').get_active():
-            self.builder.get_object('entry_trajectory_name').set_sensitive(True)
-            
-            self.builder.get_object('label_working_folder').set_sensitive(True)
-            #self.builder.get_object('file_chooser_working_folder').set_sensitive(True)
-            self.builder.get_object('label_format').set_sensitive(True)
-            self.builder.get_object('combobox_format').set_sensitive(True)
-            self.builder.get_object('label_trajectory_frequence').set_sensitive(True)
-            self.builder.get_object('entry_trajectory_frequence').set_sensitive(True)
-            self.folder_chooser_button.btn.set_sensitive(True)
-
-        else:
-            self.builder.get_object('entry_trajectory_name').set_sensitive(False)
-
-            self.builder.get_object('label_working_folder').set_sensitive(False)
-            #self.builder.get_object('file_chooser_working_folder').set_sensitive(False)
-            self.builder.get_object('label_format').set_sensitive(False)
-            self.builder.get_object('combobox_format').set_sensitive(False)
-            self.builder.get_object('label_trajectory_frequence').set_sensitive(False)
-            self.builder.get_object('entry_trajectory_frequence').set_sensitive(False)
-            self.folder_chooser_button.btn.set_sensitive(False)
+    #def on_toggle_save_checkbox (self, widget):
+    #    """ Function doc """
+    #    if self.builder.get_object('checkbox_save_traj').get_active():
+    #        self.builder.get_object('entry_trajectory_name').set_sensitive(True)
+    #        
+    #        self.builder.get_object('label_working_folder').set_sensitive(True)
+    #        #self.builder.get_object('file_chooser_working_folder').set_sensitive(True)
+    #        self.builder.get_object('label_format').set_sensitive(True)
+    #        self.builder.get_object('combobox_format').set_sensitive(True)
+    #        self.builder.get_object('label_trajectory_frequence').set_sensitive(True)
+    #        self.builder.get_object('entry_trajectory_frequence').set_sensitive(True)
+    #        self.folder_chooser_button.btn.set_sensitive(True)
+    #
+    #    else:
+    #        self.builder.get_object('entry_trajectory_name').set_sensitive(False)
+    #
+    #        self.builder.get_object('label_working_folder').set_sensitive(False)
+    #        #self.builder.get_object('file_chooser_working_folder').set_sensitive(False)
+    #        self.builder.get_object('label_format').set_sensitive(False)
+    #        self.builder.get_object('combobox_format').set_sensitive(False)
+    #        self.builder.get_object('label_trajectory_frequence').set_sensitive(False)
+    #        self.builder.get_object('entry_trajectory_frequence').set_sensitive(False)
+    #        self.folder_chooser_button.btn.set_sensitive(False)
 
     
     def __init__(self, main = None):
@@ -290,11 +290,24 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         self.Visible             =  False        
         self.residue_liststore = Gtk.ListStore(str, str, str)
 
+        self.opt_methods = { 
+                            0 : 'ConjugatedGradient',
+                            1 : 'SteepestDescent'   ,
+                            2 : 'LFBGS'             ,
+                            3 : 'QuasiNewton'       ,
+                            4 : 'FIRE'              ,
+                             }
 
     def run_opt (self, button):
         """ Function doc """
         entry_name    = None
         method_id     = self.builder.get_object('combobox_geo_opt').get_active()
+        
+        
+        
+        
+        
+        
         #traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
         logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
         max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
@@ -303,26 +316,52 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         
         
         if self.save_trajectory_box.builder.get_object('checkbox_save_traj').get_active():
-            folder = self.folder_chooser_button.get_folder ()
+            folder          = self.save_trajectory_box.folder_chooser_button.get_folder ()
+            trajectory_name = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
+            traj_format     = self.save_trajectory_box.builder.get_object('combobox_format').get_active()
+            traj_frequence  = self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text()
+            
+            parameters = {
+                            'entry_name'      :  entry_name                  , 
+                            'method_id'       :  method_id                   ,
+                            'logFrequency'    :  logFrequency                , 
+                            'max_int'         :  max_int                     ,
+                            'rmsd_tol'        :  rmsd_tol                    ,
+                            'folder'          :  folder                      ,
+                            'trajectory_name' :  trajectory_name             ,
+                            'traj_format '    :  traj_format                 ,
+                            'traj_frequence'  :  traj_frequence              ,
+                            'optimizer'       :  self.opt_methods[method_id]
+            }
+        
+                
+            self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
+                                                                _parameters4Plot = None, 
+                                                                 _simulationType = 'Geometry_Optimization',
+                                                                 folder          = parameters['folder'])
+        
+        
+        
+        
         
         
         
         #save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
         
-        if method_id == 0:
-            self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry(                  
-                                                                                           
-                                                                                           logFrequency         = logFrequency  , 
-                                                                                           
-                                                                                           maximumIterations    = max_int       , 
-                                                                                           
-                                                                                           rmsGradientTolerance = rmsd_tol      , 
-                                                                                           save_trajectory      = save_trajectory,
-                                                                                           trajectory_path      = None  
-                                                                                           )
-
-
-    
+        #if method_id == 0:
+        #    self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry(                  
+        #                                                                                   
+        #                                                                                   logFrequency         = logFrequency  , 
+        #                                                                                   
+        #                                                                                   maximumIterations    = max_int       , 
+        #                                                                                   
+        #                                                                                   rmsGradientTolerance = rmsd_tol      , 
+        #                                                                                   save_trajectory      = save_trajectory,
+        #                                                                                   trajectory_path      = None  
+        #                                                                                   )
+        #
+        #
+        #
         self.window.destroy()
         self.Visible    =  False
 
