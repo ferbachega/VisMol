@@ -30,7 +30,11 @@ from pSimulation               import*
 #---------------------------------------
 #import our core lib
 #from SimulationsPreset import Simulation 
-#from easyhybrid.pDynamoMethods.SimulationsPreset import Simulation 
+
+
+'''from easyhybrid.pDynamoMethods.SimulationsPreset import Simulation '''
+
+
 #---------------------------------------
 from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER
@@ -734,12 +738,13 @@ class pDynamoSession:
         
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = False)
 
-    #--------------------------------------------------------------------------------
-    def RunSimulation(self, _parametersList, _parameters4Plot=None, _simulationType):
+    #--------------------------------------------------------- -----------------------
+    def run_simulation(self, _parametersList = None, _parameters4Plot = None, _simulationType = None, folder = None):
         '''
         bsname = base name of the folder where will be created the next
         '''
-        run = Simulation(self.system[self.active_id],_simulationType, bsname )
+        print (_parametersList)
+        run = Simulation(self.system[self.active_id],_simulationType, folder )
         run.Execute(_parametersList,_parameters4Plot)
 
         
