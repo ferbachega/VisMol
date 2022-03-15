@@ -16,30 +16,18 @@ import os, glob, sys
 
 os.environ['MPLCONFIGDIR'] = '/tmp'
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
-
-
 #path fo the core python files on your machine
-sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods")) 
-#------------------------------------------------------
+#para funcionar nas minhas máquinas, depois ver forma melhor de fazer
+if not VISMOL_HOME == None:
+	sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") ) 
+else:
+	VISMOL_HOME = "/home/igorchem/VisMol"
+	sys.path.append(os.path.join("/home/igorchem/VisMol/easyhybrid/pDynamoMethods") ) 
 #------------------------------------------------------
 from pBabel                    import *                                     
 from pCore                     import *                                     
-from pMolecule                 import *                              
-from pMolecule.MMModel         import *
-from pMolecule.NBModel         import *                                     
-from pMolecule.QCModel         import *
-from pScientific               import *                                     
-from pScientific.Arrays        import *                                     
-from pScientific.Geometry3     import *                                     
-from pScientific.RandomNumbers import *                                     
-from pScientific.Statistics    import *
-from pScientific.Symmetry      import *                                     
-from pSimulation               import *
+from pMolecule                 import *                    
 from CoreInterface 			   import SimulationProject
-from PotentialOfMeanForce import *
-
-#from EnergyAnalysis import EnergyAnalysis
-#from TrajectoryAnalysis import TrajectoryAnalysis
 from ReactionCoordinate import *
 #-------------------------------------------------------------------
 #path for the required files on the examples folder of EasyHynrid 3.0
@@ -53,7 +41,6 @@ balapkl      = os.path.join(ex_path,"bala","bAla.pkl")
 #--------------------------------------------------------
 if not os.path.exists(scratch_path):
 	os.makedirs(scratch_path)
-
 #*************************************************************************
 def SetMMsytem():
 	'''
@@ -890,7 +877,6 @@ def EnergyAnalysisPlots():
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
 	rc2_md.SetInformation(proj.cSystem,0)
-
 	#----------------------------------------------------------------------------------
 	#1D energy plot test 
 	if not os.path.exists( os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance") ):
@@ -1062,15 +1048,13 @@ def pDynamoEnergyRef_1D():
 #=====================================================
 def pDynamoEnergyRef_2D():
 	'''
-
+	Test two dimensinal energy refinement with internal pDynamo quantum chemical methods
 	'''
 	proj=SimulationProject( os.path.join(scratch_path, "pDynamoSMO") )
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
-
 	methods = ["am1","rm1"]
-
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
@@ -1084,19 +1068,19 @@ def pDynamoEnergyRef_2D():
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
 	rc2_md.SetInformation(proj.cSystem,0)
-
+	#---------------------------------------------
 	_name = "SCAN2D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
 		QCMMScan2DmultipleDistance(6,6,0.1,0.1,name=_name)
-
+	#---------------------------------------------
 	_plotParameters = {	"show":True              ,
 						"crd1_label":rc1_md.label,
 						"crd2_label":rc2_md.label,
 						"contour_lines":12       ,
 						"xlim_list": [-1.2,-0.3] ,
 						"ylim_list": [-0.9,-0.2] }
-
+	#---------------------------------------------
 	parameters = { "xnbins":6			,
 				   "ynbins":6			,
 				   "source_folder":_path,
@@ -1106,7 +1090,7 @@ def pDynamoEnergyRef_2D():
 				   "methods_lists":methods,					   
 				   "NmaxThreads":4		,
 				   "Software":"pDynamo"	}
-
+	#---------------------------------------------
 	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)
 #=====================================================
 def DFTBplusEnergy():
@@ -1136,17 +1120,16 @@ def MopacEnergyRef():
 	rc2_md = ReactionCoordinate(a2,False)
 	rc2_md.SetInformation(proj.cSystem,0)
 	_name = "SCAN1D_4MopacRefinement"
-	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
-	
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )	
 	if not os.path.exists(_path):
 		QCMMScanMultipleDistance(20,0.08,name=_name)
-
-	_plotParameters = {	"show":True,
+	#---------------------------------------------
+	_plotParameters = {	"show":True              ,
 						"crd1_label":rc1_md.label,
 						"crd2_label":rc2_md.label,
-						"contour_lines":12 ,
-						"xlim_list": [-1.2,2.0] }
-
+						"contour_lines":12       ,
+						"xlim_list": [-1.2,2.0]  }
+	#---------------------------------------------
 	parameters = { "xnbins":20			,
 				   "ynbins":0			,
 				   "mopac_keywords":["grad qmmm","ITRY=5000"] ,
@@ -1157,7 +1140,7 @@ def MopacEnergyRef():
 				   "methods_lists":methods,					   
 				   "NmaxThreads":1 		,
 				   "Software":"mopac"	}
-
+	#---------------------------------------------
 	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)	
 	
 #=====================================================
@@ -1171,11 +1154,11 @@ if __name__ == "__main__":
 	#MMMD_Algorithms()                         			#TESTED
 	#MMMD_Protocols()									#TESTED
 	#QCMM_Energies()									#TESTED
-	#QCMM_DFTBplus()									#TESTED
-	#QCMM_Orca()										#TESTED
-	#QCMM_optimizations()								#TESTED
-	#QCMM_MD()											#TESTED
-	#QCMM_MDrestricted()								#TESTED
+	QCMM_DFTBplus()									#TESTED
+	QCMM_Orca()										#TESTED
+	QCMM_optimizations()								#TESTED
+	QCMM_MD()											#TESTED
+	QCMM_MDrestricted()								#TESTED
 	QCMMScanSimpleDistance(30,0.05)					#TESTED
 	QCMMScanMultipleDistance(30,0.05)					#TESTED
 	QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
@@ -1194,4 +1177,4 @@ if __name__ == "__main__":
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
 	#Scan1D_Dihedral(36)								#TESTED
-	Scan2D_Dihedral(12,12)
+	#Scan2D_Dihedral(12,12)

@@ -8,12 +8,9 @@
 #-----------------...EasyHybrid 3.0...-----------------------#
 #-----------Credits and other information here---------------#
 ##############################################################
-
-#==============================================================================
-
+#=============================================================================
 from commonFunctions import *
 from pMolecule import *
-
 #*****************************************************************************
 class ReactionCoordinate:
 	'''
@@ -41,8 +38,6 @@ class ReactionCoordinate:
 		if self.Type == "Distance":
 			if self.nAtoms == 3:
 				self.Type = "multipleDistance"
-				
-
 	#==========================================================================================================
 	def SetInformation(self,_molecule,_dincre):
 		'''
@@ -81,8 +76,7 @@ class ReactionCoordinate:
 				self.weight31 = self.weight31*-1
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 				dist_a2_a3 = self.molecule.coordinates3.Distance( self.atoms[1], self.atoms[2] )
-				self.minimumD = ( self.weight13 * dist_a1_a2) - ( self.weight31 * dist_a2_a3*-1)
-				#------------------------------------------------				
+				self.minimumD = ( self.weight13 * dist_a1_a2 ) - ( self.weight31 * dist_a2_a3*-1)				
             #.----------------------
 			else:
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
@@ -118,6 +112,5 @@ class ReactionCoordinate:
 			else:
 				self.label =  A1.label + "-" + A2.label +"-" + A3.label +"-"+A4.label
 				
-			self.minimumD = self.molecule.coordinates3.Dihedral(self.atoms[0],self.atoms[1],self.atoms[2],self.atoms[3])		
-
-#===================================================================================================================
+			self.minimumD = self.molecule.coordinates3.Dihedral(self.atoms[0],self.atoms[1],self.atoms[2],self.atoms[3])
+#=======================================================================================================================

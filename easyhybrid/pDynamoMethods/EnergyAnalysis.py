@@ -15,12 +15,9 @@ import os, sys, glob
 import numpy as np
 
 import matplotlib.pyplot as plt
-from scipy.stats import gaussian_kde
-import seaborn as sns
 from matplotlib.ticker import MaxNLocator
 import matplotlib.colors as colors
 from matplotlib.colors import BoundaryNorm
-from collections import Counter
 
 from commonFunctions import *
 

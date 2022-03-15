@@ -8,9 +8,7 @@
 #-----------------...EasyHybrid 3.0...-----------------------#
 #-----------Credits and other information here---------------#
 ##############################################################
-
-#==============================================================================
-
+#=============================================================
 import pymp
 import numpy as np 
 #-----------------------------
@@ -20,9 +18,7 @@ from GeometrySearcher import *
 #pDynamo library
 from pMolecule import *
 from pMolecule.QCModel import *
-
-
-#*****************************************************************************
+#**************************************************************
 class SCAN:
     '''
     Class to setup and execute relaxed surface scan procedure
@@ -39,11 +35,8 @@ class SCAN:
         
         Future Development Notes: 
             Implement the possibility of a third coordinate.
-            Implement the possibility to deal with other type of restraits 
-                Angle
-                Dihedral
+            Implement the possibility to deal with other type of restraits               
                 Thether
-
         '''
         self.baseName           = _baseFolder
         self.molecule           = _system 
@@ -51,11 +44,11 @@ class SCAN:
         self.reactionCoordinate1= []                        # array with the first reaction coordinate in angstroms
         self.reactionCoordinate2= []                        # array with the second reaction coordinate in angstroms
         self.atoms              = []                        # array of the atomic indices for the reaction coordinates
-        self.nprocs             = 1               # Maximum virtual threads to use in parallel runs using pymp
+        self.nprocs             = 1                         # Maximum virtual threads to use in parallel runs using pymp
         self.energiesMatrix     = None                      # Multidimensional array to store calculated energy values
         self.DMINIMUM           = [ 0.0, 0.0 ]              # List with the Minimum distances for the reaction coordinates
         self.DINCREMENT         = [ 0.0, 0.0 ]              # List with the increment distances for the reaction coordinates
-        self.forceC             = [2500.0,2500.0]           # Force constant for restraint model
+        self.forceC             = [ 2500.0,2500.0 ]         # Force constant for restraint model
         self.forceCRef          = [self.forceC,self.forceC] # Inital value for the force constant
         self.EnergyRef          = 0.0                       # Float to hold energy reference value for adaptative scheme
         self.massConstraint     = True                      # Boolean indicating if the reaction coordinates have mass constraints 
@@ -64,8 +57,8 @@ class SCAN:
         self.maxIt              = 800                       # Maximum number of iterations in goemtry search 
         self.rmsGT              = 0.1                       # Float with root mean square tolerance for geometry optimization 
         self.optmizer           = _optimizer                # string with optimizer algorithm for geomtry optimization
-        self.sigma_a1_a3        = [0.0,0.0]                 # Mass contraint weight list for the reaction coordinates
-        self.sigma_a3_a1        = [0.0,0.0]                 # Mass contraint weight list for the reaction coordinates
+        self.sigma_a1_a3        = [ 0.0,0.0 ]               # Mass contraint weight list for the reaction coordinates
+        self.sigma_a3_a1        = [ 0.0,0.0 ]               # Mass contraint weight list for the reaction coordinates
         self.adaptative         = ADAPTATIVE                # Boolean indicating if the scan can use the adptative scheme to change the convergence paramters
         self.text               = ""                        # Text container for energy log
         self.dihedral           = False

@@ -9,7 +9,6 @@
 ##############################################################
 
 #==============================================================================
-
 import os, sys
 #importing our library functions
 import commonFunctions
@@ -22,15 +21,13 @@ from pScientific               import *
 from pScientific.Arrays        import *                                     
 from pScientific.Geometry3     import *                 
 from pSimulation               import *
-
-#***************************************************************************************
+#*********************************************************************************
 class GeometrySearcher:
     '''
     Class to handle with pDynamo methods that search geometries for the system, such as global/local minimuns
     as saddle points and reaction path trajectories. 
     '''
-    #.-------------------------------------------------------------------------
-    
+    #.-------------------------------------------------------------------------   
     def __init__(self,_system,_baseFolder):
         '''
         Class constructor.
@@ -49,13 +46,11 @@ class GeometrySearcher:
         self.outputDCD      = True       
         self.rmsGrad        = 0.1
         self.maxIt          = 500
-
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
         Class method to modify default parameters for the minimization runs
-        '''
-        
+        '''        
         if 'maxIterations'      in _parameters:
             self.maxIt          = _parameters['maxIterations']            
         if "log_frequency"      in _parameters:
@@ -70,7 +65,6 @@ class GeometrySearcher:
             self.maxItQC        = _parameters['maxIterations_QC']
         if 'rmsGradient'        in _parameters:
             self.rmsGrad        = _parameters['rmsGradient']
-
     #======================================================================================
     # Main minimization class method
     def Minimization(self,_optimizer):
@@ -97,9 +91,7 @@ class GeometrySearcher:
             self.RunQuasiNewton()
         elif self.optAlg == "FIRE":
             self.RunFIREmin()
-
         self.finalCrd3D = Clone(self.molecule.coordinates3)
-
     #=============================================================================
     #Minimizers methods
     def RunConjugatedGrad(self):
@@ -119,12 +111,11 @@ class GeometrySearcher:
                                                  maximumIterations      = self.maxIt    ,
                                                  rmsGradientTolerance   = self.rmsGrad  ) 
 
-    #=============================================================================
+    #=====================================================================================
     def RunSteepestDescent(self):
         '''
         Class method to apply the steepest descent minimizer
-        '''
-        
+        '''        
         if self.traj == None:
             SteepestDescentMinimize_SystemGeometry(self.molecule                       ,               
                                                 logFrequency            = self.logFreq ,
@@ -136,13 +127,11 @@ class GeometrySearcher:
                                                 trajectories            = self.traj    ,
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
-
     #============================================================================
     def RunLFBGS(self):
         '''
         Class method to apply the LFBGS minimizer
-        '''
-        
+        '''        
         if self.traj == None:
             LBFGSMinimize_SystemGeometry(self.molecule                          ,                
                                     logFrequency         = self.logFreq         ,
@@ -153,14 +142,12 @@ class GeometrySearcher:
                                     logFrequency         = self.logFreq         ,
                                     trajectories         = self.traj            ,
                                     maximumIterations    = self.maxIt           ,
-                                    rmsGradientTolerance = self.rmsGrad         )
-    
+                                    rmsGradientTolerance = self.rmsGrad         )    
     #=============================================================================
     def RunQuasiNewton(self):
         '''
         Class method to apply the Quaisi-Newton minimizer
-        '''
-        
+        '''        
         if self.traj == None: 
             QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
                                                 logFrequency         = self.logFreq ,
@@ -172,12 +159,11 @@ class GeometrySearcher:
                                                 trajectories         = self.traj    ,
                                                 maximumIterations    = self.maxIt   ,
                                                 rmsGradientTolerance = self.rmsGrad )
-
     #==============================================================================
     def RunFIREmin(self):
         '''
+
         '''
-        
         if self.traj == None:
             FIREMinimize_SystemGeometry( self.molecule                  ,                
                                     logFrequency         = self.logFreq ,
@@ -188,10 +174,8 @@ class GeometrySearcher:
                                     logFrequency         = self.logFreq ,
                                     trajectories         = self.traj    ,
                                     maximumIterations    = self.maxIt   ,
-                                    rmsGradientTolerance = self.rmsGrad )
-    
-        
-    #=============================================================================-
+                                    rmsGradientTolerance = self.rmsGrad )        
+    #=============================================================================
     # Reaction path searchers
     def NudgedElasticBand(self,_parameters):
         '''
@@ -199,9 +183,7 @@ class GeometrySearcher:
         '''
         #-------------------------------------------------------------------------
         _rmdGIS = _parameters["RMS_growing_intial_string"]
-
         self.trajectoryName = os.path.join(self.baseName + "NEB.ptGeo")
-
         #Note: is interesting to think in a window were the user select the initial and final coords
         # here we excpect to ibe in pkl probably from a scan or optimization already done using the software
         self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
@@ -221,17 +203,12 @@ class GeometrySearcher:
         self.saveTraj = True
         trajNameDCD = self.baseName + ".dcd";
         Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
-
-        
-
     #========================================================================================
     def SelfAvoidWalking(self,_parameters):
         '''
         Self-Avoid-Walking procedure to estimate a reaction path
         '''
         self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
-
-
     #========================================================================================
     def BakerSaddle(self,_parameters):
         '''
@@ -246,7 +223,6 @@ class GeometrySearcher:
         self.InitCrd3D.Superimpose ( self.finalCrd3D, weights = masses )
         rms = self.InitCrd3D.RootMeanSquareDeviation ( self.finalCrd3D, weights = masses )
         print("Root Mean Sqaute of Deviation of the optimized structure from the initial: {}".format(rms))
-
     #===========================================================================================
     def Finalize(self):
         '''
@@ -267,8 +243,6 @@ class GeometrySearcher:
         if self.saveTraj:
             trajNameDCD = self.baseName + ".dcd";
             Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
-
-
 #================================================================================================#
 #======================================END OF THE FILE===========================================#
 #================================================================================================#

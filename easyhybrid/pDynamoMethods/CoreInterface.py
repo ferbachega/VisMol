@@ -15,23 +15,19 @@ import os, glob, sys
 from commonFunctions import *
 from SimulationsPreset import Simulation
 import LogFile
-
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     
-from pCore                     import *
-                                     
+from pCore                     import *                                     
 from pMolecule                 import *                              
 from pMolecule.MMModel         import *
 from pMolecule.NBModel         import *                                     
 from pMolecule.QCModel         import *
-
 from pScientific               import *                                
 from pSimulation               import *
-
 #==========================================================================
 
-#*****************************************************************************
+#**************************************************************************
 class SimulationProject:
     '''
     Class to setup pDynamo simulations from a remote framework, i.e. without using VisMol GUI 
@@ -50,14 +46,11 @@ class SimulationProject:
         self.simulation     = "Single-Point"#Name of the Simulation type        
         self.systemCoutCurr = 0 
         self.DEBUG          = DEBUG
-
         #Some status variable for current Sytem instance ( For now without any great utility )
         self.NBmodel        = None 
         self.QCmodel        = None
-        self.MMmodel        = None
-        
+        self.MMmodel        = None                
         self.logfile = LogFile.LogFile(_projectName+"_EasyHybrid3.log")
-
     #===================================================================================
     def LoadSystemFromForceField(self,_topologyFile,_coordinateFile):
         '''
@@ -92,7 +85,6 @@ class SimulationProject:
         self.MMmodel = self.cSystem.mmModel
         self.logfile.inputLine("Energy Model loaded: " + self.cSystem.energyModelLabel )
         self.logfile.inputLine("New System loaded!")
-
     #====================================================================================
     def LoadSystemFromSavedProject(self,_pklPath):
         '''

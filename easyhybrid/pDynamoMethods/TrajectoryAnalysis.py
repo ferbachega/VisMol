@@ -9,36 +9,30 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
-#==============================================================================
-
+#=============================================================
 import os, sys, glob
 import numpy as np
-
+#--------------------------------------------------------------
 import matplotlib.pyplot as plt
-from scipy.stats import gaussian_kde
-import seaborn as sns
-from matplotlib.ticker import MaxNLocator
-import matplotlib.colors as colors
-from matplotlib.colors import BoundaryNorm
 from collections import Counter
-
-from commonFunctions import *
-
-from pBabel                    import *                                     
-from pCore                     import *                                     
-from pMolecule                 import *                   
-from pScientific               import *                                                             
-from pScientific.Statistics    import *
-from pScientific.Arrays        import *
-from pSimulation               import *
-
+#--------------------------------------------------------------
+from commonFunctions 			import *
+from pBabel                     import *                                     
+from pCore                      import *                                     
+from pMolecule                  import *                   
+from pScientific                import *                                                             
+from pScientific.Statistics     import *
+from pScientific.Arrays         import *
+from pSimulation                import *
 #=====================================================================
 class TrajectoryAnalysis:
 	'''
+	Concentre functions to perform analysis from molecular dynamics trajectories
 	'''
 	#-----------------------------------------
 	def __init__(self,_trajFolder,_system,t_time):
 		'''
+		Default constructor. Initializa the atributes. 
 		'''
 		self.trajFolder = _trajFolder
 		self.molecule   = _system
@@ -168,11 +162,17 @@ class TrajectoryAnalysis:
 		if SHOW:
 			plt.show()        
 		#---------------------------------------------------------------------------
-		g = sns.jointplot(x=self.RG,y=self.RMS,kind="kde",cmap="plasma",shade=True)
-		g.set_axis_labels("Radius of Gyration $\AA$","RMSD $\AA$",fontsize=12)
-		plt.savefig( os.path.join( self.trajFolder,"rg_rmsd_biplot.png") )
-		if SHOW:
-			plt.show()        
+		try:
+			import seaborn as sns
+			g = sns.jointplot(x=self.RG,y=self.RMS,kind="kde",cmap="plasma",shade=True)
+			g.set_axis_labels("Radius of Gyration $\AA$","RMSD $\AA$",fontsize=12)
+			plt.savefig( os.path.join( self.trajFolder,"rg_rmsd_biplot.png") )
+			if SHOW:
+				plt.show()
+		except:
+			print("Error in importing seaborn package!\nSkipping biplot distribution plot!")
+			pass
+
 	#=========================================================================
 	def DistancePlots(self,RCs,SHOW=False):
 		'''
@@ -233,11 +233,15 @@ class TrajectoryAnalysis:
 			plt.show()
 		#-------------------------------------------------------------------------
 		if len(RCs) == 2:
-			g=sns.jointplot(x=self.distances1,y=self.distances2,kind="kde",cmap="plasma",shade=True)
-			g.set_axis_labels(RCs[0].label,RCs[1].label)
-			plt.savefig( os.path.join( self.trajFolder,"distanceBiplot.png") )
-			if SHOW:
-				plt.show()
-
+			try:
+				import seaborn as sns
+				g=sns.jointplot(x=self.distances1,y=self.distances2,kind="kde",cmap="plasma",shade=True)
+				g.set_axis_labels(RCs[0].label,RCs[1].label)
+				plt.savefig( os.path.join( self.trajFolder,"distanceBiplot.png") )
+				if SHOW:
+					plt.show()
+			except:
+				print("Error in importing seaborn package!\nSkipping biplot distribution plot!")
+				pass
 #=================================================================================
 

@@ -171,31 +171,24 @@ def ReescaleCharges(_system, tc):
     Parameter #2: Total charge to be achieved 
     Return: System instanced object with the scaled charges.
     '''    
-    scaled_system = Clone(_system)
-    
+    scaled_system = Clone(_system)    
     Charges = scaled_system.energyModel.mmAtoms.AtomicCharges()
-    pTC = Get_total_charge(scaled_system)
-    
-    print ("Old Charges Sum:",pTC)
-    
+    pTC = Get_total_charge(scaled_system)    
+    print ("Old Charges Sum:",pTC)    
     nAtoms = len(scaled_system.atoms.items)
-    
+    #---------------------------------------------------------
     new_charges = []
     new_tc = 0
     frac = (tc - pTC)/nAtoms
-    
-    for i in range( len(Charges) ):
-        new_charges.append(Charges[i] + frac)
-    
-    for i in range( len(new_charges) ):
-        Charges[i] = new_charges[i]
-    
     #---------------------------------------------------------
-    scaled_system.energyModel.mmAtoms.SetAtomicCharges(Charges)
-    
+    for i in range( len(Charges) ):
+        new_charges.append(Charges[i] + frac)    
+    for i in range( len(new_charges) ):
+        Charges[i] = new_charges[i]    
+    #---------------------------------------------------------
+    scaled_system.energyModel.mmAtoms.SetAtomicCharges(Charges)    
     new_tc = Get_total_charge(scaled_system)
-    print ("New Charges Sum:",new_tc)    
-    
+    print ("New Charges Sum:",new_tc)        
     return(scaled_system)        
 #==============================================================================
 def copySystem(system):

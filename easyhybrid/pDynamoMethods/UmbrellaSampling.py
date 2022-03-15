@@ -14,13 +14,9 @@
 #-----------------------------------------------------
 import os, glob, sys, shutil
 #-----------------------------------------------------
-from commonFunctions import *
 from MolecularDynamics import MD 
-from commonFunctions import GetAtomicMass
 #-----------------------------------------------------
 import pymp
-import numpy as np 
-import matplotlib.pyplot as plt
 #-----------------------------------------------------
 from pBabel                    import *                                     
 from pCore                     import *                                     
@@ -168,7 +164,7 @@ class US:
         Class method to execute one-dimensional sampling
         '''
         #-----------------------------------------------
-        self.inputTraj = _trajFolder
+        self.inputTraj      = _trajFolder
         self.samplingFactor = _sample
         #-----------------------------------------------               
         #Adicionar outras possibilidades de carregar cordenadas

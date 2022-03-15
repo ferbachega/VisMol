@@ -11,24 +11,16 @@
 
 import os, sys, glob
 
-from pBabel                    import *                                     
-from pCore                     import *                                     
-from pMolecule                 import *            
-from pScientific               import *                 
+from pBabel                    	import *                                     
+from pCore                     	import *                                     
+from pMolecule                 	import *            
+from pScientific               	import *                 
          
-from pSimulation               import *
-from commonFunctions import *
-
-
+from pSimulation               	import *
+from commonFunctions 			import GetFrameIndex
 #-----------------------------------------------------
 import pymp
-import numpy as np 
-import matplotlib.pyplot as plt
-#-----------------------------------------------------
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import gaussian_kde
-#import seaborn as sns
+
 #-----------------------------------------------------
 
 #==============================================================================

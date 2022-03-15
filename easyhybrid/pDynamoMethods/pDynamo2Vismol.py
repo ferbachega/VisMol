@@ -33,11 +33,6 @@ from pSimulation               import*
 #---------------------------------------
 #import our core lib
 from SimulationsPreset import Simulation 
-
-
-'''from easyhybrid.pDynamoMethods.SimulationsPreset import Simulation '''
-
-
 #---------------------------------------
 from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER

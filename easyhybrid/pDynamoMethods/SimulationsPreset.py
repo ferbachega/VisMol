@@ -11,28 +11,17 @@
 #--------------------------------------------------------------
 import os, glob, sys
 #--------------------------------------------------------------
-
-
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
-sys.path.append(os.path.join(VISMOL_HOME, "easyhybrid/pDynamoMethods"))
-
+if not VISMOL_HOME == None:
+	sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") ) 
+else:
+	sys.path.append(os.path.join("/home/igorchem/easyhybrid/pDynamoMethods") ) 
 #Loading own libraries
-from pDynamoMethods.commonFunctions 		import *
-from pDynamoMethods.LogFile  				import LogFile
-from pDynamoMethods.GeometrySearcher 		import GeometrySearcher
-from pDynamoMethods.RelaxedScan 			import SCAN
-from pDynamoMethods.MolecularDynamics  	    import MD
-from pDynamoMethods.UmbrellaSampling  		import US
-from pDynamoMethods.PotentialOfMeanForce 	import PMF
-from pDynamoMethods.ReactionCoordinate 	    import *
-from pDynamoMethods.EnergyRefinement	 	import *
-
-from pDynamoMethods.EnergyAnalysis import EnergyAnalysis
-from pDynamoMethods.TrajectoryAnalysis import TrajectoryAnalysis
-
-from commonFunctions 		import *
-from LogFile  			    import LogFile
+#-------------------------------------------------------------
+from EnergyAnalysis     	import EnergyAnalysis
+from TrajectoryAnalysis 	import TrajectoryAnalysis
+#-------------------------------------------------------------
 from GeometrySearcher 	    import GeometrySearcher
 from RelaxedScan 			import SCAN
 from MolecularDynamics  	import MD
@@ -40,9 +29,6 @@ from UmbrellaSampling  	    import US
 from PotentialOfMeanForce   import PMF
 from ReactionCoordinate 	import *
 from EnergyRefinement	 	import *
-
-#from EnergyAnalysis import EnergyAnalysis
-#from TrajectoryAnalysis import TrajectoryAnalysis
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     

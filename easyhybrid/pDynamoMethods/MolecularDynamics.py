@@ -15,11 +15,6 @@
 import os
 #import sys
 #----------------------------------------
-#importing our library functions
-import commonFunctions
-from LogFile import LogFile
-from ReactionCoordinate import *
-#----------------------------------------
 # pDynamo
 from pBabel                    import *                                     
 from pCore                     import *                                     
@@ -34,10 +29,6 @@ from pScientific.RandomNumbers import *
 from pScientific.Statistics    import *
 from pScientific.Symmetry      import *                                     
 from pSimulation               import *
-#---------------------------------------
-import numpy as np
-import matplotlib.pyplot as plt
-#import seaborn as sns
 #---------------------------------------
 
 #**************************************************************************
@@ -112,6 +103,8 @@ class MD:
             self.logFrequency           = _parameters['log_frequency']
         if 'temperature_scale_option'   in _parameters:
             self.temperatureScaleOption = _parameters['temperature_scale_option']
+        if 'seed'                       in _parameters:
+            self.seed                   = _parameters['seed']
 
 
     #=============================================================================================    
@@ -140,7 +133,7 @@ class MD:
                                             temperatureStop           = self.temperature                    )
         #..............................................................................................
     
-    #===================================================================================
+    #================================================================================================
     def RunEquilibration(self,_equiSteps):
         '''
         Run a molecular dynamics simulation for equilibration of the system
@@ -159,7 +152,7 @@ class MD:
         elif self.algorithm == "Langevin":
             self.runLangevin()
             
-    #=====================================================================================    
+    #===============================================================================================    
     def RunProduction(self,_prodSteps,):
         '''
         Run a molecular dynamics simulation for data collection.
@@ -181,7 +174,7 @@ class MD:
             Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
   
    
-    #=====================================================================================
+    #==================================================================================================
     def RunProductionRestricted(self,_equiSteps,_prodSteps,_samplingFactor):
         '''
         Run a simulation with the system having soft constrains defined.
@@ -195,7 +188,7 @@ class MD:
         self.RunEquilibration(_equiSteps)
         self.RunProduction(_prodSteps)           
 
-    #======================================================================================
+    #===================================================================================================
     def runVerlet(self):
         '''
         Execute velocity verlet molecular dynamics from pDynamo methods. 
@@ -209,17 +202,17 @@ class MD:
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
         
-        VelocityVerletDynamics_SystemGeometry(self.molecule                             ,
-                                logFrequency                = self.logFreq              ,
-                                normalDeviateGenerator      = self.RNG                  ,
-                                steps                       = self.nsteps               ,
-                                timeStep                    = self.timeStep             ,
-                                temperatureScaleFrequency   = self.temperatureScaleFreq ,
-                                temperatureScaleOption      = "constant"                ,
-                                trajectories                = trajectory_list           ,
-                                temperatureStart            = self.temperature          )
+        VelocityVerletDynamics_SystemGeometry(  self.molecule                                           ,
+                                                logFrequency                = self.logFreq              ,
+                                                normalDeviateGenerator      = self.RNG                  ,
+                                                steps                       = self.nsteps               ,
+                                                timeStep                    = self.timeStep             ,
+                                                temperatureScaleFrequency   = self.temperatureScaleFreq ,
+                                                temperatureScaleOption      = "constant"                ,
+                                                trajectories                = trajectory_list           ,
+                                                temperatureStart            = self.temperature          )
 
-    #=====================================================================================
+    #====================================================================================================
     def runLeapFrog(self):
         '''
         Execute Leap Frog molecular dynamics from pDynamo methods.
