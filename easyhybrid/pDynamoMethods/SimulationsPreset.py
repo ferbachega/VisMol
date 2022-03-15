@@ -18,18 +18,18 @@ HOME        = os.environ.get('HOME')
 sys.path.append(os.path.join(VISMOL_HOME, "easyhybrid/pDynamoMethods"))
 
 #Loading own libraries
-from easyhybrid.pDynamoMethods.commonFunctions 		import *
-from easyhybrid.pDynamoMethods.LogFile  				import LogFile
-from easyhybrid.pDynamoMethods.GeometrySearcher 		import GeometrySearcher
-from easyhybrid.pDynamoMethods.RelaxedScan 			import SCAN
-from easyhybrid.pDynamoMethods.MolecularDynamics  	import MD
-from easyhybrid.pDynamoMethods.UmbrellaSampling  		import US
-from easyhybrid.pDynamoMethods.PotentialOfMeanForce 	import PMF
-from easyhybrid.pDynamoMethods.ReactionCoordinate 	import *
-from easyhybrid.pDynamoMethods.EnergyRefinement	 	import *
+from commonFunctions 		import *
+from LogFile  			    import LogFile
+from GeometrySearcher 	    import GeometrySearcher
+from RelaxedScan 			import SCAN
+from MolecularDynamics  	import MD
+from UmbrellaSampling  	    import US
+from PotentialOfMeanForce   import PMF
+from ReactionCoordinate 	import *
+from EnergyRefinement	 	import *
 
-from easyhybrid.pDynamoMethods.EnergyAnalysis import EnergyAnalysis
-from easyhybrid.pDynamoMethods.TrajectoryAnalysis import TrajectoryAnalysis
+#from EnergyAnalysis import EnergyAnalysis
+#from TrajectoryAnalysis import TrajectoryAnalysis
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     

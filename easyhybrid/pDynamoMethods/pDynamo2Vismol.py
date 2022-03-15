@@ -8,8 +8,11 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
-import glob, math, os, os.path
+import glob, math, os, os.path, sys
 import numpy as np
+VISMOL_HOME = os.environ.get('VISMOL_HOME')
+#path fo the core python files on your machine
+sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods"))
 #---------------------------------------
 from pBabel                    import*                                     
 from pCore                     import*  
@@ -29,7 +32,7 @@ from pScientific.Symmetry      import*
 from pSimulation               import*
 #---------------------------------------
 #import our core lib
-#from SimulationsPreset import Simulation 
+from SimulationsPreset import Simulation 
 
 
 '''from easyhybrid.pDynamoMethods.SimulationsPreset import Simulation '''
@@ -744,9 +747,10 @@ class pDynamoSession:
         bsname = base name of the folder where will be created the next
         '''
         print (_parametersList)
-        run = Simulation(self.system[self.active_id],_simulationType, folder )
+        run = Simulation(self.systems[self.active_id]['system'],_simulationType, folder )
         run.Execute(_parametersList,_parameters4Plot)
-
+        
+        self.build_vismol_object_from_pDynamo_system (name = 'new_geometry', autocenter = False)
         
 #======================================================================================================
  
