@@ -182,9 +182,7 @@ class SimulationProject:
         self.cSystem.freeAtoms = mobile       
         self.cSystem.label = self.baseName + "#{} With Fixed Atoms ".format(self.systemCoutCurr) 
         self.cSystem.DefineNBModel( self.NBmodel )
-        self.cSystem.Energy()
-    
-    
+        self.cSystem.Energy()    
     #=====================================================================================
     def SetSMOHybridModel(self,_method,_region,_QCcharge,_QCmultiplicity):
         '''
@@ -236,7 +234,6 @@ class SimulationProject:
             ExportSystem(self.baseName+"_qcSystemEntire.pdb",self.cSystem)
             energy = self.cSystem.Energy() 
             self.logfile.inputLine( "Total Energy of the System: " + str(energy) ) 
-
     #=====================================================================================
     def SetOrcaSystem(self,_model,_basis,_region,_QCcharge,_QCmultiplicity):
         '''
@@ -295,8 +292,6 @@ class SimulationProject:
         self.NBmodel = NBModelORCA.WithDefaults()
         self.cSystem.DefineQCModel( _QCmodel , qcSelection=_QCRegion )
         self.cSystem.DefineNBModel(self.NBmodel)
-        #---------------------------------------------
-
     #==========================================================================
     def SetDFTBsystem(self,_region,_QCcharge,_QCmultiplicity):
         '''
@@ -355,8 +350,6 @@ class SimulationProject:
         self.cSystem.qcModel.maximumSCCIterations=1200
         energy = self.cSystem.Energy()      
         self.logfile.inputLine("Total Energy of the System: " + str(energy) )
-                
-
     #=========================================================================
     def RunSinglePoint(self):
         '''
@@ -397,7 +390,7 @@ class SimulationProject:
         process = Simulation(self.cSystem,_simulationType, bsname )
         process.Execute(_parameters,_plotParameters)              
         
-    #.-------------------------------------------------------------------------
+    #========================================================================================
     def PrintSystems(self):
         '''
         Method to print the summary of the loaded systems 

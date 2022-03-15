@@ -12,17 +12,15 @@
 #==============================================================================
 
 import pymp
-from commonFunctions import *
+import numpy as np 
+#-----------------------------
+#my library
+from GeometrySearcher import * 
+#-----------------------------
+#pDynamo library
 from pMolecule import *
 from pMolecule.QCModel import *
-from GeometrySearcher import * 
 
-from scipy.interpolate import griddata
-import numpy as np 
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator
-import matplotlib.colors as colors
-from matplotlib.colors import BoundaryNorm
 
 #*****************************************************************************
 class SCAN:
@@ -53,7 +51,7 @@ class SCAN:
         self.reactionCoordinate1= []                        # array with the first reaction coordinate in angstroms
         self.reactionCoordinate2= []                        # array with the second reaction coordinate in angstroms
         self.atoms              = []                        # array of the atomic indices for the reaction coordinates
-        self.nprocs             = NmaxThreads               # Maximum virtual threads to use in parallel runs using pymp
+        self.nprocs             = 1               # Maximum virtual threads to use in parallel runs using pymp
         self.energiesMatrix     = None                      # Multidimensional array to store calculated energy values
         self.DMINIMUM           = [ 0.0, 0.0 ]              # List with the Minimum distances for the reaction coordinates
         self.DINCREMENT         = [ 0.0, 0.0 ]              # List with the increment distances for the reaction coordinates
@@ -73,8 +71,8 @@ class SCAN:
         self.dihedral           = False
         #------------------------------------------------------------------------
         if not os.path.exists( os.path.join( self.baseName, "ScanTraj.ptGeo" ) ):
-            os.makedirs(  os.path.join( self.baseName, "ScanTraj.ptGeo" ) )
-        #------------------------------------------------------------------------
+            os.makedirs(  os.path.join( self.baseName, "ScanTraj.ptGeo" ) )     
+        #------------------------------------------------------------------------  
         #set the parameters dict for the geometry search classes
         self.GeoOptPars =   { 
                             "method": self.optmizer           ,\

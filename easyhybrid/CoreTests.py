@@ -860,6 +860,7 @@ def FreeEnergy2DmultipleDistance(nsteps):
 #=====================================================
 def EnergyAnalysisPlots():
 	'''
+	General tests of plots from energies analysis from our simulations
 	'''
 	#---------------------------------------------------------------------------------
 	#LOAD system
@@ -978,7 +979,6 @@ def EnergyAnalysisPlots():
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
 	#===========================================================================
 	#internal refinement
-
 #===============================================================================
 def TrajectoryAnalysisPlots():
 	'''
@@ -987,10 +987,10 @@ def TrajectoryAnalysisPlots():
 	# Root mean square and radius of gyration plots 
 	# Distance analysis in restricted molecular dynamics 
 	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
-
 #===============================================================================
 def ReacCoordSearchers():	
 	'''
+	Test simulation protocols to determine reaction paths
 	'''
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()
@@ -1011,7 +1011,6 @@ def ReacCoordSearchers():
 	_plotParameters = None 
 
 	proj.RunSimulation(parameters,"NEB",_plotParameters)
-
 #================================================================================
 def pDynamoEnergyRef_1D():
 	'''
@@ -1028,7 +1027,7 @@ def pDynamoEnergyRef_1D():
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
 	#setting reaction coordinates for ploting labels
-	a1 = [atom1[0],atom2[0],atom3[0]]
+	a1 = [ atom1[0],atom2[0],atom3[0] ]
 	rc1_md = ReactionCoordinate(a1,False)
 	rc1_md.SetInformation(proj.cSystem,0)	
 	a2 = [atom4[0],atom5[0],atom6[0]]
@@ -1058,7 +1057,6 @@ def pDynamoEnergyRef_1D():
 				   "Software":"pDynamo"	}
 
 	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)	
-	
 #=====================================================
 def pDynamoEnergyRef_2D():
 	'''
@@ -1176,12 +1174,12 @@ if __name__ == "__main__":
 	#QCMM_optimizations()								#TESTED
 	#QCMM_MD()											#TESTED
 	#QCMM_MDrestricted()								#TESTED
-	QCMMScanSimpleDistance(30,0.05)						#TESTED
-	QCMMScanMultipleDistance(30,0.05)					#TESTED
-	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	#QCMMScanSimpleDistance(30,0.05)					#TESTED
+	#QCMMScanMultipleDistance(30,0.05)					#TESTED
+	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
 	#FreeEnergy1DSimpleDistance(600)					#TESTED
 	#FreeEnergy1DMultipleDistance(600)					#TESTED
 	#UmbrellaSampling1Drestart(500)						#TESTED
@@ -1189,9 +1187,9 @@ if __name__ == "__main__":
 	#FreeEnergy2DmixedDistance(500)						#TESTED
 	#FreeEnergy2DmultipleDistance(500)					#TESTED
 	#pDynamoEnergyRef_1D()								#TESTED
-	#EnergyAnalysisPlots()								#TESTED
+	EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
 	#Scan1D_Dihedral(36)								#TESTED
-	Scan2D_Dihedral(12,12)
+	#Scan2D_Dihedral(12,12)

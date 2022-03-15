@@ -14,22 +14,24 @@ import os, glob, sys
 
 
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
+if VISMOL_HOME == None:
+	VISMOL_HOME = "/igorchem/home/VisMol"
 HOME        = os.environ.get('HOME')
 sys.path.append(os.path.join(VISMOL_HOME, "easyhybrid/pDynamoMethods"))
 
 #Loading own libraries
-from easyhybrid.pDynamoMethods.commonFunctions 		import *
-from easyhybrid.pDynamoMethods.LogFile  				import LogFile
-from easyhybrid.pDynamoMethods.GeometrySearcher 		import GeometrySearcher
-from easyhybrid.pDynamoMethods.RelaxedScan 			import SCAN
-from easyhybrid.pDynamoMethods.MolecularDynamics  	import MD
-from easyhybrid.pDynamoMethods.UmbrellaSampling  		import US
-from easyhybrid.pDynamoMethods.PotentialOfMeanForce 	import PMF
-from easyhybrid.pDynamoMethods.ReactionCoordinate 	import *
-from easyhybrid.pDynamoMethods.EnergyRefinement	 	import *
+from pDynamoMethods.commonFunctions 		import *
+from pDynamoMethods.LogFile  				import LogFile
+from pDynamoMethods.GeometrySearcher 		import GeometrySearcher
+from pDynamoMethods.RelaxedScan 			import SCAN
+from pDynamoMethods.MolecularDynamics  	    import MD
+from pDynamoMethods.UmbrellaSampling  		import US
+from pDynamoMethods.PotentialOfMeanForce 	import PMF
+from pDynamoMethods.ReactionCoordinate 	    import *
+from pDynamoMethods.EnergyRefinement	 	import *
 
-from easyhybrid.pDynamoMethods.EnergyAnalysis import EnergyAnalysis
-from easyhybrid.pDynamoMethods.TrajectoryAnalysis import TrajectoryAnalysis
+from pDynamoMethods.EnergyAnalysis import EnergyAnalysis
+from pDynamoMethods.TrajectoryAnalysis import TrajectoryAnalysis
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     

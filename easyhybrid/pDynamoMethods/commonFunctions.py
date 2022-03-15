@@ -170,8 +170,7 @@ def ReescaleCharges(_system, tc):
     Parameter #1: System instanced object
     Parameter #2: Total charge to be achieved 
     Return: System instanced object with the scaled charges.
-    '''
-    
+    '''    
     scaled_system = Clone(_system)
     
     Charges = scaled_system.energyModel.mmAtoms.AtomicCharges()
@@ -197,63 +196,22 @@ def ReescaleCharges(_system, tc):
     new_tc = Get_total_charge(scaled_system)
     print ("New Charges Sum:",new_tc)    
     
-    return(scaled_system)    
-    
-#==============================================================================
-def Amber12to11_Topology (filein, fileout):
-    '''  
-    Function to convert the Amber topology file from the 12# version format to 
-    11# version.
-    Parameter #1: File name of the input topology.
-    Parameter #2: File name of the outout topology.
-    Return: None.'''
-    filein = open(filein, 'r')
-    text   = []
-    print_line = True
-
-    for line in filein:
-        line2 = line.split()
-        try:
-            if line2[0] == '%FLAG':
-                if   line2[1] == 'ATOMIC_NUMBER':
-                    print ('excluding flag:', line)
-                    print_line = False
-
-                elif   line2[1] == 'SCEE_SCALE_FACTOR':
-                    print ('excluding flag:', line)
-                    print_line = False
-
-                elif   line2[1] == "SCNB_SCALE_FACTOR":
-                    print ('excluding flag:', line)
-                    print_line = False            
-
-                elif   line2[1] == 'IPOL':
-                    print ('excluding flag:', line)
-                    print_line = False
-        
-                else:
-                    print_line = True
-                    #print print_line
-        except:
-            a= None
-        if print_line == True:
-            text.append(line)
-
-    fileout = open(fileout, 'w')
-    fileout.writelines(text)
-    fileout.close()
+    return(scaled_system)        
 #==============================================================================
 def copySystem(system):
+    '''
+    Make a System deepy copy handling with the Non-bonded methods definitions 
+    '''
     nbmodel_hold = system.nbModel
     system.nbModel = None
     newSystem = Clone(system)
     newSystem.DefineNBModel ( nbmodel_hold )
-    system.nbModel = nbmodel_hold  
-    
+    system.nbModel = nbmodel_hold      
     return newSystem
 #==============================================================================
 def GetAtomicMass(atomN):
     '''
+    Return the atomic mass float value from the atomic information dictionary
     '''
     ls = list( atomic_dic.values() )
     atomMass = ls[atomN-1][4]
@@ -261,6 +219,7 @@ def GetAtomicMass(atomN):
 #==============================================================================
 def GetAtomicSymbol(atomN):
     '''
+    Return the atomic element symbol string from the atomic information dictionary
     '''
     ls = list( atomic_dic )
     _symbol = ls[atomN-1]
@@ -269,6 +228,7 @@ def GetAtomicSymbol(atomN):
 #=========================================================================================
 def GetFrameIndex(fname):
     '''
+    Get the indices of the frame from string name
     Pass file name without extension
     '''
     idxs = []
@@ -282,5 +242,4 @@ def GetFrameIndex(fname):
             idxs.append( int( ssplit[0][5:] ) )
             idxs.append( int(ssplit[1]) )
     return(idxs)
-
 #=========================================================================================

@@ -11,24 +11,16 @@
 #==============================================================================
 
 import os, sys
-
 #importing our library functions
 import commonFunctions
 from LogFile import LogFile
-
 # pDynamo
 from pBabel                    import *                                     
 from pCore                     import *                                     
-from pMolecule                 import *                              
-from pMolecule.MMModel         import *
-from pMolecule.NBModel         import *                                     
-from pMolecule.QCModel         import *
+from pMolecule                 import *                  
 from pScientific               import *                                     
 from pScientific.Arrays        import *                                     
-from pScientific.Geometry3     import *                                     
-from pScientific.RandomNumbers import *                                     
-from pScientific.Statistics    import *
-from pScientific.Symmetry      import *                                     
+from pScientific.Geometry3     import *                 
 from pSimulation               import *
 
 #***************************************************************************************
@@ -170,16 +162,16 @@ class GeometrySearcher:
         '''
         
         if self.traj == None: 
-            QuasiNewtonMinimize_SystemGeometry( self.molecule                   ,                
-                                            logFrequency         = self.logFreq ,
-                                            maximumIterations    = self.maxIt   ,
-                                            rmsGradientTolerance = self.rmsGrad )
+            QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
+                                                logFrequency         = self.logFreq ,
+                                                maximumIterations    = self.maxIt   ,
+                                                rmsGradientTolerance = self.rmsGrad )
         else:
-            QuasiNewtonMinimize_SystemGeometry( self.molecule                   ,                
-                                            logFrequency         = self.logFreq ,
-                                            trajectories         = self.traj    ,
-                                            maximumIterations    = self.maxIt   ,
-                                            rmsGradientTolerance = self.rmsGrad )
+            QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
+                                                logFrequency         = self.logFreq ,
+                                                trajectories         = self.traj    ,
+                                                maximumIterations    = self.maxIt   ,
+                                                rmsGradientTolerance = self.rmsGrad )
 
     #==============================================================================
     def RunFIREmin(self):
