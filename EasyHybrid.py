@@ -880,7 +880,7 @@ def main():
     
     vm_session.combobox_starting_coordinates = Gtk.ComboBox()
     vm_session.filechooser_working_folder    = Gtk.FileChooserButton()
-    vm_session.starting_coords_liststore     = Gtk.ListStore(str)
+    vm_session.starting_coords_liststore     = Gtk.ListStore(str, int)
     
     
     

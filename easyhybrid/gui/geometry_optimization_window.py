@@ -301,6 +301,20 @@ class GeometryOptimizatrionWindow(Gtk.Window):
     def run_opt (self, button):
         """ Function doc """
         entry_name    = None
+        
+        combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
+        
+        tree_iter = combobox_starting_coordinates.get_active_iter()
+        
+        #tree_iter = combo.get_active_iter()
+        if tree_iter is not None:
+            model = combobox_starting_coordinates.get_model()
+            print('312', model[tree_iter])
+            row_id, name = model[tree_iter][:2]
+            print('314',row_id, name)
+            
+            #aqui colocamos a função que importa as coordenadas para o sistema
+        
         method_id     = self.builder.get_object('combobox_geo_opt').get_active()
         
         

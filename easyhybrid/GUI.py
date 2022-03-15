@@ -378,12 +378,12 @@ class EasyHybridMainWindow ( ):
                 print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
                 
                 if visObj.easyhybrid_system_id == self.pDynamo_session.active_id:
-                    starting_coords.append(visObj.name)
+                    starting_coords.append([visObj.name, key])
             
-            for coords in starting_coords:
-                self.vm_session.starting_coords_liststore.append([coords])
-                print (coords)
-            
+            for item in starting_coords:
+                self.vm_session.starting_coords_liststore.append(list(item))
+                print (item)
+                
             
         
         '''--------------------------------------------------------------------------------------------'''

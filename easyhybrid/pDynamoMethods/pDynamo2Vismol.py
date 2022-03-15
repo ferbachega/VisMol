@@ -612,7 +612,8 @@ class pDynamoSession:
                                                                 autocenter       = autocenter)
         
         self.vm_session.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
-        self.refresh_qc_and_fixed_representations()        
+        self.refresh_qc_and_fixed_representations() 
+        self.vm_session.main_session.update_gui_widgets()
         return vismol_object
 
     def selections (self, _centerAtom, _radius, _method):
