@@ -15,10 +15,11 @@
 import os, glob, sys 
 
 os.environ['MPLCONFIGDIR'] = '/tmp'
+VISMOL_HOME = os.environ.get('VISMOL_HOME')
 
 
 #path fo the core python files on your machine
-sys.path.append("/home/igorchem/VisMol/easyhybrid/pDynamoMethods") 
+sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods")) 
 #------------------------------------------------------
 #------------------------------------------------------
 from pBabel                    import *                                     
@@ -37,13 +38,14 @@ from pSimulation               import *
 from CoreInterface 			   import SimulationProject
 from PotentialOfMeanForce import *
 
-from EnergyAnalysis import EnergyAnalysis
-from TrajectoryAnalysis import TrajectoryAnalysis
+#from EnergyAnalysis import EnergyAnalysis
+#from TrajectoryAnalysis import TrajectoryAnalysis
 from ReactionCoordinate import *
 #-------------------------------------------------------------------
 #path for the required files on the examples folder of EasyHynrid 3.0
-easyhybrid   = "/home/igorchem/VisMol/easyhybrid"
-ex_path      = "/home/igorchem/VisMol/examples/"
+easyhybrid   = os.path.join(VISMOL_HOME, "easyhybrid")
+ex_path      = os.path.join(VISMOL_HOME, "examples/")
+
 scratch_path = os.path.join(easyhybrid,"TestsScratch")
 timTop       = os.path.join(ex_path,"TIM","7tim.top")
 timCrd       = os.path.join(ex_path,"TIM","7tim.crd")
@@ -1174,12 +1176,12 @@ if __name__ == "__main__":
 	#QCMM_optimizations()								#TESTED
 	#QCMM_MD()											#TESTED
 	#QCMM_MDrestricted()								#TESTED
-	#QCMMScanSimpleDistance(30,0.05)					#TESTED
-	#QCMMScanMultipleDistance(30,0.05)					#TESTED
-	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	QCMMScanSimpleDistance(30,0.05)					#TESTED
+	QCMMScanMultipleDistance(30,0.05)					#TESTED
+	QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
+	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
 	#FreeEnergy1DSimpleDistance(600)					#TESTED
 	#FreeEnergy1DMultipleDistance(600)					#TESTED
 	#UmbrellaSampling1Drestart(500)						#TESTED
@@ -1187,9 +1189,9 @@ if __name__ == "__main__":
 	#FreeEnergy2DmixedDistance(500)						#TESTED
 	#FreeEnergy2DmultipleDistance(500)					#TESTED
 	#pDynamoEnergyRef_1D()								#TESTED
-	EnergyAnalysisPlots()								#TESTED
+	#EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
 	#Scan1D_Dihedral(36)								#TESTED
-	#Scan2D_Dihedral(12,12)
+	Scan2D_Dihedral(12,12)

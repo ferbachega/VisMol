@@ -14,8 +14,6 @@ import os, glob, sys
 
 
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
-if VISMOL_HOME == None:
-	VISMOL_HOME = "/igorchem/home/VisMol"
 HOME        = os.environ.get('HOME')
 sys.path.append(os.path.join(VISMOL_HOME, "easyhybrid/pDynamoMethods"))
 
@@ -32,6 +30,19 @@ from pDynamoMethods.EnergyRefinement	 	import *
 
 from pDynamoMethods.EnergyAnalysis import EnergyAnalysis
 from pDynamoMethods.TrajectoryAnalysis import TrajectoryAnalysis
+
+from commonFunctions 		import *
+from LogFile  			    import LogFile
+from GeometrySearcher 	    import GeometrySearcher
+from RelaxedScan 			import SCAN
+from MolecularDynamics  	import MD
+from UmbrellaSampling  	    import US
+from PotentialOfMeanForce   import PMF
+from ReactionCoordinate 	import *
+from EnergyRefinement	 	import *
+
+#from EnergyAnalysis import EnergyAnalysis
+#from TrajectoryAnalysis import TrajectoryAnalysis
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     

@@ -32,32 +32,31 @@ from pScientific.Statistics    import *
 from pScientific.Arrays        import *
 from pSimulation               import *
 
-logs1D = "/home/igorchem/CCDIR/LactatoPaper/LDL/SCANs1D/logs"
-logs2D = "/home/igorchem/CCDIR/LactatoPaper/LDL/"
-
 #*********************************************************************
 class EnergyAnalysis:
 	'''
+	Centralize all plot functions for energy alaysis, one and two-dimensional
 	'''
 	#------------------------------------------------
 	def __init__(self, x, y, _type="1D"):
 		'''
+		Desfault constructor initializing the atributes.
 		'''
-		self.energies1D 	= []
-		self.energiesMatrix = np.zeros( (y, x), dtype=float )
-		self.multiple1Dplot = []
-		self.multiple2Dplot = []
-		self.RC1            = []
-		self.RC2            = []
-		self.dimensions     = 0
-		self.nplots1D       = 0
-		self.nplots2D 		= 0
-		self.xlen 			= x
-		self.ylen  			= y
-		self.Type 			= _type
-		self.labely         = ""
-		self.baseName 		= ""
-		self.identifiers    = []
+		self.energies1D 	= []							  # array for energy values from one-dimension coordinate simulation 
+		self.energiesMatrix = np.zeros( (y, x), dtype=float ) # array for energy values from two-dimension coordinate simulation
+		self.multiple1Dplot = []							  # List of one-dimension energy arrays, each one for a different energy method
+		self.multiple2Dplot = []							  # List of two-dimension energy arrays, 
+		self.RC1            = []							  # Array with the first reaction coordinate values
+		self.RC2            = []							  # Array with the second reaction coordinate values
+		self.dimensions     = 0								  # Number of coordinates used in the analysis
+		self.nplots1D       = 0								  # Number of one-dimension energy plots to do 
+		self.nplots2D 		= 0								  # Number of two-dimension energy plots to do
+		self.xlen 			= x 							  # Number of steps in the first coordinate
+		self.ylen  			= y         					  # Number of steps in the seconf coordinate
+		self.Type 			= _type                           # Type of the plot, could be of: Free Energy, PMF, Potential Energy 
+		self.labely         = ""                              # String holding the name of Y axis  
+		self.baseName 		= ""							  # string holding the path of the folder
+		self.identifiers    = []                              # List of string identifiers 
 		
 		if self.ylen > 0:
 			self.dimensions = 2
