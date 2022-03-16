@@ -1151,27 +1151,27 @@ def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":
-	#MMMD_Algorithms()                         			#TESTED
-	#MMMD_Protocols()									#TESTED
-	#QCMM_Energies()									#TESTED
-	QCMM_DFTBplus()									#TESTED
-	QCMM_Orca()										#TESTED
+	MMMD_Algorithms()                         			#TESTED
+	MMMD_Protocols()									#TESTED
+	QCMM_Energies()										#TESTED
+	QCMM_DFTBplus()										#TESTED
+	QCMM_Orca()											#TESTED
 	QCMM_optimizations()								#TESTED
 	QCMM_MD()											#TESTED
-	QCMM_MDrestricted()								#TESTED
-	QCMMScanSimpleDistance(30,0.05)					#TESTED
+	QCMM_MDrestricted()									#TESTED
+	QCMMScanSimpleDistance(30,0.05)						#TESTED
 	QCMMScanMultipleDistance(30,0.05)					#TESTED
-	QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
+	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
 	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
 	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
 	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
-	#FreeEnergy1DSimpleDistance(600)					#TESTED
-	#FreeEnergy1DMultipleDistance(600)					#TESTED
-	#UmbrellaSampling1Drestart(500)						#TESTED
-	#FreeEnergy2DsimpleDistance(500)					#TESTED
-	#FreeEnergy2DmixedDistance(500)						#TESTED
-	#FreeEnergy2DmultipleDistance(500)					#TESTED
-	#pDynamoEnergyRef_1D()								#TESTED
+	FreeEnergy1DSimpleDistance(600)						#TESTED
+	FreeEnergy1DMultipleDistance(600)					#TESTED
+	UmbrellaSampling1Drestart(500)						#TESTED
+	FreeEnergy2DsimpleDistance(500)						#TESTED
+	FreeEnergy2DmixedDistance(500)						#TESTED
+	FreeEnergy2DmultipleDistance(500)					#TESTED
+	pDynamoEnergyRef_1D()								#TESTED
 	#EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED

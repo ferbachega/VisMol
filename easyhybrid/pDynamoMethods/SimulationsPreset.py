@@ -27,8 +27,8 @@ from RelaxedScan 			import SCAN
 from MolecularDynamics  	import MD
 from UmbrellaSampling  	    import US
 from PotentialOfMeanForce   import PMF
-from ReactionCoordinate 	import *
-from EnergyRefinement	 	import *
+from ReactionCoordinate 	import ReactionCoordinate
+from EnergyRefinement	 	import EnergyRefinement
 #--------------------------------------------------------------
 #loading pDynamo Libraries
 from pBabel                    import *                                     

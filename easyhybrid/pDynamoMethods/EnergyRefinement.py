@@ -13,7 +13,6 @@ import pymp
 from commonFunctions import *
 from pMolecule import *
 from pMolecule.QCModel import *
-from GeometrySearcher import * 
 from MopacQCMMinput import *
 import os, glob, sys, shutil
 import numpy as np 
@@ -78,7 +77,19 @@ class EnergyRefinement:
 			_centerAtom:
 			_radius    :
 		'''
-		pass
+        #---------------------------------------------------
+		atomref      	 = AtomSelection.FromAtomPattern( self.molecule, _centerAtom )
+		newSelection  	 = AtomSelection.Within(self.molecule,atomref,_radius)
+		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
+		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
+		self.charge  	 = Get_total_charge(newSystem)
+		self.pureQCAtoms = list(newSelection)
+		qcModel = self.molecule.qcModel 
+		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
+
+		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
+        #---------------------------------------------------
+        
 	#====================================================
 	def RunInternalSMO(self,_methods,_NmaxThreads):
 		'''
