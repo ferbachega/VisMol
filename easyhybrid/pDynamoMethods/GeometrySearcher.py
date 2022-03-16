@@ -54,7 +54,7 @@ class GeometrySearcher:
         if 'maxIterations'      in _parameters:
             self.maxIt          = _parameters['maxIterations']            
         if "log_frequency"      in _parameters:
-            self.logFreq        = _paremeters["log_frequency"]
+            self.logFreq        = _parameters["log_frequency"]
         if "save_pdb"           in _parameters:
             self.savePdb        = True
         if "save_traj"          in _parameters:

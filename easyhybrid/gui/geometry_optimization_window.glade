@@ -4,7 +4,7 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="geometry_optimization_window">
     <property name="can_focus">False</property>
-    <property name="icon">../../GTKGUI/icons/icon_minimization_24x24.png</property>
+    <property name="icon">../icons/icon_minimization_24x24.png</property>
     <signal name="delete-event" handler="CloseWindow" swapped="no"/>
     <signal name="destroy" handler="CloseWindow" swapped="no"/>
     <signal name="destroy-event" handler="CloseWindow" swapped="no"/>

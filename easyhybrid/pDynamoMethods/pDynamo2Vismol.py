@@ -198,7 +198,30 @@ class pDynamoSession:
         self.counter      = 0
         self.color_palette_counter = 0
 
+
+    def generate_pSystem_dictionary (self, system, working_folder = None ):
+        """ Function doc """
         
+        if working_folder:
+            pass
+        else:
+            working_folder = HOME
+        
+        psystem = {
+                  'id'            : 0              ,  # access number (same as the access key in the self.systems dictionary)
+                  'name'          : None           ,
+                  'system'        : system         ,  # pdynamo system
+                                                   
+                  'vismol_object' : None           ,  # Vismol object associated with the system -> is the object that will 
+                                                      # undergo changes when something new is requested by the interface, for example: show the QC region
+                  'active'        : False          , 
+                  'bonds'         : None           ,
+                  'sequence'      : None           ,
+                  'qc_table'      : None           ,
+                  'color_palette' : None           , # will be replaced by a dict
+                  'fixed_table'   : []             ,
+                  'working_folder': working_folder , 
+                   }
         
     def load_a_new_pDynamo_system_from_dict (self, filesin = {}, systype = 0, name = None):
         """ Function doc """
@@ -254,11 +277,8 @@ class pDynamoSession:
 
         
         
-        if name:
-            pass
-        else:
-            name = system.label
-        #'''
+
+        '''
         psystem['system']        =  system
         psystem['name']          =  name
         print('color_palette', self.color_palette_counter)
@@ -266,16 +286,43 @@ class pDynamoSession:
         #'''
 
         #self.name  =  name
-        self.append_system_to_pdynamo_session(psystem)
+        self.append_system_to_pdynamo_session(system)
         self.vm_session.main_session.update_gui_widgets()
 
 
-    def append_system_to_pdynamo_session (self, psystem):
+    def append_system_to_pdynamo_session (self, system, name = None, working_folder = None):
         """ Function doc """
+        
+        psystem = {
+                  'id'            : 0    ,  # access number (same as the access key in the self.systems dictionary)
+                  'name'          : None ,
+                  'system'        : None ,  # pdynamo system
+                  
+                  'vismol_object' : None ,  # Vismol object associated with the system -> is the object that will 
+                                            # undergo changes when something new is requested by the interface, for example: show the QC region
+                  'active'        : False, 
+                  'bonds'         : None ,
+                  'sequence'      : None ,
+                  'qc_table'      : None ,
+                  'color_palette' : None , # will be replaced by a dict
+                  'fixed_table'   : []   ,
+                  'working_folder': HOME , 
+                   }
+        
+        if name:
+            pass
+        else:
+            name = system.label
+        
+        psystem['system']           =  system
+        psystem['name']             =  name
+        psystem['color_palette']    =  COLOR_PALETTE[self.color_palette_counter]
         psystem['id']               = self.counter
         self.systems[psystem['id']] = psystem 
         
+        #print('color_palette', self.color_palette_counter)
         #self.systems_list.append(psystem)
+        
         self.active_id   = self.counter  
         self.counter    += 1
 
@@ -432,7 +479,7 @@ class pDynamoSession:
         if summary:
             system.Summary ( )
         
-        
+        '''
         psystem = {
                   'id'            : 0      ,  # access number (same as the access key in the self.systems dictionary)
                   'name'          : label  ,
@@ -447,9 +494,9 @@ class pDynamoSession:
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
                    }
+        '''
         
-        
-        self.append_system_to_pdynamo_session (psystem)
+        self.append_system_to_pdynamo_session (system)
         
     def prune_system (self, selection = None, label = 'Pruned System', summary = True):
         """ Function doc """
@@ -460,7 +507,7 @@ class pDynamoSession:
         if summary:
             system.Summary ( )
             
-            
+        '''
         psystem = {
                   'id'            : 0      ,  # access number (same as the access key in the self.systems dictionary)
                   'name'          : label  ,
@@ -475,11 +522,23 @@ class pDynamoSession:
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
                    }
+        '''
             
             
-            
-        self.append_system_to_pdynamo_session (psystem)
+        self.append_system_to_pdynamo_session (system)
 
+    def get_coordinates_from_vismol_object_to_pDynamo_system (self, vismol_object ):
+        """ Function doc """
+        
+        print('\n\n')
+        print('taking coordinates from', vismol_object.name)
+        print('\n\n')
+        
+        for i, atom in enumerate(vismol_object.atoms):
+            xyz = atom.coords()
+            self.systems[self.active_id]['system'].coordinates3[i][0] = xyz[0]
+            self.systems[self.active_id]['system'].coordinates3[i][1] = xyz[1]
+            self.systems[self.active_id]['system'].coordinates3[i][2] = xyz[2]
     
     def get_sequence_from_pDynamo_system (self):
         """ Function doc """

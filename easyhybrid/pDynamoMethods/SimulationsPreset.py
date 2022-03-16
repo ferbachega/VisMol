@@ -242,7 +242,7 @@ class Simulation:
 		Gopt = GeometrySearcher(self.molecule,self.baseFolder)		
 		Gopt.ChangeDefaultParameters(_parameters)
 		Gopt.Minimization(_Optimizer)
-		Gopt.Finalize()
+		#Gopt.Finalize()
 	#==================================================================
 	def RelaxedSurfaceScan(self,_parameters,_plotParameters):
 		'''

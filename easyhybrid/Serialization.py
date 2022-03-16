@@ -104,7 +104,15 @@ class LoadAndSaveFiles:
         
         
         for system_id, system in self.pDynamo_session.systems.items():
-                        
+            pdynamo_projects['systems'][system_id] = {}
+            for key in system.keys():
+                
+                if key == 'vismol_object':
+                    pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
+                else:
+                    pdynamo_projects['systems'][system_id][key] = system[key]
+            
+            '''
             pdynamo_projects['systems'][system_id] = {
                                                     'id'            : system['id'           ],
                                                     'name'          : system['name'         ],
@@ -117,7 +125,7 @@ class LoadAndSaveFiles:
                                                     'fixed_table'   : system['fixed_table'  ],
                                                     'color_palette' : system['color_palette'],
                                                     }
-
+            '''
         #---------------------------------------------------------------
         #               V I S M O L   S E S S I O N
         #---------------------------------------------------------------

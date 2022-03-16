@@ -309,10 +309,11 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         #tree_iter = combo.get_active_iter()
         if tree_iter is not None:
             model = combobox_starting_coordinates.get_model()
-            print('312', model[tree_iter])
-            row_id, name = model[tree_iter][:2]
-            print('314',row_id, name)
-            
+            #print('312', model[tree_iter])
+            name, vobject_id = model[tree_iter][:2]
+            #print('314',name, vobject_id)
+            vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
             #aqui colocamos a função que importa as coordenadas para o sistema
         
         method_id     = self.builder.get_object('combobox_geo_opt').get_active()
@@ -336,17 +337,30 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             traj_frequence  = self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text()
             
             parameters = {
-                            'entry_name'      :  entry_name                  , 
-                            'method_id'       :  method_id                   ,
-                            'logFrequency'    :  logFrequency                , 
-                            'max_int'         :  max_int                     ,
-                            'rmsd_tol'        :  rmsd_tol                    ,
-                            'folder'          :  folder                      ,
-                            'trajectory_name' :  trajectory_name             ,
-                            'traj_format '    :  traj_format                 ,
-                            'traj_frequence'  :  traj_frequence              ,
-                            'optimizer'       :  self.opt_methods[method_id]
-            }
+                            
+                            'trajectory_name' :  trajectory_name            ,
+                            'folder'          :  folder                     ,
+                            'optimizer'       :  self.opt_methods[method_id], 
+                            'maxIterations'   :  max_int                    ,
+                            'log_frequency'   :  logFrequency               ,
+                            #'save_pdb'        :  
+                            'save_traj'       : True                        , 
+                            #'not_save_dcd'    : traj_format                 ,
+                            'rmsGradient'     : rmsd_tol                    ,
+                            }
+            
+            
+            #parameters = {
+            #                'entry_name'      :  entry_name                  , 
+            #                'method_id'       :  method_id                   ,
+            #                'logFrequency'    :  logFrequency                , 
+            #                'max_int'         :  max_int                     ,
+            #                'rmsd_tol'        :  rmsd_tol                    ,
+            #                'folder'          :  folder                      ,
+            #                'traj_format '    :  traj_format                 ,
+            #                'traj_frequence'  :  traj_frequence              ,
+            #                'optimizer'       :  self.opt_methods[method_id]
+            #}
         
                 
             self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
