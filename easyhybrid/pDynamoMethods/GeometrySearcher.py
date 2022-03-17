@@ -101,7 +101,7 @@ class GeometrySearcher:
                                                  logFrequency           = self.logFreq    ,
                                                  trajectories           = [(trajectory, self.saveFrequency)],
                                                  maximumIterations      = self.maxIt      ,
-                                                 rmsGradientTolerance   = self.rmsGrad    ) 
+                                                 rmsGradientTolerance   = self.rmsGrad    )
 
     #=====================================================================================
     def RunSteepestDescent(self):

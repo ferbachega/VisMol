@@ -413,12 +413,13 @@ def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
 				   "rc_type_1" :"dihedral", 
 				   "rc_type_2" :"dihedral", 
 				   "ndim":2               ,
-				   "force_constant_1":25.0,
-				   "force_constant_2":25.0,
+				   "force_constant_1":10.0,
+				   "force_constant_2":10.0,
 				   "NmaxThreads":4        }
     #run the simulation
     #---------------------------------------------------------------------
-	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
+	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)
+	proj.SaveProject()		
 	proj.FinishRun()
 #=====================================================
 def QCMMScan2DsimpleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default"):
@@ -1193,5 +1194,5 @@ if __name__ == "__main__":
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
-	Scan1D_Dihedral(36)									#TESTED
-	#Scan2D_Dihedral(12,12)
+	#Scan1D_Dihedral(36)									#TESTED
+	#Scan2D_Dihedral(10,10)
