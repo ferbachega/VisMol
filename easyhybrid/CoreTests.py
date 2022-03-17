@@ -59,7 +59,13 @@ def SetMMsytem():
 	proj.SphericalPruning(_pattern,25.0)
 	#Fixed external atoms
 	proj.SettingFixedAtoms(_pattern,20.0)
-	parameters_b = {"maxIterations":1000,"rmsGradient":0.1}
+	parameters_b = {"maxIterations":600 			 ,
+					"rmsGradient":0.1   			 ,
+					"optmizer":"ConjugatedGradient"  ,
+					"trajectory_name":"TIM_opt.ptGeo",
+					"save_format":"TIM_opt.dcd"      ,
+					"log_frequency":10 				 ,
+					"save_pdb": True    			 }
 	#otimize pruned systems
 	proj.RunSimulation(parameters_b,"Geometry_Optimization",_plotParameters)
 	#seve a pkl with the MM model defined for the pruned system 
@@ -207,11 +213,15 @@ def QCMM_optimizations():
 			"FIRE"              ]	
 	#problems saving trajectory! But geometry opt working
 	_plotParameters = None
+	parameters=    {"maxIterations":600 			 ,
+					"rmsGradient":0.1   			 ,
+					"trajectory_name":"TIM_opt.ptGeo",
+					"save_format":"TIM_opt.dcd"      ,
+					"log_frequency":10 				 ,
+					"save_pdb": True    			 }
 	#---------------------------------------------------
 	for alg in algs:
-		parameters = {	"maxIterations":1000    ,
-						"rmsGradient":0.1       ,
-						"optmizer":alg			}						
+		parameters = {	"optmizer":alg	}						
 		proj.RunSimulation(parameters,"Geometry_Optimization",_plotParameters)
 		proj.cSystem.coordinates3 = initialCoords;
 	#Save QCMM optimezed System	
@@ -984,20 +994,20 @@ def ReacCoordSearchers():
 		QCMM_optimizations()
 	proj=SimulationProject( os.path.join(scratch_path,"ReactionPathsSearchers") )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
-
+	#-------------------------------------------------------------------------------
 	#generate initial and final coordinates for NEB 
 	#generate trajectory for SAW
-		
+	#-------------------------------------------------------------------------------
 	_name = "SCAN1D_4NEB_and_SAW"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
 		QCMMScanMultipleDistance(30,0.05,name=_name)
 	init_path = os.path.join( _path, "frame0.pkl")
 	final_path = os.path.join( _path, "frame29.pkl")
-
+	#-------------------------------------------------------------------------------
 	parameters      = {"init_coord":init_path,"final_coord":final_path,"NEB_nbins":16,"RMS_growing_intial_string":0.3}
 	_plotParameters = None 
-
+	#-------------------------------------------------------------------------------
 	proj.RunSimulation(parameters,"NEB",_plotParameters)
 #================================================================================
 def pDynamoEnergyRef_1D():
@@ -1142,7 +1152,12 @@ def MopacEnergyRef():
 				   "Software":"mopac"	}
 	#---------------------------------------------
 	proj.RunSimulation(parameters,"Energy_Refinement",_plotParameters)	
-	
+#=====================================================
+def Change_QC_Region():
+	pass
+#=====================================================
+def CombinedFES_ABinitioSMO():
+	pass
 #=====================================================
 def ORCAEnergy():
 	pass
@@ -1151,28 +1166,28 @@ def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":
-	MMMD_Algorithms()                         			#TESTED
-	MMMD_Protocols()									#TESTED
-	QCMM_Energies()										#TESTED
-	QCMM_DFTBplus()										#TESTED
-	QCMM_Orca()											#TESTED
+	#MMMD_Algorithms()                         			#TESTED
+	#MMMD_Protocols()									#TESTED
+	#QCMM_Energies()									#TESTED
+	#QCMM_DFTBplus()									#TESTED
+	#QCMM_Orca()										#TESTED
 	QCMM_optimizations()								#TESTED
-	QCMM_MD()											#TESTED
-	QCMM_MDrestricted()									#TESTED
-	QCMMScanSimpleDistance(30,0.05)						#TESTED
-	QCMMScanMultipleDistance(30,0.05)					#TESTED
-	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
-	FreeEnergy1DSimpleDistance(600)						#TESTED
-	FreeEnergy1DMultipleDistance(600)					#TESTED
-	UmbrellaSampling1Drestart(500)						#TESTED
-	FreeEnergy2DsimpleDistance(500)						#TESTED
-	FreeEnergy2DmixedDistance(500)						#TESTED
-	FreeEnergy2DmultipleDistance(500)					#TESTED
-	pDynamoEnergyRef_1D()								#TESTED
-	#EnergyAnalysisPlots()								#TESTED
+	#QCMM_MD()											#TESTED
+	#QCMM_MDrestricted()								#TESTED
+	#QCMMScanSimpleDistance(30,0.05)					#TESTED
+	#QCMMScanMultipleDistance(30,0.05)					#TESTED
+	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	#FreeEnergy1DSimpleDistance(500)					#TESTED
+	#FreeEnergy1DMultipleDistance(500)					#TESTED
+	#UmbrellaSampling1Drestart(500)						#TESTED
+	#FreeEnergy2DsimpleDistance(500)					#TESTED
+	#FreeEnergy2DmixedDistance(500)						#TESTED
+	#FreeEnergy2DmultipleDistance(500)					#TESTED
+	#pDynamoEnergyRef_1D()								#TESTED
+	EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED

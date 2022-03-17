@@ -40,27 +40,27 @@ class SCAN:
         '''
         self.baseName           = _baseFolder
         self.molecule           = _system 
-        self.nDim               = 0                         # Number of active reaction coordinates to Scan
-        self.reactionCoordinate1= []                        # array with the first reaction coordinate in angstroms
-        self.reactionCoordinate2= []                        # array with the second reaction coordinate in angstroms
-        self.atoms              = []                        # array of the atomic indices for the reaction coordinates
-        self.nprocs             = 1                         # Maximum virtual threads to use in parallel runs using pymp
-        self.energiesMatrix     = None                      # Multidimensional array to store calculated energy values
-        self.DMINIMUM           = [ 0.0, 0.0 ]              # List with the Minimum distances for the reaction coordinates
-        self.DINCREMENT         = [ 0.0, 0.0 ]              # List with the increment distances for the reaction coordinates
-        self.forceC             = [ 2500.0,2500.0 ]         # Force constant for restraint model
-        self.forceCRef          = [self.forceC,self.forceC] # Inital value for the force constant
-        self.EnergyRef          = 0.0                       # Float to hold energy reference value for adaptative scheme
-        self.massConstraint     = True                      # Boolean indicating if the reaction coordinates have mass constraints 
-        self.multipleDistance   = [False,False]             # List of booleand indicating if the reaction coordinates are of multiple distance type
-        self.nsteps             = [ 1, 1 ]                  # List of integer indicating the number of steps to be taken
-        self.maxIt              = 800                       # Maximum number of iterations in goemtry search 
-        self.rmsGT              = 0.1                       # Float with root mean square tolerance for geometry optimization 
-        self.optmizer           = _optimizer                # string with optimizer algorithm for geomtry optimization
-        self.sigma_a1_a3        = [ 0.0,0.0 ]               # Mass contraint weight list for the reaction coordinates
-        self.sigma_a3_a1        = [ 0.0,0.0 ]               # Mass contraint weight list for the reaction coordinates
-        self.adaptative         = ADAPTATIVE                # Boolean indicating if the scan can use the adptative scheme to change the convergence paramters
-        self.text               = ""                        # Text container for energy log
+        self.nDim               = 0                                  # Number of active reaction coordinates to Scan
+        self.reactionCoordinate1= []                                 # array with the first reaction coordinate in angstroms
+        self.reactionCoordinate2= []                                 # array with the second reaction coordinate in angstroms
+        self.atoms              = []                                 # array of the atomic indices for the reaction coordinates
+        self.nprocs             = 1                                  # Maximum virtual threads to use in parallel runs using pymp
+        self.energiesMatrix     = None                               # Multidimensional array to store calculated energy values
+        self.DMINIMUM           = [ 0.0, 0.0 ]                       # List with the Minimum distances for the reaction coordinates
+        self.DINCREMENT         = [ 0.0, 0.0 ]                       # List with the increment distances for the reaction coordinates
+        self.forceC             = [ 2500.0, 2500.0 ]                 # Force constant for restraint model
+        self.forceCRef          = [ self.forceC[0], self.forceC[1] ] # Inital value for the force constant
+        self.EnergyRef          = 0.0                               # Float to hold energy reference value for adaptative scheme
+        self.massConstraint     = True                              # Boolean indicating if the reaction coordinates have mass constraints 
+        self.multipleDistance   = [False,False]                     # List of booleand indicating if the reaction coordinates are of multiple distance type
+        self.nsteps             = [ 1, 1 ]                          # List of integer indicating the number of steps to be taken
+        self.maxIt              = 800                               # Maximum number of iterations in goemtry search 
+        self.rmsGT              = 0.1                               # Float with root mean square tolerance for geometry optimization 
+        self.optmizer           = _optimizer                        # string with optimizer algorithm for geomtry optimization
+        self.sigma_a1_a3        = [ 0.0,0.0 ]                       # Mass contraint weight list for the reaction coordinates
+        self.sigma_a3_a1        = [ 0.0,0.0 ]                       # Mass contraint weight list for the reaction coordinates
+        self.adaptative         = ADAPTATIVE                        # Boolean indicating if the scan can use the adptative scheme to change the convergence paramters
+        self.text               = ""                                # Text container for energy log
         self.dihedral           = False
         #------------------------------------------------------------------------
         if not os.path.exists( os.path.join( self.baseName, "ScanTraj.ptGeo" ) ):
@@ -100,55 +100,54 @@ class SCAN:
                             "maxIterations":self.maxIt        ,\
                             "rmsGradient": self.rmsGT         }    
     #===========================================================================================
-    def ChangeConvergenceParameters(self):
+    def ChangeConvergenceParameters(self,_xframe,_yframe):
         '''
         '''
-        En = self.molecule.Energy()
-        delta = En - self.EnergyRef
-
-        if delta < 150.0:
-            self.forceC[0] = self.forceCRef[0]
-            self.forceC[1] = self.forceCRef[1]
-            self.molecule.qcModel.converger.energyTolerance  = 0.0001
-            self.molecule.qcModel.converger.densityTolerance = 3e-08
-            self.molecule.qcModel.converger.diisDeviation    = 1e-06
-        elif delta >= 150.0:
-            self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.40
-            self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.40
-            self.molecule.qcModel.converger.energyTolerance  = 0.0003
-            self.molecule.qcModel.converger.densityTolerance = 3e-08
-            self.molecule.qcModel.converger.diisDeviation    = 1e-06
-            if delta > 160.0 and delta < 170.0:
-                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
-                self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
-                self.molecule.qcModel.converger.energyTolerance  = 0.0006
-                self.molecule.qcModel.converger.densityTolerance = 1e-07
-                self.molecule.qcModel.converger.diisDeviation    = 2e-06
-            elif delta > 170.0 and delta <180.0 :
-                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
-                self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
-                self.molecule.qcModel.converger.energyTolerance  = 0.001
-                self.molecule.qcModel.converger.densityTolerance = 3e-07
-                self.molecule.qcModel.converger.diisDeviation    = 5e-06
-            elif delta > 180.0 and delta < 185.0:
-                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
-                self.forceC[1] = self.forceCRef[1] - self.forceCRef[0]*0.70
-                self.molecule.qcModel.converger.energyTolerance  = 0.0015
-                self.molecule.qcModel.converger.densityTolerance = 1e-06
-                self.molecule.qcModel.converger.diisDeviation    = 1e-05
-            elif delta > 185.0 and delta <200.0:
-                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
-                self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.70
-                self.molecule.qcModel.converger.energyTolerance  = 0.003
-                self.molecule.qcModel.converger.densityTolerance = 1e-05
-                self.molecule.qcModel.converger.diisDeviation    = 5e-05
-            elif delta > 200.0:
-                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.80
-                self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.80
-                self.molecule.qcModel.converger.energyTolerance  = 0.003
-                self.molecule.qcModel.converger.densityTolerance = 1e-04
-                self.molecule.qcModel.converger.diisDeviation    = 5e-04
-
+        if not self.energiesMatrix[_xframe,_yframe] == 0.0:
+            delta = self.energiesMatrix[_xframe,_yframe]  
+            if delta < 150.0:
+                self.forceC[0] = self.forceCRef[0]
+                self.forceC[1] = self.forceCRef[1]
+                self.molecule.qcModel.converger.energyTolerance  = 0.0001
+                self.molecule.qcModel.converger.densityTolerance = 3e-08
+                self.molecule.qcModel.converger.diisDeviation    = 1e-06
+            elif delta >= 150.0:
+                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.40
+                self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.40
+                self.molecule.qcModel.converger.energyTolerance  = 0.0003
+                self.molecule.qcModel.converger.densityTolerance = 3e-08
+                self.molecule.qcModel.converger.diisDeviation    = 1e-06
+                if delta > 160.0 and delta < 170.0:
+                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
+                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
+                    self.molecule.qcModel.converger.energyTolerance  = 0.0006
+                    self.molecule.qcModel.converger.densityTolerance = 1e-07
+                    self.molecule.qcModel.converger.diisDeviation    = 2e-06
+                elif delta > 170.0 and delta <180.0 :
+                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
+                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
+                    self.molecule.qcModel.converger.energyTolerance  = 0.001
+                    self.molecule.qcModel.converger.densityTolerance = 3e-07
+                    self.molecule.qcModel.converger.diisDeviation    = 5e-06
+                elif delta > 180.0 and delta < 185.0:
+                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
+                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[0]*0.70
+                    self.molecule.qcModel.converger.energyTolerance  = 0.0015
+                    self.molecule.qcModel.converger.densityTolerance = 1e-06
+                    self.molecule.qcModel.converger.diisDeviation    = 1e-05
+                elif delta > 185.0 and delta <200.0:
+                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
+                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.70
+                    self.molecule.qcModel.converger.energyTolerance  = 0.003
+                    self.molecule.qcModel.converger.densityTolerance = 1e-05
+                    self.molecule.qcModel.converger.diisDeviation    = 5e-05
+                elif delta > 200.0:
+                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.80
+                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.80
+                    self.molecule.qcModel.converger.energyTolerance  = 0.003
+                    self.molecule.qcModel.converger.densityTolerance = 1e-04
+                    self.molecule.qcModel.converger.diisDeviation    = 5e-04
+    
     #=============================================================================================
     def SetReactionCoord(self,_RC):
         '''
@@ -215,10 +214,10 @@ class SCAN:
             relaxRun.Minimization(self.optmizer)
             #--------------------------------------------------------------------
             if i == 0:
-                en0 = self.molecule.Energy()
+                self.EnergyRef = en0 = self.molecule.Energy(log=None)
                 self.energiesMatrix[i] = 0.0
             else:
-                self.energiesMatrix[i] = self.molecule.Energy() - en0 
+                self.energiesMatrix[i] = self.molecule.Energy(log=None) - en0 
             #--------------------------------------------------------------------
             self.reactionCoordinate1[i] = self.molecule.coordinates3.Distance( atom1 , atom2  )   
             Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 ) 
@@ -249,10 +248,10 @@ class SCAN:
             relaxRun.Minimization(self.optmizer)
             #--------------------------------------------------------------------
             if i == 0:
-                en0 = self.molecule.Energy()
+                self.EnergyRef = en0 = self.molecule.Energy(log=None)
                 self.energiesMatrix[0] = 0.0
             else:
-                self.energiesMatrix[i] = self.molecule.Energy() - en0 
+                self.energiesMatrix[i] = self.molecule.Energy(log=None) - en0 
             self.reactionCoordinate1[i] = self.molecule.coordinates3.Distance( atom1 , atom2  ) - self.molecule.coordinates3.Distance( atom2, atom3  ) 
             Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 )
         self.molecule.DefineRestraintModel(None)
@@ -289,10 +288,10 @@ class SCAN:
             relaxRun.Minimization(self.optmizer)
             #--------------------------------------------------------------------
             if i == 0:
-                en0 = self.molecule.Energy()
+                self.EnergyRef = en0 = self.molecule.Energy(log=None)
                 self.energiesMatrix[0] = 0.0
             else:
-                self.energiesMatrix[i]  = self.molecule.Energy() - en0 
+                self.energiesMatrix[i]  = self.molecule.Energy(log=None) - en0 
             self.reactionCoordinate1[i] = self.molecule.coordinates3.Dihedral( atom1 , atom2, atom3, atom4 ) 
             Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 )
         #----------------------------------------
@@ -365,7 +364,7 @@ class SCAN:
                 initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( 0 , 0) ) 
                 self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )
                 if self.adaptative:
-                    self.ChangeConvergenceParameters()
+                    self.ChangeConvergenceParameters(i-1,0)
                 #----------------------------------------------------------------------------------------------
                 coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, 0 ) )
                 relaxRun = GeometrySearcher( self.molecule, self.baseName )
@@ -396,7 +395,7 @@ class SCAN:
                     initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                    
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )             
                     if self.adaptative:
-                        self.ChangeConvergenceParameters()
+                        self.ChangeConvergenceParameters(i,j-1)
                     #----------------------------------------------------------------------------------------------
                     coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
                     relaxRun = GeometrySearcher( self.molecule, self.baseName  )
@@ -447,7 +446,7 @@ class SCAN:
                 self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )
                 #--------------------------------------------------------------------------------
                 if self.adaptative:
-                    self.ChangeConvergenceParameters() 
+                    self.ChangeConvergenceParameters(i-1,0) 
                 #--------------------------------------------------------------------------------
                 coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, 0 ) )
                 relaxRun = GeometrySearcher( self.molecule, self.baseName )
@@ -480,7 +479,7 @@ class SCAN:
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )             
                     #-----------------------------------------------------------------------------------
                     if self.adaptative:
-                        self.ChangeConvergenceParameters()
+                        self.ChangeConvergenceParameters(i,j-1)
                     #-----------------------------------------------------------------------------------
                     coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
                     relaxRun = GeometrySearcher( self.molecule, self.baseName  )
@@ -532,7 +531,7 @@ class SCAN:
                 self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
                 #-----------------------------------------------------------------------------------
                 if self.adaptative:
-                    self.ChangeConvergenceParameters()
+                    self.ChangeConvergenceParameters(i-1,0)
                 #-----------------------------------------------------------------------------------
                 relaxRun = GeometrySearcher( self.molecule, self.baseName )
                 relaxRun.ChangeDefaultParameters(self.GeoOptPars)
@@ -562,7 +561,7 @@ class SCAN:
                     #----------------------------------------------------------------------------              
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
                     if self.adaptative:
-                        self.ChangeConvergenceParameters()
+                        self.ChangeConvergenceParameters(i,j-1)
                     #----------------------------------------------------------------------------
                     relaxRun = GeometrySearcher( self.molecule, self.baseName  )
                     relaxRun.ChangeDefaultParameters(self.GeoOptPars)
