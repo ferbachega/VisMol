@@ -406,7 +406,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
     def __init__ (self,  main, vm_session):
         Gtk.TreeView.__init__(self)
         self.main_session  = main
-        self.vm_session = vm_session
+        self.vm_session    = vm_session
         self.treeview_menu = TreeViewMenu(self)
         self.treestore     = self.vm_session.treestore
         #--------------------------------------------------------------                                  
@@ -455,7 +455,9 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
 
 
         self.connect('button-release-event', self.on_treeview_Objects_button_release_event )
-
+        
+        
+        self.selected_path = None
 
     def on_cell_toggled(self, widget, path):
         
@@ -477,37 +479,18 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
 
 
     def on_cell_radio_toggled2(self, widget, path):
-        #widget.set_active()
+        '''No working'''
 
-        #selected_path = Gtk.TreePath(path)
-        #print('selected_path:', selected_path)
-        
-        print('path:', path)
+        '''
+        print('\n\n\path:', path)
+        print('\n\n\path:', 'AQUI')
         print(widget)
         
         for treeview_iter in self.vm_session.gtk_treeview_iters:
             self.treestore[treeview_iter][5] = False
             print(self.treestore[treeview_iter][0])
         self.treestore[path][5] = True
-        #paths = []
-        
-        #for i, row in enumerate(self.treestore):
-        #    #print (i, row, row.path)
-        #    self.treestore[row.path][5] = False
-        #    paths.append(row.path)
-        #    #row[5] = False #row.path == selected_path
-        
-        #print ( '\n path:              ', path, 
-        #        '\n path:              ', type(path), 
-        #        '\n treestore:         ', self.treestore['0:2'][5], 
-        #        '\n treestore[path][5]:', self.treestore)
-        
-        
-        '''
-        for row in self.treestore:
-            print(row, self.treestore['0:2'])
-            for row2 in row:
-                print(row2)
+        print('\n\n\path:', path)
         '''
         
   
@@ -523,11 +506,15 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         self.vm_session.filechooser_working_folder  
         
         '''
+    
+        print('\n\n\path:', 'AQUI')
+        print('\n\n\path:', path)
+        #
+        #selected_path = path
+        self.selected_path = path
+        selected_path      = Gtk.TreePath(path)
         
-        selected_path = Gtk.TreePath(path)
-        #print('selected_path', selected_path)
-        print(widget)
-        #print('alo bacheguinha')
+        print(widget, selected_path)
         
         for row in self.treestore:
             row[3] = row.path == selected_path
@@ -535,57 +522,11 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
                 self.main_session.pDynamo_session.active_id = row[8]
             else:
                 pass
-            
-            #for i,j in enumerate(row):
-            #    print(i, j, 'row[2]', row[2], row[8],selected_path,row.path)#(row[2], row.path, selected_path)
         
         print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
         
         self.main_session.update_gui_widgets()
-        #'''
-        #try:
-        #    print(self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder'])
-        #    folder = self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['working_folder']
-        #    self.vm_session.filechooser_working_folder.set_current_folder(folder)
-        #except:
-        #    self.vm_session.filechooser_working_folder.set_current_folder(HOME)
-        #'''
-        #
-        #
-        #'''--------------------------------------------------------------------------------------------'''
-        ## should be a function . in the future!!!
-        #print(self.vm_session.starting_coords_liststore)
-        #starting_coords = []
-        ##self.easyhybrid_main.pDynamo_session
-        #self.vm_session.starting_coords_liststore.clear()
-        #for key, visObj in self.vm_session.vismol_objects_dic.items():
-        #    print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
-        #    if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
-        #        starting_coords.append(visObj.name)
-        #
-        #for coords in starting_coords:
-        #    self.vm_session.starting_coords_liststore.append([coords])
-        #    print (coords)
-        #'''--------------------------------------------------------------------------------------------'''
-        #
-        #
-        #if self.main_session.geometry_optimization_window.Visible:
-        #   
-        #    self.main_session.geometry_optimization_window.update_working_folder_chooser(folder = '/home/fernando/programs/VisMol/easyhybrid/pDynamoMethods/__pycache__')
-        
-        #self.NewSystemWindow              = ImportANewSystemWindow(main = self)
-        #self.setup_QCModel_window         = EasyHybridSetupQCModelWindow(main = self)
-        #self.import_trajectory_window     = ImportTrajectoryWindow(main = self)
-        #self.geometry_optimization_window = GeometryOptimizatrionWindow(main = self)
-        #self.molecular_dynamics_window    = MolecularDynamicsWindow(main = self)
-        #self.merge_pdynamo_systems_window = MergeSystemsWindow(main = self)
-        #self.pDynamo_selection_window     = PDynamoSelectionWindow(main = self)
-        #self.PES_scan_window      = PotentialEnergyScanWindow(main=  self)
-    
-    
-    
-    
-    
+
     
     
     

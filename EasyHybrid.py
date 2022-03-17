@@ -242,10 +242,13 @@ button position in the main treeview (active column).""".format(name,self.main_s
         #   row[5] = False 
         #   for i,j in enumerate(row):
         #       print(i, j,)
-            
+        
+        n = 0
         for treeview_iter in self.gtk_treeview_iters:
             self.treestore[treeview_iter][5] = False
             #print(self.treestore[treeview_iter][0])
+            print ('\ntreeview_iter', treeview_iter, n)
+            n+=1
             
         treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
                                           

@@ -339,11 +339,24 @@ class GeometryOptimizatrionWindow(Gtk.Window):
                             #'not_save_dcd'    : traj_format                 ,
                             'rmsGradient'     : rmsd_tol                    ,
                             }
+            
+            
+            self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry (  
+                                                                               logFrequency           = logFrequency, 
+                                                                               maximumIterations      = max_int     ,
+                                                                               rmsGradientTolerance   = rmsd_tol    , 
+                                                                               save_trajectory = False,
+                                                                               trajectory_path = None)
+            
+            
+            
+            
+            
             '''Simulation routines within easyhybrid receive a parameter dictionary'''
-            self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
-                                                                _parameters4Plot = None, 
-                                                                 _simulationType = 'Geometry_Optimization',
-                                                                 folder          = parameters['folder'])
+            #self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
+            #                                                    _parameters4Plot = None, 
+            #                                                     _simulationType = 'Geometry_Optimization',
+            #                                                     folder          = parameters['folder'])
 
         self.window.destroy()
         self.Visible    =  False

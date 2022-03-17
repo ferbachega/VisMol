@@ -130,7 +130,8 @@ class LoadAndSaveFiles:
         #               V I S M O L   S E S S I O N
         #---------------------------------------------------------------
         
-        vm_session = {'vobj_counter': self.vobj_counter}
+        vm_session = {'vobj_counter' : self.vobj_counter}
+        vm_session['selected_path'] = self.main_session.treeview.selected_path #An integer that indicates which radio button is active in the tree 
 
         easyhybrid_session_data = { 
                                     'pdynamo_projects'   : pdynamo_projects  ,
@@ -170,6 +171,8 @@ class LoadAndSaveFiles:
 
         
         self.vobj_counter = easyhybrid_session_data['vm_session']['vobj_counter']
+        self.main_session.treeview.selected_path = easyhybrid_session_data['vm_session']['selected_path'] #An integer that indicates which radio button is active in the tree
+        
         
         self.pDynamo_session.name            = easyhybrid_session_data['pdynamo_projects']['name']
         self.pDynamo_session.nbModel_default = easyhybrid_session_data['pdynamo_projects']['nbModel_default']
@@ -200,7 +203,7 @@ class LoadAndSaveFiles:
                                                        #active                         = easyhybrid_session_data['vismol_objects_dic'][vobj_id]['active']
                                                        name                           = name, 
                                                        atoms                          = atoms, 
-                                                       vm_session                  = self, 
+                                                       vm_session                     = self, 
                                                        bonds_pair_of_indexes          = list(bonds),
                                                        auto_find_bonded_and_nonbonded = False,
                                                        trajectory                     = frames,
@@ -226,9 +229,14 @@ class LoadAndSaveFiles:
         
         for key, system in self.pDynamo_session.systems.items():
             system['vismol_object'] =   self.vismol_objects_dic[system['vismol_object']]
-        
-
         self.pDynamo_session.refresh_qc_and_fixed_representations() 
 
         
-
+        '''Here we will select the radio button corresponding to the system that is active. 
+        When "path" = None, we select the first system from the treeview''' 
+        path   = easyhybrid_session_data['vm_session']['selected_path']
+        widget = self.main_session.treeview.treestore
+        if path:
+            self.main_session.treeview.on_cell_radio_toggled(widget, path)
+        else:
+            self.main_session.treeview.on_cell_radio_toggled(widget, 0)
