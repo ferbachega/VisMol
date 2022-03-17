@@ -1221,14 +1221,22 @@ class SpheresRepresentation (Representation):
     
     def update_atomic_indexes (self, indexes = None):
         """ Function doc """
-
-        for index in indexes:
-            self.atoms.append(self.visObj.atoms[index])
-            self.atomic_indexes.append(index)
+        self.atomic_indexes = []
+        self.atoms =[]
+        for atom in self.visObj.atoms:
+            if atom.spheres:
+                print (atom.name ,atom.index,  atom.spheres)
+                index  = atom.index -1
+                self.atomic_indexes.append(index)
+                self.atoms.append(atom)
+        #for index in indexes:
+        #    self.atoms.append(self.visObj.atoms[index])
+        #    self.atomic_indexes.append(index)
         
         self._create_sphere_data() 
         self._update_sphere_data_to_VBOs () 
         self.active = True
+        print('1232 update_atomic_indexes')
         print(self.atomic_indexes)
         
     def _update_sphere_data_to_VBOs (self):
@@ -1255,7 +1263,7 @@ class SpheresRepresentation (Representation):
 
     
     def _create_sphere_data(self ):
-        
+        print('1258_create_sphere_data')
         """ Function doc """
         init = time.time()
         #cdef Py_ssize_t a, i, qtty, elems, offset, inds_e
@@ -1308,49 +1316,6 @@ class SpheresRepresentation (Representation):
         init = time.time()
 
         if len(self.visObj.frames) > 1:
-            '''
-            import concurrent.futures
-            with concurrent.futures.ProcessPoolExecutor() as executor:
-                
-                frames  = self.visObj.frames[1:]
-                nframes = len(frames)
-                
-                atoms   = [self.atoms]*nframes
-                offsets = [offset]*nframes
-                Elems   = [elems]*nframes                
-                
-                scales  = [self.scale]*nframes
-                levels  = [self.level]*nframes
-                qttys   = [qtty]*nframes
-                
-                results = executor.map(_create_frame_sphere_data, frames, atoms, offsets, Elems, scales, levels, qttys)
-            
-            for result in results:
-                self.frames.append(result[0])
-                self.centers_list.append(result[1])
-            
-            #'''
-
-            '''
-            for frame in range(1,len(self.visObj.frames)-1):
-                
-                coords, centers = _create_frame_sphere_data (frame      , 
-                                                             self.atoms ,
-                                                             offset     , 
-                                                             elems      , 
-                                                             self.scale , 
-                                                             self.level ,
-                                                             qtty       )
-                self.frames.append(coords)
-                self.centers = np.array(centers, dtype=np.float32)
-                self.centers_list.append(centers)
-            
-            
-            
-            
-            
-            #'''
-            
             #'''
             for frame in range(1,len(self.visObj.frames)-1):
                 coords  = sphd.sphere_vertices[self.level]*qtty

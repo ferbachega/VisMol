@@ -449,6 +449,16 @@ class pDynamoSession:
             self.systems[self.active_id]['qc_table'] = list(self.systems[self.active_id]['system'].qcState.pureQCAtoms)
             #boundaryAtoms     = list(self.system.qcState.boundaryAtoms)
             
+            for key, visObj in self.vm_session.vismol_objects_dic.items():
+                if visObj.easyhybrid_system_id == self.active_id:
+                    # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
+                    self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                    self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+            
+                    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
+                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
+            
+            '''
             vismol_object = self.systems[self.active_id]['vismol_object']
             
             # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
@@ -465,7 +475,7 @@ class pDynamoSession:
             self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = vismol_object, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
             self.vm_session.selections[self.vm_session.current_selection].unselecting_by_indexes (vismol_object = vismol_object, indexes = range(0, len(vismol_object.atoms)))
             ##print('\n\n',self.vm_session.selections[self.vm_session.current_selection].selected_atoms)
-
+            '''
         else:
             pass
 

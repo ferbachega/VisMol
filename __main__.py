@@ -231,7 +231,7 @@ def main():
     else:
         filein = None
    
-    gui            = VismolMain.VismolMainWindow(vismolSession = vismolSession, filein =  filein)
+    gui            = VismolMain.VismolMainWindow(vm_session = vismolSession, filein =  filein)
     
 
     

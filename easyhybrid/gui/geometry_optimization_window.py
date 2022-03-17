@@ -300,34 +300,25 @@ class GeometryOptimizatrionWindow(Gtk.Window):
 
     def run_opt (self, button):
         """ Function doc """
-        entry_name    = None
-        
+    
+        '''this combobox has the reference to the starting coordinates of a simulation'''
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-        
         tree_iter = combobox_starting_coordinates.get_active_iter()
-        
-        #tree_iter = combo.get_active_iter()
         if tree_iter is not None:
+            
+            '''selecting the vismol object from the content that is in the combobox '''
             model = combobox_starting_coordinates.get_model()
-            #print('312', model[tree_iter])
             name, vobject_id = model[tree_iter][:2]
-            #print('314',name, vobject_id)
             vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            
+            '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
             self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
-            #aqui colocamos a função que importa as coordenadas para o sistema
+        
         
         method_id     = self.builder.get_object('combobox_geo_opt').get_active()
-        
-        
-        
-        
-        
-        
-        #traj_log      = int  ( self.builder.get_object('entry_traj_log').get_text() )
         logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
         max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
         rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
-        #entry_name    =        self.builder.get_object('entry_name').get_text()  
         
         
         if self.save_trajectory_box.builder.get_object('checkbox_save_traj').get_active():
@@ -348,48 +339,12 @@ class GeometryOptimizatrionWindow(Gtk.Window):
                             #'not_save_dcd'    : traj_format                 ,
                             'rmsGradient'     : rmsd_tol                    ,
                             }
-            
-            
-            #parameters = {
-            #                'entry_name'      :  entry_name                  , 
-            #                'method_id'       :  method_id                   ,
-            #                'logFrequency'    :  logFrequency                , 
-            #                'max_int'         :  max_int                     ,
-            #                'rmsd_tol'        :  rmsd_tol                    ,
-            #                'folder'          :  folder                      ,
-            #                'traj_format '    :  traj_format                 ,
-            #                'traj_frequence'  :  traj_frequence              ,
-            #                'optimizer'       :  self.opt_methods[method_id]
-            #}
-        
-                
+            '''Simulation routines within easyhybrid receive a parameter dictionary'''
             self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
                                                                 _parameters4Plot = None, 
                                                                  _simulationType = 'Geometry_Optimization',
                                                                  folder          = parameters['folder'])
-        
-        
-        
-        
-        
-        
-        
-        #save_trajectory = self.builder.get_object('checkbox_save_traj').get_active() 
-        
-        #if method_id == 0:
-        #    self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry(                  
-        #                                                                                   
-        #                                                                                   logFrequency         = logFrequency  , 
-        #                                                                                   
-        #                                                                                   maximumIterations    = max_int       , 
-        #                                                                                   
-        #                                                                                   rmsGradientTolerance = rmsd_tol      , 
-        #                                                                                   save_trajectory      = save_trajectory,
-        #                                                                                   trajectory_path      = None  
-        #                                                                                   )
-        #
-        #
-        #
+
         self.window.destroy()
         self.Visible    =  False
 
