@@ -71,9 +71,7 @@ class GeometrySearcher:
         Execute the minimization routine for search of geometry corresponding to local minima
         '''
         #------------------------------------------------------------------
-        self.optAlg = _optimizer        
-        if not self.trajectoryName == None:
-            self.traj = ExportTrajectory( self.trajectoryName, self.molecule )         
+        self.optAlg = _optimizer                 
         # run the minimization for the chosen algorithm
         if self.optAlg   == "ConjugatedGradient":
             self.RunConjugatedGrad()
@@ -97,10 +95,8 @@ class GeometrySearcher:
                                                  logFrequency           = self.logFreq  ,
                                                  maximumIterations      = self.maxIt    ,
                                                  rmsGradientTolerance   = self.rmsGrad  )
-        else:
-            print("Conjugate")
-            input()
-            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+        else:            
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None )
             ConjugateGradientMinimize_SystemGeometry(self.molecule                        ,                
                                                  logFrequency           = self.logFreq    ,
                                                  trajectories           = [(trajectory, self.saveFrequency)],
@@ -118,7 +114,7 @@ class GeometrySearcher:
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
         else:
-            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None  )
             SteepestDescentMinimize_SystemGeometry(self.molecule                       ,               
                                                 logFrequency            = self.logFreq ,
                                                 trajectories            = [(trajectory, self.saveFrequency)],
@@ -135,7 +131,7 @@ class GeometrySearcher:
                                     maximumIterations    = self.maxIt           ,
                                     rmsGradientTolerance = self.rmsGrad         )
         else:
-            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None )
             LBFGSMinimize_SystemGeometry(self.molecule                          ,                
                                     logFrequency         = self.logFreq         ,
                                     trajectories         = [(trajectory, self.saveFrequency)],
@@ -152,7 +148,7 @@ class GeometrySearcher:
                                                 maximumIterations    = self.maxIt   ,
                                                 rmsGradientTolerance = self.rmsGrad )
         else:
-            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None )
             QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
                                                 logFrequency         = self.logFreq ,
                                                 trajectories         = [(trajectory, self.saveFrequency)],
@@ -169,7 +165,7 @@ class GeometrySearcher:
                                     maximumIterations    = self.maxIt   ,
                                     rmsGradientTolerance = self.rmsGrad )
         else:
-            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None )
             FIREMinimize_SystemGeometry( self.molecule                                       ,                
                                     logFrequency         = self.logFreq                      ,
                                     trajectories         = [(trajectory, self.saveFrequency)],
@@ -238,7 +234,9 @@ class GeometrySearcher:
         #----------------------------------------------------------------------
         if not self.saveFormat == None:
             if self.saveFormat != self.trajectoryName:
-                Duplicate(self.trajectoryName,self.saveFormat,self.molecule)
+                traj_save = os.path.splitext(self.trajectoryName)[0] + self.saveFormat
+                print(traj_save,self.trajectoryName,self.saveFormat)
+                Duplicate(self.trajectoryName,traj_save,self.molecule)
 #================================================================================================#
 #======================================END OF THE FILE===========================================#
 #================================================================================================#

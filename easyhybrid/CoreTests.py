@@ -216,17 +216,19 @@ def QCMM_optimizations():
 	_plotParameters = None
 	parameters=    {"maxIterations":600 			 ,
 					"rmsGradient":0.1   			 ,
-					"save_format":"TIM_opt.dcd"      ,
 					"log_frequency":10 				 ,
 					"save_pdb": True    			 }
 	#---------------------------------------------------
 	for alg in algs:
-		parameters = {	"optmizer":alg, "trajectory_name": os.path.join( scratch_path, "OPT_"+alg+".ptGeo")	}						
+		parameters = {	"optmizer":alg,
+					    "trajectory_name": os.path.join( scratch_path,"OPT_"+alg+".ptGeo"),
+					    "save_frequency" : 20 											  ,
+					    "save_format"    : ".dcd" }						
 		proj.RunSimulation(parameters,"Geometry_Optimization",_plotParameters)
 		proj.cSystem.coordinates3 = initialCoords;
 	#Save QCMM optimezed System	
 	proj.SaveProject()
-	proj.FinishRun()	
+	proj.FinishRun()
 #=====================================================
 def QCMM_MD():
 	'''
@@ -1187,9 +1189,9 @@ if __name__ == "__main__":
 	#FreeEnergy2DmixedDistance(500)						#TESTED
 	#FreeEnergy2DmultipleDistance(500)					#TESTED
 	#pDynamoEnergyRef_1D()								#TESTED
-	EnergyAnalysisPlots()								#TESTED
+	#EnergyAnalysisPlots()								#TESTED
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
-	#Scan1D_Dihedral(36)								#TESTED
+	Scan1D_Dihedral(36)									#TESTED
 	#Scan2D_Dihedral(12,12)
