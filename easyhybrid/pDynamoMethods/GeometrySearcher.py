@@ -45,6 +45,7 @@ class GeometrySearcher:
         self.saveFormat     = True       
         self.rmsGrad        = 0.1
         self.maxIt          = 500
+        self.saveFrequency  = 0
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
@@ -58,7 +59,9 @@ class GeometrySearcher:
         if "log_frequency" in _parameters:
             self.logFreq = _parameters["log_frequency"] 
         if "save_format" in _parameters:
-            self.saveFormat = _parameters["save_format"]        
+            self.saveFormat = _parameters["save_format"]
+        if "save_frequency" in _parameters:
+            self.saveFrequency = _parameters["save_frequency"]        
         if "rmsGradient" in _parameters:
             self.rmsGrad = _parameters['rmsGradient']
     #======================================================================================
@@ -89,32 +92,36 @@ class GeometrySearcher:
         '''
         Class method to apply the conjugated gradient minimizer
         '''
-        if self.traj == None:
+        if self.trajectoryName == None:
             ConjugateGradientMinimize_SystemGeometry(self.molecule                      ,                
                                                  logFrequency           = self.logFreq  ,
                                                  maximumIterations      = self.maxIt    ,
                                                  rmsGradientTolerance   = self.rmsGrad  )
         else:
-            ConjugateGradientMinimize_SystemGeometry(self.molecule                      ,                
-                                                 logFrequency           = self.logFreq  ,
-                                                 trajectories           = self.traj     ,
-                                                 maximumIterations      = self.maxIt    ,
-                                                 rmsGradientTolerance   = self.rmsGrad  ) 
+            print("Conjugate")
+            input()
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+            ConjugateGradientMinimize_SystemGeometry(self.molecule                        ,                
+                                                 logFrequency           = self.logFreq    ,
+                                                 trajectories           = [(trajectory, self.saveFrequency)],
+                                                 maximumIterations      = self.maxIt      ,
+                                                 rmsGradientTolerance   = self.rmsGrad    ) 
 
     #=====================================================================================
     def RunSteepestDescent(self):
         '''
         Class method to apply the steepest descent minimizer
         '''        
-        if self.traj == None:
+        if self.trajectoryName == None:
             SteepestDescentMinimize_SystemGeometry(self.molecule                       ,               
                                                 logFrequency            = self.logFreq ,
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
         else:
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
             SteepestDescentMinimize_SystemGeometry(self.molecule                       ,               
                                                 logFrequency            = self.logFreq ,
-                                                trajectories            = self.traj    ,
+                                                trajectories            = [(trajectory, self.saveFrequency)],
                                                 maximumIterations       = self.maxIt   ,
                                                 rmsGradientTolerance    = self.rmsGrad )
     #============================================================================
@@ -122,15 +129,16 @@ class GeometrySearcher:
         '''
         Class method to apply the LFBGS minimizer
         '''        
-        if self.traj == None:
+        if self.trajectoryName == None:
             LBFGSMinimize_SystemGeometry(self.molecule                          ,                
                                     logFrequency         = self.logFreq         ,
                                     maximumIterations    = self.maxIt           ,
                                     rmsGradientTolerance = self.rmsGrad         )
         else:
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
             LBFGSMinimize_SystemGeometry(self.molecule                          ,                
                                     logFrequency         = self.logFreq         ,
-                                    trajectories         = self.traj            ,
+                                    trajectories         = [(trajectory, self.saveFrequency)],
                                     maximumIterations    = self.maxIt           ,
                                     rmsGradientTolerance = self.rmsGrad         )    
     #=============================================================================
@@ -138,15 +146,16 @@ class GeometrySearcher:
         '''
         Class method to apply the Quaisi-Newton minimizer
         '''        
-        if self.traj == None: 
+        if self.trajectoryName == None: 
             QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
                                                 logFrequency         = self.logFreq ,
                                                 maximumIterations    = self.maxIt   ,
                                                 rmsGradientTolerance = self.rmsGrad )
         else:
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
             QuasiNewtonMinimize_SystemGeometry( self.molecule                       ,                
                                                 logFrequency         = self.logFreq ,
-                                                trajectories         = self.traj    ,
+                                                trajectories         = [(trajectory, self.saveFrequency)],
                                                 maximumIterations    = self.maxIt   ,
                                                 rmsGradientTolerance = self.rmsGrad )
     #==============================================================================
@@ -160,11 +169,12 @@ class GeometrySearcher:
                                     maximumIterations    = self.maxIt   ,
                                     rmsGradientTolerance = self.rmsGrad )
         else:
-            FIREMinimize_SystemGeometry( self.molecule                  ,                
-                                    logFrequency         = self.logFreq ,
-                                    trajectories         = self.traj    ,
-                                    maximumIterations    = self.maxIt   ,
-                                    rmsGradientTolerance = self.rmsGrad )        
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule )
+            FIREMinimize_SystemGeometry( self.molecule                                       ,                
+                                    logFrequency         = self.logFreq                      ,
+                                    trajectories         = [(trajectory, self.saveFrequency)],
+                                    maximumIterations    = self.maxIt                        ,
+                                    rmsGradientTolerance = self.rmsGrad                      )        
     #=============================================================================
     # Reaction path searchers
     def NudgedElasticBand(self,_parameters):
@@ -182,17 +192,14 @@ class GeometrySearcher:
         #---------------------------------------------------------------------------------
         GrowingStringInitialPath (self.molecule ,_parameters["NEB_nbins"], self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=_parameters["RMS_growing_intial_string"] )
 
-        self.traj = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
+        trajectory = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
 
         ChainOfStatesOptimizePath_SystemGeometry (  self.molecule               , 
-                                                    self.traj                   ,
+                                                    trajectory                  ,
                                                     logFrequency         = 1    ,
                                                     maximumIterations    = 1000 ,
                                                     fixedTerminalImages  = True ,
-                                                    rmsGradientTolerance = 0.1  )
-        self.saveTraj = True
-        trajNameDCD = self.baseName + ".dcd";
-        Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
+                                                    rmsGradientTolerance = 0.1  )        
     #========================================================================================
     def SelfAvoidWalking(self,_parameters):
         '''

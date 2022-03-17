@@ -159,21 +159,22 @@ class EnergyAnalysis:
 			n = 0
 			MaX = 0.0
 			for line in reading:
-				lns = line.split()
+				lns = line.split()				
 				self.RC1.append( float(lns[0]) )
 				self.RC2.append( float(lns[1]) )
 				if lns[2] == "inf":
 					self.energiesMatrix[m][n] = 43434.0000
 				else:
-					self.energiesMatrix[m][n] = float(lns[2])				
+					self.energiesMatrix[m][n] = float(lns[2])	
+					pmf = float(lns[2])
+					if pmf > MaX:
+						MaX = pmf			
 				i +=1
-				n +=1 
-
-				if float(lns[2]) > MaX:
-					MaX = float(lns[2])
+				n +=1 				
 				if i % self.xlen == 0:
 					m += 1
-					n = 0			
+					n = 0	
+
 			for j in range(self.xlen):
 				for i in range(self.ylen):
 					if self.energiesMatrix[i][j] == 43434.0000:

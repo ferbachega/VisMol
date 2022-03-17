@@ -212,16 +212,16 @@ def QCMM_optimizations():
 			"SteepestDescent"   ,
 			"FIRE"              ]	
 	#problems saving trajectory! But geometry opt working
+
 	_plotParameters = None
 	parameters=    {"maxIterations":600 			 ,
 					"rmsGradient":0.1   			 ,
-					"trajectory_name":"TIM_opt.ptGeo",
 					"save_format":"TIM_opt.dcd"      ,
 					"log_frequency":10 				 ,
 					"save_pdb": True    			 }
 	#---------------------------------------------------
 	for alg in algs:
-		parameters = {	"optmizer":alg	}						
+		parameters = {	"optmizer":alg, "trajectory_name": os.path.join( scratch_path, "OPT_"+alg+".ptGeo")	}						
 		proj.RunSimulation(parameters,"Geometry_Optimization",_plotParameters)
 		proj.cSystem.coordinates3 = initialCoords;
 	#Save QCMM optimezed System	

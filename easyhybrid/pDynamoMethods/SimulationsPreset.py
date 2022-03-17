@@ -239,6 +239,8 @@ class Simulation:
 		if "trajectory_name" in _parameters:
 			_traj_name = _parameters["trajectory_name"]
 
+		print(_traj_name)
+		input()
 		Gopt = GeometrySearcher(self.molecule,self.baseFolder,_trajName=_traj_name)		
 		Gopt.ChangeDefaultParameters(_parameters)
 		Gopt.Minimization(_Optimizer)
