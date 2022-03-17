@@ -223,23 +223,23 @@ class Simulation:
 		Parameters:		
 			_parameters: python dict with parameters for simulation
 				Mandatory ( if not provided a "key-Error" will be thrown ):
-					optimizer: name of the optimization algorithm 
+					optimizer: name of the optimization algorithm					 
 				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-					maxIterations:
-					log_frequency:
-					save_pdb     :
-					save_traj    :
-					not_save_dcd :
-					rmsGradient  :				
+					trajectory_name: name to save the trajectory
+					maxIterations: maximum number of itetarions (integer) 
+					log_frequency: log frequency  (integer)
+					save_pdb     : whether to save the final coordinates in pdb format (boolean)
+					save_format  : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
+					rmsGradient  : root mean square gradient tolerance ( float )						
 		'''
 		_Optimizer = "ConjugatedGradient"
 		if "optmizer" in _parameters:
 			_Optimizer = _parameters["optmizer"]
+		_traj_name = None
+		if "trajectory_name" in _parameters:
+			_traj_name = _parameters["trajectory_name"]
 
-		Gopt = GeometrySearcher(self.molecule,self.baseFolder)		
+		Gopt = GeometrySearcher(self.molecule,self.baseFolder,_trajName=_traj_name)		
 		Gopt.ChangeDefaultParameters(_parameters)
 		Gopt.Minimization(_Optimizer)
 		#Gopt.Finalize()

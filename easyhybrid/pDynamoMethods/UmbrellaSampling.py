@@ -88,12 +88,10 @@ class US:
         if 'NmaxThreads'        in _parameters:
             self.nprocs         = _parameters['NmaxThreads']
 
-        self.mdParameters       = {                                 
-                                'temperature': self.temperature,\
-                                'density_tolerancen':self.densityTol,\
-                                'timeStep':self.timeStep,\
-                                'energy_tolerance':self.energyTolQC
-                            }
+        self.mdParameters       = { 'temperature': self.temperature,\
+                                    'density_tolerancen':self.densityTol,\
+                                    'timeStep':self.timeStep,\
+                                    'energy_tolerance':self.energyTolQC}
 
     #==========================================================================
     def SetMode(self,_RC):

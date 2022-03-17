@@ -28,7 +28,7 @@ class GeometrySearcher:
     as saddle points and reaction path trajectories. 
     '''
     #.-------------------------------------------------------------------------   
-    def __init__(self,_system,_baseFolder):
+    def __init__(self,_system,_baseFolder,_trajName=None):
         '''
         Class constructor.
         '''
@@ -39,32 +39,28 @@ class GeometrySearcher:
         self.finalCrd3D     = None
         self.massWeighting  = False
         self.logFreq        = 50 # deafult value for otimizations, must to be changed through the specific class method
-        self.saveTraj       = False # optimization trj are not generally usefull and generate a lot of data 
-        self.trajectoryName = None 
+        self.trajectoryName = _trajName 
         self.savePdb        = False
         self.traj           = None
-        self.outputDCD      = True       
+        self.saveFormat     = True       
         self.rmsGrad        = 0.1
         self.maxIt          = 500
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
         Class method to modify default parameters for the minimization runs
-        '''        
-        if 'maxIterations'      in _parameters:
-            self.maxIt          = _parameters['maxIterations']            
-        if "log_frequency"      in _parameters:
-            self.logFreq        = _parameters["log_frequency"]
-        if "save_pdb"           in _parameters:
-            self.savePdb        = True
-        if "save_traj"          in _parameters:
-            self.saveTraj       = True
-        if "not_save_dcd"       in _parameters:
-            self.outputDCD      = False        
-        if "maxIterations_QC"   in _parameters:
-            self.maxItQC        = _parameters['maxIterations_QC']
-        if 'rmsGradient'        in _parameters:
-            self.rmsGrad        = _parameters['rmsGradient']
+        '''       
+        if "save_pdb" in _parameters:
+            if _parameters["save_pdb"] == True:
+                self.savePdb = True
+        if "maxIterations" in _parameters:
+            self.maxIt = _parameters['maxIterations']            
+        if "log_frequency" in _parameters:
+            self.logFreq = _parameters["log_frequency"] 
+        if "save_format" in _parameters:
+            self.saveFormat = _parameters["save_format"]        
+        if "rmsGradient" in _parameters:
+            self.rmsGrad = _parameters['rmsGradient']
     #======================================================================================
     # Main minimization class method
     def Minimization(self,_optimizer):
@@ -72,14 +68,9 @@ class GeometrySearcher:
         Execute the minimization routine for search of geometry corresponding to local minima
         '''
         #------------------------------------------------------------------
-        self.optAlg = _optimizer
-        
-        if self.saveTraj:
-            self.trajectoryName = os.path.join( self.baseName, "Minimization_"+_optimizer+".ptGeo")
-            self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
-        else:
-            self.traj = None
-        
+        self.optAlg = _optimizer        
+        if not self.trajectoryName == None:
+            self.traj = ExportTrajectory( self.trajectoryName, self.molecule )         
         # run the minimization for the chosen algorithm
         if self.optAlg   == "ConjugatedGradient":
             self.RunConjugatedGrad()
@@ -98,7 +89,6 @@ class GeometrySearcher:
         '''
         Class method to apply the conjugated gradient minimizer
         '''
-
         if self.traj == None:
             ConjugateGradientMinimize_SystemGeometry(self.molecule                      ,                
                                                  logFrequency           = self.logFreq  ,
@@ -238,11 +228,10 @@ class GeometrySearcher:
                 pdbFile = self.baseName + "_#{}_opt_{}.pdb".format(i,self.optAlg)
                 i += 1
             ExportSystem(pdbFile,self.molecule)
-
         #----------------------------------------------------------------------
-        if self.saveTraj:
-            trajNameDCD = self.baseName + ".dcd";
-            Duplicate(self.trajectoryName,trajNameDCD,self.molecule)
+        if not self.saveFormat == None:
+            if self.saveFormat != self.trajectoryName:
+                Duplicate(self.trajectoryName,self.saveFormat,self.molecule)
 #================================================================================================#
 #======================================END OF THE FILE===========================================#
 #================================================================================================#

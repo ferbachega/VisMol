@@ -86,7 +86,6 @@ class EnergyRefinement:
 		self.pureQCAtoms = list(newSelection)
 		qcModel = self.molecule.qcModel 
 		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
-
 		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
         #---------------------------------------------------
         

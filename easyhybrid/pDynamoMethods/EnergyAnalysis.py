@@ -81,7 +81,6 @@ class EnergyAnalysis:
 
 			self.multiple1Dplot.append(energyTmp)
 			self.labely = "Potential Energy (kJ/mol)"
-
 		#-----------------------------------
 		elif self.Type == "1DRef":
 			oldMethod = "none"
@@ -153,53 +152,44 @@ class EnergyAnalysis:
 
 			for i in range(len(self.energies1D)):
 				if self.energies1D[i] == 43434.0000:
-					self.energies1D[i] == MaX
-
+					self.energies1D[i] = MaX
 		#----------------------------------
 		elif self.Type == "WHAM2D":
 			m = 0
 			n = 0
 			MaX = 0.0
 			for line in reading:
-				pmf = float(lns[2])
-				if pmf > MaX:
-					MaX = pmf
 				lns = line.split()
 				self.RC1.append( float(lns[0]) )
 				self.RC2.append( float(lns[1]) )
 				if lns[2] == "inf":
 					self.energiesMatrix[m][n] = 43434.0000
 				else:
-					self.energiesMatrix[m][n] = pmf				
+					self.energiesMatrix[m][n] = float(lns[2])				
 				i +=1
-				n +=1 						
+				n +=1 
+
+				if float(lns[2]) > MaX:
+					MaX = float(lns[2])
 				if i % self.xlen == 0:
 					m += 1
-					n = 0
-			
+					n = 0			
 			for j in range(self.xlen):
 				for i in range(self.ylen):
 					if self.energiesMatrix[i][j] == 43434.0000:
 						self.energiesMatrix[i][j] = MaX
-
 		#----------------------------------
 		elif self.Type == "FE1D":
 			for line in reading:
-				lns = line.split()
-				if lns[1] == "inf":
-					self.energies1D.append( 180.0 )
-				else:
-					self.energies1D.append( float(lns[1]) )				
+				lns = line.split()				
+				self.energies1D.append( float(lns[1]) )				
 		#----------------------------------
 		elif self.Type == "FE2D":
 			for line in reading:
 				lns = line.split()
 				m = int( lns[0])				
 				n = int( lns[1])
-				if lns[1] == "inf":
-					self.energies1D.append( 180.0 )	
-				else:		
-					self.energiesMatrix[n][m] = float(lns[2]) 
+				self.energiesMatrix[n][m] = float(lns[2]) 
 		#----------------------------------
 		self.nplots1D += 1	
 	#================================================
