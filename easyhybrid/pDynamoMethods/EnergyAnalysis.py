@@ -62,10 +62,10 @@ class EnergyAnalysis:
 	#================================================
 	def ReadLog(self, _fileName):
 		'''
-
+		Parse energy logs.
 		'''
 		self.baseName = _fileName[:-4]
-		reading = open(_fileName,'r')
+		reading       = open(_fileName,'r')
 
 		i = 0 
 		energyTmp = []
@@ -98,20 +98,20 @@ class EnergyAnalysis:
 					energyTmp = []		
 				energyTmp.append( float(lns[1]) )
 				self.energies1D.append( float(lns[1]) )
-
 			self.multiple1Dplot.append(energyTmp)
 			self.identifiers.append(method)
 			self.labely = "Potential Energy (kJ/mol)"
-
 		#----------------------------------
 		elif self.Type == "2D":
 			for line in reading:
 				if i > 0:
 					lns = line.split()
+					print(lns)
 					self.RC1.append( float(lns[2] ) )
 					self.RC2.append( float(lns[3] ) )
-					m = int( lns[0])				
-					n = int( lns[1])				
+					m = int(lns[0])				
+					n = int(lns[1])	
+					print(lns[4],m,n)			
 					self.energiesMatrix[n][m] = float(lns[4]) 
 				i += 1		
 		#----------------------------------
@@ -256,7 +256,7 @@ class EnergyAnalysis:
 		plt.xlabel(label)
 		plt.ylabel(self.labely)		
 		#--------------------------------------------
-		plt.savefig(self.baseName+"_1Denergy.png",dpi=1000)
+		plt.savefig(self.baseName+".png",dpi=1000)
 		#---------------------------------------------
 		if SHOW:
 			plt.show()		
@@ -275,7 +275,7 @@ class EnergyAnalysis:
 		plt.xlabel(label)
 		plt.ylabel(self.labely)
 		plt.legend()
-		plt.savefig(self.baseName+"_1DmultiplePlots.png",dpi=1000)
+		plt.savefig(self.baseName+".png",dpi=1000)
 		#---------------------------------------------
 		if SHOW:
 			plt.show()		

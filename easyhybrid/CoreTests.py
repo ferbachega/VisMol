@@ -305,11 +305,10 @@ def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
 		QCMM_optimizations()
 	#---------------------------------------------
 	_scanFolder = "QCMM_SCAN1D_simple_distance"
-	if not name == "Default":
-		_scanFolder = name
+	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
-	_plotParameters = { "contour_lines":15 }
+	_plotParameters = {"show":True}
 	#setting atoms for scan
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
@@ -318,9 +317,10 @@ def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
 	#set parameters for relaxed surface scan
 	parameters = { "ATOMS_RC1"  :atomsf		,
 				   "dincre_RC1" :_dincre	,
-				   "nSteps_RC1":_nsteps     ,
-				   "ndim"      :1    		,
-				   "MC_RC1"    :"true"      ,
+				   "nSteps_RC1" :_nsteps    ,
+				   "ndim"       :1    		,
+				   "MC_RC1"     :True       ,
+				   "save_format":".dcd"     ,
 				   "force_constant":4000.0	}
 	
 	#QCMM scans simple distances
@@ -394,14 +394,12 @@ def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
 	'''
 	#---------------------------------------------	
 	_scanFolder = "SCAN2D_dihedral"
-	if not name == "Default":
-		_scanFolder = name
+	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
 	proj.LoadSystemFromSavedProject( balapkl )
 	proj.cSystem.Summary()
 	#---------------------------------------------
-	#setting atoms for scan
-	
+	#setting atoms for scan	
 	atomsf = [ 4, 6,  8, 14] 
 	atomss = [ 6, 8, 14, 16]
 	#setting parameters
@@ -431,8 +429,7 @@ def QCMMScan2DsimpleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default")
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMMoptimizations()
 	_scanFolder = "QCMM_Scan2D_simple_distance"
-	if not name == "Default":
-		_scanFolder = name
+	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	#----------------------------------------
@@ -462,11 +459,10 @@ def QCMMScan2DmixedDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default"):
 	'''
 	#-------------------------------------------------
 	#If the pkl with the Pruned QCsystem does not exist, generate it
-	if not os.path.exists( os.path.join(scratch_path, "QCMMopts.pkl") ):
+	if not os.path.exists( os.path.join(scratch_path, "QCMMopts.pkl") ): 
 		QCMMoptimizations()
 	_scanFolder = "QCMM_Scan2D_mixed_distance"
-	if not name == "Default":
-		_scanFolder = name
+	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path, _scanFolder ) )	
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	#--------------------------------------------------
@@ -502,12 +498,10 @@ def QCMMScan2DmultipleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMMoptimizations()
 	_scanFolder = "QCMM_Scan2D_multiple_distance"
-	if not name == "Default":
-		_scanFolder = name
+	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	#--------------------------------------------------
-
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
@@ -860,6 +854,83 @@ def FreeEnergy2DmultipleDistance(nsteps):
 	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
 	proj.FinishRun()
 #=====================================================
+def FreeEnergyDihedral1D(nsteps):
+	'''
+	'''
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()
+	proj=SimulationProject( os.path.join(scratch_path,"FE_dihedral_1D") )		
+	proj.LoadSystemFromSavedProject( balapkl )
+	#-------------------------------------------------
+	_name = "SCAN1D_4FEcalculations_dihedral"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	if not os.path.exists(_path ): Scan1D_Dihedral(10, name=_name )
+	#-------------------------------------------------	
+	atomsf = [4, 6,  8, 14]		
+	_plotParameters = { "contour_lines":15,"xwindows":10,"crd1_label":"Reaction Coordinate" }
+	#-------------------------------------------------	
+	parameters = { "ATOMS_RC1":atomsf			  ,
+				   "ndim": 1 					  ,
+				   "sampling_factor":nsteps/10	  ,
+				   "equilibration_nsteps":nsteps/2,
+				   "production_nsteps":nsteps	  ,
+				   "source_folder":_path 		  ,
+				   "MD_method":"LeapFrog"		  ,
+				   "MC_RC1":"true"				  ,
+				   "NmaxThreads":8 				  }
+	#-------------------------------------------------
+	#RUN umbrella sampling
+	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)	
+	#-------------------------------------------------
+	#path for the ptRes files
+	_pathUS = os.path.join( scratch_path, "FE_dihedral_1D" )	
+	parameters = { "source_folder":_pathUS,
+				   "xnbins":20            ,
+				   "ynbins":0             ,
+				   "temperature":300.15	  }
+	#RUN WHAM, calculate PMF and free energy
+	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
+#=====================================================
+def FreeEnergyDihedral2D(nsteps):
+	'''
+	'''
+	proj=SimulationProject( os.path.join(scratch_path,"FE_2D_dihedral") )	
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+	
+	atomsf = [ 4, 6,  8, 14 ] 
+	atomss = [ 6, 8, 14, 16 ]
+
+	_plotParameters = { "contour_lines":15,"xwindows":6,"ywindows":6,"crd1_label":"Reaction Coordinate"}
+	
+	_name = "SCAN2D_4FEcalculations_dihedral"
+	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
+	if not os.path.exists(_path): Scan2D_Dihedral(6,6,name=_name)
+
+	parameters = { "ATOMS_RC1":atomsf				,
+				   "ATOMS_RC2":atomss				,
+				   "ndim": 2 						,
+				   "sampling_factor":nsteps/10		,
+				   "equilibration_nsteps":nsteps/2 	,
+				   "production_nsteps":nsteps		,
+				   "source_folder":_path 			,
+				   "MD_method":"LeapFrog"			,
+				   "MC_RC1":"true"					,
+				   "MC_RC2":"true"					,
+				   "NmaxThreads":8 	     			}
+	
+	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
+
+	_pathUS = os.path.join( scratch_path, "FE_2D_dihedral")	
+	parameters = { "source_folder":_pathUS ,
+				   "xnbins":12           ,
+				   "ynbins":12           ,
+				   "temperature":300.15	 }
+	#RUN WHAM, calculate PMF and free energy
+	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
+	proj.FinishRun()
+#=====================================================
 def EnergyAnalysisPlots():
 	'''
 	General tests of plots from energies analysis from our simulations
@@ -894,7 +965,7 @@ def EnergyAnalysisPlots():
 	#1D energy plot test 
 	if not os.path.exists( os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance") ):
 		QCMMScanSimpleDistance(30,0.05)
-	log_path = os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance_energy.log")
+	log_path = os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance_scan1D.log")
 	parameters      = {"xsize":30,"type":"1D","log_name":log_path}
 	_plotParameters = {"show":True,"crd1_label":rc1_sd.label}
 	proj.RunSimulation(parameters,"Energy_Plots",_plotParameters)
@@ -1174,15 +1245,17 @@ if __name__ == "__main__":
 	#QCMM_Energies()									#TESTED
 	#QCMM_DFTBplus()									#TESTED
 	#QCMM_Orca()										#TESTED
-	QCMM_optimizations()								#TESTED
+	#QCMM_optimizations()								#TESTED
 	#QCMM_MD()											#TESTED
 	#QCMM_MDrestricted()								#TESTED
 	#QCMMScanSimpleDistance(30,0.05)					#TESTED
 	#QCMMScanMultipleDistance(30,0.05)					#TESTED
-	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	#Scan1D_Dihedral(36)									#TESTED
+	#Scan2D_Dihedral(10,10)								#TESTED
 	#FreeEnergy1DSimpleDistance(500)					#TESTED
 	#FreeEnergy1DMultipleDistance(500)					#TESTED
 	#UmbrellaSampling1Drestart(500)						#TESTED
@@ -1194,5 +1267,4 @@ if __name__ == "__main__":
 	#ReacCoordSearchers()								#NEB TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
-	#Scan1D_Dihedral(36)									#TESTED
-	#Scan2D_Dihedral(10,10)
+

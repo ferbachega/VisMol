@@ -61,17 +61,15 @@ class SCAN:
         self.sigma_a3_a1        = [ 0.0,0.0 ]                       # Mass contraint weight list for the reaction coordinates
         self.adaptative         = ADAPTATIVE                        # Boolean indicating if the scan can use the adptative scheme to change the convergence paramters
         self.text               = ""                                # Text container for energy log
-        self.dihedral           = False
+        self.dihedral           = False                             # If the simulation are from dihedral reaction coordinates
+        self.saveFormat         = None
         #------------------------------------------------------------------------
         if not os.path.exists( os.path.join( self.baseName, "ScanTraj.ptGeo" ) ):
             os.makedirs(  os.path.join( self.baseName, "ScanTraj.ptGeo" ) )     
         #------------------------------------------------------------------------  
         #set the parameters dict for the geometry search classes
-        self.GeoOptPars =   { 
-                            "method": self.optmizer           ,\
-                            "maxIterations":self.maxIt        ,\
-                            "rmsGradient": self.rmsGT
-                            }
+        self.GeoOptPars =   { "maxIterations":self.maxIt  ,
+                              "rmsGradient"  : self.rmsGT   }
     #===========================================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
@@ -79,11 +77,11 @@ class SCAN:
         '''
         #-----------------------------------------------------------
         if "rmsGradient" in _parameters:
-            self.rmsGT = _parameters['rmsGradient']
+            self.GeoOptPars["rmsGradient"] = _parameters["rmsGradient"]
         if "maxIrerations" in _parameters:
-            self.maxIt = _parameters['maxIterations']
+            self.GeoOptPars["maxIterations"] = _parameters["maxIterations"]
         if "log_frequency" in _parameters:
-            self.logFreq = _paremeters["log_frequency"]
+            self.GeoOptPars["log_frequency"] = _paremeters["log_frequency"]
         if "NmaxThreads" in _parameters:
             self.nprocs = _parameters["NmaxThreads"]
         if "force_constant" in _parameters:
@@ -92,13 +90,12 @@ class SCAN:
         if "force_constant_1" in _parameters:
             self.forceC[0] = _parameters["force_constant_1"]
         if "force_constant_2" in _parameters:
-            self.forceC[1] = _parameters["force_constant_2"]    
-
-        #-----------------------------------------------------------
-        self.GeoOptPars = { "method": self.optmizer           ,\
-                            "saveTraj": "True"                ,\
-                            "maxIterations":self.maxIt        ,\
-                            "rmsGradient": self.rmsGT         }    
+            self.forceC[1] = _parameters["force_constant_2"] 
+        if "save_format" in _parameters:
+            print(_parameters)
+            input()
+            self.saveFormat = _parameters["save_format"]      
+           
     #===========================================================================================
     def ChangeConvergenceParameters(self,_xframe,_yframe):
         '''
@@ -168,8 +165,6 @@ class SCAN:
             self.multipleDistance[ndim] = True
         elif len(_RC.atoms) == 4:
             self.dihedral = True
-            
-
     #===============================================================================================
     def Run1DScan(self,_nsteps):
         '''
@@ -678,11 +673,13 @@ class SCAN:
         #-----------------------------------------------------------------
         if self.nDim == 1:
             #..................................................
-            trajNameDCD = self.baseName + ".dcd"
-            trajName = os.path.join( self.baseName, "ScanTraj.ptGeo" )
-            Duplicate( trajName, trajNameDCD, self.molecule )
+            if not self.saveFormat == None: 
+                print(self.saveFormat)
+                trajName = self.baseName + self.saveFormat
+                trajpath = os.path.join( self.baseName, "ScanTraj.ptGeo" )
+                Duplicate( trajpath, trajName, self.molecule )
             #..................................................
-        textLog = open( self.baseName+"_energy.log".format(self.nDim), "w" ) 
+        textLog = open( self.baseName+"_scan{}D.log".format(self.nDim), "w" ) 
         textLog.write(self.text)
         textLog.close() 
             #..................................................

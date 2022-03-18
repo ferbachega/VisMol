@@ -37,7 +37,7 @@ class MD:
     Class to set up Molecular Dynamics Sumulations.
     '''
     #.---------------------------------------
-    def __init__(self,_system,_baseFolder,_method):
+    def __init__(self,_system,_baseFolder,_integrator):
         '''
         Default constructor. 
         Receives a list of paramters to set the simulations.
@@ -45,68 +45,47 @@ class MD:
         #Important parameters that are recurrently wanted to be change by the user
         self.molecule               = _system
         self.baseName               = _baseFolder       
-        self.trajectoryNameEqui     = os.path.join(_baseFolder,"equilibration.ptGeo")
-        self.trajectoryNameProd     = os.path.join(_baseFolder,"production.ptGeo")
-        self.trajectoryNameSoft     = _baseFolder+"restricted.ptRes"
-        self.trajectoryNameCurr     = self.trajectoryNameEqui
-        self.prodNsteps             = 20000 # seting the default for umbrella sampling
-        self.equiNsteps             = 5000  # seting the default for umbrella sampling
+        self.trajectoryNameProd     = os.path.join(_baseFolder,"trajectory.ptGeo")
+        self.trajectoryNameSoft     = _baseFolder+"trajectory.ptRes" # this naming scheme makes sense for the umbrella sampling runs
+        self.trajectoryNameCurr     = self.trajectoryProd
+        self.algorithm              = _integrator
+        self.saveFormat             = None # binary file format to save the trajectory
+        self.Nsteps                 = 20000 
         self.timeStep               = 0.001
         self.temperature            = 300.15
         self.pressureControl        = False
-        self.algorithm              = _method
-        self.samplingFactor         = 20
+        self.samplingFactor         = 0
         self.logFreq                = 200
-        self.seed                   = 304434242
+        self.seed                   = 3029202042
         self.softConstraint         = False # boolean flags signlizing whether the system has soft constraints or not              
-        self.outputDCD              = True          # Boolean flag signalizing whether the saved trajectory must to be save as a ".dcd" file.
         #Default constants less acessible by the users
         self.collFreq               = 25.0 
         self.pressureCoupling       = 2000.0       
         self.temperatureScaleFreq   = 10
         self.pressure               = 1.0   
         self.temperatureScaleOption = "linear"
-        self.startTemperature       = 10      
-        #Parameters that can be usefull to change for umbrella sampling
-        self.maxItQC                = 250
-        self.energyTolQC            = 2.0e-4
-        self.densityTol             = 2.0e-8    
+        self.startTemperature       = 10               
         #Setting parameters based on information that we collected on the instance construction
         self.RNG                    = NormalDeviateGenerator.WithRandomNumberGenerator ( RandomNumberGenerator.WithSeed ( self.seed ) )
-        if not os.path.exists(_baseFolder):
-            os.makedirs(_baseFolder)
+        if not os.path.exists(_baseFolder): os.makedirs(_baseFolder)
     #===============================================================================    
     def ChangeDefaultParameters(self,_parameters):
         '''
-        Class method to set more specifc parameters.
-        
-        For Bachega to think:
-            there are some of those parameters that the commom user will not have interest in change
-            and then you may want to not acces such method through EasyHybrid GUI.
-            
+        Class method to set more specifc parameters.           
         '''     
-        if 'temperature'                in _parameters:
-            self.temperature            =  _parameters['temperature']   
-        if 'coll_freq'                  in _parameters:
-            self.collFreq               = _parameters['coll_freq']
-        if 'pressure_coupling'          in _parameters:
-            self.pressureCoupling       = _parameters['pressure_coupling'] 
-        if 'temperature_scale'          in _parameters:
-            self.temperatureScaleFreq   = _parameters['temperature_scale']
-        if 'timeStep'                   in _parameters:
-            self.timeStep               = _parameters['timeStep']
-        if 'pressureControl'            in _parameters: # the presence of the ket activates this boolean flag
-            self.pressureControl        = True
-        if 'sampling_Factor'             in _parameters: 
-            self.samplingFactor         = _parameters['sampling_Factor']
-        if 'log_frequency'              in _parameters:
-            self.logFrequency           = _parameters['log_frequency']
-        if 'temperature_scale_option'   in _parameters:
-            self.temperatureScaleOption = _parameters['temperature_scale_option']
-        if 'seed'                       in _parameters:
-            self.seed                   = _parameters['seed']
-
-
+        if "temperature"                in _parameters: self.temperature            = _parameters["temperature"]   
+        if "start_temperature"          in _parameters: self.startTemperature       = _parameters["startTemperature"]
+        if "coll_freq"                  in _parameters: self.collFreq               = _parameters["coll_freq"]
+        if "pressure"                   in _parameters: self.pressure               = _parameters["pressure"]
+        if "pressure_coupling"          in _parameters: self.pressureCoupling       = _parameters["pressure_coupling"] 
+        if "temperature_scale"          in _parameters: self.temperatureScaleFreq   = _parameters["temperature_scale"]
+        if "timeStep"                   in _parameters: self.timeStep               = _parameters["timeStep"]
+        if "sampling_factor"            in _parameters: self.samplingFactor         = _parameters["sampling_factor"]
+        if "log_frequency"              in _parameters: self.logFrequency           = _parameters["log_frequency"]
+        if "temperature_scale_option"   in _parameters: self.temperatureScaleOption = _parameters["temperature_scale_option"]
+        if "seed"                       in _parameters:
+            self.seed = _parameters["seed"]
+            self.RNG  = NormalDeviateGenerator.WithRandomNumberGenerator ( RandomNumberGenerator.WithSeed ( self.seed ) )
     #=============================================================================================    
     def HeatingSystem(self,_nsteps):
         '''
@@ -118,74 +97,42 @@ class MD:
         self.trajectoryNameCurr = self.trajectoryNameProd 
         trajectory              = ExportTrajectory( self.trajectoryNameCurr, self.molecule,log=None )
 
-        if not os.path.exists( self.trajectoryNameCurr ):
-            os.makedirs( self.trajectoryNameCurr )
+        if not os.path.exists( self.trajectoryNameCurr ): os.makedirs( self.trajectoryNameCurr )
         #---------------------------------------------------------------------------------------------
         VelocityVerletDynamics_SystemGeometry(self.molecule                                                 ,
-                                            logFrequency              = self.logFreq                        ,
-                                            normalDeviateGenerator    = self.RNG                            ,
-                                            steps                     = self.nsteps                         ,
-                                            timeStep                  = self.timeStep                       ,
-                                            trajectories              = [(trajectory,self.samplingFactor)]  ,
-                                            temperatureScaleFrequency = self.temperatureScaleFreq           ,
-                                            temperatureScaleOption    = self.temperatureScaleOption         ,
-                                            temperatureStart          = self.startTemperature               ,
-                                            temperatureStop           = self.temperature                    )
-        #..............................................................................................
-    
-    #================================================================================================
-    def RunEquilibration(self,_equiSteps):
-        '''
-        Run a molecular dynamics simulation for equilibration of the system
-        '''
-
-        self.nsteps             = _equiSteps
-        self.trajectoryNameCurr = self.trajectoryNameEqui
-    
-        if not os.path.exists( self.trajectoryNameCurr ):
-            os.makedirs( self.trajectoryNameCurr )
-
-        if self.algorithm == "Verlet":
-            self.runVerlet()
-        elif self.algorithm == "LeapFrog":
-            self.runLeapFrog()
-        elif self.algorithm == "Langevin":
-            self.runLangevin()
-            
+                                              logFrequency              = self.logFreq                        ,
+                                              normalDeviateGenerator    = self.RNG                            ,
+                                              steps                     = self.nsteps                         ,
+                                              timeStep                  = self.timeStep                       ,
+                                              trajectories              = [(trajectory,self.samplingFactor)]  ,
+                                              temperatureScaleFrequency = self.temperatureScaleFreq           ,
+                                              temperatureScaleOption    = self.temperatureScaleOption         ,
+                                              temperatureStart          = self.startTemperature               ,
+                                              temperatureStop           = self.temperature                    )            
     #===============================================================================================    
-    def RunProduction(self,_prodSteps,):
+    def RunProduction(self,_prodSteps):
         '''
         Run a molecular dynamics simulation for data collection.
         '''
         self.nsteps             = _prodSteps
         self.trajectoryNameCurr = self.trajectoryNameProd         
         
-        if not os.path.exists( self.trajectoryNameCurr ):
-            os.makedirs( self.trajectoryNameCurr )
+        if not os.path.exists( self.trajectoryNameCurr ): os.makedirs( self.trajectoryNameCurr )
 
-        if self.algorithm == "Verlet":
-            self.runVerlet()
-        elif self.algorithm == "LeapFrog":
-            self.runLeapFrog()
-        elif self.algorithm == "Langevin":
-            self.runLangevin()
-
-        if self.outputDCD:
-            Duplicate(self.trajectoryNameCurr,self.trajectoryNameCurr+".dcd",self.molecule)
-  
-   
+        if   self.algorithm == "Verlet":      self.runVerlet()
+        elif self.algorithm == "LeapFrog":    self.runLeapFrog()
+        elif self.algorithm == "Langevin":    self.runLangevin()   
     #==================================================================================================
     def RunProductionRestricted(self,_equiSteps,_prodSteps,_samplingFactor):
         '''
         Run a simulation with the system having soft constrains defined.
         Designed for Umbrella Sampling and Steered Molecular Dynamics routines.
         '''
-        self.nsteps             = _prodSteps
-        self.samplingFactor     = _samplingFactor
-        self.softConstraint     = True
-        self.outputDCD          = False
-        
-        self.RunEquilibration(_equiSteps)
+        #Run equilibrartion first
+        self.samplingFactor = 0
+        self.RunProduction(_equiSteps)
+        self.samplingFactor = _samplingFactor
+        self.softConstraint = True         
         self.RunProduction(_prodSteps)           
 
     #===================================================================================================
@@ -255,14 +202,14 @@ class MD:
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
         #-----------------------------------------------------------------------------
-        LangevinDynamics_SystemGeometry ( self.molecule                         ,
-                                          collisionFrequency     = self.collFreq,
-                                          logFrequency           = self.logFreq ,
-                                          normalDeviateGenerator = self.RNG     ,
-                                          steps                  = self.nsteps  ,
-                                          temperature            =   300.0      ,
-                                          timeStep               =   0.001      ,
-                                          trajectories = trajectory_list        )
+        LangevinDynamics_SystemGeometry ( self.molecule                             ,
+                                          collisionFrequency     = self.collFreq    ,
+                                          logFrequency           = self.logFreq     ,
+                                          normalDeviateGenerator = self.RNG         ,
+                                          steps                  = self.nsteps      ,
+                                          temperature            = self.temperature ,
+                                          timeStep               = self.timeStep    ,
+                                          trajectories           = trajectory_list  )
 
     #=====================================================================================
          
