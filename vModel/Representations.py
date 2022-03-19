@@ -864,7 +864,7 @@ class RibbonsRepresentation (Representation):
             #GL.glBufferData(GL.GL_ARRAY_BUFFER, frame.nbytes,
             #                frame, 
             #                GL.GL_STATIC_DRAW)              
-            print('aquioh')
+            #print('aquioh')
             GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)  
         GL.glBindVertexArray(0)
         GL.glLineWidth(1)
@@ -1217,7 +1217,7 @@ class SpheresRepresentation (Representation):
         #     S H A D E R S
         self.shader_program     = None
         self.sel_shader_program = None
-     
+        #self._check_VAO_and_VBOs()
     
     def update_atomic_indexes (self, indexes = None):
         """ Function doc """
@@ -1225,7 +1225,7 @@ class SpheresRepresentation (Representation):
         self.atoms =[]
         for atom in self.visObj.atoms:
             if atom.spheres:
-                print (atom.name ,atom.index,  atom.spheres)
+                #print (atom.name ,atom.index,  atom.spheres)
                 index  = atom.index -1
                 self.atomic_indexes.append(index)
                 self.atoms.append(atom)
@@ -1236,8 +1236,8 @@ class SpheresRepresentation (Representation):
         self._create_sphere_data() 
         self._update_sphere_data_to_VBOs () 
         self.active = True
-        print('1232 update_atomic_indexes')
-        print(self.atomic_indexes)
+        #print('1232 update_atomic_indexes')
+        #print(self.atomic_indexes)
         
     def _update_sphere_data_to_VBOs (self):
         """ Function doc """
@@ -1248,6 +1248,11 @@ class SpheresRepresentation (Representation):
         #GL.glDeleteBuffers(1, self.centr_vbo)
         #GL.glDeleteBuffers(1, self.col_vbo)
         #self._make_gl_vao_and_vbos ()
+        print ('self.ind_vbo', self.ind_vbo, self.visObj.name, self.visObj.index )
+        #self._check_VAO_and_VBOs()
+        #if self.ind_vbo is None:
+        #    self.draw_representation()
+        #    self._make_gl_vao_and_vbos()
         
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.ind_vbo)
         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
@@ -1263,7 +1268,7 @@ class SpheresRepresentation (Representation):
 
     
     def _create_sphere_data(self ):
-        print('1258_create_sphere_data')
+        #print('1258_create_sphere_data')
         """ Function doc """
         init = time.time()
         #cdef Py_ssize_t a, i, qtty, elems, offset, inds_e
@@ -1768,7 +1773,7 @@ class CartoonRepresentation (Representation):
         normals = self.normals2
         indexes = self.indexes2
         
-        print ('len(coords),len(colors), len(normals),len(indexes)', len(coords),len(colors), len(normals),len(indexes)  )
+        #print ('len(coords),len(colors), len(normals),len(indexes)', len(coords),len(colors), len(normals),len(indexes)  )
 
         self._make_gl_representation_vao_and_vbos (indexes    = indexes,
                                                    coords     = coords ,

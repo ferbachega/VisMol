@@ -824,7 +824,7 @@ class VisMolSession (ShowHideVisMol):
         else:
             selection = self.selections[self.current_selection]
         
-        print(selection)
+        #print(selection)
         Vobject = selection.selected_atoms[0].Vobject
         
         index_bonds_dynamic = []
@@ -1129,8 +1129,8 @@ class VisMolSession (ShowHideVisMol):
                 
                 c = a - b
                 
-                print (a)
-                print (b)
+                #print (a)
+                #print (b)
                 #Combining with list that the already exists  
                 fixedlist =  set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
                 #guarantee that the atom index appears only once in the list
@@ -1160,7 +1160,7 @@ class VisMolSession (ShowHideVisMol):
                 fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(set(fixedlist)) 
-                print ('fixedlist',fixedlist)
+                #print ('fixedlist',fixedlist)
                 #sending to pDynamo
                 refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
@@ -1471,7 +1471,7 @@ class VisMolSession (ShowHideVisMol):
         self.ctrl = True
         
         
-        print (entry)
+        #print (entry)
 
 
     def add_vismol_object_to_vismol_session (self, rep = True, vismol_object = None, autocenter =  True):
@@ -1512,7 +1512,7 @@ class VisMolSession (ShowHideVisMol):
     def load (self, infile, widget = None, autocenter = True):
         """ Function doc """
         #Vobject_id = len(self.vismol_objects)
-        print ('load')
+        #print ('load')
         
         rep1 = True
         

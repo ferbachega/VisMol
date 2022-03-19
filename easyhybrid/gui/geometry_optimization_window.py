@@ -60,7 +60,7 @@ class SaveTrajectoryBox:
             ]
         for format in formats:
             self.format_store.append([format])
-            print (format)
+            #print (format)
         self.formats_combo = self.builder.get_object('combobox_format')
         self.formats_combo.set_model(self.format_store)
         #self.formats_combo.connect("changed", self.on_name_combo_changed)
@@ -134,10 +134,10 @@ class FolderChooserButton:
     
     def set_folder (self, folder = '/home'):
         """ Function doc """
-        print('set_folder', folder)
+        #print('set_folder', folder)
         self.folder = folder
         name = os.path.basename(folder )
-        print( name)
+        #print( name)
         self.label.set_text(name)
     
     def get_folder (self):
@@ -167,7 +167,7 @@ class FolderChooserButton:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
+            #print("Open clicked")
         
             print("File selected: " + dialog.get_filename())
         
@@ -372,7 +372,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
     def update_working_folder_chooser (self, folder = None):
         """ Function doc """
         if folder:
-            print('update_working_folder_chooser')
+            #print('update_working_folder_chooser')
             self.save_trajectory_box.set_folder(folder = folder)
         else:
             self.save_trajectory_box.set_folder(folder = HOME)

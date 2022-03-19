@@ -319,7 +319,7 @@ class Simulation:
 			
 		#----------------------------------------------------------------
 		if not _plotParameters == None:
-			show = 
+			show = None
 			RCs  = None
 			if "show" in _plotParameters:
 				show = True

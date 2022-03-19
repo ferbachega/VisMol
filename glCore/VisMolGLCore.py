@@ -634,6 +634,48 @@ class VisMolGLCore():
         GL.glUseProgram(0)
     '''
 
+    def render_load (self,):
+        """ Function doc """
+        #print('render')
+        if self.shader_flag:
+            print ('self.create_gl_programs()')
+            self.create_gl_programs()
+            self.selection_box.initialize_gl()
+            self.axis.initialize_gl()
+            self.shader_flag = False
+        
+        if self.selection_box_picking:
+            #pass
+            self._selection_box_pick2()
+
+        
+        if self.picking:
+            #self._pick()
+            self._pick2()
+        
+        GL.glClearColor(self.bckgrnd_color[0],self.bckgrnd_color[1], self.bckgrnd_color[2],self.bckgrnd_color[3])
+        GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+        
+        #for visObj in self.vm_session.vismol_objects:
+        for index, visObj in self.vm_session.vismol_objects_dic.items():
+            # for all the visObj in all created visObjs  
+            visObj.representations[rep_name].draw_representation()
+            #if visObj.active:
+            #    # visObj.active = False means that nothing is showed 
+            #    if visObj.frames != []:
+            #        for rep_name in visObj.representations:
+            #            # if the representation doen't exists , ignore
+            #            if visObj.representations[rep_name] is None:
+            #                pass
+            #                #print('rep_name',rep_name)
+            #            
+            #            else:
+            #                # only shows the representation if representations[rep_name].active = True
+            #                if visObj.representations[rep_name].active:
+            #                    
+            #                else:
+            #                    pass
+
     def render(self):
         """ This is the function that will be called everytime the window
             needs to be re-drawed.

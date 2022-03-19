@@ -189,106 +189,23 @@ button position in the main treeview (active column).""".format(name,self.main_s
         vobj_index = vismol_object.index
         sys_index  = vismol_object.easyhybrid_system_id
         
-                
         
-        if sys_index in self.parents.keys():
-            pass
-        else:          
-            # Creates a new "parent" when a new system is loaded into memory. 
-            for row in self.treestore:
-                #row[2] = row.path == selected_path
-                row[3] =  False
-                #row[5] = False 
-                for i,j in enumerate(row):
-                    print(i, j,)
-            
-                    
-            
-            '''
-            self.parents[sys_index] = self.treestore.append(None,                                                
-                                                           [pdynamo_session.systems[sys_index]['name'], # Name
-                                                            False,                                      # toggle active=1
-                                                            True,                                       # radio  active=2
-                                                            False,                                      # toggle visible = 3
-                                                            True,                                       # radio  visible = 4
-                                                            False,                                      # radio  active = 5
-                                                            False,                                      # is trajectory radio visible?
-                                                            vismol_object.easyhybrid_system_id,         # pdynamo system index
-                                                            False])                                     # is pdynamo system index visible?
-            '''
-            
-            
-            self.parents[sys_index] = self.treestore.append(None,                                                
-                                                           
-                                                           [pdynamo_session.systems[sys_index]['name'], # Name
-                                                            False,                                      # toggle active=1
-                                                            False,                                      # toggle visible = 3
-                                                            
-                                                            True ,                                      # radio  active  = 2
-                                                            True ,                                      # radio  visible = 4
-
-                                                            False,                                      # traj radio  active = 5
-                                                            False,                                      # is trajectory radio visible?
-                                                            
-                                                            vismol_object.index,                        #
-                                                            vismol_object.easyhybrid_system_id,         # pdynamo system index
-                                                            0])                                     # is pdynamo system index visible?
-            
-            self.gtk_treeview_iters.append(self.parents[sys_index])
-            
-            
-        #or row in self.treestore:
-        #   #row[2] = row.path == selected_path
-        #   row[5] = False 
-        #   for i,j in enumerate(row):
-        #       print(i, j,)
-        
-        n = 0
-        for treeview_iter in self.gtk_treeview_iters:
-            self.treestore[treeview_iter][5] = False
-            #print(self.treestore[treeview_iter][0])
-            print ('\ntreeview_iter', treeview_iter, n)
-            n+=1
-            
-        treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
-                                          
-                                          [vismol_object.name, 
-                                           vismol_object.active ,   # toggle active   =1       
-                                           True ,                   # toggle visible  = 2                  
-                                           
-                                           False ,                  # radio  active  = 3                       
-                                           False ,                  # radio  visible = 4                      
-                                           
-                                           True  ,                  # traj radio  active = 5                     
-                                           True  ,                  # is trajectory radio visible?  6                   
-                                           
-                                           vismol_object.index,     # 7
-                                           vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
-                                           len(vismol_object.frames)] # is pdynamo system index visible?  9 
-                                            )
-        self.gtk_treeview_iters.append(treeview_iter)
-        
-        #else:
-        #    self.treestore.append(self.parents[vismol_object.easyhybrid_system_id], [vismol_object.name, vismol_object.active , False , False, False, vobj_index, True, vismol_object.easyhybrid_system_id, False])
-
-
-        print('\n\n\n')
-
-        for vobj in self.vismol_objects:
-            print(vobj.name, vobj.easyhybrid_system_id)
-        print('\n\n\n')
-        print(vismol_object.index)
         
         '''
-        if rep:
-            vismol_object.create_new_representation (rtype = 'lines')
-            self.vismol_objects[-1].create_new_representation(rtype = 'dotted_lines')
-
-            rep  = NonBondedRepresentation (name = 'nonbonded', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
-            vismol_object.representations[rep.name] = rep
+        We have to do a preliminary render for all objects before building 
+        the treewview (even for those inactive objects coming from the 
+        serialization file). This is necessary because it is necessary to 
+        create the VBOs and VAOs of the sphere representations, otherwise, 
+        we may have problems when associating a new QC region () for example) 
+        for a system that has inactive objects and without the VBOs and VAOs 
+        already created .
         '''
-            
 
+        #            Saving the object's active/inactive condition 
+        active_original  = vismol_object.active
+        
+        #---------------------------------------------------------------------#
+        vismol_object.active =  True        
         for key in rep.keys():
             
             if key == 'lines':
@@ -311,34 +228,97 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
             
             if key == 'spheres':
+                
                 if rep[key] == []:
                     vismol_object.create_new_representation (rtype = 'spheres')
                 else:
-                    print(key,rep[key])
+                    #print(key,rep[key])
                     vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
+                    #vismol_object.representations['spheres'].draw_representation() 
+                #pass
                 
-            
-                
-                
-                #self.vismol_objects[-1].generate_indexesresentations (reps_list = self.indexes)
-                #print (self.vismol_objects[-1].representations)
-
-            #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
-            #vismol_object.representations[rep.name] = rep
-            
-            
-            #vismol_object.create_new_representation (rtype = 'ribbons')
-            
-
+                '''
+                self.show_or_hide_by_object(            _type = 'spheres', 
+                                                      vobject = vismol_object, 
+                                              selection_table = rep[key] , 
+                                                         show = True )'''
+        #'''
         if autocenter:
             #print(self.vismol_objects[-1].mass_center)
             self.glwidget.vm_widget.center_on_coordinates(vismol_object, vismol_object.mass_center)
         else:
             self.glwidget.vm_widget.queue_draw()
+        #---------------------------------------------------------------------#
+        
+        
+        
+        
+        
+        #  Loading the object's active/inactive condition 
+        vismol_object.active = active_original
+                
+        '''        T R E E S T O R E           '''
+        if sys_index in self.parents.keys():
+            pass
+        else:          
+            # Creates a new "parent" when a new system is loaded into memory. 
+            for row in self.treestore:
+                #row[2] = row.path == selected_path
+                row[3] =  False
+                #row[5] = False 
+                #for i,j in enumerate(row):
+                #    print(i, j,)           
+            self.parents[sys_index] = self.treestore.append(None,                                                
+                                                           
+                                                           [pdynamo_session.systems[sys_index]['name'], # Name
+                                                            False,                                      # toggle active=1
+                                                            False,                                      # toggle visible = 3
+                                                            
+                                                            True ,                                      # radio  active  = 2
+                                                            True ,                                      # radio  visible = 4
+
+                                                            False,                                      # traj radio  active = 5
+                                                            False,                                      # is trajectory radio visible?
+                                                            
+                                                            vismol_object.index,                        #
+                                                            vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                            0])                                     # is pdynamo system index visible?
+            
+            self.gtk_treeview_iters.append(self.parents[sys_index])
+
+        n = 0
+        for treeview_iter in self.gtk_treeview_iters:
+            self.treestore[treeview_iter][5] = False
+            #print(self.treestore[treeview_iter][0])
+            #print ('\ntreeview_iter', treeview_iter, n)
+            n+=1
+            
+        treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
+                                          
+                                          [vismol_object.name, 
+                                           vismol_object.active ,   # toggle active   =1       
+                                           True ,                   # toggle visible  = 2                  
+                                           
+                                           False ,                  # radio  active  = 3                       
+                                           False ,                  # radio  visible = 4                      
+                                           
+                                           True  ,                  # traj radio  active = 5                     
+                                           True  ,                  # is trajectory radio visible?  6                   
+                                           
+                                           vismol_object.index,     # 7
+                                           vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
+                                           len(vismol_object.frames)] # is pdynamo system index visible?  9 
+                                            )
+        self.gtk_treeview_iters.append(treeview_iter)
+        #print('\n\n\n')
+        #for vobj in self.vismol_objects:
+        #    print(vobj.name, vobj.easyhybrid_system_id)
+        #print('\n\n\n')
+        #print(vismol_object.index)
         self.gtk_widgets_update ()
 
         
-        print('vismol_objects_dic', self.vismol_objects_dic)
+        #print('vismol_objects_dic', self.vismol_objects_dic)
 
 
 
@@ -464,7 +444,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 '''here we are returning the original color of the selected atoms'''
                 for key, visObj in self.vismol_objects_dic.items():
                     if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
-                        print('key',key, visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                        #print('key',key, visObj.name, visObj.easyhybrid_system_id, visObj.active)
                         for index in freelist:
                             print(index,visObj. atoms[index])
                             atom = visObj.atoms[index]
@@ -485,13 +465,15 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 
                 c = a - b
                 
-                print (a)
-                print (b)
+                #print (a)
+                #print (b)
+                
                 #Combining with list that the already exists  
                 fixedlist =  set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(c) 
-                print ('fixedlist',fixedlist)
+                
+                #print ('fixedlist',fixedlist)
                 #sending to pDynamo
                 refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
