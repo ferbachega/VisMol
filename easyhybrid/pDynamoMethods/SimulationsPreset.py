@@ -319,15 +319,15 @@ class Simulation:
 			
 		#----------------------------------------------------------------
 		if not _plotParameters == None:
-			show = 
+			show = _plotParameters["show"]
 			RCs  = None
-			if "show" in _plotParameters:
-				show = True
-			t_time = _parameters["production_nsteps"]*0.001
+			if "show" in _plotParameters: show = _plotParameters["show"]
+			t_time = _parameters["nsteps"]*0.001
+
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
 			DA.PlotRG_RMS(show)
-			
+						
 			if "calculate_distances" in _plotParameters:
 				rc1 = ReactionCoordinate(_plotParameters["ATOMS_RC1"],False,0)
 				rc1.SetInformation(self.molecule,0)
@@ -344,33 +344,27 @@ class Simulation:
 		Set up and execute molecular dynamics simulations.
 		Parameters:
 			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Mandatory:
 				Optinal :
 			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Mandatory:
 				Optinal :
 		'''
 		#----------------------------------------------------------------
 		restraints = RestraintModel( )
-		self.molecule.DefineRestraintModel( restraints )
-		
+		self.molecule.DefineRestraintModel( restraints )		
 		MCR1 = False
 		MCR2 = False
-		if "MC_RC1" in _parameters:
-			MCR1 = True
-		if "MC_RC2" in _parameters:
-			MCR2 = True
-		#---------------
+		if "MC_RC1" in _parameters:	MCR1 = _parameters["MC_RC1"]
+		if "MC_RC2" in _parameters:	MCR2 = _parameters["MC_RC2"]
+		#--------------------
 		rcType1 = "Distance"
 		rcType2 = "Distance"
-		if "type_rc1" in _parameters:
-			rcType1 = _parameters["type_rc1"]
-		if "type_rc2" in _parameters:
-			rcType2 = _parameters["type_rc2"]
-
+		if "type_rc1" in _parameters: rcType1 = _parameters["type_rc1"]
+		if "type_rc2" in _parameters: rcType2 = _parameters["type_rc2"]
 		#-------------------------------------------------------------------
-		forcK = _parameters["force_constant"]		
 		restrainDimensions = _parameters['ndim']
+		forcK_1 = _parameters["force_constant_1"]
 		#-------------------------------------------------------------------
 		rc1 = ReactionCoordinate(_parameters["atoms_M1"],MCR1,_type=rcType1)
 		rc1.SetInformation(self.molecule,0)
@@ -379,6 +373,7 @@ class Simulation:
 		if nDims == 2:
 			rc2 = ReactionCoordinate(_parameters["atoms_M2"],MCR2,_type=rcType2)
 			rc2.SetInformation(self.molecule,0)
+			forcK_2 = _parameters["force_constant_2"]
 		#-------------------------------------------------------------------
 		distance = rc1.minimumD
 		rmodel = RestraintEnergyModel.Harmonic( distance, forcK )
@@ -403,14 +398,12 @@ class Simulation:
 		#-----------------------------------------------------------------		
 		if not _plotParameters == None:
 			t_time = _parameters["production_nsteps"]*0.001
-			if "show" in _plotParameters:
-				show = True
+			if "show" in _plotParameters: show = _plotParameters["show"]
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
 			DA.PlotRG_RMS(show)				
 			RCs = [rc1]
-			if nDims > 1:				
-				RCs.append(rc2)							
+			if nDims > 1: RCs.append(rc2)							
 			DA.DistancePlots(RCs,show)
 			DA.ExtractFrames()
 	#=======================================================================
@@ -419,10 +412,10 @@ class Simulation:
 		Set up and execute umbrella sampling simulations and Free energy calculations for reaction path trajectory.
 		Parameters:
 			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Mandatory:
 				Optinal :
 			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Mandatory:
 				Optinal :
 		'''
 		#---------------------------------------
@@ -431,8 +424,7 @@ class Simulation:
 		rcType1 = "Distance"
 		rcType2 = "Distance"
 		#---------------------------------------
-		if "MC_RC1" in _parameters:
-			MCR1 = True
+		if "MC_RC1" in _parameters: 	MCR1 = True
 		if "MC_RC2" in _parameters:
 			MCR2 = True
 		#---------------------------------------

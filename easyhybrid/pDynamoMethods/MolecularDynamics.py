@@ -47,7 +47,7 @@ class MD:
         self.baseName               = _baseFolder       
         self.trajectoryNameProd     = os.path.join(_baseFolder,"trajectory.ptGeo")
         self.trajectoryNameSoft     = _baseFolder+"trajectory.ptRes" # this naming scheme makes sense for the umbrella sampling runs
-        self.trajectoryNameCurr     = self.trajectoryProd
+        self.trajectoryNameCurr     = self.trajectoryNameProd
         self.algorithm              = _integrator
         self.saveFormat             = None # binary file format to save the trajectory
         self.Nsteps                 = 20000 

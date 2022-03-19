@@ -88,20 +88,19 @@ def MMMD_Algorithms():
 	#-----------------------------------------------
 	integrators = ["Verlet", "LeapFrog", "Langevin"]	
 	_plotParameters = {"show":True}
+	parameters = {"protocol":"sampling", "temperature": 315.15 }
 	#------------------------------------------------
 	#loop to execute the available intgrators on pDynamo
 	for integrator in integrators:
-		#Non-optional parameters for molecular dynamics simulation preset
-		parameters = {"protocol":"production"     ,
-					  "production_nsteps":2000    ,
-					  "equilibration_nsteps":1000 ,
-					  "MD_method":integrator      }
+		parameters = { "MD_method":integrator, "nsteps":1000}
+		proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters=None)
+		parameters = { "MD_method":integrator, "nsteps":2000}
 		proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters)
 		proj.cSystem.coordinates3 = refcrd3
 	#_--------------
 	proj.FinishRun() 			
 #=====================================================
-def MMMD_Protocols():
+def MMMD_Heating():
 	'''
 	TESTED !!!
 	Molecular Mechanics Molecular Dynamics 
@@ -1240,7 +1239,7 @@ def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":
-	#MMMD_Algorithms()                         			#TESTED
+	MMMD_Algorithms()                         			#TESTED
 	#MMMD_Protocols()									#TESTED
 	#QCMM_Energies()									#TESTED
 	#QCMM_DFTBplus()									#TESTED
@@ -1250,10 +1249,10 @@ if __name__ == "__main__":
 	#QCMM_MDrestricted()								#TESTED
 	#QCMMScanSimpleDistance(30,0.05)					#TESTED
 	#QCMMScanMultipleDistance(30,0.05)					#TESTED
-	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
 	#Scan1D_Dihedral(36)									#TESTED
 	#Scan2D_Dihedral(10,10)								#TESTED
 	#FreeEnergy1DSimpleDistance(500)					#TESTED
