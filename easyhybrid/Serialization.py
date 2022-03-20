@@ -60,7 +60,7 @@ class LoadAndSaveFiles:
                         # this try / except  should be replaced later
                         
                         try:#else:
-                            print(vobj.name, vobj.index, rep_name, rep_data.indexes )
+                            #print(vobj.name, vobj.index, rep_name, rep_data.indexes )
                             representations[rep_name] = list(rep_data.indexes)
                         except:
                             
@@ -225,11 +225,22 @@ class LoadAndSaveFiles:
                                                       vobj_count      = False,
                                                       autocenter      = True)
         
+            
+            
+            
+            
+            
+            self.main_session.vm_session.vismol_objects_dic[vobj_id].active = vobject_data['active']
+        
+        
+        
+        
+        
         
         
         for key, system in self.pDynamo_session.systems.items():
             system['vismol_object'] =   self.vismol_objects_dic[system['vismol_object']]
-        self.pDynamo_session.refresh_qc_and_fixed_representations() 
+         
 
         
         '''Here we will select the radio button corresponding to the system that is active. 
@@ -240,3 +251,13 @@ class LoadAndSaveFiles:
             self.main_session.treeview.on_cell_radio_toggled(widget, path)
         else:
             self.main_session.treeview.on_cell_radio_toggled(widget, 0)
+        
+        #self.pDynamo_session.refresh_qc_and_fixed_representations(_all = True)#_all = True)
+        
+        #for index, visObj in self.main_session.vm_session.vismol_objects_dic.items():
+        #    # for all the visObj in all created visObjs  
+        #    for rep_name in visObj.representations:
+        #        print (rep_name)
+        #        
+        #        if visObj.representations[rep_name]  != None:
+        #            visObj.representations[rep_name].draw_representation()

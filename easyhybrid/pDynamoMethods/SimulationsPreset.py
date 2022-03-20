@@ -319,7 +319,7 @@ class Simulation:
 			
 		#----------------------------------------------------------------
 		if not _plotParameters == None:
-			show = _plotParameters["show"]
+			show = None
 			RCs  = None
 			if "show" in _plotParameters: show = _plotParameters["show"]
 			t_time = _parameters["nsteps"]*0.001

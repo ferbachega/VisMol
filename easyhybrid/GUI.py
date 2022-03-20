@@ -357,10 +357,10 @@ class EasyHybridMainWindow ( ):
         
     def on_main_menu_activate (self, menuitem):
         """ Function doc """
-        print(menuitem)
+        #print(menuitem)
         
         if menuitem == self.builder.get_object('menu_item_merge_system'):
-            print(menuitem, 'menu_item_merge_system')
+            #print(menuitem, 'menu_item_merge_system')
             self.merge_pdynamo_systems_window.OpenWindow()
 
 
@@ -369,20 +369,20 @@ class EasyHybridMainWindow ( ):
         
         # should be a function . in the future!!!
         if update_coords:
-            print(self.vm_session.starting_coords_liststore)
+            #print(self.vm_session.starting_coords_liststore)
             starting_coords = []
             #self.easyhybrid_main.pDynamo_session
             self.vm_session.starting_coords_liststore.clear()
             for key, visObj in self.vm_session.vismol_objects_dic.items():
                 
-                print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
                 
                 if visObj.easyhybrid_system_id == self.pDynamo_session.active_id:
                     starting_coords.append([visObj.name, key])
             
             for item in starting_coords:
                 self.vm_session.starting_coords_liststore.append(list(item))
-                print (item)
+                #print (item)
                 
             
         
@@ -479,19 +479,22 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
 
 
     def on_cell_radio_toggled2(self, widget, path):
-        '''No working'''
-
         '''
-        print('\n\n\path:', path)
-        print('\n\n\path:', 'AQUI')
-        print(widget)
+        Change the radio button relative to the 'T' 
+        collumn of the vismol objects treeview 
+        '''
+
+        #'''
+        #print('\n\n\path:', path)
+        #print('\n\n\path:', 'AQUI')
+        #print(widget)
         
         for treeview_iter in self.vm_session.gtk_treeview_iters:
             self.treestore[treeview_iter][5] = False
-            print(self.treestore[treeview_iter][0])
+            #print(self.treestore[treeview_iter][0])
         self.treestore[path][5] = True
-        print('\n\n\path:', path)
-        '''
+        #print('\n\n\path:', path)
+        #'''
         
   
     def on_cell_radio_toggled(self, widget, path):
@@ -507,14 +510,14 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         
         '''
     
-        print('\n\n\path:', 'AQUI')
-        print('\n\n\path:', path)
+        #print('\n\n\path:', 'AQUI')
+        #print('\n\n\path:', path)
         #
         #selected_path = path
         self.selected_path = path
         selected_path      = Gtk.TreePath(path)
         
-        print(widget, selected_path)
+        #print(widget, selected_path)
         
         for row in self.treestore:
             row[3] = row.path == selected_path
@@ -523,7 +526,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             else:
                 pass
         
-        print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
+        #print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
         
         self.main_session.update_gui_widgets()
 
@@ -559,12 +562,13 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             
             (model, iter) = selection.get_selected()
             for item in model:
-                print (item[0], model[iter][0])
-            print (model[iter][:], iter, model, tree )
+                pass
+                #print (item[0], model[iter][0])
+            #print (model[iter][:], iter, model, tree )
             if iter != None:
                 self.selectedID  = str(model.get_value(iter, 1))  # @+
                 self.selectedObj = str(model.get_value(iter, 2))
-                print(self.selectedID, self.selectedObj)
+                #print(self.selectedID, self.selectedObj)
                 self.treeview_menu.open_menu(self.selectedObj)
                 
                 #self.builder.get_object('TreeViewObjLabel').set_label('- ' +self.selectedObj+' -' )
@@ -583,8 +587,8 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             print ('button == 2')
             
             self.selectedID  = int(model.get_value(iter, 7))  # @+
-            print(self.selectedID, model.get_value(iter, 7))
-            print (model[iter][:], iter)
+            #print(self.selectedID, model.get_value(iter, 7))
+            #print (model[iter][:], iter)
             visObj = self.vm_session.vismol_objects_dic[self.selectedID]
             self.vm_session.center(visObj)
 

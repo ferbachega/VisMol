@@ -410,14 +410,15 @@ class pDynamoSession:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
 
-    def refresh_qc_and_fixed_representations (self):
-        """ Function doc >>> 
-        list(molecule.qcState.boundaryAtoms) 
-        list(molecule.qcState.pureQCAtoms)  self.systems[self.active_id]['system'].eh_qc_table ) )
-        list(molecule.qcState.qcAtoms)
+    def refresh_qc_and_fixed_representations (self, _all =  False):
+        """ 
+                
+        _all = True/False applies the "ball and stick" and "color fixed atoms" representation
+         to all vobjects. Only being used in load - serialization file
+        
         """
         #if self.selection_fixed_table:
-        print('\n\n\nselection_fixed_table', self.systems[self.active_id]['fixed_table'])
+        #print('\n\n\nselection_fixed_table', self.systems[self.active_id]['fixed_table'])
         
 
 
@@ -427,57 +428,58 @@ class pDynamoSession:
         belonging to the pdynamo project that is active. 
         '''
         for key, visObj in self.vm_session.vismol_objects_dic.items():
-            print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
             
-            if visObj.easyhybrid_system_id == self.active_id:
-               
+            if _all:
+                # It applies the "color fixed atoms" representation to all vobjects. 
+                # Only being used in load - serialization file 
+                system_id = visObj.easyhybrid_system_id
+                #print ("system_id", system_id)
                 self.vm_session.set_color_by_index(vismol_object = visObj , 
-                                                      indexes       = self.systems[self.active_id]['fixed_table'], 
-                                                      color         = self.fixed_color)
+                                                   indexes       = self.systems[system_id]['fixed_table'], 
+                                                   color         = self.fixed_color)
+            
+            else:
+                #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
+                if visObj.easyhybrid_system_id == self.active_id:
+                   
+                    self.vm_session.set_color_by_index(vismol_object = visObj , 
+                                                          indexes       = self.systems[self.active_id]['fixed_table'], 
+                                                          color         = self.fixed_color)
 
 
-
-
-
-
-        #self.vm_session.set_color_by_index(vismol_object = self.systems[self.active_id]['vismol_object'] , 
-        #                                      indexes       = self.systems[self.active_id]['fixed_table']   , 
-        #                                      color         = self.fixed_color)
         
-        if self.systems[self.active_id]['system'].qcModel:
-
-            self.systems[self.active_id]['qc_table'] = list(self.systems[self.active_id]['system'].qcState.pureQCAtoms)
-            #boundaryAtoms     = list(self.system.qcState.boundaryAtoms)
+        if _all:
             
             for key, visObj in self.vm_session.vismol_objects_dic.items():
-                if visObj.easyhybrid_system_id == self.active_id:
+                system_id = visObj.easyhybrid_system_id
+                
+                if self.systems[system_id]['system'].qcModel:
+                    #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
                     # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
                     self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
                     self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
             
-                    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
+                    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                else:
+                    pass
             
-            '''
-            vismol_object = self.systems[self.active_id]['vismol_object']
-            
-            # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
-            self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vismol_object = vismol_object, indexes = range(0, len(vismol_object.atoms)))
-            self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = vismol_object, selection_table = range(0, len(vismol_object.atoms)),  show = False )
-            self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = vismol_object, selection_table = range(0, len(vismol_object.atoms)),  show = False )
-            
-            self.vm_session.selections[self.vm_session.current_selection].unselecting_by_indexes (vismol_object = vismol_object, indexes = range(0, len(vismol_object.atoms)))
-            
-            self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vismol_object = vismol_object, indexes = self.systems[self.active_id]['qc_table'])
-            ##print('\n\n',self.vm_session.selections[self.vm_session.current_selection].selected_atoms)
-            
-            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = vismol_object, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
-            self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = vismol_object, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
-            self.vm_session.selections[self.vm_session.current_selection].unselecting_by_indexes (vismol_object = vismol_object, indexes = range(0, len(vismol_object.atoms)))
-            ##print('\n\n',self.vm_session.selections[self.vm_session.current_selection].selected_atoms)
-            '''
+
         else:
-            pass
+            if self.systems[self.active_id]['system'].qcModel:
+
+                self.systems[self.active_id]['qc_table'] = list(self.systems[self.active_id]['system'].qcState.pureQCAtoms)               
+                for key, visObj in self.vm_session.vismol_objects_dic.items():
+                    if visObj.easyhybrid_system_id == self.active_id:
+                        # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
+                        self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                        self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                
+                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
+                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[self.active_id]['qc_table'] , show = True )
+        
+            else:
+                pass
 
     def merge_systems (self, system1 = None, system2 =  None, label = 'Merged System', summary = True):
         """ Function doc """
@@ -540,9 +542,9 @@ class pDynamoSession:
     def get_coordinates_from_vismol_object_to_pDynamo_system (self, vismol_object ):
         """ Function doc """
         
-        print('\n\n')
-        print('taking coordinates from', vismol_object.name)
-        print('\n\n')
+        #print('\n\n')
+        print('Loading coordinates from', vismol_object.name)
+        #print('\n\n')
         
         for i, atom in enumerate(vismol_object.atoms):
             xyz = atom.coords()
@@ -638,7 +640,7 @@ class pDynamoSession:
         
         vismol_object  = VismolObject.VismolObject(name                           = name                                          ,    
                                                    atoms                          = atoms                                         ,    
-                                                   vm_session                  = self.vm_session                            ,    
+                                                   vm_session                     = self.vm_session                            ,    
                                                    bonds_pair_of_indexes          = self.systems[self.active_id]['bonds']         ,    
                                                    trajectory                     = [frame]                                       ,  
                                                    color_palette                  = self.systems[self.active_id]['color_palette'] ,
@@ -679,9 +681,9 @@ class pDynamoSession:
                                                                 #rep              = True, 
                                                                 vismol_object    = vismol_object, 
                                                                 autocenter       = autocenter)
-        
-        self.vm_session.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.refresh_qc_and_fixed_representations() 
+
+        self.vm_session.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.vm_session.main_session.update_gui_widgets()
         return vismol_object
 
@@ -689,9 +691,9 @@ class pDynamoSession:
         """ Function doc """
         
         
-        print (_centerAtom)
-        print (_radius)
-        print (_method)
+        #print (_centerAtom)
+        #print (_radius)
+        #print (_method)
         vismol_object = self.systems[self.active_id]['vismol_object']
         
         atomref = AtomSelection.FromAtomPattern( self.systems[self.active_id]['system'], _centerAtom )
@@ -804,7 +806,7 @@ class pDynamoSession:
                                                        maximumIterations                  = maximumIterations        ,
                                                        rmsGradientTolerance               = rmsGradientTolerance     )
         
-        self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = False)
+        self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = True)
 
     #--------------------------------------------------------- -----------------------
     def run_simulation(self, _parametersList = None, _parameters4Plot = None, _simulationType = None, folder = None):
