@@ -305,11 +305,12 @@ class Simulation:
 					"seed"					  : integer indicating the seed for rumdomness of the simulations.
 					"log_frequency"     	  : integer indicating the frequency of the screen log output.
 			_plotParameters: python dict with paramters for post-analysis and plots
-				Mandatory :
 				Optinal   :
-			'''
-		
-		#-------------------------------------------------------------
+					"show"					: whether to show the analysis plots in the simulation end.
+					"calculate_distances"	: 
+					"ATOMS_RC1"             :
+					"ATOMS_RC2"             :
+		'''		
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])		
 		MDrun.ChangeDefaultParameters(_parameters)
 		#---------------------------------------------------------------
@@ -319,7 +320,7 @@ class Simulation:
 			
 		#----------------------------------------------------------------
 		if not _plotParameters == None:
-			show = None
+			show = _plotParameters["show"]
 			RCs  = None
 			if "show" in _plotParameters: show = _plotParameters["show"]
 			t_time = _parameters["nsteps"]*0.001
@@ -344,8 +345,17 @@ class Simulation:
 		Set up and execute molecular dynamics simulations.
 		Parameters:
 			_parameters: python dict with parameters for simulation
-				Mandatory:
+				Mandatory: 
+					"ndim"                :
+					"force_constant_1"    :
+					"type_rc1"            :
+					"type_rc2"            :
+					"ATOMS_RC1"           :
+					"equilibration_nsteps":
+					"production_nsteps"   :
+					"sampling_factor"     :
 				Optinal :
+					"ATOMS_RC2"       :
 			_plotParameters:python dict with paramters for post-analysis and plots
 				Mandatory:
 				Optinal :
@@ -360,18 +370,18 @@ class Simulation:
 		#--------------------
 		rcType1 = "Distance"
 		rcType2 = "Distance"
-		if "type_rc1" in _parameters: rcType1 = _parameters["type_rc1"]
-		if "type_rc2" in _parameters: rcType2 = _parameters["type_rc2"]
+		if "rc_type_1" in _parameters: rcType1 = _parameters["rc_type_1"]
+		if "rc_type_2" in _parameters: rcType2 = _parameters["rc_type_2"]
 		#-------------------------------------------------------------------
 		restrainDimensions = _parameters['ndim']
 		forcK_1 = _parameters["force_constant_1"]
 		#-------------------------------------------------------------------
-		rc1 = ReactionCoordinate(_parameters["atoms_M1"],MCR1,_type=rcType1)
+		rc1 = ReactionCoordinate(_parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.SetInformation(self.molecule,0)
 		nDims = _parameters['ndim']
 		rc2 = None
 		if nDims == 2:
-			rc2 = ReactionCoordinate(_parameters["atoms_M2"],MCR2,_type=rcType2)
+			rc2 = ReactionCoordinate(_parameters["ATOMS_RC2"],MCR2,_type=rcType2)
 			rc2.SetInformation(self.molecule,0)
 			forcK_2 = _parameters["force_constant_2"]
 		#-------------------------------------------------------------------

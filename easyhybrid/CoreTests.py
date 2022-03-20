@@ -92,9 +92,12 @@ def MMMD_Algorithms():
 	#------------------------------------------------
 	#loop to execute the available intgrators on pDynamo
 	for integrator in integrators:
-		parameters = { "MD_method":integrator, "nsteps":1000}
+		parameters["MD_method"]=integrator
+		parameters["nsteps"]   =1000
 		proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters=None)
-		parameters = { "MD_method":integrator, "nsteps":2000}
+		parameters["MD_method"]       =integrator
+		parameters["nsteps"]   		  =2000
+		parameters["sampling_factor"] =50 
 		proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters)
 		proj.cSystem.coordinates3 = refcrd3
 	#_--------------
@@ -113,19 +116,18 @@ def MMMD_Heating():
 	proj=SimulationProject( os.path.join( scratch_path, "MM_MD_protocols") )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"MM_SetUp.pkl") )
 	#-----------------------------------------------
-	protocols = [ "heating", "equilibration", "production"]	
 	_plotParameters = {"show":True}
-	refcrd3 = Clone(proj.cSystem.coordinates3)
 	#-------------------------
-	for protocol in protocols:
-		#Non-optional parameters for molecular dynamics simulation preset
-		parameters = {"protocol":protocol         ,
-					  "production_nsteps":2000    ,
-					  "equilibration_nsteps":1000 ,
-					  "MD_method":"LeapFrog"	  }
-		proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters)
-		proj.cSystem.coordinates3 = refcrd3
-	#---------------
+	parameters = {"protocol":"heating"               ,
+				  "nsteps":5000                      ,
+				  "MD_method":"LeapFrog"             ,
+				  "temperature_scale_option":"linear",
+				  "temperature_scale":  		   15,
+				  "start_temperature":             20,
+				  "sampling_factor":               50,
+				  "log_frequency":				   50,
+				  "temperature":               330.15 }
+	proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters)
 	proj.FinishRun()			
 #=====================================================
 def QCMM_Energies():
@@ -1239,8 +1241,8 @@ def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":
-	MMMD_Algorithms()                         			#TESTED
-	#MMMD_Protocols()									#TESTED
+	#MMMD_Algorithms()                         			#TESTED
+	MMMD_Heating()										#TESTED
 	#QCMM_Energies()									#TESTED
 	#QCMM_DFTBplus()									#TESTED
 	#QCMM_Orca()										#TESTED

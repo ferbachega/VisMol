@@ -74,7 +74,7 @@ class MD:
         Class method to set more specifc parameters.           
         '''     
         if "temperature"                in _parameters: self.temperature            = _parameters["temperature"]   
-        if "start_temperature"          in _parameters: self.startTemperature       = _parameters["startTemperature"]
+        if "start_temperature"          in _parameters: self.startTemperature       = _parameters["start_temperature"]
         if "coll_freq"                  in _parameters: self.collFreq               = _parameters["coll_freq"]
         if "pressure"                   in _parameters: self.pressure               = _parameters["pressure"]
         if "pressure_coupling"          in _parameters: self.pressureCoupling       = _parameters["pressure_coupling"] 
