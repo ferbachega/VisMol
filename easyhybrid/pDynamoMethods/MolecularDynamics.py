@@ -110,31 +110,18 @@ class MD:
                                               temperatureStart          = self.startTemperature               ,
                                               temperatureStop           = self.temperature                    )            
     #===============================================================================================    
-    def RunProduction(self,_prodSteps):
+    def RunProduction(self,_prodSteps,_samplingFactor,_Restricted=False):
         '''
         Run a molecular dynamics simulation for data collection.
         '''
         self.nsteps             = _prodSteps
         self.trajectoryNameCurr = self.trajectoryNameProd         
-        
+        self.samplingFactor     = _samplingFactor
         if not os.path.exists( self.trajectoryNameCurr ): os.makedirs( self.trajectoryNameCurr )
-
+        self.softConstraint = True 
         if   self.algorithm == "Verlet":      self.runVerlet()
         elif self.algorithm == "LeapFrog":    self.runLeapFrog()
-        elif self.algorithm == "Langevin":    self.runLangevin()   
-    #==================================================================================================
-    def RunProductionRestricted(self,_equiSteps,_prodSteps,_samplingFactor):
-        '''
-        Run a simulation with the system having soft constrains defined.
-        Designed for Umbrella Sampling and Steered Molecular Dynamics routines.
-        '''
-        #Run equilibrartion first
-        self.samplingFactor = 0
-        self.RunProduction(_equiSteps)
-        self.samplingFactor = _samplingFactor
-        self.softConstraint = True         
-        self.RunProduction(_prodSteps)           
-
+        elif self.algorithm == "Langevin":    self.runLangevin()       
     #===================================================================================================
     def runVerlet(self):
         '''

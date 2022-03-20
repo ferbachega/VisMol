@@ -48,7 +48,7 @@ class US:
         self.atoms              = [] # indices of the atoms 
         self.nprocs             = 1
         self.text               = " "
-        self.forceC             = 600.0
+        self.forceC             = [600.0, 600.0]
         self.nsteps             = [ 1, 1 ]
         self.prodNsteps         = _prodSteps
         self.equiNsteps         = _equiSteps
@@ -62,37 +62,20 @@ class US:
         self.samplingFactor     = 0
         self.restart            = RESTART
         self.adaptative         = ADAPTATIVE
-        self.angle              = False
-
-        #qc/mm parameters 
-        self.maxItQC            = 1000
-        self.energyTolQC        = 1e-04
-        self.densityTol         = 1e-08        
-        self.timeStep           = 0.001
-        self.mdParameters = { }        
+        self.angle              = False 
+        self.optimize           = False
+        self.GeoOptPars         = { "rmsGradient":0.01 }       
+        self.mdParameters = { "temperature": self.temperature }        
 
     #====================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
         '''
-        if 'temperature'        in _parameters:
-            self.temperature    = _parameters['temperature']
-        if 'maxIterations_QC'   in _parameters:
-            self.maxItQC        = _parameters['maxIterations_QC']
-        if 'energy_tolerance'   in _parameters:
-            self.energyTolQC    = _parameters['energy_tolerance']
-        if 'density_tolerancen' in _parameters:
-            self.densityTol     = _parameters['density_tolerance']
-        if 'timeStep'           in _parameters:
-            self.timeStep       = _parameters['timeStep']
-        if 'NmaxThreads'        in _parameters:
-            self.nprocs         = _parameters['NmaxThreads']
+        if 'temperature'        in _parameters:  self.mdParameters["temperature"] = _parameters['temperature']
+        if 'timeStep'           in _parameters:  self.mdParameters["timeStep"]    = _parameters['timeStep']
+        if 'NmaxThreads'        in _parameters:  self.nprocs                      = _parameters['NmaxThreads']
 
-        self.mdParameters       = { 'temperature': self.temperature,\
-                                    'density_tolerancen':self.densityTol,\
-                                    'timeStep':self.timeStep,\
-                                    'energy_tolerance':self.energyTolQC}
-
+        
     #==========================================================================
     def SetMode(self,_RC):
         '''
@@ -103,14 +86,12 @@ class US:
         self.nDim += 1
         self.atoms.append(_RC.atoms)
 
-        self.sigma_a1_a3[ndim]      = _RC.weight13
-        self.sigma_a3_a1[ndim]      = _RC.weight31
-        self.massConstraint         = _RC.massConstraint
+        self.sigma_a1_a3[ndim]  = _RC.weight13
+        self.sigma_a3_a1[ndim]  = _RC.weight31
+        self.massConstraint     = _RC.massConstraint
 
-        if len(_RC.atoms) == 3:
-            self.multipleDistance[ndim] = True 
-        if len(_RC.atoms) == 4:
-            self.angle = True
+        if len(_RC.atoms) == 3: self.multipleDistance[ndim] = True 
+        if len(_RC.atoms) == 4: self.angle                  = True
     
     #============================================================================
     def ChangeConvergenceParameters(self):
@@ -205,24 +186,30 @@ class US:
             for i in p.range( len(self.file_lists) ):
                 self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
                 #------------------------------------------------------------                
-                distance    = self.molecule.coordinates3.Distance( atom1, atom2 )
-                rmodel      = RestraintEnergyModel.Harmonic( distance, self.forceC )
-                restraint   = RestraintDistance.WithOptions( energyModel = rmodel, point1=atom1, point2=atom2 ) 
+                distance         = self.molecule.coordinates3.Distance( atom1, atom2 )
+                rmodel           = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                restraint        = RestraintDistance.WithOptions( energyModel = rmodel, point1=atom1, point2=atom2 ) 
                 restraints['M1'] = restraint
                 #------------------------------------------------------------
+                #if required goemetry optimization
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
+                #------------------------------------------------------------   
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
-
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)
         self.molecule.DefineRestraintModel(None)
 
     #==============================================================================
     def Run1DSamplingMultipleDistance(self):
         '''
         '''
-        atom1 = self.atoms[0][0]
-        atom2 = self.atoms[0][1]
-        atom3 = self.atoms[0][2]
+        atom1   = self.atoms[0][0]
+        atom2   = self.atoms[0][1]
+        atom3   = self.atoms[0][2]
         weight1 = self.sigma_a3_a1[0]
         weight2 = self.sigma_a1_a3[0] 
         restraints = RestraintModel()
@@ -231,18 +218,24 @@ class US:
             for i in p.range( len(self.file_lists) ):
                 self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
                 #------------------------------------------------------------
-                dist_12 = self.molecule.coordinates3.Distance( atom1, atom2 )
-                dist_23 = self.molecule.coordinates3.Distance( atom2, atom3 )
+                dist_12  = self.molecule.coordinates3.Distance( atom1, atom2 )
+                dist_23  = self.molecule.coordinates3.Distance( atom2, atom3 )
                 distance = ( weight1 * dist_12) - ( weight2 * dist_23*-1)
                 #------------------------------------------------------------
-                rmodel = RestraintEnergyModel.Harmonic( distance, self.forceC )
-                restraint = RestraintMultipleDistance.WithOptions(energyModel = rmodel,  distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ]) 
+                rmodel           = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                restraint        = RestraintMultipleDistance.WithOptions(energyModel = rmodel,  distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ]) 
                 restraints['M1'] = restraint
                 #------------------------------------------------------------
+                #if required goemetry optimization
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
+                #------------------------------------------------------------   
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
-        
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)        
         self.molecule.DefineRestraintModel(None)
     #==============================================================================
     def Run1DSamplingDihedral(self):
@@ -267,9 +260,16 @@ class US:
                                                                                           point4=atom4) 
                 restraints['M1'] = restraint
                 #------------------------------------------------------------
+                #if required goemetry optimization
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
+                #------------------------------------------------------------  
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)  
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
 
@@ -352,13 +352,21 @@ class US:
                 #--------------------------------------------------------
                 rmodel2     = RestraintEnergyModel.Harmonic(distance_2,self.forceC)
                 restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel2,distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
-                restraints["M2"] = restraint 
-                #--------------------------------------------------------
+                restraints["M2"] = restraint                 
+                #------------------------------------------------------------
+                #if required goemetry optimization
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
+                #------------------------------------------------------------  
                 if self.adaptative:
                     self.ChangeConvergenceParameters()
+                #------------------------------------------------------------
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
-                mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)         
+                mdRun.ChangeDefaultParameters(self.mdParameters)               
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)  
         #.....................................................................
         self.molecule.DefineRestraintModel(None) 
         #---------------------------------------         
@@ -393,13 +401,20 @@ class US:
                 distance_2  = self.molecule.coordinates3.Distance( atom4, atom5 )
                 rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
                 restraint   = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom4, point2= atom5)
-                restraints["M2"] = restraint 
+                restraints["M2"] = restraint                 
+                #------------------------------------------------------------
+                #if required goemetry optimization
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
                 #-----------------------------------------------------------------------
                 if self.adaptative:
                     self.ChangeDefaultParameters()
+                #-----------------------------------------------------------------------  
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
-                mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)                 
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
         #.......................................
@@ -431,13 +446,19 @@ class US:
                 rmodel           = RestraintEnergyModel.Harmonic(distance_2, self.forceC)
                 restraint        = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom3, point2= atom4)
                 restraints["M2"] = restraint  
+                #-----------------------------------------------------------------------           
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
                 #-----------------------------------------------------------------------
                 if self.adaptative:
                     self.ChangeConvergenceParameters()
                 #-----------------------------------------------------------------------
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
         #.......................................
@@ -477,10 +498,16 @@ class US:
                                                                                           point3=atom7,
                                                                                           point4=atom8) 
                 restraints['M2'] = restraint
-                #------------------------------------------------------------
+                #-----------------------------------------------------------------------           
+                if self.optimize:
+                    relaxRun = GeometrySearcher( self.molecule, self.baseName  )
+                    relaxRun.ChangeDefaultParameters(self.GeoOptPars)
+                    relaxRun.Minimization( self.GeoOptPars["optmizer"] )
+                #-----------------------------------------------------------------------  
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.ChangeDefaultParameters(self.mdParameters)
-                mdRun.RunProductionRestricted(self.equiNsteps,self.prodNsteps,self.samplingFactor)
+                mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
+                mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)
         #---------------------------------------
         self.molecule.DefineRestraintModel(None)
 

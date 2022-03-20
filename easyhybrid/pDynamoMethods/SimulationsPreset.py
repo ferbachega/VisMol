@@ -307,38 +307,36 @@ class Simulation:
 			_plotParameters: python dict with paramters for post-analysis and plots
 				Optinal   :
 					"show"					: whether to show the analysis plots in the simulation end.
-					"calculate_distances"	: 
-					"ATOMS_RC1"             :
-					"ATOMS_RC2"             :
+					"calculate_distances"	: indicate if to calculate distances distributions of passed reaction coordinates
+					"ATOMS_RC1"             : list of atoms for the first reaction coordinate to be analyzed 
+					"ATOMS_RC2"             : list of atoms for the second reaction coordinate to be analyzed 
 		'''		
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])		
 		MDrun.ChangeDefaultParameters(_parameters)
 		#---------------------------------------------------------------
 		if "protocol" in _parameters:
-			if   _parameters["protocol"] == "heating":  MDrun.HeatingSystem(_parameters['nsteps'])
-			elif _parameters["protocol"] == "sampling": MDrun.RunProduction(_parameters['nsteps'])
-			
+			if   _parameters["protocol"] == "heating":  MDrun.HeatingSystem(_parameters['nsteps'],_parameters["sampling_factor"])
+			elif _parameters["protocol"] == "sampling": MDrun.RunProduction(_parameters['nsteps'],_parameters["sampling_factor"])			
 		#----------------------------------------------------------------
 		if not _plotParameters == None:
 			show = _plotParameters["show"]
 			RCs  = None
 			if "show" in _plotParameters: show = _plotParameters["show"]
 			t_time = _parameters["nsteps"]*0.001
-
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
-			DA.PlotRG_RMS(show)
-						
+			DA.PlotRG_RMS(show)						
 			if "calculate_distances" in _plotParameters:
-				rc1 = ReactionCoordinate(_plotParameters["ATOMS_RC1"],False,0)
-				rc1.SetInformation(self.molecule,0)
-				RCs = [rc1]
-				rc2 = None
-				if "ATOMS_RC2" in _plotParameters:
-					rc2 = ReactionCoordinate(_plotParameters["ATOMS_RC2"],False,0)
-					rc2.SetInformation(self.molecule,0)
-					RCs.append(rc2)
-				DA.DistancePlots()
+				if _parameters["calculate_distances"] == True:
+					rc1 = ReactionCoordinate(_plotParameters["ATOMS_RC1"],False,0)
+					rc1.SetInformation(self.molecule,0)
+					RCs = [rc1]
+					rc2 = None
+					if "ATOMS_RC2" in _plotParameters:
+						rc2 = ReactionCoordinate(_plotParameters["ATOMS_RC2"],False,0)
+						rc2.SetInformation(self.molecule,0)
+						RCs.append(rc2)
+					DA.DistancePlots()
 	#==================================================================
 	def RestrictedMolecularDynamics(self,_parameters,_plotParameters):
 		'''
@@ -346,22 +344,31 @@ class Simulation:
 		Parameters:
 			_parameters: python dict with parameters for simulation
 				Mandatory: 
-					"ndim"                :
-					"force_constant_1"    :
-					"type_rc1"            :
-					"type_rc2"            :
-					"ATOMS_RC1"           :
-					"equilibration_nsteps":
-					"production_nsteps"   :
-					"sampling_factor"     :
+					"ndim"                : integer indicating the number of restricted dimensions.
+					"force_constant_1"    : float with the force constant applied for the harmonic potential in the first reaction coordinate
+					"rc_type_1"           : string specifying the type of coordinate to be used for the first restricted dimension
+					"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
+					"ATOMS_RC1"           : list with the atoms indices to set the first coordinate. 
+					nsteps"               : number of moleculer dynamics steps to production run. 					
 				Optinal :
-					"ATOMS_RC2"       :
+					"ATOMS_RC2"           : list with the atoms indices to set the second coordinate. 
+					"force_constant_2"    : float with the force constant applied for the harmonic potential in the second reaction coordinate
+					"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
+					"temperature" 		  : float with the simulation temperature. If not passed we assume 300.15K as default.
+					"coll_freq"  	      : integer with the colision frequency. Generally set for Langevin integrator. 
+					"pressure"   		  : float with the simulation pressure. If not passed we assume 1.0bar as default.
+					"pressure_coupling"	  : boolean indicating if is to control the simulation pressure.
+					"timeStep"   		  : float indicating the size of integration time step. 0.001 ps is taken as default.
+					"sampling_factor"     : integer with the save/sampling frequency of frames.
+					"seed"				  : integer indicating the seed for rumdomness of the simulations.
+					"log_frequency"       : integer indicating the frequency of the screen log output.
 			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory:
 				Optinal :
+					"show"				  : whether to show the analysis plots in the simulation end.
+					"calculate_distances" : whether to calculate and plot distribution analysis from the passed reaction coordinates										
 		'''
 		#----------------------------------------------------------------
-		restraints = RestraintModel( )
+		restraints = RestraintModel()
 		self.molecule.DefineRestraintModel( restraints )		
 		MCR1 = False
 		MCR2 = False
@@ -404,10 +411,10 @@ class Simulation:
 		#----------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(_parameters)
-		MDrun.RunProductionRestricted(_parameters['equilibration_nsteps'],_parameters['production_nsteps'],_parameters["sampling_factor"])
+		MDrun.RunProduction(_parameters['nsteps'],_parameters["sampling_factor"],_Restricted=True)
 		#-----------------------------------------------------------------		
 		if not _plotParameters == None:
-			t_time = _parameters["production_nsteps"]*0.001
+			t_time = _parameters["production_nsteps"]*MD.timeStep
 			if "show" in _plotParameters: show = _plotParameters["show"]
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
@@ -435,15 +442,12 @@ class Simulation:
 		rcType2 = "Distance"
 		#---------------------------------------
 		if "MC_RC1" in _parameters: 	MCR1 = True
-		if "MC_RC2" in _parameters:
-			MCR2 = True
+		if "MC_RC2" in _parameters:		MCR2 = True
 		#---------------------------------------
 		_Restart 	= False
 		_Adaptative = False
-		if "restart" in _parameters:
-			_Restart = True 
-		if "adaptative" in _parameters:
-			_Adaptative = True
+		if "restart" 	in _parameters:	_Restart 	= _parameters["restart"]
+		if "adaptative" in _parameters:	_Adaptative = _parameters["adaptative"]
 		#-------------------------------------------------------------------
 		rc1 = ReactionCoordinate(_parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.SetInformation(self.molecule,0)

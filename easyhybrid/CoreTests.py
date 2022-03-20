@@ -241,18 +241,30 @@ def QCMM_MD():
 	if not os.path.exists( os.path.join( scratch_path, "QCMMopts.pkl") ):
 		QCMM_optimizations()
 	#------------------------------------------------
-	_plotParameters = {"show":True}
 	proj=SimulationProject( os.path.join(scratch_path,"QCMM_MDs") )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	#testing qcmm MD 
 	#--------------------------------------------------------
-	parameters = {	"protocol":"production"      ,
-					"production_nsteps":10000    ,
-					"equilibration_nsteps":5000  ,
-					"MD_method":"LeapFrog"       ,
-					"sampling_factor":400        }
+	atom1  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3  = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+	atomsf = [ atom1[0], atom2[0], atom3[0] ]
+	atom6  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5  = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4  = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")	
+	atomss = [ atom4[0], atom5[0], atom6[0] ]
+	
+	_plotParameters = {"show":True,"ATOMS_RC1":atomsf,"ATOMS_RC2":atomss,"calculate_distances":True}
+	parameters = {	"protocol":"sampling"        ,
+					"nsteps":2000                ,
+					"sampling_factor":0          ,
+					"MD_method":"LeapFrog"       }
 	#--------------------------------------------------------			
+	proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters=None)
+	parameters["nsteps"] = 5000 
+	parameters["sampling_factor"] = 500
 	proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters)
+
 	proj.FinishRun()
 #=====================================================
 def QCMM_MDrestricted():
@@ -269,13 +281,13 @@ def QCMM_MDrestricted():
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )		
 	#testing qcmm MD 
 	#---------------------------------------------------------------
-	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
-	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
-	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+	atom1  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3  = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 	atomsf = [ atom1[0], atom2[0], atom3[0] ]
-	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
-	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
-	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")	
+	atom6  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5  = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4  = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")	
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	#-----------------------------------------------------------------
 	parameters = {	"protocol":"production"     ,
@@ -1242,13 +1254,13 @@ def Thermodynamics():
 #=====================================================
 if __name__ == "__main__":
 	#MMMD_Algorithms()                         			#TESTED
-	MMMD_Heating()										#TESTED
+	#MMMD_Heating()										#TESTED
 	#QCMM_Energies()									#TESTED
 	#QCMM_DFTBplus()									#TESTED
 	#QCMM_Orca()										#TESTED
 	#QCMM_optimizations()								#TESTED
-	#QCMM_MD()											#TESTED
-	#QCMM_MDrestricted()								#TESTED
+	QCMM_MD()											#TESTED
+	#QCMM_MDrestricted()								    #TESTED
 	#QCMMScanSimpleDistance(30,0.05)					#TESTED
 	#QCMMScanMultipleDistance(30,0.05)					#TESTED
 	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
