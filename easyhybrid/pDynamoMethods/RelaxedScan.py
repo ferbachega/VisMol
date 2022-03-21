@@ -78,13 +78,13 @@ class SCAN:
         #-----------------------------------------------------------
         if "rmsGradient"    in _parameters: self.GeoOptPars["rmsGradient"]   = _parameters["rmsGradient"]
         if "maxIrerations"  in _parameters: self.GeoOptPars["maxIterations"] = _parameters["maxIterations"]
-        if "log_frequency"  in _parameters: self.GeoOptPars["log_frequency"] = _paremeters["log_frequency"]
+        if "log_frequency"  in _parameters: self.GeoOptPars["log_frequency"] = _parameters["log_frequency"]
         if "NmaxThreads"    in _parameters: self.nprocs                      = _parameters["NmaxThreads"]
         if "force_constant" in _parameters: 
             self.forceC[0] = _parameters["force_constant"]
             self.forceC[1] = _parameters["force_constant"]
-        if "force_constant_1" in _parameters: self.forceC[0] = _parameters["force_constant_1"]
-        if "force_constant_2" in _parameters: self.forceC[1] = _parameters["force_constant_2"] 
+        if "force_constant_1" in _parameters: self.forceC[0]  = _parameters["force_constant_1"]
+        if "force_constant_2" in _parameters: self.forceC[1]  = _parameters["force_constant_2"] 
         if "save_format"      in _parameters: self.saveFormat = _parameters["save_format"]      
            
     #===========================================================================================

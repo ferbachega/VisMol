@@ -41,8 +41,7 @@ class GeometrySearcher:
         self.logFreq        = 50 # deafult value for otimizations, must to be changed through the specific class method
         self.trajectoryName = _trajName 
         self.savePdb        = False
-        self.traj           = None
-        self.saveFormat     = True       
+        self.saveFormat     = None    
         self.rmsGrad        = 0.1
         self.maxIt          = 500
         self.saveFrequency  = 0
@@ -51,19 +50,12 @@ class GeometrySearcher:
         '''
         Class method to modify default parameters for the minimization runs
         '''       
-        if "save_pdb" in _parameters:
-            if _parameters["save_pdb"] == True:
-                self.savePdb = True
-        if "maxIterations" in _parameters:
-            self.maxIt = _parameters['maxIterations']            
-        if "log_frequency" in _parameters:
-            self.logFreq = _parameters["log_frequency"] 
-        if "save_format" in _parameters:
-            self.saveFormat = _parameters["save_format"]
-        if "save_frequency" in _parameters:
-            self.saveFrequency = _parameters["save_frequency"]        
-        if "rmsGradient" in _parameters:
-            self.rmsGrad = _parameters['rmsGradient']
+        if "save_pdb"       in _parameters: self.savePdb        = _parameters["save_pdb"]
+        if "maxIterations"  in _parameters: self.maxIt          = _parameters['maxIterations']            
+        if "log_frequency"  in _parameters: self.logFreq        = _parameters["log_frequency"] 
+        if "save_format"    in _parameters: self.saveFormat     = _parameters["save_format"]
+        if "save_frequency" in _parameters: self.saveFrequency  = _parameters["save_frequency"]        
+        if "rmsGradient"    in _parameters: self.rmsGrad        = _parameters['rmsGradient']
     #======================================================================================
     # Main minimization class method
     def Minimization(self,_optimizer):
@@ -154,7 +146,7 @@ class GeometrySearcher:
         '''
 
         '''
-        if self.traj == None:
+        if self.trajectoryName == None:
             FIREMinimize_SystemGeometry( self.molecule                  ,                
                                     logFrequency         = self.logFreq ,
                                     maximumIterations    = self.maxIt   ,

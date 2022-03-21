@@ -62,9 +62,7 @@ def SetMMsytem():
 	parameters_b = {"maxIterations":600 			 ,
 					"rmsGradient":0.1   			 ,
 					"optmizer":"ConjugatedGradient"  ,
-					"trajectory_name":"TIM_opt.ptGeo",
-					"save_format":"TIM_opt.dcd"      ,
-					"log_frequency":10 				 ,
+					"log_frequency":100 		     ,
 					"save_pdb": True    			 }
 	#otimize pruned systems
 	proj.RunSimulation(parameters_b,"Geometry_Optimization",_plotParameters)
@@ -326,7 +324,7 @@ def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
 	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
-	_plotParameters = {"show":True}
+	_plotParameters = {"show":False}
 	#setting atoms for scan
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
@@ -339,6 +337,7 @@ def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
 				   "ndim"       :1    		,
 				   "MC_RC1"     :True       ,
 				   "save_format":".dcd"     ,
+				   "log_frequency":100      ,
 				   "force_constant":4000.0	}
 	
 	#QCMM scans simple distances
@@ -365,12 +364,13 @@ def QCMMScanMultipleDistance(_nsteps,_dincre,name="Default"):
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 	#setting parameters
-	_plotParameters = { "contour_lines":15 }
+	_plotParameters = { "show":False}
 	parameters = { "ATOMS_RC1":atomsf     ,
 				   "dincre_RC1":_dincre   ,
 				   "nsteps_RC1":_nsteps   , 
 				   "ndim":1               ,
 				   "MC_RC1":True          ,
+				   "log_frequency":100    ,
 				   "force_constant":4000.0}
     #run the simulation
     #---------------------------------------------------------------------
@@ -389,8 +389,7 @@ def Scan1D_Dihedral(_nsteps,name="Default"):
 	proj.LoadSystemFromSavedProject( balapkl )
 	proj.cSystem.Summary()
 	#---------------------------------------------
-	#setting atoms for scan
-	
+	#setting atoms for scan	
 	atomsf = [ 4, 6,  8, 14] 
 	#setting parameters
 	_plotParameters = { "contour_lines":15 }
@@ -399,6 +398,7 @@ def Scan1D_Dihedral(_nsteps,name="Default"):
 				   "rc_type_1" :"dihedral", 
 				   "ndim":1               ,
 				   "MC_RC1":True          ,
+				   "log_frequency":100    ,
 				   "force_constant":25.0}
     #run the simulation
     #---------------------------------------------------------------------
@@ -420,7 +420,7 @@ def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
 	atomsf = [ 4, 6,  8, 14] 
 	atomss = [ 6, 8, 14, 16]
 	#setting parameters
-	_plotParameters = { "contour_lines":10 }
+	_plotParameters = { "contour_lines":12 }
 	parameters = { "ATOMS_RC1":atomsf     ,
 				   "ATOMS_RC2":atomss     ,
 				   "nsteps_RC1":_xnsteps  ,
@@ -430,6 +430,7 @@ def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
 				   "ndim":2               ,
 				   "force_constant_1":10.0,
 				   "force_constant_2":10.0,
+				   "log_frequency":100    ,
 				   "NmaxThreads":4        }
     #run the simulation
     #---------------------------------------------------------------------
@@ -465,7 +466,8 @@ def QCMMScan2DsimpleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default")
 				   'dincre_RC2':_dincrey  , 
 				   "nsteps_RC1":_xnsteps  ,
 				   "nsteps_RC2":_ynsteps  , 
-				   "ndim": 2 			  ,				 
+				   "ndim": 2 			  ,
+				   "log_frequency":100    ,				 
 				   "NmaxThreads":        8}
 
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
@@ -502,6 +504,7 @@ def QCMMScan2DmixedDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default"):
 				   "nsteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,
 				   "MC_RC1":True          ,
+				   "log_frequency":100    ,
 				   "NmaxThreads":8        }
 	#--------------------------------------------------
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
@@ -534,11 +537,12 @@ def QCMMScan2DmultipleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default
 				   'ATOMS_RC2':atomss	  ,
 				   'dincre_RC1':_dincrex  ,
 				   'dincre_RC2':_dincrey  , 
-				   "nSteps_RC1":_xnsteps  ,
-				   "nSteps_RC2":_ynsteps  , 
+				   "nsteps_RC1":_xnsteps  ,
+				   "nsteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,
 				   "MC_RC1":		True  ,
 				   "MC_RC2":		True  ,
+				   "log_frequency":100    ,
 				   "NmaxThreads":        8}
 				 
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
@@ -569,12 +573,13 @@ def QCMMScans2D_Adaptative(_xnsteps,_ynsteps,_dincrex,_dincrey):
 				   'ATOMS_RC2':atomss	  ,
 				   'dincre_RC1':_dincrex  ,
 				   'dincre_RC2':_dincrey  , 
-				   "nSteps_RC1":_xnsteps  ,
-				   "nSteps_RC2":_ynsteps  , 
+				   "nsteps_RC1":_xnsteps  ,
+				   "nsteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,
 				   "MC_RC1":		True  ,
 				   "MC_RC2":		True  ,
 				   "NmaxThreads":        8,
+				   "log_frequency":100    ,
 				   "adaptative": True     }
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
 	proj.FinishRun()	
@@ -595,10 +600,12 @@ def FreeEnergy1DSimpleDistance(nsteps):
 	#-------------------------------------------------
 	atom1  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
-	atomsf = [ atom1[0], atom2[0] ]		
-	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":"Reaction Coordinate"}
+	atomsf = [ atom1[0], atom2[0] ]	
+	rc1 = ReactionCoordinate(atomsf,False,0)	
+	rc1.SetInformation(proj.cSystem,0.0)
+	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":rc1.label}
 	#-------------------------------------------------	
-	parameters = { "ATOMS_RC1":atomsf			  ,
+	US_parameters = { "ATOMS_RC1":atomsf		  ,
 				   "ndim": 1 					  ,
 				   "sampling_factor":nsteps/10	  ,
 				   "equilibration_nsteps":nsteps/2,
@@ -609,16 +616,58 @@ def FreeEnergy1DSimpleDistance(nsteps):
 				   "NmaxThreads":8 				  }
 	#-------------------------------------------------
 	#RUN umbrella sampling
-	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)	
+	proj.RunSimulation(US_parameters,"Umbrella_Sampling")	
 	#-------------------------------------------------
 	#path for the ptRes files
 	_path = os.path.join( scratch_path, "FE_simple_distance" )	
-	parameters = { "source_folder":_path ,
-				   "xnbins":20           ,
-				   "ynbins":0            ,
-				   "temperature":300.15	 }
+	PMF_parameters = { "source_folder":_path ,
+				   		"xnbins":20          ,
+				   		"ynbins":0           ,
+				   		"temperature":300.15}
 	#RUN WHAM, calculate PMF and free energy
-	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
+	proj.RunSimulation(PMF_parameters,"PMF_Analysis",_plotParameters)
+#=====================================================
+def FreeEnergy1DSimpleDistanceOPT(nsteps):	
+	'''
+	'''
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()
+	proj=SimulationProject( os.path.join(scratch_path,"FE_simple_distance_OPT") )		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+	#-------------------------------------------------
+	_name = "SCAN1D_4FEcalculations_simple_distance"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	QCMMScanSimpleDistance(10,0.2,name=_name)
+	#-------------------------------------------------
+	atom1  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atomsf = [ atom1[0], atom2[0] ]	
+	rc1 = ReactionCoordinate(atomsf,False,0)	
+	rc1.SetInformation(proj.cSystem,0.0)
+	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":rc1.label}
+	#-------------------------------------------------	
+	US_parameters = { "ATOMS_RC1":atomsf		  ,
+				   "ndim": 1 					  ,
+				   "sampling_factor":nsteps/10	  ,
+				   "equilibration_nsteps":nsteps/2,
+				   "production_nsteps":nsteps	  ,
+				   "source_folder":_path 		  ,
+				   "MD_method":"LeapFrog"		  ,
+				   "MC_RC1":True				  ,
+				   "optimize":True                ,
+				   "NmaxThreads":8 				  }
+	#-------------------------------------------------
+	#RUN umbrella sampling
+	proj.RunSimulation(US_parameters,"Umbrella_Sampling")	
+	#-------------------------------------------------
+	#path for the ptRes files
+	_path = os.path.join( scratch_path, "FE_simple_distance_OPT" )	
+	PMF_parameters = { "source_folder":_path ,
+				   		"xnbins":20          ,
+				   		"ynbins":0           ,
+				   		"temperature":300.15}
+	#RUN WHAM, calculate PMF and free energy
+	proj.RunSimulation(PMF_parameters,"PMF_Analysis",_plotParameters)
 #=================================================================
 def FreeEnergy1DMultipleDistance(nsteps):
 	'''
@@ -639,31 +688,32 @@ def FreeEnergy1DMultipleDistance(nsteps):
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
-	#-------------------------------------------------
-	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":"Reaction Coordinate"}
-	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+	atomsf = [ atom1[0], atom2[0],atom3[0] ]	
+	rc1 = ReactionCoordinate(atomsf,False,0)	
+	rc1.SetInformation(proj.cSystem,0.0)	
+	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":rc1.label}
 	#-------------------------------------------------	
-	parameters = { 'ATOMS_RC1':atomsf				,
+	US_parameters = { 'ATOMS_RC1':atomsf				,
 				   "ndim": 1 						,
 				   "sampling_factor":nsteps/10    	,
 				   "equilibration_nsteps":nsteps/2 	,
 				   "production_nsteps":nsteps		,
 				   "source_folder":_path 	    	,
 				   "MD_method":"LeapFrog"			,
-				   "MC_RC1":"true"					,
+				   "MC_RC1":True					,
 				   "NmaxThreads":8 				    }
 	#-------------------------------------------------
 	#Run umbrella sampling 
-	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
+	proj.RunSimulation(US_parameters,"Umbrella_Sampling")
 
 	_path = os.path.join( scratch_path,"FE_multiple_distance")
-	parameters = { "source_folder":_path,
+	PMF_parameters = { "source_folder":_path,
 				   "xnbins":20          ,
 				   "ynbins":0           ,
 				   "temperature":300.15 }
 	#-------------------------------------------------
 	#Run umbrella sampling 
-	proj.RunSimulation(parameters,"PMF_Analysis",_plotParameters)
+	proj.RunSimulation(PMF_parameters,"PMF_Analysis",_plotParameters)
 	proj.FinishRun()
 #=====================================================
 def UmbrellaSampling1Drestart(nsteps):
@@ -674,9 +724,15 @@ def UmbrellaSampling1Drestart(nsteps):
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()
 	#-----------------------------------------------------------
-	proj=SimulationProject( os.path.join(scratch_path,"UmbrellaSampling_Restart") )		
-	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
-
+	proj=SimulationProject( os.path.join(scratch_path,"UmbrellaSampling_Restart") )	
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )	
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+	atomsf = [ atom1[0], atom2[0],atom3[0] ]	
+	rc1 = ReactionCoordinate(atomsf,False,0)	
+	rc1.SetInformation(proj.cSystem,0.0)	
+	
 	_name = "SCAN1D_4US_restart_test"
 	QCMMScanMultipleDistance(6,0.2,name=_name)
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo" )
@@ -684,29 +740,31 @@ def UmbrellaSampling1Drestart(nsteps):
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
+
 	#-------------------------------------------------
-	_plotParameters = { "contour_lines":15}
-	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":rc1.label}
+
 	#-------------------------------------------------	
-	parameters = { 'ATOMS_RC1':atomsf				,
+	US_parameters = { "ATOMS_RC1":atomsf		    ,
 				   "ndim": 1 						,
 				   "sampling_factor":nsteps/10    	,
 				   "equilibration_nsteps":nsteps/2 	,
 				   "production_nsteps":nsteps		,
 				   "source_folder":_path 	    	,
 				   "MD_method":"LeapFrog"			,
-				   "MC_RC1":"true"					,
-				   "restart":"true"					,
+				   "MC_RC1":True				    ,
+				   "restart":True					,
 				   "NmaxThreads":8 				    }
 	#-------------------------------------------------
 	#Run first umbrella sampling 
-	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
+	proj.RunSimulation(US_parameters,"Umbrella_Sampling")
 
 	_pathpmf = os.path.join(scratch_path,"UmbrellaSampling_Restart")
+	
 	_PMFparameters = { "source_folder":_pathpmf,
-				   "xnbins":10          ,
-				   "ynbins":0           ,
-				   "temperature":300.15 }
+				   "xnbins":10                 ,
+				   "ynbins":0                  ,
+				   "temperature":300.15        }
 	#-------------------------------------------------
 	#Run umbrella sampling 
 	proj.RunSimulation(_PMFparameters,"PMF_Analysis",_plotParameters)
@@ -723,7 +781,7 @@ def UmbrellaSampling1Drestart(nsteps):
 				   "restart":"true"                 ,
 				   "NmaxThreads":8 				    }
 
-	proj.RunSimulation(parameters,"Umbrella_Sampling",_plotParameters)
+	proj.RunSimulation(parameters,"Umbrella_Sampling")
 
 	proj.RunSimulation(_PMFparameters,"PMF_Analysis",_plotParameters)
 	proj.FinishRun()
@@ -1264,10 +1322,10 @@ if __name__ == "__main__":
 	#QCMM_optimizations()								#TESTED
 	#QCMM_MD()											#TESTED
 	#QCMM_MDrestricted()								#TESTED
-	QCMMScanSimpleDistance(30,0.05)					    #TESTED
-	QCMMScanMultipleDistance(30,0.05)					#TESTED
-	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
-	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScanSimpleDistance(30,0.05)					    #TESTED
+	#QCMMScanMultipleDistance(30,0.05)					#TESTED
+	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
+	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
 	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
 	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
 	Scan1D_Dihedral(36)									#TESTED

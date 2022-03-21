@@ -239,7 +239,7 @@ class Simulation:
 		#checking parameters
 		if "dincre_RC1" in _parameters:	dincre1 	= _parameters["dincre_RC1"]
 		if "dincre_RC2" in _parameters:	dincre2 	= _parameters["dincre_RC2"]	
-		if "nSteps_RC2" in _parameters:	nRC2  		= _parameters["nsteps_RC2"]
+		if "nsteps_RC2" in _parameters:	nRC2  		= _parameters["nsteps_RC2"]
 		if "optmizer"   in _parameters:	_Optmizer   = _parameters["optmizer"]
 		if "adaptative" in _parameters: _Adaptative = _parameters["adaptative"] 
 		if "MC_RC1"     in _parameters: MCR1        = _parameters["MC_RC1"]
@@ -516,10 +516,14 @@ class Simulation:
 		Calculate potential of mean force and Free energy from restricted molecular dynamics
 		Parameters:
 			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Mandatory: 
+					"source_folder"	:
+					"xbins"			:
+					"ybins"			:
+					"temperature"	:
 				Optinal :
 			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
+				Mandatory:
 				Optinal :
 		'''
 		potmean = PMF( self.molecule, _parameters["source_folder"], self.baseFolder )
@@ -562,13 +566,15 @@ class Simulation:
 		#-------------------------------------------
 		#Plot Free energy of the calculated windows
 		if   nDims == 2: TYPE = "FE2D"
-		elif nDims == 1: TYPE = "FE1D"		
+		elif nDims == 1: TYPE = "FE1D"	
+		xlims = [ np.min(EA.RC1), np.max(EA.RC1) ]	
+		if nDims  == 2:  ylims = [ np.min(EA.RC2), np.max(EA.RC2) ]	
 		#------------------------------------------
-		EA = EnergyAnalysis(xwin,ywin,_type=TYPE)
-		EA.ReadLog( potmean.baseName+"_FE.log" ) 
+		EAfe = EnergyAnalysis(xwin,ywin,_type=TYPE)
+		EAfe.ReadLog( potmean.baseName+"_FE.log" ) 
 		#-------------------------------------------------------------
-		if   nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
-		elif nDims == 1: EA.Plot1D(crd1_label,show)
+		if   nDims == 2: EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
+		elif nDims == 1: EAfe.Plot1D(crd1_label,show)
 	#=========================================================================
 	def NormalModes(self,_parameters):
 		'''

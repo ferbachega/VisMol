@@ -66,7 +66,6 @@ class EnergyAnalysis:
 		'''
 		self.baseName = _fileName[:-4]
 		reading       = open(_fileName,'r')
-
 		i = 0 
 		energyTmp = []
 		#----------------------------------
