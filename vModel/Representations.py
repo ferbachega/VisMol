@@ -1341,6 +1341,9 @@ class SpheresRepresentation (Representation):
                 self.centers = np.array(centers, dtype=np.float32)
                 self.centers_list.append(self.centers)
             #'''
+        
+        print (self.coords)
+        print (self.indexes)
         end = time.time()
         print('Time used creating nucleus, vertices and colors:', end-init)
     
@@ -1559,6 +1562,162 @@ class SpheresRepresentation (Representation):
 
 
 
+class SphereInstanceRepresentation (Representation):
+    """ Class doc """
+    
+    def __init__ (self, name = 'SphereInstance', active = True, _type = 'mol', visObj = None, glCore = None, indexes = None):
+        """ Class initialiser """
+        self.name               = name
+        self.active             = active
+        self.type               = _type
+
+        self.visObj             = visObj
+        self.glCore             = glCore
+        self.indexes            = indexes
+              
+        # representation 	
+        self.vao            = None
+        self.ind_vbo        = None
+        self.coord_vbo      = None
+        self.col_vbo        = None
+        self.size_vbo       = None
+           
+
+        # bgrd selection   
+        self.sel_vao        = None
+        self.sel_ind_vbo    = None
+        self.sel_coord_vbo  = None
+        self.sel_col_vbo    = None
+        self.sel_size_vbo   = None
+
+
+        #     S H A D E R S
+        self.shader_program     = None
+        self.sel_shader_program = None
+
+        self.cube    = sphd.sphere_vertices2[0]
+        self.indices = sphd.sphere_triangles2[0]
+        #self._make_gl_vao_and_vbos()
+        self.cube    = np.array(self.cube, dtype=np.float32)
+        self.indices = np.array(self.indices, dtype=np.uint32)
+        
+    def _make_gl_vao_and_vbos (self, indexes = None):
+        self.VBO = GL.glGenBuffers(1)
+        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.VBO)
+        GL.glBufferData(GL.GL_ARRAY_BUFFER, self.cube.itemsize * len(self.cube), self.cube, GL.GL_STATIC_DRAW)
+
+        self.EBO = GL.glGenBuffers(1)
+        GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.EBO)
+        #glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.itemsize * len(indices), indices, GL_STATIC_DRAW)
+        GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indices.nbytes, self.indices, GL.GL_DYNAMIC_DRAW)
+        
+        #GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
+        #position
+        #glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, cube.itemsize * 5, ctypes.c_void_p(0))
+        
+        GL.glVertexAttribPointer(0, 3, GL.GL_FLOAT, GL.GL_FALSE, self.cube.itemsize * 3, ctypes.c_void_p(0))
+        GL.glEnableVertexAttribArray(0)
+
+        #textures
+        #glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, cube.itemsize * 5, ctypes.c_void_p(12))
+        #glEnableVertexAttribArray(1)
+
+        #instances
+        instance_array = [
+        #offset = 1
+                        -0.676*5 , -1.294 *5,  0.000 *5 ,
+                         0.000*5 ,  0.000 *5,  0.000 *5 ,
+                         1.500*5 , -0.174 *5,  0.000 *5 ,
+                         2.031*5 , -1.291 *5, -0.011 *5 ,
+                        -0.508*5 ,  0.792 *5,  1.218 *5 ,
+                        -0.130*5 , -2.226 *5,  0.000 *5 ,
+                        -0.268*5 ,  0.539 *5, -0.927 *5 ,
+                        -1.604*5 ,  0.942 *5,  1.182 *5 ,
+                        -0.284*5 ,  0.278 *5,  2.172 *5 ,
+                        -0.052*5 ,  1.797 *5,  1.275 *5 ,
+                        ]
+
+
+
+
+
+
+        
+        self.instance_array = np.array(instance_array, np.float32).flatten()
+
+        self.instanceVBO = GL.glGenBuffers(1)
+        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instanceVBO)
+        GL.glBufferData(GL.GL_ARRAY_BUFFER, self.instance_array.itemsize * len(self.instance_array), self.instance_array, GL.GL_STATIC_DRAW)
+
+        GL.glVertexAttribPointer(2, 3, GL.GL_FLOAT, GL.GL_FALSE, 0, ctypes.c_void_p(0))
+        GL.glEnableVertexAttribArray(2)
+        GL.glVertexAttribDivisor(2, 1)
+
+ 
+    def draw_representation (self):
+        """ Function doc """
+        self._check_VAO_and_VBOs ()
+        #self._enable_anti_alis_to_lines()
+
+        #line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width']
+        
+        GL.glUseProgram(self.shader_program)
+        #GL.glLineWidth(line_width*20/abs(self.glCore.dist_cam_zrp))
+
+        self.glCore.load_matrices(self.shader_program, self.visObj.model_mat)
+        self.glCore.load_fog(self.shader_program)
+        GL.glBindVertexArray(self.vao)
+
+        if self.glCore.modified_view:
+            pass
+
+        else:
+            '''
+            This function checks if the number of the called frame will not exceed 
+            the limit of frames that each object has. Allowing two objects with 
+            different trajectory sizes to be manipulated at the same time within the 
+            glArea'''
+            #self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
+            #GL.glDrawElements(GL.GL_POINTS, int(len(self.visObj.non_bonded_atoms)), GL.GL_UNSIGNED_INT, None)
+            glDrawElementsInstanced(GL_TRIANGLES, len(self.indices), GL_UNSIGNED_INT, None, len(self.instance_array))
+        GL.glBindVertexArray(0)
+        GL.glLineWidth(1)
+        GL.glUseProgram(0)
+        #GL.glDisable(GL.GL_LINE_SMOOTH)
+        #GL.glDisable(GL.GL_BLEND)
+        GL.glDisable(GL.GL_DEPTH_TEST)
+        
+            
+    def draw_background_sel_representation  (self, line_width_factor = 5):
+        """ Function doc """
+        pass
+        #self._check_VAO_and_VBOs ()
+        #GL.glEnable(GL.GL_DEPTH_TEST)
+        #GL.glUseProgram(self.sel_shader_program)
+        #GL.glLineWidth(20)
+        #
+        #self.glCore.load_matrices(self.sel_shader_program, self.visObj.model_mat)
+        #GL.glBindVertexArray(self.sel_vao)
+        #
+        #if self.glCore.modified_view:
+        #    pass
+        #
+        #else:
+        #    '''
+        #    This function checks if the number of the called frame will not exceed 
+        #    the limit of frames that each object has. Allowing two objects with 
+        #    different trajectory sizes to be manipulated at the same time within the 
+        #    glArea
+        #    '''
+        #    self._set_coordinates_to_buffer (coord_vbo = False, sel_coord_vbo = True)
+        #    GL.glDrawElements(GL.GL_POINTS, int(len(self.visObj.non_bonded_atoms)), GL.GL_UNSIGNED_INT, None)
+        #
+        #GL.glBindVertexArray(0)
+        #GL.glLineWidth(1)
+        #GL.glUseProgram(0)
+        ##GL.glDisable(GL.GL_LINE_SMOOTH)
+        ##GL.glDisable(GL.GL_BLEND)
+        #GL.glDisable(GL.GL_DEPTH_TEST)
 
 
 

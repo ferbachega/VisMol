@@ -994,7 +994,58 @@ class VisMolGLCore():
         self.shader_programs['spheres_sel'] = self.load_shaders(spheresShaders.vertex_shader_spheres,  
                                                                 spheresShaders.fragment_shader_spheres)
 
+    def _create_sphereInstance_shaders (self):
+        """ Function doc """
 
+        vertex_shader     = """
+#version 330
+precision highp float; 
+precision highp int;
+uniform mat4 model_mat;
+uniform mat4 view_mat;
+uniform mat4 proj_mat;
+
+
+in layout(location = 0) vec3 position;
+in layout(location = 1) vec2 texture_cords;
+in layout(location = 2) vec3 offset;
+
+
+//in vec3 vert_coord;
+in vec3 vert_color;
+varying vec3 vec3_pos;
+
+out vec3 frag_color;
+
+void main(){
+    vec3_pos    = vec3(position.x + offset.x, position.y + offset.y, position.z + offset.z);
+    gl_Position = proj_mat * view_mat * model_mat * vec4(vec3_pos, 1.0);
+    frag_color  = vert_color;
+}
+"""
+
+        fragment_shader   = """
+#version 330
+precision highp float; 
+precision highp int;
+in vec3 frag_color;
+
+out vec4 final_color;
+
+void main(){
+    final_color = vec4(frag_color, 1.0);
+}
+"""
+    
+        
+        self.shader_programs['spheres_instance']     = self.load_shaders(vertex_shader, 
+                                                                         fragment_shader)
+        
+        self.shader_programs['spheres_sel_instance'] = self.load_shaders(vertex_shader,  
+                                                                         fragment_shader)
+        
+        
+        
     def _create_impostor_shaders (self, _type = 0):
         """ Function doc """
         # G L U M P Y
@@ -1104,7 +1155,7 @@ class VisMolGLCore():
             print('OpenGL major version not found')
 
 
-
+        self._create_sphereInstance_shaders()
         #-------------------------------------------------------------------------------------
         self._create_dot_shaders ()
         #-------------------------------------------------------------------------------------
@@ -1730,7 +1781,7 @@ class VisMolGLCore():
         self.center_on_coordinates(atom.Vobject, atom.coords(frame_index))
         return True
     
-    def center_on_coordinates(self, vismol_object, atom_pos):
+    def center_on_coordinates(self, vismol_object, atom_pos, sleep_time = None):
         """ Takes the coordinates of an atom in absolute coordinates and first
             transforms them in 4D world coordinates, then takes the unit vector
             of that atom position to generate the loop animation. To generate
@@ -1769,7 +1820,10 @@ class VisMolGLCore():
                 self.parent_widget.get_window().invalidate_rect(None, False)
                 self.parent_widget.get_window().process_updates(False)
                 # WARNING: Method only works with GTK!!!
-                time.sleep(self.vConfig.gl_parameters['center_on_coord_sleep_time'])
+                if sleep_time:
+                    time.sleep(sleep_time)
+                else:
+                    time.sleep(self.vConfig.gl_parameters['center_on_coord_sleep_time'])
             
             for index , visObj in self.vm_session.vismol_objects_dic.items():
             #for visObj in self.vm_session.vismol_objects:

@@ -60,8 +60,10 @@ class Simulation:
 		self.simulationType = _simulationType
 		self.baseFolder  	= baseFolder# the baseFolder for the simulations will be the current dir for now.
 		#--------------------------------------------------
-		if not os.path.exists( self.baseFolder ):
-			os.makedirs(self.baseFolder)
+		if baseFolder is None:pass
+		else:
+			if not os.path.exists( self.baseFolder ):
+				os.makedirs(self.baseFolder)
 	#=======================================================================
 	def Execute(self,_parameters,_plotParameters=None):
 		'''
@@ -179,6 +181,7 @@ class Simulation:
 					log_frequency: log frequency  (integer)
 					save_pdb     : whether to save the final coordinates in pdb format (boolean)
 					save_format  : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
+                    save_frequency : save frame frequency  (integer)
 					rmsGradient  : root mean square gradient tolerance ( float )						
 		'''
 		_Optimizer = "ConjugatedGradient"

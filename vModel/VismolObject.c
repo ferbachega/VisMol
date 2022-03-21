@@ -1515,6 +1515,7 @@ static const char __pyx_k_vdw_dot_sizes[] = "vdw_dot_sizes";
 static const char __pyx_k_ball_and_stick[] = "ball_and_stick";
 static const char __pyx_k_bond_tolerance[] = "bond_tolerance";
 static const char __pyx_k_colors_rainbow[] = "colors_rainbow";
+static const char __pyx_k_spheresInstace[] = "spheresInstace";
 static const char __pyx_k_vModel_Residue[] = "vModel.Residue";
 static const char __pyx_k_atom_id_counter[] = "atom_id_counter";
 static const char __pyx_k_atoms_by_chains[] = "atoms_by_chains";
@@ -1530,6 +1531,7 @@ static const char __pyx_k_non_bonded_atoms[] = "non_bonded_atoms";
 static const char __pyx_k_picking_dots_vao[] = "picking_dots_vao";
 static const char __pyx_k_residues_ligands[] = "residues_ligands";
 static const char __pyx_k_set_model_matrix[] = "set_model_matrix";
+static const char __pyx_k_spheres_instance[] = "spheres_instance";
 static const char __pyx_k_do_colors_raindow[] = "do_colors_raindow";
 static const char __pyx_k_get_grid_position[] = "get_grid_position";
 static const char __pyx_k_residues_by_index[] = "residues_by_index";
@@ -1568,6 +1570,7 @@ static const char __pyx_k_vModel_VismolObject_pyx[] = "vModel/VismolObject.pyx";
 static const char __pyx_k_create_new_representation[] = "create_new_representation";
 static const char __pyx_k_vModel_MolecularProperties[] = "vModel.MolecularProperties";
 static const char __pyx_k_generate_atomtree_structure[] = "_generate_atomtree_structure";
+static const char __pyx_k_SphereInstanceRepresentation[] = "SphereInstanceRepresentation";
 static const char __pyx_k_VismolGeometricObject___init[] = "VismolGeometricObject.__init__";
 static const char __pyx_k_VismolObject_set_model_matrix[] = "VismolObject.set_model_matrix";
 static const char __pyx_k_auto_find_bonded_and_nonbonded[] = "auto_find_bonded_and_nonbonded";
@@ -1613,6 +1616,7 @@ static PyObject *__pyx_n_s_LinesRepresentation;
 static PyObject *__pyx_n_s_NonBondedRepresentation;
 static PyObject *__pyx_n_s_Residue;
 static PyObject *__pyx_n_s_RibbonsRepresentation;
+static PyObject *__pyx_n_s_SphereInstanceRepresentation;
 static PyObject *__pyx_n_s_SpheresRepresentation;
 static PyObject *__pyx_n_s_SticksRepresentation;
 static PyObject *__pyx_kp_s_Total_number_of_Atoms;
@@ -1826,6 +1830,8 @@ static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_set_model_matrix;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_spheres;
+static PyObject *__pyx_n_s_spheresInstace;
+static PyObject *__pyx_n_s_spheres_instance;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_sticks;
 static PyObject *__pyx_n_s_sum_x;
@@ -1939,7 +1945,7 @@ static PyObject *__pyx_codeobj__41;
 static PyObject *__pyx_codeobj__44;
 /* Late includes */
 
-/* "vModel/VismolObject.pyx":54
+/* "vModel/VismolObject.pyx":55
  *     """ Class doc """
  * 
  *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
@@ -1985,7 +1991,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 54, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 55, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2001,7 +2007,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_1__init
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 54, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 55, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolGeometricObject.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2023,141 +2029,141 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init_
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "vModel/VismolObject.pyx":56
+  /* "vModel/VismolObject.pyx":57
  *     def __init__ (self, vm_session =  None):
  *         """ Class initialiser """
  *         self.vm_session = vm_session             # <<<<<<<<<<<<<<
  * 
  *         self.atoms              = []    # this a list  atom objects!
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":58
+  /* "vModel/VismolObject.pyx":59
  *         self.vm_session = vm_session
  * 
  *         self.atoms              = []    # this a list  atom objects!             # <<<<<<<<<<<<<<
  *         #-----------------------#
  *         #         Bonds         #
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":62
+  /* "vModel/VismolObject.pyx":63
  *         #         Bonds         #
  *         #-----------------------#
  *         self.index_bonds        = []             # <<<<<<<<<<<<<<
  *         self.bonds              = []
  *         self.frames             = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":63
+  /* "vModel/VismolObject.pyx":64
  *         #-----------------------#
  *         self.index_bonds        = []
  *         self.bonds              = []             # <<<<<<<<<<<<<<
  *         self.frames             = []
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":64
+  /* "vModel/VismolObject.pyx":65
  *         self.index_bonds        = []
  *         self.bonds              = []
  *         self.frames             = []             # <<<<<<<<<<<<<<
  * 
  * 		#-----------------------------------------#
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_t_1) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_t_1) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":70
+  /* "vModel/VismolObject.pyx":71
  *         #-----------------------------------------#
  *         self.representations = {
  *                                 'lines'     : None,             # <<<<<<<<<<<<<<
  *                                 }
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lines, Py_None) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lines, Py_None) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":69
+  /* "vModel/VismolObject.pyx":70
  * 		#      R E P R E S E N T A T I O N S      #
  *         #-----------------------------------------#
  *         self.representations = {             # <<<<<<<<<<<<<<
  *                                 'lines'     : None,
  *                                 }
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_representations, __pyx_t_1) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_representations, __pyx_t_1) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":74
+  /* "vModel/VismolObject.pyx":75
  * 
  *         #-----------------------------------------------------------------
  *         self.model_mat = np.identity(4, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.trans_mat = np.identity(4, dtype=np.float32)
  *         #-----------------------------------------------------------------
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_identity); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_identity); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple_, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple_, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_4) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_4) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vModel/VismolObject.pyx":75
+  /* "vModel/VismolObject.pyx":76
  *         #-----------------------------------------------------------------
  *         self.model_mat = np.identity(4, dtype=np.float32)
  *         self.trans_mat = np.identity(4, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         #-----------------------------------------------------------------
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_identity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_identity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple_, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple_, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_trans_mat, __pyx_t_3) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_trans_mat, __pyx_t_3) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":54
+  /* "vModel/VismolObject.pyx":55
  *     """ Class doc """
  * 
  *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
@@ -2181,7 +2187,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject___init_
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":78
+/* "vModel/VismolObject.pyx":79
  *         #-----------------------------------------------------------------
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
@@ -2222,11 +2228,11 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_3add_ne
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atoms)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_new_atom_list_to_vismol_geometric_object", 1, 2, 2, 1); __PYX_ERR(0, 78, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_new_atom_list_to_vismol_geometric_object", 1, 2, 2, 1); __PYX_ERR(0, 79, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_new_atom_list_to_vismol_geometric_object") < 0)) __PYX_ERR(0, 78, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_new_atom_list_to_vismol_geometric_object") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2239,7 +2245,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_3add_ne
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_new_atom_list_to_vismol_geometric_object", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 78, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_new_atom_list_to_vismol_geometric_object", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolGeometricObject.add_new_atom_list_to_vismol_geometric_object", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2273,210 +2279,183 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("add_new_atom_list_to_vismol_geometric_object", 0);
 
-  /* "vModel/VismolObject.pyx":80
+  /* "vModel/VismolObject.pyx":81
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):
  *         """ Function doc """
  *         frame_number = self.vm_session.frame -1             # <<<<<<<<<<<<<<
  *         #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
  *         self.frames      = []
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_frame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_frame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_frame_number = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":82
+  /* "vModel/VismolObject.pyx":83
  *         frame_number = self.vm_session.frame -1
  *         #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
  *         self.frames      = []             # <<<<<<<<<<<<<<
  *         self.index_bonds = []
  *         self.atoms       = atoms
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_t_1) < 0) __PYX_ERR(0, 82, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_t_1) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":83
+  /* "vModel/VismolObject.pyx":84
  *         #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
  *         self.frames      = []
  *         self.index_bonds = []             # <<<<<<<<<<<<<<
  *         self.atoms       = atoms
  *         frame            = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":84
+  /* "vModel/VismolObject.pyx":85
  *         self.frames      = []
  *         self.index_bonds = []
  *         self.atoms       = atoms             # <<<<<<<<<<<<<<
  *         frame            = []
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_v_atoms) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_v_atoms) < 0) __PYX_ERR(0, 85, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":85
+  /* "vModel/VismolObject.pyx":86
  *         self.index_bonds = []
  *         self.atoms       = atoms
  *         frame            = []             # <<<<<<<<<<<<<<
  * 
  *         self.color_indexes  = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_frame = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":87
+  /* "vModel/VismolObject.pyx":88
  *         frame            = []
  * 
  *         self.color_indexes  = []             # <<<<<<<<<<<<<<
  *         self.colors         = []
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_1) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_1) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":88
+  /* "vModel/VismolObject.pyx":89
  * 
  *         self.color_indexes  = []
  *         self.colors         = []             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_1) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_1) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":91
+  /* "vModel/VismolObject.pyx":92
  * 
  * 
  *         atom1 = self.atoms[0]             # <<<<<<<<<<<<<<
  *         atom2 = self.atoms[1]
  *         atom3 = self.atoms[2]
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_atom1 = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":92
+  /* "vModel/VismolObject.pyx":93
  * 
  *         atom1 = self.atoms[0]
  *         atom2 = self.atoms[1]             # <<<<<<<<<<<<<<
  *         atom3 = self.atoms[2]
  *         atom4 = self.atoms[3]
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_atom2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":93
+  /* "vModel/VismolObject.pyx":94
  *         atom1 = self.atoms[0]
  *         atom2 = self.atoms[1]
  *         atom3 = self.atoms[2]             # <<<<<<<<<<<<<<
  *         atom4 = self.atoms[3]
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_atom3 = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":94
+  /* "vModel/VismolObject.pyx":95
  *         atom2 = self.atoms[1]
  *         atom3 = self.atoms[2]
  *         atom4 = self.atoms[3]             # <<<<<<<<<<<<<<
  * 
  *         #print(atom1)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_atom4 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":103
+  /* "vModel/VismolObject.pyx":104
  * 
  * 
  *         if atom1 != None and atom2 != None:             # <<<<<<<<<<<<<<
  *             frame.append(atom1.coords(frame_number))
  *             frame.append(atom2.coords(frame_number))
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom1, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom1, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
   } else {
     __pyx_t_3 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __pyx_t_4;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_3) {
 
-    /* "vModel/VismolObject.pyx":104
+    /* "vModel/VismolObject.pyx":105
  * 
  *         if atom1 != None and atom2 != None:
  *             frame.append(atom1.coords(frame_number))             # <<<<<<<<<<<<<<
  *             frame.append(atom2.coords(frame_number))
  *             self.index_bonds.append(0)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom1, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_v_frame_number) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_frame_number);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_frame, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 104, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "vModel/VismolObject.pyx":105
- *         if atom1 != None and atom2 != None:
- *             frame.append(atom1.coords(frame_number))
- *             frame.append(atom2.coords(frame_number))             # <<<<<<<<<<<<<<
- *             self.index_bonds.append(0)
- *             self.index_bonds.append(1)
- */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom2, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom1, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2497,68 +2476,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "vModel/VismolObject.pyx":106
+ *         if atom1 != None and atom2 != None:
  *             frame.append(atom1.coords(frame_number))
- *             frame.append(atom2.coords(frame_number))
- *             self.index_bonds.append(0)             # <<<<<<<<<<<<<<
- *             self.index_bonds.append(1)
- * 
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_0); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 106, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "vModel/VismolObject.pyx":107
- *             frame.append(atom2.coords(frame_number))
- *             self.index_bonds.append(0)
- *             self.index_bonds.append(1)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 107, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "vModel/VismolObject.pyx":103
- * 
- * 
- *         if atom1 != None and atom2 != None:             # <<<<<<<<<<<<<<
- *             frame.append(atom1.coords(frame_number))
- *             frame.append(atom2.coords(frame_number))
- */
-  }
-
-  /* "vModel/VismolObject.pyx":110
- * 
- * 
- *         if atom2 != None and atom3 != None:             # <<<<<<<<<<<<<<
- *             frame.append(atom2.coords(frame_number))
- *             frame.append(atom3.coords(frame_number))
- */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_4) {
-  } else {
-    __pyx_t_3 = __pyx_t_4;
-    goto __pyx_L7_bool_binop_done;
-  }
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom3, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_t_4;
-  __pyx_L7_bool_binop_done:;
-  if (__pyx_t_3) {
-
-    /* "vModel/VismolObject.pyx":111
- * 
- *         if atom2 != None and atom3 != None:
  *             frame.append(atom2.coords(frame_number))             # <<<<<<<<<<<<<<
- *             frame.append(atom3.coords(frame_number))
+ *             self.index_bonds.append(0)
  *             self.index_bonds.append(1)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom2, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom2, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2572,20 +2496,75 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_v_frame_number) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_frame_number);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_frame, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_frame, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":112
- *         if atom2 != None and atom3 != None:
+    /* "vModel/VismolObject.pyx":107
+ *             frame.append(atom1.coords(frame_number))
  *             frame.append(atom2.coords(frame_number))
- *             frame.append(atom3.coords(frame_number))             # <<<<<<<<<<<<<<
+ *             self.index_bonds.append(0)             # <<<<<<<<<<<<<<
  *             self.index_bonds.append(1)
- *             self.index_bonds.append(2)
+ * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom3, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_0); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 107, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "vModel/VismolObject.pyx":108
+ *             frame.append(atom2.coords(frame_number))
+ *             self.index_bonds.append(0)
+ *             self.index_bonds.append(1)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "vModel/VismolObject.pyx":104
+ * 
+ * 
+ *         if atom1 != None and atom2 != None:             # <<<<<<<<<<<<<<
+ *             frame.append(atom1.coords(frame_number))
+ *             frame.append(atom2.coords(frame_number))
+ */
+  }
+
+  /* "vModel/VismolObject.pyx":111
+ * 
+ * 
+ *         if atom2 != None and atom3 != None:             # <<<<<<<<<<<<<<
+ *             frame.append(atom2.coords(frame_number))
+ *             frame.append(atom3.coords(frame_number))
+ */
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_4) {
+  } else {
+    __pyx_t_3 = __pyx_t_4;
+    goto __pyx_L7_bool_binop_done;
+  }
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom3, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __pyx_t_4;
+  __pyx_L7_bool_binop_done:;
+  if (__pyx_t_3) {
+
+    /* "vModel/VismolObject.pyx":112
+ * 
+ *         if atom2 != None and atom3 != None:
+ *             frame.append(atom2.coords(frame_number))             # <<<<<<<<<<<<<<
+ *             frame.append(atom3.coords(frame_number))
+ *             self.index_bonds.append(1)
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom2, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2606,68 +2585,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "vModel/VismolObject.pyx":113
+ *         if atom2 != None and atom3 != None:
  *             frame.append(atom2.coords(frame_number))
- *             frame.append(atom3.coords(frame_number))
- *             self.index_bonds.append(1)             # <<<<<<<<<<<<<<
- *             self.index_bonds.append(2)
- * 
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 113, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "vModel/VismolObject.pyx":114
- *             frame.append(atom3.coords(frame_number))
+ *             frame.append(atom3.coords(frame_number))             # <<<<<<<<<<<<<<
  *             self.index_bonds.append(1)
- *             self.index_bonds.append(2)             # <<<<<<<<<<<<<<
- * 
- *         if atom3 != None and atom4 != None:
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_2); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 114, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "vModel/VismolObject.pyx":110
- * 
- * 
- *         if atom2 != None and atom3 != None:             # <<<<<<<<<<<<<<
- *             frame.append(atom2.coords(frame_number))
- *             frame.append(atom3.coords(frame_number))
- */
-  }
-
-  /* "vModel/VismolObject.pyx":116
- *             self.index_bonds.append(2)
- * 
- *         if atom3 != None and atom4 != None:             # <<<<<<<<<<<<<<
- *             frame.append(atom2.coords(frame_number))
- *             frame.append(atom3.coords(frame_number))
- */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom3, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_4) {
-  } else {
-    __pyx_t_3 = __pyx_t_4;
-    goto __pyx_L10_bool_binop_done;
-  }
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_t_4;
-  __pyx_L10_bool_binop_done:;
-  if (__pyx_t_3) {
-
-    /* "vModel/VismolObject.pyx":117
- * 
- *         if atom3 != None and atom4 != None:
- *             frame.append(atom2.coords(frame_number))             # <<<<<<<<<<<<<<
- *             frame.append(atom3.coords(frame_number))
  *             self.index_bonds.append(2)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom2, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom3, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2681,20 +2605,75 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_v_frame_number) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_frame_number);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_frame, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_frame, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 113, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":118
- *         if atom3 != None and atom4 != None:
+    /* "vModel/VismolObject.pyx":114
  *             frame.append(atom2.coords(frame_number))
- *             frame.append(atom3.coords(frame_number))             # <<<<<<<<<<<<<<
+ *             frame.append(atom3.coords(frame_number))
+ *             self.index_bonds.append(1)             # <<<<<<<<<<<<<<
  *             self.index_bonds.append(2)
- *             self.index_bonds.append(3)
+ * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom3, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 114, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "vModel/VismolObject.pyx":115
+ *             frame.append(atom3.coords(frame_number))
+ *             self.index_bonds.append(1)
+ *             self.index_bonds.append(2)             # <<<<<<<<<<<<<<
+ * 
+ *         if atom3 != None and atom4 != None:
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_2); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 115, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "vModel/VismolObject.pyx":111
+ * 
+ * 
+ *         if atom2 != None and atom3 != None:             # <<<<<<<<<<<<<<
+ *             frame.append(atom2.coords(frame_number))
+ *             frame.append(atom3.coords(frame_number))
+ */
+  }
+
+  /* "vModel/VismolObject.pyx":117
+ *             self.index_bonds.append(2)
+ * 
+ *         if atom3 != None and atom4 != None:             # <<<<<<<<<<<<<<
+ *             frame.append(atom2.coords(frame_number))
+ *             frame.append(atom3.coords(frame_number))
+ */
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom3, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_4) {
+  } else {
+    __pyx_t_3 = __pyx_t_4;
+    goto __pyx_L10_bool_binop_done;
+  }
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_atom4, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __pyx_t_4;
+  __pyx_L10_bool_binop_done:;
+  if (__pyx_t_3) {
+
+    /* "vModel/VismolObject.pyx":118
+ * 
+ *         if atom3 != None and atom4 != None:
+ *             frame.append(atom2.coords(frame_number))             # <<<<<<<<<<<<<<
+ *             frame.append(atom3.coords(frame_number))
+ *             self.index_bonds.append(2)
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom2, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2715,30 +2694,57 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "vModel/VismolObject.pyx":119
+ *         if atom3 != None and atom4 != None:
+ *             frame.append(atom2.coords(frame_number))
+ *             frame.append(atom3.coords(frame_number))             # <<<<<<<<<<<<<<
+ *             self.index_bonds.append(2)
+ *             self.index_bonds.append(3)
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom3, __pyx_n_s_coords); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_v_frame_number) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_frame_number);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_frame, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "vModel/VismolObject.pyx":120
  *             frame.append(atom2.coords(frame_number))
  *             frame.append(atom3.coords(frame_number))
  *             self.index_bonds.append(2)             # <<<<<<<<<<<<<<
  *             self.index_bonds.append(3)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_2); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_2); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":120
+    /* "vModel/VismolObject.pyx":121
  *             frame.append(atom3.coords(frame_number))
  *             self.index_bonds.append(2)
  *             self.index_bonds.append(3)             # <<<<<<<<<<<<<<
  * 
  *         frame =  np.array(frame, dtype=np.float32)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_3); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_int_3); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":116
+    /* "vModel/VismolObject.pyx":117
  *             self.index_bonds.append(2)
  * 
  *         if atom3 != None and atom4 != None:             # <<<<<<<<<<<<<<
@@ -2747,33 +2753,33 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
  */
   }
 
-  /* "vModel/VismolObject.pyx":122
+  /* "vModel/VismolObject.pyx":123
  *             self.index_bonds.append(3)
  * 
  *         frame =  np.array(frame, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.frames = [frame]
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_frame);
   __Pyx_GIVEREF(__pyx_v_frame);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_frame);
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2781,29 +2787,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   __Pyx_DECREF_SET(__pyx_v_frame, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "vModel/VismolObject.pyx":123
+  /* "vModel/VismolObject.pyx":124
  * 
  *         frame =  np.array(frame, dtype=np.float32)
  *         self.frames = [frame]             # <<<<<<<<<<<<<<
  * 
  *         self._generate_color_vectors()
  */
-  __pyx_t_8 = PyList_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_8 = PyList_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_INCREF(__pyx_v_frame);
   __Pyx_GIVEREF(__pyx_v_frame);
   PyList_SET_ITEM(__pyx_t_8, 0, __pyx_v_frame);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_t_8) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_t_8) < 0) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "vModel/VismolObject.pyx":125
+  /* "vModel/VismolObject.pyx":126
  *         self.frames = [frame]
  * 
  *         self._generate_color_vectors()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_color_vectors); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_color_vectors); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2817,82 +2823,82 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   }
   __pyx_t_8 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 125, __pyx_L1_error)
+  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "vModel/VismolObject.pyx":129
+  /* "vModel/VismolObject.pyx":130
  * 
  * 
  *         print (self.index_bonds)             # <<<<<<<<<<<<<<
  *         if len(self.index_bonds)>= 2:
  * 
  */
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  if (__Pyx_PrintOne(0, __pyx_t_8) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_8) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "vModel/VismolObject.pyx":130
+  /* "vModel/VismolObject.pyx":131
  * 
  *         print (self.index_bonds)
  *         if len(self.index_bonds)>= 2:             # <<<<<<<<<<<<<<
  * 
  *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
  */
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyObject_Length(__pyx_t_8); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_9 = PyObject_Length(__pyx_t_8); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_t_3 = ((__pyx_t_9 >= 2) != 0);
   if (__pyx_t_3) {
 
-    /* "vModel/VismolObject.pyx":132
+    /* "vModel/VismolObject.pyx":133
  *         if len(self.index_bonds)>= 2:
  * 
  *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  *             self.representations['lines'] = rep
  *         else:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_LinesRepresentation); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_LinesRepresentation); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_name, __pyx_n_s_lines) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_name, __pyx_n_s_lines) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_glCore, __pyx_t_1) < 0) __PYX_ERR(0, 132, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_glCore, __pyx_t_1) < 0) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_rep = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":133
+    /* "vModel/VismolObject.pyx":134
  * 
  *             rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
  *             self.representations['lines'] = rep             # <<<<<<<<<<<<<<
  *         else:
  *             if self.representations['lines']:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_s_lines, __pyx_v_rep) < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_n_s_lines, __pyx_v_rep) < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":130
+    /* "vModel/VismolObject.pyx":131
  * 
  *         print (self.index_bonds)
  *         if len(self.index_bonds)>= 2:             # <<<<<<<<<<<<<<
@@ -2902,7 +2908,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
     goto __pyx_L12;
   }
 
-  /* "vModel/VismolObject.pyx":135
+  /* "vModel/VismolObject.pyx":136
  *             self.representations['lines'] = rep
  *         else:
  *             if self.representations['lines']:             # <<<<<<<<<<<<<<
@@ -2910,31 +2916,31 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
  *         #print(self.representations['lines'].active)
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_s_lines); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_s_lines); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_3) {
 
-      /* "vModel/VismolObject.pyx":136
+      /* "vModel/VismolObject.pyx":137
  *         else:
  *             if self.representations['lines']:
  *                 self.representations['lines'].active =  False             # <<<<<<<<<<<<<<
  *         #print(self.representations['lines'].active)
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 137, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_5, __pyx_n_s_lines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_5, __pyx_n_s_lines); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_active, Py_False) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_active, Py_False) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":135
+      /* "vModel/VismolObject.pyx":136
  *             self.representations['lines'] = rep
  *         else:
  *             if self.representations['lines']:             # <<<<<<<<<<<<<<
@@ -2945,7 +2951,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   }
   __pyx_L12:;
 
-  /* "vModel/VismolObject.pyx":78
+  /* "vModel/VismolObject.pyx":79
  *         #-----------------------------------------------------------------
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
@@ -2977,7 +2983,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_2add_ne
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":139
+/* "vModel/VismolObject.pyx":140
  *         #print(self.representations['lines'].active)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
@@ -3018,11 +3024,11 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_5set_mo
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mat)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, 1); __PYX_ERR(0, 139, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, 1); __PYX_ERR(0, 140, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_model_matrix") < 0)) __PYX_ERR(0, 139, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_model_matrix") < 0)) __PYX_ERR(0, 140, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3035,7 +3041,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_21VismolGeometricObject_5set_mo
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 139, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 140, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolGeometricObject.set_model_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3056,16 +3062,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_4set_mo
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("set_model_matrix", 0);
 
-  /* "vModel/VismolObject.pyx":142
+  /* "vModel/VismolObject.pyx":143
  *         """ Function doc
  *         """
  *         self.model_mat = np.copy(mat)             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3080,13 +3086,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_4set_mo
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_mat) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_mat);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_1) < 0) __PYX_ERR(0, 142, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_1) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":143
+  /* "vModel/VismolObject.pyx":144
  *         """
  *         self.model_mat = np.copy(mat)
  *         return True             # <<<<<<<<<<<<<<
@@ -3098,7 +3104,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_4set_mo
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "vModel/VismolObject.pyx":139
+  /* "vModel/VismolObject.pyx":140
  *         #print(self.representations['lines'].active)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
@@ -3119,7 +3125,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_4set_mo
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":145
+/* "vModel/VismolObject.pyx":146
  *         return True
  * 
  *     def _generate_color_vectors (self):             # <<<<<<<<<<<<<<
@@ -3167,68 +3173,68 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("_generate_color_vectors", 0);
 
-  /* "vModel/VismolObject.pyx":161
+  /* "vModel/VismolObject.pyx":162
  *         """
  * 
  *         size       = len(self.atoms)             # <<<<<<<<<<<<<<
  *         half       = int(size/2)
  *         quarter    = int(size/4)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_size = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":162
+  /* "vModel/VismolObject.pyx":163
  * 
  *         size       = len(self.atoms)
  *         half       = int(size/2)             # <<<<<<<<<<<<<<
  *         quarter    = int(size/4)
  *         color_step = 1.0/(size/4)
  */
-  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_half = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":163
+  /* "vModel/VismolObject.pyx":164
  *         size       = len(self.atoms)
  *         half       = int(size/2)
  *         quarter    = int(size/4)             # <<<<<<<<<<<<<<
  *         color_step = 1.0/(size/4)
  *         red   = 0.0
  */
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_quarter = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":164
+  /* "vModel/VismolObject.pyx":165
  *         half       = int(size/2)
  *         quarter    = int(size/4)
  *         color_step = 1.0/(size/4)             # <<<<<<<<<<<<<<
  *         red   = 0.0
  *         green = 0.0
  */
-  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyFloat_DivideCObj(__pyx_float_1_0, __pyx_t_1, 1.0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyFloat_DivideCObj(__pyx_float_1_0, __pyx_t_1, 1.0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_color_step = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":165
+  /* "vModel/VismolObject.pyx":166
  *         quarter    = int(size/4)
  *         color_step = 1.0/(size/4)
  *         red   = 0.0             # <<<<<<<<<<<<<<
@@ -3238,7 +3244,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_red = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":166
+  /* "vModel/VismolObject.pyx":167
  *         color_step = 1.0/(size/4)
  *         red   = 0.0
  *         green = 0.0             # <<<<<<<<<<<<<<
@@ -3248,7 +3254,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_green = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":167
+  /* "vModel/VismolObject.pyx":168
  *         red   = 0.0
  *         green = 0.0
  *         blue  = 1.0             # <<<<<<<<<<<<<<
@@ -3258,67 +3264,67 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   __Pyx_INCREF(__pyx_float_1_0);
   __pyx_v_blue = __pyx_float_1_0;
 
-  /* "vModel/VismolObject.pyx":173
+  /* "vModel/VismolObject.pyx":174
  * 
  * 
  *         self.color_indexes  = []             # <<<<<<<<<<<<<<
  *         self.colors         = []
  *         self.color_rainbow  = []
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_3) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_3) < 0) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":174
+  /* "vModel/VismolObject.pyx":175
  * 
  *         self.color_indexes  = []
  *         self.colors         = []             # <<<<<<<<<<<<<<
  *         self.color_rainbow  = []
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_3) < 0) __PYX_ERR(0, 174, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_3) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":175
+  /* "vModel/VismolObject.pyx":176
  *         self.color_indexes  = []
  *         self.colors         = []
  *         self.color_rainbow  = []             # <<<<<<<<<<<<<<
  * 
  *         self.vdw_dot_sizes  = []
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow, __pyx_t_3) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow, __pyx_t_3) < 0) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":177
+  /* "vModel/VismolObject.pyx":178
  *         self.color_rainbow  = []
  * 
  *         self.vdw_dot_sizes  = []             # <<<<<<<<<<<<<<
  *         self.cov_dot_sizes  = []
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 177, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":178
+  /* "vModel/VismolObject.pyx":179
  * 
  *         self.vdw_dot_sizes  = []
  *         self.cov_dot_sizes  = []             # <<<<<<<<<<<<<<
  * 
  *         counter = 0
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":180
+  /* "vModel/VismolObject.pyx":181
  *         self.cov_dot_sizes  = []
  * 
  *         counter = 0             # <<<<<<<<<<<<<<
@@ -3328,7 +3334,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_counter = __pyx_int_0;
 
-  /* "vModel/VismolObject.pyx":181
+  /* "vModel/VismolObject.pyx":182
  * 
  *         counter = 0
  *         temp_counter = 0             # <<<<<<<<<<<<<<
@@ -3337,22 +3343,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
  */
   __pyx_v_temp_counter = 0;
 
-  /* "vModel/VismolObject.pyx":183
+  /* "vModel/VismolObject.pyx":184
  *         temp_counter = 0
  * 
  *         for atom in self.atoms:             # <<<<<<<<<<<<<<
  *             if atom:
  *                 #-------------------------------------------------------
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 184, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -3360,17 +3366,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -3380,7 +3386,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 183, __pyx_L1_error)
+          else __PYX_ERR(0, 184, __pyx_L1_error)
         }
         break;
       }
@@ -3389,221 +3395,221 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":184
+    /* "vModel/VismolObject.pyx":185
  * 
  *         for atom in self.atoms:
  *             if atom:             # <<<<<<<<<<<<<<
  *                 #-------------------------------------------------------
  *                 # (1)                  ID Colors
  */
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_atom); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_atom); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 185, __pyx_L1_error)
     if (__pyx_t_5) {
 
-      /* "vModel/VismolObject.pyx":201
+      /* "vModel/VismolObject.pyx":202
  *                 '''
  * 
  *                 self.color_indexes.append(atom.color[0])             # <<<<<<<<<<<<<<
  *                 self.color_indexes.append(atom.color[1])
  *                 self.color_indexes.append(atom.color[2])
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 201, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":202
+      /* "vModel/VismolObject.pyx":203
  * 
  *                 self.color_indexes.append(atom.color[0])
  *                 self.color_indexes.append(atom.color[1])             # <<<<<<<<<<<<<<
  *                 self.color_indexes.append(atom.color[2])
  * 
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 202, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 202, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 203, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 202, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 203, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "vModel/VismolObject.pyx":203
+      /* "vModel/VismolObject.pyx":204
  *                 self.color_indexes.append(atom.color[0])
  *                 self.color_indexes.append(atom.color[1])
  *                 self.color_indexes.append(atom.color[2])             # <<<<<<<<<<<<<<
  * 
  *                 '''
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 203, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":215
+      /* "vModel/VismolObject.pyx":216
  *                 #-------------------------------------------------------
  * 
  *                 self.colors.append(atom.color[0])             # <<<<<<<<<<<<<<
  *                 self.colors.append(atom.color[1])
  *                 self.colors.append(atom.color[2])
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 215, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 216, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":216
+      /* "vModel/VismolObject.pyx":217
  * 
  *                 self.colors.append(atom.color[0])
  *                 self.colors.append(atom.color[1])             # <<<<<<<<<<<<<<
  *                 self.colors.append(atom.color[2])
  * 
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 216, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 216, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 217, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "vModel/VismolObject.pyx":217
+      /* "vModel/VismolObject.pyx":218
  *                 self.colors.append(atom.color[0])
  *                 self.colors.append(atom.color[1])
  *                 self.colors.append(atom.color[2])             # <<<<<<<<<<<<<<
  * 
  *                 #-------------------------------------------------------
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 217, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 217, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 217, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 218, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":222
+      /* "vModel/VismolObject.pyx":223
  *                 # (3)                  VdW list
  *                 #-------------------------------------------------------
  *                 self.vdw_dot_sizes.append(atom.vdw_rad*3)             # <<<<<<<<<<<<<<
  *                 self.cov_dot_sizes.append(atom.cov_rad)
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 222, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_vdw_rad); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 222, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_vdw_rad); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_int_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 222, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_int_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 222, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 223, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":223
+      /* "vModel/VismolObject.pyx":224
  *                 #-------------------------------------------------------
  *                 self.vdw_dot_sizes.append(atom.vdw_rad*3)
  *                 self.cov_dot_sizes.append(atom.cov_rad)             # <<<<<<<<<<<<<<
  * 
  *                 #-------------------------------------------------------
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 223, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 224, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":228
+      /* "vModel/VismolObject.pyx":229
  *                 # (4)                Rainbow colors
  *                 #-------------------------------------------------------
  *                 if counter <= 1*quarter:             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  */
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 228, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       if (__pyx_t_5) {
 
-        /* "vModel/VismolObject.pyx":229
+        /* "vModel/VismolObject.pyx":230
  *                 #-------------------------------------------------------
  *                 if counter <= 1*quarter:
  *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 229, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 230, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":230
+        /* "vModel/VismolObject.pyx":231
  *                 if counter <= 1*quarter:
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(blue  )
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 230, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 231, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":231
+        /* "vModel/VismolObject.pyx":232
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
  * 
  *                     green += color_step
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 232, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 231, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 232, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":233
+        /* "vModel/VismolObject.pyx":234
  *                     self.color_rainbow.append(blue  )
  * 
  *                     green += color_step             # <<<<<<<<<<<<<<
  * 
  *                 if counter >= 1*quarter  and counter <= 2*quarter:
  */
-        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 233, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 234, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF_SET(__pyx_v_green, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":228
+        /* "vModel/VismolObject.pyx":229
  *                 # (4)                Rainbow colors
  *                 #-------------------------------------------------------
  *                 if counter <= 1*quarter:             # <<<<<<<<<<<<<<
@@ -3612,83 +3618,83 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
  */
       }
 
-      /* "vModel/VismolObject.pyx":235
+      /* "vModel/VismolObject.pyx":236
  *                     green += color_step
  * 
  *                 if counter >= 1*quarter  and counter <= 2*quarter:             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  */
-      __pyx_t_7 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 236, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_9) {
       } else {
         __pyx_t_5 = __pyx_t_9;
         goto __pyx_L8_bool_binop_done;
       }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 236, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_5 = __pyx_t_9;
       __pyx_L8_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "vModel/VismolObject.pyx":236
+        /* "vModel/VismolObject.pyx":237
  * 
  *                 if counter >= 1*quarter  and counter <= 2*quarter:
  *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 236, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 237, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":237
+        /* "vModel/VismolObject.pyx":238
  *                 if counter >= 1*quarter  and counter <= 2*quarter:
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(blue  )
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 237, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 238, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":238
+        /* "vModel/VismolObject.pyx":239
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
  * 
  *                     blue -= color_step
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 238, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 238, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 239, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":240
+        /* "vModel/VismolObject.pyx":241
  *                     self.color_rainbow.append(blue  )
  * 
  *                     blue -= color_step             # <<<<<<<<<<<<<<
  * 
  *                 if counter >= 2*quarter  and counter <= 3*quarter:
  */
-        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_blue, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_blue, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 241, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF_SET(__pyx_v_blue, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":235
+        /* "vModel/VismolObject.pyx":236
  *                     green += color_step
  * 
  *                 if counter >= 1*quarter  and counter <= 2*quarter:             # <<<<<<<<<<<<<<
@@ -3697,83 +3703,83 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
  */
       }
 
-      /* "vModel/VismolObject.pyx":242
+      /* "vModel/VismolObject.pyx":243
  *                     blue -= color_step
  * 
  *                 if counter >= 2*quarter  and counter <= 3*quarter:             # <<<<<<<<<<<<<<
  * 
  *                     self.color_rainbow.append(red   )
  */
-      __pyx_t_7 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_9) {
       } else {
         __pyx_t_5 = __pyx_t_9;
         goto __pyx_L11_bool_binop_done;
       }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 243, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_5 = __pyx_t_9;
       __pyx_L11_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "vModel/VismolObject.pyx":244
+        /* "vModel/VismolObject.pyx":245
  *                 if counter >= 2*quarter  and counter <= 3*quarter:
  * 
  *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 244, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 244, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 245, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":245
+        /* "vModel/VismolObject.pyx":246
  * 
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(blue  )
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 246, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 246, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":246
+        /* "vModel/VismolObject.pyx":247
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
  * 
  *                     red += color_step
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 246, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 247, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 246, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 247, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":248
+        /* "vModel/VismolObject.pyx":249
  *                     self.color_rainbow.append(blue  )
  * 
  *                     red += color_step             # <<<<<<<<<<<<<<
  * 
  *                 if counter >= 3*quarter  and counter <= 4*quarter:
  */
-        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_red, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 248, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_red, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 249, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF_SET(__pyx_v_red, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":242
+        /* "vModel/VismolObject.pyx":243
  *                     blue -= color_step
  * 
  *                 if counter >= 2*quarter  and counter <= 3*quarter:             # <<<<<<<<<<<<<<
@@ -3782,83 +3788,83 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
  */
       }
 
-      /* "vModel/VismolObject.pyx":250
+      /* "vModel/VismolObject.pyx":251
  *                     red += color_step
  * 
  *                 if counter >= 3*quarter  and counter <= 4*quarter:             # <<<<<<<<<<<<<<
  * 
  *                     self.color_rainbow.append(red   )
  */
-      __pyx_t_7 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 250, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 250, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_9) {
       } else {
         __pyx_t_5 = __pyx_t_9;
         goto __pyx_L14_bool_binop_done;
       }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_4, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_4, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 250, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 250, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 251, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_5 = __pyx_t_9;
       __pyx_L14_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "vModel/VismolObject.pyx":252
+        /* "vModel/VismolObject.pyx":253
  *                 if counter >= 3*quarter  and counter <= 4*quarter:
  * 
  *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 252, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 253, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 252, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 253, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":253
+        /* "vModel/VismolObject.pyx":254
  * 
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(blue  )
  *                     green -= color_step
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 253, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 254, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 253, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 254, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":254
+        /* "vModel/VismolObject.pyx":255
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
  *                     green -= color_step
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 254, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 255, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 254, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 255, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":255
+        /* "vModel/VismolObject.pyx":256
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  *                     green -= color_step             # <<<<<<<<<<<<<<
  * 
  *                 ##print(red, green, blue,counter )
  */
-        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 255, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 256, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF_SET(__pyx_v_green, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":250
+        /* "vModel/VismolObject.pyx":251
  *                     red += color_step
  * 
  *                 if counter >= 3*quarter  and counter <= 4*quarter:             # <<<<<<<<<<<<<<
@@ -3867,19 +3873,19 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
  */
       }
 
-      /* "vModel/VismolObject.pyx":258
+      /* "vModel/VismolObject.pyx":259
  * 
  *                 ##print(red, green, blue,counter )
  *                 counter += 1             # <<<<<<<<<<<<<<
  *                 #-------------------------------------------------------
  * 
  */
-      __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_v_counter, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 258, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_v_counter, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 259, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF_SET(__pyx_v_counter, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":184
+      /* "vModel/VismolObject.pyx":185
  * 
  *         for atom in self.atoms:
  *             if atom:             # <<<<<<<<<<<<<<
@@ -3888,7 +3894,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
  */
     }
 
-    /* "vModel/VismolObject.pyx":183
+    /* "vModel/VismolObject.pyx":184
  *         temp_counter = 0
  * 
  *         for atom in self.atoms:             # <<<<<<<<<<<<<<
@@ -3898,187 +3904,187 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":261
+  /* "vModel/VismolObject.pyx":262
  *                 #-------------------------------------------------------
  * 
  *         self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.colors         = np.array(self.colors       , dtype=np.float32)
  *         self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_10) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_10) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "vModel/VismolObject.pyx":262
+  /* "vModel/VismolObject.pyx":263
  * 
  *         self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
  *         self.colors         = np.array(self.colors       , dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  *         self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_10);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_10);
   __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_6) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_6) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "vModel/VismolObject.pyx":263
+  /* "vModel/VismolObject.pyx":264
  *         self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
  *         self.colors         = np.array(self.colors       , dtype=np.float32)
  *         self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  *         self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_7) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_7) < 0) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "vModel/VismolObject.pyx":264
+  /* "vModel/VismolObject.pyx":265
  *         self.colors         = np.array(self.colors       , dtype=np.float32)
  *         self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  *         self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_float32); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_float32); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 264, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_1) < 0) __PYX_ERR(0, 264, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_1) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":265
+  /* "vModel/VismolObject.pyx":266
  *         self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  *         self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  *         self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  * class VismolObject:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors_rainbow, __pyx_t_10) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors_rainbow, __pyx_t_10) < 0) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "vModel/VismolObject.pyx":145
+  /* "vModel/VismolObject.pyx":146
  *         return True
  * 
  *     def _generate_color_vectors (self):             # <<<<<<<<<<<<<<
@@ -4112,7 +4118,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_21VismolGeometricObject_6_gener
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":315
+/* "vModel/VismolObject.pyx":316
  *     """
  * 
  *     def __init__ (self,             # <<<<<<<<<<<<<<
@@ -4128,14 +4134,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject___defaults__(CYTHON_UNUSED PyOb
   __Pyx_RefNannySetupContext("__defaults__", 0);
   __Pyx_XDECREF(__pyx_r);
 
-  /* "vModel/VismolObject.pyx":323
+  /* "vModel/VismolObject.pyx":324
  *                   bonds_pair_of_indexes          = None ,
  *                   color_palette                  = None ,
  *                   auto_find_bonded_and_nonbonded = True):             # <<<<<<<<<<<<<<
  * 
  *         """ Class initialiser """
  */
-  __pyx_t_1 = PyTuple_New(8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)Py_False));
   __Pyx_GIVEREF(((PyObject *)Py_False));
@@ -4162,14 +4168,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject___defaults__(CYTHON_UNUSED PyOb
   __Pyx_GIVEREF(((PyObject *)Py_True));
   PyTuple_SET_ITEM(__pyx_t_1, 7, ((PyObject *)Py_True));
 
-  /* "vModel/VismolObject.pyx":315
+  /* "vModel/VismolObject.pyx":316
  *     """
  * 
  *     def __init__ (self,             # <<<<<<<<<<<<<<
  *                   active                         = False,
  *                   name                           = 'UNK',
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -4302,7 +4308,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 315, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 316, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4339,7 +4345,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_1__init__(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 315, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 316, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4365,70 +4371,70 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
   PyObject *(*__pyx_t_7)(PyObject *);
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "vModel/VismolObject.pyx":329
+  /* "vModel/VismolObject.pyx":330
  *         #                V I S M O L   a t t r i b u t e s
  *         #-----------------------------------------------------------------
  *         self.vm_session    = vm_session     #             # <<<<<<<<<<<<<<
  *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
  *         self.active           = active        # for "show and hide"   enable/disable
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 329, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_session, __pyx_v_vm_session) < 0) __PYX_ERR(0, 330, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":330
+  /* "vModel/VismolObject.pyx":331
  *         #-----------------------------------------------------------------
  *         self.vm_session    = vm_session     #
  *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic             # <<<<<<<<<<<<<<
  *         self.active           = active        # for "show and hide"   enable/disable
  *         self.editing          = False         # for translate and rotate  xyz coords
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index, __pyx_int_0) < 0) __PYX_ERR(0, 330, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index, __pyx_int_0) < 0) __PYX_ERR(0, 331, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":331
+  /* "vModel/VismolObject.pyx":332
  *         self.vm_session    = vm_session     #
  *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
  *         self.active           = active        # for "show and hide"   enable/disable             # <<<<<<<<<<<<<<
  *         self.editing          = False         # for translate and rotate  xyz coords
  *         self.Type             = 'molecule'    # Not used yet
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_active, __pyx_v_active) < 0) __PYX_ERR(0, 331, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_active, __pyx_v_active) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":332
+  /* "vModel/VismolObject.pyx":333
  *         self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
  *         self.active           = active        # for "show and hide"   enable/disable
  *         self.editing          = False         # for translate and rotate  xyz coords             # <<<<<<<<<<<<<<
  *         self.Type             = 'molecule'    # Not used yet
  *         self.name             = name          #
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_editing, Py_False) < 0) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_editing, Py_False) < 0) __PYX_ERR(0, 333, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":333
+  /* "vModel/VismolObject.pyx":334
  *         self.active           = active        # for "show and hide"   enable/disable
  *         self.editing          = False         # for translate and rotate  xyz coords
  *         self.Type             = 'molecule'    # Not used yet             # <<<<<<<<<<<<<<
  *         self.name             = name          #
  *         self.vm_font          = vmf.VisMolFont()
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_Type, __pyx_n_s_molecule) < 0) __PYX_ERR(0, 333, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_Type, __pyx_n_s_molecule) < 0) __PYX_ERR(0, 334, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":334
+  /* "vModel/VismolObject.pyx":335
  *         self.editing          = False         # for translate and rotate  xyz coords
  *         self.Type             = 'molecule'    # Not used yet
  *         self.name             = name          #             # <<<<<<<<<<<<<<
  *         self.vm_font          = vmf.VisMolFont()
  *         #self.color_pick_index = 0             #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 334, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_name, __pyx_v_name) < 0) __PYX_ERR(0, 335, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":335
+  /* "vModel/VismolObject.pyx":336
  *         self.Type             = 'molecule'    # Not used yet
  *         self.name             = name          #
  *         self.vm_font          = vmf.VisMolFont()             # <<<<<<<<<<<<<<
  *         #self.color_pick_index = 0             #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_vmf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_vmf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_VisMolFont); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_VisMolFont); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 336, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4443,32 +4449,32 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 336, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_font, __pyx_t_1) < 0) __PYX_ERR(0, 335, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vm_font, __pyx_t_1) < 0) __PYX_ERR(0, 336, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":338
+  /* "vModel/VismolObject.pyx":339
  *         #self.color_pick_index = 0             #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)
  * 
  *         if color_palette:             # <<<<<<<<<<<<<<
  *             self.color_palette    = color_palette #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)
  *         else:
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_color_palette); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_color_palette); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":339
+    /* "vModel/VismolObject.pyx":340
  * 
  *         if color_palette:
  *             self.color_palette    = color_palette #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)             # <<<<<<<<<<<<<<
  *         else:
  *             self.color_palette = COLOR_PALETTE[0]
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_palette, __pyx_v_color_palette) < 0) __PYX_ERR(0, 339, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_palette, __pyx_v_color_palette) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":338
+    /* "vModel/VismolObject.pyx":339
  *         #self.color_pick_index = 0             #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)
  * 
  *         if color_palette:             # <<<<<<<<<<<<<<
@@ -4478,7 +4484,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     goto __pyx_L3;
   }
 
-  /* "vModel/VismolObject.pyx":341
+  /* "vModel/VismolObject.pyx":342
  *             self.color_palette    = color_palette #this is an integer num to access the color pick for carbon atoms (0 = green, 1 = purple, ...)
  *         else:
  *             self.color_palette = COLOR_PALETTE[0]             # <<<<<<<<<<<<<<
@@ -4486,537 +4492,511 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  *         self.mass_center = None
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_COLOR_PALETTE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_COLOR_PALETTE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 341, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_palette, __pyx_t_3) < 0) __PYX_ERR(0, 341, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_palette, __pyx_t_3) < 0) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_L3:;
 
-  /* "vModel/VismolObject.pyx":343
+  /* "vModel/VismolObject.pyx":344
  *             self.color_palette = COLOR_PALETTE[0]
  *         #-----------------------------------------------------------------
  *         self.mass_center = None             # <<<<<<<<<<<<<<
  *         #-----------------------------------------------------------------
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mass_center, Py_None) < 0) __PYX_ERR(0, 343, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mass_center, Py_None) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":352
+  /* "vModel/VismolObject.pyx":353
  * 
  *         #-----------------------------------------------------------------
  *         self.atoms2             = atoms # this is a raw list : [0, 'C5', 0.77, array([ 0.295,  2.928, -0.407]), 1, 'GLC', ' ', 'C ', [1, 12, 8, 10], [0, 0, 0]]             # <<<<<<<<<<<<<<
  *         #-----------------------------------------------------------------
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms2, __pyx_v_atoms) < 0) __PYX_ERR(0, 352, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms2, __pyx_v_atoms) < 0) __PYX_ERR(0, 353, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":355
+  /* "vModel/VismolObject.pyx":356
  *         #-----------------------------------------------------------------
  * 
  *         self.atoms              = []    # this a list  atom objects!             # <<<<<<<<<<<<<<
  *         self.residues           = []
  *         self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 355, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 355, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":356
+  /* "vModel/VismolObject.pyx":357
  * 
  *         self.atoms              = []    # this a list  atom objects!
  *         self.residues           = []             # <<<<<<<<<<<<<<
  *         self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object
  *         self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues, __pyx_t_3) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues, __pyx_t_3) < 0) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":357
+  /* "vModel/VismolObject.pyx":358
  *         self.atoms              = []    # this a list  atom objects!
  *         self.residues           = []
  *         self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object             # <<<<<<<<<<<<<<
  *         self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects
  *         self.frames             = trajectory
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 357, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_chains, __pyx_t_3) < 0) __PYX_ERR(0, 357, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_chains, __pyx_t_3) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":358
+  /* "vModel/VismolObject.pyx":359
  *         self.residues           = []
  *         self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object
  *         self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects             # <<<<<<<<<<<<<<
  *         self.frames             = trajectory
  *         self.cov_radiues_list   = []    # a list of covalent radius values for all  --> will be used to calculate de bonds
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains, __pyx_t_3) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains, __pyx_t_3) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":359
+  /* "vModel/VismolObject.pyx":360
  *         self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object
  *         self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects
  *         self.frames             = trajectory             # <<<<<<<<<<<<<<
  *         self.cov_radiues_list   = []    # a list of covalent radius values for all  --> will be used to calculate de bonds
  *         self.atom_unique_id_dic = {}
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_v_trajectory) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_v_trajectory) < 0) __PYX_ERR(0, 360, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":360
+  /* "vModel/VismolObject.pyx":361
  *         self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects
  *         self.frames             = trajectory
  *         self.cov_radiues_list   = []    # a list of covalent radius values for all  --> will be used to calculate de bonds             # <<<<<<<<<<<<<<
  *         self.atom_unique_id_dic = {}
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 360, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_radiues_list, __pyx_t_3) < 0) __PYX_ERR(0, 360, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_radiues_list, __pyx_t_3) < 0) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":361
+  /* "vModel/VismolObject.pyx":362
  *         self.frames             = trajectory
  *         self.cov_radiues_list   = []    # a list of covalent radius values for all  --> will be used to calculate de bonds
  *         self.atom_unique_id_dic = {}             # <<<<<<<<<<<<<<
  * 
  *         self.vobj_selected_atoms= []
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 362, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atom_unique_id_dic, __pyx_t_3) < 0) __PYX_ERR(0, 361, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atom_unique_id_dic, __pyx_t_3) < 0) __PYX_ERR(0, 362, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":363
+  /* "vModel/VismolObject.pyx":364
  *         self.atom_unique_id_dic = {}
  * 
  *         self.vobj_selected_atoms= []             # <<<<<<<<<<<<<<
  * 
  *         #-----------------------#
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 363, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vobj_selected_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 363, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vobj_selected_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":368
+  /* "vModel/VismolObject.pyx":369
  *         #         Bonds         #
  *         #-----------------------#
  *         self.dynamic_bons       = [] # Pair of atoms, something like: [0,1,1,2,3,4]             # <<<<<<<<<<<<<<
  *         self.index_bonds        = [] # Pair of atoms, something like: [1, 3, 1, 17, 3, 4, 4, 20]
  *         self.bonds              = [] # A list of bond-like objects
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dynamic_bons, __pyx_t_3) < 0) __PYX_ERR(0, 368, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dynamic_bons, __pyx_t_3) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":369
+  /* "vModel/VismolObject.pyx":370
  *         #-----------------------#
  *         self.dynamic_bons       = [] # Pair of atoms, something like: [0,1,1,2,3,4]
  *         self.index_bonds        = [] # Pair of atoms, something like: [1, 3, 1, 17, 3, 4, 4, 20]             # <<<<<<<<<<<<<<
  *         self.bonds              = [] # A list of bond-like objects
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_3) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_3) < 0) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":370
+  /* "vModel/VismolObject.pyx":371
  *         self.dynamic_bons       = [] # Pair of atoms, something like: [0,1,1,2,3,4]
  *         self.index_bonds        = [] # Pair of atoms, something like: [1, 3, 1, 17, 3, 4, 4, 20]
  *         self.bonds              = [] # A list of bond-like objects             # <<<<<<<<<<<<<<
  * 
  *         #-----------------------#
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_bonds, __pyx_t_3) < 0) __PYX_ERR(0, 370, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_bonds, __pyx_t_3) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":375
+  /* "vModel/VismolObject.pyx":376
  *         #      No H atoms       #
  *         #-----------------------#
  *         self.noH_atoms = []             # <<<<<<<<<<<<<<
  * 
  *         #-----------------------#
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 375, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":380
+  /* "vModel/VismolObject.pyx":381
  *         #    Calpha  Ribbons    #
  *         #-----------------------#
  *         self.c_alpha_bonds = []             # <<<<<<<<<<<<<<
  *         self.c_alpha_atoms = []
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_bonds, __pyx_t_3) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_bonds, __pyx_t_3) < 0) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":381
+  /* "vModel/VismolObject.pyx":382
  *         #-----------------------#
  *         self.c_alpha_bonds = []
  *         self.c_alpha_atoms = []             # <<<<<<<<<<<<<<
  * 
  *         #-----------------------#
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 381, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":386
+  /* "vModel/VismolObject.pyx":387
  *         #       Nonbonded       #
  *         #-----------------------#
  *         self.non_bonded_atoms    = [] # A list of indexes             # <<<<<<<<<<<<<<
  * 
  *         self.residues_in_protein = []
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 386, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms, __pyx_t_3) < 0) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":388
+  /* "vModel/VismolObject.pyx":389
  *         self.non_bonded_atoms    = [] # A list of indexes
  * 
  *         self.residues_in_protein = []             # <<<<<<<<<<<<<<
  *         self.residues_in_solvent = []
  *         self.residues_ligands    = []
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 389, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_protein, __pyx_t_3) < 0) __PYX_ERR(0, 388, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_protein, __pyx_t_3) < 0) __PYX_ERR(0, 389, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":389
+  /* "vModel/VismolObject.pyx":390
  * 
  *         self.residues_in_protein = []
  *         self.residues_in_solvent = []             # <<<<<<<<<<<<<<
  *         self.residues_ligands    = []
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 389, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 390, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_solvent, __pyx_t_3) < 0) __PYX_ERR(0, 389, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_solvent, __pyx_t_3) < 0) __PYX_ERR(0, 390, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":390
+  /* "vModel/VismolObject.pyx":391
  *         self.residues_in_protein = []
  *         self.residues_in_solvent = []
  *         self.residues_ligands    = []             # <<<<<<<<<<<<<<
  * 
  *         self.atoms_in_protein = [] # a list of atoms belonging to a protein
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 390, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 391, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues_ligands, __pyx_t_3) < 0) __PYX_ERR(0, 390, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues_ligands, __pyx_t_3) < 0) __PYX_ERR(0, 391, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":392
+  /* "vModel/VismolObject.pyx":393
  *         self.residues_ligands    = []
  * 
  *         self.atoms_in_protein = [] # a list of atoms belonging to a protein             # <<<<<<<<<<<<<<
  *         self.atoms_in_solvent = []
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 392, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms_in_protein, __pyx_t_3) < 0) __PYX_ERR(0, 392, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms_in_protein, __pyx_t_3) < 0) __PYX_ERR(0, 393, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":393
+  /* "vModel/VismolObject.pyx":394
  * 
  *         self.atoms_in_protein = [] # a list of atoms belonging to a protein
  *         self.atoms_in_solvent = []             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 393, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms_in_solvent, __pyx_t_3) < 0) __PYX_ERR(0, 393, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms_in_solvent, __pyx_t_3) < 0) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":400
+  /* "vModel/VismolObject.pyx":401
  * 		#      R E P R E S E N T A T I O N S      #
  *         #-----------------------------------------#
  *         self.representations = {'nonbonded' : None,             # <<<<<<<<<<<<<<
  *                                 'lines'     : None,
  *                                 'dots'      : None,
  */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nonbonded, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nonbonded, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":401
+  /* "vModel/VismolObject.pyx":402
  *         #-----------------------------------------#
  *         self.representations = {'nonbonded' : None,
  *                                 'lines'     : None,             # <<<<<<<<<<<<<<
  *                                 'dots'      : None,
  *                                 'spheres'   : None,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_lines, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_lines, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":402
+  /* "vModel/VismolObject.pyx":403
  *         self.representations = {'nonbonded' : None,
  *                                 'lines'     : None,
  *                                 'dots'      : None,             # <<<<<<<<<<<<<<
  *                                 'spheres'   : None,
  *                                 'sticks'    : None,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dots, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dots, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":403
+  /* "vModel/VismolObject.pyx":404
  *                                 'lines'     : None,
  *                                 'dots'      : None,
  *                                 'spheres'   : None,             # <<<<<<<<<<<<<<
  *                                 'sticks'    : None,
  *                                 'ribbons'   : None,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_spheres, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_spheres, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":404
+  /* "vModel/VismolObject.pyx":405
  *                                 'dots'      : None,
  *                                 'spheres'   : None,
  *                                 'sticks'    : None,             # <<<<<<<<<<<<<<
  *                                 'ribbons'   : None,
  *                                 'surface'   : None,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_sticks, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_sticks, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":405
+  /* "vModel/VismolObject.pyx":406
  *                                 'spheres'   : None,
  *                                 'sticks'    : None,
  *                                 'ribbons'   : None,             # <<<<<<<<<<<<<<
  *                                 'surface'   : None,
  *                                 'wires'     : None,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ribbons, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ribbons, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":406
+  /* "vModel/VismolObject.pyx":407
  *                                 'sticks'    : None,
  *                                 'ribbons'   : None,
  *                                 'surface'   : None,             # <<<<<<<<<<<<<<
  *                                 'wires'     : None,
  *                                 'glumpy'    : None,
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_surface, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_surface, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":407
+  /* "vModel/VismolObject.pyx":408
  *                                 'ribbons'   : None,
  *                                 'surface'   : None,
  *                                 'wires'     : None,             # <<<<<<<<<<<<<<
  *                                 'glumpy'    : None,
  *                                 }
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_wires, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_wires, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":408
+  /* "vModel/VismolObject.pyx":409
  *                                 'surface'   : None,
  *                                 'wires'     : None,
  *                                 'glumpy'    : None,             # <<<<<<<<<<<<<<
  *                                 }
  * 
  */
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glumpy, Py_None) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glumpy, Py_None) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":400
+  /* "vModel/VismolObject.pyx":401
  * 		#      R E P R E S E N T A T I O N S      #
  *         #-----------------------------------------#
  *         self.representations = {'nonbonded' : None,             # <<<<<<<<<<<<<<
  *                                 'lines'     : None,
  *                                 'dots'      : None,
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_representations, __pyx_t_3) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_representations, __pyx_t_3) < 0) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":412
+  /* "vModel/VismolObject.pyx":413
  * 
  *         #-----------------------------------------------------------------
  *         self.selection_dots_vao      = None             # <<<<<<<<<<<<<<
  *         self.selection_dot_buffers   = None
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_selection_dots_vao, Py_None) < 0) __PYX_ERR(0, 412, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_selection_dots_vao, Py_None) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":413
+  /* "vModel/VismolObject.pyx":414
  *         #-----------------------------------------------------------------
  *         self.selection_dots_vao      = None
  *         self.selection_dot_buffers   = None             # <<<<<<<<<<<<<<
  * 
  *         self.model_mat = np.identity(4, dtype=np.float32)
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_selection_dot_buffers, Py_None) < 0) __PYX_ERR(0, 413, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_selection_dot_buffers, Py_None) < 0) __PYX_ERR(0, 414, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":415
+  /* "vModel/VismolObject.pyx":416
  *         self.selection_dot_buffers   = None
  * 
  *         self.model_mat = np.identity(4, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.trans_mat = np.identity(4, dtype=np.float32)
  *         self.target    = None
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_identity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_identity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 415, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple_, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple_, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_5) < 0) __PYX_ERR(0, 415, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_5) < 0) __PYX_ERR(0, 416, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "vModel/VismolObject.pyx":416
+  /* "vModel/VismolObject.pyx":417
  * 
  *         self.model_mat = np.identity(4, dtype=np.float32)
  *         self.trans_mat = np.identity(4, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.target    = None
  *         self.unit_vec  = None
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_identity); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_identity); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_2) < 0) __PYX_ERR(0, 416, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_2) < 0) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple_, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple_, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_trans_mat, __pyx_t_2) < 0) __PYX_ERR(0, 416, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_trans_mat, __pyx_t_2) < 0) __PYX_ERR(0, 417, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":417
+  /* "vModel/VismolObject.pyx":418
  *         self.model_mat = np.identity(4, dtype=np.float32)
  *         self.trans_mat = np.identity(4, dtype=np.float32)
  *         self.target    = None             # <<<<<<<<<<<<<<
  *         self.unit_vec  = None
  *         self.distance  = None
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_target, Py_None) < 0) __PYX_ERR(0, 417, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_target, Py_None) < 0) __PYX_ERR(0, 418, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":418
+  /* "vModel/VismolObject.pyx":419
  *         self.trans_mat = np.identity(4, dtype=np.float32)
  *         self.target    = None
  *         self.unit_vec  = None             # <<<<<<<<<<<<<<
  *         self.distance  = None
  *         self.step      = None
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_unit_vec, Py_None) < 0) __PYX_ERR(0, 418, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_unit_vec, Py_None) < 0) __PYX_ERR(0, 419, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":419
+  /* "vModel/VismolObject.pyx":420
  *         self.target    = None
  *         self.unit_vec  = None
  *         self.distance  = None             # <<<<<<<<<<<<<<
  *         self.step      = None
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_distance, Py_None) < 0) __PYX_ERR(0, 419, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_distance, Py_None) < 0) __PYX_ERR(0, 420, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":420
+  /* "vModel/VismolObject.pyx":421
  *         self.unit_vec  = None
  *         self.distance  = None
  *         self.step      = None             # <<<<<<<<<<<<<<
  * 
  *         self.picking_dots_vao      = None
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_step, Py_None) < 0) __PYX_ERR(0, 420, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_step, Py_None) < 0) __PYX_ERR(0, 421, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":422
+  /* "vModel/VismolObject.pyx":423
  *         self.step      = None
  * 
  *         self.picking_dots_vao      = None             # <<<<<<<<<<<<<<
  *         self.picking_dot_buffers   = None
  *         #-----------------------------------------------------------------
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_picking_dots_vao, Py_None) < 0) __PYX_ERR(0, 422, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_picking_dots_vao, Py_None) < 0) __PYX_ERR(0, 423, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":423
+  /* "vModel/VismolObject.pyx":424
  * 
  *         self.picking_dots_vao      = None
  *         self.picking_dot_buffers   = None             # <<<<<<<<<<<<<<
  *         #-----------------------------------------------------------------
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_picking_dot_buffers, Py_None) < 0) __PYX_ERR(0, 423, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_picking_dot_buffers, Py_None) < 0) __PYX_ERR(0, 424, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":429
+  /* "vModel/VismolObject.pyx":430
  * 
  * 
  *         if len(atoms) != 0:             # <<<<<<<<<<<<<<
  *             #self._generate_atomtree_structure_old()
  *             self._generate_atomtree_structure()
  */
-  __pyx_t_6 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 429, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 430, __pyx_L1_error)
   __pyx_t_4 = ((__pyx_t_6 != 0) != 0);
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":431
+    /* "vModel/VismolObject.pyx":432
  *         if len(atoms) != 0:
  *             #self._generate_atomtree_structure_old()
  *             self._generate_atomtree_structure()             # <<<<<<<<<<<<<<
  *             self._generate_color_vectors()
  *         #else:
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_atomtree_structure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 431, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_3)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_3);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
-      }
-    }
-    __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 431, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "vModel/VismolObject.pyx":432
- *             #self._generate_atomtree_structure_old()
- *             self._generate_atomtree_structure()
- *             self._generate_color_vectors()             # <<<<<<<<<<<<<<
- *         #else:
- *             #print("vismol_object's list of atoms is empty")
- */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_color_vectors); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 432, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_atomtree_structure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 432, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -5035,7 +5015,33 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":429
+    /* "vModel/VismolObject.pyx":433
+ *             #self._generate_atomtree_structure_old()
+ *             self._generate_atomtree_structure()
+ *             self._generate_color_vectors()             # <<<<<<<<<<<<<<
+ *         #else:
+ *             #print("vismol_object's list of atoms is empty")
+ */
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_color_vectors); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_3 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_3)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_3);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "vModel/VismolObject.pyx":430
  * 
  * 
  *         if len(atoms) != 0:             # <<<<<<<<<<<<<<
@@ -5044,125 +5050,125 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  */
   }
 
-  /* "vModel/VismolObject.pyx":442
+  /* "vModel/VismolObject.pyx":443
  *         between atoms is provided.
  *         '''
  *         if auto_find_bonded_and_nonbonded:             # <<<<<<<<<<<<<<
  *             # this used just when the vobject is initialized
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_auto_find_bonded_and_nonbonded); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 442, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_auto_find_bonded_and_nonbonded); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 443, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":444
+    /* "vModel/VismolObject.pyx":445
  *         if auto_find_bonded_and_nonbonded:
  *             # this used just when the vobject is initialized
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,             # <<<<<<<<<<<<<<
  *                                                        frame     = 0         ,
  *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_init_find_bonded_and_nonbonded); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_init_find_bonded_and_nonbonded); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_selection, __pyx_t_3) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_selection, __pyx_t_3) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_frame, __pyx_int_0) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_frame, __pyx_int_0) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":446
+    /* "vModel/VismolObject.pyx":447
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,
  *                                                        frame     = 0         ,
  *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],             # <<<<<<<<<<<<<<
  *                                                        maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],
  *                                                        tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_gl_parameters); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_gl_parameters); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_gridsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_gridsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_gridsize, __pyx_t_1) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_gridsize, __pyx_t_1) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":447
+    /* "vModel/VismolObject.pyx":448
  *                                                        frame     = 0         ,
  *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
  *                                                        maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],             # <<<<<<<<<<<<<<
  *                                                        tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_gl_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 447, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_gl_parameters); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_s_maxbond); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_t_1, __pyx_n_s_maxbond); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_maxbond, __pyx_t_3) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_maxbond, __pyx_t_3) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":448
+    /* "vModel/VismolObject.pyx":449
  *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
  *                                                        maxbond   = self.vm_session.vConfig.gl_parameters['maxbond' ],
  *                                                        tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])             # <<<<<<<<<<<<<<
  * 
  *             '''the nonbonded attribute of the atom object concerns representation.
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 449, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vConfig); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_gl_parameters); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_gl_parameters); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 449, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_bond_tolerance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_bond_tolerance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 449, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_tolerance, __pyx_t_1) < 0) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_tolerance, __pyx_t_1) < 0) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":444
+    /* "vModel/VismolObject.pyx":445
  *         if auto_find_bonded_and_nonbonded:
  *             # this used just when the vobject is initialized
  *             self._init_find_bonded_and_nonbonded_atoms(selection = self.atoms,             # <<<<<<<<<<<<<<
  *                                                        frame     = 0         ,
  *                                                        gridsize  = self.vm_session.vConfig.gl_parameters['gridsize'],
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 445, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":453
+    /* "vModel/VismolObject.pyx":454
  *             When true, I mean that the atom must be drawn with a small cross'''
  *             # you must assign the nonbonded attribute = True to atoms that are not bonded.
  *             for index in self.non_bonded_atoms:             # <<<<<<<<<<<<<<
  *                 #print (index, self.atoms[index].name,  self.atoms[index].nonbonded)
  *                 self.atoms[index].nonbonded = True
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 453, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 453, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 454, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -5170,17 +5176,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 454, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 454, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -5190,7 +5196,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 453, __pyx_L1_error)
+            else __PYX_ERR(0, 454, __pyx_L1_error)
           }
           break;
         }
@@ -5199,22 +5205,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
       __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":455
+      /* "vModel/VismolObject.pyx":456
  *             for index in self.non_bonded_atoms:
  *                 #print (index, self.atoms[index].name,  self.atoms[index].nonbonded)
  *                 self.atoms[index].nonbonded = True             # <<<<<<<<<<<<<<
  *             self._get_center_of_mass()
  * 
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 455, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_nonbonded, Py_True) < 0) __PYX_ERR(0, 455, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_nonbonded, Py_True) < 0) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "vModel/VismolObject.pyx":453
+      /* "vModel/VismolObject.pyx":454
  *             When true, I mean that the atom must be drawn with a small cross'''
  *             # you must assign the nonbonded attribute = True to atoms that are not bonded.
  *             for index in self.non_bonded_atoms:             # <<<<<<<<<<<<<<
@@ -5224,14 +5230,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":456
+    /* "vModel/VismolObject.pyx":457
  *                 #print (index, self.atoms[index].name,  self.atoms[index].nonbonded)
  *                 self.atoms[index].nonbonded = True
  *             self._get_center_of_mass()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_center_of_mass); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_center_of_mass); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5245,12 +5251,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     }
     __pyx_t_5 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":442
+    /* "vModel/VismolObject.pyx":443
  *         between atoms is provided.
  *         '''
  *         if auto_find_bonded_and_nonbonded:             # <<<<<<<<<<<<<<
@@ -5259,24 +5265,24 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  */
   }
 
-  /* "vModel/VismolObject.pyx":459
+  /* "vModel/VismolObject.pyx":460
  * 
  * 
  *         if bonds_pair_of_indexes:             # <<<<<<<<<<<<<<
  *             self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
  *             if self.non_bonded_atoms == []:
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_bonds_pair_of_indexes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 459, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_bonds_pair_of_indexes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 460, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":460
+    /* "vModel/VismolObject.pyx":461
  * 
  *         if bonds_pair_of_indexes:
  *             self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)             # <<<<<<<<<<<<<<
  *             if self.non_bonded_atoms == []:
  *                 self.import_non_bonded_atoms_from_bond()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds_from_pair_of_indexes_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 460, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds_from_pair_of_indexes_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 461, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5290,37 +5296,37 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
     }
     __pyx_t_5 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_v_bonds_pair_of_indexes) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_bonds_pair_of_indexes);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 460, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 461, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":461
+    /* "vModel/VismolObject.pyx":462
  *         if bonds_pair_of_indexes:
  *             self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
  *             if self.non_bonded_atoms == []:             # <<<<<<<<<<<<<<
  *                 self.import_non_bonded_atoms_from_bond()
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 461, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 462, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 461, __pyx_L1_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 462, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_5, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 461, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_5, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 462, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 461, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 462, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_4) {
 
-      /* "vModel/VismolObject.pyx":462
+      /* "vModel/VismolObject.pyx":463
  *             self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
  *             if self.non_bonded_atoms == []:
  *                 self.import_non_bonded_atoms_from_bond()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_import_non_bonded_atoms_from_bon); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 462, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_import_non_bonded_atoms_from_bon); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_5 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5334,12 +5340,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
       }
       __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 462, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":461
+      /* "vModel/VismolObject.pyx":462
  *         if bonds_pair_of_indexes:
  *             self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
  *             if self.non_bonded_atoms == []:             # <<<<<<<<<<<<<<
@@ -5348,7 +5354,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  */
     }
 
-    /* "vModel/VismolObject.pyx":459
+    /* "vModel/VismolObject.pyx":460
  * 
  * 
  *         if bonds_pair_of_indexes:             # <<<<<<<<<<<<<<
@@ -5357,7 +5363,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
  */
   }
 
-  /* "vModel/VismolObject.pyx":315
+  /* "vModel/VismolObject.pyx":316
  *     """
  * 
  *     def __init__ (self,             # <<<<<<<<<<<<<<
@@ -5382,7 +5388,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject___init__(CYTHON_
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":467
+/* "vModel/VismolObject.pyx":468
  * 
  * 
  *     def _add_new_atom_to_vobj (self, atom):             # <<<<<<<<<<<<<<
@@ -5423,11 +5429,11 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_3_add_new_atom_t
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_atom)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_add_new_atom_to_vobj", 1, 2, 2, 1); __PYX_ERR(0, 467, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_add_new_atom_to_vobj", 1, 2, 2, 1); __PYX_ERR(0, 468, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_add_new_atom_to_vobj") < 0)) __PYX_ERR(0, 467, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_add_new_atom_to_vobj") < 0)) __PYX_ERR(0, 468, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5440,7 +5446,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_3_add_new_atom_t
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_add_new_atom_to_vobj", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 467, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_add_new_atom_to_vobj", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 468, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject._add_new_atom_to_vobj", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5468,22 +5474,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
   Py_ssize_t __pyx_t_8;
   __Pyx_RefNannySetupContext("_add_new_atom_to_vobj", 0);
 
-  /* "vModel/VismolObject.pyx":469
+  /* "vModel/VismolObject.pyx":470
  *     def _add_new_atom_to_vobj (self, atom):
  *         """ Function doc """
  *         if atom.symbol == 'H':             # <<<<<<<<<<<<<<
  *             pass
  *         else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_symbol); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 469, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_symbol); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 470, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_H, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 469, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_H, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 470, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
     goto __pyx_L3;
   }
 
-  /* "vModel/VismolObject.pyx":472
+  /* "vModel/VismolObject.pyx":473
  *             pass
  *         else:
  *             self.noH_atoms.append(atom)             # <<<<<<<<<<<<<<
@@ -5491,25 +5497,25 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
  * 
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 472, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 473, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 472, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 473, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L3:;
 
-  /* "vModel/VismolObject.pyx":475
+  /* "vModel/VismolObject.pyx":476
  * 
  * 
  *         if atom.chain in self.atoms_by_chains.keys():             # <<<<<<<<<<<<<<
  *             self.atoms_by_chains[atom.chain].append(atom)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_keys); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_keys); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -5524,34 +5530,34 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
   }
   __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 475, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_t_1, __pyx_t_4, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_t_1, __pyx_t_4, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_7 = (__pyx_t_2 != 0);
   if (__pyx_t_7) {
 
-    /* "vModel/VismolObject.pyx":476
+    /* "vModel/VismolObject.pyx":477
  * 
  *         if atom.chain in self.atoms_by_chains.keys():
  *             self.atoms_by_chains[atom.chain].append(atom)             # <<<<<<<<<<<<<<
  * 
  *         else:
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 476, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 476, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 476, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 476, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 477, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":475
+    /* "vModel/VismolObject.pyx":476
  * 
  * 
  *         if atom.chain in self.atoms_by_chains.keys():             # <<<<<<<<<<<<<<
@@ -5561,7 +5567,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
     goto __pyx_L4;
   }
 
-  /* "vModel/VismolObject.pyx":479
+  /* "vModel/VismolObject.pyx":480
  * 
  *         else:
  *             self.atoms_by_chains[atom.chain] = []             # <<<<<<<<<<<<<<
@@ -5569,49 +5575,49 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
  * 
  */
   /*else*/ {
-    __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 480, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 480, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 479, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 480, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_t_4, __pyx_t_6) < 0)) __PYX_ERR(0, 479, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_t_4, __pyx_t_6) < 0)) __PYX_ERR(0, 480, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":480
+    /* "vModel/VismolObject.pyx":481
  *         else:
  *             self.atoms_by_chains[atom.chain] = []
  *             self.atoms_by_chains[atom.chain].append(atom)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 480, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms_by_chains); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 480, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 480, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 480, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 481, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L4:;
 
-  /* "vModel/VismolObject.pyx":484
+  /* "vModel/VismolObject.pyx":485
  * 
  * 
  *         if atom.chain in self.chains.keys():             # <<<<<<<<<<<<<<
  *             ch = self.chains[atom.chain]
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 484, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 485, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 484, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 485, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_keys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 484, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_keys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 485, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -5626,34 +5632,34 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
   }
   __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 484, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 485, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_t_1, __pyx_t_4, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 484, __pyx_L1_error)
+  __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_t_1, __pyx_t_4, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 485, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_2 = (__pyx_t_7 != 0);
   if (__pyx_t_2) {
 
-    /* "vModel/VismolObject.pyx":485
+    /* "vModel/VismolObject.pyx":486
  * 
  *         if atom.chain in self.chains.keys():
  *             ch = self.chains[atom.chain]             # <<<<<<<<<<<<<<
  * 
  *         else:
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 485, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 486, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 485, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 486, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 485, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 486, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_ch = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":484
+    /* "vModel/VismolObject.pyx":485
  * 
  * 
  *         if atom.chain in self.chains.keys():             # <<<<<<<<<<<<<<
@@ -5663,7 +5669,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
     goto __pyx_L5;
   }
 
-  /* "vModel/VismolObject.pyx":488
+  /* "vModel/VismolObject.pyx":489
  * 
  *         else:
  *             ch = Chain(name = atom.chain, label = 'UNK')             # <<<<<<<<<<<<<<
@@ -5671,165 +5677,165 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
  * 
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Chain); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 488, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Chain); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 488, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 488, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_t_4) < 0) __PYX_ERR(0, 488, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_t_4) < 0) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_label, __pyx_n_s_UNK) < 0) __PYX_ERR(0, 488, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 488, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_label, __pyx_n_s_UNK) < 0) __PYX_ERR(0, 489, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_ch = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":489
+    /* "vModel/VismolObject.pyx":490
  *         else:
  *             ch = Chain(name = atom.chain, label = 'UNK')
  *             self.chains[atom.chain] = ch             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 489, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 490, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 489, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 490, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_t_1, __pyx_v_ch) < 0)) __PYX_ERR(0, 489, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_t_1, __pyx_v_ch) < 0)) __PYX_ERR(0, 490, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L5:;
 
-  /* "vModel/VismolObject.pyx":493
+  /* "vModel/VismolObject.pyx":494
  * 
  *         '''This step checks if a residue has already been created and adds it to the respective chain.'''
  *         if len(ch.residues) == 0:             # <<<<<<<<<<<<<<
  *             residue = Residue(name=atom.resn,
  *                              index=atom.resi,
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 493, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 493, __pyx_L1_error)
+  __pyx_t_8 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_2 = ((__pyx_t_8 == 0) != 0);
   if (__pyx_t_2) {
 
-    /* "vModel/VismolObject.pyx":494
+    /* "vModel/VismolObject.pyx":495
  *         '''This step checks if a residue has already been created and adds it to the respective chain.'''
  *         if len(ch.residues) == 0:
  *             residue = Residue(name=atom.resn,             # <<<<<<<<<<<<<<
  *                              index=atom.resi,
  *                              chain=atom.chain,
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Residue); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Residue); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 494, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 494, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resn); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_name, __pyx_t_5) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_name, __pyx_t_5) < 0) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":495
+    /* "vModel/VismolObject.pyx":496
  *         if len(ch.residues) == 0:
  *             residue = Residue(name=atom.resn,
  *                              index=atom.resi,             # <<<<<<<<<<<<<<
  *                              chain=atom.chain,
  *                              Vobject = self)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 495, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 496, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_index, __pyx_t_5) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_index, __pyx_t_5) < 0) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":496
+    /* "vModel/VismolObject.pyx":497
  *             residue = Residue(name=atom.resn,
  *                              index=atom.resi,
  *                              chain=atom.chain,             # <<<<<<<<<<<<<<
  *                              Vobject = self)
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 497, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_chain, __pyx_t_5) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_chain, __pyx_t_5) < 0) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":497
+    /* "vModel/VismolObject.pyx":498
  *                              index=atom.resi,
  *                              chain=atom.chain,
  *                              Vobject = self)             # <<<<<<<<<<<<<<
  * 
  *             atom.residue     = residue
  */
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 494, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 495, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":494
+    /* "vModel/VismolObject.pyx":495
  *         '''This step checks if a residue has already been created and adds it to the respective chain.'''
  *         if len(ch.residues) == 0:
  *             residue = Residue(name=atom.resn,             # <<<<<<<<<<<<<<
  *                              index=atom.resi,
  *                              chain=atom.chain,
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 494, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_residue = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":499
+    /* "vModel/VismolObject.pyx":500
  *                              Vobject = self)
  * 
  *             atom.residue     = residue             # <<<<<<<<<<<<<<
  *             residue.atoms.append(atom)
  * 
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_residue, __pyx_v_residue) < 0) __PYX_ERR(0, 499, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_residue, __pyx_v_residue) < 0) __PYX_ERR(0, 500, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":500
+    /* "vModel/VismolObject.pyx":501
  * 
  *             atom.residue     = residue
  *             residue.atoms.append(atom)             # <<<<<<<<<<<<<<
  * 
  *             #if residue in self.residues:
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 500, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 501, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 500, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 501, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":507
+    /* "vModel/VismolObject.pyx":508
  *             #    self.residues.append(residue)
  * 
  *             ch.residues.append(residue)             # <<<<<<<<<<<<<<
  *             ch.residues_by_index[atom.resi] = residue
  *         elif atom.resi == ch.residues[-1].resi:# and at_res_n == parser_resn:
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":508
+    /* "vModel/VismolObject.pyx":509
  * 
  *             ch.residues.append(residue)
  *             ch.residues_by_index[atom.resi] = residue             # <<<<<<<<<<<<<<
  *         elif atom.resi == ch.residues[-1].resi:# and at_res_n == parser_resn:
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues_by_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 508, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues_by_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 509, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 508, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 509, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_t_4, __pyx_v_residue) < 0)) __PYX_ERR(0, 508, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_5, __pyx_t_4, __pyx_v_residue) < 0)) __PYX_ERR(0, 509, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":493
+    /* "vModel/VismolObject.pyx":494
  * 
  *         '''This step checks if a residue has already been created and adds it to the respective chain.'''
  *         if len(ch.residues) == 0:             # <<<<<<<<<<<<<<
@@ -5839,64 +5845,64 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
     goto __pyx_L6;
   }
 
-  /* "vModel/VismolObject.pyx":509
+  /* "vModel/VismolObject.pyx":510
  *             ch.residues.append(residue)
  *             ch.residues_by_index[atom.resi] = residue
  *         elif atom.resi == ch.residues[-1].resi:# and at_res_n == parser_resn:             # <<<<<<<<<<<<<<
  * 
  *             atom.residue = ch.residues[-1]
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_resi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_resi); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_4, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_4, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "vModel/VismolObject.pyx":511
+    /* "vModel/VismolObject.pyx":512
  *         elif atom.resi == ch.residues[-1].resi:# and at_res_n == parser_resn:
  * 
  *             atom.residue = ch.residues[-1]             # <<<<<<<<<<<<<<
  *             ch.residues[-1].atoms.append(atom)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 511, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 512, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 511, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 512, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_residue, __pyx_t_5) < 0) __PYX_ERR(0, 511, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_residue, __pyx_t_5) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":512
+    /* "vModel/VismolObject.pyx":513
  * 
  *             atom.residue = ch.residues[-1]
  *             ch.residues[-1].atoms.append(atom)             # <<<<<<<<<<<<<<
  * 
  *         else:
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 512, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 512, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 512, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 512, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":509
+    /* "vModel/VismolObject.pyx":510
  *             ch.residues.append(residue)
  *             ch.residues_by_index[atom.resi] = residue
  *         elif atom.resi == ch.residues[-1].resi:# and at_res_n == parser_resn:             # <<<<<<<<<<<<<<
@@ -5906,7 +5912,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
     goto __pyx_L6;
   }
 
-  /* "vModel/VismolObject.pyx":515
+  /* "vModel/VismolObject.pyx":516
  * 
  *         else:
  *             residue = Residue(name=atom.resn,             # <<<<<<<<<<<<<<
@@ -5914,136 +5920,136 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
  *                              chain=atom.chain,
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Residue); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 515, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Residue); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 515, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resn); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resn); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_t_4) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_name, __pyx_t_4) < 0) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":516
+    /* "vModel/VismolObject.pyx":517
  *         else:
  *             residue = Residue(name=atom.resn,
  *                              index=atom.resi,             # <<<<<<<<<<<<<<
  *                              chain=atom.chain,
  *                              Vobject = self)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_index, __pyx_t_4) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_index, __pyx_t_4) < 0) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":517
+    /* "vModel/VismolObject.pyx":518
  *             residue = Residue(name=atom.resn,
  *                              index=atom.resi,
  *                              chain=atom.chain,             # <<<<<<<<<<<<<<
  *                              Vobject = self)
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 517, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 518, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_chain, __pyx_t_4) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_chain, __pyx_t_4) < 0) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":518
+    /* "vModel/VismolObject.pyx":519
  *                              index=atom.resi,
  *                              chain=atom.chain,
  *                              Vobject = self)             # <<<<<<<<<<<<<<
  * 
  *             atom.residue     = residue
  */
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 516, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":515
+    /* "vModel/VismolObject.pyx":516
  * 
  *         else:
  *             residue = Residue(name=atom.resn,             # <<<<<<<<<<<<<<
  *                              index=atom.resi,
  *                              chain=atom.chain,
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_residue = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":520
+    /* "vModel/VismolObject.pyx":521
  *                              Vobject = self)
  * 
  *             atom.residue     = residue             # <<<<<<<<<<<<<<
  *             residue.atoms.append(atom)
  * 
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_residue, __pyx_v_residue) < 0) __PYX_ERR(0, 520, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_residue, __pyx_v_residue) < 0) __PYX_ERR(0, 521, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":521
+    /* "vModel/VismolObject.pyx":522
  * 
  *             atom.residue     = residue
  *             residue.atoms.append(atom)             # <<<<<<<<<<<<<<
  * 
  *             #self.residues.append(residue)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_atoms); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 521, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_atoms); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 522, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 521, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 522, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":525
+    /* "vModel/VismolObject.pyx":526
  *             #self.residues.append(residue)
  * 
  *             ch.residues.append(residue)             # <<<<<<<<<<<<<<
  *             ch.residues_by_index[atom.resi] = residue
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 525, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 525, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 526, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":526
+    /* "vModel/VismolObject.pyx":527
  * 
  *             ch.residues.append(residue)
  *             ch.residues_by_index[atom.resi] = residue             # <<<<<<<<<<<<<<
  * 
  *             #'Checks whether RESN belongs to the solvent or protein'
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues_by_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_residues_by_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 526, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 527, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_t_1, __pyx_v_residue) < 0)) __PYX_ERR(0, 526, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_4, __pyx_t_1, __pyx_v_residue) < 0)) __PYX_ERR(0, 527, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":530
+    /* "vModel/VismolObject.pyx":531
  *             #'Checks whether RESN belongs to the solvent or protein'
  *             #---------------------------------------------------------
  *             if residue.isProtein:             # <<<<<<<<<<<<<<
  *                 self.residues_in_protein.append(residue)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_isProtein); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 530, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_isProtein); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 531, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 530, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 531, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_2) {
 
-      /* "vModel/VismolObject.pyx":531
+      /* "vModel/VismolObject.pyx":532
  *             #---------------------------------------------------------
  *             if residue.isProtein:
  *                 self.residues_in_protein.append(residue)             # <<<<<<<<<<<<<<
  * 
  *             elif residue.isSolvent:
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_protein); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 531, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_protein); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 532, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 531, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 532, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":530
+      /* "vModel/VismolObject.pyx":531
  *             #'Checks whether RESN belongs to the solvent or protein'
  *             #---------------------------------------------------------
  *             if residue.isProtein:             # <<<<<<<<<<<<<<
@@ -6053,32 +6059,32 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
       goto __pyx_L7;
     }
 
-    /* "vModel/VismolObject.pyx":533
+    /* "vModel/VismolObject.pyx":534
  *                 self.residues_in_protein.append(residue)
  * 
  *             elif residue.isSolvent:             # <<<<<<<<<<<<<<
  *                 self.residues_in_solvent.append(residue)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_isSolvent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 533, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_isSolvent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 534, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 533, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 534, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_2) {
 
-      /* "vModel/VismolObject.pyx":534
+      /* "vModel/VismolObject.pyx":535
  * 
  *             elif residue.isSolvent:
  *                 self.residues_in_solvent.append(residue)             # <<<<<<<<<<<<<<
  * 
  *             else:
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_solvent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 534, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues_in_solvent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 535, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 534, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 535, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":533
+      /* "vModel/VismolObject.pyx":534
  *                 self.residues_in_protein.append(residue)
  * 
  *             elif residue.isSolvent:             # <<<<<<<<<<<<<<
@@ -6088,7 +6094,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
       goto __pyx_L7;
     }
 
-    /* "vModel/VismolObject.pyx":537
+    /* "vModel/VismolObject.pyx":538
  * 
  *             else:
  *                 self.residues_ligands.append(residue)             # <<<<<<<<<<<<<<
@@ -6096,41 +6102,41 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
  *             #---------------------------------------------------------
  */
     /*else*/ {
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues_ligands); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues_ligands); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_residue); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __pyx_L7:;
   }
   __pyx_L6:;
 
-  /* "vModel/VismolObject.pyx":545
+  /* "vModel/VismolObject.pyx":546
  * 
  * 
  *         if atom.name == 'CA':             # <<<<<<<<<<<<<<
  *             ch.backbone.append(atom)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 545, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 546, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_CA, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 545, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_CA, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 546, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "vModel/VismolObject.pyx":546
+    /* "vModel/VismolObject.pyx":547
  * 
  *         if atom.name == 'CA':
  *             ch.backbone.append(atom)             # <<<<<<<<<<<<<<
  * 
  *         self.atoms.append(atom)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_backbone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 546, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_ch, __pyx_n_s_backbone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 547, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 546, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 547, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":545
+    /* "vModel/VismolObject.pyx":546
  * 
  * 
  *         if atom.name == 'CA':             # <<<<<<<<<<<<<<
@@ -6139,73 +6145,73 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
  */
   }
 
-  /* "vModel/VismolObject.pyx":548
+  /* "vModel/VismolObject.pyx":549
  *             ch.backbone.append(atom)
  * 
  *         self.atoms.append(atom)             # <<<<<<<<<<<<<<
  *         self.cov_radiues_list.append(atom.cov_rad)
  *         #sum_x += atom.pos[0]
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 548, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 549, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 548, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 549, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":549
+  /* "vModel/VismolObject.pyx":550
  * 
  *         self.atoms.append(atom)
  *         self.cov_radiues_list.append(atom.cov_rad)             # <<<<<<<<<<<<<<
  *         #sum_x += atom.pos[0]
  *         #sum_y += atom.pos[1]
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_radiues_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 549, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_radiues_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 550, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 549, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 550, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_4); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 549, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_4); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 550, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "vModel/VismolObject.pyx":554
+  /* "vModel/VismolObject.pyx":555
  *         #sum_z += atom.pos[2]
  * 
  *         self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom             # <<<<<<<<<<<<<<
  *         self.vm_session.atom_id_counter +=1
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_t_5, __pyx_v_atom) < 0)) __PYX_ERR(0, 554, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_t_1, __pyx_t_5, __pyx_v_atom) < 0)) __PYX_ERR(0, 555, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "vModel/VismolObject.pyx":555
+  /* "vModel/VismolObject.pyx":556
  * 
  *         self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  *         self.vm_session.atom_id_counter +=1             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 555, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 555, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_atom_id_counter, __pyx_t_4) < 0) __PYX_ERR(0, 555, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_atom_id_counter, __pyx_t_4) < 0) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "vModel/VismolObject.pyx":467
+  /* "vModel/VismolObject.pyx":468
  * 
  * 
  *     def _add_new_atom_to_vobj (self, atom):             # <<<<<<<<<<<<<<
@@ -6231,7 +6237,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_2_add_new_atom_t
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":558
+/* "vModel/VismolObject.pyx":559
  * 
  * 
  *     def create_new_representation (self, rtype = 'lines', indexes = None):             # <<<<<<<<<<<<<<
@@ -6287,7 +6293,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_5create_new_repr
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_new_representation") < 0)) __PYX_ERR(0, 558, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_new_representation") < 0)) __PYX_ERR(0, 559, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -6306,7 +6312,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_5create_new_repr
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_new_representation", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 558, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_new_representation", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 559, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.create_new_representation", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6329,93 +6335,93 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("create_new_representation", 0);
 
-  /* "vModel/VismolObject.pyx":561
+  /* "vModel/VismolObject.pyx":562
  *         """ Function doc """
  *         #print('\n\n\n',indexes)
  *         if rtype == 'lines':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['lines']      = LinesRepresentation (name = 'lines',
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_lines, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 561, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_lines, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 562, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "vModel/VismolObject.pyx":563
+    /* "vModel/VismolObject.pyx":564
  *         if rtype == 'lines':
  * 
  *             self.representations['lines']      = LinesRepresentation (name = 'lines',             # <<<<<<<<<<<<<<
  *                                                                     active = True,
  *                                                                      _type = 'geo',
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_LinesRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 563, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_LinesRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 563, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_lines) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_lines) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":564
+    /* "vModel/VismolObject.pyx":565
  * 
  *             self.representations['lines']      = LinesRepresentation (name = 'lines',
  *                                                                     active = True,             # <<<<<<<<<<<<<<
  *                                                                      _type = 'geo',
  *                                                                    indexes = indexes,
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":566
+    /* "vModel/VismolObject.pyx":567
  *                                                                     active = True,
  *                                                                      _type = 'geo',
  *                                                                    indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                     visObj = self,
  *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":567
+    /* "vModel/VismolObject.pyx":568
  *                                                                      _type = 'geo',
  *                                                                    indexes = indexes,
  *                                                                     visObj = self,             # <<<<<<<<<<<<<<
  *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  *         if rtype == 'nonbonded':
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":568
+    /* "vModel/VismolObject.pyx":569
  *                                                                    indexes = indexes,
  *                                                                     visObj = self,
  *                                                                     glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  *         if rtype == 'nonbonded':
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 569, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 568, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 569, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 569, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":563
+    /* "vModel/VismolObject.pyx":564
  *         if rtype == 'lines':
  * 
  *             self.representations['lines']      = LinesRepresentation (name = 'lines',             # <<<<<<<<<<<<<<
  *                                                                     active = True,
  *                                                                      _type = 'geo',
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 563, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 563, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_lines, __pyx_t_4) < 0)) __PYX_ERR(0, 563, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_lines, __pyx_t_4) < 0)) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":561
+    /* "vModel/VismolObject.pyx":562
  *         """ Function doc """
  *         #print('\n\n\n',indexes)
  *         if rtype == 'lines':             # <<<<<<<<<<<<<<
@@ -6424,93 +6430,93 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":569
+  /* "vModel/VismolObject.pyx":570
  *                                                                     visObj = self,
  *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  *         if rtype == 'nonbonded':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_nonbonded, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 569, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_nonbonded, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 570, __pyx_L1_error)
   if (__pyx_t_1) {
-
-    /* "vModel/VismolObject.pyx":571
- *         if rtype == 'nonbonded':
- * 
- *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',             # <<<<<<<<<<<<<<
- *                                                                 active =  True,
- *                                                                  _type = 'geo',
- */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_NonBondedRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 571, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 571, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_nonbonded) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
 
     /* "vModel/VismolObject.pyx":572
- * 
- *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',
- *                                                                 active =  True,             # <<<<<<<<<<<<<<
- *                                                                  _type = 'geo',
- *                                                                indexes = indexes,
- */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
-
-    /* "vModel/VismolObject.pyx":574
- *                                                                 active =  True,
- *                                                                  _type = 'geo',
- *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
- *                                                                 visObj =  self,
- *                                                                 glCore = self.vm_session.glwidget.vm_widget)
- */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
-
-    /* "vModel/VismolObject.pyx":575
- *                                                                  _type = 'geo',
- *                                                                indexes = indexes,
- *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
- *                                                                 glCore = self.vm_session.glwidget.vm_widget)
- * 
- */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
-
-    /* "vModel/VismolObject.pyx":576
- *                                                                indexes = indexes,
- *                                                                 visObj =  self,
- *                                                                 glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
- * 
- *         if rtype == 'dots':
- */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 576, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 576, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 571, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "vModel/VismolObject.pyx":571
  *         if rtype == 'nonbonded':
  * 
  *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 571, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_NonBondedRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 572, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 572, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_nonbonded) < 0) __PYX_ERR(0, 572, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":573
+ * 
+ *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',
+ *                                                                 active =  True,             # <<<<<<<<<<<<<<
+ *                                                                  _type = 'geo',
+ *                                                                indexes = indexes,
+ */
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 572, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 572, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":575
+ *                                                                 active =  True,
+ *                                                                  _type = 'geo',
+ *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
+ *                                                                 visObj =  self,
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
+ */
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 572, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":576
+ *                                                                  _type = 'geo',
+ *                                                                indexes = indexes,
+ *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)
+ * 
+ */
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 572, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":577
+ *                                                                indexes = indexes,
+ *                                                                 visObj =  self,
+ *                                                                 glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
+ * 
+ *         if rtype == 'dots':
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 577, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 572, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "vModel/VismolObject.pyx":572
+ *         if rtype == 'nonbonded':
+ * 
+ *             self.representations['nonbonded']  = NonBondedRepresentation (name = 'nonbonded',             # <<<<<<<<<<<<<<
+ *                                                                 active =  True,
+ *                                                                  _type = 'geo',
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 572, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 571, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 572, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_nonbonded, __pyx_t_2) < 0)) __PYX_ERR(0, 571, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_nonbonded, __pyx_t_2) < 0)) __PYX_ERR(0, 572, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":569
+    /* "vModel/VismolObject.pyx":570
  *                                                                     visObj = self,
  *                                                                     glCore = self.vm_session.glwidget.vm_widget)
  *         if rtype == 'nonbonded':             # <<<<<<<<<<<<<<
@@ -6519,93 +6525,93 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":578
+  /* "vModel/VismolObject.pyx":579
  *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  *         if rtype == 'dots':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['dots']  = DotsRepresentation (name   = 'dots',
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_dots, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_dots, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 579, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "vModel/VismolObject.pyx":580
+    /* "vModel/VismolObject.pyx":581
  *         if rtype == 'dots':
  * 
  *             self.representations['dots']  = DotsRepresentation (name   = 'dots',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DotsRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 580, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DotsRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 581, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 580, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 581, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_dots) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_dots) < 0) __PYX_ERR(0, 581, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":581
+    /* "vModel/VismolObject.pyx":582
  * 
  *             self.representations['dots']  = DotsRepresentation (name   = 'dots',
  *                                                                 active =  True,             # <<<<<<<<<<<<<<
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 581, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 581, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":583
+    /* "vModel/VismolObject.pyx":584
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 581, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":584
+    /* "vModel/VismolObject.pyx":585
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
  *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 581, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":585
+    /* "vModel/VismolObject.pyx":586
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 585, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 586, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 585, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 585, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 586, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 580, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 581, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":580
+    /* "vModel/VismolObject.pyx":581
  *         if rtype == 'dots':
  * 
  *             self.representations['dots']  = DotsRepresentation (name   = 'dots',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 580, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 581, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 580, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 581, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_dots, __pyx_t_4) < 0)) __PYX_ERR(0, 580, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_dots, __pyx_t_4) < 0)) __PYX_ERR(0, 581, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":578
+    /* "vModel/VismolObject.pyx":579
  *                                                                 glCore = self.vm_session.glwidget.vm_widget)
  * 
  *         if rtype == 'dots':             # <<<<<<<<<<<<<<
@@ -6614,93 +6620,93 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":588
+  /* "vModel/VismolObject.pyx":589
  * 
  * 
  *         if rtype == 'sticks':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['sticks']  = SticksRepresentation (name   = 'sticks',
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_sticks, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 588, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_sticks, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 589, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "vModel/VismolObject.pyx":590
+    /* "vModel/VismolObject.pyx":591
  *         if rtype == 'sticks':
  * 
  *             self.representations['sticks']  = SticksRepresentation (name   = 'sticks',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_SticksRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 590, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_SticksRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 591, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 590, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 591, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_sticks) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_sticks) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":591
+    /* "vModel/VismolObject.pyx":592
  * 
  *             self.representations['sticks']  = SticksRepresentation (name   = 'sticks',
  *                                                                 active =  True,             # <<<<<<<<<<<<<<
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":593
+    /* "vModel/VismolObject.pyx":594
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,             # <<<<<<<<<<<<<<
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":594
+    /* "vModel/VismolObject.pyx":595
  *                                                                  _type = 'geo',
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  *         if rtype == 'ribbons':
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":595
+    /* "vModel/VismolObject.pyx":596
  *                                                                indexes = indexes,
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )             # <<<<<<<<<<<<<<
  *         if rtype == 'ribbons':
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 596, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 596, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 596, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 590, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":590
+    /* "vModel/VismolObject.pyx":591
  *         if rtype == 'sticks':
  * 
  *             self.representations['sticks']  = SticksRepresentation (name   = 'sticks',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 590, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 591, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 590, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 591, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_sticks, __pyx_t_2) < 0)) __PYX_ERR(0, 590, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_sticks, __pyx_t_2) < 0)) __PYX_ERR(0, 591, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":588
+    /* "vModel/VismolObject.pyx":589
  * 
  * 
  *         if rtype == 'sticks':             # <<<<<<<<<<<<<<
@@ -6709,84 +6715,84 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":596
+  /* "vModel/VismolObject.pyx":597
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  *         if rtype == 'ribbons':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons',
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_ribbons, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 596, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_ribbons, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 597, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "vModel/VismolObject.pyx":598
+    /* "vModel/VismolObject.pyx":599
  *         if rtype == 'ribbons':
  * 
  *             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RibbonsRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 598, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RibbonsRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 598, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_ribbons) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_ribbons) < 0) __PYX_ERR(0, 599, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":599
+    /* "vModel/VismolObject.pyx":600
  * 
  *             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons',
  *                                                                 active =  True,             # <<<<<<<<<<<<<<
  *                                                                  _type = 'geo',
  *                                                                 visObj =  self,
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 599, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 599, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":601
+    /* "vModel/VismolObject.pyx":602
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  *                                                                 visObj =  self,             # <<<<<<<<<<<<<<
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  * 
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 599, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":602
+    /* "vModel/VismolObject.pyx":603
  *                                                                  _type = 'geo',
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )             # <<<<<<<<<<<<<<
  * 
  *         if rtype == 'spheres':
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 602, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 602, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":598
+    /* "vModel/VismolObject.pyx":599
  *         if rtype == 'ribbons':
  * 
  *             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons',             # <<<<<<<<<<<<<<
  *                                                                 active =  True,
  *                                                                  _type = 'geo',
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 598, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 598, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_ribbons, __pyx_t_4) < 0)) __PYX_ERR(0, 598, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_ribbons, __pyx_t_4) < 0)) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":596
+    /* "vModel/VismolObject.pyx":597
  *                                                                 visObj =  self,
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  *         if rtype == 'ribbons':             # <<<<<<<<<<<<<<
@@ -6795,105 +6801,105 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":604
+  /* "vModel/VismolObject.pyx":605
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  * 
  *         if rtype == 'spheres':             # <<<<<<<<<<<<<<
  * 
  *             self.representations['spheres'] =  SpheresRepresentation (name    = rtype,
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_spheres, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 604, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_spheres, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 605, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "vModel/VismolObject.pyx":606
+    /* "vModel/VismolObject.pyx":607
  *         if rtype == 'spheres':
  * 
  *             self.representations['spheres'] =  SpheresRepresentation (name    = rtype,             # <<<<<<<<<<<<<<
  *                                                                       active  = True,
  *                                                                       _type   = 'mol',
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_SpheresRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 606, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_SpheresRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 606, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_v_rtype) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_v_rtype) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":607
+    /* "vModel/VismolObject.pyx":608
  * 
  *             self.representations['spheres'] =  SpheresRepresentation (name    = rtype,
  *                                                                       active  = True,             # <<<<<<<<<<<<<<
  *                                                                       _type   = 'mol',
  *                                                                       visObj  = self,
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_mol) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_mol) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":609
+    /* "vModel/VismolObject.pyx":610
  *                                                                       active  = True,
  *                                                                       _type   = 'mol',
  *                                                                       visObj  = self,             # <<<<<<<<<<<<<<
  *                                                                       glCore  = self.vm_session.glwidget.vm_widget,
  *                                                                       indexes  = indexes
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":610
+    /* "vModel/VismolObject.pyx":611
  *                                                                       _type   = 'mol',
  *                                                                       visObj  = self,
  *                                                                       glCore  = self.vm_session.glwidget.vm_widget,             # <<<<<<<<<<<<<<
  *                                                                       indexes  = indexes
  *                                                                      )
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 610, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 611, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 610, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 611, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 610, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 611, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":611
+    /* "vModel/VismolObject.pyx":612
  *                                                                       visObj  = self,
  *                                                                       glCore  = self.vm_session.glwidget.vm_widget,
  *                                                                       indexes  = indexes             # <<<<<<<<<<<<<<
  *                                                                      )
  * 
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 606, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":606
+    /* "vModel/VismolObject.pyx":607
  *         if rtype == 'spheres':
  * 
  *             self.representations['spheres'] =  SpheresRepresentation (name    = rtype,             # <<<<<<<<<<<<<<
  *                                                                       active  = True,
  *                                                                       _type   = 'mol',
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 606, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 606, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_spheres, __pyx_t_2) < 0)) __PYX_ERR(0, 606, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_spheres, __pyx_t_2) < 0)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":614
+    /* "vModel/VismolObject.pyx":615
  *                                                                      )
  * 
  *             self.representations['spheres']._create_sphere_data()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 614, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 615, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_spheres); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 614, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Dict_GetItem(__pyx_t_3, __pyx_n_s_spheres); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 615, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_create_sphere_data); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 614, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_create_sphere_data); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 615, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -6908,12 +6914,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 614, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 615, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":604
+    /* "vModel/VismolObject.pyx":605
  *                                                                 glCore = self.vm_session.glwidget.vm_widget )
  * 
  *         if rtype == 'spheres':             # <<<<<<<<<<<<<<
@@ -6922,84 +6928,179 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":628
+  /* "vModel/VismolObject.pyx":619
+ * 
+ * 
+ *         if rtype == 'spheresInstace':             # <<<<<<<<<<<<<<
+ * 
+ *             self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype,
+ */
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_spheresInstace, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 619, __pyx_L1_error)
+  if (__pyx_t_1) {
+
+    /* "vModel/VismolObject.pyx":621
+ *         if rtype == 'spheresInstace':
+ * 
+ *             self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype,             # <<<<<<<<<<<<<<
+ *                                                                       active  = True,
+ *                                                                       _type   = 'mol',
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_SphereInstanceRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 621, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 621, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_v_rtype) < 0) __PYX_ERR(0, 621, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":622
+ * 
+ *             self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype,
+ *                                                                       active  = True,             # <<<<<<<<<<<<<<
+ *                                                                       _type   = 'mol',
+ *                                                                       visObj  = self,
+ */
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 621, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_mol) < 0) __PYX_ERR(0, 621, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":624
+ *                                                                       active  = True,
+ *                                                                       _type   = 'mol',
+ *                                                                       visObj  = self,             # <<<<<<<<<<<<<<
+ *                                                                       glCore  = self.vm_session.glwidget.vm_widget,
+ *                                                                       indexes  = indexes
+ */
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 621, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":625
+ *                                                                       _type   = 'mol',
+ *                                                                       visObj  = self,
+ *                                                                       glCore  = self.vm_session.glwidget.vm_widget,             # <<<<<<<<<<<<<<
+ *                                                                       indexes  = indexes
+ *                                                                      )
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 625, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 625, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 625, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 621, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "vModel/VismolObject.pyx":626
+ *                                                                       visObj  = self,
+ *                                                                       glCore  = self.vm_session.glwidget.vm_widget,
+ *                                                                       indexes  = indexes             # <<<<<<<<<<<<<<
+ *                                                                      )
+ * 
+ */
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_indexes, __pyx_v_indexes) < 0) __PYX_ERR(0, 621, __pyx_L1_error)
+
+    /* "vModel/VismolObject.pyx":621
+ *         if rtype == 'spheresInstace':
+ * 
+ *             self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype,             # <<<<<<<<<<<<<<
+ *                                                                       active  = True,
+ *                                                                       _type   = 'mol',
+ */
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 621, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 621, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_spheres_instance, __pyx_t_4) < 0)) __PYX_ERR(0, 621, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "vModel/VismolObject.pyx":619
+ * 
+ * 
+ *         if rtype == 'spheresInstace':             # <<<<<<<<<<<<<<
+ * 
+ *             self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype,
+ */
+  }
+
+  /* "vModel/VismolObject.pyx":643
  * 
  * 
  *         if rtype == 'dotted_lines':             # <<<<<<<<<<<<<<
  *             ##print('dotted_lines')
  *             self.representations['dotted_lines']  = LinesRepresentation (name = 'dotted_lines',
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_dotted_lines, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 628, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_rtype, __pyx_n_s_dotted_lines, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 643, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "vModel/VismolObject.pyx":630
+    /* "vModel/VismolObject.pyx":645
  *         if rtype == 'dotted_lines':
  *             ##print('dotted_lines')
  *             self.representations['dotted_lines']  = LinesRepresentation (name = 'dotted_lines',             # <<<<<<<<<<<<<<
  *                                                                        active =  True,
  *                                                                         _type = 'geo',
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_LinesRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 630, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 630, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_LinesRepresentation); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 645, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_dotted_lines) < 0) __PYX_ERR(0, 630, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_n_s_dotted_lines) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":631
+    /* "vModel/VismolObject.pyx":646
  *             ##print('dotted_lines')
  *             self.representations['dotted_lines']  = LinesRepresentation (name = 'dotted_lines',
  *                                                                        active =  True,             # <<<<<<<<<<<<<<
  *                                                                         _type = 'geo',
  *                                                                        visObj =  self,
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 630, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 630, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_active, Py_True) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_type, __pyx_n_s_geo) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":633
+    /* "vModel/VismolObject.pyx":648
  *                                                                        active =  True,
  *                                                                         _type = 'geo',
  *                                                                        visObj =  self,             # <<<<<<<<<<<<<<
  *                                                                        glCore = self.vm_session.glwidget.vm_widget)
  * 
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 630, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_visObj, __pyx_v_self) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":634
+    /* "vModel/VismolObject.pyx":649
  *                                                                         _type = 'geo',
  *                                                                        visObj =  self,
  *                                                                        glCore = self.vm_session.glwidget.vm_widget)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 634, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 634, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 649, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_glwidget); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 649, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 634, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_vm_widget); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 649, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_4) < 0) __PYX_ERR(0, 630, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_glCore, __pyx_t_2) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":630
+    /* "vModel/VismolObject.pyx":645
  *         if rtype == 'dotted_lines':
  *             ##print('dotted_lines')
  *             self.representations['dotted_lines']  = LinesRepresentation (name = 'dotted_lines',             # <<<<<<<<<<<<<<
  *                                                                        active =  True,
  *                                                                         _type = 'geo',
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 630, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 630, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_dotted_lines, __pyx_t_4) < 0)) __PYX_ERR(0, 630, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_representations); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_n_s_dotted_lines, __pyx_t_2) < 0)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":628
+    /* "vModel/VismolObject.pyx":643
  * 
  * 
  *         if rtype == 'dotted_lines':             # <<<<<<<<<<<<<<
@@ -7008,7 +7109,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
  */
   }
 
-  /* "vModel/VismolObject.pyx":558
+  /* "vModel/VismolObject.pyx":559
  * 
  * 
  *     def create_new_representation (self, rtype = 'lines', indexes = None):             # <<<<<<<<<<<<<<
@@ -7032,7 +7133,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_4create_new_repr
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":643
+/* "vModel/VismolObject.pyx":658
  * 
  * 
  *     def _get_center_of_mass (self, frame = 0):             # <<<<<<<<<<<<<<
@@ -7078,7 +7179,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_7_get_center_of_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_get_center_of_mass") < 0)) __PYX_ERR(0, 643, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_get_center_of_mass") < 0)) __PYX_ERR(0, 658, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7094,7 +7195,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_7_get_center_of_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_get_center_of_mass", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 643, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_get_center_of_mass", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 658, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject._get_center_of_mass", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7132,37 +7233,37 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   __Pyx_RefNannySetupContext("_get_center_of_mass", 0);
   __Pyx_INCREF(__pyx_v_frame);
 
-  /* "vModel/VismolObject.pyx":646
+  /* "vModel/VismolObject.pyx":661
  *         """ Function doc """
  * 
  *         frame_size = len(self.frames)-1             # <<<<<<<<<<<<<<
  * 
  *         if frame <= frame_size:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_frames); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 646, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_frames); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 661, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 646, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 661, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_frame_size = (__pyx_t_2 - 1);
 
-  /* "vModel/VismolObject.pyx":648
+  /* "vModel/VismolObject.pyx":663
  *         frame_size = len(self.frames)-1
  * 
  *         if frame <= frame_size:             # <<<<<<<<<<<<<<
  *             pass
  *         else:
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_frame_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 648, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_frame_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 663, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_v_frame, __pyx_t_1, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 648, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_v_frame, __pyx_t_1, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 663, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 648, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 663, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
     goto __pyx_L3;
   }
 
-  /* "vModel/VismolObject.pyx":651
+  /* "vModel/VismolObject.pyx":666
  *             pass
  *         else:
  *             frame = frame_size             # <<<<<<<<<<<<<<
@@ -7170,40 +7271,40 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
  *         if len(self.noH_atoms) == 0:
  */
   /*else*/ {
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_frame_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 651, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_frame_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 666, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF_SET(__pyx_v_frame, __pyx_t_3);
     __pyx_t_3 = 0;
   }
   __pyx_L3:;
 
-  /* "vModel/VismolObject.pyx":653
+  /* "vModel/VismolObject.pyx":668
  *             frame = frame_size
  * 
  *         if len(self.noH_atoms) == 0:             # <<<<<<<<<<<<<<
  *             atoms = self.atoms
  *         else:
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 653, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 668, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 653, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 668, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_4 = ((__pyx_t_2 == 0) != 0);
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":654
+    /* "vModel/VismolObject.pyx":669
  * 
  *         if len(self.noH_atoms) == 0:
  *             atoms = self.atoms             # <<<<<<<<<<<<<<
  *         else:
  *             atoms = self.noH_atoms
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 654, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 669, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v_atoms = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":653
+    /* "vModel/VismolObject.pyx":668
  *             frame = frame_size
  * 
  *         if len(self.noH_atoms) == 0:             # <<<<<<<<<<<<<<
@@ -7213,7 +7314,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
     goto __pyx_L4;
   }
 
-  /* "vModel/VismolObject.pyx":656
+  /* "vModel/VismolObject.pyx":671
  *             atoms = self.atoms
  *         else:
  *             atoms = self.noH_atoms             # <<<<<<<<<<<<<<
@@ -7221,14 +7322,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
  *         sum_x = 0.0
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 656, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_noH_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 671, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_v_atoms = __pyx_t_3;
     __pyx_t_3 = 0;
   }
   __pyx_L4:;
 
-  /* "vModel/VismolObject.pyx":658
+  /* "vModel/VismolObject.pyx":673
  *             atoms = self.noH_atoms
  * 
  *         sum_x = 0.0             # <<<<<<<<<<<<<<
@@ -7238,7 +7339,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_sum_x = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":659
+  /* "vModel/VismolObject.pyx":674
  * 
  *         sum_x = 0.0
  *         sum_y = 0.0             # <<<<<<<<<<<<<<
@@ -7248,7 +7349,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_sum_y = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":660
+  /* "vModel/VismolObject.pyx":675
  *         sum_x = 0.0
  *         sum_y = 0.0
  *         sum_z = 0.0             # <<<<<<<<<<<<<<
@@ -7258,16 +7359,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_sum_z = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":662
+  /* "vModel/VismolObject.pyx":677
  *         sum_z = 0.0
  * 
  *         initial          = time.time()             # <<<<<<<<<<<<<<
  *         #type 2
  *         #atoms = self.noH_atoms
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 677, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 662, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 677, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -7282,29 +7383,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 662, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 677, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_initial = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":665
+  /* "vModel/VismolObject.pyx":680
  *         #type 2
  *         #atoms = self.noH_atoms
  *         if len(self.frames) == 0:             # <<<<<<<<<<<<<<
  *             pass
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_frames); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 665, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_frames); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 665, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_4 = ((__pyx_t_2 == 0) != 0);
   if (__pyx_t_4) {
     goto __pyx_L5;
   }
 
-  /* "vModel/VismolObject.pyx":669
+  /* "vModel/VismolObject.pyx":684
  * 
  *         else:
  *             for atom in atoms:             # <<<<<<<<<<<<<<
@@ -7316,26 +7417,26 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
       __pyx_t_3 = __pyx_v_atoms; __Pyx_INCREF(__pyx_t_3); __pyx_t_2 = 0;
       __pyx_t_6 = NULL;
     } else {
-      __pyx_t_2 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 669, __pyx_L1_error)
+      __pyx_t_2 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 684, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 669, __pyx_L1_error)
+      __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 684, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_6)) {
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 669, __pyx_L1_error)
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_3, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 669, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_3, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 684, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         } else {
           if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 669, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_3, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 669, __pyx_L1_error)
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_3, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 684, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           #endif
         }
@@ -7345,7 +7446,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 669, __pyx_L1_error)
+            else __PYX_ERR(0, 684, __pyx_L1_error)
           }
           break;
         }
@@ -7354,14 +7455,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
       __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "vModel/VismolObject.pyx":670
+      /* "vModel/VismolObject.pyx":685
  *         else:
  *             for atom in atoms:
  *                 coord = atom.coords (frame)             # <<<<<<<<<<<<<<
  *                 sum_x += coord[0]
  *                 sum_y += coord[1]
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_coords); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 670, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_coords); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 685, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_7 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -7375,58 +7476,58 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
       }
       __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_7, __pyx_v_frame) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_frame);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 670, __pyx_L1_error)
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 685, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF_SET(__pyx_v_coord, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "vModel/VismolObject.pyx":671
+      /* "vModel/VismolObject.pyx":686
  *             for atom in atoms:
  *                 coord = atom.coords (frame)
  *                 sum_x += coord[0]             # <<<<<<<<<<<<<<
  *                 sum_y += coord[1]
  *                 sum_z += coord[2]
  */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_coord, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 671, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_coord, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 686, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_sum_x, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 671, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_sum_x, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 686, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF_SET(__pyx_v_sum_x, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":672
+      /* "vModel/VismolObject.pyx":687
  *                 coord = atom.coords (frame)
  *                 sum_x += coord[0]
  *                 sum_y += coord[1]             # <<<<<<<<<<<<<<
  *                 sum_z += coord[2]
  *         final          = time.time()
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_coord, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 672, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_coord, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 687, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_sum_y, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 672, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_sum_y, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 687, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF_SET(__pyx_v_sum_y, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "vModel/VismolObject.pyx":673
+      /* "vModel/VismolObject.pyx":688
  *                 sum_x += coord[0]
  *                 sum_y += coord[1]
  *                 sum_z += coord[2]             # <<<<<<<<<<<<<<
  *         final          = time.time()
  * 
  */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_coord, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 673, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_coord, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 688, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_sum_z, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 673, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_sum_z, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 688, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF_SET(__pyx_v_sum_z, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":669
+      /* "vModel/VismolObject.pyx":684
  * 
  *         else:
  *             for atom in atoms:             # <<<<<<<<<<<<<<
@@ -7438,16 +7539,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   }
   __pyx_L5:;
 
-  /* "vModel/VismolObject.pyx":674
+  /* "vModel/VismolObject.pyx":689
  *                 sum_y += coord[1]
  *                 sum_z += coord[2]
  *         final          = time.time()             # <<<<<<<<<<<<<<
  * 
  *         #print('type2', initial -  final)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 674, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 689, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 674, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 689, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -7462,68 +7563,68 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 674, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 689, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_final = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":680
+  /* "vModel/VismolObject.pyx":695
  * 
  * 
  *         total = len(atoms)             # <<<<<<<<<<<<<<
  *         self.mass_center = np.array([sum_x / total,
  *                                      sum_y / total,
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 680, __pyx_L1_error)
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 680, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_atoms); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 695, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 695, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_total = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":681
+  /* "vModel/VismolObject.pyx":696
  * 
  *         total = len(atoms)
  *         self.mass_center = np.array([sum_x / total,             # <<<<<<<<<<<<<<
  *                                      sum_y / total,
  *                                      sum_z / total])
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 681, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 681, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_sum_x, __pyx_v_total); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 681, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_sum_x, __pyx_v_total); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "vModel/VismolObject.pyx":682
+  /* "vModel/VismolObject.pyx":697
  *         total = len(atoms)
  *         self.mass_center = np.array([sum_x / total,
  *                                      sum_y / total,             # <<<<<<<<<<<<<<
  *                                      sum_z / total])
  * 
  */
-  __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_v_sum_y, __pyx_v_total); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 682, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_v_sum_y, __pyx_v_total); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 697, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
 
-  /* "vModel/VismolObject.pyx":683
+  /* "vModel/VismolObject.pyx":698
  *         self.mass_center = np.array([sum_x / total,
  *                                      sum_y / total,
  *                                      sum_z / total])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_v_sum_z, __pyx_v_total); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 683, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_v_sum_z, __pyx_v_total); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 698, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "vModel/VismolObject.pyx":681
+  /* "vModel/VismolObject.pyx":696
  * 
  *         total = len(atoms)
  *         self.mass_center = np.array([sum_x / total,             # <<<<<<<<<<<<<<
  *                                      sum_y / total,
  *                                      sum_z / total])
  */
-  __pyx_t_9 = PyList_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 681, __pyx_L1_error)
+  __pyx_t_9 = PyList_New(3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_5);
   PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_5);
@@ -7547,13 +7648,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_8, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_9);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 681, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mass_center, __pyx_t_3) < 0) __PYX_ERR(0, 681, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mass_center, __pyx_t_3) < 0) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":643
+  /* "vModel/VismolObject.pyx":658
  * 
  * 
  *     def _get_center_of_mass (self, frame = 0):             # <<<<<<<<<<<<<<
@@ -7589,7 +7690,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_6_get_center_of_
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":686
+/* "vModel/VismolObject.pyx":701
  * 
  * 
  *     def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):             # <<<<<<<<<<<<<<
@@ -7636,23 +7737,23 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_9load_data_from_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_d_atoms)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, 1); __PYX_ERR(0, 686, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, 1); __PYX_ERR(0, 701, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_frames)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, 2); __PYX_ERR(0, 686, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, 2); __PYX_ERR(0, 701, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dynamic_bons)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, 3); __PYX_ERR(0, 686, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, 3); __PYX_ERR(0, 701, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_data_from_easyhybrid_serialization_file") < 0)) __PYX_ERR(0, 686, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_data_from_easyhybrid_serialization_file") < 0)) __PYX_ERR(0, 701, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -7669,7 +7770,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_9load_data_from_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 686, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("load_data_from_easyhybrid_serialization_file", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 701, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.load_data_from_easyhybrid_serialization_file", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7706,25 +7807,25 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("load_data_from_easyhybrid_serialization_file", 0);
 
-  /* "vModel/VismolObject.pyx":688
+  /* "vModel/VismolObject.pyx":703
  *     def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):
  *         """ Function doc """
  *         print ('\ngenerate_chain_structure (easyhybrid_serialization_file) starting')             # <<<<<<<<<<<<<<
  *         initial           = time.time()
  * 
  */
-  if (__Pyx_PrintOne(0, __pyx_kp_s_generate_chain_structure_easyhy) < 0) __PYX_ERR(0, 688, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_kp_s_generate_chain_structure_easyhy) < 0) __PYX_ERR(0, 703, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":689
+  /* "vModel/VismolObject.pyx":704
  *         """ Function doc """
  *         print ('\ngenerate_chain_structure (easyhybrid_serialization_file) starting')
  *         initial           = time.time()             # <<<<<<<<<<<<<<
  * 
  *         self.frames       = frames
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 689, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 689, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7739,55 +7840,55 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 689, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 704, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_initial = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":691
+  /* "vModel/VismolObject.pyx":706
  *         initial           = time.time()
  * 
  *         self.frames       = frames             # <<<<<<<<<<<<<<
  *         self.atoms        = []
  *         self.dynamic_bons = dynamic_bons
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_v_frames) < 0) __PYX_ERR(0, 691, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_frames, __pyx_v_frames) < 0) __PYX_ERR(0, 706, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":692
+  /* "vModel/VismolObject.pyx":707
  * 
  *         self.frames       = frames
  *         self.atoms        = []             # <<<<<<<<<<<<<<
  *         self.dynamic_bons = dynamic_bons
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 692, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 707, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 692, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 707, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":693
+  /* "vModel/VismolObject.pyx":708
  *         self.frames       = frames
  *         self.atoms        = []
  *         self.dynamic_bons = dynamic_bons             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dynamic_bons, __pyx_v_dynamic_bons) < 0) __PYX_ERR(0, 693, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_dynamic_bons, __pyx_v_dynamic_bons) < 0) __PYX_ERR(0, 708, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":696
+  /* "vModel/VismolObject.pyx":711
  * 
  * 
  *         bonds_by_indexes = []             # <<<<<<<<<<<<<<
  *         for d_atom in d_atoms:
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 696, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 711, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bonds_by_indexes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":697
+  /* "vModel/VismolObject.pyx":712
  * 
  *         bonds_by_indexes = []
  *         for d_atom in d_atoms:             # <<<<<<<<<<<<<<
@@ -7798,26 +7899,26 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     __pyx_t_1 = __pyx_v_d_atoms; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_d_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 697, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_d_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 712, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 697, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 712, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 697, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 712, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 697, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 712, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 697, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 712, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 697, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 712, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -7827,7 +7928,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 697, __pyx_L1_error)
+          else __PYX_ERR(0, 712, __pyx_L1_error)
         }
         break;
       }
@@ -7836,22 +7937,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     __Pyx_XDECREF_SET(__pyx_v_d_atom, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":699
+    /* "vModel/VismolObject.pyx":714
  *         for d_atom in d_atoms:
  * 
  *             for bond in d_atom['bonds']:             # <<<<<<<<<<<<<<
  *                 i = bond['atom_index_i']
  *                 j = bond['atom_index_j']
  */
-    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 699, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 714, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
       __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 699, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 714, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 699, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 714, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     for (;;) {
@@ -7859,17 +7960,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
         if (likely(PyList_CheckExact(__pyx_t_2))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 699, __pyx_L1_error)
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 714, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 699, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 714, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 699, __pyx_L1_error)
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 714, __pyx_L1_error)
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 699, __pyx_L1_error)
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 714, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           #endif
         }
@@ -7879,7 +7980,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 699, __pyx_L1_error)
+            else __PYX_ERR(0, 714, __pyx_L1_error)
           }
           break;
         }
@@ -7888,38 +7989,38 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
       __Pyx_XDECREF_SET(__pyx_v_bond, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":700
+      /* "vModel/VismolObject.pyx":715
  * 
  *             for bond in d_atom['bonds']:
  *                 i = bond['atom_index_i']             # <<<<<<<<<<<<<<
  *                 j = bond['atom_index_j']
  *                 bonds_by_indexes.append([i,j])
  */
-      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_bond, __pyx_n_s_atom_index_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 700, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_bond, __pyx_n_s_atom_index_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 715, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":701
+      /* "vModel/VismolObject.pyx":716
  *             for bond in d_atom['bonds']:
  *                 i = bond['atom_index_i']
  *                 j = bond['atom_index_j']             # <<<<<<<<<<<<<<
  *                 bonds_by_indexes.append([i,j])
  * 
  */
-      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_bond, __pyx_n_s_atom_index_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 701, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Dict_GetItem(__pyx_v_bond, __pyx_n_s_atom_index_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 716, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":702
+      /* "vModel/VismolObject.pyx":717
  *                 i = bond['atom_index_i']
  *                 j = bond['atom_index_j']
  *                 bonds_by_indexes.append([i,j])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 702, __pyx_L1_error)
+      __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 717, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_v_i);
       __Pyx_GIVEREF(__pyx_v_i);
@@ -7927,10 +8028,10 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
       __Pyx_INCREF(__pyx_v_j);
       __Pyx_GIVEREF(__pyx_v_j);
       PyList_SET_ITEM(__pyx_t_3, 1, __pyx_v_j);
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_bonds_by_indexes, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 702, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_bonds_by_indexes, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 717, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":699
+      /* "vModel/VismolObject.pyx":714
  *         for d_atom in d_atoms:
  * 
  *             for bond in d_atom['bonds']:             # <<<<<<<<<<<<<<
@@ -7940,401 +8041,401 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":705
+    /* "vModel/VismolObject.pyx":720
  * 
  * 
  *             atom        = Atom(name          = d_atom['name']                      ,             # <<<<<<<<<<<<<<
  *                                index         = d_atom['index']                     ,
  *                                symbol        = d_atom['symbol']                    ,
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Atom); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 705, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Atom); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(17); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(17); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_name); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 705, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_name); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_t_9) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_name, __pyx_t_9) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "vModel/VismolObject.pyx":706
+    /* "vModel/VismolObject.pyx":721
  * 
  *             atom        = Atom(name          = d_atom['name']                      ,
  *                                index         = d_atom['index']                     ,             # <<<<<<<<<<<<<<
  *                                symbol        = d_atom['symbol']                    ,
  *                                resi          = d_atom['resi']                      ,
  */
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 706, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 721, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_index, __pyx_t_9) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_index, __pyx_t_9) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "vModel/VismolObject.pyx":707
+    /* "vModel/VismolObject.pyx":722
  *             atom        = Atom(name          = d_atom['name']                      ,
  *                                index         = d_atom['index']                     ,
  *                                symbol        = d_atom['symbol']                    ,             # <<<<<<<<<<<<<<
  *                                resi          = d_atom['resi']                      ,
  *                                resn          = d_atom['resn']                      ,
  */
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_symbol); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 707, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_symbol); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 722, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_symbol, __pyx_t_9) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_symbol, __pyx_t_9) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "vModel/VismolObject.pyx":708
+    /* "vModel/VismolObject.pyx":723
  *                                index         = d_atom['index']                     ,
  *                                symbol        = d_atom['symbol']                    ,
  *                                resi          = d_atom['resi']                      ,             # <<<<<<<<<<<<<<
  *                                resn          = d_atom['resn']                      ,
  *                                chain         = d_atom['chain']                     ,
  */
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 708, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_resi, __pyx_t_9) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_resi, __pyx_t_9) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "vModel/VismolObject.pyx":709
+    /* "vModel/VismolObject.pyx":724
  *                                symbol        = d_atom['symbol']                    ,
  *                                resi          = d_atom['resi']                      ,
  *                                resn          = d_atom['resn']                      ,             # <<<<<<<<<<<<<<
  *                                chain         = d_atom['chain']                     ,
  * 
  */
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_resn); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 709, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_resn); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 724, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_resn, __pyx_t_9) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_resn, __pyx_t_9) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "vModel/VismolObject.pyx":710
+    /* "vModel/VismolObject.pyx":725
  *                                resi          = d_atom['resi']                      ,
  *                                resn          = d_atom['resn']                      ,
  *                                chain         = d_atom['chain']                     ,             # <<<<<<<<<<<<<<
  * 
  *                                atom_id       = self.vm_session.atom_id_counter  ,
  */
-    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 710, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_chain); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 725, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_chain, __pyx_t_9) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_chain, __pyx_t_9) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "vModel/VismolObject.pyx":712
+    /* "vModel/VismolObject.pyx":727
  *                                chain         = d_atom['chain']                     ,
  * 
  *                                atom_id       = self.vm_session.atom_id_counter  ,             # <<<<<<<<<<<<<<
  * 
  *                                color         = d_atom['color']                     ,
  */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 712, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 712, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_atom_id, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_atom_id, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":714
+    /* "vModel/VismolObject.pyx":729
  *                                atom_id       = self.vm_session.atom_id_counter  ,
  * 
  *                                color         = d_atom['color']                     ,             # <<<<<<<<<<<<<<
  * 
  *                                radius        = d_atom['radius'     ]               ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 714, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 729, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_color, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_color, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":716
+    /* "vModel/VismolObject.pyx":731
  *                                color         = d_atom['color']                     ,
  * 
  *                                radius        = d_atom['radius'     ]               ,             # <<<<<<<<<<<<<<
  *                                vdw_rad       = d_atom['vdw_rad'    ]               ,
  *                                cov_rad       = d_atom['cov_rad'    ]               ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_radius); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 716, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_radius); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 731, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_radius, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_radius, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":717
+    /* "vModel/VismolObject.pyx":732
  * 
  *                                radius        = d_atom['radius'     ]               ,
  *                                vdw_rad       = d_atom['vdw_rad'    ]               ,             # <<<<<<<<<<<<<<
  *                                cov_rad       = d_atom['cov_rad'    ]               ,
  *                                ball_radius   = d_atom['ball_radius']               ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_vdw_rad); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 717, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_vdw_rad); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 732, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_vdw_rad, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_vdw_rad, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":718
+    /* "vModel/VismolObject.pyx":733
  *                                radius        = d_atom['radius'     ]               ,
  *                                vdw_rad       = d_atom['vdw_rad'    ]               ,
  *                                cov_rad       = d_atom['cov_rad'    ]               ,             # <<<<<<<<<<<<<<
  *                                ball_radius   = d_atom['ball_radius']               ,
  * 
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 718, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 733, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cov_rad, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cov_rad, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":719
+    /* "vModel/VismolObject.pyx":734
  *                                vdw_rad       = d_atom['vdw_rad'    ]               ,
  *                                cov_rad       = d_atom['cov_rad'    ]               ,
  *                                ball_radius   = d_atom['ball_radius']               ,             # <<<<<<<<<<<<<<
  * 
  *                                bonds_indexes = d_atom['bonds_indexes']             ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_ball_radius); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 719, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_ball_radius); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 734, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ball_radius, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ball_radius, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":721
+    /* "vModel/VismolObject.pyx":736
  *                                ball_radius   = d_atom['ball_radius']               ,
  * 
  *                                bonds_indexes = d_atom['bonds_indexes']             ,             # <<<<<<<<<<<<<<
  *                                occupancy     = d_atom['occupancy']                 ,
  *                                bfactor       = d_atom['bfactor']                   ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds_indexes); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 721, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds_indexes); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 736, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bonds_indexes, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bonds_indexes, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":722
+    /* "vModel/VismolObject.pyx":737
  * 
  *                                bonds_indexes = d_atom['bonds_indexes']             ,
  *                                occupancy     = d_atom['occupancy']                 ,             # <<<<<<<<<<<<<<
  *                                bfactor       = d_atom['bfactor']                   ,
  *                                charge        = d_atom['charge']                    ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_occupancy); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 722, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_occupancy); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 737, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_occupancy, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_occupancy, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":723
+    /* "vModel/VismolObject.pyx":738
  *                                bonds_indexes = d_atom['bonds_indexes']             ,
  *                                occupancy     = d_atom['occupancy']                 ,
  *                                bfactor       = d_atom['bfactor']                   ,             # <<<<<<<<<<<<<<
  *                                charge        = d_atom['charge']                    ,
  *                                Vobject       = self                                ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bfactor); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 723, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bfactor); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 738, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bfactor, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bfactor, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":724
+    /* "vModel/VismolObject.pyx":739
  *                                occupancy     = d_atom['occupancy']                 ,
  *                                bfactor       = d_atom['bfactor']                   ,
  *                                charge        = d_atom['charge']                    ,             # <<<<<<<<<<<<<<
  *                                Vobject       = self                                ,
  *                                )
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_charge); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 724, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_charge); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 739, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_charge, __pyx_t_10) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_charge, __pyx_t_10) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":725
+    /* "vModel/VismolObject.pyx":740
  *                                bfactor       = d_atom['bfactor']                   ,
  *                                charge        = d_atom['charge']                    ,
  *                                Vobject       = self                                ,             # <<<<<<<<<<<<<<
  *                                )
  * 
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 720, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":705
+    /* "vModel/VismolObject.pyx":720
  * 
  * 
  *             atom        = Atom(name          = d_atom['name']                      ,             # <<<<<<<<<<<<<<
  *                                index         = d_atom['index']                     ,
  *                                symbol        = d_atom['symbol']                    ,
  */
-    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 705, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 720, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_10);
     __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":728
+    /* "vModel/VismolObject.pyx":743
  *                                )
  * 
  *             atom.selected       = d_atom['selected']             # <<<<<<<<<<<<<<
  *             atom.lines          = d_atom['lines']
  *             atom.dots           = d_atom['dots']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_selected); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 728, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_selected); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 743, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_selected, __pyx_t_10) < 0) __PYX_ERR(0, 728, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_selected, __pyx_t_10) < 0) __PYX_ERR(0, 743, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":729
+    /* "vModel/VismolObject.pyx":744
  * 
  *             atom.selected       = d_atom['selected']
  *             atom.lines          = d_atom['lines']             # <<<<<<<<<<<<<<
  *             atom.dots           = d_atom['dots']
  *             atom.nonbonded      = d_atom['nonbonded']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_lines); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 729, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_lines); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 744, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_lines, __pyx_t_10) < 0) __PYX_ERR(0, 729, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_lines, __pyx_t_10) < 0) __PYX_ERR(0, 744, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":730
+    /* "vModel/VismolObject.pyx":745
  *             atom.selected       = d_atom['selected']
  *             atom.lines          = d_atom['lines']
  *             atom.dots           = d_atom['dots']             # <<<<<<<<<<<<<<
  *             atom.nonbonded      = d_atom['nonbonded']
  *             atom.ribbons        = d_atom['ribbons']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_dots); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 730, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_dots); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 745, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_dots, __pyx_t_10) < 0) __PYX_ERR(0, 730, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_dots, __pyx_t_10) < 0) __PYX_ERR(0, 745, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":731
+    /* "vModel/VismolObject.pyx":746
  *             atom.lines          = d_atom['lines']
  *             atom.dots           = d_atom['dots']
  *             atom.nonbonded      = d_atom['nonbonded']             # <<<<<<<<<<<<<<
  *             atom.ribbons        = d_atom['ribbons']
  *             atom.ball_and_stick = d_atom['ball_and_stick']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_nonbonded); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 731, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_nonbonded); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 746, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_nonbonded, __pyx_t_10) < 0) __PYX_ERR(0, 731, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_nonbonded, __pyx_t_10) < 0) __PYX_ERR(0, 746, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":732
+    /* "vModel/VismolObject.pyx":747
  *             atom.dots           = d_atom['dots']
  *             atom.nonbonded      = d_atom['nonbonded']
  *             atom.ribbons        = d_atom['ribbons']             # <<<<<<<<<<<<<<
  *             atom.ball_and_stick = d_atom['ball_and_stick']
  *             atom.sticks         = d_atom['sticks']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_ribbons); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_ribbons); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 747, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_ribbons, __pyx_t_10) < 0) __PYX_ERR(0, 732, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_ribbons, __pyx_t_10) < 0) __PYX_ERR(0, 747, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":733
+    /* "vModel/VismolObject.pyx":748
  *             atom.nonbonded      = d_atom['nonbonded']
  *             atom.ribbons        = d_atom['ribbons']
  *             atom.ball_and_stick = d_atom['ball_and_stick']             # <<<<<<<<<<<<<<
  *             atom.sticks         = d_atom['sticks']
  *             atom.spheres        = d_atom['spheres']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_ball_and_stick); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_ball_and_stick); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 748, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_ball_and_stick, __pyx_t_10) < 0) __PYX_ERR(0, 733, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_ball_and_stick, __pyx_t_10) < 0) __PYX_ERR(0, 748, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":734
+    /* "vModel/VismolObject.pyx":749
  *             atom.ribbons        = d_atom['ribbons']
  *             atom.ball_and_stick = d_atom['ball_and_stick']
  *             atom.sticks         = d_atom['sticks']             # <<<<<<<<<<<<<<
  *             atom.spheres        = d_atom['spheres']
  *             atom.surface        = d_atom['surface']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_sticks); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_sticks); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 749, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_sticks, __pyx_t_10) < 0) __PYX_ERR(0, 734, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_sticks, __pyx_t_10) < 0) __PYX_ERR(0, 749, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":735
+    /* "vModel/VismolObject.pyx":750
  *             atom.ball_and_stick = d_atom['ball_and_stick']
  *             atom.sticks         = d_atom['sticks']
  *             atom.spheres        = d_atom['spheres']             # <<<<<<<<<<<<<<
  *             atom.surface        = d_atom['surface']
  *             atom.bonds_indexes  = d_atom['bonds_indexes']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_spheres); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_spheres); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 750, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_spheres, __pyx_t_10) < 0) __PYX_ERR(0, 735, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_spheres, __pyx_t_10) < 0) __PYX_ERR(0, 750, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":736
+    /* "vModel/VismolObject.pyx":751
  *             atom.sticks         = d_atom['sticks']
  *             atom.spheres        = d_atom['spheres']
  *             atom.surface        = d_atom['surface']             # <<<<<<<<<<<<<<
  *             atom.bonds_indexes  = d_atom['bonds_indexes']
  *             atom.bonds          = d_atom['bonds']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_surface); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_surface); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 751, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_surface, __pyx_t_10) < 0) __PYX_ERR(0, 736, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_surface, __pyx_t_10) < 0) __PYX_ERR(0, 751, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":737
+    /* "vModel/VismolObject.pyx":752
  *             atom.spheres        = d_atom['spheres']
  *             atom.surface        = d_atom['surface']
  *             atom.bonds_indexes  = d_atom['bonds_indexes']             # <<<<<<<<<<<<<<
  *             atom.bonds          = d_atom['bonds']
  *             atom.isfree         = d_atom['isfree']
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds_indexes); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 737, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds_indexes); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 752, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_bonds_indexes, __pyx_t_10) < 0) __PYX_ERR(0, 737, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_bonds_indexes, __pyx_t_10) < 0) __PYX_ERR(0, 752, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":738
+    /* "vModel/VismolObject.pyx":753
  *             atom.surface        = d_atom['surface']
  *             atom.bonds_indexes  = d_atom['bonds_indexes']
  *             atom.bonds          = d_atom['bonds']             # <<<<<<<<<<<<<<
  *             atom.isfree         = d_atom['isfree']
  * 
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 738, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_bonds); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 753, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_bonds, __pyx_t_10) < 0) __PYX_ERR(0, 738, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_bonds, __pyx_t_10) < 0) __PYX_ERR(0, 753, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":739
+    /* "vModel/VismolObject.pyx":754
  *             atom.bonds_indexes  = d_atom['bonds_indexes']
  *             atom.bonds          = d_atom['bonds']
  *             atom.isfree         = d_atom['isfree']             # <<<<<<<<<<<<<<
  * 
  *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  */
-    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_isfree); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 739, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d_atom, __pyx_n_s_isfree); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 754, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_isfree, __pyx_t_10) < 0) __PYX_ERR(0, 739, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_isfree, __pyx_t_10) < 0) __PYX_ERR(0, 754, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":741
+    /* "vModel/VismolObject.pyx":756
  *             atom.isfree         = d_atom['isfree']
  * 
  *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom             # <<<<<<<<<<<<<<
  *             self._add_new_atom_to_vobj(atom)
  * 
  */
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 741, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 756, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 741, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 756, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 741, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 756, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 741, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 756, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_t_2, __pyx_v_atom) < 0)) __PYX_ERR(0, 741, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_t_2, __pyx_v_atom) < 0)) __PYX_ERR(0, 756, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":742
+    /* "vModel/VismolObject.pyx":757
  * 
  *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  *             self._add_new_atom_to_vobj(atom)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_new_atom_to_vobj); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 742, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_new_atom_to_vobj); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 757, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_10 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -8348,12 +8449,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     }
     __pyx_t_2 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_10, __pyx_v_atom) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_atom);
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 757, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":697
+    /* "vModel/VismolObject.pyx":712
  * 
  *         bonds_by_indexes = []
  *         for d_atom in d_atoms:             # <<<<<<<<<<<<<<
@@ -8363,14 +8464,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":745
+  /* "vModel/VismolObject.pyx":760
  * 
  * 
  *         self._generate_color_vectors()             # <<<<<<<<<<<<<<
  *         self.bonds_from_pair_of_indexes_list(bonds_by_indexes)
  *         if self.non_bonded_atoms == []:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_color_vectors); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 745, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_color_vectors); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 760, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8384,19 +8485,19 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 745, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 760, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":746
+  /* "vModel/VismolObject.pyx":761
  * 
  *         self._generate_color_vectors()
  *         self.bonds_from_pair_of_indexes_list(bonds_by_indexes)             # <<<<<<<<<<<<<<
  *         if self.non_bonded_atoms == []:
  *             self.import_non_bonded_atoms_from_bond()
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds_from_pair_of_indexes_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 746, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds_from_pair_of_indexes_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 761, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8410,37 +8511,37 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_bonds_by_indexes) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_bonds_by_indexes);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 746, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 761, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":747
+  /* "vModel/VismolObject.pyx":762
  *         self._generate_color_vectors()
  *         self.bonds_from_pair_of_indexes_list(bonds_by_indexes)
  *         if self.non_bonded_atoms == []:             # <<<<<<<<<<<<<<
  *             self.import_non_bonded_atoms_from_bond()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 762, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 762, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 762, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 762, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_11) {
 
-    /* "vModel/VismolObject.pyx":748
+    /* "vModel/VismolObject.pyx":763
  *         self.bonds_from_pair_of_indexes_list(bonds_by_indexes)
  *         if self.non_bonded_atoms == []:
  *             self.import_non_bonded_atoms_from_bond()             # <<<<<<<<<<<<<<
  * 
  *         self.get_backbone_indexes()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_import_non_bonded_atoms_from_bon); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 748, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_import_non_bonded_atoms_from_bon); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8454,12 +8555,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
     }
     __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 748, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 763, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":747
+    /* "vModel/VismolObject.pyx":762
  *         self._generate_color_vectors()
  *         self.bonds_from_pair_of_indexes_list(bonds_by_indexes)
  *         if self.non_bonded_atoms == []:             # <<<<<<<<<<<<<<
@@ -8468,14 +8569,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
  */
   }
 
-  /* "vModel/VismolObject.pyx":750
+  /* "vModel/VismolObject.pyx":765
  *             self.import_non_bonded_atoms_from_bond()
  * 
  *         self.get_backbone_indexes()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_backbone_indexes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 750, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_backbone_indexes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8489,21 +8590,21 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 750, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":755
+  /* "vModel/VismolObject.pyx":770
  *         #self._get_center_of_mass()
  * 
  *         final = time.time()             # <<<<<<<<<<<<<<
  *         print ('_generate_atomtree_structure (easyhybrid_serialization_file) end -  total time: ', final - initial, '\n')
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 755, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 770, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 755, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 770, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -8518,22 +8619,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 755, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 770, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_final = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":756
+  /* "vModel/VismolObject.pyx":771
  * 
  *         final = time.time()
  *         print ('_generate_atomtree_structure (easyhybrid_serialization_file) end -  total time: ', final - initial, '\n')             # <<<<<<<<<<<<<<
  * 
  *         #if get_backbone_indexes:
  */
-  __pyx_t_3 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_kp_s_generate_atomtree_structure_eas);
   __Pyx_GIVEREF(__pyx_kp_s_generate_atomtree_structure_eas);
@@ -8544,10 +8645,10 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   __Pyx_GIVEREF(__pyx_kp_s__2);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_s__2);
   __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 756, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":686
+  /* "vModel/VismolObject.pyx":701
  * 
  * 
  *     def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):             # <<<<<<<<<<<<<<
@@ -8580,7 +8681,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_8load_data_from_
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":766
+/* "vModel/VismolObject.pyx":781
  * 
  * 
  *     def _generate_atomtree_structure (self, get_backbone_indexes = False):             # <<<<<<<<<<<<<<
@@ -8626,7 +8727,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_11_generate_atom
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_atomtree_structure") < 0)) __PYX_ERR(0, 766, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_atomtree_structure") < 0)) __PYX_ERR(0, 781, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8642,7 +8743,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_11_generate_atom
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_generate_atomtree_structure", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 766, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_generate_atomtree_structure", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 781, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject._generate_atomtree_structure", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8674,25 +8775,25 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("_generate_atomtree_structure", 0);
 
-  /* "vModel/VismolObject.pyx":769
+  /* "vModel/VismolObject.pyx":784
  *         """ Function doc """
  * 
  *         print ('\ngenerate_chain_structure starting')             # <<<<<<<<<<<<<<
  *         initial          = time.time()
  *         frame            = []
  */
-  if (__Pyx_PrintOne(0, __pyx_kp_s_generate_chain_structure_starti) < 0) __PYX_ERR(0, 769, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_kp_s_generate_chain_structure_starti) < 0) __PYX_ERR(0, 784, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":770
+  /* "vModel/VismolObject.pyx":785
  * 
  *         print ('\ngenerate_chain_structure starting')
  *         initial          = time.time()             # <<<<<<<<<<<<<<
  *         frame            = []
  *         #self.atoms   = [None for x in self.atoms2]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 770, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 770, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -8707,52 +8808,52 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 770, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_initial = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":771
+  /* "vModel/VismolObject.pyx":786
  *         print ('\ngenerate_chain_structure starting')
  *         initial          = time.time()
  *         frame            = []             # <<<<<<<<<<<<<<
  *         #self.atoms   = [None for x in self.atoms2]
  *         self.atoms   = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 771, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_frame = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":773
+  /* "vModel/VismolObject.pyx":788
  *         frame            = []
  *         #self.atoms   = [None for x in self.atoms2]
  *         self.atoms   = []             # <<<<<<<<<<<<<<
  * 
  *         for atom2 in self.atoms2:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 773, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 773, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 788, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":775
+  /* "vModel/VismolObject.pyx":790
  *         self.atoms   = []
  * 
  *         for atom2 in self.atoms2:             # <<<<<<<<<<<<<<
  *             atom        = Atom(name          = atom2['name']                      ,
  *                                index         = atom2['index']+1                   ,
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 790, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 775, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 790, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 790, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -8760,17 +8861,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 775, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 790, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 790, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 775, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 790, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 790, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -8780,7 +8881,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 775, __pyx_L1_error)
+          else __PYX_ERR(0, 790, __pyx_L1_error)
         }
         break;
       }
@@ -8789,188 +8890,188 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     __Pyx_XDECREF_SET(__pyx_v_atom2, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":776
+    /* "vModel/VismolObject.pyx":791
  * 
  *         for atom2 in self.atoms2:
  *             atom        = Atom(name          = atom2['name']                      ,             # <<<<<<<<<<<<<<
  *                                index         = atom2['index']+1                   ,
  *                                symbol        = atom2['symbol']                    ,
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Atom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Atom); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_t_6) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_t_6) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":777
+    /* "vModel/VismolObject.pyx":792
  *         for atom2 in self.atoms2:
  *             atom        = Atom(name          = atom2['name']                      ,
  *                                index         = atom2['index']+1                   ,             # <<<<<<<<<<<<<<
  *                                symbol        = atom2['symbol']                    ,
  *                                resi          = atom2['resi']                      ,
  */
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 792, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_6, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_6, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 792, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_index, __pyx_t_7) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_index, __pyx_t_7) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":778
+    /* "vModel/VismolObject.pyx":793
  *             atom        = Atom(name          = atom2['name']                      ,
  *                                index         = atom2['index']+1                   ,
  *                                symbol        = atom2['symbol']                    ,             # <<<<<<<<<<<<<<
  *                                resi          = atom2['resi']                      ,
  *                                resn          = atom2['resn']                      ,
  */
-    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_symbol); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 778, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_symbol); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 793, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_symbol, __pyx_t_7) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_symbol, __pyx_t_7) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":779
+    /* "vModel/VismolObject.pyx":794
  *                                index         = atom2['index']+1                   ,
  *                                symbol        = atom2['symbol']                    ,
  *                                resi          = atom2['resi']                      ,             # <<<<<<<<<<<<<<
  *                                resn          = atom2['resn']                      ,
  *                                chain         = atom2['chain']                     ,
  */
-    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_resi); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_resi); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 794, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_resi, __pyx_t_7) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_resi, __pyx_t_7) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":780
+    /* "vModel/VismolObject.pyx":795
  *                                symbol        = atom2['symbol']                    ,
  *                                resi          = atom2['resi']                      ,
  *                                resn          = atom2['resn']                      ,             # <<<<<<<<<<<<<<
  *                                chain         = atom2['chain']                     ,
  *                                atom_id       = self.vm_session.atom_id_counter ,
  */
-    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_resn); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 780, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_resn); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 795, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_resn, __pyx_t_7) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_resn, __pyx_t_7) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":781
+    /* "vModel/VismolObject.pyx":796
  *                                resi          = atom2['resi']                      ,
  *                                resn          = atom2['resn']                      ,
  *                                chain         = atom2['chain']                     ,             # <<<<<<<<<<<<<<
  *                                atom_id       = self.vm_session.atom_id_counter ,
  *                                occupancy     = atom2['occupancy']                 ,
  */
-    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_chain); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 781, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_chain); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 796, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_chain, __pyx_t_7) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_chain, __pyx_t_7) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":782
+    /* "vModel/VismolObject.pyx":797
  *                                resn          = atom2['resn']                      ,
  *                                chain         = atom2['chain']                     ,
  *                                atom_id       = self.vm_session.atom_id_counter ,             # <<<<<<<<<<<<<<
  *                                occupancy     = atom2['occupancy']                 ,
  *                                bfactor       = atom2['bfactor']                   ,
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 797, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 797, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_id, __pyx_t_6) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_id, __pyx_t_6) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":783
+    /* "vModel/VismolObject.pyx":798
  *                                chain         = atom2['chain']                     ,
  *                                atom_id       = self.vm_session.atom_id_counter ,
  *                                occupancy     = atom2['occupancy']                 ,             # <<<<<<<<<<<<<<
  *                                bfactor       = atom2['bfactor']                   ,
  *                                charge        = atom2['charge']                    ,
  */
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_occupancy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 783, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_occupancy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 798, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_occupancy, __pyx_t_6) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_occupancy, __pyx_t_6) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":784
+    /* "vModel/VismolObject.pyx":799
  *                                atom_id       = self.vm_session.atom_id_counter ,
  *                                occupancy     = atom2['occupancy']                 ,
  *                                bfactor       = atom2['bfactor']                   ,             # <<<<<<<<<<<<<<
  *                                charge        = atom2['charge']                    ,
  *                                Vobject       = self                               ,
  */
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_bfactor); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_bfactor); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 799, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_bfactor, __pyx_t_6) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_bfactor, __pyx_t_6) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":785
+    /* "vModel/VismolObject.pyx":800
  *                                occupancy     = atom2['occupancy']                 ,
  *                                bfactor       = atom2['bfactor']                   ,
  *                                charge        = atom2['charge']                    ,             # <<<<<<<<<<<<<<
  *                                Vobject       = self                               ,
  *                                )
  */
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_charge); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_atom2, __pyx_n_s_charge); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 800, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_charge, __pyx_t_6) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_charge, __pyx_t_6) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":786
+    /* "vModel/VismolObject.pyx":801
  *                                bfactor       = atom2['bfactor']                   ,
  *                                charge        = atom2['charge']                    ,
  *                                Vobject       = self                               ,             # <<<<<<<<<<<<<<
  *                                )
  *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  */
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 776, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Vobject, __pyx_v_self) < 0) __PYX_ERR(0, 791, __pyx_L1_error)
 
-    /* "vModel/VismolObject.pyx":776
+    /* "vModel/VismolObject.pyx":791
  * 
  *         for atom2 in self.atoms2:
  *             atom        = Atom(name          = atom2['name']                      ,             # <<<<<<<<<<<<<<
  *                                index         = atom2['index']+1                   ,
  *                                symbol        = atom2['symbol']                    ,
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":788
+    /* "vModel/VismolObject.pyx":803
  *                                Vobject       = self                               ,
  *                                )
  *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom             # <<<<<<<<<<<<<<
  *             self._add_new_atom_to_vobj(atom)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_atom_dic_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_atom_id_counter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_t_1, __pyx_v_atom) < 0)) __PYX_ERR(0, 788, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_t_1, __pyx_v_atom) < 0)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":789
+    /* "vModel/VismolObject.pyx":804
  *                                )
  *             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
  *             self._add_new_atom_to_vobj(atom)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_new_atom_to_vobj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 789, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_add_new_atom_to_vobj); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 804, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8984,12 +9085,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_6, __pyx_v_atom) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_atom);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 789, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 804, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":775
+    /* "vModel/VismolObject.pyx":790
  *         self.atoms   = []
  * 
  *         for atom2 in self.atoms2:             # <<<<<<<<<<<<<<
@@ -8999,14 +9100,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":792
+  /* "vModel/VismolObject.pyx":807
  * 
  * 
  *         self._get_center_of_mass()             # <<<<<<<<<<<<<<
  * 
  *         final = time.time()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_center_of_mass); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 792, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_center_of_mass); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 807, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -9020,21 +9121,21 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 792, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 807, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":794
+  /* "vModel/VismolObject.pyx":809
  *         self._get_center_of_mass()
  * 
  *         final = time.time()             # <<<<<<<<<<<<<<
  *         print ('_generate_atomtree_structure end -  total time: ', final - initial, '\n')
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 794, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 809, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 794, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 809, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -9049,22 +9150,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 794, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 809, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_final = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":795
+  /* "vModel/VismolObject.pyx":810
  * 
  *         final = time.time()
  *         print ('_generate_atomtree_structure end -  total time: ', final - initial, '\n')             # <<<<<<<<<<<<<<
  * 
  *         if get_backbone_indexes:
  */
-  __pyx_t_3 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 795, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Subtract(__pyx_v_final, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 810, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 795, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 810, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_kp_s_generate_atomtree_structure_end);
   __Pyx_GIVEREF(__pyx_kp_s_generate_atomtree_structure_end);
@@ -9075,27 +9176,27 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   __Pyx_GIVEREF(__pyx_kp_s__2);
   PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_s__2);
   __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 795, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 810, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":797
+  /* "vModel/VismolObject.pyx":812
  *         print ('_generate_atomtree_structure end -  total time: ', final - initial, '\n')
  * 
  *         if get_backbone_indexes:             # <<<<<<<<<<<<<<
  *             self.get_backbone_indexes()
  *         else:
  */
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_get_backbone_indexes); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 797, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_get_backbone_indexes); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 812, __pyx_L1_error)
   if (__pyx_t_8) {
 
-    /* "vModel/VismolObject.pyx":798
+    /* "vModel/VismolObject.pyx":813
  * 
  *         if get_backbone_indexes:
  *             self.get_backbone_indexes()             # <<<<<<<<<<<<<<
  *         else:
  *             pass
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_backbone_indexes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 798, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_backbone_indexes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 813, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -9109,12 +9210,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     }
     __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 798, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 813, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":797
+    /* "vModel/VismolObject.pyx":812
  *         print ('_generate_atomtree_structure end -  total time: ', final - initial, '\n')
  * 
  *         if get_backbone_indexes:             # <<<<<<<<<<<<<<
@@ -9124,7 +9225,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     goto __pyx_L5;
   }
 
-  /* "vModel/VismolObject.pyx":800
+  /* "vModel/VismolObject.pyx":815
  *             self.get_backbone_indexes()
  *         else:
  *             pass             # <<<<<<<<<<<<<<
@@ -9135,16 +9236,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __pyx_L5:;
 
-  /* "vModel/VismolObject.pyx":803
+  /* "vModel/VismolObject.pyx":818
  * 
  * 
  *         for chain in self.chains.keys():             # <<<<<<<<<<<<<<
  *             self.residues += self.chains[chain].residues
  *         #print('total number of residues at self.residues', len(self.residues))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 803, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 818, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 803, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_keys); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 818, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -9159,16 +9260,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 803, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 818, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 803, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 818, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 803, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 818, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -9176,17 +9277,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 803, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 818, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 803, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 818, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 803, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 818, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 803, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 818, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -9196,7 +9297,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 803, __pyx_L1_error)
+          else __PYX_ERR(0, 818, __pyx_L1_error)
         }
         break;
       }
@@ -9205,31 +9306,31 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
     __Pyx_XDECREF_SET(__pyx_v_chain, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":804
+    /* "vModel/VismolObject.pyx":819
  * 
  *         for chain in self.chains.keys():
  *             self.residues += self.chains[chain].residues             # <<<<<<<<<<<<<<
  *         #print('total number of residues at self.residues', len(self.residues))
  *         return True
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_residues); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 819, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 819, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_chain); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_chain); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 819, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_residues); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_residues); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 819, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 819, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues, __pyx_t_6) < 0) __PYX_ERR(0, 804, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_residues, __pyx_t_6) < 0) __PYX_ERR(0, 819, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":803
+    /* "vModel/VismolObject.pyx":818
  * 
  * 
  *         for chain in self.chains.keys():             # <<<<<<<<<<<<<<
@@ -9239,7 +9340,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":806
+  /* "vModel/VismolObject.pyx":821
  *             self.residues += self.chains[chain].residues
  *         #print('total number of residues at self.residues', len(self.residues))
  *         return True             # <<<<<<<<<<<<<<
@@ -9251,7 +9352,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "vModel/VismolObject.pyx":766
+  /* "vModel/VismolObject.pyx":781
  * 
  * 
  *     def _generate_atomtree_structure (self, get_backbone_indexes = False):             # <<<<<<<<<<<<<<
@@ -9280,7 +9381,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_10_generate_atom
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":813
+/* "vModel/VismolObject.pyx":828
  * 
  * 
  *     def _generate_color_vectors (self, do_colors         = True,             # <<<<<<<<<<<<<<
@@ -9307,7 +9408,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
     PyObject* values[6] = {0,0,0,0,0,0};
     values[1] = ((PyObject *)((PyObject *)Py_True));
 
-    /* "vModel/VismolObject.pyx":814
+    /* "vModel/VismolObject.pyx":829
  * 
  *     def _generate_color_vectors (self, do_colors         = True,
  *                                        do_colors_idx     = True,             # <<<<<<<<<<<<<<
@@ -9316,7 +9417,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
  */
     values[2] = ((PyObject *)((PyObject *)Py_True));
 
-    /* "vModel/VismolObject.pyx":815
+    /* "vModel/VismolObject.pyx":830
  *     def _generate_color_vectors (self, do_colors         = True,
  *                                        do_colors_idx     = True,
  *                                        do_colors_raindow = True,             # <<<<<<<<<<<<<<
@@ -9325,7 +9426,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
  */
     values[3] = ((PyObject *)((PyObject *)Py_True));
 
-    /* "vModel/VismolObject.pyx":816
+    /* "vModel/VismolObject.pyx":831
  *                                        do_colors_idx     = True,
  *                                        do_colors_raindow = True,
  *                                        do_vdw_dot_sizes  = True,             # <<<<<<<<<<<<<<
@@ -9334,7 +9435,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
  */
     values[4] = ((PyObject *)((PyObject *)Py_True));
 
-    /* "vModel/VismolObject.pyx":817
+    /* "vModel/VismolObject.pyx":832
  *                                        do_colors_raindow = True,
  *                                        do_vdw_dot_sizes  = True,
  *                                        do_cov_dot_sizes  = True,             # <<<<<<<<<<<<<<
@@ -9398,7 +9499,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_color_vectors") < 0)) __PYX_ERR(0, 813, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_color_vectors") < 0)) __PYX_ERR(0, 828, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -9426,7 +9527,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_generate_color_vectors", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 813, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_generate_color_vectors", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 828, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject._generate_color_vectors", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9434,7 +9535,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_13_generate_colo
   __pyx_L4_argument_unpacking_done:;
   __pyx_r = __pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_color_vectors(__pyx_self, __pyx_v_self, __pyx_v_do_colors, __pyx_v_do_colors_idx, __pyx_v_do_colors_raindow, __pyx_v_do_vdw_dot_sizes, __pyx_v_do_cov_dot_sizes);
 
-  /* "vModel/VismolObject.pyx":813
+  /* "vModel/VismolObject.pyx":828
  * 
  * 
  *     def _generate_color_vectors (self, do_colors         = True,             # <<<<<<<<<<<<<<
@@ -9472,68 +9573,68 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("_generate_color_vectors", 0);
 
-  /* "vModel/VismolObject.pyx":834
+  /* "vModel/VismolObject.pyx":849
  *         """
  * 
  *         size       = len(self.atoms)             # <<<<<<<<<<<<<<
  *         half       = int(size/2)
  *         quarter    = int(size/4)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 834, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 834, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 834, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_size = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":835
+  /* "vModel/VismolObject.pyx":850
  * 
  *         size       = len(self.atoms)
  *         half       = int(size/2)             # <<<<<<<<<<<<<<
  *         quarter    = int(size/4)
  *         color_step = 1.0/(size/4)
  */
-  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 835, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 850, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 835, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 850, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_half = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":836
+  /* "vModel/VismolObject.pyx":851
  *         size       = len(self.atoms)
  *         half       = int(size/2)
  *         quarter    = int(size/4)             # <<<<<<<<<<<<<<
  *         color_step = 1.0/(size/4)
  *         red   = 0.0
  */
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 836, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 851, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 836, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 851, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_quarter = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":837
+  /* "vModel/VismolObject.pyx":852
  *         half       = int(size/2)
  *         quarter    = int(size/4)
  *         color_step = 1.0/(size/4)             # <<<<<<<<<<<<<<
  *         red   = 0.0
  *         green = 0.0
  */
-  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 837, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_v_size, __pyx_int_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 852, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyFloat_DivideCObj(__pyx_float_1_0, __pyx_t_1, 1.0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 837, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyFloat_DivideCObj(__pyx_float_1_0, __pyx_t_1, 1.0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 852, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_color_step = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":838
+  /* "vModel/VismolObject.pyx":853
  *         quarter    = int(size/4)
  *         color_step = 1.0/(size/4)
  *         red   = 0.0             # <<<<<<<<<<<<<<
@@ -9543,7 +9644,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_red = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":839
+  /* "vModel/VismolObject.pyx":854
  *         color_step = 1.0/(size/4)
  *         red   = 0.0
  *         green = 0.0             # <<<<<<<<<<<<<<
@@ -9553,7 +9654,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   __Pyx_INCREF(__pyx_float_0_0);
   __pyx_v_green = __pyx_float_0_0;
 
-  /* "vModel/VismolObject.pyx":840
+  /* "vModel/VismolObject.pyx":855
  *         red   = 0.0
  *         green = 0.0
  *         blue  = 1.0             # <<<<<<<<<<<<<<
@@ -9563,29 +9664,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   __Pyx_INCREF(__pyx_float_1_0);
   __pyx_v_blue = __pyx_float_1_0;
 
-  /* "vModel/VismolObject.pyx":845
+  /* "vModel/VismolObject.pyx":860
  * 
  * 
  *         if do_colors:             # <<<<<<<<<<<<<<
  *             self.colors         = []
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 845, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 860, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":846
+    /* "vModel/VismolObject.pyx":861
  * 
  *         if do_colors:
  *             self.colors         = []             # <<<<<<<<<<<<<<
  * 
  *         if do_colors_idx:
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 846, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 861, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_3) < 0) __PYX_ERR(0, 846, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_3) < 0) __PYX_ERR(0, 861, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":845
+    /* "vModel/VismolObject.pyx":860
  * 
  * 
  *         if do_colors:             # <<<<<<<<<<<<<<
@@ -9594,29 +9695,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":848
+  /* "vModel/VismolObject.pyx":863
  *             self.colors         = []
  * 
  *         if do_colors_idx:             # <<<<<<<<<<<<<<
  *             self.color_indexes  = []
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_idx); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 848, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_idx); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 863, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":849
+    /* "vModel/VismolObject.pyx":864
  * 
  *         if do_colors_idx:
  *             self.color_indexes  = []             # <<<<<<<<<<<<<<
  * 
  *         if do_colors_raindow:
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 849, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 864, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_3) < 0) __PYX_ERR(0, 849, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_3) < 0) __PYX_ERR(0, 864, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":848
+    /* "vModel/VismolObject.pyx":863
  *             self.colors         = []
  * 
  *         if do_colors_idx:             # <<<<<<<<<<<<<<
@@ -9625,29 +9726,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":851
+  /* "vModel/VismolObject.pyx":866
  *             self.color_indexes  = []
  * 
  *         if do_colors_raindow:             # <<<<<<<<<<<<<<
  *             self.color_rainbow  = []
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_raindow); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 851, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_raindow); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 866, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":852
+    /* "vModel/VismolObject.pyx":867
  * 
  *         if do_colors_raindow:
  *             self.color_rainbow  = []             # <<<<<<<<<<<<<<
  * 
  *         if do_vdw_dot_sizes:
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 852, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 867, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow, __pyx_t_3) < 0) __PYX_ERR(0, 852, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow, __pyx_t_3) < 0) __PYX_ERR(0, 867, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":851
+    /* "vModel/VismolObject.pyx":866
  *             self.color_indexes  = []
  * 
  *         if do_colors_raindow:             # <<<<<<<<<<<<<<
@@ -9656,29 +9757,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":854
+  /* "vModel/VismolObject.pyx":869
  *             self.color_rainbow  = []
  * 
  *         if do_vdw_dot_sizes:             # <<<<<<<<<<<<<<
  *             self.vdw_dot_sizes  = []
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_vdw_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 854, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_vdw_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 869, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":855
+    /* "vModel/VismolObject.pyx":870
  * 
  *         if do_vdw_dot_sizes:
  *             self.vdw_dot_sizes  = []             # <<<<<<<<<<<<<<
  * 
  *         if do_cov_dot_sizes:
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 855, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 870, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 855, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 870, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":854
+    /* "vModel/VismolObject.pyx":869
  *             self.color_rainbow  = []
  * 
  *         if do_vdw_dot_sizes:             # <<<<<<<<<<<<<<
@@ -9687,29 +9788,29 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":857
+  /* "vModel/VismolObject.pyx":872
  *             self.vdw_dot_sizes  = []
  * 
  *         if do_cov_dot_sizes:             # <<<<<<<<<<<<<<
  *             self.cov_dot_sizes  = []
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_cov_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 857, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_cov_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 872, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":858
+    /* "vModel/VismolObject.pyx":873
  * 
  *         if do_cov_dot_sizes:
  *             self.cov_dot_sizes  = []             # <<<<<<<<<<<<<<
  * 
  *         counter = 0
  */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 858, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 873, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 858, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_3) < 0) __PYX_ERR(0, 873, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":857
+    /* "vModel/VismolObject.pyx":872
  *             self.vdw_dot_sizes  = []
  * 
  *         if do_cov_dot_sizes:             # <<<<<<<<<<<<<<
@@ -9718,7 +9819,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":860
+  /* "vModel/VismolObject.pyx":875
  *             self.cov_dot_sizes  = []
  * 
  *         counter = 0             # <<<<<<<<<<<<<<
@@ -9728,7 +9829,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_counter = __pyx_int_0;
 
-  /* "vModel/VismolObject.pyx":861
+  /* "vModel/VismolObject.pyx":876
  * 
  *         counter = 0
  *         temp_counter = 0             # <<<<<<<<<<<<<<
@@ -9737,22 +9838,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   __pyx_v_temp_counter = 0;
 
-  /* "vModel/VismolObject.pyx":863
+  /* "vModel/VismolObject.pyx":878
  *         temp_counter = 0
  * 
  *         for atom in self.atoms:             # <<<<<<<<<<<<<<
  *             #-------------------------------------------------------
  *             # (1)                  ID Colors
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 863, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 878, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 863, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 878, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 863, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 878, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -9760,17 +9861,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 863, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 878, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 863, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 878, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 863, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 878, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 863, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 878, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -9780,7 +9881,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 863, __pyx_L1_error)
+          else __PYX_ERR(0, 878, __pyx_L1_error)
         }
         break;
       }
@@ -9789,71 +9890,71 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":879
+    /* "vModel/VismolObject.pyx":894
  *             self.color_indexes.append(b/255.0)
  *             '''
  *             if do_colors_idx:             # <<<<<<<<<<<<<<
  *                 self.color_indexes.append(atom.color_id[0])
  *                 self.color_indexes.append(atom.color_id[1])
  */
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_idx); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 879, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_idx); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 894, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "vModel/VismolObject.pyx":880
+      /* "vModel/VismolObject.pyx":895
  *             '''
  *             if do_colors_idx:
  *                 self.color_indexes.append(atom.color_id[0])             # <<<<<<<<<<<<<<
  *                 self.color_indexes.append(atom.color_id[1])
  *                 self.color_indexes.append(atom.color_id[2])
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 880, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 895, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 880, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 895, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 880, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 895, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 880, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 895, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":881
+      /* "vModel/VismolObject.pyx":896
  *             if do_colors_idx:
  *                 self.color_indexes.append(atom.color_id[0])
  *                 self.color_indexes.append(atom.color_id[1])             # <<<<<<<<<<<<<<
  *                 self.color_indexes.append(atom.color_id[2])
  * 
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 881, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 896, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 881, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color_id); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 896, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 881, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 896, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 881, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 896, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "vModel/VismolObject.pyx":882
+      /* "vModel/VismolObject.pyx":897
  *                 self.color_indexes.append(atom.color_id[0])
  *                 self.color_indexes.append(atom.color_id[1])
  *                 self.color_indexes.append(atom.color_id[2])             # <<<<<<<<<<<<<<
  * 
  *             '''
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 882, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 897, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 882, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 897, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 882, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 897, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 882, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 897, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":879
+      /* "vModel/VismolObject.pyx":894
  *             self.color_indexes.append(b/255.0)
  *             '''
  *             if do_colors_idx:             # <<<<<<<<<<<<<<
@@ -9862,71 +9963,71 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
     }
 
-    /* "vModel/VismolObject.pyx":893
+    /* "vModel/VismolObject.pyx":908
  *             # (2)                   Colors
  *             #-------------------------------------------------------
  *             if do_colors:             # <<<<<<<<<<<<<<
  *                 self.colors.append(atom.color[0])
  *                 self.colors.append(atom.color[1])
  */
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 893, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 908, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "vModel/VismolObject.pyx":894
+      /* "vModel/VismolObject.pyx":909
  *             #-------------------------------------------------------
  *             if do_colors:
  *                 self.colors.append(atom.color[0])             # <<<<<<<<<<<<<<
  *                 self.colors.append(atom.color[1])
  *                 self.colors.append(atom.color[2])
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 894, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 909, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 894, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 909, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 894, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 909, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 894, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 909, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":895
+      /* "vModel/VismolObject.pyx":910
  *             if do_colors:
  *                 self.colors.append(atom.color[0])
  *                 self.colors.append(atom.color[1])             # <<<<<<<<<<<<<<
  *                 self.colors.append(atom.color[2])
  * 
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 895, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 910, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 895, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 910, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 895, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 910, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 895, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 910, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "vModel/VismolObject.pyx":896
+      /* "vModel/VismolObject.pyx":911
  *                 self.colors.append(atom.color[0])
  *                 self.colors.append(atom.color[1])
  *                 self.colors.append(atom.color[2])             # <<<<<<<<<<<<<<
  * 
  *             #-------------------------------------------------------
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 896, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 911, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 896, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_color); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 911, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 896, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 911, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 896, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 911, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":893
+      /* "vModel/VismolObject.pyx":908
  *             # (2)                   Colors
  *             #-------------------------------------------------------
  *             if do_colors:             # <<<<<<<<<<<<<<
@@ -9935,35 +10036,35 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
     }
 
-    /* "vModel/VismolObject.pyx":901
+    /* "vModel/VismolObject.pyx":916
  *             # (3)                  VdW list / cov_dot_sizes:
  *             #-------------------------------------------------------
  *             if do_vdw_dot_sizes:             # <<<<<<<<<<<<<<
  *                 self.vdw_dot_sizes.append(atom.vdw_rad*3)
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_vdw_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 901, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_vdw_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 916, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "vModel/VismolObject.pyx":902
+      /* "vModel/VismolObject.pyx":917
  *             #-------------------------------------------------------
  *             if do_vdw_dot_sizes:
  *                 self.vdw_dot_sizes.append(atom.vdw_rad*3)             # <<<<<<<<<<<<<<
  * 
  *             if do_cov_dot_sizes:
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 902, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 917, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_vdw_rad); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 902, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_vdw_rad); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 917, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_int_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 902, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_int_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 917, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 902, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_3, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 917, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "vModel/VismolObject.pyx":901
+      /* "vModel/VismolObject.pyx":916
  *             # (3)                  VdW list / cov_dot_sizes:
  *             #-------------------------------------------------------
  *             if do_vdw_dot_sizes:             # <<<<<<<<<<<<<<
@@ -9972,32 +10073,32 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
     }
 
-    /* "vModel/VismolObject.pyx":904
+    /* "vModel/VismolObject.pyx":919
  *                 self.vdw_dot_sizes.append(atom.vdw_rad*3)
  * 
  *             if do_cov_dot_sizes:             # <<<<<<<<<<<<<<
  *                 self.cov_dot_sizes.append(atom.cov_rad)
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_cov_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 904, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_cov_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 919, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "vModel/VismolObject.pyx":905
+      /* "vModel/VismolObject.pyx":920
  * 
  *             if do_cov_dot_sizes:
  *                 self.cov_dot_sizes.append(atom.cov_rad)             # <<<<<<<<<<<<<<
  * 
  *             #-------------------------------------------------------
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 905, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 920, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 905, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_cov_rad); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 920, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 905, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 920, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "vModel/VismolObject.pyx":904
+      /* "vModel/VismolObject.pyx":919
  *                 self.vdw_dot_sizes.append(atom.vdw_rad*3)
  * 
  *             if do_cov_dot_sizes:             # <<<<<<<<<<<<<<
@@ -10006,204 +10107,34 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
     }
 
-    /* "vModel/VismolObject.pyx":910
+    /* "vModel/VismolObject.pyx":925
  *             # (4)                Rainbow colors
  *             #-------------------------------------------------------
  *             if do_colors_raindow:             # <<<<<<<<<<<<<<
  *                 if counter <= 1*quarter:
  *                     self.color_rainbow.append(red   )
  */
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_raindow); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 910, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_raindow); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 925, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "vModel/VismolObject.pyx":911
+      /* "vModel/VismolObject.pyx":926
  *             #-------------------------------------------------------
  *             if do_colors_raindow:
  *                 if counter <= 1*quarter:             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  */
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 911, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 926, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 911, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 926, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 911, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 926, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (__pyx_t_4) {
-
-        /* "vModel/VismolObject.pyx":912
- *             if do_colors_raindow:
- *                 if counter <= 1*quarter:
- *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(green )
- *                     self.color_rainbow.append(blue  )
- */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 912, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 912, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":913
- *                 if counter <= 1*quarter:
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(blue  )
- * 
- */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 913, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 913, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":914
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )
- *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
- * 
- *                     green += color_step
- */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 914, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 914, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":916
- *                     self.color_rainbow.append(blue  )
- * 
- *                     green += color_step             # <<<<<<<<<<<<<<
- * 
- *                 if counter >= 1*quarter  and counter <= 2*quarter:
- */
-        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 916, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF_SET(__pyx_v_green, __pyx_t_7);
-        __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":911
- *             #-------------------------------------------------------
- *             if do_colors_raindow:
- *                 if counter <= 1*quarter:             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )
- */
-      }
-
-      /* "vModel/VismolObject.pyx":918
- *                     green += color_step
- * 
- *                 if counter >= 1*quarter  and counter <= 2*quarter:             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )
- */
-      __pyx_t_7 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 918, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 918, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 918, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__pyx_t_9) {
-      } else {
-        __pyx_t_4 = __pyx_t_9;
-        goto __pyx_L17_bool_binop_done;
-      }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 918, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 918, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 918, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_4 = __pyx_t_9;
-      __pyx_L17_bool_binop_done:;
-      if (__pyx_t_4) {
-
-        /* "vModel/VismolObject.pyx":919
- * 
- *                 if counter >= 1*quarter  and counter <= 2*quarter:
- *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(green )
- *                     self.color_rainbow.append(blue  )
- */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 919, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 919, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":920
- *                 if counter >= 1*quarter  and counter <= 2*quarter:
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(blue  )
- * 
- */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 920, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 920, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":921
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )
- *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
- * 
- *                     blue -= color_step
- */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 921, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 921, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":923
- *                     self.color_rainbow.append(blue  )
- * 
- *                     blue -= color_step             # <<<<<<<<<<<<<<
- * 
- *                 if counter >= 2*quarter  and counter <= 3*quarter:
- */
-        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_blue, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 923, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF_SET(__pyx_v_blue, __pyx_t_7);
-        __pyx_t_7 = 0;
-
-        /* "vModel/VismolObject.pyx":918
- *                     green += color_step
- * 
- *                 if counter >= 1*quarter  and counter <= 2*quarter:             # <<<<<<<<<<<<<<
- *                     self.color_rainbow.append(red   )
- *                     self.color_rainbow.append(green )
- */
-      }
-
-      /* "vModel/VismolObject.pyx":925
- *                     blue -= color_step
- * 
- *                 if counter >= 2*quarter  and counter <= 3*quarter:             # <<<<<<<<<<<<<<
- * 
- *                     self.color_rainbow.append(red   )
- */
-      __pyx_t_7 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 925, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 925, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 925, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__pyx_t_9) {
-      } else {
-        __pyx_t_4 = __pyx_t_9;
-        goto __pyx_L20_bool_binop_done;
-      }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 925, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 925, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 925, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_4 = __pyx_t_9;
-      __pyx_L20_bool_binop_done:;
       if (__pyx_t_4) {
 
         /* "vModel/VismolObject.pyx":927
- *                 if counter >= 2*quarter  and counter <= 3*quarter:
- * 
+ *             if do_colors_raindow:
+ *                 if counter <= 1*quarter:
  *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
@@ -10214,7 +10145,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
         /* "vModel/VismolObject.pyx":928
- * 
+ *                 if counter <= 1*quarter:
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(blue  )
@@ -10230,7 +10161,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
  * 
- *                     red += color_step
+ *                     green += color_step
  */
         __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 929, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
@@ -10240,32 +10171,32 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
         /* "vModel/VismolObject.pyx":931
  *                     self.color_rainbow.append(blue  )
  * 
- *                     red += color_step             # <<<<<<<<<<<<<<
+ *                     green += color_step             # <<<<<<<<<<<<<<
  * 
- *                 if counter >= 3*quarter  and counter <= 4*quarter:
+ *                 if counter >= 1*quarter  and counter <= 2*quarter:
  */
-        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_red, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 931, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 931, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF_SET(__pyx_v_red, __pyx_t_7);
+        __Pyx_DECREF_SET(__pyx_v_green, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":925
- *                     blue -= color_step
- * 
- *                 if counter >= 2*quarter  and counter <= 3*quarter:             # <<<<<<<<<<<<<<
- * 
+        /* "vModel/VismolObject.pyx":926
+ *             #-------------------------------------------------------
+ *             if do_colors_raindow:
+ *                 if counter <= 1*quarter:             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )
  */
       }
 
       /* "vModel/VismolObject.pyx":933
- *                     red += color_step
+ *                     green += color_step
  * 
- *                 if counter >= 3*quarter  and counter <= 4*quarter:             # <<<<<<<<<<<<<<
- * 
+ *                 if counter >= 1*quarter  and counter <= 2*quarter:             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )
  */
-      __pyx_t_7 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 933, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Multiply(__pyx_int_1, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 933, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 933, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -10274,67 +10205,237 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
       if (__pyx_t_9) {
       } else {
         __pyx_t_4 = __pyx_t_9;
-        goto __pyx_L23_bool_binop_done;
+        goto __pyx_L17_bool_binop_done;
       }
-      __pyx_t_3 = PyNumber_Multiply(__pyx_int_4, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 933, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 933, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 933, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 933, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_4 = __pyx_t_9;
+      __pyx_L17_bool_binop_done:;
+      if (__pyx_t_4) {
+
+        /* "vModel/VismolObject.pyx":934
+ * 
+ *                 if counter >= 1*quarter  and counter <= 2*quarter:
+ *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
+ *                     self.color_rainbow.append(green )
+ *                     self.color_rainbow.append(blue  )
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 934, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 934, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":935
+ *                 if counter >= 1*quarter  and counter <= 2*quarter:
+ *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
+ *                     self.color_rainbow.append(blue  )
+ * 
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 935, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 935, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":936
+ *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )
+ *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
+ * 
+ *                     blue -= color_step
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 936, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 936, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":938
+ *                     self.color_rainbow.append(blue  )
+ * 
+ *                     blue -= color_step             # <<<<<<<<<<<<<<
+ * 
+ *                 if counter >= 2*quarter  and counter <= 3*quarter:
+ */
+        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_blue, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 938, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF_SET(__pyx_v_blue, __pyx_t_7);
+        __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":933
+ *                     green += color_step
+ * 
+ *                 if counter >= 1*quarter  and counter <= 2*quarter:             # <<<<<<<<<<<<<<
+ *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )
+ */
+      }
+
+      /* "vModel/VismolObject.pyx":940
+ *                     blue -= color_step
+ * 
+ *                 if counter >= 2*quarter  and counter <= 3*quarter:             # <<<<<<<<<<<<<<
+ * 
+ *                     self.color_rainbow.append(red   )
+ */
+      __pyx_t_7 = PyNumber_Multiply(__pyx_int_2, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 940, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 940, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 940, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (__pyx_t_9) {
+      } else {
+        __pyx_t_4 = __pyx_t_9;
+        goto __pyx_L20_bool_binop_done;
+      }
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 940, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 940, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 940, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_4 = __pyx_t_9;
+      __pyx_L20_bool_binop_done:;
+      if (__pyx_t_4) {
+
+        /* "vModel/VismolObject.pyx":942
+ *                 if counter >= 2*quarter  and counter <= 3*quarter:
+ * 
+ *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
+ *                     self.color_rainbow.append(green )
+ *                     self.color_rainbow.append(blue  )
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 942, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 942, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":943
+ * 
+ *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
+ *                     self.color_rainbow.append(blue  )
+ * 
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 943, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 943, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":944
+ *                     self.color_rainbow.append(red   )
+ *                     self.color_rainbow.append(green )
+ *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
+ * 
+ *                     red += color_step
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 944, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 944, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":946
+ *                     self.color_rainbow.append(blue  )
+ * 
+ *                     red += color_step             # <<<<<<<<<<<<<<
+ * 
+ *                 if counter >= 3*quarter  and counter <= 4*quarter:
+ */
+        __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_red, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 946, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF_SET(__pyx_v_red, __pyx_t_7);
+        __pyx_t_7 = 0;
+
+        /* "vModel/VismolObject.pyx":940
+ *                     blue -= color_step
+ * 
+ *                 if counter >= 2*quarter  and counter <= 3*quarter:             # <<<<<<<<<<<<<<
+ * 
+ *                     self.color_rainbow.append(red   )
+ */
+      }
+
+      /* "vModel/VismolObject.pyx":948
+ *                     red += color_step
+ * 
+ *                 if counter >= 3*quarter  and counter <= 4*quarter:             # <<<<<<<<<<<<<<
+ * 
+ *                     self.color_rainbow.append(red   )
+ */
+      __pyx_t_7 = PyNumber_Multiply(__pyx_int_3, __pyx_v_quarter); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 948, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 948, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 948, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (__pyx_t_9) {
+      } else {
+        __pyx_t_4 = __pyx_t_9;
+        goto __pyx_L23_bool_binop_done;
+      }
+      __pyx_t_3 = PyNumber_Multiply(__pyx_int_4, __pyx_v_quarter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 948, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_7 = PyObject_RichCompare(__pyx_v_counter, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 948, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 948, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_4 = __pyx_t_9;
       __pyx_L23_bool_binop_done:;
       if (__pyx_t_4) {
 
-        /* "vModel/VismolObject.pyx":935
+        /* "vModel/VismolObject.pyx":950
  *                 if counter >= 3*quarter  and counter <= 4*quarter:
  * 
  *                     self.color_rainbow.append(red   )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 935, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 950, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 935, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_red); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 950, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":936
+        /* "vModel/VismolObject.pyx":951
  * 
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )             # <<<<<<<<<<<<<<
  *                     self.color_rainbow.append(blue  )
  *                     green -= color_step
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 936, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 951, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 936, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_green); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 951, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":937
+        /* "vModel/VismolObject.pyx":952
  *                     self.color_rainbow.append(red   )
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )             # <<<<<<<<<<<<<<
  *                     green -= color_step
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 937, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 952, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 937, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_7, __pyx_v_blue); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 952, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":938
+        /* "vModel/VismolObject.pyx":953
  *                     self.color_rainbow.append(green )
  *                     self.color_rainbow.append(blue  )
  *                     green -= color_step             # <<<<<<<<<<<<<<
  * 
  *             ##print(red, green, blue,counter )
  */
-        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 938, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_InPlaceSubtract(__pyx_v_green, __pyx_v_color_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 953, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF_SET(__pyx_v_green, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "vModel/VismolObject.pyx":933
+        /* "vModel/VismolObject.pyx":948
  *                     red += color_step
  * 
  *                 if counter >= 3*quarter  and counter <= 4*quarter:             # <<<<<<<<<<<<<<
@@ -10343,7 +10444,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
       }
 
-      /* "vModel/VismolObject.pyx":910
+      /* "vModel/VismolObject.pyx":925
  *             # (4)                Rainbow colors
  *             #-------------------------------------------------------
  *             if do_colors_raindow:             # <<<<<<<<<<<<<<
@@ -10352,19 +10453,19 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
     }
 
-    /* "vModel/VismolObject.pyx":941
+    /* "vModel/VismolObject.pyx":956
  * 
  *             ##print(red, green, blue,counter )
  *             counter += 1             # <<<<<<<<<<<<<<
  *             #-------------------------------------------------------
  * 
  */
-    __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_v_counter, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 941, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_v_counter, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 956, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF_SET(__pyx_v_counter, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":863
+    /* "vModel/VismolObject.pyx":878
  *         temp_counter = 0
  * 
  *         for atom in self.atoms:             # <<<<<<<<<<<<<<
@@ -10374,53 +10475,53 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":945
+  /* "vModel/VismolObject.pyx":960
  * 
  * 
  *         if do_colors:             # <<<<<<<<<<<<<<
  *             self.colors         = np.array(self.colors       , dtype=np.float32)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 945, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 960, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":946
+    /* "vModel/VismolObject.pyx":961
  * 
  *         if do_colors:
  *             self.colors         = np.array(self.colors       , dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *         if do_colors_idx:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_colors); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 946, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_10) < 0) __PYX_ERR(0, 946, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors, __pyx_t_10) < 0) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":945
+    /* "vModel/VismolObject.pyx":960
  * 
  * 
  *         if do_colors:             # <<<<<<<<<<<<<<
@@ -10429,53 +10530,53 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":948
+  /* "vModel/VismolObject.pyx":963
  *             self.colors         = np.array(self.colors       , dtype=np.float32)
  * 
  *         if do_colors_idx:             # <<<<<<<<<<<<<<
  *             self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_idx); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 948, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_idx); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 963, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":949
+    /* "vModel/VismolObject.pyx":964
  * 
  *         if do_colors_idx:
  *             self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *         if do_colors_raindow:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_10);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_10);
     __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 949, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 949, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_6) < 0) __PYX_ERR(0, 949, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color_indexes, __pyx_t_6) < 0) __PYX_ERR(0, 964, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":948
+    /* "vModel/VismolObject.pyx":963
  *             self.colors         = np.array(self.colors       , dtype=np.float32)
  * 
  *         if do_colors_idx:             # <<<<<<<<<<<<<<
@@ -10484,53 +10585,53 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":951
+  /* "vModel/VismolObject.pyx":966
  *             self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
  * 
  *         if do_colors_raindow:             # <<<<<<<<<<<<<<
  *             self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_raindow); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 951, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_colors_raindow); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 966, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":952
+    /* "vModel/VismolObject.pyx":967
  * 
  *         if do_colors_raindow:
  *             self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *         if do_vdw_dot_sizes:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color_rainbow); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 952, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 952, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors_rainbow, __pyx_t_7) < 0) __PYX_ERR(0, 952, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_colors_rainbow, __pyx_t_7) < 0) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":951
+    /* "vModel/VismolObject.pyx":966
  *             self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
  * 
  *         if do_colors_raindow:             # <<<<<<<<<<<<<<
@@ -10539,53 +10640,53 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":954
+  /* "vModel/VismolObject.pyx":969
  *             self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  * 
  *         if do_vdw_dot_sizes:             # <<<<<<<<<<<<<<
  *             self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_vdw_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 954, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_vdw_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 969, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":955
+    /* "vModel/VismolObject.pyx":970
  * 
  *         if do_vdw_dot_sizes:
  *             self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *         if do_cov_dot_sizes:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7);
     __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_float32); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_float32); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 955, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_1) < 0) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 955, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_1) < 0) __PYX_ERR(0, 955, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_vdw_dot_sizes, __pyx_t_1) < 0) __PYX_ERR(0, 970, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":954
+    /* "vModel/VismolObject.pyx":969
  *             self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  * 
  *         if do_vdw_dot_sizes:             # <<<<<<<<<<<<<<
@@ -10594,53 +10695,53 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":957
+  /* "vModel/VismolObject.pyx":972
  *             self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  * 
  *         if do_cov_dot_sizes:             # <<<<<<<<<<<<<<
  *             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_cov_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 957, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_do_cov_dot_sizes); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 972, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":958
+    /* "vModel/VismolObject.pyx":973
  * 
  *         if do_cov_dot_sizes:
  *             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *     def set_model_matrix(self, mat):
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 958, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 958, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_10) < 0) __PYX_ERR(0, 958, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cov_dot_sizes, __pyx_t_10) < 0) __PYX_ERR(0, 973, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "vModel/VismolObject.pyx":957
+    /* "vModel/VismolObject.pyx":972
  *             self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
  * 
  *         if do_cov_dot_sizes:             # <<<<<<<<<<<<<<
@@ -10649,7 +10750,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
  */
   }
 
-  /* "vModel/VismolObject.pyx":813
+  /* "vModel/VismolObject.pyx":828
  * 
  * 
  *     def _generate_color_vectors (self, do_colors         = True,             # <<<<<<<<<<<<<<
@@ -10683,7 +10784,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_12_generate_colo
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":960
+/* "vModel/VismolObject.pyx":975
  *             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
@@ -10724,11 +10825,11 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_15set_model_matr
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mat)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, 1); __PYX_ERR(0, 960, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, 1); __PYX_ERR(0, 975, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_model_matrix") < 0)) __PYX_ERR(0, 960, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_model_matrix") < 0)) __PYX_ERR(0, 975, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -10741,7 +10842,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_15set_model_matr
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 960, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_model_matrix", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 975, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.set_model_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10762,16 +10863,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_14set_model_matr
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("set_model_matrix", 0);
 
-  /* "vModel/VismolObject.pyx":963
+  /* "vModel/VismolObject.pyx":978
  *         """ Function doc
  *         """
  *         self.model_mat = np.copy(mat)             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 963, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 978, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 963, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 978, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -10786,13 +10887,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_14set_model_matr
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_mat) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_mat);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 963, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 978, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_1) < 0) __PYX_ERR(0, 963, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_model_mat, __pyx_t_1) < 0) __PYX_ERR(0, 978, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":964
+  /* "vModel/VismolObject.pyx":979
  *         """
  *         self.model_mat = np.copy(mat)
  *         return True             # <<<<<<<<<<<<<<
@@ -10804,7 +10905,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_14set_model_matr
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "vModel/VismolObject.pyx":960
+  /* "vModel/VismolObject.pyx":975
  *             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
@@ -10825,7 +10926,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_14set_model_matr
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":966
+/* "vModel/VismolObject.pyx":981
  *         return True
  * 
  *     def get_backbone_indexes (self):             # <<<<<<<<<<<<<<
@@ -10879,82 +10980,82 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
   int __pyx_t_12;
   __Pyx_RefNannySetupContext("get_backbone_indexes", 0);
 
-  /* "vModel/VismolObject.pyx":968
+  /* "vModel/VismolObject.pyx":983
  *     def get_backbone_indexes (self):
  *         """ Function doc """
  *         chains_list   = []             # <<<<<<<<<<<<<<
  *         bonds_pairs   = []
  *         bonds_indexes = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 968, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 983, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_chains_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":969
+  /* "vModel/VismolObject.pyx":984
  *         """ Function doc """
  *         chains_list   = []
  *         bonds_pairs   = []             # <<<<<<<<<<<<<<
  *         bonds_indexes = []
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 969, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 984, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bonds_pairs = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":970
+  /* "vModel/VismolObject.pyx":985
  *         chains_list   = []
  *         bonds_pairs   = []
  *         bonds_indexes = []             # <<<<<<<<<<<<<<
  * 
  *         self.c_alpha_bonds = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 970, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 985, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bonds_indexes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":972
+  /* "vModel/VismolObject.pyx":987
  *         bonds_indexes = []
  * 
  *         self.c_alpha_bonds = []             # <<<<<<<<<<<<<<
  * 
  *         self.c_alpha_atoms = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 972, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 987, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 972, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_bonds, __pyx_t_1) < 0) __PYX_ERR(0, 987, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":974
+  /* "vModel/VismolObject.pyx":989
  *         self.c_alpha_bonds = []
  * 
  *         self.c_alpha_atoms = []             # <<<<<<<<<<<<<<
  *         for chain in self.chains:
  *             for residue in self.chains[chain].residues:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 974, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 989, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 974, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 989, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":975
+  /* "vModel/VismolObject.pyx":990
  * 
  *         self.c_alpha_atoms = []
  *         for chain in self.chains:             # <<<<<<<<<<<<<<
  *             for residue in self.chains[chain].residues:
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 975, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 990, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 975, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 975, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 990, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -10962,17 +11063,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 975, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 990, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 975, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 990, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 975, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 990, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 975, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 990, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -10982,7 +11083,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 975, __pyx_L1_error)
+          else __PYX_ERR(0, 990, __pyx_L1_error)
         }
         break;
       }
@@ -10991,28 +11092,28 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
     __Pyx_XDECREF_SET(__pyx_v_chain, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":976
+    /* "vModel/VismolObject.pyx":991
  *         self.c_alpha_atoms = []
  *         for chain in self.chains:
  *             for residue in self.chains[chain].residues:             # <<<<<<<<<<<<<<
  * 
  *                 #print ('chain', chain ,'name', residue.resn, 'index',residue.resi)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_chains); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 991, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_chain); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_chain); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 991, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_residues); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_residues); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 991, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 976, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 991, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 976, __pyx_L1_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 991, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -11020,17 +11121,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 976, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 991, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 991, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 976, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 991, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 991, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -11040,7 +11141,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 976, __pyx_L1_error)
+            else __PYX_ERR(0, 991, __pyx_L1_error)
           }
           break;
         }
@@ -11049,35 +11150,35 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
       __Pyx_XDECREF_SET(__pyx_v_residue, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":979
+      /* "vModel/VismolObject.pyx":994
  * 
  *                 #print ('chain', chain ,'name', residue.resn, 'index',residue.resi)
  *                 if residue.isProtein:             # <<<<<<<<<<<<<<
  *                     for atom in residue.atoms:
  *                         if atom.name == 'CA':
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_isProtein); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 979, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_isProtein); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 994, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 979, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 994, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_8) {
 
-        /* "vModel/VismolObject.pyx":980
+        /* "vModel/VismolObject.pyx":995
  *                 #print ('chain', chain ,'name', residue.resn, 'index',residue.resi)
  *                 if residue.isProtein:
  *                     for atom in residue.atoms:             # <<<<<<<<<<<<<<
  *                         if atom.name == 'CA':
  *                             #print ('index',atom.index,'name', atom.name,'chain', atom.chain)
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 980, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_residue, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 995, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
           __pyx_t_9 = __pyx_t_1; __Pyx_INCREF(__pyx_t_9); __pyx_t_10 = 0;
           __pyx_t_11 = NULL;
         } else {
-          __pyx_t_10 = -1; __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 980, __pyx_L1_error)
+          __pyx_t_10 = -1; __pyx_t_9 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 995, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 980, __pyx_L1_error)
+          __pyx_t_11 = Py_TYPE(__pyx_t_9)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 995, __pyx_L1_error)
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         for (;;) {
@@ -11085,17 +11186,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
             if (likely(PyList_CheckExact(__pyx_t_9))) {
               if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_9)) break;
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 980, __pyx_L1_error)
+              __pyx_t_1 = PyList_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 995, __pyx_L1_error)
               #else
-              __pyx_t_1 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 980, __pyx_L1_error)
+              __pyx_t_1 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 995, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             } else {
               if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_9)) break;
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 980, __pyx_L1_error)
+              __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_9, __pyx_t_10); __Pyx_INCREF(__pyx_t_1); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 995, __pyx_L1_error)
               #else
-              __pyx_t_1 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 980, __pyx_L1_error)
+              __pyx_t_1 = PySequence_ITEM(__pyx_t_9, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 995, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
               #endif
             }
@@ -11105,7 +11206,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(0, 980, __pyx_L1_error)
+                else __PYX_ERR(0, 995, __pyx_L1_error)
               }
               break;
             }
@@ -11114,32 +11215,32 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
           __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_1);
           __pyx_t_1 = 0;
 
-          /* "vModel/VismolObject.pyx":981
+          /* "vModel/VismolObject.pyx":996
  *                 if residue.isProtein:
  *                     for atom in residue.atoms:
  *                         if atom.name == 'CA':             # <<<<<<<<<<<<<<
  *                             #print ('index',atom.index,'name', atom.name,'chain', atom.chain)
  *                             self.c_alpha_atoms.append(atom)
  */
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 981, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 996, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_CA, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 981, __pyx_L1_error)
+          __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_CA, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 996, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           if (__pyx_t_8) {
 
-            /* "vModel/VismolObject.pyx":983
+            /* "vModel/VismolObject.pyx":998
  *                         if atom.name == 'CA':
  *                             #print ('index',atom.index,'name', atom.name,'chain', atom.chain)
  *                             self.c_alpha_atoms.append(atom)             # <<<<<<<<<<<<<<
  *                         else:
  *                             pass
  */
-            __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 983, __pyx_L1_error)
+            __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 998, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 983, __pyx_L1_error)
+            __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_atom); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 998, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-            /* "vModel/VismolObject.pyx":981
+            /* "vModel/VismolObject.pyx":996
  *                 if residue.isProtein:
  *                     for atom in residue.atoms:
  *                         if atom.name == 'CA':             # <<<<<<<<<<<<<<
@@ -11149,7 +11250,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
             goto __pyx_L10;
           }
 
-          /* "vModel/VismolObject.pyx":985
+          /* "vModel/VismolObject.pyx":1000
  *                             self.c_alpha_atoms.append(atom)
  *                         else:
  *                             pass             # <<<<<<<<<<<<<<
@@ -11160,7 +11261,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
           }
           __pyx_L10:;
 
-          /* "vModel/VismolObject.pyx":980
+          /* "vModel/VismolObject.pyx":995
  *                 #print ('chain', chain ,'name', residue.resn, 'index',residue.resi)
  *                 if residue.isProtein:
  *                     for atom in residue.atoms:             # <<<<<<<<<<<<<<
@@ -11170,7 +11271,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
         }
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-        /* "vModel/VismolObject.pyx":979
+        /* "vModel/VismolObject.pyx":994
  * 
  *                 #print ('chain', chain ,'name', residue.resn, 'index',residue.resi)
  *                 if residue.isProtein:             # <<<<<<<<<<<<<<
@@ -11180,7 +11281,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
         goto __pyx_L7;
       }
 
-      /* "vModel/VismolObject.pyx":987
+      /* "vModel/VismolObject.pyx":1002
  *                             pass
  *                 else:
  *                     pass             # <<<<<<<<<<<<<<
@@ -11191,7 +11292,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
       }
       __pyx_L7:;
 
-      /* "vModel/VismolObject.pyx":976
+      /* "vModel/VismolObject.pyx":991
  *         self.c_alpha_atoms = []
  *         for chain in self.chains:
  *             for residue in self.chains[chain].residues:             # <<<<<<<<<<<<<<
@@ -11201,7 +11302,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":975
+    /* "vModel/VismolObject.pyx":990
  * 
  *         self.c_alpha_atoms = []
  *         for chain in self.chains:             # <<<<<<<<<<<<<<
@@ -11211,20 +11312,20 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":990
+  /* "vModel/VismolObject.pyx":1005
  *         #p#print(self.residues)
  * 
  *         for n  in range(1, len(self.c_alpha_atoms)):             # <<<<<<<<<<<<<<
  * 
  *             atom_before  = self.c_alpha_atoms[n-1]
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1005, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 990, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1005, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1005, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 990, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1005, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_int_1);
   __Pyx_GIVEREF(__pyx_int_1);
@@ -11232,16 +11333,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1005, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_5 = __pyx_t_2; __Pyx_INCREF(__pyx_t_5); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 990, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1005, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 990, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1005, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -11249,17 +11350,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 990, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 1005, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1005, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 990, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_2); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 1005, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1005, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -11269,7 +11370,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 990, __pyx_L1_error)
+          else __PYX_ERR(0, 1005, __pyx_L1_error)
         }
         break;
       }
@@ -11278,46 +11379,46 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
     __Pyx_XDECREF_SET(__pyx_v_n, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":992
+    /* "vModel/VismolObject.pyx":1007
  *         for n  in range(1, len(self.c_alpha_atoms)):
  * 
  *             atom_before  = self.c_alpha_atoms[n-1]             # <<<<<<<<<<<<<<
  *             resi_before  = atom_before.resi
  *             index_before = self.atoms.index(atom_before)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 992, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1007, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = __Pyx_PyInt_SubtractObjC(__pyx_v_n, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 992, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_SubtractObjC(__pyx_v_n, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1007, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 992, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1007, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_XDECREF_SET(__pyx_v_atom_before, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":993
+    /* "vModel/VismolObject.pyx":1008
  * 
  *             atom_before  = self.c_alpha_atoms[n-1]
  *             resi_before  = atom_before.resi             # <<<<<<<<<<<<<<
  *             index_before = self.atoms.index(atom_before)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom_before, __pyx_n_s_resi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 993, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom_before, __pyx_n_s_resi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1008, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_resi_before, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":994
+    /* "vModel/VismolObject.pyx":1009
  *             atom_before  = self.c_alpha_atoms[n-1]
  *             resi_before  = atom_before.resi
  *             index_before = self.atoms.index(atom_before)             # <<<<<<<<<<<<<<
  * 
  *             atom   = self.c_alpha_atoms[n]
  */
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 994, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1009, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 994, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_index); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1009, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
@@ -11332,49 +11433,49 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
     }
     __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_9, __pyx_v_atom_before) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_atom_before);
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 994, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1009, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_index_before, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":996
+    /* "vModel/VismolObject.pyx":1011
  *             index_before = self.atoms.index(atom_before)
  * 
  *             atom   = self.c_alpha_atoms[n]             # <<<<<<<<<<<<<<
  *             resi   = atom.resi
  *             index  = self.atoms.index(atom)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 996, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1011, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 996, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1011, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":997
+    /* "vModel/VismolObject.pyx":1012
  * 
  *             atom   = self.c_alpha_atoms[n]
  *             resi   = atom.resi             # <<<<<<<<<<<<<<
  *             index  = self.atoms.index(atom)
  *             #print (index_before,
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 997, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_resi); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1012, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_resi, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":998
+    /* "vModel/VismolObject.pyx":1013
  *             atom   = self.c_alpha_atoms[n]
  *             resi   = atom.resi
  *             index  = self.atoms.index(atom)             # <<<<<<<<<<<<<<
  *             #print (index_before,
  *             #       resi_before ,
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 998, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1013, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_index); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 998, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_index); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1013, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -11389,89 +11490,89 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
     }
     __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_1, __pyx_v_atom) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_v_atom);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 998, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1013, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":1007
+    /* "vModel/VismolObject.pyx":1022
  *             #       'chain', atom.chain )
  * 
  *             if resi == resi_before + 1:             # <<<<<<<<<<<<<<
  *                 #print ('bond: ',index_before, resi_before ,'and',index , resi )
  * 
  */
-    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_resi_before, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1007, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_resi_before, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1022, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = PyObject_RichCompare(__pyx_v_resi, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1007, __pyx_L1_error)
+    __pyx_t_9 = PyObject_RichCompare(__pyx_v_resi, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1022, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 1007, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 1022, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     if (__pyx_t_8) {
 
-      /* "vModel/VismolObject.pyx":1010
+      /* "vModel/VismolObject.pyx":1025
  *                 #print ('bond: ',index_before, resi_before ,'and',index , resi )
  * 
  *                 bond =  Bond( atom_i       = atom_before,             # <<<<<<<<<<<<<<
  *                               atom_index_i = index_before,
  *                               atom_j       = atom        ,
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_Bond); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1010, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_Bond); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1025, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1010, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1025, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_i, __pyx_v_atom_before) < 0) __PYX_ERR(0, 1010, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_i, __pyx_v_atom_before) < 0) __PYX_ERR(0, 1025, __pyx_L1_error)
 
-      /* "vModel/VismolObject.pyx":1011
+      /* "vModel/VismolObject.pyx":1026
  * 
  *                 bond =  Bond( atom_i       = atom_before,
  *                               atom_index_i = index_before,             # <<<<<<<<<<<<<<
  *                               atom_j       = atom        ,
  *                               atom_index_j = index       ,
  */
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_i, __pyx_v_index_before) < 0) __PYX_ERR(0, 1010, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_i, __pyx_v_index_before) < 0) __PYX_ERR(0, 1025, __pyx_L1_error)
 
-      /* "vModel/VismolObject.pyx":1012
+      /* "vModel/VismolObject.pyx":1027
  *                 bond =  Bond( atom_i       = atom_before,
  *                               atom_index_i = index_before,
  *                               atom_j       = atom        ,             # <<<<<<<<<<<<<<
  *                               atom_index_j = index       ,
  *                               )
  */
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_j, __pyx_v_atom) < 0) __PYX_ERR(0, 1010, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_j, __pyx_v_atom) < 0) __PYX_ERR(0, 1025, __pyx_L1_error)
 
-      /* "vModel/VismolObject.pyx":1013
+      /* "vModel/VismolObject.pyx":1028
  *                               atom_index_i = index_before,
  *                               atom_j       = atom        ,
  *                               atom_index_j = index       ,             # <<<<<<<<<<<<<<
  *                               )
  * 
  */
-      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_j, __pyx_v_index) < 0) __PYX_ERR(0, 1010, __pyx_L1_error)
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_j, __pyx_v_index) < 0) __PYX_ERR(0, 1025, __pyx_L1_error)
 
-      /* "vModel/VismolObject.pyx":1010
+      /* "vModel/VismolObject.pyx":1025
  *                 #print ('bond: ',index_before, resi_before ,'and',index , resi )
  * 
  *                 bond =  Bond( atom_i       = atom_before,             # <<<<<<<<<<<<<<
  *                               atom_index_i = index_before,
  *                               atom_j       = atom        ,
  */
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1010, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1025, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_XDECREF_SET(__pyx_v_bond, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":1016
+      /* "vModel/VismolObject.pyx":1031
  *                               )
  * 
  *                 distance = bond.distance()             # <<<<<<<<<<<<<<
  *                 if distance  >= 4.0:
  *                     pass
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_bond, __pyx_n_s_distance); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1016, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_bond, __pyx_n_s_distance); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1031, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_9 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -11485,27 +11586,27 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
       }
       __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_9) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1016, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1031, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_XDECREF_SET(__pyx_v_distance, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "vModel/VismolObject.pyx":1017
+      /* "vModel/VismolObject.pyx":1032
  * 
  *                 distance = bond.distance()
  *                 if distance  >= 4.0:             # <<<<<<<<<<<<<<
  *                     pass
  *                 else:
  */
-      __pyx_t_1 = PyObject_RichCompare(__pyx_v_distance, __pyx_float_4_0, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1017, __pyx_L1_error)
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 1017, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_v_distance, __pyx_float_4_0, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1032, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 1032, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_8) {
         goto __pyx_L14;
       }
 
-      /* "vModel/VismolObject.pyx":1020
+      /* "vModel/VismolObject.pyx":1035
  *                     pass
  *                 else:
  *                     self.c_alpha_bonds.append(bond)             # <<<<<<<<<<<<<<
@@ -11513,14 +11614,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
  *     def bonds_from_pair_of_indexes_list (self, bonds_list = [] ):
  */
       /*else*/ {
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1020, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_c_alpha_bonds); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1035, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_bond); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 1020, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_bond); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 1035, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       }
       __pyx_L14:;
 
-      /* "vModel/VismolObject.pyx":1007
+      /* "vModel/VismolObject.pyx":1022
  *             #       'chain', atom.chain )
  * 
  *             if resi == resi_before + 1:             # <<<<<<<<<<<<<<
@@ -11529,7 +11630,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
  */
     }
 
-    /* "vModel/VismolObject.pyx":990
+    /* "vModel/VismolObject.pyx":1005
  *         #p#print(self.residues)
  * 
  *         for n  in range(1, len(self.c_alpha_atoms)):             # <<<<<<<<<<<<<<
@@ -11539,7 +11640,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "vModel/VismolObject.pyx":966
+  /* "vModel/VismolObject.pyx":981
  *         return True
  * 
  *     def get_backbone_indexes (self):             # <<<<<<<<<<<<<<
@@ -11577,7 +11678,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_16get_backbone_i
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":1022
+/* "vModel/VismolObject.pyx":1037
  *                     self.c_alpha_bonds.append(bond)
  * 
  *     def bonds_from_pair_of_indexes_list (self, bonds_list = [] ):             # <<<<<<<<<<<<<<
@@ -11592,12 +11693,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_2__defaults__(CYTHON_UNUSED PyO
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__defaults__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1022, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1037, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_self)->__pyx_arg_bonds_list);
   __Pyx_GIVEREF(__Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_self)->__pyx_arg_bonds_list);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_self)->__pyx_arg_bonds_list);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1022, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1037, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -11660,7 +11761,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_19bonds_from_pai
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "bonds_from_pair_of_indexes_list") < 0)) __PYX_ERR(0, 1022, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "bonds_from_pair_of_indexes_list") < 0)) __PYX_ERR(0, 1037, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -11676,7 +11777,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_19bonds_from_pai
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("bonds_from_pair_of_indexes_list", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1022, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("bonds_from_pair_of_indexes_list", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1037, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.bonds_from_pair_of_indexes_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -11706,17 +11807,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("bonds_from_pair_of_indexes_list", 0);
 
-  /* "vModel/VismolObject.pyx":1029
+  /* "vModel/VismolObject.pyx":1044
  * 
  *         #print (bonds_list)
  *         for i in range(0,len(bonds_list)-1,2):             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_bonds_list); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1029, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t((__pyx_t_1 - 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1029, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_bonds_list); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1044, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_t_1 - 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1044, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1029, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1044, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
@@ -11727,16 +11828,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
   __Pyx_GIVEREF(__pyx_int_2);
   PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_int_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1029, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1044, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_1 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_1 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1029, __pyx_L1_error)
+    __pyx_t_1 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1044, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1029, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1044, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -11744,17 +11845,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_1 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_2); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 1029, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_2); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 1044, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1029, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1044, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_1 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_2); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 1029, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_1); __Pyx_INCREF(__pyx_t_2); __pyx_t_1++; if (unlikely(0 < 0)) __PYX_ERR(0, 1044, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1029, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1044, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -11764,7 +11865,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 1029, __pyx_L1_error)
+          else __PYX_ERR(0, 1044, __pyx_L1_error)
         }
         break;
       }
@@ -11773,196 +11874,196 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":1032
+    /* "vModel/VismolObject.pyx":1047
  * 
  * 
  *             index_i = bonds_list[i]             # <<<<<<<<<<<<<<
  *             index_j = bonds_list[i+1]
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_bonds_list, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1032, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_bonds_list, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1047, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_index_i, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "vModel/VismolObject.pyx":1033
+    /* "vModel/VismolObject.pyx":1048
  * 
  *             index_i = bonds_list[i]
  *             index_j = bonds_list[i+1]             # <<<<<<<<<<<<<<
  * 
  *             bond  =  Bond(atom_i       = self.atoms[index_i],
  */
-    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1033, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1048, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_bonds_list, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1033, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_bonds_list, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1048, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_index_j, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":1035
+    /* "vModel/VismolObject.pyx":1050
  *             index_j = bonds_list[i+1]
  * 
  *             bond  =  Bond(atom_i       = self.atoms[index_i],             # <<<<<<<<<<<<<<
  *                           atom_index_i = self.atoms[index_i].index-1,
  *                           atom_j       = self.atoms[index_j],
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Bond); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1035, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Bond); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1035, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1035, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1035, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_i, __pyx_t_7) < 0) __PYX_ERR(0, 1035, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_i, __pyx_t_7) < 0) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":1036
+    /* "vModel/VismolObject.pyx":1051
  * 
  *             bond  =  Bond(atom_i       = self.atoms[index_i],
  *                           atom_index_i = self.atoms[index_i].index-1,             # <<<<<<<<<<<<<<
  *                           atom_j       = self.atoms[index_j],
  *                           atom_index_j = self.atoms[index_j].index-1,
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1036, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1051, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_index_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1036, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_index_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1051, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1036, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1051, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1036, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1051, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_i, __pyx_t_6) < 0) __PYX_ERR(0, 1035, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_i, __pyx_t_6) < 0) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1037
+    /* "vModel/VismolObject.pyx":1052
  *             bond  =  Bond(atom_i       = self.atoms[index_i],
  *                           atom_index_i = self.atoms[index_i].index-1,
  *                           atom_j       = self.atoms[index_j],             # <<<<<<<<<<<<<<
  *                           atom_index_j = self.atoms[index_j].index-1,
  *                           )
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1037, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1052, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_j); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1037, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_j); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1052, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_j, __pyx_t_7) < 0) __PYX_ERR(0, 1035, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_j, __pyx_t_7) < 0) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "vModel/VismolObject.pyx":1038
+    /* "vModel/VismolObject.pyx":1053
  *                           atom_index_i = self.atoms[index_i].index-1,
  *                           atom_j       = self.atoms[index_j],
  *                           atom_index_j = self.atoms[index_j].index-1,             # <<<<<<<<<<<<<<
  *                           )
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1038, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1053, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_index_j); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1038, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_7, __pyx_v_index_j); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1053, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1038, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1053, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1038, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_SubtractObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1053, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_j, __pyx_t_6) < 0) __PYX_ERR(0, 1035, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_atom_index_j, __pyx_t_6) < 0) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1035
+    /* "vModel/VismolObject.pyx":1050
  *             index_j = bonds_list[i+1]
  * 
  *             bond  =  Bond(atom_i       = self.atoms[index_i],             # <<<<<<<<<<<<<<
  *                           atom_index_i = self.atoms[index_i].index-1,
  *                           atom_j       = self.atoms[index_j],
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1035, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1050, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_bond, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1041
+    /* "vModel/VismolObject.pyx":1056
  *                           )
  * 
  *             self.bonds.append(bond)             # <<<<<<<<<<<<<<
  * 
  *             self.index_bonds.append(index_i)
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1041, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1056, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_bond); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1041, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_bond); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1056, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1043
+    /* "vModel/VismolObject.pyx":1058
  *             self.bonds.append(bond)
  * 
  *             self.index_bonds.append(index_i)             # <<<<<<<<<<<<<<
  *             self.index_bonds.append(index_j)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1043, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1058, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_index_i); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1043, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_index_i); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1058, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1044
+    /* "vModel/VismolObject.pyx":1059
  * 
  *             self.index_bonds.append(index_i)
  *             self.index_bonds.append(index_j)             # <<<<<<<<<<<<<<
  * 
  *             self.atoms[index_i].bonds.append(bond)
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1044, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1059, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_index_j); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1044, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_index_j); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1059, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1046
+    /* "vModel/VismolObject.pyx":1061
  *             self.index_bonds.append(index_j)
  * 
  *             self.atoms[index_i].bonds.append(bond)             # <<<<<<<<<<<<<<
  *             self.atoms[index_j].bonds.append(bond)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1046, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1061, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1046, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1061, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1046, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1061, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_bond); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1046, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_bond); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1061, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1047
+    /* "vModel/VismolObject.pyx":1062
  * 
  *             self.atoms[index_i].bonds.append(bond)
  *             self.atoms[index_j].bonds.append(bond)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1047, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1062, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_j); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1047, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_index_j); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1062, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1047, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_bonds); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1062, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_bond); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1047, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_bond); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 1062, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1029
+    /* "vModel/VismolObject.pyx":1044
  * 
  *         #print (bonds_list)
  *         for i in range(0,len(bonds_list)-1,2):             # <<<<<<<<<<<<<<
@@ -11972,43 +12073,43 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":1051
+  /* "vModel/VismolObject.pyx":1066
  * 
  * 
  *         self.index_bonds = np.array(self.index_bonds, dtype=np.uint32)             # <<<<<<<<<<<<<<
  * 
  *         '''
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_uint32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_uint32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 1051, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_7) < 0) __PYX_ERR(0, 1051, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_index_bonds, __pyx_t_7) < 0) __PYX_ERR(0, 1066, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "vModel/VismolObject.pyx":1022
+  /* "vModel/VismolObject.pyx":1037
  *                     self.c_alpha_bonds.append(bond)
  * 
  *     def bonds_from_pair_of_indexes_list (self, bonds_list = [] ):             # <<<<<<<<<<<<<<
@@ -12037,7 +12138,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_18bonds_from_pai
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":1078
+/* "vModel/VismolObject.pyx":1093
  *         '''
  * 
  *     def import_non_bonded_atoms_from_bond(self, selection = None):             # <<<<<<<<<<<<<<
@@ -12083,7 +12184,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_21import_non_bon
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "import_non_bonded_atoms_from_bond") < 0)) __PYX_ERR(0, 1078, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "import_non_bonded_atoms_from_bond") < 0)) __PYX_ERR(0, 1093, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12099,7 +12200,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_21import_non_bon
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("import_non_bonded_atoms_from_bond", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1078, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("import_non_bonded_atoms_from_bond", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1093, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.import_non_bonded_atoms_from_bond", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12128,31 +12229,31 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
   __Pyx_RefNannySetupContext("import_non_bonded_atoms_from_bond", 0);
   __Pyx_INCREF(__pyx_v_selection);
 
-  /* "vModel/VismolObject.pyx":1080
+  /* "vModel/VismolObject.pyx":1095
  *     def import_non_bonded_atoms_from_bond(self, selection = None):
  *         """ Function doc """
  *         if selection == None:             # <<<<<<<<<<<<<<
  *             selection = self.atoms
  * 
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_selection, Py_None, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1080, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1080, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_selection, Py_None, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1095, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1095, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "vModel/VismolObject.pyx":1081
+    /* "vModel/VismolObject.pyx":1096
  *         """ Function doc """
  *         if selection == None:
  *             selection = self.atoms             # <<<<<<<<<<<<<<
  * 
  *         self.non_bonded_atoms = []
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1081, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1096, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_selection, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":1080
+    /* "vModel/VismolObject.pyx":1095
  *     def import_non_bonded_atoms_from_bond(self, selection = None):
  *         """ Function doc """
  *         if selection == None:             # <<<<<<<<<<<<<<
@@ -12161,19 +12262,19 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
  */
   }
 
-  /* "vModel/VismolObject.pyx":1083
+  /* "vModel/VismolObject.pyx":1098
  *             selection = self.atoms
  * 
  *         self.non_bonded_atoms = []             # <<<<<<<<<<<<<<
  * 
  *         for atom in selection:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1083, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1098, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 1083, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms, __pyx_t_1) < 0) __PYX_ERR(0, 1098, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1085
+  /* "vModel/VismolObject.pyx":1100
  *         self.non_bonded_atoms = []
  * 
  *         for atom in selection:             # <<<<<<<<<<<<<<
@@ -12184,26 +12285,26 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
     __pyx_t_1 = __pyx_v_selection; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_selection); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1085, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_selection); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1085, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1100, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_4)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 1085, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 1100, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1085, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1100, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 1085, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 1100, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1085, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1100, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -12213,7 +12314,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 1085, __pyx_L1_error)
+          else __PYX_ERR(0, 1100, __pyx_L1_error)
         }
         break;
       }
@@ -12222,48 +12323,48 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "vModel/VismolObject.pyx":1087
+    /* "vModel/VismolObject.pyx":1102
  *         for atom in selection:
  * 
  *             if len(atom.bonds) == 0:             # <<<<<<<<<<<<<<
  *                 atom.nonbonded = True
  *                 self.non_bonded_atoms.append(atom.index-1)
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_bonds); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1087, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_bonds); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1087, __pyx_L1_error)
+    __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1102, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_2 = ((__pyx_t_6 == 0) != 0);
     if (__pyx_t_2) {
 
-      /* "vModel/VismolObject.pyx":1088
+      /* "vModel/VismolObject.pyx":1103
  * 
  *             if len(atom.bonds) == 0:
  *                 atom.nonbonded = True             # <<<<<<<<<<<<<<
  *                 self.non_bonded_atoms.append(atom.index-1)
  * 
  */
-      if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_nonbonded, Py_True) < 0) __PYX_ERR(0, 1088, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_nonbonded, Py_True) < 0) __PYX_ERR(0, 1103, __pyx_L1_error)
 
-      /* "vModel/VismolObject.pyx":1089
+      /* "vModel/VismolObject.pyx":1104
  *             if len(atom.bonds) == 0:
  *                 atom.nonbonded = True
  *                 self.non_bonded_atoms.append(atom.index-1)             # <<<<<<<<<<<<<<
  * 
  *             else:
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1089, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_non_bonded_atoms); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1104, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1089, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1104, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_PyInt_SubtractObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1089, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_SubtractObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1104, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_8); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 1089, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_Append(__pyx_t_5, __pyx_t_8); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 1104, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "vModel/VismolObject.pyx":1087
+      /* "vModel/VismolObject.pyx":1102
  *         for atom in selection:
  * 
  *             if len(atom.bonds) == 0:             # <<<<<<<<<<<<<<
@@ -12273,7 +12374,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
       goto __pyx_L6;
     }
 
-    /* "vModel/VismolObject.pyx":1092
+    /* "vModel/VismolObject.pyx":1107
  * 
  *             else:
  *                 atom.nonbonded = False             # <<<<<<<<<<<<<<
@@ -12281,11 +12382,11 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
  * 
  */
     /*else*/ {
-      if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_nonbonded, Py_False) < 0) __PYX_ERR(0, 1092, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_v_atom, __pyx_n_s_nonbonded, Py_False) < 0) __PYX_ERR(0, 1107, __pyx_L1_error)
     }
     __pyx_L6:;
 
-    /* "vModel/VismolObject.pyx":1085
+    /* "vModel/VismolObject.pyx":1100
  *         self.non_bonded_atoms = []
  * 
  *         for atom in selection:             # <<<<<<<<<<<<<<
@@ -12295,7 +12396,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1078
+  /* "vModel/VismolObject.pyx":1093
  *         '''
  * 
  *     def import_non_bonded_atoms_from_bond(self, selection = None):             # <<<<<<<<<<<<<<
@@ -12321,7 +12422,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_20import_non_bon
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":1097
+/* "vModel/VismolObject.pyx":1112
  * 
  * 
  *     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):             # <<<<<<<<<<<<<<
@@ -12407,7 +12508,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_23find_bonded_an
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_bonded_and_nonbonded_by_selection") < 0)) __PYX_ERR(0, 1097, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_bonded_and_nonbonded_by_selection") < 0)) __PYX_ERR(0, 1112, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12435,7 +12536,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_23find_bonded_an
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_bonded_and_nonbonded_by_selection", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1097, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("find_bonded_and_nonbonded_by_selection", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1112, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject.find_bonded_and_nonbonded_by_selection", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12471,31 +12572,31 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   __Pyx_RefNannySetupContext("find_bonded_and_nonbonded_by_selection", 0);
   __Pyx_INCREF(__pyx_v_selection);
 
-  /* "vModel/VismolObject.pyx":1099
+  /* "vModel/VismolObject.pyx":1114
  *     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):
  *         """ Function doc """
  *         if selection == None:             # <<<<<<<<<<<<<<
  *             selection = self.atoms
  *         else:
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_selection, Py_None, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1099, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1099, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_selection, Py_None, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1114, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "vModel/VismolObject.pyx":1100
+    /* "vModel/VismolObject.pyx":1115
  *         """ Function doc """
  *         if selection == None:
  *             selection = self.atoms             # <<<<<<<<<<<<<<
  *         else:
  *             pass
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1100, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_atoms); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_selection, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":1099
+    /* "vModel/VismolObject.pyx":1114
  *     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):
  *         """ Function doc """
  *         if selection == None:             # <<<<<<<<<<<<<<
@@ -12505,7 +12606,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
     goto __pyx_L3;
   }
 
-  /* "vModel/VismolObject.pyx":1102
+  /* "vModel/VismolObject.pyx":1117
  *             selection = self.atoms
  *         else:
  *             pass             # <<<<<<<<<<<<<<
@@ -12516,59 +12617,59 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   }
   __pyx_L3:;
 
-  /* "vModel/VismolObject.pyx":1112
+  /* "vModel/VismolObject.pyx":1127
  *         final2 = time.time()
  *         '''
  *         atoms_list   = []             # <<<<<<<<<<<<<<
  *         indexes      = []
  *         cov_rad      = np.array(self.cov_radiues_list, dtype=np.float32)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1112, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_atoms_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1113
+  /* "vModel/VismolObject.pyx":1128
  *         '''
  *         atoms_list   = []
  *         indexes      = []             # <<<<<<<<<<<<<<
  *         cov_rad      = np.array(self.cov_radiues_list, dtype=np.float32)
  *         coords       = self.frames[frame]
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1113, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_indexes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1114
+  /* "vModel/VismolObject.pyx":1129
  *         atoms_list   = []
  *         indexes      = []
  *         cov_rad      = np.array(self.cov_radiues_list, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         coords       = self.frames[frame]
  *         gridpos_list = []
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_radiues_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cov_radiues_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 1114, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1114, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -12576,34 +12677,34 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   __pyx_v_cov_rad = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "vModel/VismolObject.pyx":1115
+  /* "vModel/VismolObject.pyx":1130
  *         indexes      = []
  *         cov_rad      = np.array(self.cov_radiues_list, dtype=np.float32)
  *         coords       = self.frames[frame]             # <<<<<<<<<<<<<<
  *         gridpos_list = []
  * 
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_frames); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1115, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_frames); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_frame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1115, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_t_6, __pyx_v_frame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_coords = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1116
+  /* "vModel/VismolObject.pyx":1131
  *         cov_rad      = np.array(self.cov_radiues_list, dtype=np.float32)
  *         coords       = self.frames[frame]
  *         gridpos_list = []             # <<<<<<<<<<<<<<
  * 
  *         for atom in selection:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1116, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_gridpos_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1118
+  /* "vModel/VismolObject.pyx":1133
  *         gridpos_list = []
  * 
  *         for atom in selection:             # <<<<<<<<<<<<<<
@@ -12614,26 +12715,26 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
     __pyx_t_1 = __pyx_v_selection; __Pyx_INCREF(__pyx_t_1); __pyx_t_7 = 0;
     __pyx_t_8 = NULL;
   } else {
-    __pyx_t_7 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_selection); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1118, __pyx_L1_error)
+    __pyx_t_7 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_selection); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1118, __pyx_L1_error)
+    __pyx_t_8 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1133, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_8)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_6); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 1118, __pyx_L1_error)
+        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_6); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 1133, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1118, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1133, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
       } else {
         if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_6); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 1118, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_7); __Pyx_INCREF(__pyx_t_6); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 1133, __pyx_L1_error)
         #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1118, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1133, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
       }
@@ -12643,7 +12744,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 1118, __pyx_L1_error)
+          else __PYX_ERR(0, 1133, __pyx_L1_error)
         }
         break;
       }
@@ -12652,42 +12753,42 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
     __Pyx_XDECREF_SET(__pyx_v_atom, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "vModel/VismolObject.pyx":1119
+    /* "vModel/VismolObject.pyx":1134
  * 
  *         for atom in selection:
  *             indexes.append(atom.index -1)             # <<<<<<<<<<<<<<
  *             gridpos_list.append(atom.get_grid_position (gridsize = gridsize, frame = frame))
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1119, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_SubtractObjC(__pyx_t_6, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1119, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_SubtractObjC(__pyx_t_6, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_indexes, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 1119, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_indexes, __pyx_t_4); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 1134, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "vModel/VismolObject.pyx":1120
+    /* "vModel/VismolObject.pyx":1135
  *         for atom in selection:
  *             indexes.append(atom.index -1)
  *             gridpos_list.append(atom.get_grid_position (gridsize = gridsize, frame = frame))             # <<<<<<<<<<<<<<
  * 
  *         bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids(indexes, coords , cov_rad, gridpos_list, gridsize, maxbond)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_get_grid_position); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1120, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_atom, __pyx_n_s_get_grid_position); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1120, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_gridsize, __pyx_v_gridsize) < 0) __PYX_ERR(0, 1120, __pyx_L1_error)
-    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_frame, __pyx_v_frame) < 0) __PYX_ERR(0, 1120, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1120, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_gridsize, __pyx_v_gridsize) < 0) __PYX_ERR(0, 1135, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_frame, __pyx_v_frame) < 0) __PYX_ERR(0, 1135, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_gridpos_list, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 1120, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_gridpos_list, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 1135, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":1118
+    /* "vModel/VismolObject.pyx":1133
  *         gridpos_list = []
  * 
  *         for atom in selection:             # <<<<<<<<<<<<<<
@@ -12697,16 +12798,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1122
+  /* "vModel/VismolObject.pyx":1137
  *             gridpos_list.append(atom.get_grid_position (gridsize = gridsize, frame = frame))
  * 
  *         bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids(indexes, coords , cov_rad, gridpos_list, gridsize, maxbond)             # <<<<<<<<<<<<<<
  *         #bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids_parallel(indexes, coords , cov_rad, gridpos_list, gridsize)
  *         return  bonds_pair_of_indexes
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cdist); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1122, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cdist); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ctype_get_atomic_bonds_from_atom); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1122, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ctype_get_atomic_bonds_from_atom); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -12724,7 +12825,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[7] = {__pyx_t_3, __pyx_v_indexes, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_gridpos_list, __pyx_v_gridsize, __pyx_v_maxbond};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 6+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 6+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1137, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -12732,13 +12833,13 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[7] = {__pyx_t_3, __pyx_v_indexes, __pyx_v_coords, __pyx_v_cov_rad, __pyx_v_gridpos_list, __pyx_v_gridsize, __pyx_v_maxbond};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 6+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 6+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1137, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(6+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1122, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(6+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -12761,7 +12862,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
     __Pyx_INCREF(__pyx_v_maxbond);
     __Pyx_GIVEREF(__pyx_v_maxbond);
     PyTuple_SET_ITEM(__pyx_t_4, 5+__pyx_t_10, __pyx_v_maxbond);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1122, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -12769,7 +12870,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   __pyx_v_bonds_pair_of_indexes = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1124
+  /* "vModel/VismolObject.pyx":1139
  *         bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids(indexes, coords , cov_rad, gridpos_list, gridsize, maxbond)
  *         #bonds_pair_of_indexes = cdist.ctype_get_atomic_bonds_from_atomic_grids_parallel(indexes, coords , cov_rad, gridpos_list, gridsize)
  *         return  bonds_pair_of_indexes             # <<<<<<<<<<<<<<
@@ -12781,7 +12882,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   __pyx_r = __pyx_v_bonds_pair_of_indexes;
   goto __pyx_L0;
 
-  /* "vModel/VismolObject.pyx":1097
+  /* "vModel/VismolObject.pyx":1112
  * 
  * 
  *     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):             # <<<<<<<<<<<<<<
@@ -12812,7 +12913,7 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_22find_bonded_an
   return __pyx_r;
 }
 
-/* "vModel/VismolObject.pyx":1128
+/* "vModel/VismolObject.pyx":1143
  * 
  * 
  *     def _init_find_bonded_and_nonbonded_atoms(self, selection = None, frame = 0, gridsize = 1.33, maxbond =  2.66, tolerance = 1.4, log = True):             # <<<<<<<<<<<<<<
@@ -12908,7 +13009,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_25_init_find_bon
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_init_find_bonded_and_nonbonded_atoms") < 0)) __PYX_ERR(0, 1128, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_init_find_bonded_and_nonbonded_atoms") < 0)) __PYX_ERR(0, 1143, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12939,7 +13040,7 @@ static PyObject *__pyx_pw_6vModel_12VismolObject_12VismolObject_25_init_find_bon
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_init_find_bonded_and_nonbonded_atoms", 0, 1, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1128, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_init_find_bonded_and_nonbonded_atoms", 0, 1, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1143, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("vModel.VismolObject.VismolObject._init_find_bonded_and_nonbonded_atoms", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12966,16 +13067,16 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
   Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("_init_find_bonded_and_nonbonded_atoms", 0);
 
-  /* "vModel/VismolObject.pyx":1130
+  /* "vModel/VismolObject.pyx":1145
  *     def _init_find_bonded_and_nonbonded_atoms(self, selection = None, frame = 0, gridsize = 1.33, maxbond =  2.66, tolerance = 1.4, log = True):
  *         """ Function doc """
  *         initial       = time.time()             # <<<<<<<<<<<<<<
  *         final1 = time.time()
  *         bonds_pair_of_indexes = self.find_bonded_and_nonbonded_by_selection( selection = None, frame = 0, gridsize = gridsize, tolerance = 1.0, maxbond = maxbond)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1130, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1130, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -12990,22 +13091,22 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1130, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_initial = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1131
+  /* "vModel/VismolObject.pyx":1146
  *         """ Function doc """
  *         initial       = time.time()
  *         final1 = time.time()             # <<<<<<<<<<<<<<
  *         bonds_pair_of_indexes = self.find_bonded_and_nonbonded_by_selection( selection = None, frame = 0, gridsize = gridsize, tolerance = 1.0, maxbond = maxbond)
  *         #print(bonds_pair_of_indexes)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1131, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1131, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -13020,45 +13121,45 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1131, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_final1 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":1132
+  /* "vModel/VismolObject.pyx":1147
  *         initial       = time.time()
  *         final1 = time.time()
  *         bonds_pair_of_indexes = self.find_bonded_and_nonbonded_by_selection( selection = None, frame = 0, gridsize = gridsize, tolerance = 1.0, maxbond = maxbond)             # <<<<<<<<<<<<<<
  *         #print(bonds_pair_of_indexes)
  *         final2 = time.time()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_find_bonded_and_nonbonded_by_sel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1132, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_find_bonded_and_nonbonded_by_sel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1132, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_selection, Py_None) < 0) __PYX_ERR(0, 1132, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_frame, __pyx_int_0) < 0) __PYX_ERR(0, 1132, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_gridsize, __pyx_v_gridsize) < 0) __PYX_ERR(0, 1132, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_tolerance, __pyx_float_1_0) < 0) __PYX_ERR(0, 1132, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_maxbond, __pyx_v_maxbond) < 0) __PYX_ERR(0, 1132, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1132, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_selection, Py_None) < 0) __PYX_ERR(0, 1147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_frame, __pyx_int_0) < 0) __PYX_ERR(0, 1147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_gridsize, __pyx_v_gridsize) < 0) __PYX_ERR(0, 1147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_tolerance, __pyx_float_1_0) < 0) __PYX_ERR(0, 1147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_maxbond, __pyx_v_maxbond) < 0) __PYX_ERR(0, 1147, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_bonds_pair_of_indexes = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":1134
+  /* "vModel/VismolObject.pyx":1149
  *         bonds_pair_of_indexes = self.find_bonded_and_nonbonded_by_selection( selection = None, frame = 0, gridsize = gridsize, tolerance = 1.0, maxbond = maxbond)
  *         #print(bonds_pair_of_indexes)
  *         final2 = time.time()             # <<<<<<<<<<<<<<
  * 
  *         if log:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1134, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1134, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -13073,32 +13174,32 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1134, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_final2 = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":1136
+  /* "vModel/VismolObject.pyx":1151
  *         final2 = time.time()
  * 
  *         if log:             # <<<<<<<<<<<<<<
  * 
  *             print ('building grid elements  : ', final1 - initial, '\n')#
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_log); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1136, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_log); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1151, __pyx_L1_error)
   if (__pyx_t_4) {
 
-    /* "vModel/VismolObject.pyx":1138
+    /* "vModel/VismolObject.pyx":1153
  *         if log:
  * 
  *             print ('building grid elements  : ', final1 - initial, '\n')#             # <<<<<<<<<<<<<<
  *             #--------------------------------------------------------------#
  *             #print (non_bonded_list)
  */
-    __pyx_t_3 = PyNumber_Subtract(__pyx_v_final1, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1138, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Subtract(__pyx_v_final1, __pyx_v_initial); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1138, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_kp_s_building_grid_elements);
     __Pyx_GIVEREF(__pyx_kp_s_building_grid_elements);
@@ -13109,20 +13210,20 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
     __Pyx_GIVEREF(__pyx_kp_s__2);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_s__2);
     __pyx_t_3 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 1138, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 1153, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":1141
+    /* "vModel/VismolObject.pyx":1156
  *             #--------------------------------------------------------------#
  *             #print (non_bonded_list)
  *             print ('Total number of Atoms   :', len(selection)             )             # <<<<<<<<<<<<<<
  *             #print ('Number of grid elements :', len(atomic_grid)           )
  * 
  */
-    __pyx_t_5 = PyObject_Length(__pyx_v_selection); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1141, __pyx_L1_error)
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1141, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_selection); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1156, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1141, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1156, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_Total_number_of_Atoms);
     __Pyx_GIVEREF(__pyx_kp_s_Total_number_of_Atoms);
@@ -13130,17 +13231,17 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
     __pyx_t_1 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1141, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1156, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":1144
+    /* "vModel/VismolObject.pyx":1159
  *             #print ('Number of grid elements :', len(atomic_grid)           )
  * 
  *             print('gridsize'  ,gridsize)             # <<<<<<<<<<<<<<
  *             #print('maxbond'   ,maxbond)
  *             #print('borderGrid',  maxbond/gridsize)
  */
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1144, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_n_s_gridsize);
     __Pyx_GIVEREF(__pyx_n_s_gridsize);
@@ -13148,20 +13249,20 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
     __Pyx_INCREF(__pyx_v_gridsize);
     __Pyx_GIVEREF(__pyx_v_gridsize);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_gridsize);
-    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1144, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1159, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":1149
+    /* "vModel/VismolObject.pyx":1164
  * 
  * 
  *             print ('Bonds                   :', len(bonds_pair_of_indexes))             # <<<<<<<<<<<<<<
  *             print ('Bonds calcultation time : ', final2 - initial, '\n')   #
  *             #--------------------------------------------------------------#
  */
-    __pyx_t_5 = PyObject_Length(__pyx_v_bonds_pair_of_indexes); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1149, __pyx_L1_error)
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1149, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_bonds_pair_of_indexes); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 1164, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1149, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_kp_s_Bonds);
     __Pyx_GIVEREF(__pyx_kp_s_Bonds);
@@ -13169,19 +13270,19 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
     __pyx_t_3 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 1149, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 1164, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "vModel/VismolObject.pyx":1150
+    /* "vModel/VismolObject.pyx":1165
  * 
  *             print ('Bonds                   :', len(bonds_pair_of_indexes))
  *             print ('Bonds calcultation time : ', final2 - initial, '\n')   #             # <<<<<<<<<<<<<<
  *             #--------------------------------------------------------------#
  * 
  */
-    __pyx_t_1 = PyNumber_Subtract(__pyx_v_final2, __pyx_v_initial); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1150, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Subtract(__pyx_v_final2, __pyx_v_initial); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1165, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1150, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1165, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_Bonds_calcultation_time);
     __Pyx_GIVEREF(__pyx_kp_s_Bonds_calcultation_time);
@@ -13192,10 +13293,10 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
     __Pyx_GIVEREF(__pyx_kp_s__2);
     PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_kp_s__2);
     __pyx_t_1 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1150, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 1165, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "vModel/VismolObject.pyx":1136
+    /* "vModel/VismolObject.pyx":1151
  *         final2 = time.time()
  * 
  *         if log:             # <<<<<<<<<<<<<<
@@ -13204,14 +13305,14 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
  */
   }
 
-  /* "vModel/VismolObject.pyx":1162
+  /* "vModel/VismolObject.pyx":1177
  * 
  *         '''
  *         self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)             # <<<<<<<<<<<<<<
  *         self.import_non_bonded_atoms_from_bond()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds_from_pair_of_indexes_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1162, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_bonds_from_pair_of_indexes_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -13225,19 +13326,19 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_bonds_pair_of_indexes) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_bonds_pair_of_indexes);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1162, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":1163
+  /* "vModel/VismolObject.pyx":1178
  *         '''
  *         self.bonds_from_pair_of_indexes_list(bonds_pair_of_indexes)
  *         self.import_non_bonded_atoms_from_bond()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_import_non_bonded_atoms_from_bon); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1163, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_import_non_bonded_atoms_from_bon); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -13251,12 +13352,12 @@ static PyObject *__pyx_pf_6vModel_12VismolObject_12VismolObject_24_init_find_bon
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1163, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "vModel/VismolObject.pyx":1128
+  /* "vModel/VismolObject.pyx":1143
  * 
  * 
  *     def _init_find_bonded_and_nonbonded_atoms(self, selection = None, frame = 0, gridsize = 1.33, maxbond =  2.66, tolerance = 1.4, log = True):             # <<<<<<<<<<<<<<
@@ -13345,6 +13446,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_NonBondedRepresentation, __pyx_k_NonBondedRepresentation, sizeof(__pyx_k_NonBondedRepresentation), 0, 0, 1, 1},
   {&__pyx_n_s_Residue, __pyx_k_Residue, sizeof(__pyx_k_Residue), 0, 0, 1, 1},
   {&__pyx_n_s_RibbonsRepresentation, __pyx_k_RibbonsRepresentation, sizeof(__pyx_k_RibbonsRepresentation), 0, 0, 1, 1},
+  {&__pyx_n_s_SphereInstanceRepresentation, __pyx_k_SphereInstanceRepresentation, sizeof(__pyx_k_SphereInstanceRepresentation), 0, 0, 1, 1},
   {&__pyx_n_s_SpheresRepresentation, __pyx_k_SpheresRepresentation, sizeof(__pyx_k_SpheresRepresentation), 0, 0, 1, 1},
   {&__pyx_n_s_SticksRepresentation, __pyx_k_SticksRepresentation, sizeof(__pyx_k_SticksRepresentation), 0, 0, 1, 1},
   {&__pyx_kp_s_Total_number_of_Atoms, __pyx_k_Total_number_of_Atoms, sizeof(__pyx_k_Total_number_of_Atoms), 0, 0, 1, 0},
@@ -13558,6 +13660,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_set_model_matrix, __pyx_k_set_model_matrix, sizeof(__pyx_k_set_model_matrix), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_spheres, __pyx_k_spheres, sizeof(__pyx_k_spheres), 0, 0, 1, 1},
+  {&__pyx_n_s_spheresInstace, __pyx_k_spheresInstace, sizeof(__pyx_k_spheresInstace), 0, 0, 1, 1},
+  {&__pyx_n_s_spheres_instance, __pyx_k_spheres_instance, sizeof(__pyx_k_spheres_instance), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_sticks, __pyx_k_sticks, sizeof(__pyx_k_sticks), 0, 0, 1, 1},
   {&__pyx_n_s_sum_x, __pyx_k_sum_x, sizeof(__pyx_k_sum_x), 0, 0, 1, 1},
@@ -13598,7 +13702,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 990, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 1005, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -13608,242 +13712,242 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "vModel/VismolObject.pyx":74
+  /* "vModel/VismolObject.pyx":75
  * 
  *         #-----------------------------------------------------------------
  *         self.model_mat = np.identity(4, dtype=np.float32)             # <<<<<<<<<<<<<<
  *         self.trans_mat = np.identity(4, dtype=np.float32)
  *         #-----------------------------------------------------------------
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_4); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_4); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "vModel/VismolObject.pyx":54
+  /* "vModel/VismolObject.pyx":55
  *     """ Class doc """
  * 
  *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
  *         self.vm_session = vm_session
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_vm_session); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __pyx_tuple__6 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "vModel/VismolObject.pyx":78
+  /* "vModel/VismolObject.pyx":79
  *         #-----------------------------------------------------------------
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         frame_number = self.vm_session.frame -1
  */
-  __pyx_tuple__7 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_atoms, __pyx_n_s_frame_number, __pyx_n_s_frame, __pyx_n_s_atom1, __pyx_n_s_atom2, __pyx_n_s_atom3, __pyx_n_s_atom4, __pyx_n_s_rep); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_atoms, __pyx_n_s_frame_number, __pyx_n_s_frame, __pyx_n_s_atom1, __pyx_n_s_atom2, __pyx_n_s_atom3, __pyx_n_s_atom4, __pyx_n_s_rep); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_add_new_atom_list_to_vismol_geom, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_add_new_atom_list_to_vismol_geom, 79, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 79, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":139
+  /* "vModel/VismolObject.pyx":140
  *         #print(self.representations['lines'].active)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
  *         """ Function doc
  *         """
  */
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_mat); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_mat); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_set_model_matrix, 139, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_set_model_matrix, 140, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 140, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":145
+  /* "vModel/VismolObject.pyx":146
  *         return True
  * 
  *     def _generate_color_vectors (self):             # <<<<<<<<<<<<<<
  *         """ Function doc
  * 
  */
-  __pyx_tuple__11 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_half, __pyx_n_s_quarter, __pyx_n_s_color_step, __pyx_n_s_red, __pyx_n_s_green, __pyx_n_s_blue, __pyx_n_s_counter, __pyx_n_s_temp_counter, __pyx_n_s_atom); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_size, __pyx_n_s_half, __pyx_n_s_quarter, __pyx_n_s_color_step, __pyx_n_s_red, __pyx_n_s_green, __pyx_n_s_blue, __pyx_n_s_counter, __pyx_n_s_temp_counter, __pyx_n_s_atom); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_generate_color_vectors, 145, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_generate_color_vectors, 146, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 146, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":315
+  /* "vModel/VismolObject.pyx":316
  *     """
  * 
  *     def __init__ (self,             # <<<<<<<<<<<<<<
  *                   active                         = False,
  *                   name                           = 'UNK',
  */
-  __pyx_tuple__13 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_active, __pyx_n_s_name, __pyx_n_s_atoms, __pyx_n_s_vm_session, __pyx_n_s_trajectory, __pyx_n_s_bonds_pair_of_indexes, __pyx_n_s_color_palette, __pyx_n_s_auto_find_bonded_and_nonbonded, __pyx_n_s_index); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(10, __pyx_n_s_self, __pyx_n_s_active, __pyx_n_s_name, __pyx_n_s_atoms, __pyx_n_s_vm_session, __pyx_n_s_trajectory, __pyx_n_s_bonds_pair_of_indexes, __pyx_n_s_color_palette, __pyx_n_s_auto_find_bonded_and_nonbonded, __pyx_n_s_index); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(9, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init, 315, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(9, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init, 316, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 316, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":467
+  /* "vModel/VismolObject.pyx":468
  * 
  * 
  *     def _add_new_atom_to_vobj (self, atom):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         if atom.symbol == 'H':
  */
-  __pyx_tuple__15 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_atom, __pyx_n_s_ch, __pyx_n_s_residue); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_atom, __pyx_n_s_ch, __pyx_n_s_residue); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_add_new_atom_to_vobj, 467, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_add_new_atom_to_vobj, 468, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 468, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":558
+  /* "vModel/VismolObject.pyx":559
  * 
  * 
  *     def create_new_representation (self, rtype = 'lines', indexes = None):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         #print('\n\n\n',indexes)
  */
-  __pyx_tuple__17 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_rtype, __pyx_n_s_indexes); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 558, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_rtype, __pyx_n_s_indexes); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_create_new_representation, 558, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 558, __pyx_L1_error)
-  __pyx_tuple__19 = PyTuple_Pack(2, ((PyObject*)__pyx_n_s_lines), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 558, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_create_new_representation, 559, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(2, ((PyObject*)__pyx_n_s_lines), ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 559, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
-  /* "vModel/VismolObject.pyx":643
+  /* "vModel/VismolObject.pyx":658
  * 
  * 
  *     def _get_center_of_mass (self, frame = 0):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  * 
  */
-  __pyx_tuple__20 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_frame, __pyx_n_s_frame_size, __pyx_n_s_atoms, __pyx_n_s_sum_x, __pyx_n_s_sum_y, __pyx_n_s_sum_z, __pyx_n_s_initial, __pyx_n_s_atom, __pyx_n_s_coord, __pyx_n_s_final, __pyx_n_s_total); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 643, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_frame, __pyx_n_s_frame_size, __pyx_n_s_atoms, __pyx_n_s_sum_x, __pyx_n_s_sum_y, __pyx_n_s_sum_z, __pyx_n_s_initial, __pyx_n_s_atom, __pyx_n_s_coord, __pyx_n_s_final, __pyx_n_s_total); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 658, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_get_center_of_mass, 643, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 643, __pyx_L1_error)
-  __pyx_tuple__22 = PyTuple_Pack(1, ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 643, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_get_center_of_mass, 658, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 658, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 658, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
-  /* "vModel/VismolObject.pyx":686
+  /* "vModel/VismolObject.pyx":701
  * 
  * 
  *     def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         print ('\ngenerate_chain_structure (easyhybrid_serialization_file) starting')
  */
-  __pyx_tuple__23 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_d_atoms, __pyx_n_s_frames, __pyx_n_s_dynamic_bons, __pyx_n_s_initial, __pyx_n_s_bonds_by_indexes, __pyx_n_s_d_atom, __pyx_n_s_bond, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_atom, __pyx_n_s_final); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 686, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_d_atoms, __pyx_n_s_frames, __pyx_n_s_dynamic_bons, __pyx_n_s_initial, __pyx_n_s_bonds_by_indexes, __pyx_n_s_d_atom, __pyx_n_s_bond, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_atom, __pyx_n_s_final); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 701, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(4, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_load_data_from_easyhybrid_serial, 686, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 686, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(4, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_load_data_from_easyhybrid_serial, 701, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 701, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":766
+  /* "vModel/VismolObject.pyx":781
  * 
  * 
  *     def _generate_atomtree_structure (self, get_backbone_indexes = False):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_get_backbone_indexes, __pyx_n_s_initial, __pyx_n_s_frame, __pyx_n_s_atom2, __pyx_n_s_atom, __pyx_n_s_final, __pyx_n_s_chain); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 766, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_get_backbone_indexes, __pyx_n_s_initial, __pyx_n_s_frame, __pyx_n_s_atom2, __pyx_n_s_atom, __pyx_n_s_final, __pyx_n_s_chain); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 781, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_generate_atomtree_structure, 766, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 766, __pyx_L1_error)
-  __pyx_tuple__27 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 766, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_generate_atomtree_structure, 781, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 781, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
 
-  /* "vModel/VismolObject.pyx":813
+  /* "vModel/VismolObject.pyx":828
  * 
  * 
  *     def _generate_color_vectors (self, do_colors         = True,             # <<<<<<<<<<<<<<
  *                                        do_colors_idx     = True,
  *                                        do_colors_raindow = True,
  */
-  __pyx_tuple__28 = PyTuple_Pack(16, __pyx_n_s_self, __pyx_n_s_do_colors, __pyx_n_s_do_colors_idx, __pyx_n_s_do_colors_raindow, __pyx_n_s_do_vdw_dot_sizes, __pyx_n_s_do_cov_dot_sizes, __pyx_n_s_size, __pyx_n_s_half, __pyx_n_s_quarter, __pyx_n_s_color_step, __pyx_n_s_red, __pyx_n_s_green, __pyx_n_s_blue, __pyx_n_s_counter, __pyx_n_s_temp_counter, __pyx_n_s_atom); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 813, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(16, __pyx_n_s_self, __pyx_n_s_do_colors, __pyx_n_s_do_colors_idx, __pyx_n_s_do_colors_raindow, __pyx_n_s_do_vdw_dot_sizes, __pyx_n_s_do_cov_dot_sizes, __pyx_n_s_size, __pyx_n_s_half, __pyx_n_s_quarter, __pyx_n_s_color_step, __pyx_n_s_red, __pyx_n_s_green, __pyx_n_s_blue, __pyx_n_s_counter, __pyx_n_s_temp_counter, __pyx_n_s_atom); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 828, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(6, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_generate_color_vectors, 813, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 813, __pyx_L1_error)
-  __pyx_tuple__30 = PyTuple_Pack(5, ((PyObject *)Py_True), ((PyObject *)Py_True), ((PyObject *)Py_True), ((PyObject *)Py_True), ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 813, __pyx_L1_error)
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(6, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_generate_color_vectors, 828, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(0, 828, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(5, ((PyObject *)Py_True), ((PyObject *)Py_True), ((PyObject *)Py_True), ((PyObject *)Py_True), ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 828, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "vModel/VismolObject.pyx":960
+  /* "vModel/VismolObject.pyx":975
  *             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
  *         """ Function doc
  *         """
  */
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_mat); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 960, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_mat); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 975, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_set_model_matrix, 960, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 960, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_set_model_matrix, 975, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 975, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":966
+  /* "vModel/VismolObject.pyx":981
  *         return True
  * 
  *     def get_backbone_indexes (self):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         chains_list   = []
  */
-  __pyx_tuple__33 = PyTuple_Pack(15, __pyx_n_s_self, __pyx_n_s_chains_list, __pyx_n_s_bonds_pairs, __pyx_n_s_bonds_indexes, __pyx_n_s_chain, __pyx_n_s_residue, __pyx_n_s_atom, __pyx_n_s_n, __pyx_n_s_atom_before, __pyx_n_s_resi_before, __pyx_n_s_index_before, __pyx_n_s_resi, __pyx_n_s_index, __pyx_n_s_bond, __pyx_n_s_distance); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 966, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(15, __pyx_n_s_self, __pyx_n_s_chains_list, __pyx_n_s_bonds_pairs, __pyx_n_s_bonds_indexes, __pyx_n_s_chain, __pyx_n_s_residue, __pyx_n_s_atom, __pyx_n_s_n, __pyx_n_s_atom_before, __pyx_n_s_resi_before, __pyx_n_s_index_before, __pyx_n_s_resi, __pyx_n_s_index, __pyx_n_s_bond, __pyx_n_s_distance); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 981, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 15, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_get_backbone_indexes, 966, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 966, __pyx_L1_error)
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 15, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_get_backbone_indexes, 981, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 981, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":1022
+  /* "vModel/VismolObject.pyx":1037
  *                     self.c_alpha_bonds.append(bond)
  * 
  *     def bonds_from_pair_of_indexes_list (self, bonds_list = [] ):             # <<<<<<<<<<<<<<
  *         """ Function doc
  *         bonds_list = [[0,1] , [0,4] , [1,3], ...]
  */
-  __pyx_tuple__35 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_bonds_list, __pyx_n_s_i, __pyx_n_s_index_i, __pyx_n_s_index_j, __pyx_n_s_bond); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 1022, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_bonds_list, __pyx_n_s_i, __pyx_n_s_index_i, __pyx_n_s_index_j, __pyx_n_s_bond); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 1037, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_bonds_from_pair_of_indexes_list, 1022, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 1022, __pyx_L1_error)
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_bonds_from_pair_of_indexes_list, 1037, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(0, 1037, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":1078
+  /* "vModel/VismolObject.pyx":1093
  *         '''
  * 
  *     def import_non_bonded_atoms_from_bond(self, selection = None):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         if selection == None:
  */
-  __pyx_tuple__37 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_selection, __pyx_n_s_atom); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 1078, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_selection, __pyx_n_s_atom); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 1093, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_import_non_bonded_atoms_from_bon, 1078, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 1078, __pyx_L1_error)
-  __pyx_tuple__39 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 1078, __pyx_L1_error)
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_import_non_bonded_atoms_from_bon, 1093, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(0, 1093, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 1093, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
-  /* "vModel/VismolObject.pyx":1097
+  /* "vModel/VismolObject.pyx":1112
  * 
  * 
  *     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         if selection == None:
  */
-  __pyx_tuple__40 = PyTuple_Pack(13, __pyx_n_s_self, __pyx_n_s_selection, __pyx_n_s_frame, __pyx_n_s_gridsize, __pyx_n_s_tolerance, __pyx_n_s_maxbond, __pyx_n_s_atoms_list, __pyx_n_s_indexes, __pyx_n_s_cov_rad, __pyx_n_s_coords, __pyx_n_s_gridpos_list, __pyx_n_s_atom, __pyx_n_s_bonds_pair_of_indexes); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 1097, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(13, __pyx_n_s_self, __pyx_n_s_selection, __pyx_n_s_frame, __pyx_n_s_gridsize, __pyx_n_s_tolerance, __pyx_n_s_maxbond, __pyx_n_s_atoms_list, __pyx_n_s_indexes, __pyx_n_s_cov_rad, __pyx_n_s_coords, __pyx_n_s_gridpos_list, __pyx_n_s_atom, __pyx_n_s_bonds_pair_of_indexes); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 1112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
-  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(6, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_find_bonded_and_nonbonded_by_sel, 1097, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 1097, __pyx_L1_error)
-  __pyx_tuple__42 = PyTuple_Pack(5, ((PyObject *)Py_None), ((PyObject *)__pyx_int_0), ((PyObject*)__pyx_float_1_4), ((PyObject*)__pyx_float_1_4), ((PyObject*)__pyx_float_2_6)); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 1097, __pyx_L1_error)
+  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(6, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_find_bonded_and_nonbonded_by_sel, 1112, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 1112, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(5, ((PyObject *)Py_None), ((PyObject *)__pyx_int_0), ((PyObject*)__pyx_float_1_4), ((PyObject*)__pyx_float_1_4), ((PyObject*)__pyx_float_2_6)); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 1112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
 
-  /* "vModel/VismolObject.pyx":1128
+  /* "vModel/VismolObject.pyx":1143
  * 
  * 
  *     def _init_find_bonded_and_nonbonded_atoms(self, selection = None, frame = 0, gridsize = 1.33, maxbond =  2.66, tolerance = 1.4, log = True):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         initial       = time.time()
  */
-  __pyx_tuple__43 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_selection, __pyx_n_s_frame, __pyx_n_s_gridsize, __pyx_n_s_maxbond, __pyx_n_s_tolerance, __pyx_n_s_log, __pyx_n_s_initial, __pyx_n_s_final1, __pyx_n_s_bonds_pair_of_indexes, __pyx_n_s_final2); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 1128, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(11, __pyx_n_s_self, __pyx_n_s_selection, __pyx_n_s_frame, __pyx_n_s_gridsize, __pyx_n_s_maxbond, __pyx_n_s_tolerance, __pyx_n_s_log, __pyx_n_s_initial, __pyx_n_s_final1, __pyx_n_s_bonds_pair_of_indexes, __pyx_n_s_final2); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 1143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(7, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init_find_bonded_and_nonbonded, 1128, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 1128, __pyx_L1_error)
-  __pyx_tuple__45 = PyTuple_Pack(6, ((PyObject *)Py_None), ((PyObject *)__pyx_int_0), ((PyObject*)__pyx_float_1_33), ((PyObject*)__pyx_float_2_66), ((PyObject*)__pyx_float_1_4), ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 1128, __pyx_L1_error)
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(7, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_vModel_VismolObject_pyx, __pyx_n_s_init_find_bonded_and_nonbonded, 1143, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 1143, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(6, ((PyObject *)Py_None), ((PyObject *)__pyx_int_0), ((PyObject*)__pyx_float_1_33), ((PyObject*)__pyx_float_2_66), ((PyObject*)__pyx_float_1_4), ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 1143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
   __Pyx_RefNannyFinishContext();
@@ -14416,7 +14520,7 @@ if (!__Pyx_RefNanny) {
  * from vModel.Representations   import GlumpyRepresentation
  * from vModel.Representations   import WiresRepresentation             # <<<<<<<<<<<<<<
  * from vModel.Representations   import RibbonsRepresentation
- * 
+ * from vModel.Representations   import SphereInstanceRepresentation
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -14436,8 +14540,8 @@ if (!__Pyx_RefNanny) {
  * from vModel.Representations   import GlumpyRepresentation
  * from vModel.Representations   import WiresRepresentation
  * from vModel.Representations   import RibbonsRepresentation             # <<<<<<<<<<<<<<
+ * from vModel.Representations   import SphereInstanceRepresentation
  * 
- * from vModel.MolecularProperties import COLOR_PALETTE
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -14453,334 +14557,355 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":46
+  /* "vModel/VismolObject.pyx":45
+ * from vModel.Representations   import WiresRepresentation
  * from vModel.Representations   import RibbonsRepresentation
+ * from vModel.Representations   import SphereInstanceRepresentation             # <<<<<<<<<<<<<<
+ * 
+ * from vModel.MolecularProperties import COLOR_PALETTE
+ */
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_SphereInstanceRepresentation);
+  __Pyx_GIVEREF(__pyx_n_s_SphereInstanceRepresentation);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_SphereInstanceRepresentation);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_vModel_Representations, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_SphereInstanceRepresentation); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_SphereInstanceRepresentation, __pyx_t_2) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "vModel/VismolObject.pyx":47
+ * from vModel.Representations   import SphereInstanceRepresentation
  * 
  * from vModel.MolecularProperties import COLOR_PALETTE             # <<<<<<<<<<<<<<
  * 
  * import vModel.cDistances as cdist
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_COLOR_PALETTE);
   __Pyx_GIVEREF(__pyx_n_s_COLOR_PALETTE);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_COLOR_PALETTE);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_vModel_MolecularProperties, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_COLOR_PALETTE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_COLOR_PALETTE);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_vModel_MolecularProperties, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_COLOR_PALETTE, __pyx_t_2) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_COLOR_PALETTE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_COLOR_PALETTE, __pyx_t_1) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":48
+  /* "vModel/VismolObject.pyx":49
  * from vModel.MolecularProperties import COLOR_PALETTE
  * 
  * import vModel.cDistances as cdist             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s__3);
   __Pyx_GIVEREF(__pyx_n_s__3);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__3);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_vModel_cDistances, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cdist, __pyx_t_2) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__3);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_vModel_cDistances, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cdist, __pyx_t_1) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":51
+  /* "vModel/VismolObject.pyx":52
  * 
  * 
  * class VismolGeometricObject:             # <<<<<<<<<<<<<<
  *     """ Class doc """
  * 
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_VismolGeometricObject, __pyx_n_s_VismolGeometricObject, (PyObject *) NULL, __pyx_n_s_vModel_VismolObject, __pyx_kp_s_Class_doc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_VismolGeometricObject, __pyx_n_s_VismolGeometricObject, (PyObject *) NULL, __pyx_n_s_vModel_VismolObject, __pyx_kp_s_Class_doc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
 
-  /* "vModel/VismolObject.pyx":54
+  /* "vModel/VismolObject.pyx":55
  *     """ Class doc """
  * 
  *     def __init__ (self, vm_session =  None):             # <<<<<<<<<<<<<<
  *         """ Class initialiser """
  *         self.vm_session = vm_session
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_1__init__, 0, __pyx_n_s_VismolGeometricObject___init, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__6);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_1__init__, 0, __pyx_n_s_VismolGeometricObject___init, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__6);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":78
+  /* "vModel/VismolObject.pyx":79
  *         #-----------------------------------------------------------------
  * 
  *     def add_new_atom_list_to_vismol_geometric_object (self, atoms):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         frame_number = self.vm_session.frame -1
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_3add_new_atom_list_to_vismol_geometric_object, 0, __pyx_n_s_VismolGeometricObject_add_new_at, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_new_atom_list_to_vismol_geom, __pyx_t_1) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_3add_new_atom_list_to_vismol_geometric_object, 0, __pyx_n_s_VismolGeometricObject_add_new_at, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_new_atom_list_to_vismol_geom, __pyx_t_2) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":139
+  /* "vModel/VismolObject.pyx":140
  *         #print(self.representations['lines'].active)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
  *         """ Function doc
  *         """
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_5set_model_matrix, 0, __pyx_n_s_VismolGeometricObject_set_model, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_set_model_matrix, __pyx_t_1) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_5set_model_matrix, 0, __pyx_n_s_VismolGeometricObject_set_model, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_set_model_matrix, __pyx_t_2) < 0) __PYX_ERR(0, 140, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":145
+  /* "vModel/VismolObject.pyx":146
  *         return True
  * 
  *     def _generate_color_vectors (self):             # <<<<<<<<<<<<<<
  *         """ Function doc
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_7_generate_color_vectors, 0, __pyx_n_s_VismolGeometricObject__generate, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_generate_color_vectors, __pyx_t_1) < 0) __PYX_ERR(0, 145, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_21VismolGeometricObject_7_generate_color_vectors, 0, __pyx_n_s_VismolGeometricObject__generate, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_generate_color_vectors, __pyx_t_2) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":51
+  /* "vModel/VismolObject.pyx":52
  * 
  * 
  * class VismolGeometricObject:             # <<<<<<<<<<<<<<
  *     """ Class doc """
  * 
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_VismolGeometricObject, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VismolGeometricObject, __pyx_t_1) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_VismolGeometricObject, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VismolGeometricObject, __pyx_t_2) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "vModel/VismolObject.pyx":267
+  /* "vModel/VismolObject.pyx":268
  *         self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  * 
  * class VismolObject:             # <<<<<<<<<<<<<<
  *     """ Class doc
  * 
  */
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_VismolObject, __pyx_n_s_VismolObject, (PyObject *) NULL, __pyx_n_s_vModel_VismolObject, __pyx_kp_s_Class_doc_Visual_Object_contain); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_VismolObject, __pyx_n_s_VismolObject, (PyObject *) NULL, __pyx_n_s_vModel_VismolObject, __pyx_kp_s_Class_doc_Visual_Object_contain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
 
-  /* "vModel/VismolObject.pyx":315
+  /* "vModel/VismolObject.pyx":316
  *     """
  * 
  *     def __init__ (self,             # <<<<<<<<<<<<<<
  *                   active                         = False,
  *                   name                           = 'UNK',
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_1__init__, 0, __pyx_n_s_VismolObject___init, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_1, sizeof(__pyx_defaults), 1)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_1__init__, 0, __pyx_n_s_VismolObject___init, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_2, sizeof(__pyx_defaults), 1)) __PYX_ERR(0, 316, __pyx_L1_error)
 
-  /* "vModel/VismolObject.pyx":318
+  /* "vModel/VismolObject.pyx":319
  *                   active                         = False,
  *                   name                           = 'UNK',
  *                   atoms                          = []   ,             # <<<<<<<<<<<<<<
  *                   vm_session                  = None ,
  *                   trajectory                     = None ,
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_t_1)->__pyx_arg_atoms = __pyx_t_3;
+  __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_t_2)->__pyx_arg_atoms = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_1, __pyx_pf_6vModel_12VismolObject___defaults__);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_2, __pyx_pf_6vModel_12VismolObject___defaults__);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":467
+  /* "vModel/VismolObject.pyx":468
  * 
  * 
  *     def _add_new_atom_to_vobj (self, atom):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         if atom.symbol == 'H':
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_3_add_new_atom_to_vobj, 0, __pyx_n_s_VismolObject__add_new_atom_to_vo, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_add_new_atom_to_vobj, __pyx_t_1) < 0) __PYX_ERR(0, 467, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_3_add_new_atom_to_vobj, 0, __pyx_n_s_VismolObject__add_new_atom_to_vo, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 468, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_new_atom_to_vobj, __pyx_t_2) < 0) __PYX_ERR(0, 468, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":558
+  /* "vModel/VismolObject.pyx":559
  * 
  * 
  *     def create_new_representation (self, rtype = 'lines', indexes = None):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         #print('\n\n\n',indexes)
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_5create_new_representation, 0, __pyx_n_s_VismolObject_create_new_represen, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 558, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__19);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_create_new_representation, __pyx_t_1) < 0) __PYX_ERR(0, 558, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_5create_new_representation, 0, __pyx_n_s_VismolObject_create_new_represen, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 559, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__19);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_new_representation, __pyx_t_2) < 0) __PYX_ERR(0, 559, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":643
+  /* "vModel/VismolObject.pyx":658
  * 
  * 
  *     def _get_center_of_mass (self, frame = 0):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_7_get_center_of_mass, 0, __pyx_n_s_VismolObject__get_center_of_mass, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 643, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__22);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_center_of_mass, __pyx_t_1) < 0) __PYX_ERR(0, 643, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_7_get_center_of_mass, 0, __pyx_n_s_VismolObject__get_center_of_mass, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 658, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__22);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_center_of_mass, __pyx_t_2) < 0) __PYX_ERR(0, 658, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":686
+  /* "vModel/VismolObject.pyx":701
  * 
  * 
  *     def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         print ('\ngenerate_chain_structure (easyhybrid_serialization_file) starting')
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_9load_data_from_easyhybrid_serialization_file, 0, __pyx_n_s_VismolObject_load_data_from_easy, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 686, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load_data_from_easyhybrid_serial, __pyx_t_1) < 0) __PYX_ERR(0, 686, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_9load_data_from_easyhybrid_serialization_file, 0, __pyx_n_s_VismolObject_load_data_from_easy, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 701, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_load_data_from_easyhybrid_serial, __pyx_t_2) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":766
+  /* "vModel/VismolObject.pyx":781
  * 
  * 
  *     def _generate_atomtree_structure (self, get_backbone_indexes = False):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_11_generate_atomtree_structure, 0, __pyx_n_s_VismolObject__generate_atomtree, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 766, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__27);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_generate_atomtree_structure, __pyx_t_1) < 0) __PYX_ERR(0, 766, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_11_generate_atomtree_structure, 0, __pyx_n_s_VismolObject__generate_atomtree, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__27);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_generate_atomtree_structure, __pyx_t_2) < 0) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":813
+  /* "vModel/VismolObject.pyx":828
  * 
  * 
  *     def _generate_color_vectors (self, do_colors         = True,             # <<<<<<<<<<<<<<
  *                                        do_colors_idx     = True,
  *                                        do_colors_raindow = True,
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_13_generate_color_vectors, 0, __pyx_n_s_VismolObject__generate_color_vec, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 813, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__30);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_generate_color_vectors, __pyx_t_1) < 0) __PYX_ERR(0, 813, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_13_generate_color_vectors, 0, __pyx_n_s_VismolObject__generate_color_vec, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 828, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__30);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_generate_color_vectors, __pyx_t_2) < 0) __PYX_ERR(0, 828, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":960
+  /* "vModel/VismolObject.pyx":975
  *             self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
  * 
  *     def set_model_matrix(self, mat):             # <<<<<<<<<<<<<<
  *         """ Function doc
  *         """
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_15set_model_matrix, 0, __pyx_n_s_VismolObject_set_model_matrix, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 960, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_set_model_matrix, __pyx_t_1) < 0) __PYX_ERR(0, 960, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_15set_model_matrix, 0, __pyx_n_s_VismolObject_set_model_matrix, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 975, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_set_model_matrix, __pyx_t_2) < 0) __PYX_ERR(0, 975, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":966
+  /* "vModel/VismolObject.pyx":981
  *         return True
  * 
  *     def get_backbone_indexes (self):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         chains_list   = []
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_17get_backbone_indexes, 0, __pyx_n_s_VismolObject_get_backbone_indexe, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 966, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_get_backbone_indexes, __pyx_t_1) < 0) __PYX_ERR(0, 966, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_17get_backbone_indexes, 0, __pyx_n_s_VismolObject_get_backbone_indexe, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 981, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_backbone_indexes, __pyx_t_2) < 0) __PYX_ERR(0, 981, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":1022
+  /* "vModel/VismolObject.pyx":1037
  *                     self.c_alpha_bonds.append(bond)
  * 
  *     def bonds_from_pair_of_indexes_list (self, bonds_list = [] ):             # <<<<<<<<<<<<<<
  *         """ Function doc
  *         bonds_list = [[0,1] , [0,4] , [1,3], ...]
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_19bonds_from_pair_of_indexes_list, 0, __pyx_n_s_VismolObject_bonds_from_pair_of, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1022, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_1, sizeof(__pyx_defaults1), 1)) __PYX_ERR(0, 1022, __pyx_L1_error)
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1022, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_19bonds_from_pair_of_indexes_list, 0, __pyx_n_s_VismolObject_bonds_from_pair_of, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__36)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1037, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_2, sizeof(__pyx_defaults1), 1)) __PYX_ERR(0, 1037, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1037, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_t_1)->__pyx_arg_bonds_list = __pyx_t_3;
+  __Pyx_CyFunction_Defaults(__pyx_defaults1, __pyx_t_2)->__pyx_arg_bonds_list = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_1, __pyx_pf_6vModel_12VismolObject_2__defaults__);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_bonds_from_pair_of_indexes_list, __pyx_t_1) < 0) __PYX_ERR(0, 1022, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_2, __pyx_pf_6vModel_12VismolObject_2__defaults__);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_bonds_from_pair_of_indexes_list, __pyx_t_2) < 0) __PYX_ERR(0, 1037, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":1078
+  /* "vModel/VismolObject.pyx":1093
  *         '''
  * 
  *     def import_non_bonded_atoms_from_bond(self, selection = None):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         if selection == None:
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_21import_non_bonded_atoms_from_bond, 0, __pyx_n_s_VismolObject_import_non_bonded_a, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1078, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__39);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_import_non_bonded_atoms_from_bon, __pyx_t_1) < 0) __PYX_ERR(0, 1078, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_21import_non_bonded_atoms_from_bond, 0, __pyx_n_s_VismolObject_import_non_bonded_a, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__38)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1093, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__39);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_import_non_bonded_atoms_from_bon, __pyx_t_2) < 0) __PYX_ERR(0, 1093, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":1097
+  /* "vModel/VismolObject.pyx":1112
  * 
  * 
  *     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         if selection == None:
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_23find_bonded_and_nonbonded_by_selection, 0, __pyx_n_s_VismolObject_find_bonded_and_non, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__41)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1097, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__42);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_find_bonded_and_nonbonded_by_sel, __pyx_t_1) < 0) __PYX_ERR(0, 1097, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_23find_bonded_and_nonbonded_by_selection, 0, __pyx_n_s_VismolObject_find_bonded_and_non, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__41)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1112, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__42);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_find_bonded_and_nonbonded_by_sel, __pyx_t_2) < 0) __PYX_ERR(0, 1112, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":1128
+  /* "vModel/VismolObject.pyx":1143
  * 
  * 
  *     def _init_find_bonded_and_nonbonded_atoms(self, selection = None, frame = 0, gridsize = 1.33, maxbond =  2.66, tolerance = 1.4, log = True):             # <<<<<<<<<<<<<<
  *         """ Function doc """
  *         initial       = time.time()
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_25_init_find_bonded_and_nonbonded_atoms, 0, __pyx_n_s_VismolObject__init_find_bonded_a, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1128, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__45);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init_find_bonded_and_nonbonded, __pyx_t_1) < 0) __PYX_ERR(0, 1128, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6vModel_12VismolObject_12VismolObject_25_init_find_bonded_and_nonbonded_atoms, 0, __pyx_n_s_VismolObject__init_find_bonded_a, NULL, __pyx_n_s_vModel_VismolObject, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_2, __pyx_tuple__45);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init_find_bonded_and_nonbonded, __pyx_t_2) < 0) __PYX_ERR(0, 1143, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "vModel/VismolObject.pyx":267
+  /* "vModel/VismolObject.pyx":268
  *         self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32)
  * 
  * class VismolObject:             # <<<<<<<<<<<<<<
  *     """ Class doc
  * 
  */
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_VismolObject, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VismolObject, __pyx_t_1) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_VismolObject, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VismolObject, __pyx_t_2) < 0) __PYX_ERR(0, 268, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "vModel/VismolObject.pyx":1
  * #!/usr/bin/env python3             # <<<<<<<<<<<<<<
  * # -*- coding: utf-8 -*-
  * #
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /*--- Wrapped vars code ---*/
 
