@@ -92,8 +92,9 @@ def MMMD_Algorithms():
 	#------------------------------------------------
 	#loop to execute the available intgrators on pDynamo
 	for integrator in integrators:
-		parameters["MD_method"]=integrator
-		parameters["nsteps"]   =1000
+		parameters["MD_method"]       =integrator
+		parameters["nsteps"]          = 1000
+		parameters["sampling_factor"] = 0 
 		proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters=None)
 		parameters["MD_method"]       =integrator
 		parameters["nsteps"]   		  =2000
@@ -256,13 +257,13 @@ def QCMM_MD():
 	
 	_plotParameters = {"show":True,"ATOMS_RC1":atomsf,"ATOMS_RC2":atomss,"calculate_distances":True}
 	parameters = {	"protocol":"sampling"        ,
-					"nsteps":2000                ,
+					"nsteps":1000                ,
 					"sampling_factor":0          ,
 					"MD_method":"LeapFrog"       }
 	#--------------------------------------------------------			
 	proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters=None)
-	parameters["nsteps"] = 5000 
-	parameters["sampling_factor"] = 500
+	parameters["nsteps"] = 4000 
+	parameters["sampling_factor"] = 100
 	proj.RunSimulation(parameters,"Molecular_Dynamics",_plotParameters)
 
 	proj.FinishRun()
@@ -290,21 +291,25 @@ def QCMM_MDrestricted():
 	atom4  = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")	
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	#-----------------------------------------------------------------
-	parameters = {	"protocol":"production"     ,
-					"production_nsteps":1500    ,
-					"equilibration_nsteps":500  ,
+	parameters = {	"protocol":"sampling"     	,
+					"nsteps":500    			,
 					"MD_method":"LeapFrog"      ,
-				 	"atoms_M1":atomsf           ,
-				 	"atoms_M2":atomss           ,
-				 	"force_constant":100.0      ,
+				 	"ATOMS_RC1":atomsf          ,
+				 	"ATOMS_RC2":atomss          ,
+				 	"force_constant_1":100.0    ,
+				 	"force_constant_2":95.0     ,
 				 	"ndim":2                    ,
 				 	"MC_RC1":True               ,
 				 	"MC_RC2":True               ,
-				 	"sampling_factor":100       }
+				 	"sampling_factor":0       }
 	_plotParameters = {"show":True} 
 	#------------------------------------------------
 	#Run simulation	
+	proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics",_plotParameters=None)
+	parameters["sampling_factor"] = 100
+	parameters["nstepsns"]        = 2000
 	proj.RunSimulation(parameters,"Restricted_Molecular_Dynamics",_plotParameters)
+
 	proj.FinishRun()		
 #=====================================================
 def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
@@ -330,7 +335,7 @@ def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
 	#set parameters for relaxed surface scan
 	parameters = { "ATOMS_RC1"  :atomsf		,
 				   "dincre_RC1" :_dincre	,
-				   "nSteps_RC1" :_nsteps    ,
+				   "nsteps_RC1" :_nsteps    ,
 				   "ndim"       :1    		,
 				   "MC_RC1"     :True       ,
 				   "save_format":".dcd"     ,
@@ -350,8 +355,7 @@ def QCMMScanMultipleDistance(_nsteps,_dincre,name="Default"):
 		QCMMoptimizations()
 	#---------------------------------------------	
 	_scanFolder = "QCMM_SCAN1D_multiple_distance"
-	if not name == "Default":
-		_scanFolder = name
+	if not name == "Default": _scanFolder = name
 	proj=SimulationProject( os.path.join(scratch_path,_scanFolder) )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	#---------------------------------------------
@@ -364,9 +368,9 @@ def QCMMScanMultipleDistance(_nsteps,_dincre,name="Default"):
 	_plotParameters = { "contour_lines":15 }
 	parameters = { "ATOMS_RC1":atomsf     ,
 				   "dincre_RC1":_dincre   ,
-				   "nSteps_RC1":_nsteps   , 
+				   "nsteps_RC1":_nsteps   , 
 				   "ndim":1               ,
-				   "MC_RC1":"true"        ,
+				   "MC_RC1":True          ,
 				   "force_constant":4000.0}
     #run the simulation
     #---------------------------------------------------------------------
@@ -391,10 +395,10 @@ def Scan1D_Dihedral(_nsteps,name="Default"):
 	#setting parameters
 	_plotParameters = { "contour_lines":15 }
 	parameters = { "ATOMS_RC1":atomsf     ,
-				   "nSteps_RC1":_nsteps   ,
+				   "nsteps_RC1":_nsteps   ,
 				   "rc_type_1" :"dihedral", 
 				   "ndim":1               ,
-				   "MC_RC1":"true"        ,
+				   "MC_RC1":True          ,
 				   "force_constant":25.0}
     #run the simulation
     #---------------------------------------------------------------------
@@ -419,8 +423,8 @@ def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
 	_plotParameters = { "contour_lines":10 }
 	parameters = { "ATOMS_RC1":atomsf     ,
 				   "ATOMS_RC2":atomss     ,
-				   "nSteps_RC1":_xnsteps  ,
-				   "nSteps_RC2":_ynsteps  ,
+				   "nsteps_RC1":_xnsteps  ,
+				   "nsteps_RC2":_ynsteps  ,
 				   "rc_type_1" :"dihedral", 
 				   "rc_type_2" :"dihedral", 
 				   "ndim":2               ,
@@ -459,8 +463,8 @@ def QCMMScan2DsimpleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default")
 				   'ATOMS_RC2':atomss	  ,
 				   'dincre_RC1':_dincrex  ,
 				   'dincre_RC2':_dincrey  , 
-				   "nSteps_RC1":_xnsteps  ,
-				   "nSteps_RC2":_ynsteps  , 
+				   "nsteps_RC1":_xnsteps  ,
+				   "nsteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,				 
 				   "NmaxThreads":        8}
 
@@ -494,12 +498,11 @@ def QCMMScan2DmixedDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default"):
 				   "ATOMS_RC2":atomss	  ,
 				   "dincre_RC1":_dincrex  ,
 				   "dincre_RC2":_dincrey  , 
-				   "nSteps_RC1":_xnsteps  ,
-				   "nSteps_RC2":_ynsteps  , 
+				   "nsteps_RC1":_xnsteps  ,
+				   "nsteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,
-				   "MC_RC1":		"true",
-				   "NmaxThreads":        8,
-				 }
+				   "MC_RC1":True          ,
+				   "NmaxThreads":8        }
 	#--------------------------------------------------
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
 	proj.FinishRun()
@@ -534,8 +537,8 @@ def QCMMScan2DmultipleDistance(_xnsteps,_ynsteps,_dincrex,_dincrey,name="Default
 				   "nSteps_RC1":_xnsteps  ,
 				   "nSteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,
-				   "MC_RC1":		"true",
-				   "MC_RC2":		"true",
+				   "MC_RC1":		True  ,
+				   "MC_RC2":		True  ,
 				   "NmaxThreads":        8}
 				 
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
@@ -560,7 +563,7 @@ def QCMMScans2D_Adaptative(_xnsteps,_ynsteps,_dincrex,_dincrey):
 	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	#--------------------------------------------------
-	_plotParameters = { "contour_lines":15,"show":"true"}
+	_plotParameters = { "contour_lines":15,"show":True}
 	#--------------------------------------------------
 	parameters = { 'ATOMS_RC1':atomsf	  ,
 				   'ATOMS_RC2':atomss	  ,
@@ -569,10 +572,10 @@ def QCMMScans2D_Adaptative(_xnsteps,_ynsteps,_dincrex,_dincrey):
 				   "nSteps_RC1":_xnsteps  ,
 				   "nSteps_RC2":_ynsteps  , 
 				   "ndim": 2 			  ,
-				   "MC_RC1":		"true",
-				   "MC_RC2":		"true",
+				   "MC_RC1":		True  ,
+				   "MC_RC2":		True  ,
 				   "NmaxThreads":        8,
-				   "adaptative":"true"    }
+				   "adaptative": True     }
 	proj.RunSimulation(parameters,"Relaxed_Surface_Scan",_plotParameters)		
 	proj.FinishRun()	
 #=====================================================
@@ -602,7 +605,7 @@ def FreeEnergy1DSimpleDistance(nsteps):
 				   "production_nsteps":nsteps	  ,
 				   "source_folder":_path 		  ,
 				   "MD_method":"LeapFrog"		  ,
-				   "MC_RC1":"true"				  ,
+				   "MC_RC1":True				  ,
 				   "NmaxThreads":8 				  }
 	#-------------------------------------------------
 	#RUN umbrella sampling
@@ -1259,16 +1262,16 @@ if __name__ == "__main__":
 	#QCMM_DFTBplus()									#TESTED
 	#QCMM_Orca()										#TESTED
 	#QCMM_optimizations()								#TESTED
-	QCMM_MD()											#TESTED
-	#QCMM_MDrestricted()								    #TESTED
-	#QCMMScanSimpleDistance(30,0.05)					#TESTED
-	#QCMMScanMultipleDistance(30,0.05)					#TESTED
-	#QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
-	#QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
-	#QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
-	#QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
-	#Scan1D_Dihedral(36)									#TESTED
-	#Scan2D_Dihedral(10,10)								#TESTED
+	#QCMM_MD()											#TESTED
+	#QCMM_MDrestricted()								#TESTED
+	QCMMScanSimpleDistance(30,0.05)					    #TESTED
+	QCMMScanMultipleDistance(30,0.05)					#TESTED
+	QCMMScan2DsimpleDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmixedDistance(12,12,0.1,0.1)				#TESTED
+	QCMMScan2DmultipleDistance(12,12,0.1,0.1)			#TESTED
+	QCMMScans2D_Adaptative(12,12,0.2,0.2)				#TESTED
+	Scan1D_Dihedral(36)									#TESTED
+	Scan2D_Dihedral(10,10)								#TESTED
 	#FreeEnergy1DSimpleDistance(500)					#TESTED
 	#FreeEnergy1DMultipleDistance(500)					#TESTED
 	#UmbrellaSampling1Drestart(500)						#TESTED

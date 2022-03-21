@@ -19,13 +19,6 @@ import os, sys, glob
 orcaScratchBase="/home/igorchem/CCDIR/scratch"
 skfPath        ="/home/igorchem/CCDIR/3ob-3-1"
 #==============================================================================
-NmaxThreads = 1 
-#==============================================================================
-def setMaxThreads(n):
-    global NmaxThreads
-    print( "New value of Max Threads for Parallel Simulations: {}".format(NmaxThreads) )
-    return 
-#==============================================================================
 #Atom dictionary with relevant information.
 atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
                 "H"  : ["Hydrogen"     , 1   ,  0.330000 , 1.200000,  1.007940   ],

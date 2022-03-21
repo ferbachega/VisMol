@@ -114,11 +114,11 @@ class MD:
         '''
         Run a molecular dynamics simulation for data collection.
         '''
+        self.softConstraint     = _Restricted
         self.nsteps             = _prodSteps
         self.trajectoryNameCurr = self.trajectoryNameProd         
         self.samplingFactor     = _samplingFactor
         if not os.path.exists( self.trajectoryNameCurr ): os.makedirs( self.trajectoryNameCurr )
-        self.softConstraint = True 
         if   self.algorithm == "Verlet":      self.runVerlet()
         elif self.algorithm == "LeapFrog":    self.runLeapFrog()
         elif self.algorithm == "Langevin":    self.runLangevin()       

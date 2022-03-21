@@ -73,16 +73,11 @@ class GeometrySearcher:
         #------------------------------------------------------------------
         self.optAlg = _optimizer                 
         # run the minimization for the chosen algorithm
-        if self.optAlg   == "ConjugatedGradient":
-            self.RunConjugatedGrad()
-        elif self.optAlg == "SteepestDescent":
-            self.RunSteepestDescent()
-        elif self.optAlg == "LFBGS":
-            self.RunLFBGS()
-        elif self.optAlg == "QuasiNewton":
-            self.RunQuasiNewton()
-        elif self.optAlg == "FIRE":
-            self.RunFIREmin()
+        if   self.optAlg == "ConjugatedGradient": self.RunConjugatedGrad()
+        elif self.optAlg == "SteepestDescent"   : self.RunSteepestDescent()
+        elif self.optAlg == "LFBGS"             : self.RunLFBGS()
+        elif self.optAlg == "QuasiNewton"       : self.RunQuasiNewton()
+        elif self.optAlg == "FIRE"              : self.RunFIREmin()
         self.finalCrd3D = Clone(self.molecule.coordinates3)
     #=============================================================================
     #Minimizers methods

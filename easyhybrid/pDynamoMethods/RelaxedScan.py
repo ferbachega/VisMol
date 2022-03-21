@@ -76,25 +76,16 @@ class SCAN:
         Class method to alter deafult parameters
         '''
         #-----------------------------------------------------------
-        if "rmsGradient" in _parameters:
-            self.GeoOptPars["rmsGradient"] = _parameters["rmsGradient"]
-        if "maxIrerations" in _parameters:
-            self.GeoOptPars["maxIterations"] = _parameters["maxIterations"]
-        if "log_frequency" in _parameters:
-            self.GeoOptPars["log_frequency"] = _paremeters["log_frequency"]
-        if "NmaxThreads" in _parameters:
-            self.nprocs = _parameters["NmaxThreads"]
-        if "force_constant" in _parameters:
+        if "rmsGradient"    in _parameters: self.GeoOptPars["rmsGradient"]   = _parameters["rmsGradient"]
+        if "maxIrerations"  in _parameters: self.GeoOptPars["maxIterations"] = _parameters["maxIterations"]
+        if "log_frequency"  in _parameters: self.GeoOptPars["log_frequency"] = _paremeters["log_frequency"]
+        if "NmaxThreads"    in _parameters: self.nprocs                      = _parameters["NmaxThreads"]
+        if "force_constant" in _parameters: 
             self.forceC[0] = _parameters["force_constant"]
             self.forceC[1] = _parameters["force_constant"]
-        if "force_constant_1" in _parameters:
-            self.forceC[0] = _parameters["force_constant_1"]
-        if "force_constant_2" in _parameters:
-            self.forceC[1] = _parameters["force_constant_2"] 
-        if "save_format" in _parameters:
-            print(_parameters)
-            input()
-            self.saveFormat = _parameters["save_format"]      
+        if "force_constant_1" in _parameters: self.forceC[0] = _parameters["force_constant_1"]
+        if "force_constant_2" in _parameters: self.forceC[1] = _parameters["force_constant_2"] 
+        if "save_format"      in _parameters: self.saveFormat = _parameters["save_format"]      
            
     #===========================================================================================
     def ChangeConvergenceParameters(self,_xframe,_yframe):
@@ -103,44 +94,44 @@ class SCAN:
         if not self.energiesMatrix[_xframe,_yframe] == 0.0:
             delta = self.energiesMatrix[_xframe,_yframe]  
             if delta < 150.0:
-                self.forceC[0] = self.forceCRef[0]
-                self.forceC[1] = self.forceCRef[1]
+                #self.forceC[0] = self.forceCRef[0]
+                #self.forceC[1] = self.forceCRef[1]
                 self.molecule.qcModel.converger.energyTolerance  = 0.0001
                 self.molecule.qcModel.converger.densityTolerance = 3e-08
                 self.molecule.qcModel.converger.diisDeviation    = 1e-06
             elif delta >= 150.0:
-                self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.40
-                self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.40
+                #self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.40
+                #self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.40
                 self.molecule.qcModel.converger.energyTolerance  = 0.0003
                 self.molecule.qcModel.converger.densityTolerance = 3e-08
                 self.molecule.qcModel.converger.diisDeviation    = 1e-06
                 if delta > 160.0 and delta < 170.0:
-                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
-                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
+                    #self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
+                    #self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
                     self.molecule.qcModel.converger.energyTolerance  = 0.0006
                     self.molecule.qcModel.converger.densityTolerance = 1e-07
                     self.molecule.qcModel.converger.diisDeviation    = 2e-06
                 elif delta > 170.0 and delta <180.0 :
-                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
-                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
+                    #self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.50
+                    #self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.50
                     self.molecule.qcModel.converger.energyTolerance  = 0.001
                     self.molecule.qcModel.converger.densityTolerance = 3e-07
                     self.molecule.qcModel.converger.diisDeviation    = 5e-06
                 elif delta > 180.0 and delta < 185.0:
-                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
-                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[0]*0.70
+                    #self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
+                    #self.forceC[1] = self.forceCRef[1] - self.forceCRef[0]*0.70
                     self.molecule.qcModel.converger.energyTolerance  = 0.0015
                     self.molecule.qcModel.converger.densityTolerance = 1e-06
                     self.molecule.qcModel.converger.diisDeviation    = 1e-05
                 elif delta > 185.0 and delta <200.0:
-                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
-                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.70
+                    #self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.70
+                    #self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.70
                     self.molecule.qcModel.converger.energyTolerance  = 0.003
                     self.molecule.qcModel.converger.densityTolerance = 1e-05
                     self.molecule.qcModel.converger.diisDeviation    = 5e-05
                 elif delta > 200.0:
-                    self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.80
-                    self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.80
+                    #self.forceC[0] = self.forceCRef[0] - self.forceCRef[0]*0.80
+                    #self.forceC[1] = self.forceCRef[1] - self.forceCRef[1]*0.80
                     self.molecule.qcModel.converger.energyTolerance  = 0.003
                     self.molecule.qcModel.converger.densityTolerance = 1e-04
                     self.molecule.qcModel.converger.diisDeviation    = 5e-04
@@ -176,13 +167,10 @@ class SCAN:
         if self.dihedral:
             self.Run1DScanDihedral()
         else:
-            if self.multipleDistance[0]:
-                self.Run1DScanMultipleDistance()
-            else:
-                self.Run1DScanSimpleDistance()         
+            if      self.multipleDistance[0]:  self.Run1DScanMultipleDistance()
+            else:   self.Run1DScanSimpleDistance()         
         
-        for i in range(_nsteps):
-            self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
+        for i in range(_nsteps):  self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
     #=================================================================================================
     def Run1DScanSimpleDistance(self):
         '''
@@ -211,8 +199,7 @@ class SCAN:
             if i == 0:
                 self.EnergyRef = en0 = self.molecule.Energy(log=None)
                 self.energiesMatrix[i] = 0.0
-            else:
-                self.energiesMatrix[i] = self.molecule.Energy(log=None) - en0 
+            else: self.energiesMatrix[i] = self.molecule.Energy(log=None) - en0 
             #--------------------------------------------------------------------
             self.reactionCoordinate1[i] = self.molecule.coordinates3.Distance( atom1 , atom2  )   
             Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 ) 
@@ -238,15 +225,15 @@ class SCAN:
             restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ] )
             restraints["RC1"] =  restraint            
             #--------------------------------------------------------------------
-            relaxRun = GeometrySearcher(self.molecule, self.baseName  )
+            relaxRun = GeometrySearcher(self.molecule, self.baseName)
             relaxRun.ChangeDefaultParameters(self.GeoOptPars)
             relaxRun.Minimization(self.optmizer)
             #--------------------------------------------------------------------
             if i == 0:
                 self.EnergyRef = en0 = self.molecule.Energy(log=None)
                 self.energiesMatrix[0] = 0.0
-            else:
-                self.energiesMatrix[i] = self.molecule.Energy(log=None) - en0 
+            else: self.energiesMatrix[i] = self.molecule.Energy(log=None) - en0 
+            #--------------------------------------------------------------------
             self.reactionCoordinate1[i] = self.molecule.coordinates3.Distance( atom1 , atom2  ) - self.molecule.coordinates3.Distance( atom2, atom3  ) 
             Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 )
         self.molecule.DefineRestraintModel(None)
@@ -285,8 +272,8 @@ class SCAN:
             if i == 0:
                 self.EnergyRef = en0 = self.molecule.Energy(log=None)
                 self.energiesMatrix[0] = 0.0
-            else:
-                self.energiesMatrix[i]  = self.molecule.Energy(log=None) - en0 
+            else: self.energiesMatrix[i]  = self.molecule.Energy(log=None) - en0 
+            #--------------------------------------------------------------------
             self.reactionCoordinate1[i] = self.molecule.coordinates3.Dihedral( atom1 , atom2, atom3, atom4 ) 
             Pickle( os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}.pkl".format(i) ), self.molecule.coordinates3 )
         #----------------------------------------
@@ -314,15 +301,11 @@ class SCAN:
         self.EnergyRef = self.en0 = self.molecule.Energy(log=None)         
         Pickle( coordinateFile, self.molecule.coordinates3 )
 
-        if self.dihedral:
-            self.Run2DScanDihedral(X,Y)
+        if self.dihedral: self.Run2DScanDihedral(X,Y)
         else:
-            if self.multipleDistance[0] and self.multipleDistance[1]:
-                self.Run2DScanMultipleDistance(X,Y)            
-            elif self.multipleDistance[0] and self.multipleDistance[1] == False:            
-                self.Run2DMixedDistance(X,Y)
-            else:
-                self.Run2DSimpleDistance(X,Y)
+            if self.multipleDistance[0] and self.multipleDistance[1]:            self.Run2DScanMultipleDistance(X,Y)            
+            elif self.multipleDistance[0] and self.multipleDistance[1] == False: self.Run2DMixedDistance(X,Y)
+            else:                                                                self.Run2DSimpleDistance(X,Y)
         #------------------------------------
         for i in range(X):
             for j in range(Y):
@@ -345,7 +328,9 @@ class SCAN:
 
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( 1, X ):  
-                #.---------------------------------------------------------------------------------------------             
+                #---------------------------------------------------------------------------------------------
+                if self.adaptative: self.ChangeConvergenceParameters(i-1,0)
+                #---------------------------------------------------------------------------------------------             
                 distance_1 = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) ) 
                 rmodel     =  RestraintEnergyModel.Harmonic( distance_1, self.forceC[0] )
                 restraint  =  RestraintDistance.WithOptions( energyModel = rmodel,  point1=atom1, point2=atom2  )
@@ -357,9 +342,7 @@ class SCAN:
                 restraints["RC2"] = restraint  
                 #----------------------------------------------------------------------------------------------                   
                 initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( 0 , 0) ) 
-                self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )
-                if self.adaptative:
-                    self.ChangeConvergenceParameters(i-1,0)
+                self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )               
                 #----------------------------------------------------------------------------------------------
                 coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, 0 ) )
                 relaxRun = GeometrySearcher( self.molecule, self.baseName )
@@ -389,9 +372,8 @@ class SCAN:
                     #------------------------------------------------------------------------------------------
                     initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )                    
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )             
-                    if self.adaptative:
-                        self.ChangeConvergenceParameters(i,j-1)
                     #----------------------------------------------------------------------------------------------
+                    if self.adaptative: self.ChangeConvergenceParameters(i,j-1)
                     coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
                     relaxRun = GeometrySearcher( self.molecule, self.baseName  )
                     relaxRun.ChangeDefaultParameters( self.GeoOptPars )
@@ -426,7 +408,7 @@ class SCAN:
        
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( 1, X ):  
-                #--------------------------------------------------------------------------------  
+                if self.adaptative: self.ChangeConvergenceParameters(i-1,0) 
                 distance_1 = self.DMINIMUM[0] + self.DINCREMENT[0] * float(i)
                 rmodel     = RestraintEnergyModel.Harmonic( distance_1, self.forceC[0] )
                 restraint  = RestraintMultipleDistance.WithOptions(energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
@@ -438,10 +420,7 @@ class SCAN:
                 restraints["RC2"] = restraint  
                 #---------------------------------------------------------------------------------                    
                 initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
-                self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )
-                #--------------------------------------------------------------------------------
-                if self.adaptative:
-                    self.ChangeConvergenceParameters(i-1,0) 
+                self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )                
                 #--------------------------------------------------------------------------------
                 coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, 0 ) )
                 relaxRun = GeometrySearcher( self.molecule, self.baseName )
@@ -453,7 +432,6 @@ class SCAN:
                 self.reactionCoordinate2[ i,0 ] = self.molecule.coordinates3.Distance( atom4, atom5 )              
                 #-----------------------------------------------------------------------------------
                 Pickle( coordinateFile, self.molecule.coordinates3 ) 
-                #..................................................
         #---------------------------------------------------------------------------------------------
         with pymp.Parallel(self.nprocs) as p:
             #Pergomr the calculations for the rest of the grid
@@ -473,8 +451,7 @@ class SCAN:
                     #-----------------------------------------------------------------------------------
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log=None )             
                     #-----------------------------------------------------------------------------------
-                    if self.adaptative:
-                        self.ChangeConvergenceParameters(i,j-1)
+                    if self.adaptative: self.ChangeConvergenceParameters(i,j-1)
                     #-----------------------------------------------------------------------------------
                     coordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format( i, j ) )
                     relaxRun = GeometrySearcher( self.molecule, self.baseName  )
@@ -525,8 +502,7 @@ class SCAN:
                 initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo", "frame{}_{}.pkl".format(0,0) ) 
                 self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
                 #-----------------------------------------------------------------------------------
-                if self.adaptative:
-                    self.ChangeConvergenceParameters(i-1,0)
+                if self.adaptative: self.ChangeConvergenceParameters(i-1,0)
                 #-----------------------------------------------------------------------------------
                 relaxRun = GeometrySearcher( self.molecule, self.baseName )
                 relaxRun.ChangeDefaultParameters(self.GeoOptPars)
@@ -555,8 +531,7 @@ class SCAN:
                     initCoordinateFile = os.path.join( self.baseName,"ScanTraj.ptGeo" , "frame{}_{}.pkl".format( i, j-1 ) )  
                     #----------------------------------------------------------------------------              
                     self.molecule.coordinates3 = ImportCoordinates3( initCoordinateFile, log = None )             
-                    if self.adaptative:
-                        self.ChangeConvergenceParameters(i,j-1)
+                    if self.adaptative: self.ChangeConvergenceParameters(i,j-1)
                     #----------------------------------------------------------------------------
                     relaxRun = GeometrySearcher( self.molecule, self.baseName  )
                     relaxRun.ChangeDefaultParameters(self.GeoOptPars)
