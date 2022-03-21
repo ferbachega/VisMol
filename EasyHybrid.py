@@ -245,7 +245,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         #'''
         if autocenter:
             #print(self.vismol_objects[-1].mass_center)
-            self.glwidget.vm_widget.center_on_coordinates(vismol_object, vismol_object.mass_center)
+            self.glwidget.vm_widget.center_on_coordinates(vismol_object, vismol_object.mass_center, sleep_time = 0.00001)
         else:
             self.glwidget.vm_widget.queue_draw()
         #---------------------------------------------------------------------#

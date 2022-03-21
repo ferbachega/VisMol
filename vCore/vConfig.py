@@ -354,7 +354,7 @@ class VisMolConfig:
                                                                                                                
                                   'sphere_type'                : 0                    ,  # 0 - real spheres    1 - impostors 
                                   'sphere_scale'               : 1.0                 ,  # Scale size for real spheres
-                                  'sphere_quality'             : 1                    ,  # Quality for real spheres - 1 if default
+                                  'sphere_quality'             : 2                    ,  # Quality for real spheres - 1 if default
                                   'impostor_type'              : 1                    ,  # Quality for real spheres - 1 if default
                                                                                          
                                                                                          

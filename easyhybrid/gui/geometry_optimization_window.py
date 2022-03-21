@@ -325,38 +325,64 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             folder          = self.save_trajectory_box.folder_chooser_button.get_folder ()
             trajectory_name = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
             traj_format     = self.save_trajectory_box.builder.get_object('combobox_format').get_active()
-            traj_frequence  = self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text()
+            traj_frequence  = int(self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text())
             
             parameters = {
                             
-                            'trajectory_name' :  trajectory_name            ,
+                            'trajectory_name' :  os.path.join(folder, trajectory_name+'.ptGeo')   ,
                             'folder'          :  folder                     ,
                             'optimizer'       :  self.opt_methods[method_id], 
                             'maxIterations'   :  max_int                    ,
                             'log_frequency'   :  logFrequency               ,
                             #'save_pdb'        :  
                             'save_traj'       : True                        , 
-                            #'not_save_dcd'    : traj_format                 ,
+                            'save_format'     : '.dcd'                 ,
                             'rmsGradient'     : rmsd_tol                    ,
+                            'save_frequency'  : traj_frequence              ,
+                            }
+            
+            '''Simulation routines within easyhybrid receive a parameter dictionary            
+            trajectory_name: name to save the trajectory
+            maxIterations: maximum number of itetarions (integer) 
+            log_frequency: log frequency  (integer)
+            save_pdb     : whether to save the final coordinates in pdb format (boolean)
+            save_format  : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
+            save_frequency : save frame frequency  (integer)
+            rmsGradient  : root mean square gradient tolerance ( float )						
+            '''            
+        else:
+            parameters = {
+                            
+                            'trajectory_name' :  None   ,
+                            'folder'          :  None                      ,
+                            'optimizer'       :  self.opt_methods[method_id], 
+                            'maxIterations'   :  max_int                    ,
+                            'log_frequency'   :  logFrequency               ,
+                            #'save_pdb'        :  
+                            'save_traj'       : False                        , 
+                            'save_format'     : None                      ,
+                            'rmsGradient'     : rmsd_tol                    ,
+                            'save_frequency'  : 0              ,
                             }
             
             
-            self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry (  
-                                                                               logFrequency           = logFrequency, 
-                                                                               maximumIterations      = max_int     ,
-                                                                               rmsGradientTolerance   = rmsd_tol    , 
-                                                                               save_trajectory = False,
-                                                                               trajectory_path = None)
+            
+            #self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry (  
+            #                                                                   logFrequency           = logFrequency, 
+            #                                                                   maximumIterations      = max_int     ,
+            #                                                                   rmsGradientTolerance   = rmsd_tol    , 
+            #                                                                   save_trajectory = False,
+            #                                                                   trajectory_path = None)
+            #
             
             
             
             
-            
-            '''Simulation routines within easyhybrid receive a parameter dictionary'''
-            #self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
-            #                                                    _parameters4Plot = None, 
-            #                                                     _simulationType = 'Geometry_Optimization',
-            #                                                     folder          = parameters['folder'])
+
+        self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
+                                                            _parameters4Plot = None, 
+                                                             _simulationType = 'Geometry_Optimization',
+                                                             folder          = parameters['folder'])
 
         self.window.destroy()
         self.Visible    =  False

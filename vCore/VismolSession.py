@@ -1495,6 +1495,7 @@ class VisMolSession (ShowHideVisMol):
             
             vismol_object.create_new_representation (rtype = 'lines')
             vismol_object.create_new_representation (rtype = 'nonbonded')
+            #vismol_object.create_new_representation (rtype = 'spheresInstace')
             #rep  = LinesRepresentation (name = 'lines', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
             #self.vismol_objects[-1].representations[rep.name] = rep
             #
