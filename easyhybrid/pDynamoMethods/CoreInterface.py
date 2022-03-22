@@ -360,27 +360,29 @@ class SimulationProject:
         return(energy)
 
     #=========================================================================
-    def RunSimulation(self,_parameters,_simulationType,_plotParameters):
+    def RunSimulation(self,_parameters):
         '''
         Execute a preset simulation for the current system. 
         Parameters:
            _parameters:
-           _simulationType:
-           _plotParameters:
         '''
         #----------------------------------------------------------------------        
         self.logfile.separator()
         self.logfile.inputLine("Setting Simulation Protocol:")
-        self.logfile.inputLine( "\t{}".format(_simulationType) )
+        self.logfile.inputLine( "\t{}".format(_parameters["simulation_type"]) )
         #----------------------------------------------------------------------
         oldSystem = copySystem( self.cSystem )
         self.SystemStates.append( oldSystem )
-        self.cSystem.label   = self.baseName + "#{} Input for Simulation: {}".format(self.systemCoutCurr,_simulationType)
+        self.cSystem.label   = self.baseName + "#{} Input for Simulation: {}".format(self.systemCoutCurr,_parameters["simulation_type"])
         self.systemCoutCurr += 1
         #---------------------------------------------------------------------
+        _parameters["active_system"] = self.cSystem
         bsname  = os.path.join( os.getcwd(), self.baseName )
-        process = Simulation(self.cSystem,_simulationType, bsname )
-        process.Execute(_parameters,_plotParameters)              
+        _parameters["folder"] = bsname
+        print(bsname)
+        input()
+        process = Simulation(_parameters)
+        process.Execute()              
         
     #========================================================================================
     def PrintSystems(self):

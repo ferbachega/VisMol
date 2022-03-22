@@ -52,93 +52,88 @@ class Simulation:
 	'''
 	Class to set up preset simulations to be perfomed
 	'''
-	def __init__(self,_system,_simulationType,baseFolder):
+	def __init__(self,_parameters):
 		'''
 		Deafault constructor
 		'''
-		self.molecule 		= _system
-		self.simulationType = _simulationType
-		self.baseFolder  	= baseFolder# the baseFolder for the simulations will be the current dir for now.
-		#--------------------------------------------------
-		if baseFolder is None:pass
-		else:
-			if not os.path.exists( self.baseFolder ):
-				os.makedirs(self.baseFolder)
+		self.molecule   = _parameters["active_system"]
+		self.parameters = _parameters
+		self.baseFolder = None
+		if "folder" in self.parameters:
+			if not self.parameters["folder"]==None:
+				self.baseFolder = self.parameters["folder"]
+				if not os.path.exists(self.parameters["folder"]):
+					os.makedirs(self.parameters["folder"])		
 	#=======================================================================
-	def Execute(self,_parameters,_plotParameters=None):
+	def Execute(self):
 		'''
 		Function to call the class method to execute the preset simulation
-		Parameters:
-			_parameters    : python dict with parameters for simulation
-			_plotParameters: python dict with parameters for plot graphics and analysis
+		Mandatory keys:
+			"simulation_type": Name of the simulation to execute
 		'''		
 		#-------------------------------------------------------------------------------------------------------------------------
-		if 	 self.simulationType == "Energy_Refinement": 				self.EnergyRefine(_parameters,_plotParameters)		
-		elif self.simulationType == "Geometry_Optimization":			self.GeometryOptimization(_parameters)
-		elif self.simulationType == "Relaxed_Surface_Scan":	 			self.RelaxedSurfaceScan(_parameters,_plotParameters)
-		elif self.simulationType == "Molecular_Dynamics":				self.MolecularDynamics(_parameters,_plotParameters)	
-		elif self.simulationType == "Restricted_Molecular_Dynamics": 	self.RestrictedMolecularDynamics(_parameters,_plotParameters)
-		elif self.simulationType == "Umbrella_Sampling":				self.UmbrellaSampling(_parameters)
-		elif self.simulationType == "PMF_Analysis":						self.PMFAnalysis(_parameters,_plotParameters)			
-		elif self.simulationType == "Normal_Modes":						self.NormalModes(_parameters,_plotParameters)		
-		elif self.simulationType == "Delta_Free_Energy":				self.DeltaFreeEnergy(_parameters)		
-		elif self.simulationType == "NEB":								self.NEB(_parameters,_plotParameters)		
-		elif self.simulationType == "SAW":								self.SAW(_parameters,_plotParameters)		
-		elif self.simulationType == "Simulating_Annealing":				self.SimulatingAnnealing(_parameters)		
-		elif self.simulationType == "Steered_Molecular_Dynamics":		self.SMD(_parameters)		
-		elif self.simulationType == "Trajectory_Analysis":				self.TrajectoryPlots(_parameters,_plotParameters) 		
-		elif self.simulationType == "Energy_Plots":						self.EnergyPlots(_parameters,_plotParameters)
+		if 	 self.parameters["simulation_type"] == "Energy_Refinement": 			self.EnergyRefine()		
+		elif self.parameters["simulation_type"] == "Geometry_Optimization":			self.GeometryOptimization()
+		elif self.parameters["simulation_type"] == "Relaxed_Surface_Scan":	 		self.RelaxedSurfaceScan()
+		elif self.parameters["simulation_type"] == "Molecular_Dynamics":			self.MolecularDynamics()	
+		elif self.parameters["simulation_type"] == "Restricted_Molecular_Dynamics": self.RestrictedMolecularDynamics()
+		elif self.parameters["simulation_type"] == "Umbrella_Sampling":				self.UmbrellaSampling()
+		elif self.parameters["simulation_type"] == "PMF_Analysis":					self.PMFAnalysis()			
+		elif self.parameters["simulation_type"] == "Normal_Modes":					self.NormalModes()		
+		elif self.parameters["simulation_type"] == "Delta_Free_Energy":				self.DeltaFreeEnergy()		
+		elif self.parameters["simulation_type"] == "NEB":							self.NEB()		
+		elif self.parameters["simulation_type"] == "SAW":							self.SAW()		
+		elif self.parameters["simulation_type"] == "Simulating_Annealing":			self.SimulatingAnnealing()		
+		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.SMD()		
+		elif self.parameters["simulation_type"] == "Trajectory_Analysis":			self.TrajectoryPlots() 		
+		elif self.parameters["simulation_type"] == "Energy_Plots":					self.EnergyPlots()
 	#=================================================================================================================
-	def EnergyRefine(self,_parameters,_plotParameters):
+	def EnergyRefine(self):
 		'''
 		Set up and execute energy refinement using a series of methods
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory:
-					"xbins"			: Number of frames for first/only coordinate 
-					"source_folder" : path of folder containing frames to refine 
-					"out_folder"    : path to output logs and other results
-					"charge"        : charge for QM region
-					"multiplicity"  : multiplicity for QM region
-					"Software"  	: engine used to calculate the energy refinement
-				Optinal :
-					"ybins" 		  : Number of frames for second coordinate
-					"change_qc_region": Flag indicating the intention of modifying the QC regions
-					"center"		  : The center of the new QC region
-					"radius"		  : The radius from the center of the new QC region
-					"orca_method"     : Energy method provided in ORCA (eg.: HF, b3lyp, mp2...)
-					"basis"           : String containing the orca key for basis functions
-					"NmaxThreads"     : Maximum number of virtual threads to be used by pymp
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory :
-				Optinal   : 
+		Mandatory keys in self.parameters:
+			"xbins"			: Number of frames for first/only coordinate 
+			"source_folder" : path of folder containing frames to refine 
+			"out_folder"    : path to output logs and other results
+			"charge"        : charge for QM region
+			"multiplicity"  : multiplicity for QM region
+			"Software"  	: engine used to calculate the energy refinement
+		Optinal keys in self.parameters:
+			"ybins" 		  : Number of frames for second coordinate
+			"change_qc_region": Flag indicating the intention of modifying the QC regions
+			"center"		  : The center of the new QC region
+			"radius"		  : The radius from the center of the new QC region
+			"orca_method"     : Energy method provided in ORCA (eg.: HF, b3lyp, mp2...)
+			"basis"           : String containing the orca key for basis functions
+			"NmaxThreads"     : Maximum number of virtual threads to be used by pymp
 		'''
 		_Restart      = False
 		dimensions    = [0,0] 
-		dimensions[0] =  _parameters["xnbins"]
+		dimensions[0] =  self.parameters["xnbins"]
 		nmaxthreads   = 1 
-		if "ynbins"  in _parameters:  dimensions[1] = _parameters["ynbins"]
-		if "restart" in _parameters: _Restart = True
-		if "NmaxThreads" in _parameters: nmaxthreads = _parameters["NmaxThreads"]
+		if "ynbins"  in self.parameters:  dimensions[1] = self.parameters["ynbins"]
+		if "restart" in self.parameters: _Restart = True
+		if "NmaxThreads" in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]
 		#------------------------------------------------------------------
-		ER = EnergyRefinement(self.molecule  					,
-							  _parameters["source_folder"]  	,
-							  _parameters["out_folder"]         ,dimensions,
-							  _parameters["charge"]             ,
-							  _parameters["multiplicity"]		)
+		ER = EnergyRefinement(self.molecule  					    ,
+							  self.parameters["source_folder"]  	,
+							  self.parameters["out_folder"]         ,
+							  dimensions                            ,
+							  self.parameters["charge"]             ,
+							  self.parameters["multiplicity"]		)
 		#------------------------------------------------------------------
-		if "change_qc_region" in _parameters:	 	ER.ChangeQCRegion(_parameters["center"],_parameters["radius"])
-		if 	 _parameters["Software"] == "pDynamo":  ER.RunInternalSMO(_parameters["methods_lists"],nmaxthreads)
-		elif _parameters["Software"] == "DFTBplus":	ER.RunDFTB()
-		elif _parameters["Software"] == "mopac" or _parameters["Software"]=="MOPAC":
+		if "change_qc_region" in self.parameters:	 	ER.ChangeQCRegion(self.parameters["center"],self.parameters["radius"])
+		if 	 self.parameters["Software"] == "pDynamo":  ER.RunInternalSMO(self.parameters["methods_lists"],nmaxthreads)
+		elif self.parameters["Software"] == "DFTBplus":	ER.RunDFTB()
+		elif self.parameters["Software"] == "mopac" or self.parameters["Software"]=="MOPAC":
 			_mopacKeyWords = ["AUX","LARGE"] 
-			if "mopac_keywords" in _parameters:
-				for key in _parameters["mopac_keywords"]:
+			if "mopac_keywords" in self.parameters:
+				for key in self.parameters["mopac_keywords"]:
 					_mopacKeyWords.append(key)
-			ER.RunMopacSMO(_parameters["methods_lists"],_mopacKeyWords)
+			ER.RunMopacSMO(self.parameters["methods_lists"],_mopacKeyWords)
 			#------------------------------------------------------------
-		elif _parameters["Software"] == "ORCA":
-			ER.RunORCA(_parameters["orca_method"],_parameters["basis"],nmaxthreads,_restart=_Restart)
+		elif self.parameters["Software"] == "ORCA":
+			ER.RunORCA(self.parameters["orca_method"],self.parameters["basis"],nmaxthreads,_restart=_Restart)
 		#===============================================================
 		#Set plor parameters
 		cnt_lines  	= 12
@@ -148,12 +143,12 @@ class Simulation:
 		ylim 		= [ 0, dimensions[1] ]
 		show  		= False
 		#check parameters for plot
-		if "contour_lines" in _plotParameters: cnt_lines  = _plotParameters["contour_lines"]
-		if "crd1_label"    in _plotParameters: crd1_label = _plotParameters["crd1_label"]
-		if "crd2_label"    in _plotParameters: crd2_label = _plotParameters["crd2_label"]
-		if "xlim_list"     in _plotParameters: xlim       = _plotParameters["xlim_list"]
-		if "ylim_list"     in _plotParameters: ylim 	  = _plotParameters["ylim_list"]
-		if "show" 		   in _plotParameters: show       = _plotParameters["show"]
+		if "contour_lines" in self.parameters: cnt_lines  = self.parameters["contour_lines"]
+		if "crd1_label"    in self.parameters: crd1_label = self.parameters["crd1_label"]
+		if "crd2_label"    in self.parameters: crd2_label = self.parameters["crd2_label"]
+		if "xlim_list"     in self.parameters: xlim       = self.parameters["xlim_list"]
+		if "ylim_list"     in self.parameters: ylim 	  = self.parameters["ylim_list"]
+		if "show" 		   in self.parameters: show       = self.parameters["show"]
 		#------------------------------------------------------------
 		ER.WriteLog()
 		if dimensions[1] > 0: TYPE = "2DRef"
@@ -164,68 +159,63 @@ class Simulation:
 		if dimensions[1] > 0:
 			EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
-			if "methods_lists" in _parameters:
-				if len(_parameters["methods_lists"]) > 1: EA.MultPlot1D(crd1_label)
+			if "methods_lists" in self.parameters:
+				if len(self.parameters["methods_lists"]) > 1: EA.MultPlot1D(crd1_label)
 			else: EA.Plot1D(crd1_label,show)
 	#==================================================================
-	def GeometryOptimization(self,_parameters):
+	def GeometryOptimization(self):
 		'''
 		Set up and execture the search of local minima for the system passed
-		Parameters:		
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-					optimizer: name of the optimization algorithm					 
-				Optinal :
-					trajectory_name: name to save the trajectory
-					maxIterations: maximum number of itetarions (integer) 
-					log_frequency: log frequency  (integer)
-					save_pdb     : whether to save the final coordinates in pdb format (boolean)
-					save_format  : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
-                    save_frequency : save frame frequency  (integer)
-					rmsGradient  : root mean square gradient tolerance ( float )						
+		Mandatory keys in self.parameters:
+			optimizer: name of the optimization algorithm					 
+		Optinal keys:
+			trajectory_name: name to save the trajectory
+			maxIterations: maximum number of itetarions (integer) 
+			log_frequency: log frequency  (integer)
+			save_pdb     : whether to save the final coordinates in pdb format (boolean)
+			save_format  : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
+            save_frequency : save frame frequency  (integer)
+			rmsGradient  : root mean square gradient tolerance ( float )						
 		'''
 		_Optimizer = "ConjugatedGradient"
 		_traj_name = None
-		if "optmizer" 		 in _parameters: _Optimizer = _parameters["optmizer"]
-		if "trajectory_name" in _parameters: _traj_name = _parameters["trajectory_name"]
+		if "optmizer" 		 in self.parameters: _Optimizer = self.parameters["optmizer"]
+		if "trajectory_name" in self.parameters: _traj_name = self.parameters["trajectory_name"]
 		Gopt = GeometrySearcher(self.molecule,self.baseFolder,_trajName=_traj_name)		
-		Gopt.ChangeDefaultParameters(_parameters)
+		Gopt.ChangeDefaultParameters(self.parameters)
 		Gopt.Minimization(_Optimizer)
 		Gopt.Finalize()
 	#==================================================================
-	def RelaxedSurfaceScan(self,_parameters,_plotParameters):
+	def RelaxedSurfaceScan(self):
 		'''
 		Set up and execute one/two-dimensional relaxed surface scans 
 		By the defualt the PKLs were saved on a child folder from the base path passed in the parameters, named "ScanTraj.ptGeo"
 		The trajectory can be saved as files of the formats allowed by pDynamo 3.0
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory :
-					"ndim": 	number of reaction coordinates to be treated
-					"ATOMS_RC1":list of atoms indices of the first reaction coordinate
-					"nSteps_RC1": integer indicating the number of steps to scan for the first reaction coordinate
-				Condirional:
-					"ATOMS_RC2":list of atoms indices of the second reaction coordinate. Needed if "ndim = 2"
-					"nSteps_RC2": integer indicating the number of steps to scan for the second reaction coordinate. Needed if "ndim = 2"
-				Optinal   :
-					"force_constant": Float indicating the constant value of energy penalty for the harmonic potential restriction function
-					"force_constant_1" Specifies the force constant for the first reaction coordinate
-					"force_constant_2" Specified the force constant for the second reaction coordinate
-					"maxIterations": Number of maximum iteration for the geometry optimizations
-					"optimizer": string containing the optimizer algorithm to be used in geometry optimization
-					"dincre_RC1": float with the step increment for the first reaction coordinate ( Warning! If not passed, 0.0 will be assumed )
-					"dincre_RC2": float with the step increment for the second reaction coordinate
-					"MC_RC1": bool indicating whether to set mass constrained restrictions for the first reaction coordinate 
-					"MC_RC2": bool indicating whether to set mass constrained restrictions for the second reaction coordinate 
-					"rc_type_1": string containing the type for the first reaction coordinate ( Distance or Dihedral ) 
-					"rc_type_2": string containing the type for the second reaction coordinate ( Distance or Dihedral )
-					"adaptative": bool indicating wheter to activate or not the adaptative scheme for two-dimensional scans
-					"save_format": format in which the trajectory will be saved, works only for 1D scans 
-					"log_frequency": parameter for geometry optimization runs
-			_plotParameters: python dict with paramters for post-analysis and plots
-				All plot parameters are optionals. This dict can be passed as none, if so the plots will be perfomed with default parameters. 
-					"contour_lines": integer indicating the number of contour lines to be used in two-dimensional plots
-					"show":boolean indicating whether to display the plot before exiting. 
+		Mandatory keys in self.parameters:
+			"ndim": 	number of reaction coordinates to be treated
+			"ATOMS_RC1":list of atoms indices of the first reaction coordinate
+			"nSteps_RC1": integer indicating the number of steps to scan for the first reaction coordinate
+		Condirional:
+			"ATOMS_RC2":list of atoms indices of the second reaction coordinate. Needed if "ndim = 2"
+			"nSteps_RC2": integer indicating the number of steps to scan for the second reaction coordinate. Needed if "ndim = 2"
+		Optinal   :
+			"force_constant": Float indicating the constant value of energy penalty for the harmonic potential restriction function
+			"force_constant_1" Specifies the force constant for the first reaction coordinate
+			"force_constant_2" Specified the force constant for the second reaction coordinate
+			"maxIterations": Number of maximum iteration for the geometry optimizations
+			"optimizer": string containing the optimizer algorithm to be used in geometry optimization
+			"dincre_RC1": float with the step increment for the first reaction coordinate ( Warning! If not passed, 0.0 will be assumed )
+			"dincre_RC2": float with the step increment for the second reaction coordinate
+			"MC_RC1": bool indicating whether to set mass constrained restrictions for the first reaction coordinate 
+			"MC_RC2": bool indicating whether to set mass constrained restrictions for the second reaction coordinate 
+			"rc_type_1": string containing the type for the first reaction coordinate ( Distance or Dihedral ) 
+			"rc_type_2": string containing the type for the second reaction coordinate ( Distance or Dihedral )
+			"adaptative": bool indicating wheter to activate or not the adaptative scheme for two-dimensional scans
+			"save_format": format in which the trajectory will be saved, works only for 1D scans 
+			"log_frequency": parameter for geometry optimization runs
+		All plot parameters are optionals. This dict can be passed as none, if so the plots will be perfomed with default parameters. 
+			"contour_lines": integer indicating the number of contour lines to be used in two-dimensional plots
+			"show":boolean indicating whether to display the plot before exiting. 
 		'''
 		#------------------------------------------------------------------
 		#default varibales
@@ -235,36 +225,36 @@ class Simulation:
 		MCR2 		= False
 		rcType1     = "Distance"
 		rcType2     = "Distance"
-		nDims       = _parameters['ndim']
+		nDims       = self.parameters['ndim']
 		dincre1     = 0.0
 		dincre2     = 0.0
 		nRC2        = 0
 		#checking parameters
-		if "dincre_RC1" in _parameters:	dincre1 	= _parameters["dincre_RC1"]
-		if "dincre_RC2" in _parameters:	dincre2 	= _parameters["dincre_RC2"]	
-		if "nsteps_RC2" in _parameters:	nRC2  		= _parameters["nsteps_RC2"]
-		if "optmizer"   in _parameters:	_Optmizer   = _parameters["optmizer"]
-		if "adaptative" in _parameters: _Adaptative = _parameters["adaptative"] 
-		if "MC_RC1"     in _parameters: MCR1        = _parameters["MC_RC1"]
-		if "MC_RC2"     in _parameters: MCR2        = _parameters["MC_RC2"]		
-		if "rc_type_1"  in _parameters:	rcType1 	= _parameters["rc_type_1"]
-		if "rc_type_2"  in _parameters:	rcType2 	= _parameters["rc_type_2"]
+		if "dincre_RC1" in self.parameters:	dincre1 	= self.parameters["dincre_RC1"]
+		if "dincre_RC2" in self.parameters:	dincre2 	= self.parameters["dincre_RC2"]	
+		if "nsteps_RC2" in self.parameters:	nRC2  		= self.parameters["nsteps_RC2"]
+		if "optmizer"   in self.parameters:	_Optmizer   = self.parameters["optmizer"]
+		if "adaptative" in self.parameters: _Adaptative = self.parameters["adaptative"] 
+		if "MC_RC1"     in self.parameters: MCR1        = self.parameters["MC_RC1"]
+		if "MC_RC2"     in self.parameters: MCR2        = self.parameters["MC_RC2"]		
+		if "rc_type_1"  in self.parameters:	rcType1 	= self.parameters["rc_type_1"]
+		if "rc_type_2"  in self.parameters:	rcType2 	= self.parameters["rc_type_2"]
 		
 		#--------------------------------------------------------------------
 		scan = SCAN(self.molecule,self.baseFolder,_Optmizer,ADAPTATIVE=_Adaptative)
-		scan.ChangeDefaultParameters(_parameters)	
+		scan.ChangeDefaultParameters(self.parameters)	
 		#--------------------------------------------------------------------
-		rc1 = ReactionCoordinate( _parameters["ATOMS_RC1"], MCR1, _type=rcType1 )
+		rc1 = ReactionCoordinate( self.parameters["ATOMS_RC1"], MCR1, _type=rcType1 )
 		rc1.SetInformation(self.molecule,dincre1)
 		scan.SetReactionCoord(rc1)
 		rc2 = None
 		if nDims == 2:
-			rc2 = ReactionCoordinate( _parameters["ATOMS_RC2"], MCR2, _type=rcType2 )
+			rc2 = ReactionCoordinate( self.parameters["ATOMS_RC2"], MCR2, _type=rcType2 )
 			rc2.SetInformation(self.molecule,dincre2)
 			scan.SetReactionCoord(rc2)
-			scan.Run2DScan(_parameters["nsteps_RC1"], _parameters["nsteps_RC2"] )
+			scan.Run2DScan(self.parameters["nsteps_RC1"], self.parameters["nsteps_RC2"] )
 		else:
-			scan.Run1DScan(_parameters["nsteps_RC1"])		
+			scan.Run1DScan(self.parameters["nsteps_RC1"])		
 		scan.Finalize()		
 		#================================================================
 		#Set plor parameters
@@ -274,103 +264,98 @@ class Simulation:
 		show 		= False
 		if nDims == 2: crd2_label = rc2.label
 		#check parameters for plot
-		if "contour_lines" 	in _plotParameters: cnt_lines = _plotParameters["contour_lines"]			
-		if "show" 			in _plotParameters: show 	  = _plotParameters["show"] 
+		if "contour_lines" 	in self.parameters: cnt_lines = self.parameters["contour_lines"]			
+		if "show" 			in self.parameters: show 	  = self.parameters["show"] 
 		#------------------------------------------------------------
 		if 	 nDims 	== 2: TYPE = "2D"
 		elif nDims 	== 1: TYPE = "1D"	
 		#------------------------------------------------------------
-		EA = EnergyAnalysis(_parameters['nsteps_RC1'],nRC2,_type=TYPE)
+		EA = EnergyAnalysis(self.parameters['nsteps_RC1'],nRC2,_type=TYPE)
 		EA.ReadLog( scan.baseName+"_scan{}D.log".format(nDims) ) 
 		#-------------------------------------------------------------
 		if 	 nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,show)
 		elif nDims == 1: EA.Plot1D(crd1_label,show)		
 	#=================================================================
-	def MolecularDynamics(self,_parameters,_plotParameters):
+	def MolecularDynamics(self):
 		'''
-		Set up and execute molecular dynamics simulations.
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory:
-					"MD_method": string containing the integrator algorithm name
-					"protocol" : string indicating if is a normal run or for heating
-					"nsteps"   : Number of steps to be taken in the simulation
-				Optinal  :
-					"temperature" 			  : float with the simulation temperature. If not passed we assume 300.15K as default.
-					"coll_freq"  			  : integer with the colision frequency. Generally set for Langevin integrator. 
-					"pressure"   			  : float with the simulation pressure. If not passed we assume 1.0bar as default.
-					"pressure_coupling"		  : boolean indicating if is to control the simulation pressure.
-					"temperature_scale_option": string with the type of temperature scaling. Default is 'linear' ( relevant for "heating" protocol)
-					"temperature_scale"		  : float with the  temperature scaling step. Default is 10K  ( relevant for "heating" protocol)
-					"start_temperatue"		  : float with the start temperature for heating protocol
-					"timeStep"   			  : float indicating the size of integration time step. 0.001 ps is taken as default.					
-					"sampling_factor"		  : integer indicating in which frequency to save/collect structure/data. default 0.
-					"seed"					  : integer indicating the seed for rumdomness of the simulations.
-					"log_frequency"     	  : integer indicating the frequency of the screen log output.
-			_plotParameters: python dict with paramters for post-analysis and plots
-				Optinal   :
-					"show"					: whether to show the analysis plots in the simulation end.
-					"calculate_distances"	: indicate if to calculate distances distributions of passed reaction coordinates
-					"ATOMS_RC1"             : list of atoms for the first reaction coordinate to be analyzed 
-					"ATOMS_RC2"             : list of atoms for the second reaction coordinate to be analyzed 
+		Set up and execute molecular dynamics simulations.:
+		Mandatory keys in self.parameters:
+			"MD_method": string containing the integrator algorithm name
+			"protocol" : string indicating if is a normal run or for heating
+			"nsteps"   : Number of steps to be taken in the simulation
+		Optinal  :
+			"temperature" 			  : float with the simulation temperature. If not passed we assume 300.15K as default.
+			"coll_freq"  			  : integer with the colision frequency. Generally set for Langevin integrator. 
+			"pressure"   			  : float with the simulation pressure. If not passed we assume 1.0bar as default.
+			"pressure_coupling"		  : boolean indicating if is to control the simulation pressure.
+			"temperature_scale_option": string with the type of temperature scaling. Default is 'linear' ( relevant for "heating" protocol)
+			"temperature_scale"		  : float with the  temperature scaling step. Default is 10K  ( relevant for "heating" protocol)
+			"start_temperatue"		  : float with the start temperature for heating protocol
+			"timeStep"   			  : float indicating the size of integration time step. 0.001 ps is taken as default.					
+			"sampling_factor"		  : integer indicating in which frequency to save/collect structure/data. default 0.
+			"seed"					  : integer indicating the seed for rumdomness of the simulations.
+			"log_frequency"     	  : integer indicating the frequency of the screen log output.
+		plot parameters keys in self.parameters
+			Optinal   :
+			"show"					: whether to show the analysis plots in the simulation end.
+			"calculate_distances"	: indicate if to calculate distances distributions of passed reaction coordinates
+			"ATOMS_RC1"             : list of atoms for the first reaction coordinate to be analyzed 
+			"ATOMS_RC2"             : list of atoms for the second reaction coordinate to be analyzed 
 		'''		
-		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])		
-		MDrun.ChangeDefaultParameters(_parameters)
+		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'])		
+		MDrun.ChangeDefaultParameters(self.parameters)
 		sampling = 0 
-		if "sampling_factor" in _parameters: sampling = _parameters["sampling_factor"]
+		if "sampling_factor" in self.parameters: sampling = self.parameters["sampling_factor"]
 		#---------------------------------------------------------------
-		if "protocol" in _parameters:
-			if   _parameters["protocol"] == "heating":  MDrun.HeatingSystem(_parameters['nsteps'],sampling)
-			elif _parameters["protocol"] == "sampling": MDrun.RunProduction(_parameters['nsteps'],sampling)			
+		if "protocol" in self.parameters:
+			if   self.parameters["protocol"] == "heating":  MDrun.HeatingSystem(self.parameters['nsteps'],sampling)
+			elif self.parameters["protocol"] == "sampling": MDrun.RunProduction(self.parameters['nsteps'],sampling)			
 		#----------------------------------------------------------------
-		if not _plotParameters == None and sampling > 0:			
-			show = _plotParameters["show"]
+		if not self.parameters == None and sampling > 0:			
+			show = self.parameters["show"]
 			RCs  = None
-			if "show" in _plotParameters: show = _plotParameters["show"]
-			t_time = _parameters["nsteps"]*0.001
+			if "show" in self.parameters: show = self.parameters["show"]
+			t_time = self.parameters["nsteps"]*0.001
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
 			DA.PlotRG_RMS(show)						
-			if "calculate_distances" in _plotParameters:
-				if _plotParameters["calculate_distances"] == True:
-					rc1 = ReactionCoordinate(_plotParameters["ATOMS_RC1"],False,0)
+			if "calculate_distances" in self.parameters:
+				if self.parameters["calculate_distances"] == True:
+					rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],False,0)
 					rc1.SetInformation(self.molecule,0)
 					RCs = [rc1]
 					rc2 = None
-					if "ATOMS_RC2" in _plotParameters:
-						rc2 = ReactionCoordinate(_plotParameters["ATOMS_RC2"],False,0)
+					if "ATOMS_RC2" in self.parameters:
+						rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],False,0)
 						rc2.SetInformation(self.molecule,0)
 						RCs.append(rc2)
 					DA.DistancePlots(RCs,show)
 	#==================================================================
-	def RestrictedMolecularDynamics(self,_parameters,_plotParameters):
+	def RestrictedMolecularDynamics(self):
 		'''
 		Set up and execute molecular dynamics simulations.
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory: 
-					"ndim"                : integer indicating the number of restricted dimensions.
-					"force_constant_1"    : float with the force constant applied for the harmonic potential in the first reaction coordinate
-					"rc_type_1"           : string specifying the type of coordinate to be used for the first restricted dimension
-					"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
-					"ATOMS_RC1"           : list with the atoms indices to set the first coordinate. 
-					nsteps"               : number of moleculer dynamics steps to production run. 					
-				Optinal :
-					"ATOMS_RC2"           : list with the atoms indices to set the second coordinate. 
-					"force_constant_2"    : float with the force constant applied for the harmonic potential in the second reaction coordinate
-					"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
-					"temperature" 		  : float with the simulation temperature. If not passed we assume 300.15K as default.
-					"coll_freq"  	      : integer with the colision frequency. Generally set for Langevin integrator. 
-					"pressure"   		  : float with the simulation pressure. If not passed we assume 1.0bar as default.
-					"pressure_coupling"	  : boolean indicating if is to control the simulation pressure.
-					"timeStep"   		  : float indicating the size of integration time step. 0.001 ps is taken as default.
-					"sampling_factor"     : integer with the save/sampling frequency of frames.
-					"seed"				  : integer indicating the seed for rumdomness of the simulations.
-					"log_frequency"       : integer indicating the frequency of the screen log output.
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Optinal :
-					"show"				  : whether to show the analysis plots in the simulation end.
-					"calculate_distances" : whether to calculate and plot distribution analysis from the passed reaction coordinates										
+		Mandatory  keys in self.parameters: 
+			"ndim"                : integer indicating the number of restricted dimensions.
+			"force_constant_1"    : float with the force constant applied for the harmonic potential in the first reaction coordinate
+			"rc_type_1"           : string specifying the type of coordinate to be used for the first restricted dimension
+			"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
+			"ATOMS_RC1"           : list with the atoms indices to set the first coordinate. 
+			nsteps"               : number of moleculer dynamics steps to production run. 					
+		Optinal keys in self.parameters :
+			"ATOMS_RC2"           : list with the atoms indices to set the second coordinate. 
+			"force_constant_2"    : float with the force constant applied for the harmonic potential in the second reaction coordinate
+			"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
+			"temperature" 		  : float with the simulation temperature. If not passed we assume 300.15K as default.
+			"coll_freq"  	      : integer with the colision frequency. Generally set for Langevin integrator. 
+			"pressure"   		  : float with the simulation pressure. If not passed we assume 1.0bar as default.
+			"pressure_coupling"	  : boolean indicating if is to control the simulation pressure.
+			"timeStep"   		  : float indicating the size of integration time step. 0.001 ps is taken as default.
+			"sampling_factor"     : integer with the save/sampling frequency of frames.
+			"seed"				  : integer indicating the seed for rumdomness of the simulations.
+			"log_frequency"       : integer indicating the frequency of the screen log output.
+		plot parameters keys in self.parameters :
+			"show"				  : whether to show the analysis plots in the simulation end.
+			"calculate_distances" : whether to calculate and plot distribution analysis from the passed reaction coordinates										
 		'''
 		#----------------------------------------------------------------
 		restraints = RestraintModel()
@@ -378,26 +363,26 @@ class Simulation:
 		sampling = 0 		
 		MCR1 = False
 		MCR2 = False
-		if "MC_RC1" in _parameters:	MCR1 = _parameters["MC_RC1"]
-		if "MC_RC2" in _parameters:	MCR2 = _parameters["MC_RC2"]
-		if "sampling_factor" in _parameters: sampling = _parameters["sampling_factor"]
+		if "MC_RC1" in self.parameters:	MCR1 = self.parameters["MC_RC1"]
+		if "MC_RC2" in self.parameters:	MCR2 = self.parameters["MC_RC2"]
+		if "sampling_factor" in self.parameters: sampling = self.parameters["sampling_factor"]
 		#--------------------
 		rcType1 = "Distance"
 		rcType2 = "Distance"
-		if "rc_type_1" in _parameters: rcType1 = _parameters["rc_type_1"]
-		if "rc_type_2" in _parameters: rcType2 = _parameters["rc_type_2"]
+		if "rc_type_1" in self.parameters: rcType1 = self.parameters["rc_type_1"]
+		if "rc_type_2" in self.parameters: rcType2 = self.parameters["rc_type_2"]
 		#-------------------------------------------------------------------
-		restrainDimensions = _parameters['ndim']
-		forcK_1 = _parameters["force_constant_1"]
+		restrainDimensions = self.parameters['ndim']
+		forcK_1 = self.parameters["force_constant_1"]
 		#-------------------------------------------------------------------
-		rc1 = ReactionCoordinate(_parameters["ATOMS_RC1"],MCR1,_type=rcType1)
+		rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.SetInformation(self.molecule,0)
-		nDims = _parameters['ndim']
+		nDims = self.parameters['ndim']
 		rc2 = None
 		if nDims == 2:
-			rc2 = ReactionCoordinate(_parameters["ATOMS_RC2"],MCR2,_type=rcType2)
+			rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],MCR2,_type=rcType2)
 			rc2.SetInformation(self.molecule,0)
-			forcK_2 = _parameters["force_constant_2"]
+			forcK_2 = self.parameters["force_constant_2"]
 		#-------------------------------------------------------------------
 		distance = rc1.minimumD
 		rmodel = RestraintEnergyModel.Harmonic( distance, forcK_1 )
@@ -416,13 +401,13 @@ class Simulation:
 				restraint = RestraintDistance.WithOptions( energyModel=rmodel, point1=rc2.atoms[0], point2=rc2.atoms[1] )
 			restraints['M2'] =  restraint		
 		#----------------------------------------------------------------
-		MDrun = MD(self.molecule,self.baseFolder,_parameters['MD_method'])
-		MDrun.ChangeDefaultParameters(_parameters)
-		MDrun.RunProduction(_parameters['nsteps'],sampling,_Restricted=True)
+		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'])
+		MDrun.ChangeDefaultParameters(self.parameters)
+		MDrun.RunProduction(self.parameters['nsteps'],sampling,_Restricted=True)
 		#-----------------------------------------------------------------		
-		if not _plotParameters == None and sampling > 0 :
-			t_time = _parameters["nsteps"]*MDrun.timeStep
-			if "show" in _plotParameters: show = _plotParameters["show"]
+		if not self.parameters == None and sampling > 0 :
+			t_time = self.parameters["nsteps"]*MDrun.timeStep
+			if "show" in self.parameters: show = self.parameters["show"]
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
 			DA.PlotRG_RMS(show)				
@@ -431,42 +416,40 @@ class Simulation:
 			DA.DistancePlots(RCs,show)
 			DA.ExtractFrames()
 	#=======================================================================
-	def UmbrellaSampling(self,_parameters):
+	def UmbrellaSampling(self):
 		'''
 		Set up and execute umbrella sampling simulations and Free energy calculations for reaction path trajectory.
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory: 
-					"ATOMS_RC1"           : List containing the indices of the atoms for the first restricted reaction coordinate
-					"ndim"                : integer indicating the number of treated reaction coordinates
-					"equilibration_nsteps": integer given the number of molecular dynamics simulation steps to be conducted before data collection
-					"production_nsteps"   : integer given the number of molecular dynamics simulation steps to perform the data collection
-					"MD_method"           : string with the integrator algorithm name
-					"source_folder"       : string with the path which to find de coordinate files to initialize the simulation in each window
-				Optinal :
-					"ATOMS_RC2"       	  : List containing the indices of the atoms for the second restricted reaction coordinate
-					"force_constant_1"	  : float with the force constant applied for the harmonic potential in the first reaction coordinate. Default is 600.0 KJ
-					"force_constant_2"	  : float with the force constant applied for the harmonic potential in the second reaction coordinate. Default is 600.0 KJ
-					"optimize"        	  : Boolean indicating if the geometry must be optimized before molecular dynamics 
-					"restart"         	  : Boolean indicating if the calculations must continue from those .ptRes that were not generated yet.
-					"adaptative"      	  : BOolean inficating the usage of an adaptative shceme for convergence parameters. (UNSTABLE and UNTESTED)
-					"coordinate_format"   : string containing the format of input coordinate files e.g.: ".xyz", ".pdb" or ".pkl". if not passed ".pkl" will be assumed.
-					"save_format"         : Save production molecular dynamics for one-dimensional runs. Must set a valid sampling factor. 
-					#MD PARAMETERS
-					"temperature" 		  : float with the simulation temperature. If not passed we assume 300.15K as default.
-					"pressure"   		  : float with the simulation pressure. If not passed we assume 1.0bar as default.
-					"pressure_coupling"	  : boolean indicating if is to control the simulation pressure.
-					"timeStep"   		  : float indicating the size of integration time step. 0.001 ps is taken as default.
-					"sampling_factor"     : integer with the save/sampling frequency of frames for the data collection step.
-					"seed"				  : integer indicating the seed for rumdomness of the simulations.
-					"log_frequency_md"    : integer indicating the frequency of the screen log output for the molecular dynamics runs.
-					#OPTIMIZATION PARAMETERS
-					"trajectory_name"     : name to save the trajectory
-					"maxIterations"       : maximum number of itetarions (integer) 
-					"log_frequency_OPT"   : log frequency  (integer)
-					"save_pdb"            : whether to save the final coordinates in pdb format (boolean)
-					"save_format_opt"     : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
-					"rmsGradient"         : root mean square gradient tolerance ( float )
+		Mandatory: 
+			"ATOMS_RC1"           : List containing the indices of the atoms for the first restricted reaction coordinate
+			"ndim"                : integer indicating the number of treated reaction coordinates
+			"equilibration_nsteps": integer given the number of molecular dynamics simulation steps to be conducted before data collection
+			"production_nsteps"   : integer given the number of molecular dynamics simulation steps to perform the data collection
+			"MD_method"           : string with the integrator algorithm name
+			"source_folder"       : string with the path which to find de coordinate files to initialize the simulation in each window
+		Optinal :
+			"ATOMS_RC2"       	  : List containing the indices of the atoms for the second restricted reaction coordinate
+			"force_constant_1"	  : float with the force constant applied for the harmonic potential in the first reaction coordinate. Default is 600.0 KJ
+			"force_constant_2"	  : float with the force constant applied for the harmonic potential in the second reaction coordinate. Default is 600.0 KJ
+			"optimize"        	  : Boolean indicating if the geometry must be optimized before molecular dynamics 
+			"restart"         	  : Boolean indicating if the calculations must continue from those .ptRes that were not generated yet.
+			"adaptative"      	  : BOolean inficating the usage of an adaptative shceme for convergence parameters. (UNSTABLE and UNTESTED)
+			"coordinate_format"   : string containing the format of input coordinate files e.g.: ".xyz", ".pdb" or ".pkl". if not passed ".pkl" will be assumed.
+			"save_format"         : Save production molecular dynamics for one-dimensional runs. Must set a valid sampling factor. 
+		#MD PARAMETERS
+			"temperature" 		  : float with the simulation temperature. If not passed we assume 300.15K as default.
+			"pressure"   		  : float with the simulation pressure. If not passed we assume 1.0bar as default.
+			"pressure_coupling"	  : boolean indicating if is to control the simulation pressure.
+			"timeStep"   		  : float indicating the size of integration time step. 0.001 ps is taken as default.
+			"sampling_factor"     : integer with the save/sampling frequency of frames for the data collection step.
+			"seed"				  : integer indicating the seed for rumdomness of the simulations.
+			"log_frequency_md"    : integer indicating the frequency of the screen log output for the molecular dynamics runs.
+		#OPTIMIZATION PARAMETERS
+			"trajectory_name"     : name to save the trajectory
+			"maxIterations"       : maximum number of itetarions (integer) 
+			"log_frequency_OPT"   : log frequency  (integer)
+			"save_pdb"            : whether to save the final coordinates in pdb format (boolean)
+			"save_format_opt"     : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
+			"rmsGradient"         : root mean square gradient tolerance ( float )
 		'''
 		#---------------------------------------
 		MCR1 = False
@@ -474,63 +457,60 @@ class Simulation:
 		rcType1 = "Distance"
 		rcType2 = "Distance"
 		#---------------------------------------
-		if "MC_RC1" in _parameters: 	MCR1 = True
-		if "MC_RC2" in _parameters:		MCR2 = True
+		if "MC_RC1" in self.parameters: 	MCR1 = True
+		if "MC_RC2" in self.parameters:		MCR2 = True
 		#---------------------------------------
 		_Restart 	= False
 		_Adaptative = False
 		_Optimize   = False
 		_crdFormat = ".pkl"
 		sampling   = 0
-		if "restart" 	 	   in _parameters: _Restart    = _parameters["restart"]
-		if "adaptative"  	   in _parameters: _Adaptative = _parameters["adaptative"]
-		if "optimize"          in _parameters: _Optimize   = _parameters["optimize"]
-		if "coordinate_format" in _parameters: _crdFormat  = _parameters["coordinate_format"]
-		if "sampling"          in _parameters: sampling    = _parameters["sampling_factor"]
+		if "restart" 	 	   in self.parameters: _Restart    = self.parameters["restart"]
+		if "adaptative"  	   in self.parameters: _Adaptative = self.parameters["adaptative"]
+		if "optimize"          in self.parameters: _Optimize   = self.parameters["optimize"]
+		if "coordinate_format" in self.parameters: _crdFormat  = self.parameters["coordinate_format"]
+		if "sampling"          in self.parameters: sampling    = self.parameters["sampling_factor"]
 		#-------------------------------------------------------------------
-		rc1 = ReactionCoordinate(_parameters["ATOMS_RC1"],MCR1,_type=rcType1)
+		rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.SetInformation(self.molecule,0)
-		nDims = _parameters['ndim']
+		nDims = self.parameters['ndim']
 		rc2 = None
 		if nDims == 2:
-			rc2 = ReactionCoordinate(_parameters["ATOMS_RC2"],MCR2,_type=rcType2)
+			rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],MCR2,_type=rcType2)
 			rc2.SetInformation(self.molecule,0)
 		#---------------------------------------
-		USrun = US(self.molecule  						,
-			       self.baseFolder 						,
-			       _parameters["equilibration_nsteps"]  ,
-			       _parameters["production_nsteps"]     ,
-			       _parameters["MD_method"]             ,
-			       RESTART=_Restart                     ,
-			       ADAPTATIVE=_Adaptative               ,
-			       OPTIMIZE=_Optimize                   )
+		USrun = US(self.molecule  						  ,
+			       self.baseFolder 						  ,
+			       self.parameters["equilibration_nsteps"],
+			       self.parameters["production_nsteps"]   ,
+			       self.parameters["MD_method"]           ,
+			       RESTART=_Restart                       ,
+			       ADAPTATIVE=_Adaptative                 ,
+			       OPTIMIZE=_Optimize                     )
 		#---------------------------------------
-		USrun.ChangeDefaultParameters(_parameters)
+		USrun.ChangeDefaultParameters(self.parameters)
 		USrun.SetMode(rc1)
-		if _parameters["ndim"]   == 1:  USrun.Run1DSampling(_parameters["source_folder"],_crdFormat,sampling)
-		elif _parameters["ndim"] == 2:
+		if self.parameters["ndim"]   == 1:  USrun.Run1DSampling(self.parameters["source_folder"],_crdFormat,sampling)
+		elif self.parameters["ndim"] == 2:
 			USrun.SetMode(rc2)
-			USrun.Run2DSampling(_parameters["source_folder"],_crdFormat,sampling)
+			USrun.Run2DSampling(self.parameters["source_folder"],_crdFormat,sampling)
 		#---------------
 		USrun.Finalize()		
 	#=========================================================================
-	def PMFAnalysis(self,_parameters,_plotParameters):
+	def PMFAnalysis(self):
 		'''
 		Calculate potential of mean force and Free energy from restricted molecular dynamics
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory: 
-					"source_folder"	:
-					"xbins"			:
-					"ybins"			:
-					"temperature"	:
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory:
-				Optinal :
+		Mandatory keys: 
+			"source_folder"	:
+			"xbins"			:
+			"ybins"			:
+			"temperature"	:
+		Optinal keys        :
+		plot keys           :
+				
 		'''
-		potmean = PMF( self.molecule, _parameters["source_folder"], self.baseFolder )
-		potmean.CalculateWHAM(_parameters["xnbins"],_parameters["ynbins"],_parameters["temperature"])
+		potmean = PMF( self.molecule, self.parameters["source_folder"], self.baseFolder )
+		potmean.CalculateWHAM(self.parameters["xnbins"],self.parameters["ynbins"],self.parameters["temperature"])
 		#================================================================
 		#Set default plot parameters
 		cnt_lines  = 12
@@ -542,26 +522,26 @@ class Simulation:
 		ywin       = 0 
 		#-----------------------------------------------------------------
 		nDims = 1
-		if _parameters["ynbins"] > 0: nDims = 2
-		xlims = [ 0,  _parameters['xnbins'] ]
-		ylims = [ 0,  _parameters['ynbins'] ]
+		if self.parameters["ynbins"] > 0: nDims = 2
+		xlims = [ 0,  self.parameters['xnbins'] ]
+		ylims = [ 0,  self.parameters['ynbins'] ]
 		#-------------------------------------------------------------
 		#check parameters for plot
-		if "contour_lines" 	in _plotParameters: cnt_lines  	= _plotParameters["contour_lines"]		
-		if "xlim_list" 		in _plotParameters: xlims 		= _plotParameters["xlim_list"]
-		if "ylim_list" 		in _plotParameters:	ylims 		= _plotParameters["ylim_list"]
-		if "ynbins" 		in _parameters: 	nRC2  		= _parameters["ynbins"]
-		if "show" 			in _plotParameters:	show 		= True
-		if "crd1_label" 	in _plotParameters:	crd1_label 	= _plotParameters["crd1_label"]
-		if "crd2_label" 	in _plotParameters:	crd2_label 	= _plotParameters["crd2_label"]
-		if "xwindows" 		in _plotParameters: xwin 		= _plotParameters["xwindows"]
-		if "ywindows" 		in _plotParameters:	ywin 		= _plotParameters["ywindows"]
+		if "contour_lines" 	in self.parameters: cnt_lines  	= self.parameters["contour_lines"]		
+		if "xlim_list" 		in self.parameters: xlims 		= self.parameters["xlim_list"]
+		if "ylim_list" 		in self.parameters:	ylims 		= self.parameters["ylim_list"]
+		if "ynbins" 		in self.parameters: nRC2  		= self.parameters["ynbins"]
+		if "show" 			in self.parameters:	show 		= self.parameters["show"]
+		if "crd1_label" 	in self.parameters:	crd1_label 	= self.parameters["crd1_label"]
+		if "crd2_label" 	in self.parameters:	crd2_label 	= self.parameters["crd2_label"]
+		if "xwindows" 		in self.parameters: xwin 		= self.parameters["xwindows"]
+		if "ywindows" 		in self.parameters:	ywin 		= self.parameters["ywindows"]
 		#------------------------------------------------------------
 		if   nDims == 2: TYPE = "WHAM2D"
 		elif nDims == 1: TYPE = "WHAM1D"	
 		#------------------------------------------------------------
 		# Plot PMF graphs
-		EA = EnergyAnalysis(_parameters['xnbins'],nRC2,_type=TYPE)
+		EA = EnergyAnalysis(self.parameters['xnbins'],nRC2,_type=TYPE)
 		EA.ReadLog( potmean.baseName+".dat" ) 
 		#-------------------------------------------------------------
 		if   nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
@@ -579,26 +559,23 @@ class Simulation:
 		if   nDims == 2: EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1: EAfe.Plot1D(crd1_label,show)
 	#=========================================================================
-	def NormalModes(self,_parameters):
+	def NormalModes(self):
 		'''
 		Simulation preset to calculate the normal modes and to write thr trajectory for a specific mode.
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
+		Mandatory keys in self.parameters:
+
+		Optinal keys in self.parameters  : 
+			
 		'''	
 		mode 		= 0
 		temperature = 300.15
 		Cycles 		= 10 
 		Frames  	= 10 
 		#-------------------------------
-		if "temperature" in _parameters: temperature = _parameters["temperature"]
-		if "cycles" 	 in _parameters: Cycles 	 = _parameters["cycles"]
-		if "frames" 	 in _parameters: Frames 	 = _parameters["frames"]
-		if "mode" 	 	 in _parameters: mode   	 = _parameters["mode"]
+		if "temperature" in self.parameters: temperature = self.parameters["temperature"]
+		if "cycles" 	 in self.parameters: Cycles 	 = self.parameters["cycles"]
+		if "frames" 	 in self.parameters: Frames 	 = self.parameters["frames"]
+		if "mode" 	 	 in self.parameters: mode   	 = self.parameters["mode"]
 		#-------------------------------
 		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
 		if _mode > 0:
@@ -610,17 +587,12 @@ class Simulation:
                                        				frames      = Frames 	  ,
                                        				temperature = temperature )
 	#==========================================================================
-	def DeltaFreeEnergy(self,_parameters):
+	def DeltaFreeEnergy(self):
 		'''
 		Calculate the free energy difference between two configurations of the system using the 
 		statistical thermodynamics partition functions from through the normal modes calculations
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
+		Mandatory keys:
+		Optional keys :
 		'''
 		
 		#initial Structure
@@ -628,10 +600,10 @@ class Simulation:
 		temperature    = 300.15 
 		symmetryNumber = 1
 
-		if "pressure" in _parameters:
-			pressure = _parameters["pressure"]
+		if "pressure" in self.parameters:
+			pressure = self.parameters["pressure"]
 
-		self.molecule.coordinates3 = ImportCoordinates3(_parameters["initial_coordinates"])
+		self.molecule.coordinates3 = ImportCoordinates3(self.parameters["initial_coordinates"])
 		e0 = self.molecule.Energy()
 		NormalModes_SystemGeometry( self.molecule, modify = ModifyOption.Project )
 		Gibbs = [] 
@@ -641,7 +613,7 @@ class Simulation:
                                                     temperature    = self.temperature    	)
 		Gibbs.append( tdics["Gibbs Free Energy"] )
     	# Final struct
-		self.molecule.coordinates3 = ImportCoordinates3(_parameters["final_coordinates"])
+		self.molecule.coordinates3 = ImportCoordinates3(self.parameters["final_coordinates"])
 		e1 = self.molecule.Energy()
 		NormalModes_SystemGeometry ( self.molecule, modify = ModifyOption.Project )
     	 
@@ -651,61 +623,40 @@ class Simulation:
                                                     temperature    = self.temperature    	)
 		Gibbs.append( tdics["Gibbs Free Energy"] )
 	#=========================================================================	
-	def NEB(self,_parameters,_plotParameters):
+	def NEB(self):
 		'''
 		Class method to set up and execute Nudget Elastic Band simulations to generate a reaction path trajectory
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
+		Mandatory keys in self.parameters:
+		Optional keys in self.parameters:
 		'''
 		NEBrun = GeometrySearcher(self.molecule,self.baseFolder)
 
 		#if there any parameters to be modified 
-		NEBrun.ChangeDefaultParameters(_parameters)
-		NEBrun.NudgedElasticBand(_parameters)
+		NEBrun.ChangeDefaultParameters(self.parameters)
+		NEBrun.NudgedElasticBand(self.parameters)
 
 
 	#=========================================================================
-	def SAW(self,_parameters):
+	def SAW(self):
 		'''
 		Set up and execute Self-Avoid Walking simulations to generate a reaction path trajectory 
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
+		Mandatory keys in self.parameters:
+		Optional keys in self.parameters:
 		'''
 	#=========================================================================	
-	def TrajectoryPlots(self,_parameters,_plotParameters) :
+	def TrajectoryPlots(self) :
 		'''
-		Produce graphical analysis from provided trajectories.
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
+		Mandatory keys in self.parameters:
+		Optional keys in self.parameters:
 		'''
 
 		pass
 	#=========================================================================
-	def EnergyPlots(self,_parameters,_plotParameters):
+	def EnergyPlots(self):
 		'''
 		Produce Energy plots from previus simulations log files
-		Parameters:
-			_parameters: python dict with parameters for simulation
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
-			_plotParameters:python dict with paramters for post-analysis and plots
-				Mandatory ( if not provided a "key-Error" will be thrown ):
-				Optinal :
+		Mandatory keys in self.parameters:
+		Optional keys in self.parameters:
 		'''		
 		multiPlot = False
 		ndim      = 1 
@@ -713,42 +664,46 @@ class Simulation:
 		crd2_label= "Reaction Coordinate #"
 		cnt_lines = 0 
 		ysize     = 0
-		if "ysize" in _parameters: ysize = _parameters["ysize"]
-		xlim      = [ 0, _parameters["xsize"] ]
+		if "ysize" in self.parameters: ysize = self.parameters["ysize"]
+		xlim      = [ 0, self.parameters["xsize"] ]
 		ylim 	  = [ 0, ysize ]
 		show 	  = False
 		#--------------------------------------------------------
-		if "contour_lines" 	in _plotParameters: cnt_lines  = _plotParameters["contour_lines"]
-		if "crd1_label" 	in _plotParameters: crd1_label = _plotParameters["crd1_label"]
-		if "crd2_label" 	in _plotParameters:	crd2_label = _plotParameters["crd2_label"]
-		if "xlim_list" 		in _plotParameters: xlim  	   = _plotParameters["xlim_list"]
-		if "ylim_list" 		in _plotParameters: ylim       = _plotParameters["ylim_list"]
-		if "show" 			in _plotParameters: show       = _plotParameters["show"]
-		if "multiple_plot" 	in _plotParameters: multiPlot  = _plotParameters["multiple_plot"]		
+		if "contour_lines" 	in self.parameters: cnt_lines  = self.parameters["contour_lines"]
+		if "crd1_label" 	in self.parameters: crd1_label = self.parameters["crd1_label"]
+		if "crd2_label" 	in self.parameters:	crd2_label = self.parameters["crd2_label"]
+		if "xlim_list" 		in self.parameters: xlim  	   = self.parameters["xlim_list"]
+		if "ylim_list" 		in self.parameters: ylim       = self.parameters["ylim_list"]
+		if "show" 			in self.parameters: show       = self.parameters["show"]
+		if "multiple_plot" 	in self.parameters: multiPlot  = self.parameters["multiple_plot"]		
 		if ysize > 0: ndim = 2
-		if "log_names" in _plotParameters: multiPlot = True 
+		if "log_names" in self.parameters: multiPlot = True 
 		#--------------------------------------------------------
-		EA = EnergyAnalysis(_parameters["xsize"],ysize,_type=_parameters["type"] )
+		EA = EnergyAnalysis(self.parameters["xsize"],ysize,_type=self.parameters["type"] )
 		if multiPlot:
-			for log in _parameters["log_names"]:
+			for log in self.parameters["log_names"]:
 				EA.ReadLog( log )
 				EA.MultPlot1D()
 		else:
-			EA.ReadLog( _parameters["log_name"] )
+			EA.ReadLog( self.parameters["log_name"] )
 		#--------------------------------------------------------
 		if 	 ndim == 1: EA.Plot1D(crd1_label,show)
 		elif ndim == 2:	EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 
 	#=========================================================================
-	def SimulatingAnnealing(self,_parameters):
+	def SimulatingAnnealing(self):
 		'''
-		Set up and execute Simulate annealing simulations		
+		Set up and execute Simulate annealing simulations	
+		Mandatory keys in self.parameters:
+		Optional keys in self.parameters:	
 		'''
 		pass
 	#=========================================================================
-	def SMD(self,_parameters):
+	def SMD(self):
 		'''
 		Set up and execute Steered Molecular Dynamics simulations
+		Mandatory keys in self.parameters:
+		Optional keys in self.parameters:
 		'''
 		pass
 

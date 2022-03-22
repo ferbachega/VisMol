@@ -39,12 +39,14 @@ class GeometrySearcher:
         self.finalCrd3D     = None
         self.massWeighting  = False
         self.logFreq        = 50 # deafult value for otimizations, must to be changed through the specific class method
-        self.trajectoryName = _trajName 
+        self.trajectoryName = None
         self.savePdb        = False
         self.saveFormat     = None    
         self.rmsGrad        = 0.1
         self.maxIt          = 500
         self.saveFrequency  = 0
+        if not _trajName == None:
+             self.trajectoryName = os.path.join(_baseFolder,_trajName) 
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
