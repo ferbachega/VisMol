@@ -629,11 +629,49 @@ class TreeViewMenu:
         (model, iter)    = selection.get_selected()
         self.selectedID  = int(model.get_value(iter, 1))  # @+
         
-        print(selection, model, iter, self.selectedID)
+        #print(selection, model, iter, 'selectedID',self.selectedID)
         visObj = self.treeview.vm_session.vismol_objects_dic[self.selectedID]
         
+        #for i in self.selectedID:
+        #    print(i)
+        
+        #for i in model:
+        #    print(i)
         #infile = self.filechooser.open()
-        self.treeview.main_session.import_trajectory_window.OpenWindow()
+        
+        
+        
+        
+        selection     = self.treeview.get_selection()
+        #print(selection)
+        #model         = selection.get_model()
+        #print(model)
+        #print(self.treestore)
+        
+        (model, iter) = selection.get_selected()
+        for item in model:
+            pass
+            #print (item[0], model[iter][0])
+        #print (model[iter][:], iter, model, tree )
+        if iter != None:
+            self.selectedID  = str(model.get_value(iter, 1))  # @+
+            self.selectedObj = str(model.get_value(iter, 2))
+            print(self.selectedID, self.selectedObj, model.get_value(iter, 0),  model.get_value(iter, 8))
+            #self.treeview_menu.open_menu(self.selectedObj)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.treeview.main_session.import_trajectory_window.OpenWindow(sys_selected = model.get_value(iter, 8))
         #self.import_trajectory_window.OpenWindow()
         
         #self.treeview.vm_session.load_xyz_coords_to_vismol_object(infile , visObj)

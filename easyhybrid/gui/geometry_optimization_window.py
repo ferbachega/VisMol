@@ -110,10 +110,12 @@ class SaveTrajectoryBox:
 class FolderChooserButton:
     """ Class doc """
     
-    def __init__ (self, main = None):
+    def __init__ (self, main = None, sel_type = 'folder'):
         """ Class initialiser """
-        self.main =  main
-        self.btn =  Gtk.Button()
+        self.main     =  main
+        self.btn      =  Gtk.Button()
+        self.sel_type =  sel_type # file/folder
+        #self.sel_type = 'file' # file/folder
 
         grid = Gtk.Grid ()
         grid.set_column_spacing (10)
@@ -147,17 +149,34 @@ class FolderChooserButton:
         
     def open_filechooser (self, parent = None):
         """ Function doc """
-        dialog = Gtk.FileChooserDialog(
-            
-            #title="Please choose a file", parent=window, action=Gtk.FileChooserAction.OPEN
-            title="Please choose a folder", parent= self.main, action=Gtk.FileChooserAction.SELECT_FOLDER
-        )
-        dialog.add_buttons(
-            Gtk.STOCK_CANCEL,
-            Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_OPEN,
-            Gtk.ResponseType.OK,
-        )
+        
+        if self.sel_type == 'folder':
+            dialog = Gtk.FileChooserDialog(
+                
+                #title="Please choose a file", parent=window, action=Gtk.FileChooserAction.OPEN
+                title="Please choose a folder", parent= self.main, action=Gtk.FileChooserAction.SELECT_FOLDER
+            )
+            dialog.add_buttons(
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OPEN,
+                Gtk.ResponseType.OK,
+            )
+        
+        else:
+            dialog = Gtk.FileChooserDialog(
+                
+                #title="Please choose a file", parent=window, action=Gtk.FileChooserAction.OPEN
+                title="Please choose a file", parent= self.main, action=Gtk.FileChooserAction.OPEN
+            )
+            dialog.add_buttons(
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OPEN,
+                Gtk.ResponseType.OK,
+            )
+        
+        
         
         if self.folder:
             dialog.set_current_folder(self.folder)
@@ -253,6 +272,8 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             
             self.window.show_all()
             self.Visible  = True
+    
+
     
     def CloseWindow (self, button, data  = None):
         """ Function doc """

@@ -1535,8 +1535,17 @@ class SpheresRepresentation (Representation):
             
             else:
                 #self.centers = self.glCore._safe_frame_exchange(self.visObj)
-                
+                '''
+                This function checks if the number of the called frame will not exceed 
+                the limit of frames that each object has. Allowing two objects with 
+                different trajectory sizes to be manipulated at the same time within the 
+                glArea'''
+                #self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
                 frame = self.glCore._get_visObj_frame (self.visObj)
+                if frame >= len(self.frames):
+                    frame = len(self.frames)-1
+                #print(frame)
+                
                 self.coords = self.frames[frame]
                 self.centers =self.centers_list[frame]
                 

@@ -679,7 +679,7 @@ class VismolTrajectoryFrame(Gtk.Frame):
         self.box.set_margin_left   (3)
         self.box.set_margin_right  (3)
         
-        self.value      = 1
+        self.value      = 0
         self.scale      = Gtk.Scale()
         
         #self.adjustment = Gtk.Adjustment(self.value, 1, 1, 0, 1, 0)
@@ -694,7 +694,8 @@ class VismolTrajectoryFrame(Gtk.Frame):
         
         self.scale.set_adjustment ( self.adjustment)
         self.scale.set_digits(0)
-        self.scale.connect("change_value", self.on_scaler_frame_change_change_value)
+        #self.scale.connect("change_value", self.on_scaler_frame_change_change_value)
+        self.scale.connect("value_changed", self.on_scaler_frame_value_changed)
         self.box.pack_start(self.scale, True, True, 0)
         
         self.vbox =  Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 6)
@@ -793,11 +794,13 @@ class VismolTrajectoryFrame(Gtk.Frame):
         else:
             pass
 
-    def on_scaler_frame_change_change_value (self, hscale, text= None,  data=None):
+    def on_scaler_frame_value_changed (self, hscale, text= None,  data=None):
         """ Function doc """
         value = hscale.get_value()
+        pos   = hscale.get_value_pos ()
         self.vm_session.set_frame(int(value)) 
-        #print(value)
+        self.scale.set_value(value)
+        #print(value, pos)
 
     def update (self):
         """ Function doc """
