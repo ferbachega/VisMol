@@ -633,15 +633,15 @@ class VisMolSession (ShowHideVisMol):
                 statusbar             = VismolStatusBar(vm_session = self)
                 self.statusbar         = statusbar.statusbar
                 self.go_to_atom_window = VismolGoToAtomWindow2( vm_session = self)
-                TrajectoryFrame        = VismolTrajectoryFrame( vm_session = self)
-                self.trajectory_frame  = TrajectoryFrame.get_box()
+                self.TrajectoryFrame        = VismolTrajectoryFrame( vm_session = self)
+                self.trajectory_frame  = self.TrajectoryFrame.get_box()
                 
                 self.selection_box_frane = VismolSelectionTypeBox( vm_session = self)
                 self.selection_box       = self.selection_box_frane.box
                 #self.go_to_atom_window.show_window()
                 
                 self.gtk_widgets_update_list.append(self.go_to_atom_window)
-                self.gtk_widgets_update_list.append(TrajectoryFrame)
+                self.gtk_widgets_update_list.append(self.TrajectoryFrame)
                 self.gtk_widgets_update_list.append(self.selection_box_frane)
                 
             if toolkit == 'qt4':

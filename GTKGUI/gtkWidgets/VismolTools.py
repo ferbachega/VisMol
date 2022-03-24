@@ -809,6 +809,16 @@ class VismolTrajectoryFrame(Gtk.Frame):
         #last_obj = len(self.vm_session.vismol_objects) -1
         last_obj = len(self.vm_session.vismol_objects_dic.items()) -1
         self.combobox_vobjects.set_active(last_obj)
+    def change_range (self, upper = 100):
+        """ Function doc """
+        self.adjustment     = Gtk.Adjustment(value         = self.value,
+                                             lower         = 0,
+                                             upper         = upper,
+                                             step_increment= 1,
+                                             page_increment= 1,
+                                             page_size     = 1)
+        self.scale.set_adjustment ( self.adjustment)
+        self.scale.set_digits(0)
 
 
 #VismolTrajectoryFrame()

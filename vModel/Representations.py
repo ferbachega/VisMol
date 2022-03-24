@@ -1283,6 +1283,7 @@ class SpheresRepresentation (Representation):
         offset = int(len(sphd.sphere_vertices[self.level]))
         inds_e = int(len(sphd.sphere_triangles[self.level]))
         
+        #print(coords)
         self.centers_list = []
         self.frames = []
         frame =0
@@ -1342,8 +1343,20 @@ class SpheresRepresentation (Representation):
                 self.centers_list.append(self.centers)
             #'''
         
-        print (self.coords)
-        print (self.indexes)
+        #print (self.centers_list)
+        #print (len(self.centers_list))
+        #print (self.centers)
+        #print (len(self.centers))
+        #print (self.coords)
+        #print (len(self.coords))
+        #print (self.indexes)
+        
+        #coords_menos_centers = []
+        #for i in range(0, len(self.coords)):
+        #    coords_menos_centers.append(self.coords[i] -self.centers[i])
+        #print (coords_menos_centers)
+        
+        
         end = time.time()
         print('Time used creating nucleus, vertices and colors:', end-init)
     
