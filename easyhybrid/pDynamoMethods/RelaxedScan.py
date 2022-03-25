@@ -168,8 +168,7 @@ class SCAN:
             self.Run1DScanDihedral()
         else:
             if      self.multipleDistance[0]:  self.Run1DScanMultipleDistance()
-            else:   self.Run1DScanSimpleDistance()         
-        
+            else:   self.Run1DScanSimpleDistance()        
         for i in range(_nsteps):  self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
     #=================================================================================================
     def Run1DScanSimpleDistance(self):

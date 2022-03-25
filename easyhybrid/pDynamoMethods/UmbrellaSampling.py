@@ -15,6 +15,7 @@
 import os, glob, sys, shutil
 #-----------------------------------------------------
 from MolecularDynamics import MD 
+from GeometrySearcher  import GeometrySearcher
 #-----------------------------------------------------
 import pymp
 #-----------------------------------------------------
@@ -64,7 +65,7 @@ class US:
         self.adaptative         = ADAPTATIVE
         self.angle              = False 
         self.optimize           = OPTIMIZE
-        self.GeoOptPars         = { "rmsGradient":0.01 }       
+        self.GeoOptPars         = { "rmsGradient":0.01,"optmizer":"ConjugatedGradient" }       
         self.mdParameters = { "temperature": self.temperature }        
 
     #====================================================================
@@ -86,7 +87,8 @@ class US:
         #parameters for optimization
         if "maxIterations"      in _parameters: self.GeoOptPars["maxIterations"]      = _parameters["maxIterations"]
         if "log_frequency_OPT"  in _parameters: self.GeoOptPars["log_frequency"]      = _parameters["log_frequency_OPT"]
-        if "rmsGradient"        in _parameters: self.GeoOptPars["rmsGradient"]        = _parameters["rmsGradient"]        
+        if "rmsGradient"        in _parameters: self.GeoOptPars["rmsGradient"]        = _parameters["rmsGradient"] 
+        if "optimizer"          in _parameters: self.GeoOptPars["optmizer"]           = _parameters["optmizer"]       
     #==========================================================================
     def SetMode(self,_RC):
         '''
@@ -164,9 +166,10 @@ class US:
         #-----------------------------------------------               
         #Adicionar outras possibilidades de carregar cordenadas
         pkl_path        = os.path.join( _trajFolder, "")
-        self.file_lists = glob.glob( pkl_path+_crdFormat )
+        self.file_lists = glob.glob( pkl_path+"*"+_crdFormat )
         self.bins       = len(self.file_lists)
         self.mdPaths    = []
+       
         #------------------------------------------------------
         for i in range( len(self.file_lists) ):
             coordinate_file = self.file_lists[i]
@@ -183,8 +186,10 @@ class US:
         #-----------------------------------------------------
         if self.angle:self.Run1DSamplingDihedral()
         else:        
-            if self.multipleDistance[0]: self.Run1DSamplingMultipleDistance()
-            else:                        self.Run1DSamplingSimpleDistance()
+            if self.multipleDistance[0]: 
+                self.Run1DSamplingMultipleDistance()
+            else:                       
+                self.Run1DSamplingSimpleDistance()
     
     #==============================================================================
     def Run1DSamplingSimpleDistance(self):
@@ -200,7 +205,7 @@ class US:
                 self.molecule.coordinates3 = ImportCoordinates3(self.file_lists[i])
                 #------------------------------------------------------------                
                 distance          = self.molecule.coordinates3.Distance( atom1, atom2 )
-                rmodel            = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                rmodel            = RestraintEnergyModel.Harmonic( distance, self.forceC[0] )
                 restraint         = RestraintDistance.WithOptions( energyModel = rmodel, point1=atom1, point2=atom2 ) 
                 restraints['RC1'] = restraint
                 #------------------------------------------------------------
@@ -236,7 +241,7 @@ class US:
                 dist_23  = self.molecule.coordinates3.Distance( atom2, atom3 )
                 distance = ( weight1 * dist_12) - ( weight2 * dist_23*-1)
                 #------------------------------------------------------------
-                rmodel            = RestraintEnergyModel.Harmonic( distance, self.forceC )
+                rmodel            = RestraintEnergyModel.Harmonic( distance, self.forceC[0] )
                 restraint         = RestraintMultipleDistance.WithOptions(energyModel = rmodel,  distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ]) 
                 restraints['RC1'] = restraint
                 #------------------------------------------------------------
@@ -269,11 +274,11 @@ class US:
                 #------------------------------------------------------------
                 angle = self.molecule.coordinates3.Dihedral( atom1, atom2, atom3, atom4 )
                 #------------------------------------------------------------
-                rmodel      = RestraintEnergyModel.Harmonic( angle, self.forceC )
-                restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, point1=atom1,
-                                                                                          point2=atom2,
-                                                                                          point3=atom3,
-                                                                                          point4=atom4) 
+                rmodel      = RestraintEnergyModel.Harmonic( angle, self.forceC[0], period=360.0 )
+                restraint   = RestraintDihedral.WithOptions(energyModel = rmodel, point1=atom1,
+                                                                                  point2=atom2,
+                                                                                  point3=atom3,
+                                                                                  point4=atom4) 
                 restraints['RC1'] = restraint
                 #------------------------------------------------------------
                 #if required goemetry optimization
@@ -294,9 +299,10 @@ class US:
         Class method to set the two-dimesninal sampling
         ''' 
         self.samplingFactor = _sample
-        pkl_path            = os.path.join( _trajFolder, "")
-        self.file_lists     = glob.glob( pkl_path+_crdFormat )
+        pkl_path            = os.path.join( _trajFolder,"")
+        self.file_lists     = glob.glob( pkl_path +"*"+_crdFormat  )
         self.mdPaths        = []
+
         #-----------------------------------------------
         for i in range( len(self.file_lists) ):
             coordinate_file = self.file_lists[i]
@@ -354,7 +360,7 @@ class US:
                 dist23      = self.molecule.coordinates3.Distance( atom2, atom3  )
                 distance_1  = ( weight1 * dist12) - ( weight2 * dist23*-1)
                 #--------------------------------------------------------
-                rmodel            =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                rmodel            =  RestraintEnergyModel.Harmonic( distance_1, self.forceC[0] )
                 restraint         =  RestraintMultipleDistance.WithOptions(energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
                 restraints["RC1"] = restraint
                 #--------------------------------------------------------               
@@ -362,7 +368,7 @@ class US:
                 dist56      = self.molecule.coordinates3.Distance(atom5, atom6)
                 distance_2  = ( weight1 * dist45) - ( weight2 * dist56*-1)
                 #--------------------------------------------------------
-                rmodel2           = RestraintEnergyModel.Harmonic(distance_2,self.forceC)
+                rmodel2           = RestraintEnergyModel.Harmonic(distance_2,self.forceC[1])
                 restraint         = RestraintMultipleDistance.WithOptions(energyModel = rmodel2,distances = [ [ atom5, atom4, weight3 ],[ atom5, atom6, weight4 ] ] )
                 restraints["RC2"] = restraint                 
                 #------------------------------------------------------------
@@ -405,12 +411,12 @@ class US:
                 dist12      = self.molecule.coordinates3.Distance( atom1, atom2 )
                 dist23      = self.molecule.coordinates3.Distance( atom2, atom3  )
                 distance_1  = ( weight1 * dist12) - ( weight2 * dist23*-1)
-                rmodel      =  RestraintEnergyModel.Harmonic( distance_1, self.forceC )
+                rmodel      =  RestraintEnergyModel.Harmonic( distance_1, self.forceC[0] )
                 restraint   =  RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances = [ [ atom2, atom1, weight1 ],[ atom2, atom3, weight2 ] ] )
                 restraints["RC1"] = restraint
                 #-----------------------------------------------------------------------         
                 distance_2  = self.molecule.coordinates3.Distance( atom4, atom5 )
-                rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC )
+                rmodel      = RestraintEnergyModel.Harmonic( distance_2, self.forceC[1] )
                 restraint   = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom4, point2= atom5)
                 restraints["RC2"] = restraint                 
                 #------------------------------------------------------------
@@ -448,12 +454,12 @@ class US:
                 self.molecule.coordinates3 = ImportCoordinates3( self.file_lists[i],log=None )
                 #------------------------------------------------------------------------
                 distance_1       = self.molecule.coordinates3.Distance(atom1, atom2)                
-                rmodel           = RestraintEnergyModel.Harmonic(distance_1, self.forceC)
+                rmodel           = RestraintEnergyModel.Harmonic(distance_1, self.forceC[0])
                 restraint        = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom1, point2= atom2)
                 restraints["RC1"] = restraint
                 #-----------------------------------------------------------------------         
                 distance_2       = self.molecule.coordinates3.Distance(atom3, atom4)
-                rmodel           = RestraintEnergyModel.Harmonic(distance_2, self.forceC)
+                rmodel           = RestraintEnergyModel.Harmonic(distance_2, self.forceC[1])
                 restraint        = RestraintDistance.WithOptions(energyModel = rmodel, point1= atom3, point2= atom4)
                 restraints["RC2"] = restraint  
                 #-----------------------------------------------------------------------           
@@ -494,19 +500,19 @@ class US:
                 #------------------------------------------------------------
                 angle_1 = self.molecule.coordinates3.Dihedral( atom1, atom2, atom3, atom4 )
                 #------------------------------------------------------------
-                rmodel      = RestraintEnergyModel.Harmonic( angle_1, self.forceC )
-                restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, point1=atom1,
-                                                                                          point2=atom2,
-                                                                                          point3=atom3,
-                                                                                          point4=atom4) 
+                rmodel      = RestraintEnergyModel.Harmonic( angle_1, self.forceC[0], period=360.0 )
+                restraint   = RestraintDihedral.WithOptions(energyModel = rmodel, point1=atom1,
+                                                                                  point2=atom2,
+                                                                                  point3=atom3,
+                                                                                  point4=atom4) 
                 restraints['RC1'] = restraint
                 angle_2 = self.molecule.coordinates3.Dihedral( atom5, atom6, atom7, atom8 )
                 #------------------------------------------------------------
-                rmodel      = RestraintEnergyModel.Harmonic( angle_2, self.forceC )
-                restraint   = RestraintMultipleDistance.WithOptions(energyModel = rmodel, point1=atom5,
-                                                                                          point2=atom6,
-                                                                                          point3=atom7,
-                                                                                          point4=atom8) 
+                rmodel      = RestraintEnergyModel.Harmonic( angle_2, self.forceC[1], period=360.0 )
+                restraint   = RestraintDihedral.WithOptions(energyModel = rmodel, point1=atom5,
+                                                                                  point2=atom6,
+                                                                                  point3=atom7,
+                                                                                  point4=atom8) 
                 restraints['RC2'] = restraint
                 #-----------------------------------------------------------------------           
                 if self.optimize:
@@ -527,12 +533,12 @@ class US:
         Reorganize frames and concatenate in a single trajectory folder 
         '''
         
-        fsize = int(self.prodNsteps/self.samplingFactor)        
         self.concFolder = os.path.join(self.baseName,"concatenated_trajectory.ptGeo")
         
         if not os.path.exists(self.concFolder):  os.makedirs( self.concFolder )
 
-        if self.nDim == 1:
+        if self.nDim == 1 and self.samplingFactor >0 :
+            fsize = int(self.prodNsteps/self.samplingFactor)
             pkl_path = self.baseName + "/frame*/production*/frame*.pkl"
             pkl_paths = glob.glob( pkl_path )
             pkl_paths.sort()             

@@ -10,6 +10,7 @@
 
 #--------------------------------------------------------------
 import os, glob, sys
+import numpy as np
 #--------------------------------------------------------------
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
@@ -269,7 +270,7 @@ class Simulation:
 		#------------------------------------------------------------
 		if 	 nDims 	== 2: TYPE = "2D"
 		elif nDims 	== 1: TYPE = "1D"	
-		#------------------------------------------------------------
+		#------------------------------------------------------------		
 		EA = EnergyAnalysis(self.parameters['nsteps_RC1'],nRC2,_type=TYPE)
 		EA.ReadLog( scan.baseName+"_scan{}D.log".format(nDims) ) 
 		#-------------------------------------------------------------
@@ -305,6 +306,7 @@ class Simulation:
 		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'])		
 		MDrun.ChangeDefaultParameters(self.parameters)
 		sampling = 0 
+		show = False
 		if "sampling_factor" in self.parameters: sampling = self.parameters["sampling_factor"]
 		#---------------------------------------------------------------
 		if "protocol" in self.parameters:
@@ -312,7 +314,6 @@ class Simulation:
 			elif self.parameters["protocol"] == "sampling": MDrun.RunProduction(self.parameters['nsteps'],sampling)			
 		#----------------------------------------------------------------
 		if not self.parameters == None and sampling > 0:			
-			show = self.parameters["show"]
 			RCs  = None
 			if "show" in self.parameters: show = self.parameters["show"]
 			t_time = self.parameters["nsteps"]*0.001
@@ -407,6 +408,7 @@ class Simulation:
 		#-----------------------------------------------------------------		
 		if not self.parameters == None and sampling > 0 :
 			t_time = self.parameters["nsteps"]*MDrun.timeStep
+			show = False
 			if "show" in self.parameters: show = self.parameters["show"]
 			DA = TrajectoryAnalysis(MDrun.trajectoryNameCurr,self.molecule,t_time)
 			DA.CalculateRG_RMSD()
@@ -490,7 +492,8 @@ class Simulation:
 		#---------------------------------------
 		USrun.ChangeDefaultParameters(self.parameters)
 		USrun.SetMode(rc1)
-		if self.parameters["ndim"]   == 1:  USrun.Run1DSampling(self.parameters["source_folder"],_crdFormat,sampling)
+		if self.parameters["ndim"]   == 1: 
+			USrun.Run1DSampling(self.parameters["source_folder"],_crdFormat,sampling)
 		elif self.parameters["ndim"] == 2:
 			USrun.SetMode(rc2)
 			USrun.Run2DSampling(self.parameters["source_folder"],_crdFormat,sampling)
@@ -509,28 +512,29 @@ class Simulation:
 		plot keys           :
 				
 		'''
+		ynbins = 0 
+		if "ynbins" in self.parameters: ynbins = self.parameters["ynbins"]
 		potmean = PMF( self.molecule, self.parameters["source_folder"], self.baseFolder )
-		potmean.CalculateWHAM(self.parameters["xnbins"],self.parameters["ynbins"],self.parameters["temperature"])
+		potmean.CalculateWHAM(self.parameters["xnbins"],ynbins,self.parameters["temperature"])
 		#================================================================
 		#Set default plot parameters
 		cnt_lines  = 12
 		crd1_label = ""
 		crd2_label = ""
-		nRC2       = 0
+		nRC2       = ynbins
 		show       = False
 		xwin       = 0
 		ywin       = 0 
 		#-----------------------------------------------------------------
 		nDims = 1
-		if self.parameters["ynbins"] > 0: nDims = 2
+		if ynbins > 0: nDims = 2
 		xlims = [ 0,  self.parameters['xnbins'] ]
-		ylims = [ 0,  self.parameters['ynbins'] ]
+		ylims = [ 0,  ynbins ]
 		#-------------------------------------------------------------
 		#check parameters for plot
 		if "contour_lines" 	in self.parameters: cnt_lines  	= self.parameters["contour_lines"]		
 		if "xlim_list" 		in self.parameters: xlims 		= self.parameters["xlim_list"]
 		if "ylim_list" 		in self.parameters:	ylims 		= self.parameters["ylim_list"]
-		if "ynbins" 		in self.parameters: nRC2  		= self.parameters["ynbins"]
 		if "show" 			in self.parameters:	show 		= self.parameters["show"]
 		if "crd1_label" 	in self.parameters:	crd1_label 	= self.parameters["crd1_label"]
 		if "crd2_label" 	in self.parameters:	crd2_label 	= self.parameters["crd2_label"]
@@ -545,19 +549,20 @@ class Simulation:
 		EA.ReadLog( potmean.baseName+".dat" ) 
 		#-------------------------------------------------------------
 		if   nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
-		elif nDims == 1: EA.Plot1D(crd1_label,show)
+		elif nDims == 1: EA.Plot1D(crd1_label,SHOW=show)
 		#-------------------------------------------
 		#Plot Free energy of the calculated windows
 		if   nDims == 2: TYPE = "FE2D"
 		elif nDims == 1: TYPE = "FE1D"	
-		xlims = [ np.min(EA.RC1), np.max(EA.RC1) ]	
+		xlims = [ np.min(EA.RC1), np.max(EA.RC1) ]
+
 		if nDims  == 2:  ylims = [ np.min(EA.RC2), np.max(EA.RC2) ]	
 		#------------------------------------------
 		EAfe = EnergyAnalysis(xwin,ywin,_type=TYPE)
 		EAfe.ReadLog( potmean.baseName+"_FE.log" ) 
 		#-------------------------------------------------------------
 		if   nDims == 2: EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
-		elif nDims == 1: EAfe.Plot1D(crd1_label,show)
+		elif nDims == 1: EAfe.Plot1D(crd1_label,XLIM=xlims,SHOW=show)
 	#=========================================================================
 	def NormalModes(self):
 		'''

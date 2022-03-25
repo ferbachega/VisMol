@@ -378,9 +378,7 @@ class SimulationProject:
         #---------------------------------------------------------------------
         _parameters["active_system"] = self.cSystem
         bsname  = os.path.join( os.getcwd(), self.baseName )
-        _parameters["folder"] = bsname
-        print(bsname)
-        input()
+        _parameters["folder"] = bsname        
         process = Simulation(_parameters)
         process.Execute()              
         

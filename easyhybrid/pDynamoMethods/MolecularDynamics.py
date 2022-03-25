@@ -29,6 +29,7 @@ from pScientific.RandomNumbers import *
 from pScientific.Statistics    import *
 from pScientific.Symmetry      import *                                     
 from pSimulation               import *
+
 #---------------------------------------
 
 #**************************************************************************
@@ -87,7 +88,7 @@ class MD:
             self.seed = _parameters["seed"]
             self.RNG  = NormalDeviateGenerator.WithRandomNumberGenerator ( RandomNumberGenerator.WithSeed ( self.seed ) )
     #=============================================================================================    
-    def HeatingSystem(self,_nsteps):
+    def HeatingSystem(self,_nsteps,_samplingFactor):
         '''
         Run a Velocity Verlet molecular dynamics simulation to gradually 
         make the system reach certain temperature. 
@@ -130,9 +131,12 @@ class MD:
         trajectory      = ExportTrajectory( self.trajectoryNameCurr, self.molecule,log=None )         
         trajectory_list = []
 
-        if self.softConstraint:
+        if self.softConstraint and self.samplingFactor > 0:
             trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule,log=None)
             trajectory_list = [ ( trajectory, self.samplingFactor ), (trajSoft, 1) ]
+        elif self.softConstraint and self.samplingFactor == 0:
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule,log=None)
+            trajectory_list = [ (trajSoft, 1) ]
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
         
@@ -154,10 +158,14 @@ class MD:
         #--------------------------------------------------------------------------------
         trajectory  = ExportTrajectory(self.trajectoryNameCurr, self.molecule,log=None)       
         trajectory_list = []
+        print(self.samplingFactor)
         #--------------------------------------------------------------------------------
         if self.softConstraint:
             trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
             trajectory_list = [ ( trajectory, self.samplingFactor ), ( trajSoft, 1 ) ]
+        elif self.softConstraint and self.samplingFactor == 0:
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule,log=None)
+            trajectory_list = [ (trajSoft, 1) ]
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
         #--------------------------------------------------------------------------------
@@ -186,6 +194,9 @@ class MD:
         if self.softConstraint:
             trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule)
             trajectory_list = [ ( trajectory, self.samplingFactor ), ( trajSoft, 1 ) ]
+        elif self.softConstraint and self.samplingFactor == 0:
+            trajSoft = ExportTrajectory(self.trajectoryNameSoft, self.molecule,log=None)
+            trajectory_list = [ (trajSoft, 1) ]
         else:
             trajectory_list = [ ( trajectory, self.samplingFactor ) ]
         #-----------------------------------------------------------------------------

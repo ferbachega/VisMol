@@ -105,12 +105,10 @@ class EnergyAnalysis:
 			for line in reading:
 				if i > 0:
 					lns = line.split()
-					print(lns)
 					self.RC1.append( float(lns[2] ) )
 					self.RC2.append( float(lns[3] ) )
 					m = int(lns[0])				
 					n = int(lns[1])	
-					print(lns[4],m,n)			
 					self.energiesMatrix[n][m] = float(lns[4]) 
 				i += 1		
 		#----------------------------------
@@ -141,13 +139,10 @@ class EnergyAnalysis:
 			for line in reading:
 				lns = line.split()
 				pmf = float(lns[1])
-				if pmf > MaX:
-					MaX = pmf
+				if pmf > MaX: MaX = pmf
 				self.RC1.append( float(lns[0]) )
-				if lns[1] == "inf":
-					self.energies1D.append( 43434.0000 )
-				else:
-					self.energies1D.append( float(lns[1]) )
+				if lns[1] == "inf": self.energies1D.append( 43434.0000 )
+				else:       		self.energies1D.append( float(lns[1]) )
 
 			for i in range(len(self.energies1D)):
 				if self.energies1D[i] == 43434.0000:
@@ -234,22 +229,25 @@ class EnergyAnalysis:
 		'''
 		pass
 	#===============================================
-	def Plot1D(self, label,SHOW=False):
+	def Plot1D(self, label,XLIM=None,SHOW=False):
 		'''
 		Plot one dimensional energy plot.
 		'''
 		self.NormalizeEnergies()
 		_pathOut = self.baseName
 		if self.Type == "FE1D":
-			self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
+			if XLIM == None:
+				self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
+			else:
+				self.RC1 = np.linspace( XLIM[0],XLIM[1],len(self.energies1D) )
 			self.labely = "Free Energy (kJ/mol)"
-			_pathOut += "_1Dfree_energy.png"
+			_pathOut += "_1DFE.png"
 		elif self.Type == "WHAM1D":
 			self.RC1 = np.linspace( np.min(self.RC1), np.max(self.RC1), len(self.RC1) )
 			self.labely = "Potential of Mean Field (kJ/mol)"
-			_pathOut += "_1D_PMF.png"
+			_pathOut += "_PMF1D.png"
 		elif self.Type == "1D" and self.Type == "1DRef" :
-			_pathOut += "_1Denergy.png"
+			_pathOut += "_ref.png"
 		#--------------------------------------------
 		plt.plot(self.RC1,self.energies1D,'-ok')
 		plt.xlabel(label)
@@ -257,8 +255,8 @@ class EnergyAnalysis:
 		#--------------------------------------------
 		plt.savefig(self.baseName+".png",dpi=1000)
 		#---------------------------------------------
-		if SHOW:
-			plt.show()		
+		if SHOW: plt.show()	
+		plt.close()
 	#===============================================
 	def MultPlot1D(self,label,SHOW=False):
 		'''
@@ -276,8 +274,8 @@ class EnergyAnalysis:
 		plt.legend()
 		plt.savefig(self.baseName+".png",dpi=1000)
 		#---------------------------------------------
-		if SHOW:
-			plt.show()		
+		if SHOW: plt.show()		
+		plt.close()
 	#===============================================
 	def Plot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
 		'''
@@ -330,20 +328,15 @@ class EnergyAnalysis:
 		fig.tight_layout()
 
 		_method = ""
-		if len(self.identifiers) > 0:
-			_method = self.identifiers[-1]
+		if len(self.identifiers) > 0: _method = self.identifiers[-1]
 		plotName = self.baseName + _method
-		if self.Type == "WHAM2D":
-			plotName += "_PMF2D.png" 
-		elif self.Type == "FE2D":
-			plotName += "_FE2D.png"
-		elif self.Type == "2D":
-			plotName += "_2DPES.png"
-		elif self.Type == "2DRef":
-			plotName == "_2DPES.png"
+		if 	 self.Type == "WHAM2D": plotName += "_PMF2D.png" 
+		elif self.Type == "FE2D":   plotName += "_FE2D.png"
+		elif self.Type == "2D":     plotName += "_2DPES.png"
+		elif self.Type == "2DRef":  plotName += "_2DPES.png"
 		plt.savefig(plotName,dpi=1000)
-		if SHOW:
-			plt.show()
+		if SHOW: plt.show()
+		plt.close()
 	#----------------------------------------------------------------------------------------
 	def MultPlot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
 		'''
