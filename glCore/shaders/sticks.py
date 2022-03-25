@@ -412,6 +412,8 @@ void main(){
     frag_norm = p_18 - geom_coord[1].xyz;
     EmitVertex();
     EndPrimitive();
+    
+    
 }
 """
 fragment_shader_sticks = """
@@ -429,7 +431,7 @@ struct Light {
 };
 
 uniform Light my_light;
-
+uniform mat4 model_mat;
 uniform vec4 fog_color;
 uniform float fog_start;
 uniform float fog_end;
@@ -441,7 +443,11 @@ in vec3 frag_norm;
 out vec4 final_color;
 
 void main(){
-    vec3 normal = normalize(frag_norm);
+    
+    
+    vec3 normal = normalize(frag_norm);   
+    //vec3 normal = normalize(mat3(transpose(inverse(model_mat))) * frag_norm);
+    
     vec3 vert_to_light = normalize(my_light.position);
     vec3 vert_to_cam = normalize(frag_coord);
     

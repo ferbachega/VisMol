@@ -297,40 +297,28 @@ class ShowHideVisMol:
 
 
                 if vobject.representations['spheres'] is None:
-                    ##print(vobject.representations[_type])
                     if atoms2spheres !=[]:
-                        rep  = SpheresRepresentation    (name    = _type, 
-                                                         active  = True, 
-                                                         _type   = 'mol', 
-                                                         visObj  = vobject, 
-                                                         glCore  = self.glwidget.vm_widget,
-                                                        indexes  = indexes
-                                                         #atoms   = atoms2spheres
-                                                         )
-                        
-                        
-                        
-                        
-                        #print ('len', len(atoms2spheres))
-                        rep._create_sphere_data()                                
+                        rep  = SpheresRepresentation    (name    = 'spheres', 
+                                                                active  = True, 
+                                                                _type   = 'mol', 
+                                                                visObj  = vobject, 
+                                                                glCore  = self.glwidget.vm_widget,
+                                                               indexes  = indexes
+                                                                #atoms   = atoms2spheres
+                                                                )
+                        #rep._create_sphere_data()                                
                         vobject.representations[rep.name] = rep 
                     else:
                         pass
-                    ##print(vobject.representations[_type])
                 else:
                     if atoms2spheres == []:
                         vobject.representations[_type].active = False
-                        #self.glwidget.queue_draw()
                         pass
 
                     else:
                         vobject.representations[_type].update_atomic_indexes(indexes = indexes)
-                        #vobject.representations[_type].atoms = atoms2spheres
-                        #vobject.representations[_type]._create_sphere_data() 
-                        #vobject.representations[_type]._update_sphere_data_to_VBOs ()                               
-                        #vobject.representations[_type].active = True
-                        #self.glwidget.queue_draw()
-                #self.glwidget.queue_draw()
+                        vobject.representations[_type].active = True
+
         self.glwidget.queue_draw()
 
     def show_or_hide (self, _type = 'lines', selection = None,  show = True ):
@@ -478,13 +466,12 @@ class ShowHideVisMol:
                             vobject.representations[_type].active = True                
                 
                 if  _type == 'spheres':
-                    
+                    #_type = 'spheres_instance'
                     atoms2spheres = []
                     for atom in vobject.atoms:
                         if atom.spheres:
                             atoms2spheres.append(atom)
                             index = vobject.atoms.index(atom)
-                            #indexes.append(atom.index-1)
                             indexes.append(index)
                         else:                   
                             pass
@@ -492,37 +479,31 @@ class ShowHideVisMol:
 
 
                     if vobject.representations['spheres'] is None:
-                        ##print(vobject.representations[_type])
                         if atoms2spheres !=[]:
-                            rep  = SpheresRepresentation    (name    = _type, 
-                                                             active  = True, 
-                                                             _type   = 'mol', 
-                                                             visObj  = vobject, 
-                                                             glCore  = self.glwidget.vm_widget,
-                                                            indexes  = indexes
-                                                             #atoms   = atoms2spheres
-                                                             )
+                            print ('rep  = SpheresRepresentation')
+                            rep  = SpheresRepresentation    (name    = 'spheres', 
+                                                                    active  = True, 
+                                                                    _type   = 'mol', 
+                                                                    visObj  = vobject, 
+                                                                    glCore  = self.glwidget.vm_widget,
+                                                                   indexes  = indexes
+                                                                    )
                             
-                            #print ('len', len(atoms2spheres))
-                            rep._create_sphere_data()                                
+                            #rep._create_sphere_data()                                
                             vobject.representations[rep.name] = rep 
                         else:
+                            print ('494 pass')
                             pass
-                        ##print(vobject.representations[_type])
                     else:
                         if atoms2spheres == []:
+                            print ('498 active = False')
                             vobject.representations[_type].active = False
-                            #self.glwidget.queue_draw()
                             pass
 
                         else:
+                            print ('503 update_atomic_indexes')
                             vobject.representations[_type].update_atomic_indexes(indexes = indexes)
-                            #vobject.representations[_type].atoms = atoms2spheres
-                            #vobject.representations[_type]._create_sphere_data() 
-                            #vobject.representations[_type]._update_sphere_data_to_VBOs ()                               
-                            #vobject.representations[_type].active = True
-                            #self.glwidget.queue_draw()
-                    #self.glwidget.queue_draw()
+                            vobject.representations[_type].active = True
         self.glwidget.queue_draw()
 
 
@@ -633,15 +614,15 @@ class VisMolSession (ShowHideVisMol):
                 statusbar             = VismolStatusBar(vm_session = self)
                 self.statusbar         = statusbar.statusbar
                 self.go_to_atom_window = VismolGoToAtomWindow2( vm_session = self)
-                TrajectoryFrame        = VismolTrajectoryFrame( vm_session = self)
-                self.trajectory_frame  = TrajectoryFrame.get_box()
+                self.TrajectoryFrame        = VismolTrajectoryFrame( vm_session = self)
+                self.trajectory_frame  = self.TrajectoryFrame.get_box()
                 
                 self.selection_box_frane = VismolSelectionTypeBox( vm_session = self)
                 self.selection_box       = self.selection_box_frane.box
                 #self.go_to_atom_window.show_window()
                 
                 self.gtk_widgets_update_list.append(self.go_to_atom_window)
-                self.gtk_widgets_update_list.append(TrajectoryFrame)
+                self.gtk_widgets_update_list.append(self.TrajectoryFrame)
                 self.gtk_widgets_update_list.append(self.selection_box_frane)
                 
             if toolkit == 'qt4':

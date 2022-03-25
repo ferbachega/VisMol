@@ -52,20 +52,21 @@ class LoadAndSaveFiles:
                 if rep_data == None:
                     pass
                 
-                else:               
-                    if rep_name == 'spheres':
-                        representations[rep_name] = list(rep_data.atomic_indexes)
-                    else:
-                        
-                        # this try / except  should be replaced later
-                        
-                        try:#else:
-                            #print(vobj.name, vobj.index, rep_name, rep_data.indexes )
-                            representations[rep_name] = list(rep_data.indexes)
-                        except:
-                            
-                            #print()
-                            pass
+                else:
+                    representations[rep_name] = list(rep_data.indexes)               
+                    #if rep_name == 'spheres':
+                    #    representations[rep_name] =  rep_data.indexes
+                    #else:
+                    #    pass
+                    #    # this try / except  should be replaced later
+                    #    
+                    #    try:#else:
+                    #        #print(vobj.name, vobj.index, rep_name, rep_data.indexes )
+                    #        representations[rep_name] = list(rep_data.indexes)
+                    #    except:
+                    #        
+                    #        #print()
+                    #        pass
             
 
             #'''

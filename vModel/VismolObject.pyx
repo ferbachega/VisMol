@@ -42,7 +42,7 @@ from vModel.Representations   import SpheresRepresentation
 from vModel.Representations   import GlumpyRepresentation
 from vModel.Representations   import WiresRepresentation
 from vModel.Representations   import RibbonsRepresentation
-from vModel.Representations   import SphereInstanceRepresentation
+#from vModel.Representations   import SphereInstanceRepresentation
 
 from vModel.MolecularProperties import COLOR_PALETTE
 
@@ -612,20 +612,20 @@ class VismolObject:
                                                                       indexes  = indexes
                                                                      )
                             
-            self.representations['spheres']._create_sphere_data()                                
+            #self.representations['spheres']._create_sphere_data()                                
         
         
         
-        if rtype == 'spheresInstace':
-
-            self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype, 
-                                                                      active  = True, 
-                                                                      _type   = 'mol', 
-                                                                      visObj  = self,
-                                                                      glCore  = self.vm_session.glwidget.vm_widget,
-                                                                      indexes  = indexes
-                                                                     )
-                            
+        #if rtype == 'spheresInstace':
+        #
+        #    self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype, 
+        #                                                              active  = True, 
+        #                                                              _type   = 'mol', 
+        #                                                              visObj  = self,
+        #                                                              glCore  = self.vm_session.glwidget.vm_widget,
+        #                                                              indexes  = indexes
+        #                                                             )
+        #                    
             #self.representations['spheres_instance']._create_sphere_data()                                
 
 

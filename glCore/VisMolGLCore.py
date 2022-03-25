@@ -1485,7 +1485,7 @@ void main(){
         bck_col = GL.glGetUniformLocation(program, 'alias_color')
         GL.glUniform3fv(bck_col, 1, self.bckgrnd_color[:3])
     
-    def _safe_frame_exchange (self, visObj):
+    def _safe_frame_exchange (self, visObj = None, return_frame = True):
         """ Function doc 
         
         This function checks if the number of the called frame will not exceed 
@@ -1502,18 +1502,24 @@ void main(){
         if self.frame >= (len (visObj.frames)-1):
             #print (type(self.frame),self.frame,  type(len (visObj.frames)-1),len (visObj.frames)-1)
             frame = visObj.frames[len (visObj.frames)-1]
+            frame_number = len (visObj.frames)-1
             #position = len (visObj.frames)-1
             #frame2 = visObj.frames[position-1]
             #print (type(frame), type(frame2), position)
 
         else:
             frame = visObj.frames[self.frame]
+            frame_number = self.frame
             #position = len (visObj.frames)-1
             #frame2 = visObj.frames[position-1]
             #print (type(frame), type(frame2), position)
+        if return_frame:
+            return frame
+        else:
+            return frame_number
         
-        return frame
-
+        
+        
     def _get_visObj_frame (self, visObj):
         """ Function doc """
         if self.frame <  0:

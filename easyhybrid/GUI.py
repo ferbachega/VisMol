@@ -491,8 +491,17 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         
         for treeview_iter in self.vm_session.gtk_treeview_iters:
             self.treestore[treeview_iter][5] = False
-            #print(self.treestore[treeview_iter][0])
+            #print(self.treestore[treeview_iter][0],self.treestore[treeview_iter][-1],self.treestore[treeview_iter][-2] )
         self.treestore[path][5] = True
+        
+        
+        vob_id = self.treestore[path][-3]
+        size = len(self.main_session.vm_session.vismol_objects_dic[vob_id].frames)
+        self.treestore[path][-1] = size
+        size = self.treestore[path][-1]
+        print (path, type(path),self.treestore['0:1'][0] ,  self.treestore[path][0], self.treestore[path][-3],  self.treestore[path][-1])
+        self.main_session.vm_session.TrajectoryFrame.change_range(upper = size)
+        
         #print('\n\n\path:', path)
         #'''
         
@@ -605,9 +614,9 @@ class TreeViewMenu:
         self.treeview = treeview
         self.filechooser   = FileChooser()
         functions = {
-                    'rename'                : self.f1 ,
-                    'info'                  : self.f1 ,
-                    'load data into system' : self.f1 ,
+                    'rename'                : self.f2 ,
+                    'info'                  : self.f2 ,
+                    'load data into system' : self.load_data_to_a_system ,
                     'define color palette'  : self.f2 ,
                     'edit parameters'       : self.f2 ,
                     'export as...'          : self.f3 ,
@@ -623,35 +632,27 @@ class TreeViewMenu:
 
 
 
-    def f1 (self, visObj = None ):
+    def load_data_to_a_system (self, visObj = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()
         (model, iter)    = selection.get_selected()
         self.selectedID  = int(model.get_value(iter, 1))  # @+
         
-        print(selection, model, iter, self.selectedID)
+        #print(selection, model, iter, 'selectedID',self.selectedID)
         visObj = self.treeview.vm_session.vismol_objects_dic[self.selectedID]
+        selection     = self.treeview.get_selection()
         
-        #infile = self.filechooser.open()
-        self.treeview.main_session.import_trajectory_window.OpenWindow()
-        #self.import_trajectory_window.OpenWindow()
-        
-        #self.treeview.vm_session.load_xyz_coords_to_vismol_object(infile , visObj)
-        #print (infile)
-        
-        #
-        #self.treeview.store .clear()
-        ##self.vm_session.vismol_objects_dic.items()
-        #for index, vis_object in self.treeview.vm_session.vismol_objects_dic.items():
-        #    print ('\n\n',vis_object.name,'\n\n')
-        #    data = [vis_object.active          , 
-        #            #str(self.treeview.vm_session.vismol_objects.index(vis_object)),
-        #            str(index),
-        #            vis_object.name            , 
-        #            str(len(vis_object.atoms)) , 
-        #            str(len(vis_object.frames)),
-        #           ]
-        #    model.append(data)
+        (model, iter) = selection.get_selected()
+        for item in model:
+            pass
+            #print (item[0], model[iter][0])
+        #print (model[iter][:], iter, model, tree )
+        if iter != None:
+            self.selectedID  = str(model.get_value(iter, 1))  # @+
+            self.selectedObj = str(model.get_value(iter, 2))
+            print(self.selectedID, self.selectedObj, model.get_value(iter, 0),  model.get_value(iter, 8))
+        self.treeview.main_session.import_trajectory_window.OpenWindow(sys_selected = model.get_value(iter, 8))
+
 
     def f2 (self, visObj = None):
         """ Function doc """

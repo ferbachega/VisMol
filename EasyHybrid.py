@@ -206,6 +206,9 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #---------------------------------------------------------------------#
         vismol_object.active =  True        
+        
+        #vismol_object.create_new_representation (rtype = 'spheresInstace')
+        
         for key in rep.keys():
             
             if key == 'lines':
