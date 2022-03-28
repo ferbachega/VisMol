@@ -318,6 +318,8 @@ class US:
                     self.file_lists.remove( self.file_lists[i] )   
 
         self.bins = len(self.file_lists)
+        print(self.bins)
+        input()
         #-----------------------------------------------
         self.EnergyRef = self.molecule.Energy()
         self.forceCRef = self.forceC
