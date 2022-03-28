@@ -338,7 +338,7 @@ class EnergyRefinement:
 					for j in range(self.ylen):
 						self.text +="{} {}\n".format(self.indexArrayX[i], self.energiesArray[i] - self.energiesArray[0] )
 		#--------------------------------------------------------------
-		_filename = os.path.join(self.baseName+"_energy.log")
+		_filename = os.path.join(self.baseName+".log")
 		#----------------------------
 		logFile = open(_filename,'w')
 		logFile.write(self.text)

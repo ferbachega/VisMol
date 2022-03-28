@@ -82,10 +82,13 @@ class Simulation:
 		elif self.parameters["simulation_type"] == "PMF_Analysis":					self.PMFAnalysis()			
 		elif self.parameters["simulation_type"] == "Normal_Modes":					self.NormalModes()		
 		elif self.parameters["simulation_type"] == "Delta_Free_Energy":				self.DeltaFreeEnergy()		
-		elif self.parameters["simulation_type"] == "NEB":							self.NEB()		
+		elif self.parameters["simulation_type"] == "NEB":							self.ReactionSearchers()		
 		elif self.parameters["simulation_type"] == "SAW":							self.SAW()		
+		elif self.parameters["simulation_type"] == "SaddleBaker":					self.BakerSaddleOptimizer()
+		elif self.parameters["simulation_type"] == "Steep_Path_Searcher":			self.SteepDescentPathSearhcer()				
 		elif self.parameters["simulation_type"] == "Simulating_Annealing":			self.SimulatingAnnealing()		
 		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.SMD()		
+		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.MonteCarlo()				
 		elif self.parameters["simulation_type"] == "Trajectory_Analysis":			self.TrajectoryPlots() 		
 		elif self.parameters["simulation_type"] == "Energy_Plots":					self.EnergyPlots()
 	#=================================================================================================================
@@ -155,7 +158,7 @@ class Simulation:
 		if dimensions[1] > 0: TYPE = "2DRef"
 		else: TYPE = "1DRef"		
 		EA = EnergyAnalysis(dimensions[0],dimensions[1],_type=TYPE)
-		EA.ReadLog( os.path.join(ER.baseName+"_energy.log") )
+		EA.ReadLog( os.path.join(ER.baseName+".log") )
 		#-------------------------------------------------------------
 		if dimensions[1] > 0:
 			EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
@@ -239,8 +242,7 @@ class Simulation:
 		if "MC_RC1"     in self.parameters: MCR1        = self.parameters["MC_RC1"]
 		if "MC_RC2"     in self.parameters: MCR2        = self.parameters["MC_RC2"]		
 		if "rc_type_1"  in self.parameters:	rcType1 	= self.parameters["rc_type_1"]
-		if "rc_type_2"  in self.parameters:	rcType2 	= self.parameters["rc_type_2"]
-		
+		if "rc_type_2"  in self.parameters:	rcType2 	= self.parameters["rc_type_2"]		
 		#--------------------------------------------------------------------
 		scan = SCAN(self.molecule,self.baseFolder,_Optmizer,ADAPTATIVE=_Adaptative)
 		scan.ChangeDefaultParameters(self.parameters)	
@@ -272,7 +274,7 @@ class Simulation:
 		elif nDims 	== 1: TYPE = "1D"	
 		#------------------------------------------------------------		
 		EA = EnergyAnalysis(self.parameters['nsteps_RC1'],nRC2,_type=TYPE)
-		EA.ReadLog( scan.baseName+"_scan{}D.log".format(nDims) ) 
+		EA.ReadLog( scan.baseName+".log".format(nDims) ) 
 		#-------------------------------------------------------------
 		if 	 nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,show)
 		elif nDims == 1: EA.Plot1D(crd1_label,show)		
@@ -559,7 +561,7 @@ class Simulation:
 		if nDims  == 2:  ylims = [ np.min(EA.RC2), np.max(EA.RC2) ]	
 		#------------------------------------------
 		EAfe = EnergyAnalysis(xwin,ywin,_type=TYPE)
-		EAfe.ReadLog( potmean.baseName+"_FE.log" ) 
+		EAfe.ReadLog( potmean.baseName+".log" ) 
 		#-------------------------------------------------------------
 		if   nDims == 2: EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1: EAfe.Plot1D(crd1_label,XLIM=xlims,SHOW=show)
@@ -598,8 +600,7 @@ class Simulation:
 		statistical thermodynamics partition functions from through the normal modes calculations
 		Mandatory keys:
 		Optional keys :
-		'''
-		
+		'''		
 		#initial Structure
 		pressure       = 1.0
 		temperature    = 300.15 
@@ -628,26 +629,53 @@ class Simulation:
                                                     temperature    = self.temperature    	)
 		Gibbs.append( tdics["Gibbs Free Energy"] )
 	#=========================================================================	
-	def NEB(self):
+	def ReactionSearchers(self):
 		'''
 		Class method to set up and execute Nudget Elastic Band simulations to generate a reaction path trajectory
 		Mandatory keys in self.parameters:
+			"NEB_bins"  : Number of points in the NEB trajectory
+			"init_coord":
+			"final_coord":
+
 		Optional keys in self.parameters:
+			"spring_force_constant"    :
+			"fixed_terminal_images"    :
+			"RMS_growing_intial_string":
+			"refine_methods"           : 
+			"crd1_label"               :
+			"show"                     :
+			"xlim_list"                :
 		'''
-		NEBrun = GeometrySearcher(self.molecule,self.baseFolder)
 
-		#if there any parameters to be modified 
-		NEBrun.ChangeDefaultParameters(self.parameters)
-		NEBrun.NudgedElasticBand(self.parameters)
+		RSrun = GeometrySearcher(self.molecule,self.baseFolder)		
+		RSrun.ChangeDefaultParameters(self.parameters)
+		if   self.parameters["simulation_type"] == "NEB"                : RSrun.NudgedElasticBand(self.parameters)
+		elif self.parameters["simulation_type"] == "SAW"                : RSrun.SelfAvoidWalking(self.parameters)
+		elif self.parameters["simulation_type"] == "SteepDescent_path"  : RSrun.SteepestDescentPathSearch(self.parameters)
+		elif self.parameters["simulation_type"] == "Baker_saddle"       : RSrun.BakerSaddleOptimizer(self.parameters) 
 
-
-	#=========================================================================
-	def SAW(self):
-		'''
-		Set up and execute Self-Avoid Walking simulations to generate a reaction path trajectory 
-		Mandatory keys in self.parameters:
-		Optional keys in self.parameters:
-		'''
+		refMethod = []
+		if "refine_methods" in self.parameters: refMethod = self.parameters["refine_methods"]
+		if len(refMethod) > 0: 
+			ER = EnergyRefinement(self.molecule  					        ,
+								  RSrun.trajectoryName                      ,
+								  self.baseFolder                           ,
+								  [self.parameters["traj_bins"],0]           ,
+								  self.molecule.electronicState.charge      ,
+								  self.molecule.electronicState.multiplicity)
+			ER.RunInternalSMO(refMethod,nmaxthreads)
+			ER.WriteLog()
+			crd1_label 	= "Reaction Coordinate #1"
+			xlim 		= [ 0, self.parameters["traj_bins"] ]
+			show  		= False
+			#check parameters for plot
+			if "crd1_label" in self.parameters: crd1_label = self.parameters["crd1_label"]
+			if "xlim_list"  in self.parameters: xlim       = self.parameters["xlim_list"]
+			if "show" 		in self.parameters: show       = self.parameters["show"]
+			#------------------------------------------------------------				
+			EA = EnergyAnalysis(self.parameters["traj_bins"],_type="1DRef")
+			EA.ReadLog( os.path.join(ER.baseName+".log") )
+			EA.Plot1D(crd1_label,show)	
 	#=========================================================================	
 	def TrajectoryPlots(self) :
 		'''
@@ -665,8 +693,8 @@ class Simulation:
 		'''		
 		multiPlot = False
 		ndim      = 1 
-		crd1_label= "Reaction Coordinate #"
-		crd2_label= "Reaction Coordinate #"
+		crd1_label= "Reaction Coordinate #1"
+		crd2_label= "Reaction Coordinate #2"
 		cnt_lines = 0 
 		ysize     = 0
 		if "ysize" in self.parameters: ysize = self.parameters["ysize"]
@@ -689,12 +717,14 @@ class Simulation:
 			for log in self.parameters["log_names"]:
 				EA.ReadLog( log )
 				EA.MultPlot1D()
-		else:
-			EA.ReadLog( self.parameters["log_name"] )
+		else:	EA.ReadLog( self.parameters["log_name"] )
 		#--------------------------------------------------------
-		if 	 ndim == 1: EA.Plot1D(crd1_label,show)
+		if 	 ndim == 1: EA.Plot1D(crd1_label,XLIM=xlim,SHOW=show)
 		elif ndim == 2:	EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
-
+	#=========================================================================
+	def MonteCarlo(self):
+		pass
+	
 	#=========================================================================
 	def SimulatingAnnealing(self):
 		'''

@@ -41,7 +41,7 @@ class PMF:
 		self.fileNames	= []
 		
 		self.text		= ""
-		self.LOG		= open(self.baseName+"_FE.log","w") # free energy log
+		self.LOG		= open(self.baseName+".log","w") # free energy log
 		
 		pat = os.path.join( self.srcFolder, "*.ptRes" )
 		self.fileNames = glob.glob ( pat ) # ver como fica o nome dos arquivos de trejetória na nova versão
