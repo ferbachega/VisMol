@@ -366,7 +366,7 @@ class VismolObject:
         #-----------------------#
         #         Bonds         #
         #-----------------------#
-        self.dynamic_bons       = [] # Pair of atoms, something like: [0,1,1,2,3,4] 
+        self.dynamic_bonds       = [] # Pair of atoms, something like: [0,1,1,2,3,4] 
         self.index_bonds        = [] # Pair of atoms, something like: [1, 3, 1, 17, 3, 4, 4, 20]
         self.bonds              = [] # A list of bond-like objects                     
 
@@ -698,14 +698,14 @@ class VismolObject:
                                      sum_z / total])
 
     
-    def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bons):
+    def load_data_from_easyhybrid_serialization_file (self, d_atoms, frames, dynamic_bonds):
         """ Function doc """
         print ('\ngenerate_chain_structure (easyhybrid_serialization_file) starting')
         initial           = time.time()
                           
         self.frames       = frames
         self.atoms        = [] 
-        self.dynamic_bons = dynamic_bons
+        self.dynamic_bonds = dynamic_bonds
         
         
         bonds_by_indexes = []
@@ -1107,7 +1107,46 @@ class VismolObject:
                 atom.nonbonded = False
                 pass
             
-
+    def find_dynamic_bonds (self, atom_list = None, index_list = None, update = True ):
+        """ Function doc """
+        initial       = time.time()
+        
+        #if selection:
+        #    pass
+        #else:
+        #    selection = self.selections[self.current_selection]
+        
+        if atom_list == None:
+            atom_list = []
+            for index in index_list:
+                atom_list.append(self.atoms[index])
+        
+        
+        if update:
+            nframes   =  len(self.frames)      # current number of frames
+            ndynBonds = len(self.dynamic_bonds) # current number of dynamic bonds
+        
+        else:
+            nframes   =  len(self.frames)      # current number of frames
+            ndynBonds =  0 
+            
+        #Vobject = selection.selected_atoms[0].Vobject
+        
+        self.dynamic_bonds = []
+        
+        for i in range (0, len(self.frames)):
+            indexes = []
+            bonds_by_pairs = self.find_bonded_and_nonbonded_by_selection(selection = atom_list, 
+                                                                                frame = i,  
+                                                                             gridsize = self.vm_session.vConfig.gl_parameters['gridsize'],
+                                                                            tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
+            indexes = np.array(bonds_by_pairs,dtype=np.uint32)
+            self.dynamic_bonds.append(indexes)        
+        
+        #Vobject.dynamic_bonds = index_bonds_dynamic
+        
+        
+        
 
     def find_bonded_and_nonbonded_by_selection (self, selection = None, frame = 0, gridsize = 1.4 , tolerance = 1.4, maxbond = 2.6):
         """ Function doc """

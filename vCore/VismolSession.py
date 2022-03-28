@@ -834,7 +834,7 @@ class VisMolSession (ShowHideVisMol):
             #indexes = np.array(indexes,dtype=np.uint32)
             index_bonds_dynamic.append(indexes)        
         
-        Vobject.dynamic_bons = index_bonds_dynamic
+        Vobject.dynamic_bonds = index_bonds_dynamic
         final = time.time()                                            #
         
         
