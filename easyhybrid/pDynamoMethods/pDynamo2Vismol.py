@@ -499,7 +499,7 @@ class pDynamoSession:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
 
-    def refresh_qc_and_fixed_representations (self, _all =  False, sys_selection = None):
+    def refresh_qc_and_fixed_representations (self, _all =  False, sys_selection = None, static = True):
         """ 
                 
         _all = True/False applies the "ball and stick" and "color fixed atoms" representation
@@ -548,12 +548,19 @@ class pDynamoSession:
                     #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
                     # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
                     self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                    #self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-            
                     self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                    #self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                    if static:
+                        self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                    else:
+                        pass
+                    #print('hiding dynamic_bonds')
+                    #self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+            
+                    #print('shoing dynamic_bonds')
+                        self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
                 else:
                     pass
             
@@ -564,13 +571,21 @@ class pDynamoSession:
                 self.systems[sys_selection]['qc_table'] = list(self.systems[sys_selection]['system'].qcState.pureQCAtoms)               
                 for key, visObj in self.vm_session.vismol_objects_dic.items():
                     if visObj.easyhybrid_system_id == self.active_id:
-                        # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
-                        self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                        self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                
+                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
                         self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
-                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
-        
+
+                        if static:
+                            self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                            self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
+                        else:
+                            self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
+
+                        # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
+                        #self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                        #self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+
+                        #self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
             else:
                 pass
 

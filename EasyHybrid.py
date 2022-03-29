@@ -374,9 +374,14 @@ button position in the main treeview (active column).""".format(name,self.main_s
         if sele_menu is None:
             ''' Standard Sele Menu '''
             
-            def dynamic_test (_):
+            def menu_show_dynamic_bonds (_):
                 """ Function doc """
-                self.teste3()
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = True)
+            def menu_hide_dynamic_bonds (_):
+                """ Function doc """
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = False)
             
             def select_test (_):
                 """ Function doc """
@@ -545,7 +550,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
                                             'dots'          : ['MenuItem', menu_show_dots],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_show_nonbonded],
                     
@@ -555,12 +560,14 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'hide'   : [
                                 'submenu',  {
-                                            'lines'    : ['MenuItem', menu_hide_lines],
-                                            'sticks'   : ['MenuItem', menu_hide_sticks],
-                                            'spheres'  : ['MenuItem', menu_hide_spheres],
-                                            'dots'     : ['MenuItem', menu_hide_dots],
+                                            'lines'         : ['MenuItem', menu_hide_lines],
+                                            'sticks'        : ['MenuItem', menu_hide_sticks],
+                                            'spheres'       : ['MenuItem', menu_hide_spheres],
+                                            'dots'          : ['MenuItem', menu_hide_dots],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'separator2'    : ['separator', None],
-                                            'nonbonded': ['MenuItem', menu_hide_nonbonded],
+                                            'nonbonded'     : ['MenuItem', menu_hide_nonbonded],
                                             }
                                 ],
                     
@@ -776,7 +783,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'lines'         : ['MenuItem', menu_show_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', None],
                     
@@ -789,6 +796,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'lines'    : ['MenuItem', menu_hide_lines],
                                             'sticks'   : ['MenuItem', menu_hide_sticks],
                                             'spheres'  : ['MenuItem', menu_hide_spheres],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'nonbonded': ['MenuItem', None],
                                             }
                                 ],

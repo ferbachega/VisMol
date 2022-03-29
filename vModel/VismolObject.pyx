@@ -398,15 +398,16 @@ class VismolObject:
 		#-----------------------------------------#
 		#      R E P R E S E N T A T I O N S      #
         #-----------------------------------------#
-        self.representations = {'nonbonded' : None,
-                                'lines'     : None,
-                                'dots'      : None,
-                                'spheres'   : None,
-                                'sticks'    : None,
-                                'ribbons'   : None,
-                                'surface'   : None,
-                                'wires'     : None,
-                                'glumpy'    : None,
+        self.representations = {'nonbonded'     : None,
+                                'lines'         : None,
+                                'dots'          : None,
+                                'spheres'       : None,
+                                'sticks'        : None,
+                                'dynamic_bonds' : None,
+                                'ribbons'       : None,
+                                'surface'       : None,
+                                'wires'         : None,
+                                'glumpy'        : None,
                                 }
         
         #-----------------------------------------------------------------
@@ -1110,12 +1111,6 @@ class VismolObject:
     def find_dynamic_bonds (self, atom_list = None, index_list = None, update = True ):
         """ Function doc """
         initial       = time.time()
-        
-        #if selection:
-        #    pass
-        #else:
-        #    selection = self.selections[self.current_selection]
-        
         if atom_list == None:
             atom_list = []
             for index in index_list:
@@ -1130,7 +1125,6 @@ class VismolObject:
             nframes   =  len(self.frames)      # current number of frames
             ndynBonds =  0 
             
-        #Vobject = selection.selected_atoms[0].Vobject
         
         self.dynamic_bonds = []
         
@@ -1142,9 +1136,8 @@ class VismolObject:
                                                                             tolerance = self.vm_session.vConfig.gl_parameters['bond_tolerance'])
             indexes = np.array(bonds_by_pairs,dtype=np.uint32)
             self.dynamic_bonds.append(indexes)        
-        
-        #Vobject.dynamic_bonds = index_bonds_dynamic
-        
+        final = time.time()   
+        print ('Bonds calcultation time : ', final - initial, '\n')  
         
         
 

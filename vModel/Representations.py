@@ -436,12 +436,14 @@ class DynamicBonds (Representation):
         self.shader_program     = None
         self.sel_shader_program = None
         
+        #visObj.find_dynamic_bonds (atom_list = selection.selected_atoms, index_list = None, update = True )
+        
         if indexes == []:
             self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         else:
             self.indexes = np.array(indexes, dtype=np.uint32)
             
-    def _make_gl_vao_and_vbos (self, indexes = []):
+    def _make_gl_vao_and_vbos (self, indexes = [], all_white = True):
         """ Function doc """
         #if indexes == []:
         #    self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
@@ -455,7 +457,11 @@ class DynamicBonds (Representation):
         
         #indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         coords  = self.visObj.frames[0]
-        colors  = self.visObj.colors
+
+        if all_white:
+            colors  = np.array( [1.0]*len(self.visObj.colors), dtype=np.float32)
+        else:
+            colors  = self.visObj.colors
 
         self._make_gl_representation_vao_and_vbos (indexes    = self.indexes,
                                                    coords     = coords ,

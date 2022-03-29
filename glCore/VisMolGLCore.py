@@ -1155,7 +1155,7 @@ void main(){
             print('OpenGL major version not found')
 
 
-        self._create_sphereInstance_shaders()
+        #self._create_sphereInstance_shaders()
         #-------------------------------------------------------------------------------------
         self._create_dot_shaders ()
         #-------------------------------------------------------------------------------------
