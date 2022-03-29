@@ -1193,11 +1193,11 @@ def ReacCoordSearchers():
 	parameters = {  "init_coord":init_path           ,
 					"final_coord":final_path         ,
 					"traj_bins":12                   ,
-					"refine_methods":["RM1"]         ,
+					"refine_methods":["rm1"]         ,
 					"RMS_growing_intial_string":1.0  ,
 					"simulation_type":"NEB"          ,
 					"spring_force_constant":800.0    ,
-					"rms_tolerance_scale":0.20       ,
+					"rmsGradient":0.50       ,
 					"fixed_terminal_images":False    ,
 					}
 	#-------------------------------------------------------------------------------

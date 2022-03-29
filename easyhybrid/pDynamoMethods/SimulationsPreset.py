@@ -653,6 +653,9 @@ class Simulation:
 		elif self.parameters["simulation_type"] == "SAW"                : RSrun.SelfAvoidWalking(self.parameters)
 		elif self.parameters["simulation_type"] == "SteepDescent_path"  : RSrun.SteepestDescentPathSearch(self.parameters)
 		elif self.parameters["simulation_type"] == "Baker_saddle"       : RSrun.BakerSaddleOptimizer(self.parameters) 
+		
+		if "NmaxThreads" in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]
+		nmaxthreads = 1 
 
 		refMethod = []
 		if "refine_methods" in self.parameters: refMethod = self.parameters["refine_methods"]
@@ -660,7 +663,7 @@ class Simulation:
 			ER = EnergyRefinement(self.molecule  					        ,
 								  RSrun.trajectoryName                      ,
 								  self.baseFolder                           ,
-								  [self.parameters["traj_bins"],0]           ,
+								  [self.parameters["traj_bins"],0]          ,
 								  self.molecule.electronicState.charge      ,
 								  self.molecule.electronicState.multiplicity)
 			ER.RunInternalSMO(refMethod,nmaxthreads)
@@ -673,9 +676,9 @@ class Simulation:
 			if "xlim_list"  in self.parameters: xlim       = self.parameters["xlim_list"]
 			if "show" 		in self.parameters: show       = self.parameters["show"]
 			#------------------------------------------------------------				
-			EA = EnergyAnalysis(self.parameters["traj_bins"],_type="1DRef")
-			EA.ReadLog( os.path.join(ER.baseName+".log") )
-			EA.Plot1D(crd1_label,show)	
+			EA = EnergyAnalysis(self.parameters["traj_bins"],1,_type="1DRef")
+			EA.ReadLog(ER.baseName+".log")
+			EA.MultPlot1D(crd1_label,show)	
 	#=========================================================================	
 	def TrajectoryPlots(self) :
 		'''

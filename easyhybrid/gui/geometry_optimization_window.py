@@ -321,7 +321,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
 
     def run_opt (self, button):
         """ Function doc """
-    
+        
         '''this combobox has the reference to the starting coordinates of a simulation'''
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
         tree_iter = combobox_starting_coordinates.get_active_iter()

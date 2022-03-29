@@ -319,24 +319,15 @@ class EnergyRefinement:
 		Write calculate energies to file.
 		'''
 		if self.ylen > 0:
-			if len(self.methods) > 1:
-				for smo in self.methods:
-					for i in range(self.xlen):
-						for j in range(self.ylen):
-							self.text +="{} {} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.SMOenergies[smo][i,j] - self.SMOenergies[smo][0,0], smo)
-			else:
+			for smo in self.methods:
 				for i in range(self.xlen):
 					for j in range(self.ylen):
-						self.text +="{} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.energiesArray[ i, j ] - self.energiesArray[ 0, 0 ] )
+						self.text +="{} {} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.SMOenergies[smo][i,j] - self.SMOenergies[smo][0,0], smo)
 		else:
-			if len(self.methods) > 1:
-				for smo in self.methods:
-					for i in range(self.xlen):
-						self.text +="{} {} {}\n".format(self.indexArrayX[i], self.SMOenergies[smo][i] - self.SMOenergies[smo][0], smo)
-			else:
+			for smo in self.methods:
 				for i in range(self.xlen):
-					for j in range(self.ylen):
-						self.text +="{} {}\n".format(self.indexArrayX[i], self.energiesArray[i] - self.energiesArray[0] )
+					self.text +="{} {} {}\n".format(self.indexArrayX[i], self.SMOenergies[smo][i] - self.SMOenergies[smo][0], smo)
+
 		#--------------------------------------------------------------
 		_filename = os.path.join(self.baseName+".log")
 		#----------------------------

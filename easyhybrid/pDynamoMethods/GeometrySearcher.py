@@ -180,7 +180,12 @@ class GeometrySearcher:
         self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
         self.finalCrd3D = ImportCoordinates3( _parameters["final_coord"], log=None ) 
         #---------------------------------------------------------------------------------
-        GrowingStringInitialPath (self.molecule ,_parameters["traj_bins"], self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=rmsGIS)
+        GrowingStringInitialPath(self.molecule               ,
+                                _parameters["traj_bins"]     ,
+                                 self.InitCrd3D              ,
+                                 self.finalCrd3D             ,  
+                                 self.trajectoryName         ,
+                                 rmsGradientTolerance=rmsGIS)
         
         trajectory = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
         ChainOfStatesOptimizePath_SystemGeometry (  self.molecule                               ,   
@@ -204,7 +209,7 @@ class GeometrySearcher:
         if "gamma" in _parameters: Gamma = _parameters["gamma"]
         if "rho"   in _parameters: Rho   = _parameters["rho"]
         if "kappa" in _parameters: Kappa = _parameters["kappa"]
-        ExpandByLinearInterpolation( self.trajectoryName, self.molecule, _parameters["SAW_bins"], self.final_coord,self.init_coord)
+        ExpandByLinearInterpolation( self.trajectoryName, self.molecule, _parameters["traj_bins"], self.final_coord,self.init_coord)
         SAWOptimize_SystemGeometry ( self.molecule, self.traj, gamma=Gamma, rho=Rho,kappa=Kappa, maximumiterations = self.maxIt )
     #========================================================================================
     def SteepestDescentPathSearch(self,_parameters):
