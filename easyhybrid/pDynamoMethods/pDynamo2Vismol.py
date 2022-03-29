@@ -318,11 +318,12 @@ class pDynamoSession:
         else:
             name = system.label
         
-        psystem['system']           =  system
-        psystem['name']             =  name
-        psystem['color_palette']    =  COLOR_PALETTE[self.color_palette_counter]
-        psystem['id']               = self.counter
-        self.systems[psystem['id']] = psystem 
+        psystem['system_original_charges'] =  list(system.AtomicCharges())
+        psystem['system']                  =  system
+        psystem['name']                    =  name
+        psystem['color_palette']           =  COLOR_PALETTE[self.color_palette_counter]
+        psystem['id']                      =  self.counter
+        self.systems[psystem['id']]        =  psystem 
         
         #print('color_palette', self.color_palette_counter)
         #self.systems_list.append(psystem)
@@ -391,10 +392,88 @@ class pDynamoSession:
         self.refresh_qc_and_fixed_representations()
         return True
 
+    
+    def check_charge_fragmentation(self, correction = True):
+        """ Function doc """
+
+        mm_residue_table = {}
+        qc_residue_table = self.systems[self.active_id]['qc_residue_table']
+        system           = self.systems[self.active_id]['system']
+        qc_charge        = 0.0
+        
+        '''Here we are going to arrange the atoms that are not in the QC part, 
+        but are in the same residues as some atoms of the QC part.'''  
+        for res in self.systems[self.active_id]['vismol_object'].residues:
+            
+            if res.resi in qc_residue_table.keys():
+                
+                mm_residue_table[res.resi] = []
+                
+                for atom in res.atoms:
+                    index_v =  atom.index-1
+                    index_p =  system.atoms.items[index_v].index
+                    index_p =  system.atoms.items[index_v].label
+                    charge  =  system.mmState.charges[index_v]
+                    resn    = res.resn 
+                    atom.charge = system.mmState.charges[index_v]
+                    
+                    if index_v in qc_residue_table[res.resi]:
+                        qc_charge += atom.charge
+                        pass
+                        #print (resn, res.resi, index_v, index_p, charge, True )
+                    
+                    else:
+                        #print (resn, res.resi, index_v, index_p, charge, False)
+                        mm_residue_table[res.resi].append(index_v)
+                
+                
+                
+                #print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+            
+        #print('mm_residue_table',mm_residue_table)
+        '''Here we are going to do a rescaling of the charges of atoms of 
+        the MM part but that the residues do not add up to an entire charge.''' 
+        
+        
+        
+        for resi in mm_residue_table.keys():
+            
+            total = 0.0
+            for index in mm_residue_table[resi]:
+                pcharge = system.mmState.charges[index]
+                total += pcharge
+            
+            rounded  = float(round(total))
+            diff     = rounded - total
+            size     = len(mm_residue_table[resi])
+            
+            if size > 0:
+                fraction = diff/size
+                print('residue: ', resi, 'charge fraction = ',fraction)
+            
+                for index in mm_residue_table[resi]:
+                    system.mmState.charges[index] += fraction
+                    #total += pcharge
+            else:
+                pass
+        print('QC charge from selected atoms: ',round(qc_charge) )
+        #for atom in self.systems[self.active_id]['vismol_object'].atoms:
+        #    print( atom.index, atom.name, atom.charge)
+        #print('Total charge: ', sum(system.mmState.charges))
+        
+
+
     def define_a_new_QCModel (self, parameters = None):
         """ Function doc """
         
         #print(parameters)
+        
+        '''Here we have to rescue the original electrical charges of the 
+        MM model. This is postulated because multiple associations of QC 
+        regions can distort the charge distribution of some residues. '''
+        
+        #self.systems[self.active_id]['system_original_charges']
+        #for charge in self.systems[self.active_id]['system_original_charges']
         
         electronicState = ElectronicState.WithOptions ( charge = parameters['charge'], multiplicity = parameters['multiplicity'])
         self.systems[self.active_id]['system'].electronicState = electronicState
@@ -404,6 +483,12 @@ class pDynamoSession:
 
         
         if self.systems[self.active_id]['qc_table'] :
+            
+            '''This function reschedules the remaining loads in the MM part. The 
+            sum of the charges in the MM region must be an integer value!'''
+            self.check_charge_fragmentation()
+            '''----------------------------------------------------------------'''
+            
             self.systems[self.active_id]['system'].DefineQCModel (qcModel, qcSelection = Selection.FromIterable ( self.systems[self.active_id]['qc_table']) )
             self.refresh_qc_and_fixed_representations()
             
@@ -414,7 +499,7 @@ class pDynamoSession:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
 
-    def refresh_qc_and_fixed_representations (self, _all =  False, sys_selection = None):
+    def refresh_qc_and_fixed_representations (self, _all =  False, sys_selection = None, static = True):
         """ 
                 
         _all = True/False applies the "ball and stick" and "color fixed atoms" representation
@@ -463,10 +548,19 @@ class pDynamoSession:
                     #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
                     # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
                     self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-            
                     self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                    if static:
+                        self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                    else:
+                        pass
+                    #print('hiding dynamic_bonds')
+                    #self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+            
+                    #print('shoing dynamic_bonds')
+                        self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
                 else:
                     pass
             
@@ -477,13 +571,21 @@ class pDynamoSession:
                 self.systems[sys_selection]['qc_table'] = list(self.systems[sys_selection]['system'].qcState.pureQCAtoms)               
                 for key, visObj in self.vm_session.vismol_objects_dic.items():
                     if visObj.easyhybrid_system_id == self.active_id:
-                        # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
-                        self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                        self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                
+                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
                         self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
-                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
-        
+
+                        if static:
+                            self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                            self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
+                        else:
+                            self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
+
+                        # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
+                        #self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                        #self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+
+                        #self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
             else:
                 pass
 
@@ -751,6 +853,37 @@ class pDynamoSession:
             self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vismol_object   = vismol_object, 
                                                                                                               indexes = core , 
                                                                                                               clear   = True )
+    
+    def charge_summary (self, system = None):
+        """ Function doc """
+        
+        if system == None:
+            system = self.systems[self.active_id]['system']
+            #self.systems[self.active_id]['system']
+        
+        for res in self.systems[self.active_id]['vismol_object'].residues:
+            for atom in res.atoms:
+                index_v =  atom.index-1
+                index_p =  system.atoms.items[index_v].index
+                index_p =  system.atoms.items[index_v].label
+                charge  =  system.mmState.charges[index_v]
+                resn    = res.resn 
+                atom.charge = system.mmState.charges[index_v]
+                
+                print (resn, res.resi, index_v, index_p, charge )
+                #print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+            
+        for atom in self.systems[self.active_id]['vismol_object'].atoms:
+            print( atom.index, atom.name, atom.charge)
+        print('Total charge: ', sum(system.mmState.charges))
+            
+            
+        #for atom in system.atoms.items:
+        #    idx = atom.index
+        #    print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+    
+    
+    
     def get_energy (self):
         """ Function doc """
         self.systems[self.active_id]['system'].Summary( )

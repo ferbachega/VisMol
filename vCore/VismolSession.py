@@ -143,6 +143,12 @@ class ShowHideVisMol:
                     else:
                         atom.spheres = False
 
+                if _type == 'dynamic_bonds':
+                    #print (atom.name, atom.index, atom.Vobject.name)
+                    if show:
+                        atom.dynamic_bonds = True
+                    else:
+                        atom.dynamic_bonds = False
 
 
 
@@ -210,6 +216,28 @@ class ShowHideVisMol:
         else:   
             
             indexes = []
+            
+            
+            if _type == 'dynamic_bonds':
+                print('dynamic_bonds', len(atoms))
+                atom_list = atoms
+                if vobject.representations[_type] is None:
+                    vobject.find_dynamic_bonds (atom_list = atom_list, index_list = None, update = False )
+                    rep  = DynamicBonds (name = 'dynamic', active = True, _type = 'mol', visObj = vobject, glCore = self.glwidget.vm_widget)
+                    vobject.representations[rep.name] = rep
+                
+                else:
+                    if atom_list == []:
+                        vobject.representations[_type].active = False
+                        pass
+                    
+                    else:
+                        vobject.find_dynamic_bonds (atom_list = atom_list, index_list = None, update = False )
+                        vobject.representations[_type].active = True
+            
+            
+            
+            
             if _type == 'dots':
                 indexes = []
                 
@@ -391,6 +419,30 @@ class ShowHideVisMol:
 
             #           nonbond  spheres  dots
             else:   
+                
+                
+                if _type == 'dynamic_bonds':
+                    print('dynamic_bonds', len(selection.selected_atoms))
+                    if show:
+                        atom_list = selection.selected_atoms
+                    else:
+                        atom_list = []
+                    if vobject.representations[_type] is None:
+                        vobject.find_dynamic_bonds (atom_list = atom_list, index_list = None, update = False )
+                        rep  = DynamicBonds (name = 'dynamic', active = True, _type = 'mol', visObj = vobject, glCore = self.glwidget.vm_widget)
+                        vobject.representations[rep.name] = rep
+                    
+                    else:
+                        if atom_list == []:
+                            vobject.representations[_type].active = False
+                            pass
+                        
+                        else:
+                            vobject.find_dynamic_bonds (atom_list = atom_list, index_list = None, update = False )
+                            vobject.representations[_type].active = True
+                
+                
+                
                 
                 indexes = []
                 if _type == 'dots':
@@ -799,6 +851,16 @@ class VisMolSession (ShowHideVisMol):
     
     def teste3 (self,  selection = None):
         """ Function doc """
+        selection = self.selections[self.current_selection]
+        #initial       = time.time()
+        vobject = selection.selected_atoms[0].Vobject
+        vobject.find_dynamic_bonds (atom_list = selection.selected_atoms, index_list = None, update = True )
+        #final = time.time()                                            #
+        rep  = DynamicBonds (name = 'dynamic', active = True, _type = 'mol', visObj = vobject, glCore = self.glwidget.vm_widget)
+        vobject.representations[rep.name] = rep
+        #print ('Bonds calcultation time : ', final - initial, '\n')    #
+        
+        '''
         initial       = time.time()
         if selection:
             pass
@@ -834,7 +896,7 @@ class VisMolSession (ShowHideVisMol):
             #indexes = np.array(indexes,dtype=np.uint32)
             index_bonds_dynamic.append(indexes)        
         
-        Vobject.dynamic_bons = index_bonds_dynamic
+        Vobject.dynamic_bonds = index_bonds_dynamic
         final = time.time()                                            #
         
         
@@ -842,7 +904,7 @@ class VisMolSession (ShowHideVisMol):
         Vobject.representations[rep.name] = rep
         
         print ('Bonds calcultation time : ', final - initial, '\n')    #
-
+        '''
 
     def calculate_secondary_structure(self, visObj):
         '''
@@ -1030,9 +1092,14 @@ class VisMolSession (ShowHideVisMol):
         if sele_menu is None:
             ''' Standard Sele Menu '''
             
-            def dynamic_test (_):
+            def menu_show_dynamic_bonds (_):
                 """ Function doc """
-                self.teste3()
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = True)
+            def menu_hide_dynamic_bonds (_):
+                """ Function doc """
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = False)
             
             def select_test (_):
                 """ Function doc """
@@ -1165,13 +1232,13 @@ class VisMolSession (ShowHideVisMol):
                     'show'   : [
                                 'submenu' ,{
                                             
-                                            'lines'         : ['MenuItem', menu_show_lines],
-                                            'sticks'        : ['MenuItem', menu_show_sticks],
-                                            'spheres'       : ['MenuItem', menu_show_spheres],
-                                            'dots'          : ['MenuItem', menu_show_dots],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'lines'         : ['MenuItem' , menu_show_lines],
+                                            'sticks'        : ['MenuItem' , menu_show_sticks],
+                                            'spheres'       : ['MenuItem' , menu_show_spheres],
+                                            'dots'          : ['MenuItem' , menu_show_dots],
+                                            'dynamic bonds' : ['MenuItem' , menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
-                                            'nonbonded'     : ['MenuItem', menu_show_nonbonded],
+                                            'nonbonded'     : ['MenuItem' , menu_show_nonbonded],
                     
                                            }
                                ],
@@ -1179,12 +1246,13 @@ class VisMolSession (ShowHideVisMol):
                     
                     'hide'   : [
                                 'submenu',  {
-                                            'lines'    : ['MenuItem', menu_hide_lines],
-                                            'sticks'   : ['MenuItem', menu_hide_sticks],
-                                            'spheres'  : ['MenuItem', menu_hide_spheres],
-                                            'dots'     : ['MenuItem', menu_hide_dots],
+                                            'lines'         : ['MenuItem' , menu_hide_lines],
+                                            'sticks'        : ['MenuItem' , menu_hide_sticks],
+                                            'spheres'       : ['MenuItem' , menu_hide_spheres],
+                                            'dots'          : ['MenuItem' , menu_hide_dots],
+                                            'dynamic bonds' : ['MenuItem' , menu_hide_dynamic_bonds],
                                             'separator2'    : ['separator', None],
-                                            'nonbonded': ['MenuItem', menu_hide_nonbonded],
+                                            'nonbonded'     : ['MenuItem' , menu_hide_nonbonded],
                                             }
                                 ],
                     
@@ -1397,7 +1465,7 @@ class VisMolSession (ShowHideVisMol):
                                             'lines'         : ['MenuItem', menu_show_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', None],
                     
@@ -1410,6 +1478,8 @@ class VisMolSession (ShowHideVisMol):
                                             'lines'    : ['MenuItem', menu_hide_lines],
                                             'sticks'   : ['MenuItem', menu_hide_sticks],
                                             'spheres'  : ['MenuItem', menu_hide_spheres],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'nonbonded': ['MenuItem', None],
                                             }
                                 ],

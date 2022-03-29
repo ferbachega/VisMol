@@ -436,12 +436,14 @@ class DynamicBonds (Representation):
         self.shader_program     = None
         self.sel_shader_program = None
         
+        #visObj.find_dynamic_bonds (atom_list = selection.selected_atoms, index_list = None, update = True )
+        
         if indexes == []:
             self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         else:
             self.indexes = np.array(indexes, dtype=np.uint32)
             
-    def _make_gl_vao_and_vbos (self, indexes = []):
+    def _make_gl_vao_and_vbos (self, indexes = [], all_white = True):
         """ Function doc """
         #if indexes == []:
         #    self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
@@ -455,7 +457,11 @@ class DynamicBonds (Representation):
         
         #indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         coords  = self.visObj.frames[0]
-        colors  = self.visObj.colors
+
+        if all_white:
+            colors  = np.array( [1.0]*len(self.visObj.colors), dtype=np.float32)
+        else:
+            colors  = self.visObj.colors
 
         self._make_gl_representation_vao_and_vbos (indexes    = self.indexes,
                                                    coords     = coords ,
@@ -495,16 +501,16 @@ class DynamicBonds (Representation):
             
             frame = self.glCore.frame
             #try:
-            #print (frame, self.visObj.dynamic_bons[frame])
+            #print (frame, self.visObj.dynamic_bonds[frame])
             #self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
-            if frame < len(self.visObj.dynamic_bons):
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[frame])
+            if frame < len(self.visObj.dynamic_bonds):
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[frame])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
             else:
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[-1])
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[-1])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[-1])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*2), GL.GL_UNSIGNED_INT, None)
             #except:
             #    pass
             
@@ -541,14 +547,14 @@ class DynamicBonds (Representation):
             '''
             frame = self.glCore.frame
 
-            if frame < len(self.visObj.dynamic_bons):
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[frame])
+            if frame < len(self.visObj.dynamic_bonds):
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[frame])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
             else:
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[-1])
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[-1])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[-1])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*2), GL.GL_UNSIGNED_INT, None)
             
             
             
@@ -556,11 +562,11 @@ class DynamicBonds (Representation):
             
             
             ##try:
-            ##print (frame, self.visObj.dynamic_bons[frame])
+            ##print (frame, self.visObj.dynamic_bonds[frame])
             ##self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
-            #self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[frame])
+            #self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
             #self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            #GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[frame])*2), GL.GL_UNSIGNED_INT, None)
+            #GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
             
             #self._set_coordinates_to_buffer (coord_vbo = False, sel_coord_vbo = True)
             #GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)

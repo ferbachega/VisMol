@@ -8,6 +8,7 @@ from easyhybrid.pDynamoMethods.pDynamo2Vismol import *
 from easyhybrid.gui.easyhybrid_pDynamo_selection            import  PDynamoSelectionWindow
 from easyhybrid.gui.ImportNewSystem                         import  ImportANewSystemWindow 
 from easyhybrid.gui.easyhybrid_import_trajectory_window     import  ImportTrajectoryWindow 
+from easyhybrid.gui.easyhybrid_export_systems               import  ExportDataWindow 
 from easyhybrid.gui.PES_scan_window                         import  PotentialEnergyScanWindow 
 from easyhybrid.gui.molecular_dynamics_window               import  MolecularDynamicsWindow 
 from easyhybrid.gui.umbrella_sampling_window                import  UmbrellaSamplingWindow 
@@ -219,6 +220,8 @@ class EasyHybridMainWindow ( ):
         self.pDynamo_selection_window     = PDynamoSelectionWindow(main = self)
         self.PES_scan_window              = PotentialEnergyScanWindow(main=  self)
         self.umbrella_sampling_window     = UmbrellaSamplingWindow (main=  self)
+        self.export_data_window           = ExportDataWindow(main=  self)
+        
         self.window.connect("destroy", Gtk.main_quit)
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
@@ -287,6 +290,8 @@ class EasyHybridMainWindow ( ):
 
         if button  == self.builder.get_object('toolbutton_energy'):
             energy = self.pDynamo_session.get_energy()
+            #self.pDynamo_session.charge_summary()
+            
             #print(energy)
             dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
             response = dialog.run()
@@ -619,7 +624,7 @@ class TreeViewMenu:
                     'load data into system' : self.load_data_to_a_system ,
                     'define color palette'  : self.f2 ,
                     'edit parameters'       : self.f2 ,
-                    'export as...'          : self.f3 ,
+                    'export as...'          : self.menu_export_data_window ,
                     'merge system with...'  : self.f3 ,
                     'delete'                : self.f3 ,
                     #'test'  : self.f1 ,
@@ -632,6 +637,10 @@ class TreeViewMenu:
 
 
 
+    def menu_export_data_window (self,visObj = None ):
+        """ Function doc """
+        #self.treeview.main_session.export_data_window.OpenWindow(sys_selected = model.get_value(iter, 8))
+        self.treeview.main_session.export_data_window.OpenWindow()
     def load_data_to_a_system (self, visObj = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()

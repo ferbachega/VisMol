@@ -39,17 +39,17 @@ sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/gui"))
 from geometry_optimization_window import FolderChooserButton
 
 
-class ImportTrajectoryWindow:
+class ExportDataWindow:
     """ Class doc """
     def OpenWindow (self, sys_selected = None):
         """ Function doc """
         if self.Visible  ==  False:
             self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_import_trajectory_window.glade'))
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/export_system_window.glade'))
             self.builder.connect_signals(self)
             
-            self.window = self.builder.get_object('import_trajectory_window')
-            self.window.set_title('Import Trajectory Window')
+            self.window = self.builder.get_object('export_data_window')
+            self.window.set_title('Export Data Window')
             self.window.set_keep_above(True)
             '''--------------------------------------------------------------------------------------------'''
             
@@ -98,14 +98,45 @@ class ImportTrajectoryWindow:
             
             
             #------------------------------------------------------------------------------------
-            self.builder.get_object('vobjects_combobox').set_sensitive(False)
+            #self.builder.get_object('vobjects_combobox').set_sensitive(False)
             #------------------------------------------------------------------------------------
 
+            
+            
+            
+            
+            
+            
             #'''--------------------------------------------------------------------------------------------'''
-            self.combox = self.builder.get_object('combobox_trajectory_type')
-            self.combox.connect("changed", self.on_name_combo_changed)
+            self.combobox_fileformat = self.builder.get_object('combobox_fileformat')
+            renderer_text = Gtk.CellRendererText()
+            
+            self.combobox_fileformat.add_attribute(renderer_text, "text", 0)
+            self.combobox_fileformat_liststore = Gtk.ListStore(str, int)
+            
+            formats = {
+                        0: 'pkl - pdynamo system',
+                        1: 'pkl - pdynamo coordinates',
+                        2: 'pdb - single file',
+                        3: 'pdb - multiple files',
+                        4: 'xyz - single file',
+                        5: 'xyz - multiple files',
+                        6: 'mol2 - single file',
+                        7: 'mol2 - multiple files',
+                        8: 'crd - AMBER coordinates',
+                        9: 'mol - single file',
+                       10: 'mol - multiple files',
+                      }
 
-            self.combox.set_active(0)
+            for key , _format in formats.items():
+                self.combobox_fileformat_liststore.append([_format, int(key)])
+
+            self.combobox_fileformat.set_model(self.combobox_fileformat_liststore)
+            #'''--------------------------------------------------------------------------------------------'''
+
+
+
+            self.combobox_fileformat.set_active(0)
             self.window.show_all()
             self.Visible  = True
     

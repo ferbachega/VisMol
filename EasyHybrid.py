@@ -93,14 +93,24 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
         selection         = self.selections[self.current_selection]
         
         index_list = []                
+        
+        residue_list = {} 
+        
         for atom in selection.selected_atoms:
             #print(atom.Vobject.easyhybrid_system_id , pdmsys_active)
             true_or_false = self.check_selected_atom (atom)
             if true_or_false:
                 index_list.append(atom.index -1)
+                
+                if atom.resi in residue_list.keys():
+                    residue_list[atom.resi].append(atom.index -1)
+                else:
+                    residue_list[atom.resi] = [atom.index -1]
+
+                
             else:
                 return False
-        return index_list
+        return index_list, residue_list
 
 
     def check_selected_atom(self, atom, dialog = True):
@@ -364,9 +374,14 @@ button position in the main treeview (active column).""".format(name,self.main_s
         if sele_menu is None:
             ''' Standard Sele Menu '''
             
-            def dynamic_test (_):
+            def menu_show_dynamic_bonds (_):
                 """ Function doc """
-                self.teste3()
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = True)
+            def menu_hide_dynamic_bonds (_):
+                """ Function doc """
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = False)
             
             def select_test (_):
                 """ Function doc """
@@ -417,8 +432,13 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 """ Function doc """
                 #selection = self.selections[self.current_selection]
                 pdmsys_active = self.main_session.pDynamo_session.active_id
-                qc_list = self.build_index_list_from_atom_selection()
+                qc_list, residue_list = self.build_index_list_from_atom_selection()
+                
+                #print('residue_list:', residue_list)
+                
                 if qc_list:
+                    
+                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_residue_table'] = residue_list
                     self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = qc_list
                     self.main_session.run_dialog_set_QC_atoms()
 
@@ -486,7 +506,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             def prune_atoms (_):
                 """ Function doc """
-                fixedlist = self.build_index_list_from_atom_selection()
+                fixedlist, resi_table = self.build_index_list_from_atom_selection()
                 if fixedlist:
                     fixedlist = list(set(fixedlist))
                     #self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
@@ -495,11 +515,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
             def set_as_fixed_atoms (_):
                 """ Function doc """
                 
-                fixedlist = self.build_index_list_from_atom_selection()
+                fixedlist, sel_resi_table = self.build_index_list_from_atom_selection()
                 
                 if fixedlist:
                     pdmsys_active = self.main_session.pDynamo_session.active_id
-                    fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
+                    fixedlist = list(fixedlist) + list(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
                     #guarantee that the atom index appears only once in the list
                     fixedlist = list(set(fixedlist)) 
                     print ('fixedlist',fixedlist)
@@ -530,7 +550,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
                                             'dots'          : ['MenuItem', menu_show_dots],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_show_nonbonded],
                     
@@ -540,12 +560,14 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'hide'   : [
                                 'submenu',  {
-                                            'lines'    : ['MenuItem', menu_hide_lines],
-                                            'sticks'   : ['MenuItem', menu_hide_sticks],
-                                            'spheres'  : ['MenuItem', menu_hide_spheres],
-                                            'dots'     : ['MenuItem', menu_hide_dots],
+                                            'lines'         : ['MenuItem', menu_hide_lines],
+                                            'sticks'        : ['MenuItem', menu_hide_sticks],
+                                            'spheres'       : ['MenuItem', menu_hide_spheres],
+                                            'dots'          : ['MenuItem', menu_hide_dots],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'separator2'    : ['separator', None],
-                                            'nonbonded': ['MenuItem', menu_hide_nonbonded],
+                                            'nonbonded'     : ['MenuItem', menu_hide_nonbonded],
                                             }
                                 ],
                     
@@ -761,7 +783,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'lines'         : ['MenuItem', menu_show_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', None],
                     
@@ -774,6 +796,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'lines'    : ['MenuItem', menu_hide_lines],
                                             'sticks'   : ['MenuItem', menu_hide_sticks],
                                             'spheres'  : ['MenuItem', menu_hide_spheres],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'nonbonded': ['MenuItem', None],
                                             }
                                 ],
