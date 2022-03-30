@@ -135,11 +135,11 @@ class ImportTrajectoryWindow:
     def on_vobject_combo_changed (self, widget):
         '''this combobox has the reference to the starting coordinates of a simulation'''
         #combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-        tree_iter = self.combobox_pdynamo_system.get_active_iter()
+        tree_iter = self.combobox_starting_coordinates.get_active_iter()
         if tree_iter is not None:
             
             '''selecting the vismol object from the content that is in the combobox '''
-            model = self.combobox_pdynamo_system.get_model()
+            model = self.combobox_starting_coordinates.get_model()
             name, vobject_id = model[tree_iter][:2]
             print (name, model[tree_iter][:2])
             #name, vobject_id = model[tree_iter][:2]
@@ -216,6 +216,12 @@ class ImportTrajectoryWindow:
                                                                  name         = name
                                                                  )
         
+        
+        if self.builder.get_object('checbox_keep_it_open').get_active():
+            pass
+        else:
+            self.window.destroy()
+            self.Visible    =  False
 
     
     def CloseWindow (self, button, data  = None):

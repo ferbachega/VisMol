@@ -1856,7 +1856,10 @@ class SpheresRepresentation (Representation):
     
         self.insta_col  = col
         self.insta_rads = rads
-        
+
+        if self.instances_vao is None:
+            self.instances_vao, self.instances_vbos, self.instances_elemns = self._make_gl_vao_and_vbos(self.gl_program_instances)
+
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[1])
         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_col.nbytes, self.insta_col, GL.GL_STATIC_DRAW)
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[2])

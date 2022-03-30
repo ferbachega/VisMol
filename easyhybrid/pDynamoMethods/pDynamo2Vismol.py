@@ -202,6 +202,10 @@ class pDynamoSession:
         self.counter      = 0
         self.color_palette_counter = 0
 
+    def export_system (self, sys_id, filename, folder, _format):
+        """ Function doc """
+        system = self.systems[sys_id]['system']
+        ExportSystem ( os.path.join ( folder, filename+'.'+_format), system )
 
     def generate_pSystem_dictionary (self, system, working_folder = None ):
         """ Function doc """

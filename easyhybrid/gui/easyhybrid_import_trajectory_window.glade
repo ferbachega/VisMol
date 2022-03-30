@@ -437,8 +437,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton">
-                <property name="label" translatable="yes">Test</property>
+              <object class="GtkCheckButton" id="checbox_keep_it_open">
+                <property name="label" translatable="yes">Keep this window open </property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
