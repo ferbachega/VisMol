@@ -46,7 +46,7 @@ class GeometrySearcher:
         self.maxIt          = 500
         self.saveFrequency  = 0
         if not _trajName == None:
-             self.trajectoryName = os.path.join(_baseFolder,_trajName) 
+             self.trajectoryName = os.path.join(_baseFolder,_trajName)
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
@@ -282,7 +282,7 @@ class GeometrySearcher:
                 i += 1
             ExportSystem(pdbFile,self.molecule)
         #----------------------------------------------------------------------
-        if not self.saveFormat == None:
+        if self.saveFormat == ".dcd" or self.saveFormat == ".mdcrd":
             if self.saveFormat != self.trajectoryName:
                 traj_save = os.path.splitext(self.trajectoryName)[0] + self.saveFormat
                 print(traj_save,self.trajectoryName,self.saveFormat)

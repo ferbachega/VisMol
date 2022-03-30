@@ -653,9 +653,7 @@ class Simulation:
 		if   self.parameters["simulation_type"] == "NEB"                : RSrun.NudgedElasticBand(self.parameters)
 		elif self.parameters["simulation_type"] == "SAW"                : RSrun.SelfAvoidWalking(self.parameters)
 		elif self.parameters["simulation_type"] == "SteepDescent_path"  : RSrun.SteepestDescentPathSearch(self.parameters)
-		elif self.parameters["simulation_type"] == "Baker_Saddle"       :
-			print("hhh") 
-			RSrun.BakerSaddleOptimizer(self.parameters) 
+		elif self.parameters["simulation_type"] == "Baker_Saddle"       : RSrun.BakerSaddleOptimizer(self.parameters) 
 		
 		nmaxthreads = 1
 		if "NmaxThreads" in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]

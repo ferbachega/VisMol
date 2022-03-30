@@ -12,8 +12,9 @@ import glob, math, os, os.path, sys
 import numpy as np
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 #path fo the core python files on your machine
-sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods"))
+sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") )
 sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/gui"))
+
 #---------------------------------------
 from pBabel                    import*                                     
 from pCore                     import*  
@@ -38,9 +39,6 @@ from SimulationsPreset import Simulation
 from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER
 from vModel.MolecularProperties import COLOR_PALETTE
-
-
-
 
 HOME = os.environ.get('HOME')
 
@@ -885,9 +883,7 @@ class pDynamoSession:
         #for atom in system.atoms.items:
         #    idx = atom.index
         #    print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
-    
-    
-    
+      
     def get_energy (self):
         """ Function doc """
         self.systems[self.active_id]['system'].Summary( )
@@ -943,12 +939,7 @@ class pDynamoSession:
         trajectory.ReadFooter ( )
         trajectory.Close ( )
         #return frames
-        self.refresh_qc_and_fixed_representations(sys_selection = sys_selected)
-        
-        
-        
-        
-        
+        self.refresh_qc_and_fixed_representations(sys_selection = sys_selected)           
         '''
         system = self.easyhybrid_main.pDynamo_session.systems[0]['system']
         trajectory = ImportTrajectory ( os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo'), system)
@@ -972,15 +963,7 @@ class pDynamoSession:
             frame = np.array(frame, dtype=np.float32)
             self.easyhybrid_main.vm_session.vismol_geometric_object[0].frames.append(frame)
         '''
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
                                                       logFrequency           , 
                                                       maximumIterations      , 
@@ -988,10 +971,8 @@ class pDynamoSession:
                                                       save_trajectory = False,
                                                       trajectory_path = None):
         """ Function doc """
-        if save_trajectory:
-            
-            #if trajectory_path == None:
-                 
+        if save_trajectory:            
+            #if trajectory_path == None:                 
             trajectory_path = '/home/fernando/Documents'
             trajectory = ExportTrajectory ('/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo', self.systems[self.active_id]['system'] )
 
@@ -1003,7 +984,6 @@ class pDynamoSession:
                                                        )        
         
         else:
-        
             ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system']                        ,
                                                        logFrequency                       = logFrequency             ,
                                                        maximumIterations                  = maximumIterations        ,
@@ -1011,15 +991,14 @@ class pDynamoSession:
         
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = True)
 
-    #--------------------------------------------------------- -----------------------
-    def run_simulation(self, _parametersList = None, _parameters4Plot = None, _simulationType = None, folder = None):
+    #---------------------------------------------------------------------------------
+    def run_simulation(self, _parametersList = None):
         '''
         bsname = base name of the folder where will be created the next
         '''
-        print (_parametersList)
-        run = Simulation(self.systems[self.active_id]['system'],_simulationType, folder )
-        run.Execute(_parametersList,_parameters4Plot)
-        
+        _parametersList["active_system"] = self.systems[self.active_id]['system']
+        run = Simulation(_parametersList)
+        run.Execute()        
         self.build_vismol_object_from_pDynamo_system (name = 'new_geometry', autocenter = False)
         
 #======================================================================================================

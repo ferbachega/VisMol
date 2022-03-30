@@ -1371,7 +1371,6 @@ def MopacEnergyRef():
 				   "methods_lists":methods,					   
 				   "NmaxThreads":1 		,
 				   "crd1_label":rc1_md.label,
-				   "crd2_label":rc2_md.label,
 				   "contour_lines":12       ,
 				   "xlim_list": [-1.2,2.0] ,
 				   "simulation_type":"Energy_Refinement",
