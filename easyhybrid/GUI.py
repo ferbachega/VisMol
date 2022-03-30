@@ -431,6 +431,8 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         #------------------  t e x t  ------------------
         renderer_text = Gtk.CellRendererText()
         column_text = Gtk.TreeViewColumn("Object", renderer_text, text=0)
+        column_text.set_sizing(Gtk.TreeViewColumnSizing.AUTOSIZE)
+        column_text.set_resizable(True)
         self.append_column(column_text)  
         
 

@@ -344,6 +344,7 @@ class ShowHideVisMol:
                         pass
 
                     else:
+                        #vobject.representations[_type].
                         vobject.representations[_type].update_atomic_indexes(indexes = indexes)
                         vobject.representations[_type].active = True
 
