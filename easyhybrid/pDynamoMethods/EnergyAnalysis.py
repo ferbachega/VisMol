@@ -77,7 +77,6 @@ class EnergyAnalysis:
 					energyTmp.append( float(lns[2]) )
 					self.energies1D.append( float(lns[2]) )
 				i += 1
-
 			self.multiple1Dplot.append(energyTmp)
 			self.labely = "Potential Energy (kJ/mol)"
 		#-----------------------------------
@@ -262,7 +261,6 @@ class EnergyAnalysis:
 		#---------------------------------------------
 		self.NormalizeEnergies()
 		x = np.linspace(0, self.xlen, self.xlen )
-		
 		for i in range(self.nplots1D):
 			plt.plot(x,self.multiple1Dplot[i],label=self.identifiers[i])
 		#---------------------------------------------

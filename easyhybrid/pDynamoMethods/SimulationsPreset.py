@@ -83,9 +83,9 @@ class Simulation:
 		elif self.parameters["simulation_type"] == "Normal_Modes":					self.NormalModes()		
 		elif self.parameters["simulation_type"] == "Delta_Free_Energy":				self.DeltaFreeEnergy()		
 		elif self.parameters["simulation_type"] == "NEB":							self.ReactionSearchers()		
-		elif self.parameters["simulation_type"] == "SAW":							self.SAW()		
-		elif self.parameters["simulation_type"] == "SaddleBaker":					self.BakerSaddleOptimizer()
-		elif self.parameters["simulation_type"] == "Steep_Path_Searcher":			self.SteepDescentPathSearhcer()				
+		elif self.parameters["simulation_type"] == "SAW":							self.ReactionSearchers()		
+		elif self.parameters["simulation_type"] == "Baker_Saddle":					self.ReactionSearchers()
+		elif self.parameters["simulation_type"] == "Steep_Path_Searcher":			self.ReactionSearchers()				
 		elif self.parameters["simulation_type"] == "Simulating_Annealing":			self.SimulatingAnnealing()		
 		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.SMD()		
 		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.MonteCarlo()				
@@ -649,13 +649,16 @@ class Simulation:
 
 		RSrun = GeometrySearcher(self.molecule,self.baseFolder)		
 		RSrun.ChangeDefaultParameters(self.parameters)
+
 		if   self.parameters["simulation_type"] == "NEB"                : RSrun.NudgedElasticBand(self.parameters)
 		elif self.parameters["simulation_type"] == "SAW"                : RSrun.SelfAvoidWalking(self.parameters)
 		elif self.parameters["simulation_type"] == "SteepDescent_path"  : RSrun.SteepestDescentPathSearch(self.parameters)
-		elif self.parameters["simulation_type"] == "Baker_saddle"       : RSrun.BakerSaddleOptimizer(self.parameters) 
+		elif self.parameters["simulation_type"] == "Baker_Saddle"       :
+			print("hhh") 
+			RSrun.BakerSaddleOptimizer(self.parameters) 
 		
+		nmaxthreads = 1
 		if "NmaxThreads" in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]
-		nmaxthreads = 1 
 
 		refMethod = []
 		if "refine_methods" in self.parameters: refMethod = self.parameters["refine_methods"]

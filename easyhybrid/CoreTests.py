@@ -1171,7 +1171,7 @@ def TrajectoryAnalysisPlots():
 	# Distance analysis in restricted molecular dynamics 
 	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
 #===============================================================================
-def ReacCoordSearchers():	
+def ReacCoordSearchers(_type):	
 	'''
 	Test simulation protocols to determine reaction paths
 	'''
@@ -1186,20 +1186,53 @@ def ReacCoordSearchers():
 	_name = "SCAN1D_4NEB_and_SAW"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
-		QCMMScanMultipleDistance(30,0.05,name=_name)
-	init_path = os.path.join( _path, "frame0.pkl")
-	final_path = os.path.join( _path, "frame29.pkl")
+		QCMMScanMultipleDistance(16,0.09,name=_name)
+	init_path    = os.path.join( _path, "frame0.pkl")
+	final_path   = os.path.join( _path, "frame15.pkl")
+	saddle_coord = os.path.join( _path, "frame9.pkl") 
+
 	#-------------------------------------------------------------------------------
-	parameters = {  "init_coord":init_path           ,
-					"final_coord":final_path         ,
-					"traj_bins":12                   ,
-					"refine_methods":["rm1"]         ,
-					"RMS_growing_intial_string":1.0  ,
-					"simulation_type":"NEB"          ,
-					"spring_force_constant":800.0    ,
-					"rmsGradient":0.50       ,
-					"fixed_terminal_images":False    ,
-					}
+	if _type == "NEB":
+		parameters = {  "init_coord":init_path           					,
+						"final_coord":final_path         					,
+						"traj_bins":16                   					,
+						"refine_methods":["rm1","am1","pm3","pddgpm3","pm6"],
+						"RMS_growing_intial_string":1.0  					,
+						"simulation_type":"NEB"          					,
+						"spring_force_constant":500.0    					,
+						"rmsGradient":0.10               					,
+						"fixed_terminal_images":True    	                }
+	#-------------------------------------------------------------------------------
+	elif _type == "NEB_traj":
+		parameters = {  "traj_source":_path,
+						"traj_bins":16                   					,
+						"refine_methods":["rm1","am1","pm3","pddgpm3","pm6"],
+						"RMS_growing_intial_string":1.0  					,
+						"simulation_type":"NEB"          					,
+						"spring_force_constant":500.0    					,
+						"rmsGradient":0.3               					,
+						"fixed_terminal_images":True                       }
+	#------------------------------------------------------------------------------
+	elif _type == "SAW":
+		parameters = {  "traj_source":_path,
+						"traj_bins":16                   					,
+						"refine_methods":["rm1","am1","pm3","pddgpm3","pm6"],
+						"simulation_type":"SAW"          					,
+						"rmsGradient":0.30                                  }
+	#------------------------------------------------------------------------------					
+	elif _type == "BakerSaddle":
+		parameters = {  "saddle_coord":saddle_coord           			    ,
+						"simulation_type":"Baker_Saddle"          			,
+						"rmsGradient":0.10               					}
+	#------------------------------------------------------------------------------
+	elif _type == "SteepestDescent":
+		parameters = {  "traj_source":_path                                  ,
+						"refine_methods":["rm1","am1","pm3","pddgpm3","pm6"] ,
+						"simulation_type":"Steep_Path_Searcher"          	 ,
+						"rmsGradient":0.10    								 ,
+						"function_step":0.025                                ,
+						"mass_weighting":True                                ,
+						"path_step":2.0          		              		}
 	#-------------------------------------------------------------------------------
 	proj.RunSimulation(parameters)
 #================================================================================
@@ -1385,7 +1418,7 @@ if __name__ == "__main__":
 	#FreeEnergy2DmultipleDistance(500)
 	#pDynamoEnergyRef_1D()								#TESTED
 	#EnergyAnalysisPlots()								#TESTED
-	ReacCoordSearchers()								#NEB TESTED
+	ReacCoordSearchers("BakerSaddle")					#TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
 
