@@ -47,9 +47,7 @@ class MolecularDynamicsWindow():
             self.window = self.builder.get_object('molecular_dynamics_window')
             self.window.set_title('Molecular Dynamics Window')
             #self.window.set_keep_above(True)
-            
-            
-            
+
             '''--------------------------------------------------------------------------------------------'''
             self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
             self.starting_coords_liststore = self.easyhybrid_main.vm_session.starting_coords_liststore
@@ -63,11 +61,7 @@ class MolecularDynamicsWindow():
             
             size = len(self.starting_coords_liststore)
             self.combobox_starting_coordinates.set_active(size-1)
-            '''--------------------------------------------------------------------------------------------'''
-            
-            
-            
-            
+
             #'''--------------------------------------------------------------------------------------------'''
             self.method_store = Gtk.ListStore(str)
             
@@ -87,13 +81,7 @@ class MolecularDynamicsWindow():
             self.methods_combo.add_attribute(renderer_text, "text", 0)
             #'''--------------------------------------------------------------------------------------------'''
             self.methods_combo.set_active(0)
-            
-            
-            
-            
-            
-            
-            
+
             #'''--------------------------------------------------------------------------------------------'''
             self.temp_scale_option_store = Gtk.ListStore(str)
             
@@ -113,34 +101,13 @@ class MolecularDynamicsWindow():
             self.temp_scale_options_combo.add_attribute(renderer_text, "text", 0)
             #'''--------------------------------------------------------------------------------------------'''
             self.temp_scale_options_combo.set_active(0)
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
             md_parm_box = self.builder.get_object('md_parm_box')
             
             self.save_trajectory_box = SaveTrajectoryBox(parent = self.window)
             self.builder.get_object('md_parm_box').pack_end(self.save_trajectory_box.box, True, True, 0)
             self.update_working_folder_chooser()
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
             #------------------------------------------------------------------------------------
             job_list_canvas = self.builder.get_object('job_list_canvas')
             
@@ -178,8 +145,6 @@ class MolecularDynamicsWindow():
             self.scrollable_treelist.add(self.treeview)
             
             job_list_canvas.add(self.scrollable_treelist)
-            
-
 
             self.window.show_all()
             self.Visible  = True
