@@ -73,7 +73,7 @@ class LoadAndSaveFiles:
             vismol_objects_dic[vobj_id] = {'name'                 : vobj.name                 ,
                                            'atoms'                : atoms                     ,
                                            'index_bonds'          : list(vobj.index_bonds)    ,
-                                           'dynamic_bons'         : list(vobj.dynamic_bons)   ,
+                                           'dynamic_bonds'         : list(vobj.dynamic_bonds)   ,
                                            'active'               : vobj.active               ,
                                            'frames'               : vobj.frames               ,
                                            'vobj_id'              : vobj_id                   ,
@@ -194,7 +194,7 @@ class LoadAndSaveFiles:
             frames          = vobject_data['frames']
             name            = vobject_data['name']
             bonds           = vobject_data['index_bonds']
-            dynamic_bons    = vobject_data['dynamic_bons']
+            dynamic_bonds    = vobject_data['dynamic_bonds']
             atoms           = vobject_data['atoms']
             representations = vobject_data['representations']
             color_palette   = vobject_data['color_palette']
@@ -213,7 +213,7 @@ class LoadAndSaveFiles:
                 
             vismol_object.index                = vobj_id
             vismol_object.active               = vobject_data['active']
-            vismol_object.dynamic_bons         = vobject_data['dynamic_bons']
+            vismol_object.dynamic_bonds         = vobject_data['dynamic_bonds']
             vismol_object.easyhybrid_system_id = vobject_data['easyhybrid_system_id']
             vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)
             

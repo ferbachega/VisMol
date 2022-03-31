@@ -328,6 +328,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
             
             '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
+            print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
             self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
                 
         simParameters["optimizer"]      = self.opt_methods[self.builder.get_object('combobox_geo_opt').get_active()]

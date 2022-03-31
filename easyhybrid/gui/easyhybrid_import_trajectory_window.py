@@ -176,8 +176,8 @@ class ImportTrajectoryWindow:
             
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.combobox_pdynamo_system.get_model()
-            _name, sys_selected = model[tree_iter][:2]
-            print (_name, sys_selected)
+            _name, system_id = model[tree_iter][:2]
+            print ('\n\n\_name, system_id:', _name, system_id, '\n\n')
         #-----------------------------------------------------------------------------
        
        
@@ -207,11 +207,13 @@ class ImportTrajectoryWindow:
         
         
         #traj = os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo')
+        
+        print('\n\n\data:', system_id,vobject,name)
         self.easyhybrid_main.pDynamo_session.import_trajectory ( traj         = forder_or_file, 
                                                                  #first        =  0, 
                                                                  #last         = -1, 
                                                                  #stride       =  1,
-                                                                 sys_selected =  sys_selected, 
+                                                                 system_id =  system_id, 
                                                                  vobject      = vobject, 
                                                                  name         = name
                                                                  )

@@ -1703,7 +1703,7 @@ class SpheresRepresentation (Representation):
 
         self.gl_program_instances = self.load_shaders(v_instances, f_instances)
         self.instances_vao = None
-
+        self.insta_flag_test = None
 
 
     def load_lights(self, program):
@@ -1884,6 +1884,7 @@ class SpheresRepresentation (Representation):
             self.glCore.queue_draw()
         
         else:
+            
             GL.glEnable(GL.GL_DEPTH_TEST)
             GL.glUseProgram(self.gl_program_instances)
             #self.load_matrices(self.gl_program_instances)
