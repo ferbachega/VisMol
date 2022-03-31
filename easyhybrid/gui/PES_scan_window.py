@@ -45,12 +45,9 @@ class PotentialEnergyScanWindow():
             #
             self.window = self.builder.get_object('pes_scan_window')
             self.window.set_title('PES Scan Window')
-            self.window.set_keep_above(True)
+            self.window.set_keep_above(True)            
             
-            
-            self.box_reaction_coordinate2 =  self.builder.get_object('box_reaction_coordinate2')
-            
-            
+            self.box_reaction_coordinate2 =  self.builder.get_object('box_reaction_coordinate2')           
             #'''--------------------------------------------------------------------------------------------'''
             #'''
             self.method_store = Gtk.ListStore(str)
@@ -77,12 +74,6 @@ class PotentialEnergyScanWindow():
             
             self.combobox_reaction_coord1.set_active(0)
             self.combobox_reaction_coord2.set_active(0)
-            
-            #'''
-            #'''--------------------------------------------------------------------------------------------'''
-            
-
-
             #'''--------------------------------------------------------------------------------------------'''
             self.method_store = Gtk.ListStore(str)
             
@@ -108,24 +99,6 @@ class PotentialEnergyScanWindow():
             #'''--------------------------------------------------------------------------------------------'''
             self.methods_combo.set_active(0)
 
-
-
-
-            
-
-
-
-
-
-
-
-            
-            # 
-            # 
-            # 
-            # 
-            # 
-            # 
             # #'''--------------------------------------------------------------------------------------------'''
             # 
             # '''
@@ -266,3 +239,10 @@ class PotentialEnergyScanWindow():
             self.box_reaction_coordinate2.set_sensitive(False)
         
         #print(widget)
+
+    #-------------------------------------------------------------------------------
+    def run_scan(self,button):
+        '''
+        Get infotmation and run the simulation
+        '''
+        pass
