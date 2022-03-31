@@ -180,7 +180,7 @@ class GeometrySearcher:
         if "init_coord"  in _parameters: self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  )
         if "final_coord" in _parameters: self.finalCrd3D = ImportCoordinates3( _parameters["final_coord"], log=None )
         trajectory = None
-        #---------------------------------------------------------------------------------
+        #-----------------------------------------------------------------------------------------
         if not "traj_source" in _parameters:
             GrowingStringInitialPath(self.molecule              ,
                                     _parameters["traj_bins"]    ,
@@ -192,6 +192,7 @@ class GeometrySearcher:
         else:
             self.trajectoryName = _parameters["traj_source"]
             trajectory = ExportTrajectory( _parameters["traj_source"], self.molecule, append=True ) 
+        #------------------------------------------------------------------------------------------
         ChainOfStatesOptimizePath_SystemGeometry (  self.molecule                         ,   
                                                     trajectory                            ,
                                                     logFrequency         = 1              ,

@@ -654,6 +654,7 @@ class Simulation:
 		elif self.parameters["simulation_type"] == "SAW"                : RSrun.SelfAvoidWalking(self.parameters)
 		elif self.parameters["simulation_type"] == "SteepDescent_path"  : RSrun.SteepestDescentPathSearch(self.parameters)
 		elif self.parameters["simulation_type"] == "Baker_Saddle"       : RSrun.BakerSaddleOptimizer(self.parameters) 
+
 		
 		nmaxthreads = 1
 		if "NmaxThreads" in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]
@@ -680,6 +681,7 @@ class Simulation:
 			EA = EnergyAnalysis(self.parameters["traj_bins"],1,_type="1DRef")
 			EA.ReadLog(ER.baseName+".log")
 			EA.MultPlot1D(crd1_label,show)	
+			RSrun.Finalize()
 	#=========================================================================	
 	def TrajectoryPlots(self) :
 		'''
