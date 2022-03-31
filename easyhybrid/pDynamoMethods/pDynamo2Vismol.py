@@ -312,7 +312,8 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
-                  'working_folder': HOME , 
+                  'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
+                  'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
                    }
         
         if name:
@@ -756,6 +757,10 @@ class pDynamoSession:
         else:
             system_id = self.active_id
         print('\n\n\ build_vismol_object_from_pDynamo_system 753:', system_id, name)
+        
+        name = str(self.systems[system_id]['step_counter'])+' '+name
+        self.systems[system_id]['step_counter'] += 1
+        
         self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety, system_id = system_id)
         self.get_sequence_from_pDynamo_system(system_id = system_id)
         frames = []
