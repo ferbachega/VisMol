@@ -194,11 +194,10 @@ class LoadAndSaveFiles:
             frames          = vobject_data['frames']
             name            = vobject_data['name']
             bonds           = vobject_data['index_bonds']
-            dynamic_bonds    = vobject_data['dynamic_bonds']
+            dynamic_bonds   = vobject_data['dynamic_bonds']
             atoms           = vobject_data['atoms']
             representations = vobject_data['representations']
             color_palette   = vobject_data['color_palette']
-            #print('atoms:', len(atoms), 'coords', len(list(frames[0]))/3)
         
             vismol_object  = VismolObject.VismolObject(
                                                        #active                         = easyhybrid_session_data['vismol_objects_dic'][vobj_id]['active']
@@ -241,7 +240,12 @@ class LoadAndSaveFiles:
         
         for key, system in self.pDynamo_session.systems.items():
             system['vismol_object'] =   self.vismol_objects_dic[system['vismol_object']]
-         
+            
+            self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
+                                                                       system_id = system['id'], 
+                                                                     fixed_atoms = True        , 
+                                                                        QC_atoms = False       , 
+                                                                          static = False       )
 
         
         '''Here we will select the radio button corresponding to the system that is active. 

@@ -258,13 +258,13 @@ class EasyHybridMainWindow ( ):
         filters = []        
         ''' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '''
         filter = Gtk.FileFilter()  
-        filter.set_name("EasyHybrid files - *.easy")
+        filter.set_name("EasyHybrid3 files - *.easy")
         filter.add_mime_type("Easy files files")
         filter.add_pattern("*.easy")
         filters.append(filter)
         
         filter = Gtk.FileFilter()  
-        filter.set_name("PKL files - *.pkl")
+        filter.set_name("pDynamo3 files - *.pkl")
         filter.add_mime_type("PKL files")
         filter.add_pattern("*.pkl")
         filters.append(filter)
