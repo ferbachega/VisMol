@@ -140,11 +140,11 @@
                   <object class="GtkButtonBox" id="dialog-action_area2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="spacing">5</property>
                     <property name="layout_style">end</property>
                     <child>
                       <object class="GtkButton" id="button3">
                         <property name="label" translatable="yes">Cancel</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -158,7 +158,6 @@
                     <child>
                       <object class="GtkButton" id="button4">
                         <property name="label" translatable="yes">OK</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>

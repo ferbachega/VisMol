@@ -136,6 +136,8 @@ class FolderChooserButton:
         name = os.path.basename(folder )
         #print( name)
         self.label.set_text(name)
+        
+        #self.main.pdynamo_session.systems[self.main.pdynamo_session.active_id]['working_folder'] = self.folder
     #====================================================================================
     def get_folder (self):
         """ Function doc """
@@ -348,7 +350,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             elif saveFormat == 1: simParameters["save_format"] = ".mdcrd"
             elif saveFormat == 2: simParameters["save_format"] = ".dcd"
             elif saveFormat == 3: simParameters["save_format"] = ".xyz"
-            
+            self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'] = simParameters["folder"] 
             
         self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = simParameters )
 
@@ -366,7 +368,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             #print('update_working_folder_chooser')
             self.save_trajectory_box.set_folder(folder = folder)
         else:
-            self.save_trajectory_box.set_folder(folder = HOME)
+            self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'])
    
 #=====================================================================================
    

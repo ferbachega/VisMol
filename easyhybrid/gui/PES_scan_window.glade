@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkAction" id="action1"/>
   <object class="GtkWindow" id="pes_scan_window">
     <property name="can_focus">False</property>
     <signal name="delete-event" handler="CloseWindow" swapped="no"/>
@@ -1192,7 +1191,6 @@
                 <child>
                   <object class="GtkButton" id="run_scan">
                     <property name="label" translatable="yes">Run</property>
-                    <property name="related_action"/>
                     <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>

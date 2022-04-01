@@ -211,6 +211,10 @@ class EasyHybridMainWindow ( ):
         self.pDynamo_session = pDynamoSession(vm_session = vm_session)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
+        
+        
+        
+        '''#- - - - - - - - - - G T K  W I N D O W S - - - - - - - - - - -#'''
         self.NewSystemWindow              = ImportANewSystemWindow(main = self)
         self.setup_QCModel_window         = EasyHybridSetupQCModelWindow(main = self)
         self.import_trajectory_window     = ImportTrajectoryWindow(main = self)
@@ -221,7 +225,10 @@ class EasyHybridMainWindow ( ):
         self.PES_scan_window              = PotentialEnergyScanWindow(main=  self)
         self.umbrella_sampling_window     = UmbrellaSamplingWindow (main=  self)
         self.export_data_window           = ExportDataWindow(main=  self)
-        
+        '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
+
+        self.save_vismol_file = None
+
         self.window.connect("destroy", Gtk.main_quit)
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
@@ -247,21 +254,37 @@ class EasyHybridMainWindow ( ):
         dialog.destroy()
     
     def gtk_load_files (self, button):
-        filename = self.filechooser.open()
-        #print('aqui ohh')
+        '''Easyhybrid and pkl pdynamo file search '''
+        filters = []        
+        ''' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '''
+        filter = Gtk.FileFilter()  
+        filter.set_name("EasyHybrid files - *.easy")
+        filter.add_mime_type("Easy files files")
+        filter.add_pattern("*.easy")
+        filters.append(filter)
         
-
+        filter = Gtk.FileFilter()  
+        filter.set_name("PKL files - *.pkl")
+        filter.add_mime_type("PKL files")
+        filter.add_pattern("*.pkl")
+        filters.append(filter)
         
+        filter = Gtk.FileFilter()
+        filter.set_name("All files")
+        filter.add_pattern("*")
+        filters.append(filter)
+        ''' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '''
+        
+        
+        ''' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '''
+        filename = self.filechooser.open(filters = filters)
+        ''' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - '''
+    
         if filename:
             if filename[-4:] == 'easy':
                 print('ehf file')            
-                self.vm_session.load_easyhybrid_serialization_file(filename)
-                #infile = open(filename,'wb')
-                #data = pickle.load(infile)
-                #self.vm_session.
-                #pickle.dump(data, outfile)
-                #outfile.close()
-            
+                self.save_vismol_file = filename
+                self.vm_session.load_easyhybrid_serialization_file(filename)            
             else:
                 files = {'coordinates': filename}
                 systemtype = 3
@@ -282,10 +305,91 @@ class EasyHybridMainWindow ( ):
         
         
         if button  == self.builder.get_object('toolbutton_save'):
-            self.vm_session.save_serialization_file()
+            #self.vm_session.save_serialization_file()
 
             
+            if self.save_vismol_file:
+                print('saving easyhybrid session - file: ', self.save_vismol_file)
+                self.vm_session.save_serialization_file(self.save_vismol_file)
+                
+            else:
+                dialog = Gtk.FileChooserDialog("Save", self.window,
+                    Gtk.FileChooserAction.SAVE,
+                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                     Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+
+                #self.win.add_filters(dialog)
+
+                filter = Gtk.FileFilter()  
+                filter.set_name("EasyHybrid files - *.easy")
+
+                filter.add_mime_type("Easy files files")
+                filter.add_pattern("*.easy")
+                #
+                dialog.add_filter(filter)
+                filter = Gtk.FileFilter()
+                filter.set_name("All files")
+                filter.add_pattern("*")
+                #
+                dialog.add_filter(filter) 
+
+
+
+                response = dialog.run()
+                if response == Gtk.ResponseType.OK:
+                    file_path = dialog.get_filename()
+                    file_path = file_path+'.easy'
+                    
+                    print("Save clicked")
+                    print("File selected: " + file_path)
+                    
+                    self.save_vismol_file = file_path
+
+                    print('saving easyhybrid session - file: ', self.save_vismol_file)
+                    self.vm_session.save_serialization_file(self.save_vismol_file)
+
+                elif response == Gtk.ResponseType.CANCEL:
+                    print("Cancel clicked")
+
+                dialog.destroy()
             
+            
+        if button  == self.builder.get_object('toolbutton_save_as'):
+            dialog = Gtk.FileChooserDialog("Save as", self.window,
+                Gtk.FileChooserAction.SAVE,
+                (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                 Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+
+            filter = Gtk.FileFilter()  
+            filter.set_name("EasyHybrid files - *.easy")
+
+            filter.add_mime_type("Easy files files")
+            filter.add_pattern("*.easy")
+            #
+            dialog.add_filter(filter)
+            filter = Gtk.FileFilter()
+            filter.set_name("All files")
+            filter.add_pattern("*")
+            #
+            dialog.add_filter(filter) 
+
+            response = dialog.run()
+            if response == Gtk.ResponseType.OK:
+                file_path = dialog.get_filename()
+                file_path = file_path+'.easy'
+                
+                print("Save clicked")
+                print("File selected: " + file_path)
+                
+                self.save_vismol_file = file_path
+
+                print('saving easyhybrid session - file: ', self.save_vismol_file)
+                self.vm_session.save_serialization_file(self.save_vismol_file)
+
+            elif response == Gtk.ResponseType.CANCEL:
+                print("Cancel clicked")
+
+            dialog.destroy()
             
 
         if button  == self.builder.get_object('toolbutton_energy'):
@@ -303,6 +407,7 @@ class EasyHybridMainWindow ( ):
             #self.dialog_import_a_new_systen.hide()
             #self.NewSystemWindow.OpenWindow()
             self.setup_QCModel_window.OpenWindow()
+        
         if button  == self.builder.get_object('toolbutton_geometry_optimization'):
             self.geometry_optimization_window.OpenWindow()
         
@@ -321,6 +426,7 @@ class EasyHybridMainWindow ( ):
             
             self.pDynamo_session.selections (_centerAtom, _radius)
             '''
+       
         if button  == self.builder.get_object('toolbutton_pes_scan'):
             self.PES_scan_window.OpenWindow()
         
@@ -506,7 +612,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         size = len(self.main_session.vm_session.vismol_objects_dic[vob_id].frames)
         self.treestore[path][-1] = size
         size = self.treestore[path][-1]
-        print (path, type(path),self.treestore['0:1'][0] ,  self.treestore[path][0], self.treestore[path][-3],  self.treestore[path][-1])
+        #print (path, type(path),self.treestore['0:1'][0] ,  self.treestore[path][0], self.treestore[path][-3],  self.treestore[path][-1])
         self.main_session.vm_session.TrajectoryFrame.change_range(upper = size)
         
         #print('\n\n\path:', path)
