@@ -170,9 +170,12 @@ class GeometrySearcher:
         rmdGIS          = 1
         springCF        = 500.0
         fixedTerminal   = False
+        useSpline       = False
+        spline_tol      = 1.5
         if "spring_constant_force"      in _parameters: springCF      = _parameters["spring_constant_force"]
         if "fixed_terminal_images"      in _parameters: fixedTerminal = _parameters["fixed_terminal_images"]
         if "RMS_growing_intial_string"  in _parameters: rmsGIS        = _parameters["RMS_growing_intial_string"]
+        if "spline_redistribution"      in _parameters: useSpline     = _parameters["spline_redistribution"]
 
         self.trajectoryName = self.baseName + "NEB.ptGeo"
         #Note: is interesting to think in a window were the user select the initial and final coords
@@ -193,12 +196,14 @@ class GeometrySearcher:
             self.trajectoryName = _parameters["traj_source"]
             trajectory = ExportTrajectory( _parameters["traj_source"], self.molecule, append=True ) 
         #------------------------------------------------------------------------------------------
-        ChainOfStatesOptimizePath_SystemGeometry (  self.molecule                         ,   
-                                                    trajectory                            ,
-                                                    logFrequency         = 1              ,
-                                                    maximumIterations    = self.maxIt     ,
-                                                    fixedTerminalImages  = fixedTerminal  ,
-                                                    springForceConstant  = springCF       ,
+        ChainOfStatesOptimizePath_SystemGeometry (  self.molecule                                       ,   
+                                                    trajectory                                          ,
+                                                    logFrequency         = 1                            ,
+                                                    maximumIterations    = self.maxIt                   ,
+                                                    fixedTerminalImages  = fixedTerminal                ,
+                                                    springForceConstant  = springCF                     ,
+                                                    splineRedistributionTolerance=spline_tol            ,
+                                                    forceSplineRedistributionCheckPerIteration=useSpline,
                                                     rmsGradientTolerance = self.rmsGrad   )
     #========================================================================================
     def SelfAvoidWalking(self,_parameters):
