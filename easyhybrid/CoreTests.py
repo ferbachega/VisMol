@@ -141,9 +141,10 @@ def QCMM_Energies():
 	glu = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:*")
 	his = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:*")
 	selections= [ lig, glu, his ]
+	print(selections)
 	#-----------------------------
 	#List of internal Hamiltonians provided by pDynamo with parameters for all atoms
-	SMOmodels = ["am1","am1dphot","pddgpm3","pm3","rm1","pm6"]
+	SMOmodels = ["am1","am1dphot","pddgpm3","pm3","rm1","pm6"]	
 	#-----------------------------
 	#saving qc/mm setup
 	for smo in SMOmodels:
@@ -1393,8 +1394,8 @@ def Thermodynamics():
 if __name__ == "__main__":
 	#MMMD_Algorithms()   			#TESTED
 	#MMMD_Heating()							#TESTED
-	QCMM_Energies()						#TESTED
-	QCMM_DFTBplus()									#TESTED
+	#QCMM_Energies()						#TESTED
+	#QCMM_DFTBplus()									#TESTED
 	QCMM_Orca()										#TESTED
 	QCMM_optimizations()								#TESTED
 	QCMM_MD()											#TESTED
