@@ -203,10 +203,15 @@ class Simulation:
 			"ATOMS_RC2":list of atoms indices of the second reaction coordinate. Needed if "ndim = 2"
 			"nSteps_RC2": integer indicating the number of steps to scan for the second reaction coordinate. Needed if "ndim = 2"
 		Optinal   :
+			"dminimum_RC1":
+			"dminimum_RC2":
+			"sigma_pk1pk3":
+			"sigma_pk3pk1":
 			"force_constant": Float indicating the constant value of energy penalty for the harmonic potential restriction function
 			"force_constant_1" Specifies the force constant for the first reaction coordinate
 			"force_constant_2" Specified the force constant for the second reaction coordinate
 			"maxIterations": Number of maximum iteration for the geometry optimizations
+			"rmsGradient"  : rms torlerance for the stop parameter
 			"optimizer": string containing the optimizer algorithm to be used in geometry optimization
 			"dincre_RC1": float with the step increment for the first reaction coordinate ( Warning! If not passed, 0.0 will be assumed )
 			"dincre_RC2": float with the step increment for the second reaction coordinate
@@ -233,6 +238,10 @@ class Simulation:
 		dincre1     = 0.0
 		dincre2     = 0.0
 		nRC2        = 0
+		dminimum_RC1 = None
+		dminimum_RC2 = None
+		sigma_pk1pk3 = None
+		sigma_pk3pk1 = None
 		#checking parameters
 		if "dincre_RC1" in self.parameters:	dincre1 	= self.parameters["dincre_RC1"]
 		if "dincre_RC2" in self.parameters:	dincre2 	= self.parameters["dincre_RC2"]	
@@ -242,7 +251,8 @@ class Simulation:
 		if "MC_RC1"     in self.parameters: MCR1        = self.parameters["MC_RC1"]
 		if "MC_RC2"     in self.parameters: MCR2        = self.parameters["MC_RC2"]		
 		if "rc_type_1"  in self.parameters:	rcType1 	= self.parameters["rc_type_1"]
-		if "rc_type_2"  in self.parameters:	rcType2 	= self.parameters["rc_type_2"]		
+		if "rc_type_2"  in self.parameters:	rcType2 	= self.parameters["rc_type_2"]
+		if "dminimum_RC1" in self.parameters: 	
 		#--------------------------------------------------------------------
 		scan = SCAN(self.molecule,self.baseFolder,_Optmizer,ADAPTATIVE=_Adaptative)
 		scan.ChangeDefaultParameters(self.parameters)	

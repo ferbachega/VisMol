@@ -563,16 +563,37 @@ class PotentialEnergyScanWindow():
     def run_scan(self,button):
         '''
         Get infotmation and run the simulation
-        '''
-        parameters = {}
-        parameters['simulation_type'] = 'Relaxed_Surface_Scan'
+        '''         
+        parameters = {"simulation_type":"Relaxed_Surface_Scan",
+                      "ndim":1                                ,
+                      "ATOMS_RC1":None                        ,
+                      "ATOMS_RC2":None                        ,
+                      "nSteps_RC1":0                          ,
+                      "nSteps_RC2":0                          ,
+                      "force_constant_1":4000.0               ,
+                      "force_constant_2":4000.0               ,
+                      "maxIterations":600                     ,
+                      "dincre_RC1":0.1                        ,
+                      "dincre_RC2":0.1                        ,
+                      "initial_distance_1":0.0                ,
+                      "initial_distance_2":0.0                ,
+                      "rc_type_1":"distance"                  ,
+                      "rc_type_2":"distance"                  ,
+                      "adaptative":False                      , 
+                      "save_format":".dcd"                    ,
+                      "rmsGradient":0.1                       ,
+                      "optimizer":"ConjugatedGradient"        ,
+                      "MC_RC1":False                          ,
+                      "MC_RC2":False                          ,
+                      "log_frequency":50                      ,
+                      "contour_lines":10                      ,
+                      "show":True                             }
         
-        method = self.opt_methods[self.methods_combo.get_active()]
+        parameters["optimizer"] = self.opt_methods[self.methods_combo.get_active()]
+        parameters["folder"]    = self.folder_chooser_button.get_folder()
         
-        
-        folder         = self.folder_chooser_button.get_folder()
-        entry_max_int  = float(self.builder.get_object('entry_max_int').get_text() )
-        entry_rmsd_tol = float(self.builder.get_object('entry_rmsd_tol').get_text() )
+        parameters["maxIterations"] = float(self.builder.get_object('entry_max_int').get_text() )
+        parameters["rmsGradient"]   = float(self.builder.get_object('entry_rmsd_tol').get_text() )
         traj_name      =  self.builder.get_object('traj_name').get_text()
         
         
@@ -681,7 +702,7 @@ class PotentialEnergyScanWindow():
         
         pass
 
-
+#=====================================================================================
 def get_distance (vobject, index1, index2):
     """ Function doc """
     atom1 = vobject.atoms[index1]
