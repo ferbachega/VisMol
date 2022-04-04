@@ -291,8 +291,12 @@ class pDynamoSession:
         psystem['color_palette'] =  COLOR_PALETTE[self.color_palette_counter]
         #'''
 
-        #self.name  =  name
-        self.append_system_to_pdynamo_session(system)
+        if name :
+            self.append_system_to_pdynamo_session(system, name = name, working_folder = HOME)
+        else:
+            name = system.label
+            self.append_system_to_pdynamo_session(system, name = name, working_folder = HOME)
+        
         self.vm_session.main_session.update_gui_widgets()
 
 
@@ -537,6 +541,20 @@ class pDynamoSession:
                     # Only being used in load - serialization file 
                     system_id = visObj.easyhybrid_system_id
                     #print ("system_id", system_id)
+                    
+                    if self.systems[system_id]['system'].freeAtoms is None:
+                        pass
+                    
+                    else:
+                        if self.systems[system_id]['fixed_table'] == []:
+                            freeAtoms = self.systems[system_id]['system'].freeAtoms
+                            freeAtoms                             = Selection.FromIterable (freeAtoms)
+                            selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+                            self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+                            #self.systems[self.active_id]['system'].freeAtoms = selection_free
+                        
+                        
+                        
                     self.vm_session.set_color_by_index(vismol_object = visObj , 
                                                        indexes       = self.systems[system_id]['fixed_table'], 
                                                        color         = self.fixed_color)
@@ -545,6 +563,16 @@ class pDynamoSession:
                     #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
                     if visObj.easyhybrid_system_id == system_id:
                        
+                        if self.systems[system_id]['system'].freeAtoms is None:
+                            pass
+                        
+                        else:
+                            if self.systems[system_id]['fixed_table'] == []:
+                                freeAtoms = self.systems[system_id]['system'].freeAtoms
+                                freeAtoms                             = Selection.FromIterable (freeAtoms)
+                                selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+                                self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+
                         self.vm_session.set_color_by_index(vismol_object = visObj , 
                                                               indexes       = self.systems[system_id]['fixed_table'], 
                                                               color         = self.fixed_color)
