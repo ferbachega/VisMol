@@ -1399,7 +1399,7 @@ if __name__ == "__main__":
 	#QCMM_optimizations()								#TESTED
 	#QCMM_MD()											#TESTED
 	#QCMM_MDrestricted()								#TESTED
-	#QCMMScanSimpleDistance(20,0.06)					#TESTED
+	QCMMScanSimpleDistance(20,0.06)					#TESTED
 	#QCMMScanMultipleDistance(20,0.06)					#TESTED
 	#QCMMScan2DsimpleDistance(10,10,0.2,0.2)			#TESTED
 	#QCMMScan2DmixedDistance(10,10,0.2,0.2)				#TESTED
@@ -1417,7 +1417,7 @@ if __name__ == "__main__":
 	#FreeEnergy2DmultipleDistance(500)
 	#pDynamoEnergyRef_1D()								#TESTED
 	#EnergyAnalysisPlots()								#TESTED
-	ReacCoordSearchers("BakerSaddle")					#TESTED
+	#ReacCoordSearchers("BakerSaddle")					#TESTED
 	#MopacEnergyRef()									#TESTED
 	#pDynamoEnergyRef_2D()								#TESTED
 

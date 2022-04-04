@@ -29,9 +29,130 @@ from gi.repository import Gtk
 #from easyhybrid.pDynamoMethods.pDynamo2Vismol import *
 import gc
 import os
+from geometry_optimization_window import FolderChooserButton
 
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
+
+
+
+atomic_dic = {#Symbol     name         number    Cov(r)     VdW(r)     Mass
+                "H"  : ["Hydrogen"     , 1   ,  0.330000 , 1.200000,  1.007940   ],
+                "He" : ["Helium"       , 2   ,  0.700000 , 1.400000,  4.002602   ],
+                "Li" : ["Lithium"      , 3   ,  1.230000 , 1.820000,  6.941000   ],
+                "Be" : ["Beryllium"    , 4   ,  0.900000 , 1.700000,  9.012182   ],
+                "B"  : ["Boron"        , 5   ,  0.820000 , 2.080000,  10.811000  ],
+                "C"  : ["Carbon"       , 6   ,  0.770000 , 1.950000,  12.010700  ],
+                "N"  : ["Nitrogen"     , 7   ,  0.700000 , 1.850000,  14.006700  ],
+                "O"  : ["Oxygen"       , 8   ,  0.660000 , 1.700000,  15.999400  ],
+                "F"  : ["Fluorine"     , 9   ,  0.611000 , 1.730000,  18.998404  ],
+                "Ne" : ["Neon"         , 10  ,  0.700000 , 1.540000,  20.179701  ],
+                "Na" : ["Sodium"       , 11  ,  3.06     , 2.270000,  22.989771  ],
+                "Mg" : ["Magnesium"    , 12  ,  1.360000 , 1.730000,  24.305000  ],
+                "Al" : ["Aluminium"    , 13  ,  1.180000 , 2.050000,  26.981539  ],
+                "Si" : ["Silicon"      , 14  ,  0.937000 , 2.100000,  28.085501  ],
+                "P"  : ["Phosphorus"   , 15  ,  0.890000 , 2.080000,  30.973761  ],
+                "S"  : ["Sulphur"      , 16  ,  1.040000 , 2.000000,  32.064999  ],
+                "Cl" : ["Chlorine"     , 17  ,  0.997000 , 1.970000,  35.452999  ],
+                "Ar" : ["Argon"        , 18  ,  1.740000 , 1.880000,  39.948002  ],
+                "K"  : ["Potassium"    , 19  ,  2.030000 , 2.750000,  39.098301  ],
+                "Ca" : ["Calcium"      , 20  ,  1.740000 , 1.973000,  40.077999  ],
+                "Sc" : ["Scandium"     , 21  ,  1.440000 , 1.700000,  44.955910  ],
+                "Ti" : ["Titanium"     , 22  ,  1.320000 , 1.700000,  47.867001  ],
+                "V"  : ["Vanadium"     , 23  ,  1.220000 , 1.700000,  50.941502  ],
+                "Cr" : ["Chromium"     , 24  ,  1.180000 , 1.700000,  51.996101  ],
+                "Mn" : ["Manganese"    , 25  ,  1.170000 , 1.700000,  54.938049  ],
+                "Fe" : ["Iron"         , 26  ,  1.170000 , 1.700000,  55.845001  ],
+                "Co" : ["Cobalt"       , 27  ,  1.160000 , 1.700000,  58.933201  ],
+                "Ni" : ["Nickel"       , 28  ,  1.150000 , 1.630000,  58.693401  ],
+                "Cu" : ["Copper"       , 29  ,  1.170000 , 1.400000,  63.546001  ],
+                "Zn" : ["Zinc"         , 30  ,  1.250000 , 1.390000,  65.408997  ],
+                "Ga" : ["Gallium"      , 31  ,  1.260000 , 1.870000,  69.723000  ],
+                "Ge" : ["Germanium"    , 32  ,  1.188000 , 1.700000,  72.639999  ],
+                "As" : ["Arsenic"      , 33  ,  1.200000 , 1.850000,  74.921600  ],
+                "Se" : ["Selenium"     , 34  ,  1.170000 , 1.900000,  78.959999  ],
+                "Br" : ["Bromine"      , 35  ,  1.167000 , 2.100000,  79.903999  ],
+                "Kr" : ["Krypton"      , 36  ,  1.910000 , 2.020000,  83.797997  ],
+                "Rb" : ["Rubidium"     , 37  ,  2.160000 , 1.700000,  85.467796  ],
+                "Sr" : ["Strontium"    , 38  ,  1.910000 , 1.700000,  87.620003  ],
+                "Y"  : ["Yttrium"      , 39  ,  1.620000 , 1.700000,  88.905853  ],
+                "Zr" : ["Zirconium"    , 40  ,  1.450000 , 1.700000,  91.223999  ],
+                "Nb" : ["Niobium"      , 41  ,  1.340000 , 1.700000,  92.906380  ],
+                "Mo" : ["Molybdenum"   , 42  ,  1.300000 , 1.700000,  95.940002  ],
+                "Tc" : ["Technetium"   , 43  ,  1.270000 , 1.700000,  98.000000  ],
+                "Ru" : ["Ruthenium"    , 44  ,  1.250000 , 1.700000,  101.070000 ],
+                "Rh" : ["Rhodium"      , 45  ,  1.250000 , 1.700000,  102.905502 ],
+                "Pd" : ["Palladium"    , 46  ,  1.280000 , 1.630000,  106.419998 ],
+                "Ag" : ["Silver"       , 47  ,  1.340000 , 1.720000,  107.868202 ],
+                "Cd" : ["Cadmium"      , 48  ,  1.480000 , 1.580000,  112.411003 ],
+                "In" : ["Indium"       , 49  ,  1.440000 , 1.930000,  114.818001 ],
+                "Sn" : ["Tin"          , 50  ,  1.385000 , 2.170000,  118.709999 ],
+                "Sb" : ["Antimony"     , 51  ,  1.400000 , 2.200000,  121.760002 ],
+                "Te" : ["Tellurium"    , 52  ,  1.378000 , 2.060000,  127.599998 ],
+                "I"  : ["Iodine"       , 53  ,  1.387000 , 2.150000,  126.904472 ],
+                "Xe" : ["Xenon"        , 54  ,  1.980000 , 2.160000,  131.292999 ],
+                "Cs" : ["Cesium"       , 55  ,  2.350000 , 1.700000,  132.905457 ],
+                "Ba" : ["Barium"       , 56  ,  1.980000 , 1.700000,  137.326996 ],
+                "La" : ["Lanthanum"    , 57  ,  1.690000 , 1.700000,  138.905502 ],
+                "Ce" : ["Cerium"       , 58  ,  1.830000 , 1.700000,  140.115997 ],
+                "Pr" : ["Praseodymium" , 59  ,  1.820000 , 1.700000,  140.907654 ],
+                "Nd" : ["Neodymium"    , 60  ,  1.810000 , 1.700000,  144.240005 ],
+                "Pm" : ["Promethium"   , 61  ,  1.800000 , 1.700000,  145.000000 ],
+                "Sm" : ["Samarium"     , 62  ,  1.800000 , 1.700000,  150.360001 ],
+                "Eu" : ["Europium"     , 63  ,  1.990000 , 1.700000,  151.964005 ],
+                "Gd" : ["Gadolinium"   , 64  ,  1.790000 , 1.700000,  157.250000 ],
+                "Tb" : ["Terbium"      , 65  ,  1.760000 , 1.700000,  158.925339 ],
+                "Dy" : ["Dysprosium"   , 66  ,  1.750000 , 1.700000,  162.500000 ],
+                "Ho" : ["Holmium"      , 67  ,  1.740000 , 1.700000,  164.930313 ],
+                "Er" : ["Erbium"       , 68  ,  1.730000 , 1.700000,  167.259003 ],
+                "Tm" : ["Thulium"      , 69  ,  1.720000 , 1.700000,  168.934204 ],
+                "Yb" : ["Ytterbium"    , 70  ,  1.940000 , 1.700000,  173.039993 ],
+                "Lu" : ["Lutetium"     , 71  ,  1.720000 , 1.700000,  174.966995 ],
+                "Hf" : ["Hafnium"      , 72  ,  1.440000 , 1.700000,  178.490005 ],
+                "Ta" : ["Tantalum"     , 73  ,  1.340000 , 1.700000,  180.947906 ],
+                "W"  : ["Tungsten"     , 74  ,  1.300000 , 1.700000,  183.839996 ],
+                "Re" : ["Rhenium"      , 75  ,  1.280000 , 1.700000,  186.207001 ],
+                "Os" : ["Osmium"       , 76  ,  1.260000 , 1.700000,  190.229996 ],
+                "Ir" : ["Iridium"      , 77  ,  1.270000 , 1.700000,  192.216995 ],
+                "Pt" : ["Platinum"     , 78  ,  1.300000 , 1.720000,  195.078003 ],
+                "Au" : ["Gold"         , 79  ,  1.340000 , 1.660000,  196.966553 ],
+                "Hg" : ["Mercury"      , 80  ,  1.490000 , 1.550000,  200.589996 ],
+                "Tl" : ["Thallium"     , 81  ,  1.480000 , 1.960000,  204.383301 ],
+                "Pb" : ["Lead"         , 82  ,  1.480000 , 2.020000,  207.199997 ],
+                "Bi" : ["Bismuth"      , 83  ,  1.450000 , 1.700000,  208.980377 ],
+                "Po" : ["Polonium"     , 84  ,  1.460000 , 1.700000,  209.000000 ],
+                "At" : ["Astatine"     , 85  ,  1.450000 , 1.700000,  210.000000 ],
+                "Rn" : ["Radon"        , 86  ,  2.400000 , 1.700000,  222.000000 ],
+                "Fr" : ["Francium"     , 87  ,  2.000000 , 1.700000,  223.000000 ],
+                "Ra" : ["Radium"       , 88  ,  1.900000 , 1.700000,  226.000000 ],
+                "Ac" : ["Actinium"     , 89  ,  1.880000 , 1.700000,  227.000000 ],
+                "Th" : ["Thorium"      , 90  ,  1.790000 , 1.700000,  232.038101 ],
+                "Pa" : ["Protactinium" , 91  ,  1.610000 , 1.700000,  231.035873 ],
+                "U"  : ["Uranium"      , 92  ,  1.580000 , 1.860000,  238.028915 ],
+                "Np" : ["Neptunium"    , 93  ,  1.550000 , 1.700000,  237.000000 ],
+                "Pu" : ["Plutionium"   , 94  ,  1.530000 , 1.700000,  244.000000 ],
+                "Am" : ["Americium"    , 95  ,  1.070000 , 1.700000,  243.000000 ],
+                "Cm" : ["Curium"       , 96  ,  0.000000 , 1.700000,  247.000000 ],
+                "Bk" : ["Berkelium"    , 97  ,  0.000000 , 1.700000,  247.000000 ],
+                "Cf" : ["Californium"  , 98  ,  0.000000 , 1.700000,  251.000000 ],
+                "Es" : ["Einsteinium"  , 99  ,  0.000000 , 1.700000,  252.000000 ],
+                "Fm" : ["Fermium"      , 100 ,  0.000000 , 1.700000,  257.000000 ],
+                "Md" : ["Mendelevium"  , 101 ,  0.000000 , 1.700000,  258.000000 ],
+                "No" : ["Nobelium"     , 102 ,  0.000000 , 1.700000,  259.000000 ],
+                "Lr" : ["Lawrencium"   , 103 ,  0.000000 , 1.700000,  262.000000 ],
+                "Rf" : ["Rutherfordiu" , 104 ,  0.000000 , 1.700000,  261.000000 ],
+                "Db" : ["Dubnium"      , 105 ,  0.000000 , 1.700000,  262.000000 ],
+                "Sg" : ["Seaborgium"   , 106 ,  0.000000 , 1.700000,  263.000000 ],
+                "Bh" : ["Bohrium"      , 107 ,  0.000000 , 1.700000,  264.000000 ],
+                "Hs" : ["Hassium"      , 108 ,  0.000000 , 1.700000,  265.000000 ],
+                "Mt" : ["Meitnerium"   , 109 ,  0.000000 , 1.700000,  268.000000 ],
+                "Xx" : ["Dummy"        , 0   ,  0.000000 , 0.000000,  0.000000   ],
+                "X"  : ["Dummy"        , 0   ,  0.000000 , 0.000000,  0.000000   ]
+              }
+
+texto_d1   = "\n\n                       -- simple-distance --\n\nFor simple-distance, select two atoms in pymol using the editing mode\nfollowing the diagram:\n\n   R                    R\n    \                  /\n     A1--A2  . . . . A3\n    /                  \ \n   R                    R\n         ^            ^\n         |            |\n        pk1  . . . . pk2\n                d1\n"
+texto_d2d1 = "\n                       -- multiple-distance --\n\nFor multiple-distance, select three atoms in pymol using the editing mode\nfollowing the diagram:\n\n   R                    R\n    \                  /\n     A1--A2  . . . . A3\n    /                  \ \n   R                    R\n     ^   ^            ^\n     |   |            |\n    pk1-pk2  . . . . pk3\n       d1       d2\n"
+
 
 
 class PotentialEnergyScanWindow():
@@ -52,7 +173,7 @@ class PotentialEnergyScanWindow():
             #'''
             self.method_store = Gtk.ListStore(str)
             
-            methods = ["simple distance", "combined distance","angle", 'dihedral']
+            methods = ["simple distance", "combined distance", 'dihedral']
             
             for method in methods:
                 self.method_store.append([method])
@@ -72,9 +193,22 @@ class PotentialEnergyScanWindow():
             self.combobox_reaction_coord2.pack_start(renderer_text, True)
             self.combobox_reaction_coord2.add_attribute(renderer_text, "text", 0)
             
-            self.combobox_reaction_coord1.set_active(0)
-            self.combobox_reaction_coord2.set_active(0)
+            self.combobox_reaction_coord1.set_active(1)
+            self.combobox_reaction_coord2.set_active(1)
             #'''--------------------------------------------------------------------------------------------'''
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             self.method_store = Gtk.ListStore(str)
             
             methods = [
@@ -98,118 +232,59 @@ class PotentialEnergyScanWindow():
             self.methods_combo.add_attribute(renderer_text, "text", 0)
             #'''--------------------------------------------------------------------------------------------'''
             self.methods_combo.set_active(0)
+            
+            
+            
+            
+            '''--------------------------------------------------------------------------------------------'''
+            self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
+            self.starting_coords_liststore = self.easyhybrid_main.vm_session.starting_coords_liststore
+            self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
+            #self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
+            self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
+            
+            renderer_text = Gtk.CellRendererText()
+            self.combobox_starting_coordinates.pack_start(renderer_text, True)
+            self.combobox_starting_coordinates.add_attribute(renderer_text, "text", 0)
+            
+            size = len(self.starting_coords_liststore)
+            self.combobox_starting_coordinates.set_active(size-1)
+            '''--------------------------------------------------------------------------------------------'''     
+            
+            
+            #'''--------------------------------------------------------------------------------------------------
+            self.folder_chooser_button = FolderChooserButton(main =  self.window)
+            self.builder.get_object('folder_chooser_box').pack_start(self.folder_chooser_button.btn, True, True, 0)
+            system_id      = self.p_session.active_id
+            working_folder = self.p_session.systems[system_id]['working_folder']
+            self.folder_chooser_button.set_folder(folder = working_folder) 
+            #'''--------------------------------------------------------------------------------------------------
+            
+            ''' 
+            self.builder.get_object('label_atom4_coord1').hide()
+            self.builder.get_object('entry_atom4_index_coord1').hide()
+            self.builder.get_object('label_name4_coord1').hide()
+            self.builder.get_object('entry_atom4_name_coord1').hide()
+            
+            self.builder.get_object('label_atom4_coord2').hide()
+            self.builder.get_object('entry_atom4_index_coord2').hide()
+            self.builder.get_object('label_name4_coord2').hide()
+            self.builder.get_object('entry_atom4_name_coord2').hide()            
+            #''' 
 
-            # #'''--------------------------------------------------------------------------------------------'''
-            # 
-            # '''
-            # self.temp_scale_option_store = Gtk.ListStore(str)
-            # 
-            # temp_scale_options = ["constant", "linear","exponential"]
-            # 
-            # for temp_scale_option in temp_scale_options:
-            #     self.temp_scale_option_store.append([temp_scale_option])
-            #     print (temp_scale_option)
-            # 
-            # self.temp_scale_options_combo = self.builder.get_object('temperature_scale_option_combobox')
-            # self.temp_scale_options_combo.set_model(self.temp_scale_option_store)
-            # #self.temp_scale_options_combo.connect("changed", self.on_name_combo_changed)
-            # self.temp_scale_options_combo.set_model(self.temp_scale_option_store)
-            # #
-            # renderer_text = Gtk.CellRendererText()
-            # self.temp_scale_options_combo.pack_start(renderer_text, True)
-            # self.temp_scale_options_combo.add_attribute(renderer_text, "text", 0)
-            # #'''--------------------------------------------------------------------------------------------'''
-            # self.temp_scale_options_combo.set_active(0)
-            # 
-            # 
-            # 
-            # 
-            # job_list_canvas = self.builder.get_object('job_list_canvas')
-            # 
-            # software_list = [
-            #     ("heating"        , '2002', "300"),
-            #     ("Equilibration"  , '2004', "300"),
-            #     ("Data-collection", '2004', "300"),
-            #     #("Netbeans", 1996, "Java"),
-            #     #("Chrome", 2008, "C++"),
-            #     #("Filezilla", 2001, "C++"),
-            #     #("Bazaar", 2005, "Python"),
-            #     #("Git", 2005, "C"),
-            #     #("Linux Kernel", 1991, "C"),
-            #     #("GCC", 1987, "C"),
-            #     #("Frostwire", 2004, "Java"),
-            # ]
-            #             
-            # # Creating the ListStore model
-            # self.software_liststore = Gtk.ListStore(str, str, str)
-            # for software_ref in software_list:
-            #     self.software_liststore.append(list(software_ref))
-            # self.current_filter_language = None
-            # 
-            # # creating the treeview, making it use the filter as a model, and adding the columns
-            # self.treeview = Gtk.TreeView(model=self.software_liststore)
-            # for i, column_title in enumerate(
-            #     ["Job", "nSteps", "temp"]
-            # ):
-            #     renderer = Gtk.CellRendererText()
-            #     column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-            #     self.treeview.append_column(column)
-            # 
-            # ## creating buttons to filter by programming language, and setting up their events
-            # #self.buttons = list()
-            # #for prog_language in ["Java", "C", "C++", "Python", "None"]:
-            # #    button = Gtk.Button(label=prog_language)
-            # #    self.buttons.append(button)
-            # #    button.connect("clicked", self.on_selection_button_clicked)
-            # 
-            # # setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
-            # self.scrollable_treelist = Gtk.ScrolledWindow()
-            # self.scrollable_treelist.set_vexpand(True)
-            # #self.grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
-            # #self.grid.attach_next_to(
-            # #    self.buttons[0], self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1
-            # #)
-            # #for i, button in enumerate(self.buttons[1:]):
-            # #    self.grid.attach_next_to(
-            # #        button, self.buttons[i], Gtk.PositionType.RIGHT, 1, 1
-            # #    )
-            # self.scrollable_treelist.add(self.treeview)
-            # 
-            # job_list_canvas.add(self.scrollable_treelist)
-            # '''
-            # 
-            # #
-            # #
-            # #
-            # #'''--------------------------------------------------------------------------------------------'''
-            # #self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-            # #self.starting_coords_liststore = Gtk.ListStore(str)
-            # #starting_coords = []
-            # ##self.easyhybrid_main.pDynamo_session
-            # #
-            # #
-            # #for key, visObj in self.easyhybrid_main.vm_session.vismol_objects_dic.items():
-            # #    print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
-            # #    if visObj.easyhybrid_system_id == self.easyhybrid_main.pDynamo_session.active_id:
-            # #        starting_coords.append(visObj.name)
-            # #
-            # #for method in starting_coords:
-            # #    self.starting_coords_liststore.append([method])
-            # #    print (method)
-            # ##self.starting_coords_combo = self.builder.get_object('combobox_geo_opt')
-            # #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            # ##self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
-            # #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
-            # #
-            # #renderer_text = Gtk.CellRendererText()
-            # #self.combobox_starting_coordinates.pack_start(renderer_text, True)
-            # #self.combobox_starting_coordinates.add_attribute(renderer_text, "text", 0)
-            # #
-            # #size = len(starting_coords)
-            # #self.combobox_starting_coordinates.set_active(size-1)
-            # '''--------------------------------------------------------------------------------------------'''
-
+            
             self.window.show_all()
+            
+            self.builder.get_object('label_atom4_coord1').hide()
+            self.builder.get_object('entry_atom4_index_coord1').hide()
+            self.builder.get_object('label_name4_coord1').hide()
+            self.builder.get_object('entry_atom4_name_coord1').hide()
+            
+            self.builder.get_object('label_atom4_coord2').hide()
+            self.builder.get_object('entry_atom4_index_coord2').hide()
+            self.builder.get_object('label_name4_coord2').hide()
+            self.builder.get_object('entry_atom4_name_coord2').hide()            
+            
             self.box_reaction_coordinate2.set_sensitive(False)
             self.Visible  = True
     
@@ -222,13 +297,257 @@ class PotentialEnergyScanWindow():
     def __init__(self, main = None):
         """ Class initialiser """
         self.easyhybrid_main     = main
+        self.p_session           = self.easyhybrid_main.pDynamo_session
+        self.vm_session          = main.vm_session
         self.Visible             =  False        
         self.residue_liststore = Gtk.ListStore(str, str, str)
+        self.opt_methods = { 
+                             0 : 'ConjugatedGradient',
+                             1 : 'SteepestDescent'   ,
+                             2 : 'LFBGS'             ,
+                             3 : 'QuasiNewton'       ,
+                             4 : 'FIRE'              ,
+                              }
 
 
-    def add_job_to_list (self, button):
+    def change_cb_coordType1 (self, combo_box):
         """ Function doc """
-        self.software_liststore.append(list(['aqui', '123' ,'cocozao']))
+        
+        _type = self.combobox_reaction_coord1.get_active()        
+        
+        if _type == 0:
+            self.builder.get_object('label_atom3_coord1').hide()
+            self.builder.get_object('entry_atom3_index_coord1').hide()
+            self.builder.get_object('label_name3_coord1').hide()
+            self.builder.get_object('entry_atom3_name_coord1').hide()
+            
+            self.builder.get_object('label_atom4_coord1').hide()
+            self.builder.get_object('entry_atom4_index_coord1').hide()
+            self.builder.get_object('label_name4_coord1').hide()
+            self.builder.get_object('entry_atom4_name_coord1').hide()
+
+
+        if _type == 1:
+            self.builder.get_object('label_atom3_coord1').show()
+            self.builder.get_object('entry_atom3_index_coord1').show()
+            self.builder.get_object('label_name3_coord1').show()
+            self.builder.get_object('entry_atom3_name_coord1').show()
+            
+            self.builder.get_object('label_atom4_coord1').hide()
+            self.builder.get_object('entry_atom4_index_coord1').hide()
+            self.builder.get_object('label_name4_coord1').hide()
+            self.builder.get_object('entry_atom4_name_coord1').hide()
+            
+        if _type == 2:
+            self.builder.get_object('label_atom3_coord1').show()
+            self.builder.get_object('entry_atom3_index_coord1').show()
+            self.builder.get_object('label_name3_coord1').show()
+            self.builder.get_object('entry_atom3_name_coord1').show()
+            
+            self.builder.get_object('label_atom4_coord1').show()
+            self.builder.get_object('entry_atom4_index_coord1').show()
+            self.builder.get_object('label_name4_coord1').show()
+            self.builder.get_object('entry_atom4_name_coord1').show()
+        try:
+            self.refresh_dmininum ( coord1 = True)
+        except:
+            print(texto_d1)
+            print(texto_d2d1)
+                    
+    def change_cb_coordType2 (self, combo_box):
+        """ Function doc """
+        
+        _type = self.combobox_reaction_coord2.get_active()        
+        
+        if _type == 0:
+            self.builder.get_object('label_atom3_coord2').hide()
+            self.builder.get_object('entry_atom3_index_coord2').hide()
+            self.builder.get_object('label_name3_coord2').hide()
+            self.builder.get_object('entry_atom3_name_coord2').hide()
+            
+            self.builder.get_object('label_atom4_coord2').hide()
+            self.builder.get_object('entry_atom4_index_coord2').hide()
+            self.builder.get_object('label_name4_coord2').hide()
+            self.builder.get_object('entry_atom4_name_coord2').hide()
+        if _type == 1:
+            self.builder.get_object('label_atom3_coord2').show()
+            self.builder.get_object('entry_atom3_index_coord2').show()
+            self.builder.get_object('label_name3_coord2').show()
+            self.builder.get_object('entry_atom3_name_coord2').show()
+            
+            self.builder.get_object('label_atom4_coord2').hide()
+            self.builder.get_object('entry_atom4_index_coord2').hide()
+            self.builder.get_object('label_name4_coord2').hide()
+            self.builder.get_object('entry_atom4_name_coord2').hide()
+            
+        if _type == 2:
+            self.builder.get_object('label_atom3_coord2').show()
+            self.builder.get_object('entry_atom3_index_coord2').show()
+            self.builder.get_object('label_name3_coord2').show()
+            self.builder.get_object('entry_atom3_name_coord2').show()
+            
+            self.builder.get_object('label_atom4_coord2').show()
+            self.builder.get_object('entry_atom4_index_coord2').show()
+            self.builder.get_object('label_name4_coord2').show()
+            self.builder.get_object('entry_atom4_name_coord2').show()
+        #try:
+        self.refresh_dmininum ( coord2 = True)
+
+    def toggle_mass_restraint1 (self, widget):
+        """ Function doc """
+        self.refresh_dmininum(coord1 =  True)
+    
+    def toggle_mass_restraint2 (self, widget):
+        """ Function doc """
+        self.refresh_dmininum(coord2 =  True)
+    
+    def refresh_dmininum (self, coord1 =  False, coord2 = False):
+        """ Function doc """
+        
+        if coord1:
+            _type = self.combobox_reaction_coord1.get_active()
+            print('_type', _type)
+            if _type == 0:
+                index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
+
+                dist1 = get_distance(self.vismol_object, index1, index2 )
+                self.builder.get_object('entry_dmin_coord1').set_text(str(dist1))
+            
+            if _type == 1:
+                index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
+                index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
+                
+                dist1 = get_distance(self.vismol_object, index1, index2 )
+                dist2 = get_distance(self.vismol_object, index2, index3 )
+                
+                if self.builder.get_object('mass_restraints1').get_active():
+                    self.sigma_pk1_pk3, self.sigma_pk3_pk1  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
+                    #print('distance a1 - a2:', dist1 - dist2)
+                    DMINIMUM =  (self.sigma_pk1_pk3 * dist1) -(self.sigma_pk3_pk1 * dist2*-1)
+                    self.builder.get_object('entry_dmin_coord1').set_text(str(DMINIMUM))
+                else:
+                    DMINIMUM =  dist1- dist2
+                    self.builder.get_object('entry_dmin_coord1').set_text(str(DMINIMUM))
+        else:
+            pass
+        
+       
+       
+        if coord2:
+            _type = self.combobox_reaction_coord2.get_active()
+            
+            if _type == 0:
+                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+
+                dist1 = get_distance(self.vismol_object, index1, index2 )
+                self.builder.get_object('entry_dmin_coord2').set_text(str(dist1))
+            if _type == 1:
+                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+                index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
+                
+                dist1 = get_distance(self.vismol_object, index1, index2 )
+                dist2 = get_distance(self.vismol_object, index2, index3 )
+                
+                if self.builder.get_object('mass_restraints2').get_active():
+                    self.sigma_pk1_pk3, self.sigma_pk3_pk1  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
+                    #print('distance a1 - a2:', dist1 - dist2)
+                    DMINIMUM =  (self.sigma_pk1_pk3 * dist1) -(self.sigma_pk3_pk1 * dist2*-1)
+                    self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
+                else:
+                    DMINIMUM =  dist1- dist2
+                    self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
+        else:
+            pass
+        
+    def import_picking_selection_data (self, widget):
+        """  
+        
+                   R                    R
+                    \                  /
+                     A1--A2  . . . . A3
+                    /                  \ 
+                   R                    R
+                     ^   ^            ^
+                     |   |            |
+                    pk1-pk2  . . . . pk3
+                       d1       d2	
+                
+                q1 =  1 / (mpk1 + mpk3)  =  [ mpk1 * r (pk3_pk2)  -   mpk3 * r (pk1_pk2) ]
+
+        """       
+        atom1 = self.vm_session.picking_selections.picking_selections_list[0]
+        atom2 = self.vm_session.picking_selections.picking_selections_list[1]
+        atom3 = self.vm_session.picking_selections.picking_selections_list[2]
+        atom4 = self.vm_session.picking_selections.picking_selections_list[3]
+        self.vismol_object = atom1.Vobject
+        
+        if widget == self.builder.get_object('import_picking_selection_button1'):
+            if atom1:
+                self.builder.get_object('entry_atom1_index_coord1').set_text(str(atom1.index-1) )
+                self.builder.get_object('entry_atom1_name_coord1' ).set_text(str(atom1.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            
+            if atom2:
+                self.builder.get_object('entry_atom2_index_coord1').set_text(str(atom2.index-1) )
+                self.builder.get_object('entry_atom2_name_coord1' ).set_text(str(atom2.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            
+            if atom3:
+                self.builder.get_object('entry_atom3_index_coord1').set_text(str(atom3.index-1) )
+                self.builder.get_object('entry_atom3_name_coord1' ).set_text(str(atom3.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            if atom4:
+                self.builder.get_object('entry_atom4_index_coord1').set_text(str(atom4.index-1) )
+                self.builder.get_object('entry_atom4_name_coord1' ).set_text(str(atom4.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            self.refresh_dmininum( coord1 =  True)
+            
+
+        
+        
+        
+        else:
+            if atom1:
+                self.builder.get_object('entry_atom1_index_coord2').set_text(str(atom1.index-1) )
+                self.builder.get_object('entry_atom1_name_coord2' ).set_text(str(atom1.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            
+            if atom2:
+                self.builder.get_object('entry_atom2_index_coord2').set_text(str(atom2.index-1) )
+                self.builder.get_object('entry_atom2_name_coord2' ).set_text(str(atom2.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            
+            if atom3:
+                self.builder.get_object('entry_atom3_index_coord2').set_text(str(atom3.index-1) )
+                self.builder.get_object('entry_atom3_name_coord2' ).set_text(str(atom3.name) )
+            else:
+                print('use picking selection to chose the central atom')
+            
+            
+            
+            if atom4:
+                self.builder.get_object('entry_atom4_index_coord2').set_text(str(atom4.index-1) )
+                self.builder.get_object('entry_atom4_name_coord2' ).set_text(str(atom4.name) )
+            else:
+                print('use picking selection to chose the central atom')
+    
+            self.refresh_dmininum( coord2 =  True, )
 
     def change_radio_button_reaction_coordinate (self, widget):
         """ Function doc """
@@ -245,4 +564,175 @@ class PotentialEnergyScanWindow():
         '''
         Get infotmation and run the simulation
         '''
+        parameters = {}
+        parameters['simulation_type'] = 'Relaxed_Surface_Scan'
+        
+        method = self.opt_methods[self.methods_combo.get_active()]
+        
+        
+        folder         = self.folder_chooser_button.get_folder()
+        entry_max_int  = float(self.builder.get_object('entry_max_int').get_text() )
+        entry_rmsd_tol = float(self.builder.get_object('entry_rmsd_tol').get_text() )
+        traj_name      =  self.builder.get_object('traj_name').get_text()
+        
+        
+        combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
+        tree_iter = combobox_starting_coordinates.get_active_iter()
+        if tree_iter is not None:
+            '''selecting the vismol object from the content that is in the combobox '''
+            model = combobox_starting_coordinates.get_model()
+            name, vobject_id = model[tree_iter][:2]
+            vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            
+            '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
+            print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
+            self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+        
+        
+        print('method        ', method        )
+        print('folder        ', folder        )
+        print('entry_max_int ', entry_max_int )
+        print('entry_rmsd_tol', entry_rmsd_tol)
+        print('traj_name     ', traj_name     )
+        
+        _type = self.combobox_reaction_coord1.get_active()
+        print('_type', _type)
+        if _type == 0:
+            index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
+            index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
+            print (index1, index2, dmin )
+        if _type == 1:
+            index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
+            index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
+            dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
+
+            if self.builder.get_object('mass_restraints1').get_active():
+                mass_weighted = True
+                sigma_pk1_pk3 = self.sigma_pk1_pk3 
+                sigma_pk3_pk1 = self.sigma_pk3_pk1 
+            else:
+                mass_weighted = False 
+                sigma_pk1_pk3 =  1.0
+                sigma_pk3_pk1 = -1.0  
+            print (index1, index2, index3, dmin, sigma_pk1_pk3, sigma_pk3_pk1 )
+        if _type == 2:
+            index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
+            index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
+            index4 = int(self.builder.get_object('entry_atom4_index_coord1').get_text() )
+            dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
+        
+        entry_FORCE_coord1 = int(self.builder.get_object('entry_FORCE_coord1').get_text() )
+       
+       
+        '''
+        coordenada  de reacao 2
+        '''
+        
+        if self.builder.get_object('radiobutton_bidimensional').get_active():
+            self.is_scan2d = True
+            _type = self.combobox_reaction_coord2.get_active()
+            
+            entry_FORCE_coord2 = int(self.builder.get_object('entry_FORCE_coord2').get_text() )
+            
+            if _type == 0: # simple
+                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+                dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+
+            if _type == 1: # multiple
+                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+                index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
+                dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+
+                    
+                if self.builder.get_object('mass_restraints2').get_active():
+                    mass_weighted_2 = True
+                    sigma_pk1_pk3_2 = self.sigma_pk1_pk3 
+                    sigma_pk3_pk1_2 = self.sigma_pk3_pk1 
+                else:
+                    mass_weighted_2 = False 
+                    sigma_pk1_pk3_2 =  1.0
+                    sigma_pk3_pk1_2 = -1.0  
+        
+            if _type == 2: # dihedral
+                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+                index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
+                index4 = int(self.builder.get_object('entry_atom4_index_coord2').get_text() )
+                dmin   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+        
+        
+        
+        else:
+            self.is_scan2d = False
+            pass
+        
+        
+        
+        
+        
+        
+        
+        
+        
         pass
+
+
+def get_distance (vobject, index1, index2):
+    """ Function doc """
+    atom1 = vobject.atoms[index1]
+    atom2 = vobject.atoms[index2]
+    a1_coord = atom1.coords()
+    a2_coord = atom2.coords()
+    
+    dx = a1_coord[0] - a2_coord[0]
+    dy = a1_coord[1] - a2_coord[1]
+    dz = a1_coord[2] - a2_coord[2]
+    dist = (dx**2+dy**2+dz**2)**0.5
+    print('distance a1 - a2:', dist)
+    return dist
+    
+def get_angle (vobject, index1, index2, index3):
+    """ Function doc """
+
+def get_dihedral (vobject, index1, index2, index3, index4):
+    """ Function doc """
+    
+def compute_sigma_a1_a3 (vobject, index1, index3):
+
+    """ example:
+        pk1 ---> pk2 ---> pk3
+         N  ---   H  ---  O	    
+         
+         where H is the moving atom
+         calculation only includes N and O ! 
+    """
+    atom1 = vobject.atoms[index1]
+    atom3 = vobject.atoms[index3]
+    
+    symbol1 = atom1.symbol
+    symbol3 = atom3.symbol
+    
+    
+    mass1 = atomic_dic[symbol1][4]
+    mass3 = atomic_dic[symbol3][4]
+    print(atom1.name, symbol1, mass1)
+    print(atom3.name, symbol3, mass3)
+
+    ##pk1_name
+    ##pk3_name
+    #mass1 = atomic_dic[pk1_name][4]
+    #mass3 = atomic_dic[pk3_name][4]
+    #
+    sigma_pk1_pk3 =  mass1/(mass1+mass3)
+    print ("sigma_pk1_pk3: ",sigma_pk1_pk3)
+    #
+    sigma_pk3_pk1 =  mass3/(mass1+mass3)
+    sigma_pk3_pk1 = sigma_pk3_pk1 *-1
+    #
+    print ("sigma_pk3_pk1: ", sigma_pk3_pk1)
+    return sigma_pk1_pk3, sigma_pk3_pk1

@@ -783,15 +783,16 @@ class RibbonsRepresentation (Representation):
             indexes = np.array(indexes,dtype=np.uint32)
 
             coords  = self.visObj.frames[0]
-            #colors  = self.visObj.colors
-            colors  = self.visObj.colors_rainbow
-
+            colors  = self.visObj.colors
+            #colors  = self.visObj.colors_rainbow
+            #colors  = np.array([1.0 ]*len(coords),dtype=np.float32)
             self._make_gl_representation_vao_and_vbos (indexes    = indexes,
                                                        coords     = coords ,
                                                        colors     = colors ,
                                                        dot_sizes  = None   ,
                                                        )
             colors_idx = self.visObj.color_indexes
+            #colors_idx = np.array([1.0, 1.0 , 1.0 ],dtype=np.float32)
             self._make_gl_sel_representation_vao_and_vbos (indexes    = indexes    ,
                                                            coords     = coords     ,
                                                            colors     = colors_idx ,
@@ -807,7 +808,7 @@ class RibbonsRepresentation (Representation):
         GL.glUseProgram(self.shader_program)
         
         ribbon_width = self.visObj.vm_session.vConfig.gl_parameters['ribbon_width']
-        LineWidth = ((ribbon_width*20)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
+        LineWidth = ((ribbon_width*40)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
         #print(LineWidth)
         GL.glLineWidth(LineWidth)
 

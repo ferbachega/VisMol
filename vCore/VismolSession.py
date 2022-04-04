@@ -1542,8 +1542,8 @@ class VisMolSession (ShowHideVisMol):
             #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
             #vismol_object.representations[rep.name] = rep
             
-            #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = self.vismol_objects[-1], glCore = self.glwidget.vm_widget)
-            #self.vismol_objects[-1].representations[rep.name] = rep
+            rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
+            vismol_object.representations[rep.name] = rep
             
             vismol_object.create_new_representation (rtype = 'lines')
             vismol_object.create_new_representation (rtype = 'nonbonded')

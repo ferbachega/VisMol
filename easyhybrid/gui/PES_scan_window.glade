@@ -117,6 +117,7 @@
                                   <object class="GtkComboBox" id="combobox_reaction_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <signal name="changed" handler="change_cb_coordType1" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -138,7 +139,7 @@
                                 <property name="row_spacing">8</property>
                                 <property name="column_spacing">10</property>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom4_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 4(index):</property>
@@ -150,7 +151,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index">
+                                  <object class="GtkEntry" id="entry_atom3_index_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -164,7 +165,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom2_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 2(index):</property>
@@ -176,7 +177,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom1_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 1(index):</property>
@@ -188,7 +189,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom3_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 3(index):</property>
@@ -200,7 +201,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name3_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -212,7 +213,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name4_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -224,7 +225,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name2_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -236,7 +237,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name1_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -248,7 +249,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_name">
+                                  <object class="GtkEntry" id="entry_atom3_name_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -262,7 +263,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index1">
+                                  <object class="GtkEntry" id="entry_atom2_index_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -276,7 +277,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index2">
+                                  <object class="GtkEntry" id="entry_atom1_index_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -290,7 +291,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index3">
+                                  <object class="GtkEntry" id="entry_atom4_index_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -304,7 +305,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom4_name">
+                                  <object class="GtkEntry" id="entry_atom4_name_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -318,7 +319,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom2_name">
+                                  <object class="GtkEntry" id="entry_atom2_name_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -332,7 +333,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom1_name">
+                                  <object class="GtkEntry" id="entry_atom1_name_coord1">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -353,11 +354,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton">
+                              <object class="GtkButton" id="import_picking_selection_button1">
                                 <property name="label" translatable="yes">Import from Picking Selection</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="clicked" handler="import_picking_selection_data" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -366,12 +368,13 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="mass_restraints_1">
+                              <object class="GtkCheckButton" id="mass_restraints1">
                                 <property name="label" translatable="yes">Apply Mass Weighted Restraints</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="toggle_mass_restraint1" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -432,7 +435,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_max_int1">
+                                  <object class="GtkEntry" id="entry_FORCE_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="text" translatable="yes">4000</property>
@@ -443,7 +446,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_rmsd_tol1">
+                                  <object class="GtkEntry" id="entry_dmin_coord1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                   </object>
@@ -491,6 +494,7 @@
                                   <object class="GtkEntry" id="entry_step_size1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="text" translatable="yes">0.1</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -564,6 +568,7 @@
                                   <object class="GtkComboBox" id="combobox_reaction_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <signal name="changed" handler="change_cb_coordType2" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -585,7 +590,7 @@
                                 <property name="row_spacing">8</property>
                                 <property name="column_spacing">10</property>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom4_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 4(index):</property>
@@ -597,7 +602,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index8">
+                                  <object class="GtkEntry" id="entry_atom3_index_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -611,7 +616,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom2_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 2(index):</property>
@@ -623,7 +628,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom1_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 1(index):</property>
@@ -635,7 +640,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_atom3_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Atom 3(index):</property>
@@ -647,7 +652,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name3_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -659,7 +664,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name4_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -671,7 +676,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name2_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -683,7 +688,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel">
+                                  <object class="GtkLabel" id="label_name1_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Name:</property>
@@ -695,7 +700,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_name10">
+                                  <object class="GtkEntry" id="entry_atom3_name_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -709,7 +714,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index9">
+                                  <object class="GtkEntry" id="entry_atom2_index_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -723,7 +728,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index10">
+                                  <object class="GtkEntry" id="entry_atom1_index_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -737,7 +742,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom3_index11">
+                                  <object class="GtkEntry" id="entry_atom4_index_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -751,7 +756,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom4_name1">
+                                  <object class="GtkEntry" id="entry_atom4_name_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -765,7 +770,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom2_name1">
+                                  <object class="GtkEntry" id="entry_atom2_name_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -779,7 +784,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_atom1_name1">
+                                  <object class="GtkEntry" id="entry_atom1_name_coord2">
                                     <property name="width_request">25</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -800,11 +805,12 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkButton">
+                              <object class="GtkButton" id="import_picking_selection_button2">
                                 <property name="label" translatable="yes">Import from Picking Selection</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <signal name="clicked" handler="import_picking_selection_data" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -819,6 +825,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="toggle_mass_restraint2" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -879,7 +886,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_max_int2">
+                                  <object class="GtkEntry" id="entry_FORCE_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="text" translatable="yes">4000</property>
@@ -890,7 +897,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="entry_rmsd_tol2">
+                                  <object class="GtkEntry" id="entry_dmin_coord2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                   </object>
@@ -938,6 +945,7 @@
                                   <object class="GtkEntry" id="entry_step_size2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="text" translatable="yes">0.1</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1095,20 +1103,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkFileChooserButton">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="hexpand">True</property>
-                                <property name="action">select-folder</property>
-                                <property name="title" translatable="yes"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkEntry">
+                              <object class="GtkEntry" id="traj_name">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="hexpand">False</property>
@@ -1120,7 +1115,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="combobox_coordinates">
+                              <object class="GtkComboBox" id="combobox_starting_coordinates">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                               </object>
@@ -1139,6 +1134,21 @@
                               <packing>
                                 <property name="left_attach">0</property>
                                 <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="folder_chooser_box">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">5</property>
                               </packing>
                             </child>
                           </object>

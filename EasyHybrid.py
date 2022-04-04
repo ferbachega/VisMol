@@ -245,16 +245,12 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 if rep[key] == []:
                     vismol_object.create_new_representation (rtype = 'spheres')
                 else:
-                    #print(key,rep[key])
                     vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
-                    #vismol_object.representations['spheres'].draw_representation() 
-                #pass
-                
-                '''
-                self.show_or_hide_by_object(            _type = 'spheres', 
-                                                      vobject = vismol_object, 
-                                              selection_table = rep[key] , 
-                                                         show = True )'''
+
+        #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
+        #vismol_object.representations[rep.name] = rep
+    
+
         #'''
         if autocenter:
             #print(self.vismol_objects[-1].mass_center)
