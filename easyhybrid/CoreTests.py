@@ -1392,33 +1392,45 @@ def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":
-	#MMMD_Algorithms()   			#TESTED
-	#MMMD_Heating()							#TESTED
-	#QCMM_Energies()						#TESTED
-	#QCMM_DFTBplus()									#TESTED
-	QCMM_Orca()										#TESTED
-	QCMM_optimizations()								#TESTED
-	QCMM_MD()											#TESTED
-	QCMM_MDrestricted()								#TESTED
-	#QCMMScanSimpleDistance(20,0.06)					#TESTED
-	#QCMMScanMultipleDistance(20,0.06)					#TESTED
-	#QCMMScan2DsimpleDistance(10,10,0.2,0.2)			#TESTED
-	#QCMMScan2DmixedDistance(10,10,0.2,0.2)				#TESTED
-	#QCMMScan2DmultipleDistance(10,10,0.2,0.2)			#TESTED
-	#QCMMScans2D_Adaptative(10,10,0.2,0.2)				#TESTED
-	#Scan1D_Dihedral(36)								#TESTED
-	#Scan2D_Dihedral(10,10)							 	#TESTED
-	#FreeEnergy1DSimpleDistance(500)
-	#FreeEnergy1DMultipleDistance(500)
-	#FreeEnergyDihedral1D(2000)
-	#FreeEnergy1DSimpleDistanceOPT(500)
-	#UmbrellaSampling1Drestart(500)
-	#FreeEnergy2DsimpleDistance(500)	
-	#FreeEnergy2DmixedDistance(500)		
-	#FreeEnergy2DmultipleDistance(500)
-	#pDynamoEnergyRef_1D()								#TESTED
-	#EnergyAnalysisPlots()								#TESTED
-	#ReacCoordSearchers("BakerSaddle")					#TESTED
-	#MopacEnergyRef()									#TESTED
-	#pDynamoEnergyRef_2D()								#TESTED
+	print(sys.argv)
+	print(sys.argv[0],sys.argv[1])
+	if sys.argv[1] == "help":
+		help_text = "Options for testn\n"
+		help_text+= "\t1:Molecular Dynamics Algorithms\n\t2:Molecular Dynamics heating protocol\n\t3:QC/MM energies"
+		help_text+= "\n\t4:QC/MM DFTB Energy\n\t5:QC/MM ORCA Energy\n\t6:QC/MM optimizations\n\t7:QC/MM molecular dynamics\n\t8:QC/MM restricted molecular dynamics"
+		help_text+= "\n\t9:Simple distance 1D scan\n\t10:Multiple distance 1D scan\n\t11:Simple distance 2D scan\n\t12:Mixed distance 2D scan\n\t13:Multiple distance 2D scan"
+		help_text+= "\n\t14:Adaptative 2D scan\n\t15:Scan 1D dihedral\n\t16:Scan 2D dihedral\n\t17:Free Energy 1D simple distance\n\t18:Free Energy 1D multiple distance"
+		help_text+= "\n\t19:Free Energy 1D dihedral\n\t20:Free Energy 1D dihedral with optimization\n\t21:Umbrella sampling restart test\n\t22:Free energy simple distance 2D"
+		help_text+= "\n\t23:Free energy simple mixed distance 2D\n\t24:Free energy multiple distance 2D\n\t25:Semiempirical in pDynamo energy refinement\n\t26:Energy Plots analysis"
+		help_text+= "\n\t27:Raction coordinates searching\n\t28:Semiempirical mopac energy refinement\n\t29:Semiempirical in pDynamo energy 2D"
+		print(help_text)
+	elif int(sys.argv[1]) == 1:  MMMD_Algorithms()
+	elif int(sys.argv[1]) == 2:	 MMMD_Heating()
+	elif int(sys.argv[1]) == 3:	 QCMM_Energies()
+	elif int(sys.argv[1]) == 4:  QCMM_DFTBplus()	
+	elif int(sys.argv[1]) == 5:  QCMM_Orca()
+	elif int(sys.argv[1]) == 6:  QCMM_optimizations()
+	elif int(sys.argv[1]) == 7:  QCMM_MD()
+	elif int(sys.argv[1]) == 8:  QCMM_MDrestricted()
+	elif int(sys.argv[1]) == 9:  QCMMScanSimpleDistance(20,0.06)
+	elif int(sys.argv[1]) == 10: QCMMScanMultipleDistance(20,0.06)
+	elif int(sys.argv[1]) == 11: QCMMScan2DsimpleDistance(10,10,0.2,0.2)
+	elif int(sys.argv[1]) == 12: QCMMScan2DmixedDistance(10,10,0.2,0.2)	
+	elif int(sys.argv[1]) == 13: QCMMScan2DmultipleDistance(10,10,0.2,0.2)
+	elif int(sys.argv[1]) == 14: QCMMScans2D_Adaptative(10,10,0.2,0.2)
+	elif int(sys.argv[1]) == 15: Scan1D_Dihedral(36)
+	elif int(sys.argv[1]) == 16: Scan2D_Dihedral(10,10)
+	elif int(sys.argv[1]) == 17: FreeEnergy1DSimpleDistance(500)
+	elif int(sys.argv[1]) == 18: FreeEnergy1DMultipleDistance(500)
+	elif int(sys.argv[1]) == 19: FreeEnergyDihedral1D(2000)
+	elif int(sys.argv[1]) == 20: FreeEnergy1DSimpleDistanceOPT(500)
+	elif int(sys.argv[1]) == 21: UmbrellaSampling1Drestart(500)
+	elif int(sys.argv[1]) == 22: FreeEnergy2DsimpleDistance(500)
+	elif int(sys.argv[1]) == 23: FreeEnergy2DmixedDistance(500)
+	elif int(sys.argv[1]) == 24: FreeEnergy2DmultipleDistance(500)
+	elif int(sys.argv[1]) == 25: pDynamoEnergyRef_1D()
+	elif int(sys.argv[1]) == 26: EnergyAnalysisPlots()
+	elif int(sys.argv[1]) == 27: ReacCoordSearchers("NEB")
+	elif int(sys.argv[1]) == 28: MopacEnergyRef()
+	elif int(sys.argv[1]) == 29: pDynamoEnergyRef_2D()
 
