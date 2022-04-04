@@ -610,7 +610,7 @@ def FreeEnergy1DSimpleDistance(nsteps):
 				   "MD_method":"LeapFrog"		       ,
 				   "MC_RC1":True				       ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 				  }
+				   "NmaxThreads":10 				  }
 	#-------------------------------------------------
 	#RUN umbrella sampling
 	proj.RunSimulation(US_parameters,)	
@@ -658,7 +658,7 @@ def FreeEnergy1DSimpleDistanceOPT(nsteps):
 				   "MC_RC1":True				  ,
 				   "optimize":True                ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 				  }	
+				   "NmaxThreads":10 				  }	
 	proj.RunSimulation(US_parameters)	
 	#-------------------------------------------------
 	#path for the ptRes files
@@ -705,7 +705,7 @@ def FreeEnergy1DMultipleDistance(nsteps):
 				   "MD_method":"LeapFrog"			,
 				   "MC_RC1":True					,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 				    }
+				   "NmaxThreads":10 				    }
 	#-------------------------------------------------
 	#Run umbrella sampling 
 	proj.RunSimulation(US_parameters)
@@ -762,7 +762,7 @@ def UmbrellaSampling1Drestart(nsteps):
 				   "MC_RC1":True				    ,
 				   "restart":True					,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 				    }
+				   "NmaxThreads":6 				    }
 	#-------------------------------------------------
 	#Run first umbrella sampling 
 	proj.RunSimulation(US_parameters)
@@ -791,7 +791,7 @@ def UmbrellaSampling1Drestart(nsteps):
 				   "MC_RC1":True					,
 				   "restart":True                 ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":8 				    }
+				   "NmaxThreads":10 				    }
 
 	proj.RunSimulation(USparameters)
 	_PMFparameters["xwindows"]=10
@@ -836,7 +836,7 @@ def FreeEnergy2DsimpleDistance(nsteps):
 				   "MC_RC2":True					,
 				   "temperature":300.15             ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 					}
+				   "NmaxThreads":36 					}
 	
 	proj.RunSimulation(US_parameters)
 	_path = os.path.join( scratch_path, "FE_2D_simple_distance")	
@@ -891,7 +891,7 @@ def FreeEnergy2DmixedDistance(nsteps):
 				   "MC_RC2":True				,
 				   "restart":True               , 
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":8 				}
+				   "NmaxThreads":36 				}
 	
 	proj.RunSimulation(USparameters)
 
@@ -947,7 +947,7 @@ def FreeEnergy2DmultipleDistance(nsteps):
 				   "MC_RC1":True					,
 				   "MC_RC2":True					,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 	     			}
+				   "NmaxThreads":36 	     			}
 	
 	proj.RunSimulation(USparameters)
 
@@ -990,7 +990,7 @@ def FreeEnergyDihedral1D(nsteps):
 				   "source_folder":_path 		  ,
 				   "MD_method":"LeapFrog"		  ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 				  }
+				   "NmaxThreads":20 			}
 	#-------------------------------------------------
 	#RUN umbrella sampling
 	proj.RunSimulation(parameters)	
@@ -1038,7 +1038,7 @@ def FreeEnergyDihedral2D(nsteps):
 				   "rc_type_2":"dihedral"           ,
 				   "MD_method":"LeapFrog"			,				   
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":4 	     			}
+				   "NmaxThreads":24 	     			}
 	
 	proj.RunSimulation(parameters)
 
@@ -1268,7 +1268,7 @@ def pDynamoEnergyRef_1D():
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
 				   "methods_lists":methods              ,					   
-				   "NmaxThreads":8 		                ,
+				   "NmaxThreads":20		                ,
 				   "simulation_type":"Energy_Refinement",
 				   "crd1_label":rc1_md.label            ,
 				   "contour_lines":12                   ,
@@ -1319,7 +1319,7 @@ def pDynamoEnergyRef_2D():
 				   "charge":-3		    ,
 				   "multiplicity":1 	,
 				   "methods_lists":methods,					   
-				   "NmaxThreads":4		,
+				   "NmaxThreads":10		,
 				   "crd1_label":rc1_md.label,
 				   "crd2_label":rc2_md.label,
 				   "contour_lines":12       ,
@@ -1391,9 +1391,7 @@ def ORCAEnergy():
 def Thermodynamics():
 	pass
 #=====================================================
-if __name__ == "__main__":
-	print(sys.argv)
-	print(sys.argv[0],sys.argv[1])
+if __name__ == "__main__":	
 	if sys.argv[1] == "help":
 		help_text = "Options for testn\n"
 		help_text+= "\t1:Molecular Dynamics Algorithms\n\t2:Molecular Dynamics heating protocol\n\t3:QC/MM energies"
