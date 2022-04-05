@@ -368,10 +368,10 @@ class VisMolConfig:
                                   'field_of_view'              : 10                    ,
                                     
 
-                                  'light_position'             : [-2.5, -2.5, 3.0  ] ,
+                                  'light_position'             : [-2.5,  2.5, 3.0  ] ,
                                   'light_color'                : [ 1.0, 1.0, 1.0,1.0] ,
                                   'light_ambient_coef'         : 0.4                  ,
-                                  'light_shininess'            : 5.5                  ,
+                                  'light_shininess'            : 3.5                  ,
                                   'light_intensity'            : [0.6,0.6,0.6]        ,
                                   'light_specular_color'       : [1.0,1.0,1.0]        ,
 

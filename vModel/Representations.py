@@ -1606,13 +1606,33 @@ class SpheresRepresentation (Representation):
         
         self.scale              = 0.07
         
-        self.light_position = np.array([-2.5, 2.5, 3.0],dtype=np.float32)
-        self.light_color = np.array([1.0, 1.0, 1.0, 1.0],dtype=np.float32)
-        self.light_ambient_coef = 0.4
-        self.light_shininess = 5.5
-        self.light_intensity = np.array([0.6, 0.6, 0.6],dtype=np.float32)
-        self.light_specular_color = np.array([1.0, 1.0, 1.0],dtype=np.float32)
+        #self.light_position = np.array([-2.5, 2.5, 3.0],dtype=np.float32)
+        #self.light_color = np.array([1.0, 1.0, 1.0, 1.0],dtype=np.float32)
+        #self.light_ambient_coef = 0.4
+        #self.light_shininess = 5.5
+        #self.light_intensity = np.array([0.6, 0.6, 0.6],dtype=np.float32)
+        #self.light_specular_color = np.array([1.0, 1.0, 1.0],dtype=np.float32)
+
+        #  'light_position'             : [-2.5, -2.5, 3.0  ] ,
+        #  'light_color'                : [ 1.0, 1.0, 1.0,1.0] ,
+        #  'light_ambient_coef'         : 0.4                  ,
+        #  'light_shininess'            : 5.5                  ,
+        #  'light_intensity'            : [0.6,0.6,0.6]        ,
+        #  'light_specular_color'       : [1.0,1.0,1.0]        ,
+
+
+        #light
+        self.light_position       = glCore.light_position      
+        self.light_color          = glCore.light_color         
+        self.light_ambient_coef   = glCore.light_ambient_coef  
+        self.light_shininess      = glCore.light_shininess     
+        self.light_intensity      = glCore.light_intensity     
+        self.light_specular_color = glCore.light_specular_color
         
+        
+
+
+
         v_instances = """
         #version 330
 
