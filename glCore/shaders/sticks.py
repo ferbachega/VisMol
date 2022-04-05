@@ -429,6 +429,7 @@ struct Light {
    float ambient_coef;
    float shininess;
 };
+uniform mat4 view_mat;
 
 uniform Light my_light;
 uniform mat4 model_mat;
@@ -445,8 +446,10 @@ out vec4 final_color;
 void main(){
     
     
-    vec3 normal = normalize(frag_norm);   
-    //vec3 normal = normalize(mat3(transpose(inverse(model_mat))) * frag_norm);
+    //vec3 normal = normalize(frag_norm);   
+    //vec3 normal =  view_mat *model_mat * vec4(frag_norm, 1.0);
+    
+    vec3 normal = normalize(mat3( view_mat ) * frag_norm);
     
     vec3 vert_to_light = normalize(my_light.position);
     vec3 vert_to_cam = normalize(frag_coord);

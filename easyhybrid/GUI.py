@@ -767,7 +767,7 @@ class TreeViewMenu:
                     'Edit Parameters'       : self.f2 ,
                     'Export As...'          : self.menu_export_data_window ,
                     'Merge System With...'  : self.f3 ,
-                    'Delete'                : self.f3 ,
+                    'Delete'                : self.delete_system ,
                     #'test'  : self.f1 ,
                     #'f1'    : self.f1 ,
                     #'f2'    : self.f2 ,
@@ -782,6 +782,7 @@ class TreeViewMenu:
         """ Function doc """
         #self.treeview.main_session.export_data_window.OpenWindow(sys_selected = model.get_value(iter, 8))
         self.treeview.main_session.export_data_window.OpenWindow()
+    
     def load_data_to_a_system (self, visObj = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()
@@ -801,8 +802,8 @@ class TreeViewMenu:
             self.selectedID  = str(model.get_value(iter, 1))  # @+
             self.selectedObj = str(model.get_value(iter, 2))
             print(self.selectedID, self.selectedObj, model.get_value(iter, 0),  model.get_value(iter, 8))
+        
         self.treeview.main_session.import_trajectory_window.OpenWindow(sys_selected = model.get_value(iter, 8))
-
 
     def f2 (self, visObj = None):
         """ Function doc """
@@ -843,14 +844,70 @@ class TreeViewMenu:
                    ]
             model.append(data)
         self.treeview.vm_session.glwidget.queue_draw()
-            #i +=1
-            #n = n + 1
-        
-        
-        #self.treeview.vm_session.center(visObj)
 
+    def delete_system (self,visObj = None ):
+        """ Function doc """
+        selection = self.treeview.get_selection()
+        # get_selected_rows() returns a tuple
+        # The first element is a ListStore
+        # The second element is a list of tree paths
+        # of all selected rows
+        model, paths = selection.get_selected_rows()
+        remove_list  = [] 
         
-        #print('f3')
+        # Get the TreeIter instance for each path
+        for path in paths:
+            iter = model.get_iter(path)
+            
+            
+            system_id = model.get_value(iter, 8)
+            '''
+            print("\niter0:" ,model.get_value(iter, 0),
+                  "\niter1:" ,model.get_value(iter, 1),
+                  "\niter2:" ,model.get_value(iter, 2),
+                  "\niter3:" ,model.get_value(iter, 3),
+                  "\niter4:" ,model.get_value(iter, 4),
+                  "\niter5:" ,model.get_value(iter, 5),
+                  "\niter6:" ,model.get_value(iter, 6),
+                  "\niter7:" ,model.get_value(iter, 7),
+                  "\niter8:" ,model.get_value(iter, 8)
+                  )
+            '''
+            #'''
+            
+
+            if model.get_value(iter, 4):
+                """model.get_value(iter, 4) = True , it means that it is a header 
+                referring to a pdynamo system (containing several associated vobjects), 
+                in which case the entire system will be removed."""
+                for key , vismol_object in self.treeview.main_session.vm_session.vismol_objects_dic.items():
+                    if vismol_object.easyhybrid_system_id == system_id:
+                        remove_list.append(key)
+                        vismol_object.active = False
+                        self.treeview.main_session.vm_session.glwidget.queue_draw()
+                        
+                for key in remove_list:
+                    self.treeview.main_session.vm_session.vismol_objects_dic.pop(key)
+                
+                
+                self.treeview.main_session.pDynamo_session.systems.pop(system_id)
+
+                # Remove the ListStore row referenced by iter
+                model.remove(iter)
+            
+
+            else:
+                """model.get_value(iter, 4) = False , it means that it is vismol_object, 
+                in this case, only the coordinates are removed.""" 
+                vobj_id = model.get_value(iter, 7)
+                self.treeview.main_session.vm_session.vismol_objects_dic[vobj_id].active = False
+                self.treeview.main_session.vm_session.glwidget.queue_draw()
+                self.treeview.main_session.vm_session.vismol_objects_dic.pop(vobj_id)
+                # Remove the ListStore row referenced by iter
+                model.remove(iter)
+            
+            
+
 
     def build_tree_view_menu (self, menu_items = None):
         """ Function doc """
