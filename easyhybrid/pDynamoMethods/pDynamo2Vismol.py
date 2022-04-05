@@ -248,6 +248,7 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
+                  'vismol_objects': {}   ,
                   'working_folder': HOME , 
                    }
         
@@ -316,6 +317,7 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
+                  'vismol_objects': {}   ,
                   'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
                   'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
                    }
@@ -844,10 +846,12 @@ class pDynamoSession:
             center = vismol_object.mass_center
 
         self.systems[system_id]['vismol_object'] = vismol_object
+        
         self.vm_session.add_vismol_object_to_vismol_session (pdynamo_session  = self,
                                                                 #rep              = True, 
                                                                 vismol_object    = vismol_object, 
                                                                 autocenter       = autocenter)
+        
         if refresh_qc_and_fixed:
             self.refresh_qc_and_fixed_representations(system_id = system_id) 
 

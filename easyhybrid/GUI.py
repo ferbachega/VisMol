@@ -598,7 +598,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         '''
 
         #'''
-        #print('\n\n\path:', path)
+        print('\n\n\path1:', path)
         #print('\n\n\path:', 'AQUI')
         #print(widget)
         
@@ -615,7 +615,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         #print (path, type(path),self.treestore['0:1'][0] ,  self.treestore[path][0], self.treestore[path][-3],  self.treestore[path][-1])
         self.main_session.vm_session.TrajectoryFrame.change_range(upper = size)
         
-        #print('\n\n\path:', path)
+        print('\n\n\path2:', path)
         #'''
         
   
@@ -875,7 +875,7 @@ class TreeViewMenu:
             '''
             #'''
             
-
+        
             if model.get_value(iter, 4):
                 """model.get_value(iter, 4) = True , it means that it is a header 
                 referring to a pdynamo system (containing several associated vobjects), 
@@ -889,26 +889,65 @@ class TreeViewMenu:
                 for key in remove_list:
                     self.treeview.main_session.vm_session.vismol_objects_dic.pop(key)
                 
-                
                 self.treeview.main_session.pDynamo_session.systems.pop(system_id)
-
-                # Remove the ListStore row referenced by iter
-                model.remove(iter)
-            
-
+                self.treeview.main_session.vm_session.parents.pop(system_id)
+                
+                #model.remove(iter)
+                #self.treeview.main_session.update_gui_widgets()
+        
+        
+        
+        
+        
+        
             else:
                 """model.get_value(iter, 4) = False , it means that it is vismol_object, 
-                in this case, only the coordinates are removed.""" 
+                in this case, only the coordinates will be removed.""" 
                 vobj_id = model.get_value(iter, 7)
                 self.treeview.main_session.vm_session.vismol_objects_dic[vobj_id].active = False
                 self.treeview.main_session.vm_session.glwidget.queue_draw()
                 self.treeview.main_session.vm_session.vismol_objects_dic.pop(vobj_id)
                 # Remove the ListStore row referenced by iter
-                model.remove(iter)
+                #self.treeview.main_session.update_gui_widgets()
             
-            
+        
+                # Remove the ListStore row referenced by iter
+                #model.remove(iter)
 
+        #'''
+        #self.treeview.main_session.vm_session.treestore = Gtk.TreeStore(
+        #                                        str  ,   #                                   # 0
+        #                                        bool ,   # toggle active=1                   # 1
+        #                                        bool ,   # toggle visible = 3                # 2 
+        #                                                                                     
+        #                                        bool ,   # radio  active  = 2                # 3      
+        #                                        bool ,   # radio  visible = 4                # 4     
+        #                                                                                     
+        #                                        bool  ,  # traj radio  active = 5            # 5        
+        #                                        bool  ,  # is trajectory radio visible?      # 6          
+        #                                                                                     
+        #                                        int,     #                                   # 7
+        #                                        int,     # pdynamo system index              # 8
+        #                                        int,)    # frames  # 9
+        #
+        self.treeview.main_session.vm_session.gtk_treeview_iters = []
+        self.treeview.main_session.vm_session.parents = {}
+        #self.treestore = self.treeview.main_session.vm_session.treestore
+        self.treeview.treestore.clear()# = self.treeview.main_session.vm_session.treestore
+        #self.treeview.set_model(self.treeview.main_session.vm_session.treestore)
 
+        for key , vismol_object in self.treeview.main_session.vm_session.vismol_objects_dic.items():
+            self.treeview.main_session.vm_session.add_vismol_object_to_vismol_session (pdynamo_session = self.treeview.main_session.pDynamo_session, 
+                                                      rep             = None, 
+                                                      vismol_object   = vismol_object, 
+                                                      vobj_count      = False,
+                                                      autocenter      = False)
+        
+        #self.treeview.main_session.vm_session.combobox_starting_coordinates = Gtk.ComboBox()
+        #self.treeview.main_session.vm_session.filechooser_working_folder    = Gtk.FileChooserButton()
+        #self.treeview.main_session.vm_session.starting_coords_liststore     = Gtk.ListStore(str, int)
+        #self.treeview.main_session.vm_session.build_treeview_from_pdynamo_session_data ( self.treeview.main_session.pDynamo_session)
+        #'''
     def build_tree_view_menu (self, menu_items = None):
         """ Function doc """
         self.tree_view_menu = Gtk.Menu()

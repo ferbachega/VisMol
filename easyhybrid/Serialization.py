@@ -110,6 +110,10 @@ class LoadAndSaveFiles:
                 
                 if key == 'vismol_object':
                     pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
+                
+                elif key == 'vismol_objects':
+                    pdynamo_projects['systems'][system_id]['vismol_objects'] = {}
+                
                 else:
                     pdynamo_projects['systems'][system_id][key] = system[key]
             
@@ -223,7 +227,7 @@ class LoadAndSaveFiles:
                                                       rep             = representations, 
                                                       vismol_object   = vismol_object, 
                                                       vobj_count      = False,
-                                                      autocenter      = True)
+                                                      autocenter      = False)
         
             
             
