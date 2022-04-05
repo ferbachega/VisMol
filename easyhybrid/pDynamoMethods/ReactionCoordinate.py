@@ -80,17 +80,17 @@ class ReactionCoordinate:
 				dist_a1_a2 = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 				dist_a2_a3 = self.molecule.coordinates3.Distance( self.atoms[1], self.atoms[2] )
 				self.minimumD =  dist_a1_a2 - dist_a2_a3
-        	#.-------------------------------------------------------------      
-			elif self.Type == "Distance":
-				A1 = self.molecule.atoms.items[ self.atoms[0] ]
-				A2 = self.molecule.atoms.items[ self.atoms[1] ]
-				if not sequence == None:
-					A1res = A1.parent.label.split(".")
-					A2res = A2.parent.label.split(".")
-					self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")--"
-					self.label += A2.label + "(" + A2res[0] + A2res[1] + ") $\AA$"	
-				else: self.label = A1.label + "-" + A2.label 	
-				self.minimumD = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
+			#.-------------------------------------------------------------      
+		elif self.Type == "Distance":
+			A1 = self.molecule.atoms.items[ self.atoms[0] ]
+			A2 = self.molecule.atoms.items[ self.atoms[1] ]
+			if not sequence == None:
+				A1res = A1.parent.label.split(".")
+				A2res = A2.parent.label.split(".")
+				self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")--"
+				self.label += A2.label + "(" + A2res[0] + A2res[1] + ") $\AA$"	
+			else: self.label = A1.label + "-" + A2.label 	
+			self.minimumD = self.molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 		#.--------------------------
 		elif self.Type == "Dihedral":
 			A1 = self.molecule.atoms.items[ self.atoms[0] ]
