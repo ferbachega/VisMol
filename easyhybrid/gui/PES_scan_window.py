@@ -575,8 +575,12 @@ class PotentialEnergyScanWindow():
                       "maxIterations":600                     ,
                       "dincre_RC1":0.1                        ,
                       "dincre_RC2":0.1                        ,
-                      "initial_distance_1":0.0                ,
-                      "initial_distance_2":0.0                ,
+                      "dminimum_RC1":0.0                      ,
+                      "dminimum_RC2":0.0                      ,
+                      "sigma_pk1pk3_rc1":0.0                  ,
+                      "sigma_pk3pk1_rc1":0.0                  ,
+                      "sigma_pk1pk3_rc2":0.0                  ,
+                      "sigma_pk3pk1_rc2":0.0                  ,
                       "rc_type_1":"distance"                  ,
                       "rc_type_2":"distance"                  ,
                       "adaptative":False                      , 
@@ -587,15 +591,15 @@ class PotentialEnergyScanWindow():
                       "MC_RC2":False                          ,
                       "log_frequency":50                      ,
                       "contour_lines":10                      ,
+                      "initial_coordinates":None              ,
                       "show":True                             }
         
-        parameters["optimizer"] = self.opt_methods[self.methods_combo.get_active()]
-        parameters["folder"]    = self.folder_chooser_button.get_folder()
-        
-        parameters["maxIterations"] = float(self.builder.get_object('entry_max_int').get_text() )
-        parameters["rmsGradient"]   = float(self.builder.get_object('entry_rmsd_tol').get_text() )
-        traj_name      =  self.builder.get_object('traj_name').get_text()
-        
+        parameters["optimizer"]        = self.opt_methods[self.methods_combo.get_active()]
+        parameters["folder"]           = self.folder_chooser_button.get_folder()        
+        parameters["maxIterations"]    = float(self.builder.get_object('entry_max_int').get_text() )
+        parameters["rmsGradient"]      = float(self.builder.get_object('entry_rmsd_tol').get_text() )
+
+        parameters["traj_folder_name"] =  self.builder.get_object('traj_name').get_text()        
         
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
         tree_iter = combobox_starting_coordinates.get_active_iter()
@@ -647,11 +651,10 @@ class PotentialEnergyScanWindow():
         
         entry_FORCE_coord1 = int(self.builder.get_object('entry_FORCE_coord1').get_text() )
        
-       
+        #----------------------------------------------------------------------------------
         '''
         coordenada  de reacao 2
-        '''
-        
+        '''        
         if self.builder.get_object('radiobutton_bidimensional').get_active():
             self.is_scan2d = True
             _type = self.combobox_reaction_coord2.get_active()
@@ -685,21 +688,11 @@ class PotentialEnergyScanWindow():
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                 index4 = int(self.builder.get_object('entry_atom4_index_coord2').get_text() )
                 dmin   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
-        
-        
-        
+
         else:
             self.is_scan2d = False
             pass
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         pass
 
 #=====================================================================================
