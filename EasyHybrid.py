@@ -173,7 +173,69 @@ button position in the main treeview (active column).""".format(name,self.main_s
         self.load_session(filename)
 
     
-    
+    def build_treeview_from_pdynamo_session_data (self, pdynamo_session):
+        """ Function doc """
+        
+        
+        #vismol_object.active = active_original
+
+        for sys_index in pdynamo_session.systems.keys():
+            '''        T R E E S T O R E           '''
+            if sys_index in self.parents.keys():
+                pass
+            else:          
+                # Creates a new "parent" when a new system is loaded into memory. 
+                for row in self.treestore:
+                    row[3] =  False
+                vismol_object = pdynamo_session.systems[sys_index]['vismol_object']
+                self.parents[sys_index] = self.treestore.append(None,                                                
+                                                               
+                                                               [pdynamo_session.systems[sys_index]['name'], # Name
+                                                                False,                                      # toggle active=1
+                                                                False,                                      # toggle visible = 3
+                                                                
+                                                                True ,                                      # radio  active  = 2
+                                                                True ,                                      # radio  visible = 4
+
+                                                                False,                                      # traj radio  active = 5
+                                                                False,                                      # is trajectory radio visible?
+                                                                
+                                                                vismol_object.index,                        #
+                                                                vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                                0])                                     # is pdynamo system index visible?
+                
+                self.gtk_treeview_iters.append(self.parents[sys_index])
+
+            #n = 0
+            #for treeview_iter in self.gtk_treeview_iters:
+            #    self.treestore[treeview_iter][5] = False
+            #    n+=1
+            for key , vismol_object in pdynamo_session.systems[sys_index]['vismol_objects'].items():
+                treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
+                                                  
+                                                  [vismol_object.name, 
+                                                   vismol_object.active ,   # toggle active   =1       
+                                                   True ,                   # toggle visible  = 2                  
+                                                   
+                                                   False ,                  # radio  active  = 3                       
+                                                   False ,                  # radio  visible = 4                      
+                                                   
+                                                   True  ,                  # traj radio  active = 5                     
+                                                   True  ,                  # is trajectory radio visible?  6                   
+                                                   
+                                                   vismol_object.index,     # 7
+                                                   vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
+                                                   len(vismol_object.frames)] # is pdynamo system index visible?  9 
+                                                    )
+                self.gtk_treeview_iters.append(treeview_iter)
+                self.gtk_widgets_update ()
+
+
+
+
+
+
+
     
     
     def add_vismol_object_to_vismol_session (self, pdynamo_session = None, 
@@ -190,6 +252,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #self.vismol_objects.append(vismol_object)
         self.vismol_objects_dic[vismol_object.index] = vismol_object
+        
         #self.append_vismol_object_to_vismol_objects_listStore(vismol_object)
         
         if vobj_count:
@@ -199,6 +262,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
         vobj_index = vismol_object.index
         sys_index  = vismol_object.easyhybrid_system_id
         
+        if 'vismol_objects' in pdynamo_session.systems[sys_index].keys():
+            pdynamo_session.systems[sys_index]['vismol_objects'][vobj_index] = vismol_object
+        else:
+            pdynamo_session.systems[sys_index]['vismol_objects'] = {}
+            pdynamo_session.systems[sys_index]['vismol_objects'][vobj_index] = vismol_object
         
         
         '''
@@ -218,35 +286,36 @@ button position in the main treeview (active column).""".format(name,self.main_s
         vismol_object.active =  True        
         
         #vismol_object.create_new_representation (rtype = 'spheresInstace')
-        
-        for key in rep.keys():
-            
-            if key == 'lines':
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'lines')
-                else:
+        if rep:
+            for key in rep.keys():
+                
+                if key == 'lines':
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'lines')
+                    else:
+                        
+                        vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
+               
+                if key == 'nonbonded':
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'nonbonded')
+                    else:
+                        vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
                     
-                    vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
-           
-            if key == 'nonbonded':
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'nonbonded')
-                else:
-                    vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
+                if key == 'sticks':
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'sticks')
+                    else:
+                        vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
                 
-            if key == 'sticks':
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'sticks')
-                else:
-                    vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
-            
-            if key == 'spheres':
-                
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'spheres')
-                else:
-                    vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
-
+                if key == 'spheres':
+                    
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'spheres')
+                    else:
+                        vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
+        else:
+            print('no representation')
         #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
         #vismol_object.representations[rep.name] = rep
     

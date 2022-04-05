@@ -160,7 +160,14 @@ class MolecularDynamicsWindow():
         self.easyhybrid_main     = main
         self.Visible             =  False        
         self.residue_liststore = Gtk.ListStore(str, str, str)
-
+        
+        #self.opt_methods = { 
+        #                    0 : 'ConjugatedGradient',
+        #                    1 : 'SteepestDescent'   ,
+        #                    2 : 'LFBGS'             ,
+        #                    3 : 'QuasiNewton'       ,
+        #                    4 : 'FIRE'              ,
+        #                     }
 
     def add_job_to_list (self, button):
         """ Function doc """
