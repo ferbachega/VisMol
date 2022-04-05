@@ -188,13 +188,19 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 for row in self.treestore:
                     row[3] =  False
                 vismol_object = pdynamo_session.systems[sys_index]['vismol_object']
+                
+                if  pdynamo_session.systems[sys_index] == pdynamo_session.systems[pdynamo_session.active_id]:
+                    is_active = True
+                else:
+                    is_active = False
+                print('is_active:', is_active)
                 self.parents[sys_index] = self.treestore.append(None,                                                
                                                                
                                                                [pdynamo_session.systems[sys_index]['name'], # Name
                                                                 False,                                      # toggle active=1
                                                                 False,                                      # toggle visible = 3
                                                                 
-                                                                True ,                                      # radio  active  = 2
+                                                                is_active ,                                      # radio  active  = 2
                                                                 True ,                                      # radio  visible = 4
 
                                                                 False,                                      # traj radio  active = 5
@@ -346,6 +352,13 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 #row[5] = False 
                 #for i,j in enumerate(row):
                 #    print(i, j,)           
+                
+            #if  pdynamo_session.systems[sys_index] == pdynamo_session.systems[pdynamo_session.active_id]:
+            #    is_active = True
+            #else:
+            #    is_active = False
+            #print('is_active:', is_active)
+            
             self.parents[sys_index] = self.treestore.append(None,                                                
                                                            
                                                            [pdynamo_session.systems[sys_index]['name'], # Name

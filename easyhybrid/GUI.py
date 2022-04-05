@@ -571,7 +571,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         
         
         self.selected_path = None
-
+        #self.expand_all()
     def on_cell_toggled(self, widget, path):
         
         self.treestore[path][1] = not self.treestore[path][1]
@@ -888,12 +888,12 @@ class TreeViewMenu:
                         
                 for key in remove_list:
                     self.treeview.main_session.vm_session.vismol_objects_dic.pop(key)
-                
+                self.treeview.main_session.update_gui_widgets()
+
                 self.treeview.main_session.pDynamo_session.systems.pop(system_id)
                 self.treeview.main_session.vm_session.parents.pop(system_id)
-                
+                #self.treeview.main_session.vm_session.gtk_treeview_iters.pop(self.treeview.main_session.vm_session.parents[system_id])
                 #model.remove(iter)
-                #self.treeview.main_session.update_gui_widgets()
         
         
         
@@ -913,28 +913,15 @@ class TreeViewMenu:
         
                 # Remove the ListStore row referenced by iter
                 #model.remove(iter)
-
+                self.treeview.main_session.update_gui_widgets()
+        
+        
+        
+        '''The best way to guarantee the deletion of objects is to rebuild the treeview'''
         #'''
-        #self.treeview.main_session.vm_session.treestore = Gtk.TreeStore(
-        #                                        str  ,   #                                   # 0
-        #                                        bool ,   # toggle active=1                   # 1
-        #                                        bool ,   # toggle visible = 3                # 2 
-        #                                                                                     
-        #                                        bool ,   # radio  active  = 2                # 3      
-        #                                        bool ,   # radio  visible = 4                # 4     
-        #                                                                                     
-        #                                        bool  ,  # traj radio  active = 5            # 5        
-        #                                        bool  ,  # is trajectory radio visible?      # 6          
-        #                                                                                     
-        #                                        int,     #                                   # 7
-        #                                        int,     # pdynamo system index              # 8
-        #                                        int,)    # frames  # 9
-        #
         self.treeview.main_session.vm_session.gtk_treeview_iters = []
         self.treeview.main_session.vm_session.parents = {}
-        #self.treestore = self.treeview.main_session.vm_session.treestore
-        self.treeview.treestore.clear()# = self.treeview.main_session.vm_session.treestore
-        #self.treeview.set_model(self.treeview.main_session.vm_session.treestore)
+        self.treeview.treestore.clear()
 
         for key , vismol_object in self.treeview.main_session.vm_session.vismol_objects_dic.items():
             self.treeview.main_session.vm_session.add_vismol_object_to_vismol_session (pdynamo_session = self.treeview.main_session.pDynamo_session, 
@@ -942,12 +929,39 @@ class TreeViewMenu:
                                                       vismol_object   = vismol_object, 
                                                       vobj_count      = False,
                                                       autocenter      = False)
-        
-        #self.treeview.main_session.vm_session.combobox_starting_coordinates = Gtk.ComboBox()
-        #self.treeview.main_session.vm_session.filechooser_working_folder    = Gtk.FileChooserButton()
-        #self.treeview.main_session.vm_session.starting_coords_liststore     = Gtk.ListStore(str, int)
-        #self.treeview.main_session.vm_session.build_treeview_from_pdynamo_session_data ( self.treeview.main_session.pDynamo_session)
+
         #'''
+        self.treeview.expand_all()
+        
+        
+        '''This loop guarantees the correct assignment of "true" 
+        to the radiobutton of the system that is in memory.
+        
+        system that is in memory = self.treeview.main_session.pDynamo_session.active_id
+        
+        '''
+        for row in self.treeview.treestore:
+            #row[3] = row.path == selected_path
+            if self.treeview.main_session.pDynamo_session.active_id == row[8]:
+                row[3] = True
+            else:
+                row[3] = False
+            #print(list(row))
+            #if row[3]:
+            #    self.main_session.pDynamo_session.active_id = row[8]
+            #else:
+            #    pass
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     def build_tree_view_menu (self, menu_items = None):
         """ Function doc """
         self.tree_view_menu = Gtk.Menu()
