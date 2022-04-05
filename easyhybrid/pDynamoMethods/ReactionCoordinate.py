@@ -63,7 +63,7 @@ class ReactionCoordinate:
 			else:  self.label = A1.label + "-" + A2.label +"-"+ A3.label  
 
             #.-------------------------------------------------
-            if self.massConstraint:			
+			if self.massConstraint:			
 				#------------------------------------------------
 				atomic_n1 = A1.atomicNumber
 				atomic_n3 = A3.atomicNumber
