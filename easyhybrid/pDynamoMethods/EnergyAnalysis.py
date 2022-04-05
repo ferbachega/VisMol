@@ -242,7 +242,7 @@ class EnergyAnalysis:
 		elif self.Type == "WHAM1D":
 			self.RC1 = np.linspace( np.min(self.RC1), np.max(self.RC1), len(self.RC1) )
 			self.labely = "Potential of Mean Field (kJ/mol)"
-			self.basename += "_PMF"
+			self.baseName += "_PMF"
 		
 		#--------------------------------------------
 		plt.plot(self.RC1,self.energies1D,'-ok')
