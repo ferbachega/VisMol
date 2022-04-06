@@ -171,7 +171,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #print('loading easyhybrid session')
         self.load_session(filename)
-
+        self.main_session.treeview.expand_all()
     
     def build_treeview_from_pdynamo_session_data (self, pdynamo_session):
         """ Function doc """

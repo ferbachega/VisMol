@@ -408,6 +408,22 @@ class pDynamoSession:
         return True
 
     
+    def  _check_ref_vismol_object_in_pdynamo_system (self, system_id = None):
+        """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+        
+        
+        if self.systems[system_id]['vismol_object']:
+            pass
+        else:
+            keys = self.systems[system_id]['vismol_objects'].keys()
+            keys = list(keys)
+            key = keys[-1]
+            self.systems[system_id]['vismol_object'] = self.systems[system_id]['vismol_objects'][key]
+    
     def check_charge_fragmentation(self, correction = True):
         """ Function doc """
 
@@ -418,6 +434,9 @@ class pDynamoSession:
         
         '''Here we are going to arrange the atoms that are not in the QC part, 
         but are in the same residues as some atoms of the QC part.'''  
+
+        self._check_ref_vismol_object_in_pdynamo_system()
+        
         for res in self.systems[self.active_id]['vismol_object'].residues:
             
             if res.resi in qc_residue_table.keys():
@@ -844,7 +863,8 @@ class pDynamoSession:
             
         else:
             center = vismol_object.mass_center
-
+        
+        #self._check_ref_vismol_object_in_pdynamo_system()
         self.systems[system_id]['vismol_object'] = vismol_object
         
         self.vm_session.add_vismol_object_to_vismol_session (pdynamo_session  = self,
@@ -866,6 +886,7 @@ class pDynamoSession:
         #print (_centerAtom)
         #print (_radius)
         #print (_method)
+        self._check_ref_vismol_object_in_pdynamo_system()
         vismol_object = self.systems[self.active_id]['vismol_object']
         
         atomref = AtomSelection.FromAtomPattern( self.systems[self.active_id]['system'], _centerAtom )
@@ -914,6 +935,7 @@ class pDynamoSession:
             system = self.systems[self.active_id]['system']
             #self.systems[self.active_id]['system']
         
+        self._check_ref_vismol_object_in_pdynamo_system()
         for res in self.systems[self.active_id]['vismol_object'].residues:
             for atom in res.atoms:
                 index_v =  atom.index-1

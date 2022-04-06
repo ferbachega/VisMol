@@ -109,31 +109,34 @@ class LoadAndSaveFiles:
         
         for system_id, system in self.pDynamo_session.systems.items():
             pdynamo_projects['systems'][system_id] = {}
-            for key in system.keys():
+            if system:
+                for key in system.keys():
+                    
+                    if key == 'vismol_object':
+                        pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
+                    
+                    elif key == 'vismol_objects':
+                        pdynamo_projects['systems'][system_id]['vismol_objects'] = {}
+                    
+                    else:
+                        pdynamo_projects['systems'][system_id][key] = system[key]
                 
-                if key == 'vismol_object':
-                    pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
-                
-                elif key == 'vismol_objects':
-                    pdynamo_projects['systems'][system_id]['vismol_objects'] = {}
-                
-                else:
-                    pdynamo_projects['systems'][system_id][key] = system[key]
-            
-            '''
-            pdynamo_projects['systems'][system_id] = {
-                                                    'id'            : system['id'           ],
-                                                    'name'          : system['name'         ],
-                                                    'system'        : system['system'       ],
-                                                    'vismol_object' : system['vismol_object'].index,
-                                                    'active'        : system['active'       ],
-                                                    'bonds'         : system['bonds'        ],
-                                                    'sequence'      : system['sequence'     ],
-                                                    'qc_table'      : system['qc_table'     ],
-                                                    'fixed_table'   : system['fixed_table'  ],
-                                                    'color_palette' : system['color_palette'],
-                                                    }
-            '''
+                '''
+                pdynamo_projects['systems'][system_id] = {
+                                                        'id'            : system['id'           ],
+                                                        'name'          : system['name'         ],
+                                                        'system'        : system['system'       ],
+                                                        'vismol_object' : system['vismol_object'].index,
+                                                        'active'        : system['active'       ],
+                                                        'bonds'         : system['bonds'        ],
+                                                        'sequence'      : system['sequence'     ],
+                                                        'qc_table'      : system['qc_table'     ],
+                                                        'fixed_table'   : system['fixed_table'  ],
+                                                        'color_palette' : system['color_palette'],
+                                                        }
+                '''
+            else:
+                pass
         #---------------------------------------------------------------
         #               V I S M O L   S E S S I O N
         #---------------------------------------------------------------
@@ -246,14 +249,17 @@ class LoadAndSaveFiles:
         
         
         for key, system in self.pDynamo_session.systems.items():
-            system['vismol_object'] =   self.vismol_objects_dic[system['vismol_object']]
-            
-            self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
-                                                                       system_id = system['id'], 
-                                                                     fixed_atoms = True        , 
-                                                                        QC_atoms = False       , 
-                                                                          static = False       )
-
+            print(key, system)
+            if system:
+                system['vismol_object'] = self.vismol_objects_dic[system['vismol_object']]
+                
+                self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
+                                                                           system_id = system['id'], 
+                                                                         fixed_atoms = True        , 
+                                                                            QC_atoms = False       , 
+                                                                              static = False       )
+            else:
+                pass
         
         '''Here we will select the radio button corresponding to the system that is active. 
         When "path" = None, we select the first system from the treeview''' 

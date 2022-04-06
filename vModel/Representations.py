@@ -120,14 +120,20 @@ class Representation:
         #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
         
         if col_vbo:
-            GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
-                            self.col_vbo    )
-            
-            GL.glBufferData(GL.GL_ARRAY_BUFFER, 
-                            frame.nbytes      ,
-                            frame             , 
-                            GL.GL_STATIC_DRAW)   
-        else:
+                if self.col_vbo:
+                    GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+                                    self.col_vbo    )
+                    
+                    GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+                                    frame.nbytes      ,
+                                    frame             , 
+                                    GL.GL_STATIC_DRAW)   
+                    #except:
+                    #    
+                    #    print ('wrong type:', self.col_vbo, type(self.col_vbo))
+                else: 
+                    pass
+        else: 
             pass
 
     def _set_coordinates_to_buffer (self, coord_vbo = True, sel_coord_vbo = True):
