@@ -786,22 +786,22 @@ class TreeViewMenu:
     def load_data_to_a_system (self, visObj = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()
-        (model, iter)    = selection.get_selected()
-        self.selectedID  = int(model.get_value(iter, 1))  # @+
-        
-        #print(selection, model, iter, 'selectedID',self.selectedID)
-        visObj = self.treeview.vm_session.vismol_objects_dic[self.selectedID]
-        selection     = self.treeview.get_selection()
-        
-        (model, iter) = selection.get_selected()
-        for item in model:
-            pass
-            #print (item[0], model[iter][0])
-        #print (model[iter][:], iter, model, tree )
-        if iter != None:
-            self.selectedID  = str(model.get_value(iter, 1))  # @+
-            self.selectedObj = str(model.get_value(iter, 2))
-            print(self.selectedID, self.selectedObj, model.get_value(iter, 0),  model.get_value(iter, 8))
+        model, iter      = selection.get_selected()
+        #self.selectedID  = int(model.get_value(iter, 1))  # @+
+        #
+        ##print(selection, model, iter, 'selectedID',self.selectedID)
+        #visObj = self.treeview.vm_session.vismol_objects_dic[self.selectedID]
+        #selection     = self.treeview.get_selection()
+        #
+        #(model, iter) = selection.get_selected()
+        #for item in model:
+        #    pass
+        #    #print (item[0], model[iter][0])
+        ##print (model[iter][:], iter, model, tree )
+        #if iter != None:
+        #    self.selectedID  = str(model.get_value(iter, 1))  # @+
+        #    self.selectedObj = str(model.get_value(iter, 2))
+        #    print(self.selectedID, self.selectedObj, model.get_value(iter, 0),  model.get_value(iter, 8))
         
         self.treeview.main_session.import_trajectory_window.OpenWindow(sys_selected = model.get_value(iter, 8))
 
