@@ -621,7 +621,7 @@ class PotentialEnergyScanWindow():
                 parameters["MC_RC1"] = False 
                 sigma_pk1_pk3 =  1.0
                 sigma_pk3_pk1 = -1.0              
-       elif _type == 2:
+        elif _type == 2:
             index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
             index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
