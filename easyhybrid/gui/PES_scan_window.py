@@ -561,10 +561,10 @@ class PotentialEnergyScanWindow():
                       "dincre_RC2":0.1                        ,
                       "dminimum_RC1":0.0                      ,
                       "dminimum_RC2":0.0                      ,
-                      "sigma_pk1pk3_rc1":0.0                  ,
-                      "sigma_pk3pk1_rc1":0.0                  ,
-                      "sigma_pk1pk3_rc2":0.0                  ,
-                      "sigma_pk3pk1_rc2":0.0                  ,
+                      "sigma_pk1pk3_rc1":1.0                  ,
+                      "sigma_pk3pk1_rc1":-1.0                 ,
+                      "sigma_pk1pk3_rc2":1.0                  ,
+                      "sigma_pk3pk1_rc2":-1.0                 ,
                       "rc_type_1":"distance"                  ,
                       "rc_type_2":"distance"                  ,
                       "adaptative":False                      , 
@@ -627,6 +627,9 @@ class PotentialEnergyScanWindow():
             index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
             index4 = int(self.builder.get_object('entry_atom4_index_coord1').get_text() )
             dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
+            parameters["ATOMS_RC1"]     = [ index1, index2,index3,index4] 
+            parameters["dminimum_RC1"]  = dmin 
+            parameters["rc_type_1"]     = "dihedral"
         
         parameters["force_constant_1"] = int(self.builder.get_object('entry_FORCE_coord1').get_text() )
 
