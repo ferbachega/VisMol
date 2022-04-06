@@ -660,9 +660,7 @@ class PotentialEnergyScanWindow():
                     parameters["sigma_pk3pk1_rc2"] = self.sigma_pk3_pk1
                 else:
                     mass_weighted_2 = False 
-
-                    sigma_pk1_pk3_2 =  1.0
-                    sigma_pk3_pk1_2 = -1.0  
+                     
         
             elif _type == 2: # dihedral
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
