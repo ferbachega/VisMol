@@ -196,19 +196,7 @@ class PotentialEnergyScanWindow():
             self.combobox_reaction_coord1.set_active(1)
             self.combobox_reaction_coord2.set_active(1)
             #'''--------------------------------------------------------------------------------------------'''
-            
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             self.method_store = Gtk.ListStore(str)
             
             methods = [
@@ -231,10 +219,7 @@ class PotentialEnergyScanWindow():
             self.methods_combo.pack_start(renderer_text, True)
             self.methods_combo.add_attribute(renderer_text, "text", 0)
             #'''--------------------------------------------------------------------------------------------'''
-            self.methods_combo.set_active(0)
-            
-            
-            
+            self.methods_combo.set_active(0)                     
             
             '''--------------------------------------------------------------------------------------------'''
             self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
@@ -250,8 +235,7 @@ class PotentialEnergyScanWindow():
             size = len(self.starting_coords_liststore)
             self.combobox_starting_coordinates.set_active(size-1)
             '''--------------------------------------------------------------------------------------------'''     
-            
-            
+
             #'''--------------------------------------------------------------------------------------------------
             self.folder_chooser_button = FolderChooserButton(main =  self.window)
             self.builder.get_object('folder_chooser_box').pack_start(self.folder_chooser_button.btn, True, True, 0)
@@ -272,7 +256,7 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_name_coord2').hide()            
             #''' 
 
-            
+
             self.window.show_all()
             
             self.builder.get_object('label_atom4_coord1').hide()
@@ -598,10 +582,10 @@ class PotentialEnergyScanWindow():
         parameters["folder"]           = self.folder_chooser_button.get_folder()        
         parameters["maxIterations"]    = float(self.builder.get_object('entry_max_int').get_text() )
         parameters["rmsGradient"]      = float(self.builder.get_object('entry_rmsd_tol').get_text() )
-
         parameters["traj_folder_name"] =  self.builder.get_object('traj_name').get_text()        
         
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
+        print(combobox_starting_coordinates)
         tree_iter = combobox_starting_coordinates.get_active_iter()
         if tree_iter is not None:
             '''selecting the vismol object from the content that is in the combobox '''
@@ -613,50 +597,46 @@ class PotentialEnergyScanWindow():
             print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
             self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
         
-        
-        print('method        ', method        )
-        print('folder        ', folder        )
-        print('entry_max_int ', entry_max_int )
-        print('entry_rmsd_tol', entry_rmsd_tol)
-        print('traj_name     ', traj_name     )
-        
+                       
         _type = self.combobox_reaction_coord1.get_active()
         print('_type', _type)
         if _type == 0:
             index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
             dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
-            print (index1, index2, dmin )
-        if _type == 1:
+            parameters["ATOMS_RC1"]     = [ index1, index2 ] 
+            parameters["dminimum_RC1"]  = dmin 
+        elif _type == 1:
             index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
             index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
             dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
-
+            parameters["ATOMS_RC1"]     = [ index1, index2, index3 ] 
+            parameters["dminimum_RC1"]  = dmin 
             if self.builder.get_object('mass_restraints1').get_active():
-                mass_weighted = True
-                sigma_pk1_pk3 = self.sigma_pk1_pk3 
-                sigma_pk3_pk1 = self.sigma_pk3_pk1 
+                parameters["MC_RC1"] = True
+                parameters["sigma_pk1pk3_rc1"] = self.sigma_pk1_pk3 
+                parameters["sigma_pk3pk1_rc1"] = self.sigma_pk3_pk1 
             else:
-                mass_weighted = False 
+                parameters["MC_RC1"] = False 
                 sigma_pk1_pk3 =  1.0
-                sigma_pk3_pk1 = -1.0  
-            print (index1, index2, index3, dmin, sigma_pk1_pk3, sigma_pk3_pk1 )
-        if _type == 2:
+                sigma_pk3_pk1 = -1.0              
+       elif _type == 2:
             index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
             index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
             index4 = int(self.builder.get_object('entry_atom4_index_coord1').get_text() )
             dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
         
-        entry_FORCE_coord1 = int(self.builder.get_object('entry_FORCE_coord1').get_text() )
-       
+        parameters["force_constant_1"] = int(self.builder.get_object('entry_FORCE_coord1').get_text() )
+
         #----------------------------------------------------------------------------------
         '''
         coordenada  de reacao 2
         '''        
         if self.builder.get_object('radiobutton_bidimensional').get_active():
             self.is_scan2d = True
+            parameters["ndim"] = 2
             _type = self.combobox_reaction_coord2.get_active()
             
             entry_FORCE_coord2 = int(self.builder.get_object('entry_FORCE_coord2').get_text() )
@@ -689,9 +669,6 @@ class PotentialEnergyScanWindow():
                 index4 = int(self.builder.get_object('entry_atom4_index_coord2').get_text() )
                 dmin   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
 
-        else:
-            self.is_scan2d = False
-            pass
 
         pass
 

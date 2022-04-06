@@ -200,9 +200,7 @@ class SimulationProject:
                 atomlist.append(sel)
             elif type(_region) == list:
                 for i in range( len(sel) ):
-                    atomlist.append( sel[i] )
-            else:
-                print(type(sel))
+                    atomlist.append( sel[i] )            
         #---------------------------------------------
         #define QC atoms selection
         converger = DIISSCFConverger.WithOptions( energyTolerance   = 3.0e-4,

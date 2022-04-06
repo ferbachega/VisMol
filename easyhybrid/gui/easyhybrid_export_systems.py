@@ -142,8 +142,7 @@ class ExportDataWindow:
             self.folder_chooser_button.set_folder(HOME)
             #------------------------------------------------------------------------------------
 
-            
-            
+                
 
             
 
@@ -258,8 +257,7 @@ class ExportDataWindow:
             self.builder.get_object('entry_stride').set_sensitive(False)
             self.builder.get_object('label_stride').set_sensitive(False)
    
-   
-   
+      
    
     def on_name_combo_changed (self, widget):
         """ Function doc """
