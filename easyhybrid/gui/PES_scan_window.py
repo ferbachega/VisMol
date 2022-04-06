@@ -552,8 +552,8 @@ class PotentialEnergyScanWindow():
                       "ndim":1                                ,
                       "ATOMS_RC1":None                        ,
                       "ATOMS_RC2":None                        ,
-                      "nSteps_RC1":0                          ,
-                      "nSteps_RC2":0                          ,
+                      "nsteps_RC1":0                          ,
+                      "nsteps_RC2":0                          ,
                       "force_constant_1":4000.0               ,
                       "force_constant_2":4000.0               ,
                       "maxIterations":600                     ,
@@ -575,14 +575,13 @@ class PotentialEnergyScanWindow():
                       "MC_RC2":False                          ,
                       "log_frequency":50                      ,
                       "contour_lines":10                      ,
-                      "initial_coordinates":None              ,
                       "show":True                             }
         
         parameters["optimizer"]        = self.opt_methods[self.methods_combo.get_active()]
         parameters["folder"]           = self.folder_chooser_button.get_folder()        
         parameters["maxIterations"]    = float(self.builder.get_object('entry_max_int').get_text() )
         parameters["rmsGradient"]      = float(self.builder.get_object('entry_rmsd_tol').get_text() )
-        parameters["traj_folder_name"] =  self.builder.get_object('traj_name').get_text()        
+        parameters["traj_folder_name"] = self.builder.get_object('traj_name').get_text()        
         
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
         print(combobox_starting_coordinates)
@@ -596,42 +595,40 @@ class PotentialEnergyScanWindow():
             '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
             print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
             self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
-        
+            
                        
         _type = self.combobox_reaction_coord1.get_active()
         print('_type', _type)
         if _type == 0:
-            index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
-            index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
-            dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
+            index1 = int( self.builder.get_object('entry_atom1_index_coord1').get_text() )
+            index2 = int( self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            dmin   = float( self.builder.get_object('entry_dmin_coord1').get_text( ))
             parameters["ATOMS_RC1"]     = [ index1, index2 ] 
             parameters["dminimum_RC1"]  = dmin 
         elif _type == 1:
-            index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
-            index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
-            index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
-            dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
+            index1 = int( self.builder.get_object('entry_atom1_index_coord1').get_text() )
+            index2 = int( self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            index3 = int( self.builder.get_object('entry_atom3_index_coord1').get_text() )
+            dmin   = float( self.builder.get_object('entry_dmin_coord1').get_text( ))
             parameters["ATOMS_RC1"]     = [ index1, index2, index3 ] 
             parameters["dminimum_RC1"]  = dmin 
             if self.builder.get_object('mass_restraints1').get_active():
                 parameters["MC_RC1"] = True
                 parameters["sigma_pk1pk3_rc1"] = self.sigma_pk1_pk3 
                 parameters["sigma_pk3pk1_rc1"] = self.sigma_pk3_pk1 
-            else:
-                parameters["MC_RC1"] = False 
-                sigma_pk1_pk3 =  1.0
-                sigma_pk3_pk1 = -1.0              
         elif _type == 2:
-            index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
-            index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
-            index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
-            index4 = int(self.builder.get_object('entry_atom4_index_coord1').get_text() )
-            dmin   = float(self.builder.get_object('entry_dmin_coord1').get_text( ))
-            parameters["ATOMS_RC1"]     = [ index1, index2,index3,index4] 
+            index1 = int( self.builder.get_object('entry_atom1_index_coord1').get_text() )
+            index2 = int( self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            index3 = int( self.builder.get_object('entry_atom3_index_coord1').get_text() )
+            index4 = int( self.builder.get_object('entry_atom4_index_coord1').get_text() )
+            dmin   = float( self.builder.get_object('entry_dmin_coord1').get_text() )
+            parameters["ATOMS_RC1"]     = [ index1,index2,index3,index4] 
             parameters["dminimum_RC1"]  = dmin 
             parameters["rc_type_1"]     = "dihedral"
         
-        parameters["force_constant_1"] = int(self.builder.get_object('entry_FORCE_coord1').get_text() )
+        parameters["nsteps_RC1"]        = int( self.builder.get_object('entry_nsteps1').get_text() )
+        parameters["force_constant_1"]  = float( self.builder.get_object('entry_FORCE_coord1').get_text() )
+        parameters["dincre_RC1"]        = float( self.builder.get_object('entry_step_size1').get_text() )
 
         #----------------------------------------------------------------------------------
         '''
@@ -648,32 +645,36 @@ class PotentialEnergyScanWindow():
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+                parameters["ATOMS_RC2"]     = [ index1, index2 ] 
+                parameters["dminimum_RC2"]  = dmin 
 
-            if _type == 1: # multiple
+            elif _type == 1: # multiple
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
 
-                    
                 if self.builder.get_object('mass_restraints2').get_active():
-                    mass_weighted_2 = True
-                    sigma_pk1_pk3_2 = self.sigma_pk1_pk3 
-                    sigma_pk3_pk1_2 = self.sigma_pk3_pk1 
+                    parameters["MC_RC1"] = True
+                    parameters["sigma_pk1pk3_rc2"] = self.sigma_pk1_pk3 
+                    parameters["sigma_pk3pk1_rc2"] = self.sigma_pk3_pk1
                 else:
                     mass_weighted_2 = False 
+
                     sigma_pk1_pk3_2 =  1.0
                     sigma_pk3_pk1_2 = -1.0  
         
-            if _type == 2: # dihedral
+            elif _type == 2: # dihedral
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                 index4 = int(self.builder.get_object('entry_atom4_index_coord2').get_text() )
                 dmin   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+        #_-----------------------------------------------------------------------------------
+        self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters )
 
-
-        pass
+        self.window.destroy()
+        self.Visible    =  False
 
 #=====================================================================================
 def get_distance (vobject, index1, index2):

@@ -249,7 +249,6 @@ class Simulation:
 		sigma_pk3pk1_rc2 = None
 		#checking parameters
 		if "dincre_RC1"          in self.parameters: dincre1 	      = self.parameters["dincre_RC1"]
-		if "initial_coordinates" in self.parameters: self.molecule.coordinates3 = _parameters["init_coordinates"]
 		if "dincre_RC2"       	 in self.parameters: dincre2 	      = self.parameters["dincre_RC2"]	
 		if "nsteps_RC2"       	 in self.parameters: nRC2  	          = self.parameters["nsteps_RC2"]
 		if "optmizer"         	 in self.parameters: _Optmizer        = self.parameters["optmizer"]
