@@ -62,9 +62,11 @@ class ImportTrajectoryWindow:
             
             names = [ ]
             for key , system in self.easyhybrid_main.pDynamo_session.systems.items():
-                name = system['name']
-                self.system_liststore.append([name, int(key)])
-
+                if system:
+                    name = system['name']
+                    self.system_liststore.append([name, int(key)])
+                else:
+                    pass
             self.combobox_pdynamo_system.set_model(self.system_liststore)
             
             if sys_selected:

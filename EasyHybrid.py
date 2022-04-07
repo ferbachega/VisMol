@@ -651,6 +651,9 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'Invert Selection':['MenuItem', invert_selection],
                     
+                    'Send to Selection List':['MenuItem', invert_selection],
+
+                    
                     'separator2':['separator', None],
 
                     
