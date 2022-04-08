@@ -388,7 +388,7 @@ class PotentialEnergyScanWindow():
                 dist1 = get_distance(self.vismol_object, index1, index2 )
                 self.builder.get_object('entry_dmin_coord1').set_text(str(dist1))
             
-            if _type == 1:
+            elif _type == 1:
                 index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
