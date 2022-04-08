@@ -1257,6 +1257,7 @@ class VisMolSession (ShowHideVisMol):
                                             }
                                 ],
                     
+                    
                     'Invert Selection':['MenuItem', invert_selection],
                     
                     'separator2':['separator', None],

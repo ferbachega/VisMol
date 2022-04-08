@@ -226,6 +226,7 @@ class pDynamoSession:
                   'qc_table'      : None           ,
                   'color_palette' : None           , # will be replaced by a dict
                   'fixed_table'   : []             ,
+                  'selections'    : {}             ,
                   'working_folder': working_folder , 
                    }
         
@@ -248,6 +249,7 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
+                  'selections'    : {}   ,
                   'vismol_objects': {}   ,
                   'working_folder': HOME , 
                    }
@@ -494,8 +496,27 @@ class pDynamoSession:
         #for atom in self.systems[self.active_id]['vismol_object'].atoms:
         #    print( atom.index, atom.name, atom.charge)
         #print('Total charge: ', sum(system.mmState.charges))
+    
+    
+    def remove_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
+        """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+            
+        self.systems[system_id]['selections'].pop(name)            
+    
+    
+    def make_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
+        """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+            
+        self.systems[system_id]['selections'][name] = indexes    
         
-
 
     def define_a_new_QCModel (self, parameters = None):
         """ Function doc """
