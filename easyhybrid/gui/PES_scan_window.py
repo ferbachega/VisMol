@@ -543,7 +543,7 @@ class PotentialEnergyScanWindow():
                       "MC_RC2":False                          ,
                       "log_frequency":50                      ,
                       "contour_lines":10                      ,
-                      "show":True                             }
+                      "show":False                             }
         
         parameters["optimizer"]        = self.opt_methods[self.methods_combo.get_active()]
         parameters["folder"]           = self.folder_chooser_button.get_folder()        
