@@ -211,8 +211,7 @@ class EasyHybridMainWindow ( ):
         self.pDynamo_session = pDynamoSession(vm_session = vm_session)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
-        
-        
+               
         
         '''#- - - - - - - - - - G T K  W I N D O W S - - - - - - - - - - -#'''
         self.NewSystemWindow              = ImportANewSystemWindow(main = self)

@@ -203,7 +203,6 @@ class Simulation:
 			"ATOMS_RC2":list of atoms indices of the second reaction coordinate. Needed if "ndim = 2"
 			"nSteps_RC2": integer indicating the number of steps to scan for the second reaction coordinate. Needed if "ndim = 2"
 		Optinal   :
-			"intial_coordinates":
 			"dminimum_RC1":
 			"dminimum_RC2":
 			"sigma_pk1pk3_rc1":
@@ -248,32 +247,34 @@ class Simulation:
 		sigma_pk1pk3_rc2 = None
 		sigma_pk3pk1_rc2 = None
 		#checking parameters
-		if "dincre_RC1"          in self.parameters: dincre1 	      = self.parameters["dincre_RC1"]
-		if "dincre_RC2"       	 in self.parameters: dincre2 	      = self.parameters["dincre_RC2"]	
-		if "nsteps_RC2"       	 in self.parameters: nRC2  	          = self.parameters["nsteps_RC2"]
-		if "optmizer"         	 in self.parameters: _Optmizer        = self.parameters["optmizer"]
-		if "adaptative"       	 in self.parameters: _Adaptative      = self.parameters["adaptative"] 
-		if "MC_RC1"            	 in self.parameters: MCR1             = self.parameters["MC_RC1"]
-		if "MC_RC2"           	 in self.parameters: MCR2             = self.parameters["MC_RC2"]		
-		if "rc_type_1"         	 in self.parameters: rcType1 	      = self.parameters["rc_type_1"]
-		if "rc_type_2"     	  	 in self.parameters: rcType2 	      = self.parameters["rc_type_2"]
-		if "dminimum_RC1" 	  	 in self.parameters: dminimum_RC1     = self.parameters["dminimum_RC1"] 	
-		if "dminimum_RC2" 	  	 in self.parameters: dminimum_RC2     = self.parameters["dminimum_RC2"] 
-		if "sigma_pk1pk3_rc1" 	 in self.parameters: sigma_pk1pk3_rc1 = self.parameters["sigma_pk1pk3_rc1"]
-		if "sigma_pk3pk1_rc1" 	 in self.parameters: sigma_pk3pk1_rc1 = self.parameters["sigma_pk3pk1_rc1"]	
-		if "sigma_pk1pk3_rc2" 	 in self.parameters: sigma_pk1pk3_rc2 = self.parameters["sigma_pk1pk3_rc2"]
-		if "sigma_pk3pk1_rc2" 	 in self.parameters: sigma_pk3pk1_rc2 = self.parameters["sigma_pk3pk1_rc2"]
+		if "dincre_RC1"       in self.parameters: dincre1 	       = self.parameters["dincre_RC1"]
+		if "dincre_RC2"       in self.parameters: dincre2 	       = self.parameters["dincre_RC2"]	
+		if "nsteps_RC2"       in self.parameters: nRC2  	       = self.parameters["nsteps_RC2"]
+		if "optmizer"         in self.parameters: _Optmizer        = self.parameters["optmizer"]
+		if "adaptative"       in self.parameters: _Adaptative      = self.parameters["adaptative"] 
+		if "MC_RC1"           in self.parameters: MCR1             = self.parameters["MC_RC1"]
+		if "MC_RC2"           in self.parameters: MCR2             = self.parameters["MC_RC2"]		
+		if "rc_type_1"        in self.parameters: rcType1 	       = self.parameters["rc_type_1"]
+		if "rc_type_2"     	  in self.parameters: rcType2 	       = self.parameters["rc_type_2"]
+		if "dminimum_RC1" 	  in self.parameters: dminimum_RC1     = self.parameters["dminimum_RC1"] 	
+		if "dminimum_RC2" 	  in self.parameters: dminimum_RC2     = self.parameters["dminimum_RC2"] 
+		if "sigma_pk1pk3_rc1" in self.parameters: sigma_pk1pk3_rc1 = self.parameters["sigma_pk1pk3_rc1"]
+		if "sigma_pk3pk1_rc1" in self.parameters: sigma_pk3pk1_rc1 = self.parameters["sigma_pk3pk1_rc1"]	
+		if "sigma_pk1pk3_rc2" in self.parameters: sigma_pk1pk3_rc2 = self.parameters["sigma_pk1pk3_rc2"]
+		if "sigma_pk3pk1_rc2" in self.parameters: sigma_pk3pk1_rc2 = self.parameters["sigma_pk3pk1_rc2"]
 		#--------------------------------------------------------------------
 		scan = SCAN(self.molecule,self.baseFolder,_Optmizer,ADAPTATIVE=_Adaptative)
 		scan.ChangeDefaultParameters(self.parameters)	
 		#--------------------------------------------------------------------
 		rc1 = ReactionCoordinate( self.parameters["ATOMS_RC1"], MCR1, _type=rcType1 )
-		rc1.SetInformation(self.molecule,dincre1,dminimum_RC1,sigma_pk1pk3_rc1,sigma_pk1pk3_rc1)
+		rc1.GetRCLabel(self.molecule)
+		rc1.SetInformation(self.molecule,dincre1,_dminimum=dminimum_RC1,_sigma_pk1_pk3=sigma_pk1pk3_rc1,_sigma_pk3_pk1=sigma_pk1pk3_rc1)
 		scan.SetReactionCoord(rc1)
 		rc2 = None
 		if nDims == 2:
 			rc2 = ReactionCoordinate( self.parameters["ATOMS_RC2"], MCR2, _type=rcType2 )
-			rc2.SetInformation(self.molecule,dincre2,dminimum_RC2,sigma_pk1pk3,sigma_pk3pk1_rc2)
+			rc2.GetRCLabel(self.molecule)
+			rc2.SetInformation(self.molecule,dincre2,_dminimum=dminimum_RC2,_sigma_pk1_pk3=sigma_pk1pk3_rc2,_sigma_pk3_pk1=sigma_pk3pk1_rc2)
 			scan.SetReactionCoord(rc2)
 			scan.Run2DScan(self.parameters["nsteps_RC1"], self.parameters["nsteps_RC2"] )
 		else: scan.Run1DScan(self.parameters["nsteps_RC1"])		
@@ -344,12 +345,12 @@ class Simulation:
 			if "calculate_distances" in self.parameters:
 				if self.parameters["calculate_distances"] == True:
 					rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],False,0)
-					rc1.SetInformation(self.molecule,0)
+					rc1.GetRCLabel(self.molecule)
 					RCs = [rc1]
 					rc2 = None
 					if "ATOMS_RC2" in self.parameters:
-						rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],False,0)
-						rc2.SetInformation(self.molecule,0)
+						rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],False,0)						
+						rc2.GetRCLabel(self.molecule)
 						RCs.append(rc2)
 					DA.DistancePlots(RCs,show)
 	#==================================================================
@@ -364,6 +365,12 @@ class Simulation:
 			"ATOMS_RC1"           : list with the atoms indices to set the first coordinate. 
 			nsteps"               : number of moleculer dynamics steps to production run. 					
 		Optinal keys in self.parameters :
+			"dminimum_RC1"        :
+			"dminimum_RC2"        :
+			"sigma_pk1pk3_rc1"    :
+			"sigma_pk3pk1_rc1"    :
+			"sigma_pk1pk3_rc2"    :
+			"sigma_pk3pk1_rc2"    :
 			"ATOMS_RC2"           : list with the atoms indices to set the second coordinate. 
 			"force_constant_2"    : float with the force constant applied for the harmonic potential in the second reaction coordinate
 			"rc_type_2"           : string specifying the type of coordinate to be used for the second restricted dimension
@@ -385,25 +392,41 @@ class Simulation:
 		sampling = 0 		
 		MCR1 = False
 		MCR2 = False
+		dminimum_RC1 = None
+		dminimum_RC2 = None
+		sigma_pk1pk3_rc1 = None
+		sigma_pk3pk1_rc1 = None
+		sigma_pk1pk3_rc2 = None
+		sigma_pk3pk1_rc2 = None
+
 		if "MC_RC1" in self.parameters:	MCR1 = self.parameters["MC_RC1"]
 		if "MC_RC2" in self.parameters:	MCR2 = self.parameters["MC_RC2"]
+
 		if "sampling_factor" in self.parameters: sampling = self.parameters["sampling_factor"]
 		#--------------------
 		rcType1 = "Distance"
 		rcType2 = "Distance"
-		if "rc_type_1" in self.parameters: rcType1 = self.parameters["rc_type_1"]
-		if "rc_type_2" in self.parameters: rcType2 = self.parameters["rc_type_2"]
+		if "dminimum_RC1" 	  in self.parameters: dminimum_RC1     = self.parameters["dminimum_RC1"] 	
+		if "dminimum_RC2" 	  in self.parameters: dminimum_RC2     = self.parameters["dminimum_RC2"] 
+		if "sigma_pk1pk3_rc1" in self.parameters: sigma_pk1pk3_rc1 = self.parameters["sigma_pk1pk3_rc1"]
+		if "sigma_pk3pk1_rc1" in self.parameters: sigma_pk3pk1_rc1 = self.parameters["sigma_pk3pk1_rc1"]	
+		if "sigma_pk1pk3_rc2" in self.parameters: sigma_pk1pk3_rc2 = self.parameters["sigma_pk1pk3_rc2"]
+		if "sigma_pk3pk1_rc2" in self.parameters: sigma_pk3pk1_rc2 = self.parameters["sigma_pk3pk1_rc2"]
+		if "rc_type_1"        in self.parameters: rcType1          = self.parameters["rc_type_1"]
+		if "rc_type_2"        in self.parameters: rcType2          = self.parameters["rc_type_2"]
 		#-------------------------------------------------------------------
 		restrainDimensions = self.parameters['ndim']
 		forcK_1 = self.parameters["force_constant_1"]
 		#-------------------------------------------------------------------
 		rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],MCR1,_type=rcType1)
-		rc1.SetInformation(self.molecule,0)
+		rc1.GetRCLabel(self.molecule)
+		rc1.SetInformation(self.molecule,0.0,_dminimum=dminimum_RC1,_sigma_pk1_pk3=sigma_pk1pk3_rc1,_sigma_pk3_pk1=sigma_pk3pk1_rc1)
 		nDims = self.parameters['ndim']
 		rc2 = None
 		if nDims == 2:
 			rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],MCR2,_type=rcType2)
-			rc2.SetInformation(self.molecule,0)
+			rc2.GetRCLabel(self.molecule)
+			rc2.SetInformation(self.molecule,0.0,_dminimum=dminimum_RC2,_sigma_pk1_pk3=sigma_pk1pk3_rc2,_sigma_pk3_pk1=sigma_pk3pk1_rc2)
 			forcK_2 = self.parameters["force_constant_2"]
 		#-------------------------------------------------------------------
 		distance = rc1.minimumD
@@ -412,6 +435,9 @@ class Simulation:
 			restraint = RestraintMultipleDistance.WithOptions( energyModel=rmodel, distances=[ [ rc1.atoms[1], rc1.atoms[0], rc1.weight13 ], [ rc1.atoms[1], rc1.atoms[2], rc1.weight31 ] ] ) 
 		elif rc1.nAtoms == 2:				
 			restraint = RestraintDistance.WithOptions( energyModel=rmodel, point1=rc1.atoms[0], point2=rc1.atoms[1] )
+		elif rc1.nAtoms == 4:
+			rmodel = RestraintEnergyModel.Harmonic( distance, forcK_1, period = 360.0 )
+			restraint = RestraintDihedral.WithOptions( energyModel=rmodel, point1=rc1.atoms[0],point2=rc1.atoms[1],point3=rc1.atoms[2],point4=rc1.atoms[3] )
 		restraints['M1'] =  restraint
 		#-------------------------------------------------------------------
 		if nDims == 2:
@@ -419,8 +445,11 @@ class Simulation:
 			rmodel = RestraintEnergyModel.Harmonic( distance, forcK_2 )
 			if rc2.nAtoms == 3:				
 				restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ rc2.atoms[1], rc2.atoms[0], rc2.weight13 ], [ rc2.atoms[1], rc2.atoms[2], rc2.weight31 ] ] ) 
-			elif rc1.nAtoms == 2:				
+			elif rc2.nAtoms == 2:				
 				restraint = RestraintDistance.WithOptions( energyModel=rmodel, point1=rc2.atoms[0], point2=rc2.atoms[1] )
+			elif rc2.nAtoms == 4:
+				rmodel = RestraintEnergyModel.Harmonic( distance, forcK_2, period = 360.0 )
+				restraint = RestraintDihedral.WithOptions( energyModel=rmodel, point1=rc2.atoms[0],point2=rc2.atoms[1],point3=rc2.atoms[2],point4=rc2.atoms[3] )	
 			restraints['M2'] =  restraint		
 		#----------------------------------------------------------------
 		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'])
@@ -450,6 +479,12 @@ class Simulation:
 			"MD_method"           : string with the integrator algorithm name
 			"source_folder"       : string with the path which to find de coordinate files to initialize the simulation in each window
 		Optinal :
+			"dminimum_RC1"        :
+			"dminimum_RC2"        :
+			"sigma_pk1pk3_rc1"    :
+			"sigma_pk3pk1_rc1"    :
+			"sigma_pk1pk3_rc2"    :
+			"sigma_pk3pk1_rc2"    :
 			"ATOMS_RC2"       	  : List containing the indices of the atoms for the second restricted reaction coordinate
 			"force_constant_1"	  : float with the force constant applied for the harmonic potential in the first reaction coordinate. Default is 600.0 KJ
 			"force_constant_2"	  : float with the force constant applied for the harmonic potential in the second reaction coordinate. Default is 600.0 KJ
@@ -480,27 +515,42 @@ class Simulation:
 		rcType1 = "Distance"
 		rcType2 = "Distance"
 		#---------------------------------------
-		if "MC_RC1" in self.parameters: 	MCR1 = True
-		if "MC_RC2" in self.parameters:		MCR2 = True
+		if "MC_RC1" in self.parameters: MCR1 = True
+		if "MC_RC2" in self.parameters:	MCR2 = True
 		#---------------------------------------
-		_Restart 	= False
-		_Adaptative = False
-		_Optimize   = False
-		_crdFormat = ".pkl"
-		sampling   = 0
-		if "restart" 	 	   in self.parameters: _Restart    = self.parameters["restart"]
-		if "adaptative"  	   in self.parameters: _Adaptative = self.parameters["adaptative"]
-		if "optimize"          in self.parameters: _Optimize   = self.parameters["optimize"]
-		if "coordinate_format" in self.parameters: _crdFormat  = self.parameters["coordinate_format"]
-		if "sampling"          in self.parameters: sampling    = self.parameters["sampling_factor"]
+		_Restart 	     = False
+		_Adaptative      = False
+		_Optimize        = False
+		_crdFormat       = ".pkl"
+		sampling         = 0
+		dminimum_RC1     = None
+		dminimum_RC2     = None
+		sigma_pk1pk3_rc1 = None
+		sigma_pk3pk1_rc1 = None
+		sigma_pk1pk3_rc2 = None
+		sigma_pk3pk1_rc2 = None
+		#-------------------------------------------------------------------------------------------
+		if "dminimum_RC1" 	   in self.parameters: dminimum_RC1     = self.parameters["dminimum_RC1"] 	
+		if "dminimum_RC2" 	   in self.parameters: dminimum_RC2     = self.parameters["dminimum_RC2"] 
+		if "sigma_pk1pk3_rc1"  in self.parameters: sigma_pk1pk3_rc1 = self.parameters["sigma_pk1pk3_rc1"]
+		if "sigma_pk3pk1_rc1"  in self.parameters: sigma_pk3pk1_rc1 = self.parameters["sigma_pk3pk1_rc1"]	
+		if "sigma_pk1pk3_rc2"  in self.parameters: sigma_pk1pk3_rc2 = self.parameters["sigma_pk1pk3_rc2"]
+		if "sigma_pk3pk1_rc2"  in self.parameters: sigma_pk3pk1_rc2 = self.parameters["sigma_pk3pk1_rc2"]
+		if "restart" 	 	   in self.parameters: _Restart         = self.parameters["restart"]
+		if "adaptative"  	   in self.parameters: _Adaptative      = self.parameters["adaptative"]
+		if "optimize"          in self.parameters: _Optimize        = self.parameters["optimize"]
+		if "coordinate_format" in self.parameters: _crdFormat       = self.parameters["coordinate_format"]
+		if "sampling"          in self.parameters: sampling         = self.parameters["sampling_factor"]
 		#-------------------------------------------------------------------
 		rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],MCR1,_type=rcType1)
-		rc1.SetInformation(self.molecule,0)
+		rc1.GetRCLabel(self.molecule)
+		rc1.SetInformation(self.molecule,0.0,_dminimum=dminimum_RC1,_sigma_pk1_pk3=sigma_pk1pk3_rc1,_sigma_pk3_pk1=sigma_pk3pk1_rc1)
 		nDims = self.parameters['ndim']
 		rc2 = None
 		if nDims == 2:
 			rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],MCR2,_type=rcType2)
-			rc2.SetInformation(self.molecule,0)
+			rc2;GetRCLabel(self.molecule)
+			rc2.SetInformation(self.molecule,0.0,_dminimum=dminimum_RC2,_sigma_pk1_pk3=sigma_pk1pk3_rc2,_sigma_pk3_pk1=sigma_pk3pk1_rc2)
 		#---------------------------------------
 		USrun = US(self.molecule  						  ,
 			       self.baseFolder 						  ,
@@ -625,8 +675,7 @@ class Simulation:
 		temperature    = 300.15 
 		symmetryNumber = 1
 
-		if "pressure" in self.parameters:
-			pressure = self.parameters["pressure"]
+		if "pressure" in self.parameters: pressure = self.parameters["pressure"]
 
 		self.molecule.coordinates3 = ImportCoordinates3(self.parameters["initial_coordinates"])
 		e0 = self.molecule.Energy()

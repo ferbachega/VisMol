@@ -598,8 +598,8 @@ def FreeEnergy1DSimpleDistance(nsteps):
 	atom1  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atomsf = [ atom1[0], atom2[0] ]	
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLable(proj.cSystem)	
 	#-------------------------------------------------	
 	US_parameters = { "ATOMS_RC1":atomsf		       ,
 				   "ndim": 1 					       ,
@@ -644,8 +644,8 @@ def FreeEnergy1DSimpleDistanceOPT(nsteps):
 	atom1  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atomsf = [ atom1[0], atom2[0] ]	
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLable(proj.cSystem)	
 	#-------------------------------------------------
 	#RUN umbrella sampling
 	US_parameters = { "ATOMS_RC1":atomsf		  ,
@@ -692,8 +692,8 @@ def FreeEnergy1DMultipleDistance(nsteps):
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 	atomsf = [ atom1[0], atom2[0],atom3[0] ]	
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)	
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rcq.GetRCLable(proj.cSystem)	
 	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":rc1.label}
 	#-------------------------------------------------	
 	US_parameters = { 'ATOMS_RC1':atomsf		    ,
@@ -739,18 +739,12 @@ def UmbrellaSampling1Drestart(nsteps):
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 	atomsf = [ atom1[0], atom2[0],atom3[0] ]	
 	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)	
+	rc1.GetRCLable(proj.cSystem)
 	
 	_name = "SCAN1D_4US_restart_test"
 	QCMMScanMultipleDistance(6,0.2,name=_name)
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo" )
 	
-	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
-	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
-	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
-
 	#-------------------------------------------------	
 	US_parameters = { "ATOMS_RC1":atomsf		    ,
 				   "ndim": 1 						,
@@ -781,15 +775,15 @@ def UmbrellaSampling1Drestart(nsteps):
 	input()
 	#*************************************************************
 	QCMMScanMultipleDistance(10,0.2,name=_name)
-	USparameters = { "ATOMS_RC1":atomsf				,
-				   "ndim": 1 						,
-				   "sampling_factor":nsteps/10    	,
-				   "equilibration_nsteps":nsteps/2 	,
-				   "production_nsteps":nsteps		,
-				   "source_folder":_path 	    	,
-				   "MD_method":"LeapFrog"			,
-				   "MC_RC1":True					,
-				   "restart":True                 ,
+	USparameters={ "ATOMS_RC1":atomsf				    ,
+				   "ndim": 1 						    ,
+				   "sampling_factor":nsteps/10    	    ,
+				   "equilibration_nsteps":nsteps/2 	    ,
+				   "production_nsteps":nsteps		    ,
+				   "source_folder":_path 	    	    ,
+				   "MD_method":"LeapFrog"			    ,
+				   "MC_RC1":True					    ,
+				   "restart":True                       ,
 				   "simulation_type":"Umbrella_Sampling",
 				   "NmaxThreads":10 				    }
 
@@ -814,10 +808,10 @@ def FreeEnergy2DsimpleDistance(nsteps):
 	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
 	atomsf = [ atom1[0], atom2[0] ] 
 	atomss = [ atom4[0], atom5[0] ]
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
-	rc2 = ReactionCoordinate(atomss,False,0)	
-	rc2.SetInformation(proj.cSystem,0.0)
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLable(proj.cSystem)	
+	rc2 = ReactionCoordinate(atomss,False,0)
+	rc2.GetRCLable(proj.cSystem)	
 	#------------------------------------------------------------------
 	_name = "SCAN2D_4FEcalculations_simple_distance"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -870,9 +864,9 @@ def FreeEnergy2DmixedDistance(nsteps):
 	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 	atomss = [ atom4[0], atom5[0] ]
 	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
-	rc2 = ReactionCoordinate(atomss,False,0)	
-	rc2.SetInformation(proj.cSystem,0.0)
+	rc1.GetRCLable(proj.cSystem)
+	rc2 = ReactionCoordinate(atomss,False,0)
+	rc2.GetRCLable(proj.cSystem)	
 
 	_name = "SCAN2D_4FEcalculations_mixed_distance"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -926,10 +920,10 @@ def FreeEnergy2DmultipleDistance(nsteps):
 	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLable(proj.cSystem)	
 	rc2 = ReactionCoordinate(atomss,False,0)	
-	rc2.SetInformation(proj.cSystem,0.0)
+	rc2.GetRCLable(proj.cSystem)
 
 	_name = "SCAN2D_4FEcalculations_multiple_distance"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -976,7 +970,8 @@ def FreeEnergyDihedral1D(nsteps):
 	if not os.path.exists(_path ): Scan1D_Dihedral(20, name=_name )
 	#-------------------------------------------------	
 	atomsf = [4, 6,  8, 14]	
-	rc1 = ReactionCoordinate(atomsf,False,0)	
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLable(proj.cSystem)	
 	rc1.SetInformation(proj.cSystem,0.0)
 
 	#-------------------------------------------------	
@@ -1016,10 +1011,10 @@ def FreeEnergyDihedral2D(nsteps):
 	atomsf = [ 4, 6,  8, 14 ] 
 	atomss = [ 6, 8, 14, 16 ]
 	
-	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.SetInformation(proj.cSystem,0.0)
-	rc2 = ReactionCoordinate(atomss,False,0)	
-	rc2.SetInformation(proj.cSystem,0.0)
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLable(proj.cSystem)	
+	rc2 = ReactionCoordinate(atomss,False,0)
+	rc2.GetRCLable(proj.cSystem)	
 	
 	_name = "SCAN2D_4FEcalculations_dihedral"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -1077,16 +1072,16 @@ def EnergyAnalysisPlots():
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0]]
 	rc1_sd = ReactionCoordinate(a1,False)
-	rc1_sd.SetInformation(proj.cSystem,0)
+	rc1_sd.GetRCLable(proj.cSystem)
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.SetInformation(proj.cSystem,0)
+	rc1_md.GetRCLable(proj.cSystem)
 	a2 = [atom4[0],atom5[0]]
 	rc2_sd = ReactionCoordinate(a2,False)
-	rc2_sd.SetInformation(proj.cSystem,0)
+	rc2_md.GetRCLable(proj.cSystem)
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
-	rc2_md.SetInformation(proj.cSystem,0)
+	rc2_md.GetRCLable(proj.cSystem)
 	#----------------------------------------------------------------------------------
 	#1D energy plot test 
 	if not os.path.exists( os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance") ):
@@ -1254,7 +1249,7 @@ def pDynamoEnergyRef_1D():
 	#setting reaction coordinates for ploting labels
 	a1 = [ atom1[0],atom2[0],atom3[0] ]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.SetInformation(proj.cSystem,0)	
+	rc1_md.GetRCLable(proj.cSystem)
 	
 	_name = "SCAN1D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
@@ -1295,10 +1290,10 @@ def pDynamoEnergyRef_2D():
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.SetInformation(proj.cSystem,0)	
+	rc1_md.GetRCLable(proj.cSystem)	
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
-	rc2_md.SetInformation(proj.cSystem,0)
+	rc2_md.GetRCLable(proj.cSystem)
 	#---------------------------------------------
 	_name = "SCAN2D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
@@ -1352,10 +1347,10 @@ def MopacEnergyRef():
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.SetInformation(proj.cSystem,0)	
+	rc1_md.GetRCLable(proj.cSystem)	
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
-	rc2_md.SetInformation(proj.cSystem,0)
+	rc2_md.GetRCLable(proj.cSystem)
 	_name = "SCAN1D_4MopacRefinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )	
 	if not os.path.exists(_path):

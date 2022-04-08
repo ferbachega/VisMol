@@ -318,7 +318,6 @@ class GeometryOptimizatrionWindow(Gtk.Window):
                         "save_format"    :None                   ,
                         "save_traj"      :False                  ,
                         "save_pdb"       :False                  }
-
         #----------------------------------------------------------------------------------
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
         tree_iter = combobox_starting_coordinates.get_active_iter()
@@ -346,7 +345,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             saveFormat                       = self.save_trajectory_box.builder.get_object('combobox_format').get_active()
             simParameters["save_frequency"]  = int( self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text() ) 
             simParameters["trajectory_name"] = simParameters["trajectory_name"] + ".ptGeo"
-            if saveFormat   == 0: simParameters["save_format"] = ".ptGeo"
+            if   saveFormat == 0: simParameters["save_format"] = ".ptGeo"
             elif saveFormat == 1: simParameters["save_format"] = ".mdcrd"
             elif saveFormat == 2: simParameters["save_format"] = ".dcd"
             elif saveFormat == 3: simParameters["save_format"] = ".xyz"
