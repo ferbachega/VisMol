@@ -161,7 +161,7 @@ def load_pDynamo_system_from_file (filein,  gridsize = 3, vm_session =  None, fr
     
     vismol_object  = VismolObject.VismolObject(name                           = name          ,    
                                                atoms                          = atoms         ,    
-                                               vm_session                  = vm_session ,    
+                                               vm_session                     = vm_session ,    
                                                bonds_pair_of_indexes          = bonds         ,    
                                                trajectory                     = [frame]       ,    
                                                auto_find_bonded_and_nonbonded = False         )
@@ -232,15 +232,13 @@ class pDynamoSession:
         
     def load_a_new_pDynamo_system_from_dict (self, filesin = {}, systype = 0, name = None):
         """ Function doc """
-        
-        
+                
         '''Every new system is added in the form of a 
         dict, which contains the items:'''
         psystem = {
                   'id'            : 0    ,  # access number (same as the access key in the self.systems dictionary)
                   'name'          : None ,
-                  'system'        : None ,  # pdynamo system
-                  
+                  'system'        : None ,  # pdynamo system                  
                   'vismol_object' : None ,  # Vismol object associated with the system -> is the object that will 
                                             # undergo changes when something new is requested by the interface, for example: show the QC region
                   'active'        : False, 
@@ -254,38 +252,27 @@ class pDynamoSession:
                   'working_folder': HOME , 
                    }
         
-        
+        system = None 
         if systype == 0:
             system              = ImportSystem       ( filesin['amber_prmtop'] )
             system.coordinates3 = ImportCoordinates3 ( filesin['coordinates'] )
-            self.define_NBModel(_type = 1, system = system)
-
-            
-        if systype == 1:
+            self.define_NBModel(_type = 1, system = system)                      
+        elif systype == 1:
             parameters          = CHARMMParameterFileReader.PathsToParameters (filesin['charmm_par'])
             system              = ImportSystem       ( filesin['charmm_psf'] , isXPLOR = True, parameters = parameters )
             system.coordinates3 = ImportCoordinates3 ( filesin['coordinates'] )
-            self.define_NBModel(_type = 1, system = system)
-
-        
-        
-        if systype == 2:
+            self.define_NBModel(_type = 1, system = system)        
+        elif systype == 2:
             mmModel        = MMModelOPLS.WithParameterSet ( filesin['opls_folder'] )            
             system         = ImportSystem       ( filesin['coordinates'])
             system.DefineMMModel ( mmModel )
-            self.define_NBModel(_type = 1, system = system)
-
-
-                
-        if systype == 3:
+            self.define_NBModel(_type = 1, system = system)          
+        elif systype == 3:
             system = ImportSystem (filesin['coordinates'])
             system.Summary()
             print ('mmModel',system.mmModel)
             print ('qcModel',system.qcModel)
             print ('nbModel',system.nbModel)
-
-        
-        
 
         '''
         psystem['system']        =  system
@@ -294,9 +281,9 @@ class pDynamoSession:
         psystem['color_palette'] =  COLOR_PALETTE[self.color_palette_counter]
         #'''
 
-        if name :
+        if name: 
             self.append_system_to_pdynamo_session(system, name = name, working_folder = HOME)
-        else:
+        else   : 
             name = system.label
             self.append_system_to_pdynamo_session(system, name = name, working_folder = HOME)
         
@@ -329,7 +316,10 @@ class pDynamoSession:
         else:
             name = system.label
         
-        psystem['system_original_charges'] =  list(system.AtomicCharges())
+        try:
+            psystem['system_original_charges'] =  list(system.AtomicCharges())
+        except:
+            psystem['system_original_charges'] = []
         psystem['system']                  =  system
         psystem['name']                    =  name
         psystem['color_palette']           =  COLOR_PALETTE[self.color_palette_counter]

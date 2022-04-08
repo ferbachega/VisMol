@@ -652,7 +652,7 @@ class SCAN:
             #..................................................
             if not self.saveFormat == None: 
                 print(self.saveFormat)
-                trajName = os.path.join( self.baseName, self.trajFolder+self.trajFolder )
+                trajName = os.path.join( self.baseName, self.trajFolder+self.saveFormat )
                 trajpath = os.path.join( self.baseName, self.trajFolder+".ptGeo" )
                 Duplicate( trajpath, trajName, self.molecule )
             #..................................................

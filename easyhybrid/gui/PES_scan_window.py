@@ -199,12 +199,10 @@ class PotentialEnergyScanWindow():
 
             self.method_store = Gtk.ListStore(str)
             
-            methods = [
-                "Conjugate Gradient" ,
-                "FIRE"               ,
-                "L-BFGS"             ,
-                "Steepest Descent"   ,
-                ]
+            methods = [ "Conjugate Gradient" ,
+                        "FIRE"               ,
+                        "L-BFGS"             ,
+                        "Steepest Descent"   ]
             
             for method in methods:
                 self.method_store.append([method])
@@ -235,15 +233,11 @@ class PotentialEnergyScanWindow():
             size = len(self.starting_coords_liststore)
             self.combobox_starting_coordinates.set_active(size-1)
             '''--------------------------------------------------------------------------------------------'''     
-
-            #'''--------------------------------------------------------------------------------------------------
             self.folder_chooser_button = FolderChooserButton(main =  self.window)
             self.builder.get_object('folder_chooser_box').pack_start(self.folder_chooser_button.btn, True, True, 0)
             system_id      = self.p_session.active_id
             working_folder = self.p_session.systems[system_id]['working_folder']
             self.folder_chooser_button.set_folder(folder = working_folder) 
-            #'''--------------------------------------------------------------------------------------------------
-            
             ''' 
             self.builder.get_object('label_atom4_coord1').hide()
             self.builder.get_object('entry_atom4_index_coord1').hide()
@@ -254,9 +248,7 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord2').hide()
             self.builder.get_object('label_name4_coord2').hide()
             self.builder.get_object('entry_atom4_name_coord2').hide()            
-            #''' 
-
-
+            ''' 
             self.window.show_all()
             
             self.builder.get_object('label_atom4_coord1').hide()
@@ -284,14 +276,12 @@ class PotentialEnergyScanWindow():
         self.p_session           = self.easyhybrid_main.pDynamo_session
         self.vm_session          = main.vm_session
         self.Visible             =  False        
-        self.residue_liststore = Gtk.ListStore(str, str, str)
-        self.opt_methods = { 
-                             0 : 'ConjugatedGradient',
+        self.residue_liststore   = Gtk.ListStore(str, str, str)
+        self.opt_methods = { 0 : 'ConjugatedGradient',
                              1 : 'SteepestDescent'   ,
                              2 : 'LFBGS'             ,
                              3 : 'QuasiNewton'       ,
-                             4 : 'FIRE'              ,
-                              }
+                             4 : 'FIRE'              }
 
 
     def change_cb_coordType1 (self, combo_box):
@@ -415,10 +405,8 @@ class PotentialEnergyScanWindow():
                     DMINIMUM =  dist1- dist2
                     self.builder.get_object('entry_dmin_coord1').set_text(str(DMINIMUM))
         else:
-            pass
-        
-       
-       
+            pass    
+              
         if coord2:
             _type = self.combobox_reaction_coord2.get_active()
             
@@ -437,19 +425,18 @@ class PotentialEnergyScanWindow():
                 dist2 = get_distance(self.vismol_object, index2, index3 )
                 
                 if self.builder.get_object('mass_restraints2').get_active():
-                    self.sigma_pk1_pk3, self.sigma_pk3_pk1  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
+                    self.sigma_pk1_pk3_rc2, self.sigma_pk3_pk1_rc2  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
                     #print('distance a1 - a2:', dist1 - dist2)
-                    DMINIMUM =  (self.sigma_pk1_pk3 * dist1) -(self.sigma_pk3_pk1 * dist2*-1)
+                    DMINIMUM =  (self.sigma_pk1_pk3_rc2 * dist1) -(self.sigma_pk3_pk1_rc2 * dist2*-1)
                     self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
                 else:
                     DMINIMUM =  dist1- dist2
                     self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
         else:
             pass
-        
+    
     def import_picking_selection_data (self, widget):
         """  
-        
                    R                    R
                     \                  /
                      A1--A2  . . . . A3
@@ -459,9 +446,8 @@ class PotentialEnergyScanWindow():
                      |   |            |
                     pk1-pk2  . . . . pk3
                        d1       d2	
-                
-                q1 =  1 / (mpk1 + mpk3)  =  [ mpk1 * r (pk3_pk2)  -   mpk3 * r (pk1_pk2) ]
 
+                q1 =  1 / (mpk1 + mpk3)  =  [ mpk1 * r (pk3_pk2)  -   mpk3 * r (pk1_pk2) ]
         """       
         atom1 = self.vm_session.picking_selections.picking_selections_list[0]
         atom2 = self.vm_session.picking_selections.picking_selections_list[1]
@@ -473,63 +459,45 @@ class PotentialEnergyScanWindow():
             if atom1:
                 self.builder.get_object('entry_atom1_index_coord1').set_text(str(atom1.index-1) )
                 self.builder.get_object('entry_atom1_name_coord1' ).set_text(str(atom1.name) )
-            else:
-                print('use picking selection to chose the central atom')
-            
-            
+            else: print('use picking selection to chose the central atom')            
+            #-------
             if atom2:
                 self.builder.get_object('entry_atom2_index_coord1').set_text(str(atom2.index-1) )
                 self.builder.get_object('entry_atom2_name_coord1' ).set_text(str(atom2.name) )
-            else:
-                print('use picking selection to chose the central atom')
-            
-            
+            else: print('use picking selection to chose the central atom')
+            #-------
             if atom3:
                 self.builder.get_object('entry_atom3_index_coord1').set_text(str(atom3.index-1) )
                 self.builder.get_object('entry_atom3_name_coord1' ).set_text(str(atom3.name) )
-            else:
-                print('use picking selection to chose the central atom')
-            
+            else: print('use picking selection to chose the central atom')
+             #-------
             if atom4:
                 self.builder.get_object('entry_atom4_index_coord1').set_text(str(atom4.index-1) )
                 self.builder.get_object('entry_atom4_name_coord1' ).set_text(str(atom4.name) )
-            else:
-                print('use picking selection to chose the central atom')
+            else: print('use picking selection to chose the central atom')
             
             self.refresh_dmininum( coord1 =  True)
             
-
-        
-        
-        
         else:
             if atom1:
                 self.builder.get_object('entry_atom1_index_coord2').set_text(str(atom1.index-1) )
                 self.builder.get_object('entry_atom1_name_coord2' ).set_text(str(atom1.name) )
-            else:
-                print('use picking selection to chose the central atom')
-            
-            
+            else: print('use picking selection to chose the central atom')
+            #-------
             if atom2:
                 self.builder.get_object('entry_atom2_index_coord2').set_text(str(atom2.index-1) )
                 self.builder.get_object('entry_atom2_name_coord2' ).set_text(str(atom2.name) )
-            else:
-                print('use picking selection to chose the central atom')
-            
-            
+            else: print('use picking selection to chose the central atom')            
+            #-------
             if atom3:
                 self.builder.get_object('entry_atom3_index_coord2').set_text(str(atom3.index-1) )
                 self.builder.get_object('entry_atom3_name_coord2' ).set_text(str(atom3.name) )
-            else:
-                print('use picking selection to chose the central atom')
-            
-            
-            
+            else: print('use picking selection to chose the central atom')           
+            #-------
             if atom4:
                 self.builder.get_object('entry_atom4_index_coord2').set_text(str(atom4.index-1) )
                 self.builder.get_object('entry_atom4_name_coord2' ).set_text(str(atom4.name) )
-            else:
-                print('use picking selection to chose the central atom')
+            else: print('use picking selection to chose the central atom')
     
             self.refresh_dmininum( coord2 =  True, )
 
@@ -543,7 +511,7 @@ class PotentialEnergyScanWindow():
         
         #print(widget)
 
-    #-------------------------------------------------------------------------------
+    #======================================================================================
     def run_scan(self,button):
         '''
         Get infotmation and run the simulation
@@ -596,7 +564,7 @@ class PotentialEnergyScanWindow():
             print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
             self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
             
-                       
+        #----------------------------------------------------------------------------------               
         _type = self.combobox_reaction_coord1.get_active()
         print('_type', _type)
         if _type == 0:
@@ -629,7 +597,6 @@ class PotentialEnergyScanWindow():
         parameters["nsteps_RC1"]        = int( self.builder.get_object('entry_nsteps1').get_text() )
         parameters["force_constant_1"]  = float( self.builder.get_object('entry_FORCE_coord1').get_text() )
         parameters["dincre_RC1"]        = float( self.builder.get_object('entry_step_size1').get_text() )
-
         #----------------------------------------------------------------------------------
         '''
         coordenada  de reacao 2
@@ -637,17 +604,16 @@ class PotentialEnergyScanWindow():
         if self.builder.get_object('radiobutton_bidimensional').get_active():
             self.is_scan2d = True
             parameters["ndim"] = 2
-            _type = self.combobox_reaction_coord2.get_active()
-            
+            _type = self.combobox_reaction_coord2.get_active()            
             entry_FORCE_coord2 = int(self.builder.get_object('entry_FORCE_coord2').get_text() )
-            
+            #------------------------------------------
             if _type == 0: # simple
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
                 parameters["ATOMS_RC2"]     = [ index1, index2 ] 
                 parameters["dminimum_RC2"]  = dmin 
-
+            #------------------------------------------
             elif _type == 1: # multiple
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
@@ -656,12 +622,10 @@ class PotentialEnergyScanWindow():
 
                 if self.builder.get_object('mass_restraints2').get_active():
                     parameters["MC_RC1"] = True
-                    parameters["sigma_pk1pk3_rc2"] = self.sigma_pk1_pk3 
-                    parameters["sigma_pk3pk1_rc2"] = self.sigma_pk3_pk1
-                else:
-                    mass_weighted_2 = False 
-                     
-        
+                    parameters["sigma_pk1pk3_rc2"] = self.sigma_pk1_pk3_rc2 
+                    parameters["sigma_pk3pk1_rc2"] = self.sigma_pk3_pk1_rc2
+                else: mass_weighted_2 = False 
+            #------------------------------------------                 
             elif _type == 2: # dihedral
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
@@ -672,8 +636,9 @@ class PotentialEnergyScanWindow():
         self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters )
 
         self.window.destroy()
-        self.Visible    =  False
-
+        self.Visible =  False
+#*********************************************************************************************
+#END OF CLASS
 #=====================================================================================
 def get_distance (vobject, index1, index2):
     """ Function doc """
@@ -688,13 +653,13 @@ def get_distance (vobject, index1, index2):
     dist = (dx**2+dy**2+dz**2)**0.5
     print('distance a1 - a2:', dist)
     return dist
-    
+#===========================================================
 def get_angle (vobject, index1, index2, index3):
     """ Function doc """
-
+#===========================================================
 def get_dihedral (vobject, index1, index2, index3, index4):
     """ Function doc """
-    
+#===========================================================
 def compute_sigma_a1_a3 (vobject, index1, index3):
 
     """ example:
@@ -708,8 +673,7 @@ def compute_sigma_a1_a3 (vobject, index1, index3):
     atom3 = vobject.atoms[index3]
     
     symbol1 = atom1.symbol
-    symbol3 = atom3.symbol
-    
+    symbol3 = atom3.symbol    
     
     mass1 = atomic_dic[symbol1][4]
     mass3 = atomic_dic[symbol3][4]

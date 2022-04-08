@@ -306,7 +306,6 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         """ Function doc """
         
         '''this combobox has the reference to the starting coordinates of a simulation'''
-
         simParameters={ "simulation_type":"Geometry_Optimization",
                         "trajectory_name": None                  , 
                         "folder"         :os.getcwd()            , 
@@ -350,16 +349,14 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             elif saveFormat == 2: simParameters["save_format"] = ".dcd"
             elif saveFormat == 3: simParameters["save_format"] = ".xyz"
             self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'] = simParameters["folder"] 
-            
+        #-------------------------------------------------------------------------------------    
         self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = simParameters )
-
         self.window.destroy()
         self.Visible    =  False
     #=================================================================================
     def on_name_combo_changed(self, widget):
         """ Function doc """
         print('eba - apagar')
-
     #=================================================================================
     def update_working_folder_chooser (self, folder = None):
         """ Function doc """
