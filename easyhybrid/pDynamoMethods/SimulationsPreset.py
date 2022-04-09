@@ -747,7 +747,7 @@ class Simulation:
 			if "show" 		in self.parameters: show       = self.parameters["show"]
 			#------------------------------------------------------------				
 			EA = EnergyAnalysis(self.parameters["traj_bins"],1,_type="1DRef")
-			EA.ReadLog(ER.baseName+".log")
+			EA.ReadLog( os.path.join(ER.baseName,ER.trajFolder+".log") )
 			EA.MultPlot1D(crd1_label,show)	
 			RSrun.Finalize()
 	#=========================================================================	
