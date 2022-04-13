@@ -14,10 +14,9 @@ import numpy as np
 #--------------------------------------------------------------
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
-if not VISMOL_HOME == None:
-	sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") ) 
-else:
-	sys.path.append(os.path.join("/home/igorchem/easyhybrid/pDynamoMethods") ) 
+if not VISMOL_HOME == None: sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") ) 
+else:                       sys.path.append(os.path.join("/home/igorchem/easyhybrid/pDynamoMethods") ) 
+#-----------------------------------------------------------------------------------------------------
 #Loading own libraries
 #-------------------------------------------------------------
 from EnergyAnalysis     	import EnergyAnalysis
@@ -88,7 +87,7 @@ class Simulation:
 		elif self.parameters["simulation_type"] == "Steep_Path_Searcher":			self.ReactionSearchers()				
 		elif self.parameters["simulation_type"] == "Simulating_Annealing":			self.SimulatingAnnealing()		
 		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.SMD()		
-		elif self.parameters["simulation_type"] == "Steered_Molecular_Dynamics":	self.MonteCarlo()				
+		elif self.parameters["simulation_type"] == "Monte_Carlo":					self.MonteCarlo()				
 		elif self.parameters["simulation_type"] == "Trajectory_Analysis":			self.TrajectoryPlots() 		
 		elif self.parameters["simulation_type"] == "Energy_Plots":					self.EnergyPlots()
 	#=================================================================================================================
@@ -160,8 +159,7 @@ class Simulation:
 		EA = EnergyAnalysis(dimensions[0],dimensions[1],_type=TYPE)
 		EA.ReadLog( os.path.join(ER.baseName+".log") )
 		#-------------------------------------------------------------
-		if dimensions[1] > 0:
-			EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
+		if dimensions[1] > 0: EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
 			if "methods_lists" in self.parameters:
 				if len(self.parameters["methods_lists"]) > 1: EA.MultPlot1D(crd1_label)
@@ -580,8 +578,7 @@ class Simulation:
 			"ybins"			:
 			"temperature"	:
 		Optinal keys        :
-		plot keys           :
-				
+		plot keys           :				
 		'''
 		ynbins = 0 
 		if "ynbins" in self.parameters: ynbins = self.parameters["ynbins"]
@@ -815,6 +812,13 @@ class Simulation:
 		Optional keys in self.parameters:
 		'''
 		pass
+	#=========================================================================	
+	def Print(self):
+		'''
+		Printing information of the simulations that will be run.
+		'''
+		print("Simulation Type: {}".format(self.parameters["simulation_type"]) )
+		print("Working folder: {}".format(self.parameters["folder"]) )
 
 #=============================================================================
 #========================END OF THE FILE======================================

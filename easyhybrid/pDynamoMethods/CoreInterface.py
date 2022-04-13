@@ -9,7 +9,6 @@
 ##############################################################
 
 import os, glob, sys
-
 #--------------------------------------------------------------
 #Loading own libraries
 from commonFunctions import *
@@ -71,16 +70,16 @@ class SimulationProject:
         #------------------------------------------------------------
         if not oldSystem == None:
             oldSystem = copySystem(self.cSystem)
-            self.SystemStates.append(oldSystem) # put the current system 
+            self.SystemStates.append(oldSystem) 
         #------------------------------------------------------------
         #testing the MMmodel
         self.NBmodel = NBModelCutOff.WithDefaults ( )
         self.cSystem.DefineNBModel( self.NBmodel )
-
+        #------------------------------------------------------------
         if self.DEBUG:
             energy = self.cSystem.Energy( doGradients = True )
             self.cSystem.Summary()
-                
+        #------------------------------------------------------------      
         self.NBmodel = self.cSystem.nbModel
         self.MMmodel = self.cSystem.mmModel
         self.logfile.inputLine("Energy Model loaded: " + self.cSystem.energyModelLabel )
@@ -115,9 +114,7 @@ class SimulationProject:
         if self.DEBUG:
             energy = self.cSystem.Energy( doGradients = True )            
             self.cSystem.Summary()
-
         self.logfile.inputLine("New System loaded!")
-
     #====================================================================================
     def SphericalPruning(self, _centerAtom, _radius):
         '''
@@ -145,7 +142,6 @@ class SimulationProject:
         #---------------------------------------------------
         if self.DEBUG:
             self.cSystem.Energy()
-
     #======================================================================================
     def SettingFixedAtoms(self,_centerAtom,_radius):
         '''
@@ -206,7 +202,6 @@ class SimulationProject:
         converger = DIISSCFConverger.WithOptions( energyTolerance   = 3.0e-4,
                                                   densityTolerance  = 1.0e-8,
                                                   maximumIterations = 2500  )
-
         _QCRegion = Selection.FromIterable(atomlist)    
         #---------------------------------------------
         #Appending sytem
@@ -259,8 +254,7 @@ class SimulationProject:
                 atomlist.append(sel)
             elif type(sel) == list:
                 for i in range( len(sel) ):
-                    atomlist.append( sel[i] )
-            
+                    atomlist.append( sel[i] )            
         #define QC atoms selection
         _QCRegion = Selection.FromIterable(atomlist)         
         #---------------------------------------------
@@ -304,7 +298,6 @@ class SimulationProject:
             elif type(sel) == list:
                 for i in range( len(sel) ):
                     atomlist.append( sel[i] )
-
         #---------------------------------------------
         #define QC atoms selection
         _QCRegion = Selection.FromIterable(atomlist)
@@ -318,7 +311,6 @@ class SimulationProject:
         self.SystemStates.append( oldSystem )
         self.cSystem.label   = self.baseName + "#{} DFTB and QC region Set".format(self.systemCoutCurr)
         self.systemCoutCurr += 1
-
         self.cSystem.electronicState = ElectronicState.WithOptions( charge = _QCcharge, multiplicity = _QCmultiplicity )
         #---------------------------------------------
         #Export the set QC region for visual inspection
@@ -327,8 +319,7 @@ class SimulationProject:
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
         #---------------------------------------------
         _scratch = os.path.join(os.getcwd(),self.baseName,"dftbjob")
-        if not os.path.exists(_scratch):
-            os.makedirs(_scratch)
+        if not os.path.exists(_scratch): os.makedirs(_scratch)
         #--------------------------------------------------------------------
         #task adjust the parameters for customizable options
         _QCmodel = QCModelDFTB.WithOptions ( deleteJobFiles = False   ,
@@ -336,7 +327,6 @@ class SimulationProject:
                                              scratch        = _scratch,
                                              skfPath        = skfPath ,
                                              useSCC         = True    )
-
         #-----------------------------------------------------------------------
         self.NBmodel = NBModelDFTB.WithDefaults()
         self.cSystem.DefineQCModel( _QCmodel, qcSelection=_QCRegion )
@@ -361,7 +351,6 @@ class SimulationProject:
         self.logfile.inputLine("Total Energy of the System: " + str(energy) )
         #----------------------------------------------------------------
         return(energy)
-
     #=========================================================================
     def RunSimulation(self,_parameters):
         '''
@@ -383,8 +372,7 @@ class SimulationProject:
         bsname  = os.path.join( os.getcwd(), self.baseName )
         _parameters["folder"] = bsname        
         process = Simulation(_parameters)
-        process.Execute()              
-        
+        process.Execute()        
     #========================================================================================
     def PrintSystems(self):
         '''
@@ -400,12 +388,9 @@ class SimulationProject:
                 print("Now, printing the current system Summary:")
                 self.cSystem.Summary()
 
-            elif self.systemCoutCurr == 1:
-                print("There is only the current System loaded!\n Printing its information below!")
-            else: 
-                print( "There are no loaded systems!")    
-
-    #.-------------------------------------------------------------------------
+            elif self.systemCoutCurr == 1: print("There is only the current System loaded!\n Printing its information below!")
+            else:                          print( "There are no loaded systems!")
+    #==========================================================================================
     def SaveProject(self):
         '''
         The complete version of this function intends to save in pkl and another coordinate format
@@ -413,8 +398,7 @@ class SimulationProject:
         Though, in the current state only will save the current system to a pkl file
         '''
         Pickle(self.baseName+".pkl",self.cSystem)
-        ExportSystem(self.baseName+".pdb",self.cSystem)
-        
+        ExportSystem(self.baseName+".pdb",self.cSystem)        
     #.-------------------------------------------------------------------------
     def FinishRun(self):
         '''
@@ -422,7 +406,5 @@ class SimulationProject:
         '''
         self.logfile.inputLine("Finishing simulation project using pDynamo3 methods!")
         self.logfile.close()
-
-
 #==============================================================================
 
