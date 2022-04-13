@@ -82,16 +82,13 @@ class ReactionCoordinate:
 				self.label += A3.label + "(" + A3res[0] + A3res[1] + ")-"
 				self.label += A4.label + "(" + A4res[0] + A4res[1] + ") $\AA$"
 			else: self.label =  A1.label + "-" + A2.label +"-" + A3.label +"-"+A4.label + "$\AA$"
-
 	#==================================================================================================
 	def SetInformation(self,_molecule,_dincre,_dminimum=None,_sigma_pk1_pk3=None,_sigma_pk3_pk1=None):
 		'''
 		Define the values required for the reaction coordinate		
 		'''	
-		self.increment = _dincre
-		
+		self.increment = _dincre		
 		set_pars = True
-
 		if not _dminimum == None:  
 			self.minimumD = _dminimum
 			set_pars      = False
@@ -121,5 +118,17 @@ class ReactionCoordinate:
 			elif self.Type == "Distance": self.minimumD = _molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 			#.--------------------------
 			elif self.Type == "Dihedral": self.minimumD = _molecule.coordinates3.Dihedral(self.atoms[0],self.atoms[1],self.atoms[2],self.atoms[3])
-			
+	#==================================================================================================
+	def Print(self):
+		'''
+		Printing information to the screen.
+		'''
+		print( "Printing reaction coordinate information:")
+		print( "\tAtoms Indices: {}".format(self.atoms) )
+		print( "\tType: {}".format(self.Type) )
+		print( "\tWeight N1: ".format(self.weight13) )
+		print( "\tWeight N2: ".format(self.weight31) )
+		print( "\tIncrement: ".format(self.increment) )
+		print( "\tInitial distance:".format(self.minimumD) )		
+
 #=======================================================================================================================

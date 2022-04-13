@@ -1327,6 +1327,7 @@ def pDynamoEnergyRef_2D():
 #=====================================================
 def DFTBplusEnergy():
 	'''
+	Test Refinement with DFTB plus
 	'''
 	pass
 #=====================================================
@@ -1354,8 +1355,7 @@ def MopacEnergyRef():
 	_name = "SCAN1D_4MopacRefinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )	
 	if not os.path.exists(_path):
-		QCMMScanMultipleDistance(20,0.08,name=_name)
-	
+		QCMMScanMultipleDistance(20,0.08,name=_name)	
 	#---------------------------------------------
 	parameters = { "xnbins":20			,
 				   "ynbins":0			,
