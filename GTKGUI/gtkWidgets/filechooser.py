@@ -31,12 +31,12 @@ from gi.repository import Gtk, Gdk
 class FileChooser:
     """ Class doc """
     
-    def __init__ (self, main_window = None ):
+    def __init__ (self, main_window = None , easyhybrid = False):
         """ Class initialiser """
         self.main_window = main_window
-
+        self.easyhybrid = easyhybrid 
     
-    def open (self, select_multiple = False, filter_type = None):
+    def open (self, select_multiple = False, filters = None):
 
         """ Function doc """
         #main = gtkmain
@@ -47,6 +47,8 @@ class FileChooser:
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                                         Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
         #GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER
+        print (filters)
+
         if select_multiple:
             chooser.set_select_multiple(True)
             response = chooser.run()
@@ -57,10 +59,19 @@ class FileChooser:
             
             
             
+        
+        
+        
         else:
-            if filter_type:
-                chooser.add_filter(filter_type)
+            if filters:
+                print('\n\nfilters')
+                for _filter in filters:
+                    chooser.add_filter(_filter)
+
             else:
+                print('else')
+
+                '''
                 filter = Gtk.FileFilter()  
                 filter.set_name("PKL files - *.pkl")
 
@@ -68,6 +79,7 @@ class FileChooser:
                 filter.add_pattern("*.pkl")
                 #
                 chooser.add_filter(filter)
+                '''
                 filter = Gtk.FileFilter()
                 filter.set_name("All files")
                 filter.add_pattern("*")

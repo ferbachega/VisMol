@@ -46,7 +46,7 @@ class GeometrySearcher:
         self.maxIt          = 500
         self.saveFrequency  = 0
         if not _trajName == None:
-             self.trajectoryName = os.path.join(_baseFolder,_trajName) 
+             self.trajectoryName = os.path.join(_baseFolder,_trajName)
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
@@ -167,35 +167,102 @@ class GeometrySearcher:
         Nudget Elastic Band procedure to estimate a reaction path
         '''
         #-------------------------------------------------------------------------
-        _rmdGIS = _parameters["RMS_growing_intial_string"]
-        self.trajectoryName = os.path.join(self.baseName + "NEB.ptGeo")
+        rmdGIS          = 1
+        springCF        = 500.0
+        fixedTerminal   = False
+        useSpline       = False
+        spline_tol      = 1.5
+        if "spring_constant_force"      in _parameters: springCF      = _parameters["spring_constant_force"]
+        if "fixed_terminal_images"      in _parameters: fixedTerminal = _parameters["fixed_terminal_images"]
+        if "RMS_growing_intial_string"  in _parameters: rmsGIS        = _parameters["RMS_growing_intial_string"]
+        if "spline_redistribution"      in _parameters: useSpline     = _parameters["spline_redistribution"]
+
+        self.trajectoryName = self.baseName + "NEB.ptGeo"
         #Note: is interesting to think in a window were the user select the initial and final coords
         # here we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  ) # we excpect to ibe in pkl probably from a scan or optimization already done using the software
-        self.finalCrd3D = ImportCoordinates3( _parameters["final_coord"], log=None ) 
-
-        #---------------------------------------------------------------------------------
-        GrowingStringInitialPath (self.molecule ,_parameters["NEB_nbins"], self.InitCrd3D, self.finalCrd3D, self.trajectoryName ,rmsGradientTolerance=_parameters["RMS_growing_intial_string"] )
-
-        trajectory = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
-
-        ChainOfStatesOptimizePath_SystemGeometry (  self.molecule               , 
-                                                    trajectory                  ,
-                                                    logFrequency         = 1    ,
-                                                    maximumIterations    = 1000 ,
-                                                    fixedTerminalImages  = True ,
-                                                    rmsGradientTolerance = 0.1  )        
+        if "init_coord"  in _parameters: self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  )
+        if "final_coord" in _parameters: self.finalCrd3D = ImportCoordinates3( _parameters["final_coord"], log=None )
+        trajectory = None
+        #-----------------------------------------------------------------------------------------
+        if not "traj_source" in _parameters:
+            GrowingStringInitialPath(self.molecule              ,
+                                    _parameters["traj_bins"]    ,
+                                    self.InitCrd3D              ,
+                                    self.finalCrd3D             ,  
+                                    self.trajectoryName         ,
+                                    rmsGradientTolerance=rmsGIS )
+            trajectory = ExportTrajectory( self.trajectoryName, self.molecule, append=True )
+        else:
+            self.trajectoryName = _parameters["traj_source"]
+            trajectory = ExportTrajectory( _parameters["traj_source"], self.molecule, append=True ) 
+        #------------------------------------------------------------------------------------------
+        ChainOfStatesOptimizePath_SystemGeometry (  self.molecule                                       ,   
+                                                    trajectory                                          ,
+                                                    logFrequency         = 1                            ,
+                                                    maximumIterations    = self.maxIt                   ,
+                                                    fixedTerminalImages  = fixedTerminal                ,
+                                                    springForceConstant  = springCF                     ,
+                                                    splineRedistributionTolerance=spline_tol            ,
+                                                    forceSplineRedistributionCheckPerIteration=useSpline,
+                                                    rmsGradientTolerance = self.rmsGrad   )
     #========================================================================================
     def SelfAvoidWalking(self,_parameters):
         '''
         Self-Avoid-Walking procedure to estimate a reaction path
-        '''
-        self.traj = ExportTrajectory( self.trajectoryName, self.molecule ) 
+        '''       
+        self.trajectoryName = self.baseName + "SAW.ptGeo"
+        self.traj = ExportTrajectory( self.trajectoryName, self.molecule, append=True ) 
+        ExpandByLinearInterpolation( _parameters["traj_source"], self.trajectoryName, self.molecule, _parameters["traj_bins"])
+        Gamma = 100.0
+        Rho   = 2.0
+        Kappa = 5000.0
+        if "gamma" in _parameters: Gamma = _parameters["gamma"]
+        if "rho"   in _parameters: Rho   = _parameters["rho"]
+        if "kappa" in _parameters: Kappa = _parameters["kappa"]
+        SAWOptimize_SystemGeometry ( self.molecule, self.traj, gamma=Gamma, kappa=Kappa )
     #========================================================================================
-    def BakerSaddle(self,_parameters):
+    def SteepestDescentPathSearch(self,_parameters):
+        '''
+        '''
+        massW    = True
+        funcStep = 2.0
+        pathStep = 0.025 
+
+        if "mass_weighting" in _parameters: massw    = _parameters["mass_weighting"]
+        if "function_step"  in _parameters: funcStep = _parameters["function_step"]
+        if "path_step"      in _parameters: pathStep = _parameters["path_step"]
+
+        self.molecule.coordinates3 = _parameters["saddle_conformation"]
+        self.trajectoryName = self.baseName + ".steepPath.ptGeo"
+        self.traj = ExportTrajectory( self.trajectoryName, self.molecule )
+        SteepestDescentPath_SystemGeometry( self.molecule                           ,
+                                            functionStep      = funcStep            ,
+                                            logFrequency      = self.logFrequency   ,
+                                            maximumIterations = self.maxIt          ,
+                                            pathStep          = pathStep            ,
+                                            saveFrequency     = self.save_frequency ,
+                                            trajectory        = self.traj           ,
+                                            useMassWeighting  = massW               )
+
+    #========================================================================================
+    def BakerSaddleOptimizer(self,_parameters):
         '''
         Class method to search saddle-points transition structure
         '''
+
+        self.InitCrd3D = ImportCoordinates3(_parameters["saddle_coord"] )
+        self.molecule.coordinates3 = Clone(self.InitCrd3D)
+        BakerSaddleOptimize_SystemGeometry( self.molecule                       ,
+                                            logFrequency         =      1       ,
+                                            maximumIterations    = self.maxIt   ,
+                                            rmsGradientTolerance = self.rmsGrad )
+
+        self.finalCrd3D = Clone(self.molecule.coordinates3)
+        Pickle(self.baseName+"_BakerOpt.pkl",self.finalCrd3D)
+        if savePdb: 
+            ExportSystem(self.baseName+"_BakerOpt.pdb",self.finalCrd3D)
+            savePdb = False
+
     #=========================================================================================
     def CalculateRMS(self):
         '''
@@ -221,7 +288,7 @@ class GeometrySearcher:
                 i += 1
             ExportSystem(pdbFile,self.molecule)
         #----------------------------------------------------------------------
-        if not self.saveFormat == None:
+        if self.saveFormat == ".dcd" or self.saveFormat == ".mdcrd":
             if self.saveFormat != self.trajectoryName:
                 traj_save = os.path.splitext(self.trajectoryName)[0] + self.saveFormat
                 print(traj_save,self.trajectoryName,self.saveFormat)

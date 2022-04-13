@@ -86,7 +86,7 @@ void main(){
 ################################## DOTTED LINES ###################################
 
 vertex_shader_dotted_lines   = """
-#version 330
+#version 450
 precision highp float; 
 precision highp int;
 
@@ -108,7 +108,7 @@ void main(){
 }
 """
 geometry_shader_dotted_lines = """
-#version 330
+#version 450
 precision highp float; 
 precision highp int;
 
@@ -152,7 +152,7 @@ void main(){
 }
 """
 fragment_shader_dotted_lines = """
-#version 330
+#version 450
 precision highp float; 
 precision highp int;
 

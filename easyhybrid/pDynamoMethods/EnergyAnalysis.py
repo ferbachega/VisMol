@@ -77,7 +77,6 @@ class EnergyAnalysis:
 					energyTmp.append( float(lns[2]) )
 					self.energies1D.append( float(lns[2]) )
 				i += 1
-
 			self.multiple1Dplot.append(energyTmp)
 			self.labely = "Potential Energy (kJ/mol)"
 		#-----------------------------------
@@ -234,20 +233,17 @@ class EnergyAnalysis:
 		Plot one dimensional energy plot.
 		'''
 		self.NormalizeEnergies()
-		_pathOut = self.baseName
 		if self.Type == "FE1D":
 			if XLIM == None:
 				self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
 			else:
 				self.RC1 = np.linspace( XLIM[0],XLIM[1],len(self.energies1D) )
-			self.labely = "Free Energy (kJ/mol)"
-			_pathOut += "_1DFE.png"
+			self.labely = "Free Energy (kJ/mol)"			
 		elif self.Type == "WHAM1D":
 			self.RC1 = np.linspace( np.min(self.RC1), np.max(self.RC1), len(self.RC1) )
 			self.labely = "Potential of Mean Field (kJ/mol)"
-			_pathOut += "_PMF1D.png"
-		elif self.Type == "1D" and self.Type == "1DRef" :
-			_pathOut += "_ref.png"
+			self.baseName += "_PMF"
+		
 		#--------------------------------------------
 		plt.plot(self.RC1,self.energies1D,'-ok')
 		plt.xlabel(label)
@@ -265,7 +261,6 @@ class EnergyAnalysis:
 		#---------------------------------------------
 		self.NormalizeEnergies()
 		x = np.linspace(0, self.xlen, self.xlen )
-		
 		for i in range(self.nplots1D):
 			plt.plot(x,self.multiple1Dplot[i],label=self.identifiers[i])
 		#---------------------------------------------
@@ -326,15 +321,13 @@ class EnergyAnalysis:
 		ax0.set_xlabel(crd1label, **axis_font)
 		ax0.set_ylabel(crd2label, **axis_font)
 		fig.tight_layout()
-
+		if self.Type == "WHAM2D":
+			self.basename += "_PMF"
 		_method = ""
 		if len(self.identifiers) > 0: _method = self.identifiers[-1]
-		plotName = self.baseName + _method
-		if 	 self.Type == "WHAM2D": plotName += "_PMF2D.png" 
-		elif self.Type == "FE2D":   plotName += "_FE2D.png"
-		elif self.Type == "2D":     plotName += "_2DPES.png"
-		elif self.Type == "2DRef":  plotName += "_2DPES.png"
-		plt.savefig(plotName,dpi=1000)
+		plotName = self.baseName + _method		
+
+		plt.savefig(self.baseName+".png",dpi=2000)
 		if SHOW: plt.show()
 		plt.close()
 	#----------------------------------------------------------------------------------------

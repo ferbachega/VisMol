@@ -128,6 +128,8 @@ class Atom:
         self.bonds_indexes  = bonds_indexes
         self.bonds          = []
 
+        self.dynamic_bonds  = False  # represent dynamic bonds True/False
+
         self.isfree         = True
         #self.sphere_data    = self.get_sphere_data(self.symbol)
         

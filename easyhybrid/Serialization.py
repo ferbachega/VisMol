@@ -53,7 +53,10 @@ class LoadAndSaveFiles:
                     pass
                 
                 else:
-                    representations[rep_name] = list(rep_data.indexes)               
+                    try:
+                        representations[rep_name] = list(rep_data.indexes)               
+                    except:
+                        representations[rep_name] = None
                     #if rep_name == 'spheres':
                     #    representations[rep_name] =  rep_data.indexes
                     #else:
@@ -73,7 +76,7 @@ class LoadAndSaveFiles:
             vismol_objects_dic[vobj_id] = {'name'                 : vobj.name                 ,
                                            'atoms'                : atoms                     ,
                                            'index_bonds'          : list(vobj.index_bonds)    ,
-                                           'dynamic_bons'         : list(vobj.dynamic_bons)   ,
+                                           'dynamic_bonds'         : list(vobj.dynamic_bonds)   ,
                                            'active'               : vobj.active               ,
                                            'frames'               : vobj.frames               ,
                                            'vobj_id'              : vobj_id                   ,
@@ -106,27 +109,34 @@ class LoadAndSaveFiles:
         
         for system_id, system in self.pDynamo_session.systems.items():
             pdynamo_projects['systems'][system_id] = {}
-            for key in system.keys():
+            if system:
+                for key in system.keys():
+                    
+                    if key == 'vismol_object':
+                        pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
+                    
+                    elif key == 'vismol_objects':
+                        pdynamo_projects['systems'][system_id]['vismol_objects'] = {}
+                    
+                    else:
+                        pdynamo_projects['systems'][system_id][key] = system[key]
                 
-                if key == 'vismol_object':
-                    pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
-                else:
-                    pdynamo_projects['systems'][system_id][key] = system[key]
-            
-            '''
-            pdynamo_projects['systems'][system_id] = {
-                                                    'id'            : system['id'           ],
-                                                    'name'          : system['name'         ],
-                                                    'system'        : system['system'       ],
-                                                    'vismol_object' : system['vismol_object'].index,
-                                                    'active'        : system['active'       ],
-                                                    'bonds'         : system['bonds'        ],
-                                                    'sequence'      : system['sequence'     ],
-                                                    'qc_table'      : system['qc_table'     ],
-                                                    'fixed_table'   : system['fixed_table'  ],
-                                                    'color_palette' : system['color_palette'],
-                                                    }
-            '''
+                '''
+                pdynamo_projects['systems'][system_id] = {
+                                                        'id'            : system['id'           ],
+                                                        'name'          : system['name'         ],
+                                                        'system'        : system['system'       ],
+                                                        'vismol_object' : system['vismol_object'].index,
+                                                        'active'        : system['active'       ],
+                                                        'bonds'         : system['bonds'        ],
+                                                        'sequence'      : system['sequence'     ],
+                                                        'qc_table'      : system['qc_table'     ],
+                                                        'fixed_table'   : system['fixed_table'  ],
+                                                        'color_palette' : system['color_palette'],
+                                                        }
+                '''
+            else:
+                pass
         #---------------------------------------------------------------
         #               V I S M O L   S E S S I O N
         #---------------------------------------------------------------
@@ -194,11 +204,10 @@ class LoadAndSaveFiles:
             frames          = vobject_data['frames']
             name            = vobject_data['name']
             bonds           = vobject_data['index_bonds']
-            dynamic_bons    = vobject_data['dynamic_bons']
+            dynamic_bonds   = vobject_data['dynamic_bonds']
             atoms           = vobject_data['atoms']
             representations = vobject_data['representations']
             color_palette   = vobject_data['color_palette']
-            #print('atoms:', len(atoms), 'coords', len(list(frames[0]))/3)
         
             vismol_object  = VismolObject.VismolObject(
                                                        #active                         = easyhybrid_session_data['vismol_objects_dic'][vobj_id]['active']
@@ -213,7 +222,7 @@ class LoadAndSaveFiles:
                 
             vismol_object.index                = vobj_id
             vismol_object.active               = vobject_data['active']
-            vismol_object.dynamic_bons         = vobject_data['dynamic_bons']
+            vismol_object.dynamic_bonds         = vobject_data['dynamic_bonds']
             vismol_object.easyhybrid_system_id = vobject_data['easyhybrid_system_id']
             vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)
             
@@ -224,7 +233,7 @@ class LoadAndSaveFiles:
                                                       rep             = representations, 
                                                       vismol_object   = vismol_object, 
                                                       vobj_count      = False,
-                                                      autocenter      = True)
+                                                      autocenter      = False)
         
             
             
@@ -240,9 +249,17 @@ class LoadAndSaveFiles:
         
         
         for key, system in self.pDynamo_session.systems.items():
-            system['vismol_object'] =   self.vismol_objects_dic[system['vismol_object']]
-         
-
+            print(key, system)
+            if system:
+                system['vismol_object'] = self.vismol_objects_dic[system['vismol_object']]
+                
+                self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
+                                                                           system_id = system['id'], 
+                                                                         fixed_atoms = True        , 
+                                                                            QC_atoms = False       , 
+                                                                              static = False       )
+            else:
+                pass
         
         '''Here we will select the radio button corresponding to the system that is active. 
         When "path" = None, we select the first system from the treeview''' 
@@ -252,6 +269,8 @@ class LoadAndSaveFiles:
             self.main_session.treeview.on_cell_radio_toggled(widget, path)
         else:
             self.main_session.treeview.on_cell_radio_toggled(widget, 0)
+        
+        self.main_session.vm_session.center(self.pDynamo_session.systems[self.pDynamo_session.active_id]['vismol_object'])
         
         #self.pDynamo_session.refresh_qc_and_fixed_representations(_all = True)#_all = True)
         

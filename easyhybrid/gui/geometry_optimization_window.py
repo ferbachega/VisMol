@@ -46,17 +46,14 @@ class SaveTrajectoryBox:
         self.folder_chooser_button = FolderChooserButton(main =  parent)
         self.builder.get_object('folder_chooser_box').pack_start(self.folder_chooser_button.btn, True, True, 0)
         self.folder_chooser_button.btn.set_sensitive(False)
-        
-        
-        
-        
+                
         '''--------------------------------------------------------------------------------------------'''
         self.format_store = Gtk.ListStore(str)
         formats = [
-            "pDynamo / pkl" ,
-            "amber / crd"               ,
-            "charmm / dcd"             ,
-            "xyz"   ,
+                    "pDynamo / pkl" ,
+                    "amber / crd"   ,
+                    "charmm / dcd"  ,
+                    "xyz"           ,
             ]
         for format in formats:
             self.format_store.append([format])
@@ -72,7 +69,7 @@ class SaveTrajectoryBox:
         '''--------------------------------------------------------------------------------------------'''
         self.formats_combo.set_active(0)
         
-        
+    #====================================================================================
     def on_toggle_save_checkbox (self, widget):
         """ Function doc """
         if self.builder.get_object('checkbox_save_traj').get_active():
@@ -97,16 +94,16 @@ class SaveTrajectoryBox:
             self.builder.get_object('entry_trajectory_frequence').set_sensitive(False)
             self.folder_chooser_button.btn.set_sensitive(False)
         
-    
+    #====================================================================================
     def get_folder (self):
         """ Function doc """
         return self.folder_chooser_button.get_folder()
-        
+    #====================================================================================    
     def set_folder (self, folder):
         """ Function doc """
         self.folder_chooser_button.set_folder(folder)
 
-
+#=========================================================================================
 class FolderChooserButton:
     """ Class doc """
     
@@ -124,8 +121,6 @@ class FolderChooserButton:
         self.label = Gtk.Label ('...')
         self.btn.connect('clicked', self.open_filechooser)
 
-
-
         grid.attach (img, 0, 0, 1, 1)
         grid.attach (self.label, 1, 0, 1, 1)
         grid.show_all ()    
@@ -133,7 +128,7 @@ class FolderChooserButton:
         self.btn.add (grid)        
         #return self.btn 
         self.folder = None
-    
+    #====================================================================================
     def set_folder (self, folder = '/home'):
         """ Function doc """
         #print('set_folder', folder)
@@ -141,12 +136,14 @@ class FolderChooserButton:
         name = os.path.basename(folder )
         #print( name)
         self.label.set_text(name)
-    
+        
+        #self.main.pdynamo_session.systems[self.main.pdynamo_session.active_id]['working_folder'] = self.folder
+    #====================================================================================
     def get_folder (self):
         """ Function doc """
         return self.folder
         
-        
+    #====================================================================================    
     def open_filechooser (self, parent = None):
         """ Function doc """
         
@@ -200,7 +197,7 @@ class FolderChooserButton:
 
         dialog.destroy()
         
-
+#====================================================================================
 class GeometryOptimizatrionWindow(Gtk.Window):
     """ Class doc """
     
@@ -235,14 +232,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             renderer_text = Gtk.CellRendererText()
             self.methods_combo.pack_start(renderer_text, True)
             self.methods_combo.add_attribute(renderer_text, "text", 0)
-            self.methods_combo.set_active(0)
-            '''--------------------------------------------------------------------------------------------'''
-
-            
-            
-            
- 
-            
+            self.methods_combo.set_active(0)            
             '''--------------------------------------------------------------------------------------------'''
             self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
             self.starting_coords_liststore = self.easyhybrid_main.vm_session.starting_coords_liststore
@@ -256,25 +246,18 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             
             size = len(self.starting_coords_liststore)
             self.combobox_starting_coordinates.set_active(size-1)
-            '''--------------------------------------------------------------------------------------------'''
-
-            
+            '''--------------------------------------------------------------------------------------------'''           
 
             self.save_trajectory_box = SaveTrajectoryBox(parent = self.window)
             self.builder.get_object('geo_opt_parm_box').pack_end(self.save_trajectory_box.box, True, True, 0)
-            
-
-            
+                        
             # updating data 
-            self.update_working_folder_chooser()
-
-            
+            self.update_working_folder_chooser()            
             
             self.window.show_all()
-            self.Visible  = True
-    
+            self.Visible  = True   
 
-    
+    #====================================================================================
     def CloseWindow (self, button, data  = None):
         """ Function doc """
         self.window.destroy()
@@ -318,11 +301,23 @@ class GeometryOptimizatrionWindow(Gtk.Window):
                             3 : 'QuasiNewton'       ,
                             4 : 'FIRE'              ,
                              }
-
-    def run_opt (self, button):
+    #====================================================================================
+    def run_opt(self, button):
         """ Function doc """
-    
+        
         '''this combobox has the reference to the starting coordinates of a simulation'''
+        simParameters={ "simulation_type":"Geometry_Optimization",
+                        "trajectory_name": None                  , 
+                        "folder"         :os.getcwd()            , 
+                        "optimizer"      :"ConjugatedGradient"   ,
+                        "maxIterations"  :600                    ,
+                        "log_frequency"  :10                     ,
+                        "save_frequency" :10                     ,
+                        "rmsGradient"    :0.1                    ,
+                        "save_format"    :None                   ,
+                        "save_traj"      :False                  ,
+                        "save_pdb"       :False                  }
+        #----------------------------------------------------------------------------------
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
         tree_iter = combobox_starting_coordinates.get_active_iter()
         if tree_iter is not None:
@@ -333,96 +328,43 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
             
             '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
+            print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
             self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+                
+        simParameters["optimizer"]      = self.opt_methods[self.builder.get_object('combobox_geo_opt').get_active()]
+        simParameters["log_frequency"]  = int  ( self.builder.get_object('entry_log_frequence').get_text())
+        simParameters["maxIterations"]  = int  ( self.builder.get_object('entry_max_int').get_text() )
+        simParameters["rmsGradient"]    = float( self.builder.get_object('entry_rmsd_tol').get_text() )
         
-        
-        method_id     = self.builder.get_object('combobox_geo_opt').get_active()
-        logFrequency  = int  ( self.builder.get_object('entry_log_frequence').get_text())
-        max_int       = int  ( self.builder.get_object('entry_max_int').get_text()  )
-        rmsd_tol      = float( self.builder.get_object('entry_rmsd_tol').get_text() )
-        
-        
+        #------------------------------------------------------------------------------------
         if self.save_trajectory_box.builder.get_object('checkbox_save_traj').get_active():
-            folder          = self.save_trajectory_box.folder_chooser_button.get_folder ()
-            trajectory_name = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
-            traj_format     = self.save_trajectory_box.builder.get_object('combobox_format').get_active()
-            traj_frequence  = int(self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text())
-            
-            parameters = {
-                            
-                            'trajectory_name' :  os.path.join(folder, trajectory_name+'.ptGeo')   ,
-                            'folder'          :  folder                     ,
-                            'optimizer'       :  self.opt_methods[method_id], 
-                            'maxIterations'   :  max_int                    ,
-                            'log_frequency'   :  logFrequency               ,
-                            #'save_pdb'        :  
-                            'save_traj'       : True                        , 
-                            'save_format'     : '.dcd'                 ,
-                            'rmsGradient'     : rmsd_tol                    ,
-                            'save_frequency'  : traj_frequence              ,
-                            }
-            
-            '''Simulation routines within easyhybrid receive a parameter dictionary            
-            trajectory_name: name to save the trajectory
-            maxIterations: maximum number of itetarions (integer) 
-            log_frequency: log frequency  (integer)
-            save_pdb     : whether to save the final coordinates in pdb format (boolean)
-            save_format  : name of the extra binary file ( could be of the format: .dcd, .mdcrd ...) 
-            save_frequency : save frame frequency  (integer)
-            rmsGradient  : root mean square gradient tolerance ( float )						
-            '''            
-        else:
-            parameters = {
-                            
-                            'trajectory_name' :  None   ,
-                            'folder'          :  None                      ,
-                            'optimizer'       :  self.opt_methods[method_id], 
-                            'maxIterations'   :  max_int                    ,
-                            'log_frequency'   :  logFrequency               ,
-                            #'save_pdb'        :  
-                            'save_traj'       : False                        , 
-                            'save_format'     : None                      ,
-                            'rmsGradient'     : rmsd_tol                    ,
-                            'save_frequency'  : 0              ,
-                            }
-            
-            
-            
-            #self.easyhybrid_main.pDynamo_session.run_ConjugateGradientMinimize_SystemGeometry (  
-            #                                                                   logFrequency           = logFrequency, 
-            #                                                                   maximumIterations      = max_int     ,
-            #                                                                   rmsGradientTolerance   = rmsd_tol    , 
-            #                                                                   save_trajectory = False,
-            #                                                                   trajectory_path = None)
-            #
-            
-            
-            
-            
-
-        self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters, 
-                                                            _parameters4Plot = None, 
-                                                             _simulationType = 'Geometry_Optimization',
-                                                             folder          = parameters['folder'])
-
+            simParameters["save_traj"]       = True
+            simParameters["folder"]          = self.save_trajectory_box.folder_chooser_button.get_folder()
+            simParameters["trajectory_name"] = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
+            saveFormat                       = self.save_trajectory_box.builder.get_object('combobox_format').get_active()
+            simParameters["save_frequency"]  = int( self.save_trajectory_box.builder.get_object('entry_trajectory_frequence').get_text() ) 
+            simParameters["trajectory_name"] = simParameters["trajectory_name"] + ".ptGeo"
+            if   saveFormat == 0: simParameters["save_format"] = ".ptGeo"
+            elif saveFormat == 1: simParameters["save_format"] = ".mdcrd"
+            elif saveFormat == 2: simParameters["save_format"] = ".dcd"
+            elif saveFormat == 3: simParameters["save_format"] = ".xyz"
+            self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'] = simParameters["folder"] 
+        #-------------------------------------------------------------------------------------    
+        self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = simParameters )
         self.window.destroy()
         self.Visible    =  False
-
-
-
-    
+    #=================================================================================
     def on_name_combo_changed(self, widget):
         """ Function doc """
         print('eba - apagar')
-
-    
+    #=================================================================================
     def update_working_folder_chooser (self, folder = None):
         """ Function doc """
         if folder:
             #print('update_working_folder_chooser')
             self.save_trajectory_box.set_folder(folder = folder)
         else:
-            self.save_trajectory_box.set_folder(folder = HOME)
+            self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'])
    
-   
+#=====================================================================================
    

@@ -935,7 +935,21 @@ class VisMolGLCore():
         # L I N E S 
         
         line_type = self.vConfig.gl_parameters['ribbon_type']
+        
+        '''    
 
+        self.shader_programs['ribbons']      = self.load_shaders(sticksShaders.vertex_shader_sticks,  
+                                                                 sticksShaders.fragment_shader_sticks, 
+                                                                 sticksShaders.geometry_shader_sticks)
+        
+      
+
+        self.shader_programs['ribbons_sel']  = self.load_shaders(sticksShaders.sel_vertex_shader_sticks, 
+                                                                 sticksShaders.sel_fragment_shader_sticks,
+                                                                 sticksShaders.sel_geometry_shader_sticks)
+        
+        #'''    
+        #'''    
         self.shader_programs['ribbons']      = self.load_shaders(linesShaders.shader_type[line_type]['vertex_shader'  ], 
                                                                  linesShaders.shader_type[line_type]['fragment_shader'], 
                                                                  linesShaders.shader_type[line_type]['geometry_shader'])
@@ -945,7 +959,7 @@ class VisMolGLCore():
         self.shader_programs['ribbons_sel']  = self.load_shaders( linesShaders.shader_type[line_type]['sel_vertex_shader'  ],
                                                                   linesShaders.shader_type[line_type]['sel_fragment_shader'],
                                                                   linesShaders.shader_type[line_type]['sel_geometry_shader'])
-                                                                      
+        #'''                                                              
         #print('_create_ribbon_shaders')
 
 
@@ -1155,7 +1169,7 @@ void main(){
             print('OpenGL major version not found')
 
 
-        self._create_sphereInstance_shaders()
+        #self._create_sphereInstance_shaders()
         #-------------------------------------------------------------------------------------
         self._create_dot_shaders ()
         #-------------------------------------------------------------------------------------

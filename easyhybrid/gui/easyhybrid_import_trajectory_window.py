@@ -62,9 +62,11 @@ class ImportTrajectoryWindow:
             
             names = [ ]
             for key , system in self.easyhybrid_main.pDynamo_session.systems.items():
-                name = system['name']
-                self.system_liststore.append([name, int(key)])
-
+                if system:
+                    name = system['name']
+                    self.system_liststore.append([name, int(key)])
+                else:
+                    pass
             self.combobox_pdynamo_system.set_model(self.system_liststore)
             
             if sys_selected:
@@ -135,11 +137,11 @@ class ImportTrajectoryWindow:
     def on_vobject_combo_changed (self, widget):
         '''this combobox has the reference to the starting coordinates of a simulation'''
         #combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-        tree_iter = self.combobox_pdynamo_system.get_active_iter()
+        tree_iter = self.combobox_starting_coordinates.get_active_iter()
         if tree_iter is not None:
             
             '''selecting the vismol object from the content that is in the combobox '''
-            model = self.combobox_pdynamo_system.get_model()
+            model = self.combobox_starting_coordinates.get_model()
             name, vobject_id = model[tree_iter][:2]
             print (name, model[tree_iter][:2])
             #name, vobject_id = model[tree_iter][:2]
@@ -176,8 +178,8 @@ class ImportTrajectoryWindow:
             
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.combobox_pdynamo_system.get_model()
-            _name, sys_selected = model[tree_iter][:2]
-            print (_name, sys_selected)
+            _name, system_id = model[tree_iter][:2]
+            print ('\n\n\_name, system_id:', _name, system_id, '\n\n')
         #-----------------------------------------------------------------------------
        
        
@@ -207,15 +209,23 @@ class ImportTrajectoryWindow:
         
         
         #traj = os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo')
+        
+        print('\n\n\data:', system_id,vobject,name)
         self.easyhybrid_main.pDynamo_session.import_trajectory ( traj         = forder_or_file, 
                                                                  #first        =  0, 
                                                                  #last         = -1, 
                                                                  #stride       =  1,
-                                                                 sys_selected =  sys_selected, 
+                                                                 system_id =  system_id, 
                                                                  vobject      = vobject, 
                                                                  name         = name
                                                                  )
         
+        
+        if self.builder.get_object('checbox_keep_it_open').get_active():
+            pass
+        else:
+            self.window.destroy()
+            self.Visible    =  False
 
     
     def CloseWindow (self, button, data  = None):

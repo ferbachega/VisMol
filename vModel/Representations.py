@@ -120,14 +120,20 @@ class Representation:
         #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
         
         if col_vbo:
-            GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
-                            self.col_vbo    )
-            
-            GL.glBufferData(GL.GL_ARRAY_BUFFER, 
-                            frame.nbytes      ,
-                            frame             , 
-                            GL.GL_STATIC_DRAW)   
-        else:
+                if self.col_vbo:
+                    GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+                                    self.col_vbo    )
+                    
+                    GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+                                    frame.nbytes      ,
+                                    frame             , 
+                                    GL.GL_STATIC_DRAW)   
+                    #except:
+                    #    
+                    #    print ('wrong type:', self.col_vbo, type(self.col_vbo))
+                else: 
+                    pass
+        else: 
             pass
 
     def _set_coordinates_to_buffer (self, coord_vbo = True, sel_coord_vbo = True):
@@ -349,7 +355,7 @@ class LinesRepresentation (Representation):
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
             #print(self.visObj.name)
             #self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)
 
         GL.glBindVertexArray(0)
         #GL.glLineWidth(1)
@@ -393,7 +399,7 @@ class LinesRepresentation (Representation):
             #GL.glBufferData(GL.GL_ARRAY_BUFFER, frame.nbytes,
             #                frame, 
             #                GL.GL_STATIC_DRAW)              
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)  
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)  
         GL.glBindVertexArray(0)
         GL.glLineWidth(2)
         GL.glUseProgram(0)
@@ -436,12 +442,14 @@ class DynamicBonds (Representation):
         self.shader_program     = None
         self.sel_shader_program = None
         
+        #visObj.find_dynamic_bonds (atom_list = selection.selected_atoms, index_list = None, update = True )
+        
         if indexes == []:
             self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         else:
             self.indexes = np.array(indexes, dtype=np.uint32)
             
-    def _make_gl_vao_and_vbos (self, indexes = []):
+    def _make_gl_vao_and_vbos (self, indexes = [], all_white = True):
         """ Function doc """
         #if indexes == []:
         #    self.indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
@@ -455,7 +463,11 @@ class DynamicBonds (Representation):
         
         #indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         coords  = self.visObj.frames[0]
-        colors  = self.visObj.colors
+
+        if all_white:
+            colors  = np.array( [1.0]*len(self.visObj.colors), dtype=np.float32)
+        else:
+            colors  = self.visObj.colors
 
         self._make_gl_representation_vao_and_vbos (indexes    = self.indexes,
                                                    coords     = coords ,
@@ -495,16 +507,18 @@ class DynamicBonds (Representation):
             
             frame = self.glCore.frame
             #try:
-            #print (frame, self.visObj.dynamic_bons[frame])
+            #print (frame, self.visObj.dynamic_bonds[frame])
             #self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
-            if frame < len(self.visObj.dynamic_bons):
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[frame])
+            if frame < len(self.visObj.dynamic_bonds):
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[frame])*2), GL.GL_UNSIGNED_INT, None)
+                #print("line 515", self.visObj.dynamic_bonds[frame])
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*1), GL.GL_UNSIGNED_INT, None)
             else:
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[-1])
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[-1])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[-1])*2), GL.GL_UNSIGNED_INT, None)
+                #print("line 520")
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*1), GL.GL_UNSIGNED_INT, None)
             #except:
             #    pass
             
@@ -541,14 +555,14 @@ class DynamicBonds (Representation):
             '''
             frame = self.glCore.frame
 
-            if frame < len(self.visObj.dynamic_bons):
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[frame])
+            if frame < len(self.visObj.dynamic_bonds):
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[frame])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
             else:
-                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[-1])
+                self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[-1])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[-1])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*2), GL.GL_UNSIGNED_INT, None)
             
             
             
@@ -556,11 +570,11 @@ class DynamicBonds (Representation):
             
             
             ##try:
-            ##print (frame, self.visObj.dynamic_bons[frame])
+            ##print (frame, self.visObj.dynamic_bonds[frame])
             ##self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
-            #self.define_new_indexes_to_VBO ( self.visObj.dynamic_bons[frame])
+            #self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
             #self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            #GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bons[frame])*2), GL.GL_UNSIGNED_INT, None)
+            #GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
             
             #self._set_coordinates_to_buffer (coord_vbo = False, sel_coord_vbo = True)
             #GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
@@ -661,7 +675,7 @@ class SticksRepresentation (Representation):
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)
         
         GL.glBindVertexArray(0)
         GL.glUseProgram(0)
@@ -676,7 +690,7 @@ class SticksRepresentation (Representation):
 
         GL.glEnable(GL.GL_DEPTH_TEST)
         GL.glUseProgram(self.sel_shader_program)
-        GL.glLineWidth(20)
+        GL.glLineWidth(100)
         GL.glDisable(GL.GL_LINE_SMOOTH)
         GL.glDisable(GL.GL_BLEND)
 
@@ -777,15 +791,16 @@ class RibbonsRepresentation (Representation):
             indexes = np.array(indexes,dtype=np.uint32)
 
             coords  = self.visObj.frames[0]
-            #colors  = self.visObj.colors
-            colors  = self.visObj.colors_rainbow
-
+            colors  = self.visObj.colors
+            #colors  = self.visObj.colors_rainbow
+            #colors  = np.array([1.0 ]*len(coords),dtype=np.float32)
             self._make_gl_representation_vao_and_vbos (indexes    = indexes,
                                                        coords     = coords ,
                                                        colors     = colors ,
                                                        dot_sizes  = None   ,
                                                        )
             colors_idx = self.visObj.color_indexes
+            #colors_idx = np.array([1.0, 1.0 , 1.0 ],dtype=np.float32)
             self._make_gl_sel_representation_vao_and_vbos (indexes    = indexes    ,
                                                            coords     = coords     ,
                                                            colors     = colors_idx ,
@@ -801,7 +816,7 @@ class RibbonsRepresentation (Representation):
         GL.glUseProgram(self.shader_program)
         
         ribbon_width = self.visObj.vm_session.vConfig.gl_parameters['ribbon_width']
-        LineWidth = ((ribbon_width*20)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
+        LineWidth = ((ribbon_width*40)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
         #print(LineWidth)
         GL.glLineWidth(LineWidth)
 
@@ -1599,13 +1614,33 @@ class SpheresRepresentation (Representation):
         
         self.scale              = 0.07
         
-        self.light_position = np.array([-2.5, 2.5, 3.0],dtype=np.float32)
-        self.light_color = np.array([1.0, 1.0, 1.0, 1.0],dtype=np.float32)
-        self.light_ambient_coef = 0.4
-        self.light_shininess = 5.5
-        self.light_intensity = np.array([0.6, 0.6, 0.6],dtype=np.float32)
-        self.light_specular_color = np.array([1.0, 1.0, 1.0],dtype=np.float32)
+        #self.light_position = np.array([-2.5, 2.5, 3.0],dtype=np.float32)
+        #self.light_color = np.array([1.0, 1.0, 1.0, 1.0],dtype=np.float32)
+        #self.light_ambient_coef = 0.4
+        #self.light_shininess = 5.5
+        #self.light_intensity = np.array([0.6, 0.6, 0.6],dtype=np.float32)
+        #self.light_specular_color = np.array([1.0, 1.0, 1.0],dtype=np.float32)
+
+        #  'light_position'             : [-2.5, -2.5, 3.0  ] ,
+        #  'light_color'                : [ 1.0, 1.0, 1.0,1.0] ,
+        #  'light_ambient_coef'         : 0.4                  ,
+        #  'light_shininess'            : 5.5                  ,
+        #  'light_intensity'            : [0.6,0.6,0.6]        ,
+        #  'light_specular_color'       : [1.0,1.0,1.0]        ,
+
+
+        #light
+        self.light_position       = glCore.light_position      
+        self.light_color          = glCore.light_color         
+        self.light_ambient_coef   = glCore.light_ambient_coef  
+        self.light_shininess      = glCore.light_shininess     
+        self.light_intensity      = glCore.light_intensity     
+        self.light_specular_color = glCore.light_specular_color
         
+        
+
+
+
         v_instances = """
         #version 330
 
@@ -1695,9 +1730,104 @@ class SpheresRepresentation (Representation):
         """
 
 
-        self.gl_program_instances = self.load_shaders(v_instances, f_instances)
-        self.instances_vao = None
+        sel_v_instances = """
+        #version 330
 
+        uniform mat4 model_mat;
+        uniform mat4 view_mat;
+        uniform mat4 proj_mat;
+
+        in vec3 vert_coord;
+        in vec3 vert_color;
+        in vec3 vert_instance;
+        in float vert_radius;
+
+        vec3 vert_norm;
+
+        out vec3 frag_coord;
+        out vec3 frag_color;
+        out vec3 frag_norm;
+
+        void main(){
+            mat4 modelview = view_mat * model_mat;
+            vec3 offset_coord = vert_coord * vert_radius + vert_instance;
+            gl_Position = proj_mat * modelview * vec4(offset_coord, 1.0);
+            
+            vert_norm = normalize(offset_coord - vert_instance);
+            frag_coord = vec3(modelview * vec4(offset_coord, 1.0));
+            frag_norm = mat3(transpose(inverse(model_mat))) * vert_norm;
+            frag_color = vert_color;
+        }
+        """
+        
+        
+        sel_f_instances = """
+        #version 330
+
+        struct Light {
+           vec3 position;
+           //vec3 color;
+           vec3 intensity;
+           //vec3 specular_color;
+           float ambient_coef;
+           float shininess;
+        };
+
+        uniform Light my_light;
+
+        uniform vec4 fog_color;
+        uniform float fog_start;
+        uniform float fog_end;
+
+
+
+        in vec3 frag_coord;
+        in vec3 frag_color;
+        in vec3 frag_norm;
+        
+        out vec4 final_color;
+
+        vec4 calculate_color(vec3 fnrm, vec3 fcrd, vec3 fcol){
+            vec3 normal = normalize(fnrm);
+            vec3 vert_to_light = normalize(my_light.position);
+            vec3 vert_to_cam = normalize(fcrd);
+            // Ambient Component
+            vec3 ambient = my_light.ambient_coef * fcol * my_light.intensity;
+            // Diffuse component
+            float diffuse_coef = max(0.0, dot(normal, vert_to_light));
+            vec3 diffuse = diffuse_coef * fcol * my_light.intensity;
+            // Specular component
+            float specular_coef = 0.0;
+            if (diffuse_coef > 0.0)
+                specular_coef = pow(max(0.0, dot(vert_to_cam, reflect(vert_to_light, normal))), my_light.shininess);
+            vec3 specular = specular_coef * my_light.intensity;
+            specular = specular * (vec3(1) - diffuse);
+            vec4 out_color = vec4(ambient + diffuse + specular, 1.0);
+            return out_color;
+        }
+
+        void main(){
+            //final_color = calculate_color(frag_norm, frag_coord, frag_color);
+            final_color = vec4(frag_color, 1.0);
+        
+            //float dist = abs(frag_coord.z);
+            //if(dist>=fog_start){
+            //    float fog_factor = (fog_end-dist)/(fog_end-fog_start);
+            //    final_color = mix(fog_color, final_color, fog_factor);
+            //}
+            //else{
+            //    final_color = final_color;
+            //    }
+        }
+        """
+
+
+
+
+        self.gl_program_instances = self.load_shaders(v_instances, f_instances)
+        self.gl_program_sel_instances = self.load_shaders(sel_v_instances, sel_f_instances)
+        self.instances_vao = None
+        self.insta_flag_test = None
 
 
     def load_lights(self, program):
@@ -1758,7 +1888,7 @@ class SpheresRepresentation (Representation):
         return shader
 
         
-    def _make_gl_vao_and_vbos (self, program):
+    def _make_gl_vao_and_vbos (self, program, sel_program):
         ''' '''
         coords, indexes, colors = sphd.get_sphere([1,1,1], 1.0, [0, 1, 0], level="level_2")
         radii = np.ones(1, dtype=np.float32)
@@ -1787,6 +1917,14 @@ class SpheresRepresentation (Representation):
         GL.glEnableVertexAttribArray(gl_colors)
         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*colors.itemsize, ctypes.c_void_p(0))
         GL.glVertexAttribDivisor(gl_colors, 1)
+        
+        #sel_col_vbo = GL.glGenBuffers(1)
+        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, sel_col_vbo)
+        #GL.glBufferData(GL.GL_ARRAY_BUFFER, colors.nbytes, colors, GL.GL_STATIC_DRAW)
+        #gl_colors = GL.glGetAttribLocation(sel_program, "vert_color")
+        #GL.glEnableVertexAttribArray(gl_colors)
+        #GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*colors.itemsize, ctypes.c_void_p(0))
+        #GL.glVertexAttribDivisor(gl_colors, 1)
 
         rad_vbo = GL.glGenBuffers(1)
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, rad_vbo)
@@ -1819,9 +1957,9 @@ class SpheresRepresentation (Representation):
         self.indexes = indexes
         
         self.crd = []
-        col  = []
-        rads = []
-        
+        col     = []
+        rads    = []
+        sel_col = []
         
         
         for index in indexes:
@@ -1831,9 +1969,15 @@ class SpheresRepresentation (Representation):
             col.append(self.visObj.colors[index*3]  )
             col.append(self.visObj.colors[index*3+1])
             col.append(self.visObj.colors[index*3+2])
+            
+            sel_col.append(self.visObj.color_indexes[index*3]  )
+            sel_col.append(self.visObj.color_indexes[index*3+1])
+            sel_col.append(self.visObj.color_indexes[index*3+2])
         
-        col  = np.array(col , dtype=np.float32)
-        rads = np.array(rads, dtype=np.float32)*self.scale
+        
+        col       = np.array(col , dtype=np.float32)
+        sel_col   = np.array(sel_col , dtype=np.float32)
+        rads      = np.array(rads, dtype=np.float32)*self.scale
         
         for frame in self.visObj.frames:
             
@@ -1848,9 +1992,13 @@ class SpheresRepresentation (Representation):
             new_frame = np.array(new_frame, dtype=np.float32)
             self.crd.append(new_frame)
     
-        self.insta_col  = col
-        self.insta_rads = rads
+        self.insta_col     = col
+        self.insta_sel_col = sel_col
+        self.insta_rads    = rads
         
+        if self.instances_vao is None:
+            self.instances_vao, self.instances_vbos, self.instances_elemns = self._make_gl_vao_and_vbos(self.gl_program_instances, self.gl_program_sel_instances )
+
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[1])
         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_col.nbytes, self.insta_col, GL.GL_STATIC_DRAW)
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[2])
@@ -1862,7 +2010,7 @@ class SpheresRepresentation (Representation):
         """ Function doc """
         
         if self.instances_vao is None:
-            self.instances_vao, self.instances_vbos, self.instances_elemns = self._make_gl_vao_and_vbos(self.gl_program_instances)
+            self.instances_vao, self.instances_vbos, self.instances_elemns = self._make_gl_vao_and_vbos(self.gl_program_instances, self.gl_program_sel_instances)
           
             self.update_atomic_indexes (indexes = self.indexes )
             
@@ -1875,9 +2023,9 @@ class SpheresRepresentation (Representation):
             self.glCore.queue_draw()
         
         else:
+            
             GL.glEnable(GL.GL_DEPTH_TEST)
             GL.glUseProgram(self.gl_program_instances)
-            #self.load_matrices(self.gl_program_instances)
             self.glCore.load_matrices(self.gl_program_instances, self.visObj.model_mat)
            
             self.load_lights(self.gl_program_instances)
@@ -1895,7 +2043,11 @@ class SpheresRepresentation (Representation):
             
             
             self.insta_crd = self.crd[self.glCore._safe_frame_exchange(visObj = self.visObj, return_frame = False)]#self.glCore._safe_frame_exchange(self.visObj)
-            
+
+
+            GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[1])
+            GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_col.nbytes, self.insta_col, GL.GL_STATIC_DRAW)
+
             
             GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[3])
             GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_crd.nbytes, self.insta_crd, GL.GL_STATIC_DRAW)
@@ -1908,7 +2060,53 @@ class SpheresRepresentation (Representation):
 
     def draw_background_sel_representation  (self, line_width_factor = 5):
         """ Function doc """
-        pass
+        
+        if self.instances_vao is None:
+            self.instances_vao, self.instances_vbos, self.instances_elemns = self._make_gl_vao_and_vbos(self.gl_program_instances)
+          
+            self.update_atomic_indexes (indexes = self.indexes )
+            
+            '''
+            self.insta_rads = self.visObj.vdw_dot_sizes*0.07
+            self.insta_col  = np.array(self.visObj.colors, dtype=np.float32)
+            self.insta_crd  = self.visObj.frames[0]
+            '''
+            self.insta_flag_test = True
+            self.glCore.queue_draw()
+        
+        else:
+            
+            GL.glEnable(GL.GL_DEPTH_TEST)
+            GL.glUseProgram(self.gl_program_sel_instances)
+            self.glCore.load_matrices(self.gl_program_sel_instances, self.visObj.model_mat)
+           
+            self.load_lights(self.gl_program_sel_instances)
+            self.glCore.load_fog(self.gl_program_sel_instances)
+            
+            GL.glBindVertexArray(self.instances_vao)
+            if self.insta_flag_test:
+                #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[1])
+                #GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_col.nbytes, self.insta_col, GL.GL_STATIC_DRAW)
+                #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[2])
+                #GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_rads.nbytes, self.insta_rads, GL.GL_STATIC_DRAW)
+                #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[3])
+                #GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_crd.nbytes, self.insta_crd, GL.GL_STATIC_DRAW)
+                self.insta_flag_test = False
+            
+            
+            self.insta_crd = self.crd[self.glCore._safe_frame_exchange(visObj = self.visObj, return_frame = False)]#self.glCore._safe_frame_exchange(self.visObj)
+           
+            GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[1])
+            GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_sel_col.nbytes, self.insta_sel_col, GL.GL_STATIC_DRAW)
+            
+            GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[3])
+            GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_crd.nbytes, self.insta_crd, GL.GL_STATIC_DRAW)
+            
+            #print (frame)
+            GL.glDrawElementsInstanced(GL.GL_TRIANGLES, self.instances_elemns, GL.GL_UNSIGNED_INT, None, self.insta_crd.shape[0])
+            GL.glBindVertexArray(0)
+            GL.glUseProgram(0)        
+            GL.glDisable(GL.GL_DEPTH_TEST)
 
 
 

@@ -88,7 +88,7 @@ void main(){
     vec4 sampled = vec4(1.0, 1.0, 1.0, texture(textu, frag_text_uv).r);
     if (sampled.a==0.0)
         discard;
-    final_color = text_color * sampled;
+    final_color = vec4(1.0, 1.0, 1.0, 1.0);  //text_color * sampled;
 }
 """
 

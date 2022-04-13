@@ -93,14 +93,24 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
         selection         = self.selections[self.current_selection]
         
         index_list = []                
+        
+        residue_list = {} 
+        
         for atom in selection.selected_atoms:
             #print(atom.Vobject.easyhybrid_system_id , pdmsys_active)
             true_or_false = self.check_selected_atom (atom)
             if true_or_false:
                 index_list.append(atom.index -1)
+                
+                if atom.resi in residue_list.keys():
+                    residue_list[atom.resi].append(atom.index -1)
+                else:
+                    residue_list[atom.resi] = [atom.index -1]
+
+                
             else:
                 return False
-        return index_list
+        return index_list, residue_list
 
 
     def check_selected_atom(self, atom, dialog = True):
@@ -161,9 +171,77 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #print('loading easyhybrid session')
         self.load_session(filename)
+        self.main_session.treeview.expand_all()
+    
+    def build_treeview_from_pdynamo_session_data (self, pdynamo_session):
+        """ Function doc """
+        
+        
+        #vismol_object.active = active_original
 
-    
-    
+        for sys_index in pdynamo_session.systems.keys():
+            '''        T R E E S T O R E           '''
+            if sys_index in self.parents.keys():
+                pass
+            else:          
+                # Creates a new "parent" when a new system is loaded into memory. 
+                for row in self.treestore:
+                    row[3] =  False
+                vismol_object = pdynamo_session.systems[sys_index]['vismol_object']
+                
+                if  pdynamo_session.systems[sys_index] == pdynamo_session.systems[pdynamo_session.active_id]:
+                    is_active = True
+                else:
+                    is_active = False
+                print('is_active:', is_active)
+                self.parents[sys_index] = self.treestore.append(None,                                                
+                                                               
+                                                               [pdynamo_session.systems[sys_index]['name'], # Name
+                                                                False,                                      # toggle active=1
+                                                                False,                                      # toggle visible = 3
+                                                                
+                                                                is_active ,                                      # radio  active  = 2
+                                                                True ,                                      # radio  visible = 4
+
+                                                                False,                                      # traj radio  active = 5
+                                                                False,                                      # is trajectory radio visible?
+                                                                
+                                                                vismol_object.index,                        #
+                                                                vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                                0])                                     # is pdynamo system index visible?
+                
+                self.gtk_treeview_iters.append(self.parents[sys_index])
+
+            #n = 0
+            #for treeview_iter in self.gtk_treeview_iters:
+            #    self.treestore[treeview_iter][5] = False
+            #    n+=1
+            for key , vismol_object in pdynamo_session.systems[sys_index]['vismol_objects'].items():
+                treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
+                                                  
+                                                  [vismol_object.name, 
+                                                   vismol_object.active ,   # toggle active   =1       
+                                                   True ,                   # toggle visible  = 2                  
+                                                   
+                                                   False ,                  # radio  active  = 3                       
+                                                   False ,                  # radio  visible = 4                      
+                                                   
+                                                   True  ,                  # traj radio  active = 5                     
+                                                   True  ,                  # is trajectory radio visible?  6                   
+                                                   
+                                                   vismol_object.index,     # 7
+                                                   vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
+                                                   len(vismol_object.frames)] # is pdynamo system index visible?  9 
+                                                    )
+                self.gtk_treeview_iters.append(treeview_iter)
+                self.gtk_widgets_update ()
+
+
+
+
+
+
+
     
     
     def add_vismol_object_to_vismol_session (self, pdynamo_session = None, 
@@ -180,6 +258,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #self.vismol_objects.append(vismol_object)
         self.vismol_objects_dic[vismol_object.index] = vismol_object
+        
         #self.append_vismol_object_to_vismol_objects_listStore(vismol_object)
         
         if vobj_count:
@@ -189,6 +268,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
         vobj_index = vismol_object.index
         sys_index  = vismol_object.easyhybrid_system_id
         
+        if 'vismol_objects' in pdynamo_session.systems[sys_index].keys():
+            pdynamo_session.systems[sys_index]['vismol_objects'][vobj_index] = vismol_object
+        else:
+            pdynamo_session.systems[sys_index]['vismol_objects'] = {}
+            pdynamo_session.systems[sys_index]['vismol_objects'][vobj_index] = vismol_object
         
         
         '''
@@ -208,43 +292,40 @@ button position in the main treeview (active column).""".format(name,self.main_s
         vismol_object.active =  True        
         
         #vismol_object.create_new_representation (rtype = 'spheresInstace')
-        
-        for key in rep.keys():
-            
-            if key == 'lines':
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'lines')
-                else:
+        if rep:
+            for key in rep.keys():
+                
+                if key == 'lines':
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'lines')
+                    else:
+                        
+                        vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
+               
+                if key == 'nonbonded':
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'nonbonded')
+                    else:
+                        vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
                     
-                    vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
-           
-            if key == 'nonbonded':
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'nonbonded')
-                else:
-                    vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
+                if key == 'sticks':
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'sticks')
+                    else:
+                        vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
                 
-            if key == 'sticks':
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'sticks')
-                else:
-                    vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
-            
-            if key == 'spheres':
-                
-                if rep[key] == []:
-                    vismol_object.create_new_representation (rtype = 'spheres')
-                else:
-                    #print(key,rep[key])
-                    vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
-                    #vismol_object.representations['spheres'].draw_representation() 
-                #pass
-                
-                '''
-                self.show_or_hide_by_object(            _type = 'spheres', 
-                                                      vobject = vismol_object, 
-                                              selection_table = rep[key] , 
-                                                         show = True )'''
+                if key == 'spheres':
+                    
+                    if rep[key] == []:
+                        vismol_object.create_new_representation (rtype = 'spheres')
+                    else:
+                        vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
+        else:
+            print('no representation')
+        #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
+        #vismol_object.representations[rep.name] = rep
+    
+
         #'''
         if autocenter:
             #print(self.vismol_objects[-1].mass_center)
@@ -271,6 +352,13 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 #row[5] = False 
                 #for i,j in enumerate(row):
                 #    print(i, j,)           
+                
+            #if  pdynamo_session.systems[sys_index] == pdynamo_session.systems[pdynamo_session.active_id]:
+            #    is_active = True
+            #else:
+            #    is_active = False
+            #print('is_active:', is_active)
+            
             self.parents[sys_index] = self.treestore.append(None,                                                
                                                            
                                                            [pdynamo_session.systems[sys_index]['name'], # Name
@@ -364,9 +452,14 @@ button position in the main treeview (active column).""".format(name,self.main_s
         if sele_menu is None:
             ''' Standard Sele Menu '''
             
-            def dynamic_test (_):
+            def menu_show_dynamic_bonds (_):
                 """ Function doc """
-                self.teste3()
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = True)
+            def menu_hide_dynamic_bonds (_):
+                """ Function doc """
+                print('dynamic_test')
+                self.show_or_hide( _type = 'dynamic_bonds', show = False)
             
             def select_test (_):
                 """ Function doc """
@@ -417,8 +510,13 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 """ Function doc """
                 #selection = self.selections[self.current_selection]
                 pdmsys_active = self.main_session.pDynamo_session.active_id
-                qc_list = self.build_index_list_from_atom_selection()
+                qc_list, residue_list = self.build_index_list_from_atom_selection()
+                
+                #print('residue_list:', residue_list)
+                
                 if qc_list:
+                    
+                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_residue_table'] = residue_list
                     self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = qc_list
                     self.main_session.run_dialog_set_QC_atoms()
 
@@ -486,7 +584,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             def prune_atoms (_):
                 """ Function doc """
-                fixedlist = self.build_index_list_from_atom_selection()
+                fixedlist, resi_table = self.build_index_list_from_atom_selection()
                 if fixedlist:
                     fixedlist = list(set(fixedlist))
                     #self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
@@ -495,11 +593,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
             def set_as_fixed_atoms (_):
                 """ Function doc """
                 
-                fixedlist = self.build_index_list_from_atom_selection()
+                fixedlist, sel_resi_table = self.build_index_list_from_atom_selection()
                 
                 if fixedlist:
                     pdmsys_active = self.main_session.pDynamo_session.active_id
-                    fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
+                    fixedlist = list(fixedlist) + list(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
                     #guarantee that the atom index appears only once in the list
                     fixedlist = list(set(fixedlist)) 
                     print ('fixedlist',fixedlist)
@@ -530,7 +628,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
                                             'dots'          : ['MenuItem', menu_show_dots],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_show_nonbonded],
                     
@@ -540,16 +638,21 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'hide'   : [
                                 'submenu',  {
-                                            'lines'    : ['MenuItem', menu_hide_lines],
-                                            'sticks'   : ['MenuItem', menu_hide_sticks],
-                                            'spheres'  : ['MenuItem', menu_hide_spheres],
-                                            'dots'     : ['MenuItem', menu_hide_dots],
+                                            'lines'         : ['MenuItem', menu_hide_lines],
+                                            'sticks'        : ['MenuItem', menu_hide_sticks],
+                                            'spheres'       : ['MenuItem', menu_hide_spheres],
+                                            'dots'          : ['MenuItem', menu_hide_dots],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'separator2'    : ['separator', None],
-                                            'nonbonded': ['MenuItem', menu_hide_nonbonded],
+                                            'nonbonded'     : ['MenuItem', menu_hide_nonbonded],
                                             }
                                 ],
                     
                     'Invert Selection':['MenuItem', invert_selection],
+                    
+                    'Send to Selection List':['MenuItem', invert_selection],
+
                     
                     'separator2':['separator', None],
 
@@ -761,7 +864,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'lines'         : ['MenuItem', menu_show_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
-                                            'dynamic bonds' : ['MenuItem', dynamic_test],
+                                            'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', None],
                     
@@ -774,6 +877,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'lines'    : ['MenuItem', menu_hide_lines],
                                             'sticks'   : ['MenuItem', menu_hide_sticks],
                                             'spheres'  : ['MenuItem', menu_hide_spheres],
+                                            'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+
                                             'nonbonded': ['MenuItem', None],
                                             }
                                 ],

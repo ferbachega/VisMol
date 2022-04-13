@@ -12,8 +12,9 @@ import glob, math, os, os.path, sys
 import numpy as np
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 #path fo the core python files on your machine
-sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods"))
+sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") )
 sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/gui"))
+
 #---------------------------------------
 from pBabel                    import*                                     
 from pCore                     import*  
@@ -38,9 +39,6 @@ from SimulationsPreset import Simulation
 from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER
 from vModel.MolecularProperties import COLOR_PALETTE
-
-
-
 
 HOME = os.environ.get('HOME')
 
@@ -163,7 +161,7 @@ def load_pDynamo_system_from_file (filein,  gridsize = 3, vm_session =  None, fr
     
     vismol_object  = VismolObject.VismolObject(name                           = name          ,    
                                                atoms                          = atoms         ,    
-                                               vm_session                  = vm_session ,    
+                                               vm_session                     = vm_session ,    
                                                bonds_pair_of_indexes          = bonds         ,    
                                                trajectory                     = [frame]       ,    
                                                auto_find_bonded_and_nonbonded = False         )
@@ -182,7 +180,7 @@ class pDynamoSession:
         
         self.nbModel_default         = NBModelCutOff.WithDefaults ( )
         self.fixed_color             = [0.5, 0.5, 0.5]
-        self.pdynamo_distance_safety = 0.5
+        self.pdynamo_distance_safety = 0.25
         
         '''self.active_id is the attribute that tells which 
         system is active for calculations in pdynamo 
@@ -202,6 +200,10 @@ class pDynamoSession:
         self.counter      = 0
         self.color_palette_counter = 0
 
+    def export_system (self, sys_id, filename, folder, _format):
+        """ Function doc """
+        system = self.systems[sys_id]['system']
+        ExportSystem ( os.path.join ( folder, filename+'.'+_format), system )
 
     def generate_pSystem_dictionary (self, system, working_folder = None ):
         """ Function doc """
@@ -224,20 +226,19 @@ class pDynamoSession:
                   'qc_table'      : None           ,
                   'color_palette' : None           , # will be replaced by a dict
                   'fixed_table'   : []             ,
+                  'selections'    : {}             ,
                   'working_folder': working_folder , 
                    }
         
     def load_a_new_pDynamo_system_from_dict (self, filesin = {}, systype = 0, name = None):
         """ Function doc """
-        
-        
+                
         '''Every new system is added in the form of a 
         dict, which contains the items:'''
         psystem = {
                   'id'            : 0    ,  # access number (same as the access key in the self.systems dictionary)
                   'name'          : None ,
-                  'system'        : None ,  # pdynamo system
-                  
+                  'system'        : None ,  # pdynamo system                  
                   'vismol_object' : None ,  # Vismol object associated with the system -> is the object that will 
                                             # undergo changes when something new is requested by the interface, for example: show the QC region
                   'active'        : False, 
@@ -246,41 +247,32 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
+                  'selections'    : {}   ,
+                  'vismol_objects': {}   ,
                   'working_folder': HOME , 
                    }
         
-        
+        system = None 
         if systype == 0:
             system              = ImportSystem       ( filesin['amber_prmtop'] )
             system.coordinates3 = ImportCoordinates3 ( filesin['coordinates'] )
-            self.define_NBModel(_type = 1, system = system)
-
-            
-        if systype == 1:
+            self.define_NBModel(_type = 1, system = system)                      
+        elif systype == 1:
             parameters          = CHARMMParameterFileReader.PathsToParameters (filesin['charmm_par'])
             system              = ImportSystem       ( filesin['charmm_psf'] , isXPLOR = True, parameters = parameters )
             system.coordinates3 = ImportCoordinates3 ( filesin['coordinates'] )
-            self.define_NBModel(_type = 1, system = system)
-
-        
-        
-        if systype == 2:
+            self.define_NBModel(_type = 1, system = system)        
+        elif systype == 2:
             mmModel        = MMModelOPLS.WithParameterSet ( filesin['opls_folder'] )            
             system         = ImportSystem       ( filesin['coordinates'])
             system.DefineMMModel ( mmModel )
-            self.define_NBModel(_type = 1, system = system)
-
-
-                
-        if systype == 3:
+            self.define_NBModel(_type = 1, system = system)          
+        elif systype == 3:
             system = ImportSystem (filesin['coordinates'])
             system.Summary()
             print ('mmModel',system.mmModel)
             print ('qcModel',system.qcModel)
             print ('nbModel',system.nbModel)
-
-        
-        
 
         '''
         psystem['system']        =  system
@@ -289,8 +281,12 @@ class pDynamoSession:
         psystem['color_palette'] =  COLOR_PALETTE[self.color_palette_counter]
         #'''
 
-        #self.name  =  name
-        self.append_system_to_pdynamo_session(system)
+        if name: 
+            self.append_system_to_pdynamo_session(system, name = name, working_folder = HOME)
+        else   : 
+            name = system.label
+            self.append_system_to_pdynamo_session(system, name = name, working_folder = HOME)
+        
         self.vm_session.main_session.update_gui_widgets()
 
 
@@ -310,7 +306,9 @@ class pDynamoSession:
                   'qc_table'      : None ,
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
-                  'working_folder': HOME , 
+                  'vismol_objects': {}   ,
+                  'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
+                  'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
                    }
         
         if name:
@@ -318,11 +316,15 @@ class pDynamoSession:
         else:
             name = system.label
         
-        psystem['system']           =  system
-        psystem['name']             =  name
-        psystem['color_palette']    =  COLOR_PALETTE[self.color_palette_counter]
-        psystem['id']               = self.counter
-        self.systems[psystem['id']] = psystem 
+        try:
+            psystem['system_original_charges'] =  list(system.AtomicCharges())
+        except:
+            psystem['system_original_charges'] = []
+        psystem['system']                  =  system
+        psystem['name']                    =  name
+        psystem['color_palette']           =  COLOR_PALETTE[self.color_palette_counter]
+        psystem['id']                      =  self.counter
+        self.systems[psystem['id']]        =  psystem 
         
         #print('color_palette', self.color_palette_counter)
         #self.systems_list.append(psystem)
@@ -337,16 +339,22 @@ class pDynamoSession:
             
         self.build_vismol_object_from_pDynamo_system (name = 'initial coordinates' )#psystem['system'].label)
         
-    def get_bonds_from_pDynamo_system(self, safety = 0.5, id_system = False):
-        self.systems[self.active_id]['system'].BondsFromCoordinates3(safety = safety)
+    def get_bonds_from_pDynamo_system(self, safety = 0.5, system_id = False):
         
-        raw_bonds =self.systems[self.active_id]['system'].connectivity.bondIndices
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+        
+        self.systems[system_id]['system'].BondsFromCoordinates3(safety = safety)
+        
+        raw_bonds =self.systems[system_id]['system'].connectivity.bondIndices
         bonds = []
         for bond in raw_bonds:
             bonds.append(bond[0])
             bonds.append(bond[1])
         
-        self.systems[self.active_id]['bonds'] = bonds #self.systems[self.active_id]['system'].connectivity.bondIndices
+        self.systems[system_id]['bonds'] = bonds #self.systems[self.active_id]['system'].connectivity.bondIndices
         return True
         
     def define_NBModel (self, _type = 1 , parameters =  None, system = None):
@@ -391,10 +399,126 @@ class pDynamoSession:
         self.refresh_qc_and_fixed_representations()
         return True
 
+    
+    def  _check_ref_vismol_object_in_pdynamo_system (self, system_id = None):
+        """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+        
+        
+        if self.systems[system_id]['vismol_object']:
+            pass
+        else:
+            keys = self.systems[system_id]['vismol_objects'].keys()
+            keys = list(keys)
+            key = keys[-1]
+            self.systems[system_id]['vismol_object'] = self.systems[system_id]['vismol_objects'][key]
+    
+    def check_charge_fragmentation(self, correction = True):
+        """ Function doc """
+
+        mm_residue_table = {}
+        qc_residue_table = self.systems[self.active_id]['qc_residue_table']
+        system           = self.systems[self.active_id]['system']
+        qc_charge        = 0.0
+        
+        '''Here we are going to arrange the atoms that are not in the QC part, 
+        but are in the same residues as some atoms of the QC part.'''  
+
+        self._check_ref_vismol_object_in_pdynamo_system()
+        
+        for res in self.systems[self.active_id]['vismol_object'].residues:
+            
+            if res.resi in qc_residue_table.keys():
+                
+                mm_residue_table[res.resi] = []
+                
+                for atom in res.atoms:
+                    index_v =  atom.index-1
+                    index_p =  system.atoms.items[index_v].index
+                    index_p =  system.atoms.items[index_v].label
+                    charge  =  system.mmState.charges[index_v]
+                    resn    = res.resn 
+                    atom.charge = system.mmState.charges[index_v]
+                    
+                    if index_v in qc_residue_table[res.resi]:
+                        qc_charge += atom.charge
+                        pass
+                        #print (resn, res.resi, index_v, index_p, charge, True )
+                    
+                    else:
+                        #print (resn, res.resi, index_v, index_p, charge, False)
+                        mm_residue_table[res.resi].append(index_v)
+                
+                
+                
+                #print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+            
+        #print('mm_residue_table',mm_residue_table)
+        '''Here we are going to do a rescaling of the charges of atoms of 
+        the MM part but that the residues do not add up to an entire charge.''' 
+        
+        
+        
+        for resi in mm_residue_table.keys():
+            
+            total = 0.0
+            for index in mm_residue_table[resi]:
+                pcharge = system.mmState.charges[index]
+                total += pcharge
+            
+            rounded  = float(round(total))
+            diff     = rounded - total
+            size     = len(mm_residue_table[resi])
+            
+            if size > 0:
+                fraction = diff/size
+                print('residue: ', resi, 'charge fraction = ',fraction)
+            
+                for index in mm_residue_table[resi]:
+                    system.mmState.charges[index] += fraction
+                    #total += pcharge
+            else:
+                pass
+        print('QC charge from selected atoms: ',round(qc_charge) )
+        #for atom in self.systems[self.active_id]['vismol_object'].atoms:
+        #    print( atom.index, atom.name, atom.charge)
+        #print('Total charge: ', sum(system.mmState.charges))
+    
+    
+    def remove_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
+        """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+            
+        self.systems[system_id]['selections'].pop(name)            
+    
+    
+    def make_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
+        """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+            
+        self.systems[system_id]['selections'][name] = indexes    
+        
+
     def define_a_new_QCModel (self, parameters = None):
         """ Function doc """
         
         #print(parameters)
+        
+        '''Here we have to rescue the original electrical charges of the 
+        MM model. This is postulated because multiple associations of QC 
+        regions can distort the charge distribution of some residues. '''
+        
+        #self.systems[self.active_id]['system_original_charges']
+        #for charge in self.systems[self.active_id]['system_original_charges']
         
         electronicState = ElectronicState.WithOptions ( charge = parameters['charge'], multiplicity = parameters['multiplicity'])
         self.systems[self.active_id]['system'].electronicState = electronicState
@@ -404,6 +528,12 @@ class pDynamoSession:
 
         
         if self.systems[self.active_id]['qc_table'] :
+            
+            '''This function reschedules the remaining loads in the MM part. The 
+            sum of the charges in the MM region must be an integer value!'''
+            self.check_charge_fragmentation()
+            '''----------------------------------------------------------------'''
+            
             self.systems[self.active_id]['system'].DefineQCModel (qcModel, qcSelection = Selection.FromIterable ( self.systems[self.active_id]['qc_table']) )
             self.refresh_qc_and_fixed_representations()
             
@@ -414,78 +544,115 @@ class pDynamoSession:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
 
-    def refresh_qc_and_fixed_representations (self, _all =  False, sys_selection = None):
+    def refresh_qc_and_fixed_representations (self, _all = False, 
+                                               system_id = None , 
+                                             fixed_atoms = True , 
+                                                QC_atoms = True , 
+                                                  static = True ):
         """ 
                 
         _all = True/False applies the "ball and stick" and "color fixed atoms" representation
          to all vobjects. Only being used in load - serialization file
         
         """
-        #if self.selection_fixed_table:
-        #print('\n\n\nselection_fixed_table', self.systems[self.active_id]['fixed_table'])
         
-        if sys_selection:
+        if system_id:
             pass
         else:
-            sys_selection = self.active_id
+            system_id = self.active_id
 
         '''
         This loop is assigning the color of the fixed atoms to all objects 
         belonging to the pdynamo project that is active. 
         '''
-        for key, visObj in self.vm_session.vismol_objects_dic.items():
-            
-            if _all:
-                # It applies the "color fixed atoms" representation to all vobjects. 
-                # Only being used in load - serialization file 
-                system_id = visObj.easyhybrid_system_id
-                #print ("system_id", system_id)
-                self.vm_session.set_color_by_index(vismol_object = visObj , 
-                                                   indexes       = self.systems[system_id]['fixed_table'], 
-                                                   color         = self.fixed_color)
-            
-            else:
-                #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
-                if visObj.easyhybrid_system_id == sys_selection:
-                   
-                    self.vm_session.set_color_by_index(vismol_object = visObj , 
-                                                          indexes       = self.systems[sys_selection]['fixed_table'], 
-                                                          color         = self.fixed_color)
-
-
-        
-        if _all:
-            
+        if fixed_atoms:
             for key, visObj in self.vm_session.vismol_objects_dic.items():
-                system_id = visObj.easyhybrid_system_id
                 
-                if self.systems[system_id]['system'].qcModel:
-                    #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
-                    # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
-                    self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-            
-                    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                if _all:
+                    # It applies the "color fixed atoms" representation to all vobjects. 
+                    # Only being used in load - serialization file 
+                    system_id = visObj.easyhybrid_system_id
+                    #print ("system_id", system_id)
+                    
+                    if self.systems[system_id]['system'].freeAtoms is None:
+                        pass
+                    
+                    else:
+                        if self.systems[system_id]['fixed_table'] == []:
+                            freeAtoms = self.systems[system_id]['system'].freeAtoms
+                            freeAtoms                             = Selection.FromIterable (freeAtoms)
+                            selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+                            self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+                            #self.systems[self.active_id]['system'].freeAtoms = selection_free
+                        
+                        
+                        
+                    self.vm_session.set_color_by_index(vismol_object = visObj , 
+                                                       indexes       = self.systems[system_id]['fixed_table'], 
+                                                       color         = self.fixed_color)
+                
                 else:
-                    pass
-            
+                    #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
+                    if visObj.easyhybrid_system_id == system_id:
+                       
+                        if self.systems[system_id]['system'].freeAtoms is None:
+                            pass
+                        
+                        else:
+                            if self.systems[system_id]['fixed_table'] == []:
+                                freeAtoms = self.systems[system_id]['system'].freeAtoms
+                                freeAtoms                             = Selection.FromIterable (freeAtoms)
+                                selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+                                self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
 
+                        self.vm_session.set_color_by_index(vismol_object = visObj , 
+                                                              indexes       = self.systems[system_id]['fixed_table'], 
+                                                              color         = self.fixed_color)
         else:
-            if self.systems[sys_selection]['system'].qcModel:
+            pass
 
-                self.systems[sys_selection]['qc_table'] = list(self.systems[sys_selection]['system'].qcState.pureQCAtoms)               
+
+
+
+        if QC_atoms:
+            if _all:
+                
                 for key, visObj in self.vm_session.vismol_objects_dic.items():
-                    if visObj.easyhybrid_system_id == self.active_id:
+                    system_id = visObj.easyhybrid_system_id
+                    
+                    if self.systems[system_id]['system'].qcModel:
+                        #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
                         # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
                         self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                        self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                        if static:
+                            self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+                            self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                        else:
+                            pass
+                            self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                    else:
+                        pass
                 
-                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
-                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[sys_selection]['qc_table'] , show = True )
-        
+
             else:
-                pass
+                if self.systems[system_id]['system'].qcModel:
+
+                    self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)               
+                    for key, visObj in self.vm_session.vismol_objects_dic.items():
+                        if visObj.easyhybrid_system_id == self.active_id:
+                            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                            if static:
+                                self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                                self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                            else:
+                                self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                else:
+                    pass
 
     def merge_systems (self, system1 = None, system2 =  None, label = 'Merged System', summary = True):
         """ Function doc """
@@ -553,18 +720,23 @@ class pDynamoSession:
         #print('\n\n')
         
         for i, atom in enumerate(vismol_object.atoms):
-            xyz = atom.coords()
+            xyz = atom.coords(frame = -1)
             self.systems[self.active_id]['system'].coordinates3[i][0] = xyz[0]
             self.systems[self.active_id]['system'].coordinates3[i][1] = xyz[1]
             self.systems[self.active_id]['system'].coordinates3[i][2] = xyz[2]
     
-    def get_sequence_from_pDynamo_system (self):
+    def get_sequence_from_pDynamo_system (self, system_id = None):
         """ Function doc """
         
-        self.systems[self.active_id]['sequence'] = getattr ( self.systems[self.active_id]['system'], "sequence", None )
-        if  self.systems[self.active_id]['sequence'] is None: 
-            self.systems[self.active_id]['sequence'] = Sequence.FromAtoms ( self.systems[self.active_id]['system'].atoms, 
-                                                                                              componentLabel = "UNK.1" )
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
+        
+        self.systems[system_id]['sequence'] = getattr ( self.systems[system_id]['system'], "sequence", None )
+        if  self.systems[system_id]['sequence'] is None: 
+            self.systems[system_id]['sequence'] = Sequence.FromAtoms ( self.systems[system_id]['system'].atoms, 
+                                                                                     componentLabel = "UNK.1" )
         return True
 
     def get_atom_coords_from_pdynamo_system (self, system = None,  atom = None):
@@ -574,7 +746,7 @@ class pDynamoSession:
             xyz = self.systems[self.active_id]['system'].coordinates3[atom.index]
         return [float(xyz[0]),float(xyz[1]), float(xyz[2])]
 
-    def get_atom_info_from_pdynamo_atom_obj (self, system = None, atom = None):
+    def get_atom_info_from_pdynamo_atom_obj (self, system_id = None, atom = None):
         """
         It extracts the information from the atom object, 
         belonging to pdynamo, and organizes it in the form 
@@ -582,6 +754,11 @@ class pDynamoSession:
         vismolObj
         
         """
+
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
 
         entityLabel = atom.parent.parent.label
         useSegmentEntityLabels = False
@@ -594,7 +771,7 @@ class pDynamoSession:
 
         
 
-        resName, resSeq, iCode = self.systems[self.active_id]['sequence'].ParseLabel ( atom.parent.label, fields = 3 )
+        resName, resSeq, iCode = self.systems[system_id]['sequence'].ParseLabel ( atom.parent.label, fields = 3 )
         ##print(atom.index, atom.label,resName, resSeq, iCode,chainID, segID,  atom.atomicNumber, atom.connections)#, xyz[0], xyz[1], xyz[2] )
         
         index        = atom.index
@@ -622,32 +799,38 @@ class pDynamoSession:
  
     def build_vismol_object_from_pDynamo_system (self                       , 
                                                  name = 'a_new_vismol_obj'  ,
-                                                 system               = None,
+                                                 system_id            = None,
                                                  vismol_object_active = True,
                                                  autocenter = True          ,
                                                  refresh_qc_and_fixed = True,
                                                  
                                                  ):
         """ Function doc """
-        if system:
-            sys_id = system
-        else:
-            sys_id = self.active_id
+        print('\n\n\ build_vismol_object_from_pDynamo_system 736:', system_id, name)
         
-        self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety)
-        self.get_sequence_from_pDynamo_system()
+        if system_id is not None:
+            pass
+        else:
+            system_id = self.active_id
+        print('\n\n\ build_vismol_object_from_pDynamo_system 753:', system_id, name)
+        
+        name = str(self.systems[system_id]['step_counter'])+' '+name
+        self.systems[system_id]['step_counter'] += 1
+        
+        self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety, system_id = system_id)
+        self.get_sequence_from_pDynamo_system(system_id = system_id)
         frames = []
 
         atoms = []     
         frame = []
         
-        for atom in self.systems[sys_id]['system'].atoms.items:
-            xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom)
+        for atom in self.systems[system_id]['system'].atoms.items:
+            xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom, system  = self.systems[system_id]['system'])
             frame.append(xyz[0])
             frame.append(xyz[1])
             frame.append(xyz[2])
             
-            atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom))
+            atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom, system_id = system_id))
         
 
         
@@ -657,25 +840,25 @@ class pDynamoSession:
         vismol_object  = VismolObject.VismolObject(name                           = name                                          ,    
                                                    atoms                          = atoms                                         ,    
                                                    vm_session                     = self.vm_session                            ,    
-                                                   bonds_pair_of_indexes          = self.systems[sys_id]['bonds']         ,    
+                                                   bonds_pair_of_indexes          = self.systems[system_id]['bonds']         ,    
                                                    trajectory                     = [frame]                                       ,  
-                                                   color_palette                  = self.systems[sys_id]['color_palette'] ,
+                                                   color_palette                  = self.systems[system_id]['color_palette'] ,
                                                    auto_find_bonded_and_nonbonded = False               )
         
-        vismol_object.easyhybrid_system_id = self.systems[sys_id]['id']
+        vismol_object.easyhybrid_system_id = self.systems[system_id]['id']
         vismol_object.set_model_matrix(self.vm_session.glwidget.vm_widget.model_mat)
         vismol_object.active = vismol_object_active
         vismol_object._get_center_of_mass(frame = 0)
         
-        if self.systems[sys_id]['system'].qcModel:
+        if self.systems[system_id]['system'].qcModel:
             sum_x = 0.0 
             sum_y = 0.0 
             sum_z = 0.0
             
-            self.systems[sys_id]['qc_table'] = list(self.systems[sys_id]['system'].qcState.pureQCAtoms)
+            self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)
             total = 0
             
-            for atom_index in self.systems[sys_id]['qc_table']:
+            for atom_index in self.systems[system_id]['qc_table']:
                 atom = vismol_object.atoms[atom_index]
                 
                 coord = atom.coords (frame = 0)
@@ -691,14 +874,17 @@ class pDynamoSession:
             
         else:
             center = vismol_object.mass_center
-
-        self.systems[sys_id]['vismol_object'] = vismol_object
+        
+        #self._check_ref_vismol_object_in_pdynamo_system()
+        self.systems[system_id]['vismol_object'] = vismol_object
+        
         self.vm_session.add_vismol_object_to_vismol_session (pdynamo_session  = self,
                                                                 #rep              = True, 
                                                                 vismol_object    = vismol_object, 
                                                                 autocenter       = autocenter)
+        
         if refresh_qc_and_fixed:
-            self.refresh_qc_and_fixed_representations() 
+            self.refresh_qc_and_fixed_representations(system_id = system_id) 
 
         self.vm_session.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.vm_session.main_session.update_gui_widgets()
@@ -711,6 +897,7 @@ class pDynamoSession:
         #print (_centerAtom)
         #print (_radius)
         #print (_method)
+        self._check_ref_vismol_object_in_pdynamo_system()
         vismol_object = self.systems[self.active_id]['vismol_object']
         
         atomref = AtomSelection.FromAtomPattern( self.systems[self.active_id]['system'], _centerAtom )
@@ -751,13 +938,43 @@ class pDynamoSession:
             self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vismol_object   = vismol_object, 
                                                                                                               indexes = core , 
                                                                                                               clear   = True )
+    
+    def charge_summary (self, system = None):
+        """ Function doc """
+        
+        if system == None:
+            system = self.systems[self.active_id]['system']
+            #self.systems[self.active_id]['system']
+        
+        self._check_ref_vismol_object_in_pdynamo_system()
+        for res in self.systems[self.active_id]['vismol_object'].residues:
+            for atom in res.atoms:
+                index_v =  atom.index-1
+                index_p =  system.atoms.items[index_v].index
+                index_p =  system.atoms.items[index_v].label
+                charge  =  system.mmState.charges[index_v]
+                resn    = res.resn 
+                atom.charge = system.mmState.charges[index_v]
+                
+                print (resn, res.resi, index_v, index_p, charge )
+                #print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+            
+        for atom in self.systems[self.active_id]['vismol_object'].atoms:
+            print( atom.index, atom.name, atom.charge)
+        print('Total charge: ', sum(system.mmState.charges))
+            
+            
+        #for atom in system.atoms.items:
+        #    idx = atom.index
+        #    print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+      
     def get_energy (self):
         """ Function doc """
         self.systems[self.active_id]['system'].Summary( )
         energy = self.systems[self.active_id]['system'].Energy( )
         return energy
 
-    def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, sys_selected = 0, vobject = None, name = None):
+    def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
         """ Function doc """
         
         #traj   = '/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo'
@@ -771,9 +988,9 @@ class pDynamoSession:
         #    frame.append(xyz[2])
         #frame = np.array(frame, dtype=np.float32)
         
-        print( traj, first, last, stride, sys_selected, vobject, name)
+        print('\n\n\data 907:',  traj, first, last, stride, system_id, vobject, name)
         # . Define the trajectory.
-        trajectory = ImportTrajectory ( traj, self.systems[sys_selected]['system'] )
+        trajectory = ImportTrajectory ( traj, self.systems[system_id]['system'] )
         trajectory.ReadHeader ( )
         
         # . Loop over the frames in the trajectory.
@@ -785,16 +1002,18 @@ class pDynamoSession:
         else:
             vobject = self.build_vismol_object_from_pDynamo_system (
                                                                name                 = name  ,
-                                                               system               = sys_selected,
+                                                               system_id            = system_id,
                                                                vismol_object_active = True        ,
                                                                autocenter           = True        ,
                                                                refresh_qc_and_fixed = False)
             vobject.frames = []
         
+        print('\n\n\data 927:', system_id,vobject,name)
+        
         while trajectory.RestoreOwnerData ( ):
             frame = []
-            for atom in self.systems[sys_selected]['system'].atoms.items:
-                xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom, system = self.systems[sys_selected]['system'])
+            for atom in self.systems[system_id]['system'].atoms.items:
+                xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom, system = self.systems[system_id]['system'])
                 frame.append(xyz[0])
                 frame.append(xyz[1])
                 frame.append(xyz[2])
@@ -806,12 +1025,7 @@ class pDynamoSession:
         trajectory.ReadFooter ( )
         trajectory.Close ( )
         #return frames
-        self.refresh_qc_and_fixed_representations(sys_selection = sys_selected)
-        
-        
-        
-        
-        
+        self.refresh_qc_and_fixed_representations(system_id = system_id)           
         '''
         system = self.easyhybrid_main.pDynamo_session.systems[0]['system']
         trajectory = ImportTrajectory ( os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo'), system)
@@ -835,15 +1049,7 @@ class pDynamoSession:
             frame = np.array(frame, dtype=np.float32)
             self.easyhybrid_main.vm_session.vismol_geometric_object[0].frames.append(frame)
         '''
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
                                                       logFrequency           , 
                                                       maximumIterations      , 
@@ -851,10 +1057,8 @@ class pDynamoSession:
                                                       save_trajectory = False,
                                                       trajectory_path = None):
         """ Function doc """
-        if save_trajectory:
-            
-            #if trajectory_path == None:
-                 
+        if save_trajectory:            
+            #if trajectory_path == None:                 
             trajectory_path = '/home/fernando/Documents'
             trajectory = ExportTrajectory ('/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo', self.systems[self.active_id]['system'] )
 
@@ -866,7 +1070,6 @@ class pDynamoSession:
                                                        )        
         
         else:
-        
             ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system']                        ,
                                                        logFrequency                       = logFrequency             ,
                                                        maximumIterations                  = maximumIterations        ,
@@ -874,15 +1077,14 @@ class pDynamoSession:
         
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = True)
 
-    #--------------------------------------------------------- -----------------------
-    def run_simulation(self, _parametersList = None, _parameters4Plot = None, _simulationType = None, folder = None):
+    #---------------------------------------------------------------------------------
+    def run_simulation(self, _parametersList = None):
         '''
         bsname = base name of the folder where will be created the next
         '''
-        print (_parametersList)
-        run = Simulation(self.systems[self.active_id]['system'],_simulationType, folder )
-        run.Execute(_parametersList,_parameters4Plot)
-        
+        _parametersList["active_system"] = self.systems[self.active_id]['system']
+        run = Simulation(_parametersList)
+        run.Execute()        
         self.build_vismol_object_from_pDynamo_system (name = 'new_geometry', autocenter = False)
         
 #======================================================================================================
