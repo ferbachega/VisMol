@@ -355,7 +355,7 @@ class LinesRepresentation (Representation):
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
             #print(self.visObj.name)
             #self.define_new_indexes_to_VBO ( self.visObj.index_bonds)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)
 
         GL.glBindVertexArray(0)
         #GL.glLineWidth(1)
@@ -399,7 +399,7 @@ class LinesRepresentation (Representation):
             #GL.glBufferData(GL.GL_ARRAY_BUFFER, frame.nbytes,
             #                frame, 
             #                GL.GL_STATIC_DRAW)              
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)  
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)  
         GL.glBindVertexArray(0)
         GL.glLineWidth(2)
         GL.glUseProgram(0)
@@ -512,11 +512,13 @@ class DynamicBonds (Representation):
             if frame < len(self.visObj.dynamic_bonds):
                 self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
+                #print("line 515", self.visObj.dynamic_bonds[frame])
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*1), GL.GL_UNSIGNED_INT, None)
             else:
                 self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[-1])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*2), GL.GL_UNSIGNED_INT, None)
+                #print("line 520")
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*1), GL.GL_UNSIGNED_INT, None)
             #except:
             #    pass
             
@@ -673,7 +675,7 @@ class SticksRepresentation (Representation):
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)
         
         GL.glBindVertexArray(0)
         GL.glUseProgram(0)

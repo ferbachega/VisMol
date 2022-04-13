@@ -180,7 +180,7 @@ class pDynamoSession:
         
         self.nbModel_default         = NBModelCutOff.WithDefaults ( )
         self.fixed_color             = [0.5, 0.5, 0.5]
-        self.pdynamo_distance_safety = 0.5
+        self.pdynamo_distance_safety = 0.25
         
         '''self.active_id is the attribute that tells which 
         system is active for calculations in pdynamo 
