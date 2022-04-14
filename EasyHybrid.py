@@ -89,7 +89,9 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
 
 
     def build_index_list_from_atom_selection (self):
-        """ Function doc """
+        """  
+        returns the index_list and residue_list
+        """
         selection         = self.selections[self.current_selection]
         
         index_list = []                
