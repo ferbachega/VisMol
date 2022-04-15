@@ -30,6 +30,7 @@ from pCore                     import *
 from pMolecule                 import *                    
 from CoreInterface 			   import SimulationProject
 from ReactionCoordinate import *
+from TrajectoryAnalysis import *
 #-------------------------------------------------------------------
 #path for the required files on the examples folder of EasyHynrid 3.0
 easyhybrid   = os.path.join(VISMOL_HOME, "easyhybrid")
@@ -286,7 +287,7 @@ def QCMM_MDrestricted():
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	#-----------------------------------------------------------------
 	parameters = {	"protocol":"sampling"     						,
-					"nsteps":500    								,
+					"nsteps":1000    								,
 					"MD_method":"LeapFrog"      					,
 				 	"ATOMS_RC1":atomsf          					,
 				 	"ATOMS_RC2":atomss          					,
@@ -302,7 +303,7 @@ def QCMM_MDrestricted():
 	#Run simulation	
 	proj.RunSimulation(parameters)
 	parameters["sampling_factor"] = 100
-	parameters["nstepsns"]        = 2000
+	parameters["nsteps"]          = 4000
 	proj.RunSimulation(parameters)
 	proj.FinishRun()		
 #==============================================================
@@ -313,8 +314,32 @@ def TrajectoryAnalysisPlots():
 	# Root mean square and radius of gyration plots 
 	# Distance analysis in restricted molecular dynamics 
 	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
-	_traj_name = os.path.join()
-	traj = TrajectoryAnalysis()
+	if not os.path.exists( os.path.join(scratch_path,"QCMM_restricted","trajectory.ptGeo") ):
+		QCMM_MDrestricted()
+
+	proj=SimulationProject( os.path.join(scratch_path,"QCMM_restricted") )		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+	atomss = [ atom4[0], atom5[0], atom6[0] ]
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLabel(proj.cSystem)	
+	rc2 = ReactionCoordinate(atomss,False,0)
+	rc2.GetRCLabel(proj.cSystem)
+	rcs = [ rc1, rc2 ]
+
+	_traj_name = os.path.join(scratch_path,"QCMM_restricted","trajectory.ptGeo")
+	traj = TrajectoryAnalysis(_traj_name,proj.cSystem,4.0)
+	traj.CalculateRG_RMSD()
+	traj.DistancePlots(rcs)
+	traj.ExtractFrames()
+	traj.PlotRG_RMS()
 
 #==============================================================
 def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
@@ -1436,4 +1461,6 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 27: ReacCoordSearchers("NEB")
 	elif int(sys.argv[1]) == 28: MopacEnergyRef()
 	elif int(sys.argv[1]) == 29: pDynamoEnergyRef_2D()
+	elif int(sys.argv[1]) == 30: TrajectoryAnalysisPlots()
+
 

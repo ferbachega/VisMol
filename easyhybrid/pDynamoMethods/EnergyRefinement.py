@@ -71,10 +71,8 @@ class EnergyRefinement:
 		'''
 		qc_charge=0.0
 		mmCharges = self.molecule.energyModel.mmAtoms.AtomicCharges()
-
 		for qcatom in self.pureQCAtoms:
 			qc_charge += mmCharges[qcatom]
-
 		return(qc_charge)
 	#=====================================================================================
 	def ChangeQCRegion(self,_centerAtom,_radius):
