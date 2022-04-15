@@ -14,6 +14,7 @@
 #=================================================================
 import os, glob, sys 
 
+NmaxThreads = 1 
 os.environ['MPLCONFIGDIR'] = '/tmp'
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 #path fo the core python files on your machine
@@ -29,6 +30,7 @@ from pCore                     import *
 from pMolecule                 import *                    
 from CoreInterface 			   import SimulationProject
 from ReactionCoordinate import *
+from TrajectoryAnalysis import *
 #-------------------------------------------------------------------
 #path for the required files on the examples folder of EasyHynrid 3.0
 easyhybrid   = os.path.join(VISMOL_HOME, "easyhybrid")
@@ -79,7 +81,7 @@ def MMMD_Algorithms():
 	refcrd3 = Clone(proj.cSystem.coordinates3)
 	#-----------------------------------------------
 	integrators = ["Verlet", "LeapFrog", "Langevin"]	
-	parameters = {"protocol":"sampling","temperature": 315.15,"simulation_type":"Molecular_Dynamics"}
+	parameters = {"protocol":"sampling","temperature": 315.15,"simulation_type":"Molecular_Dynamics","Debug":True}
 	#------------------------------------------------
 	#loop to execute the available intgrators on pDynamo
 	for integrator in integrators:
@@ -215,6 +217,7 @@ def QCMM_optimizations():
 				  "simulation_type":"Geometry_Optimization",
 				  "save_frequency" : 20 		           ,
 				  "save_format":".dcd"                     ,
+				  "Debug":True                             ,
 				  "save_pdb": True    			           }
 	#---------------------------------------------------
 	for alg in algs:
@@ -250,10 +253,12 @@ def QCMM_MD():
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	
 	parameters = {"show":True,"ATOMS_RC1":atomsf,"ATOMS_RC2":atomss,"calculate_distances":True,"protocol":"sampling",
+				   "trajectory_name":"equilibration",
 				  "nsteps":1000,"sampling_factor":0,"MD_method":"LeapFrog","simulation_type":"Molecular_Dynamics"}
 	#--------------------------------------------------------			
 	proj.RunSimulation(parameters)
 	parameters["nsteps"] = 4000 
+	parameters["trajectory_name"] = "production"
 	parameters["sampling_factor"] = 100
 	proj.RunSimulation(parameters)
 	proj.FinishRun()
@@ -282,25 +287,61 @@ def QCMM_MDrestricted():
 	atomss = [ atom4[0], atom5[0], atom6[0] ]
 	#-----------------------------------------------------------------
 	parameters = {	"protocol":"sampling"     						,
-					"nsteps":500    								,
+					"nsteps":1000    								,
 					"MD_method":"LeapFrog"      					,
 				 	"ATOMS_RC1":atomsf          					,
 				 	"ATOMS_RC2":atomss          					,
 				 	"force_constant_1":100.0    					,
-				 	"force_constant_2":95.0     					,
+				 	"force_constant_2":100.0     					,
 				 	"ndim":2                    					,
 				 	"MC_RC1":True               					,
 				 	"MC_RC2":True               					,
+				 	"Debug":True                                    ,
 				 	"simulation_type":"Restricted_Molecular_Dynamics",
 				 	"sampling_factor":0       						}
 	#------------------------------------------------
 	#Run simulation	
 	proj.RunSimulation(parameters)
 	parameters["sampling_factor"] = 100
-	parameters["nstepsns"]        = 2000
+	parameters["nsteps"]          = 4000
 	proj.RunSimulation(parameters)
 	proj.FinishRun()		
-#=====================================================
+#==============================================================
+def TrajectoryAnalysisPlots():
+	'''
+	Test the analysis and plotting for molecular dynamics simulations.
+	'''
+	# Root mean square and radius of gyration plots 
+	# Distance analysis in restricted molecular dynamics 
+	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
+	if not os.path.exists( os.path.join(scratch_path,"QCMM_restricted","trajectory.ptGeo") ):
+		QCMM_MDrestricted()
+
+	proj=SimulationProject( os.path.join(scratch_path,"QCMM_restricted") )		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+	atomss = [ atom4[0], atom5[0], atom6[0] ]
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLabel(proj.cSystem)	
+	rc2 = ReactionCoordinate(atomss,False,0)
+	rc2.GetRCLabel(proj.cSystem)
+	rcs = [ rc1, rc2 ]
+
+	_traj_name = os.path.join(scratch_path,"QCMM_restricted","trajectory.ptGeo")
+	traj = TrajectoryAnalysis(_traj_name,proj.cSystem,4.0)
+	traj.CalculateRG_RMSD()
+	traj.DistancePlots(rcs)
+	traj.ExtractFrames()
+	traj.PlotRG_RMS()
+
+#==============================================================
 def QCMMScanSimpleDistance(_nsteps,_dincre,name="Default"):
 	'''
 	TESTED !
@@ -367,7 +408,7 @@ def QCMMScanMultipleDistance(_nsteps,_dincre,name="Default"):
 	proj.RunSimulation(parameters)		
 	proj.FinishRun()
 #=====================================================
-def Scan1D_Dihedral(_nsteps,name="Default"):
+def Scan1D_Dihedral(_nsteps,_dincre=10.0,name="Default"):
 	'''
 	Test relaxed scan with dihedral reaction coordinates
 	'''
@@ -384,6 +425,7 @@ def Scan1D_Dihedral(_nsteps,name="Default"):
 	#setting parameters
 	parameters = { "ATOMS_RC1":atomsf     ,
 				   "nsteps_RC1":_nsteps   ,
+				   "dincre_RC1":_dincre   , 
 				   "rc_type_1" :"dihedral", 
 				   "ndim":1               ,
 				   "MC_RC1":True          ,
@@ -396,7 +438,7 @@ def Scan1D_Dihedral(_nsteps,name="Default"):
 	proj.RunSimulation(parameters)		
 	proj.FinishRun()
 #=====================================================
-def Scan2D_Dihedral(_xnsteps,_ynsteps,name="Default"):
+def Scan2D_Dihedral(_xnsteps,_ynsteps,_dincreX=10.0,_dincreY=10.0,name="Default"):
 	'''
 	Test relaxed scan with dihedral reaction coordinates
 	'''
@@ -1159,13 +1201,7 @@ def EnergyAnalysisPlots():
 	#===========================================================================
 	#internal refinement
 #===============================================================================
-def TrajectoryAnalysisPlots():
-	'''
-	Test the analysis and plotting for molecular dynamics simulations.
-	'''
-	# Root mean square and radius of gyration plots 
-	# Distance analysis in restricted molecular dynamics 
-	# Extraction of most representative frame based on the metrics: rmsd, rg and reaction coordinate distances
+
 #===============================================================================
 def ReacCoordSearchers(_type):	
 	'''
@@ -1325,12 +1361,6 @@ def pDynamoEnergyRef_2D():
 	#---------------------------------------------
 	proj.RunSimulation(parameters)
 #=====================================================
-def DFTBplusEnergy():
-	'''
-	Test Refinement with DFTB plus
-	'''
-	pass
-#=====================================================
 def MopacEnergyRef():
 	'''
 	'''
@@ -1380,13 +1410,14 @@ def Change_QC_Region():
 def CombinedFES_ABinitioSMO():
 	pass
 #=====================================================
-def ORCAEnergy():
+def ORCAEnergy_ref():
 	pass
 #=====================================================
 def Thermodynamics():
 	pass
 #=====================================================
 if __name__ == "__main__":	
+	#------------------------------------
 	if sys.argv[1] == "help":
 		help_text = "Options for testn\n"
 		help_text+= "\t1:Molecular Dynamics Algorithms\n\t2:Molecular Dynamics heating protocol\n\t3:QC/MM energies"
@@ -1397,7 +1428,11 @@ if __name__ == "__main__":
 		help_text+= "\n\t23:Free energy simple mixed distance 2D\n\t24:Free energy multiple distance 2D\n\t25:Semiempirical in pDynamo energy refinement\n\t26:Energy Plots analysis"
 		help_text+= "\n\t27:Raction coordinates searching\n\t28:Semiempirical mopac energy refinement\n\t29:Semiempirical in pDynamo energy 2D"
 		print(help_text)
-	elif int(sys.argv[1]) == 1:  MMMD_Algorithms()
+	#------------------------------------------------
+	if len(sys.argv) > 2:
+		if sys.argv[2] == "-np":  NmaxThreads == int(sys.argv[3])
+	#------------------------------------------------
+	if 	 int(sys.argv[1]) == 1:  MMMD_Algorithms()
 	elif int(sys.argv[1]) == 2:	 MMMD_Heating()
 	elif int(sys.argv[1]) == 3:	 QCMM_Energies()
 	elif int(sys.argv[1]) == 4:  QCMM_DFTBplus()	
@@ -1426,4 +1461,6 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 27: ReacCoordSearchers("NEB")
 	elif int(sys.argv[1]) == 28: MopacEnergyRef()
 	elif int(sys.argv[1]) == 29: pDynamoEnergyRef_2D()
+	elif int(sys.argv[1]) == 30: TrajectoryAnalysisPlots()
+
 

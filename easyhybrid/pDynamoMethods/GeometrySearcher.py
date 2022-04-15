@@ -45,8 +45,8 @@ class GeometrySearcher:
         self.rmsGrad        = 0.1
         self.maxIt          = 500
         self.saveFrequency  = 0
-        if not _trajName == None:
-             self.trajectoryName = os.path.join(_baseFolder,_trajName)
+        self.DEBUG          = False
+        if not _trajName == None: self.trajectoryName = os.path.join(_baseFolder,_trajName)
     #=========================================================================
     def ChangeDefaultParameters(self,_parameters):
         '''
@@ -57,7 +57,8 @@ class GeometrySearcher:
         if "log_frequency"  in _parameters: self.logFreq        = _parameters["log_frequency"] 
         if "save_format"    in _parameters: self.saveFormat     = _parameters["save_format"]
         if "save_frequency" in _parameters: self.saveFrequency  = _parameters["save_frequency"]        
-        if "rmsGradient"    in _parameters: self.rmsGrad        = _parameters['rmsGradient']
+        if "rmsGradient"    in _parameters: self.rmsGrad        = _parameters["rmsGradient"]
+        if "Debug"          in _parameters: self.DEBUG          = _parameters["Debug"]
     #======================================================================================
     # Main minimization class method
     def Minimization(self,_optimizer):
@@ -73,6 +74,14 @@ class GeometrySearcher:
         elif self.optAlg == "QuasiNewton"       : self.RunQuasiNewton()
         elif self.optAlg == "FIRE"              : self.RunFIREmin()
         self.finalCrd3D = Clone(self.molecule.coordinates3)
+        if self.DEBUG:
+            self.Print()
+            pdbFileA = os.path.join(self.baseName, "initialCoord_{}.pdb".format(self.optAlg) )
+            pdbFileB = os.path.join(self.baseName, "finalCoord_{}.pdb".format(self.optAlg) )
+            self.molecule.coordinates3 = Clone(self.InitCrd3D)
+            ExportSystem(pdbFileA,self.molecule)
+            self.molecule.coordinates3 = Clone(self.finalCrd3D)
+            ExportSystem(pdbFileB,self.molecule)
     #=============================================================================
     #Minimizers methods
     def RunConjugatedGrad(self):
@@ -81,9 +90,9 @@ class GeometrySearcher:
         '''
         if self.trajectoryName == None:
             ConjugateGradientMinimize_SystemGeometry(self.molecule                      ,                
-                                                 logFrequency           = self.logFreq  ,
-                                                 maximumIterations      = self.maxIt    ,
-                                                 rmsGradientTolerance   = self.rmsGrad  )
+                                                     logFrequency           = self.logFreq  ,
+                                                     maximumIterations      = self.maxIt    ,
+                                                     rmsGradientTolerance   = self.rmsGrad  )
         else:            
             trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None )
             ConjugateGradientMinimize_SystemGeometry(self.molecule                        ,                
@@ -146,20 +155,19 @@ class GeometrySearcher:
     #==============================================================================
     def RunFIREmin(self):
         '''
-
         '''
         if self.trajectoryName == None:
             FIREMinimize_SystemGeometry( self.molecule                  ,                
-                                    logFrequency         = self.logFreq ,
-                                    maximumIterations    = self.maxIt   ,
-                                    rmsGradientTolerance = self.rmsGrad )
+                                         logFrequency         = self.logFreq ,
+                                         maximumIterations    = self.maxIt   ,
+                                         rmsGradientTolerance = self.rmsGrad )
         else:
             trajectory = ExportTrajectory( self.trajectoryName, self.molecule, log=None )
-            FIREMinimize_SystemGeometry( self.molecule                                       ,                
-                                    logFrequency         = self.logFreq                      ,
-                                    trajectories         = [(trajectory, self.saveFrequency)],
-                                    maximumIterations    = self.maxIt                        ,
-                                    rmsGradientTolerance = self.rmsGrad                      )        
+            FIREMinimize_SystemGeometry( self.molecule                                            ,                
+                                         logFrequency         = self.logFreq                      ,
+                                         trajectories         = [(trajectory, self.saveFrequency)],
+                                         maximumIterations    = self.maxIt                        ,
+                                         rmsGradientTolerance = self.rmsGrad                      )        
     #=============================================================================
     # Reaction path searchers
     def NudgedElasticBand(self,_parameters):
@@ -177,7 +185,7 @@ class GeometrySearcher:
         if "RMS_growing_intial_string"  in _parameters: rmsGIS        = _parameters["RMS_growing_intial_string"]
         if "spline_redistribution"      in _parameters: useSpline     = _parameters["spline_redistribution"]
 
-        self.trajectoryName = self.baseName + "NEB.ptGeo"
+        self.trajectoryName = os.path.join(self.baseName,self.trajectoryName+".ptGeo")
         #Note: is interesting to think in a window were the user select the initial and final coords
         # here we excpect to ibe in pkl probably from a scan or optimization already done using the software
         if "init_coord"  in _parameters: self.InitCrd3D  = ImportCoordinates3( _parameters["init_coord"], log=None  )
@@ -293,6 +301,16 @@ class GeometrySearcher:
                 traj_save = os.path.splitext(self.trajectoryName)[0] + self.saveFormat
                 print(traj_save,self.trajectoryName,self.saveFormat)
                 Duplicate(self.trajectoryName,traj_save,self.molecule)
+    #===========================================================================================
+    def Print(self):
+        '''
+        Print to screen basic info for the simulation. 
+        '''        
+        print( "Geometry Searcher working trajectory folder:{}".format(self.trajectoryName) )
+        print( "RMS gradient tolerance: {}".format(self.rmsGrad) )
+        print( "Optimization Algorithm: {}".format(self.optAlg) )
+        print( "Maximum number of maxIterations: {}".format(self.maxIt) )
+        
 #================================================================================================#
 #======================================END OF THE FILE===========================================#
 #================================================================================================#

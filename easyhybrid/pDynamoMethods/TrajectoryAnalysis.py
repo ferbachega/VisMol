@@ -107,7 +107,7 @@ class TrajectoryAnalysis:
 		self.rc1_MF = Counter(self.distances1).most_common(1)[0][0]
 		self.rc2_MF = Counter(self.distances2).most_common(1)[0][0]
 		self.rms_MF = Counter(self.RMS).most_common(1)[0][0]
-		self.rg_MF = Counter(self.RG).most_common(1)[0][0]
+		self.rg_MF  = Counter(self.RG).most_common(1)[0][0]
 
 		distold = abs(self.RMS[0] - self.rms_MF)
 		disnew  = 0.0
@@ -179,16 +179,16 @@ class TrajectoryAnalysis:
 		Calculate distances for the indicated reaction coordinates.
 		'''		
 		if len(RCs) == 2:
- 			while self.trajectory.RestoreOwnerData():
- 				self.energies.append( self.molecule.Energy(log=None) )
- 				if RCs[0].nAtoms == 3:
- 					self.distances1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) - self.molecule.coordinates3.Distance(RCs[0].atoms[1], RCs[0].atoms[2]) )
- 				elif RCs[0].nAtoms == 2:
- 					self.distances1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) )
- 				if RCs[1].nAtoms == 3:                    
- 					self.distances2.append( self.molecule.coordinates3.Distance(RCs[1].atoms[0], RCs[1].atoms[1]) - self.molecule.coordinates3.Distance(RCs[1].atoms[1], RCs[1].atoms[2]) )
- 				elif RCs[1].nAtoms == 2:
- 					self.distances2.append( self.molecule.coordinates3.Distance(RCs[1].atoms[0], RCs[1].atoms[1]) )
+			while self.trajectory.RestoreOwnerData():
+				self.energies.append( self.molecule.Energy(log=None) )
+				if RCs[0].nAtoms == 3:
+					self.distances1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) - self.molecule.coordinates3.Distance(RCs[0].atoms[1], RCs[0].atoms[2]) )
+				elif RCs[0].nAtoms == 2:
+					self.distances1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) )
+				if RCs[1].nAtoms == 3:                    
+					self.distances2.append( self.molecule.coordinates3.Distance(RCs[1].atoms[0], RCs[1].atoms[1]) - self.molecule.coordinates3.Distance(RCs[1].atoms[1], RCs[1].atoms[2]) )
+				elif RCs[1].nAtoms == 2:
+					self.distances2.append( self.molecule.coordinates3.Distance(RCs[1].atoms[0], RCs[1].atoms[1]) )
  				
 		if len(RCs) == 1:
 			while self.trajectory.RestoreOwnerData():
@@ -243,5 +243,18 @@ class TrajectoryAnalysis:
 			except:
 				print("Error in importing seaborn package!\nSkipping biplot distribution plot!")
 				pass
+	#=========================================================================
+	def Print(self):
+		'''
+		'''
+		print("Claas printing information for Debug!")
+		print( "Printing trajectory folder path: {}".format(self.trajFolder) )
+		print( "RG array lenght: {}".format( len(self.RG) ) )
+		print( "RMS array lenght: {}".format( len(self.RMS) ) )
+		print( "RC1 most frequent:{}".format( self.rc1_MF) ) 
+		print( "RC2 most frequent:{}".format( self.rc2_MF) ) 
+		print( "RG most frequent:{}".format( self.rg_MF) ) 
+		print( "RMS most frequent:{}".format( self.rg_MF) ) 
+		
 #=================================================================================
 
