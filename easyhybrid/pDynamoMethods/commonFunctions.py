@@ -166,7 +166,7 @@ def ReescaleCharges(_system, tc):
     '''    
     scaled_system = Clone(_system)    
     Charges = scaled_system.energyModel.mmAtoms.AtomicCharges()
-    pTC = Get_total_charge(scaled_system)    
+    pTC = GetTotalCharge(scaled_system)    
     print ("Old Charges Sum:",pTC)    
     nAtoms = len(scaled_system.atoms.items)
     #---------------------------------------------------------
@@ -180,7 +180,7 @@ def ReescaleCharges(_system, tc):
         Charges[i] = new_charges[i]    
     #---------------------------------------------------------
     scaled_system.energyModel.mmAtoms.SetAtomicCharges(Charges)    
-    new_tc = Get_total_charge(scaled_system)
+    new_tc = GetTotalCharge(scaled_system)
     print ("New Charges Sum:",new_tc)        
     return(scaled_system)        
 #==============================================================================

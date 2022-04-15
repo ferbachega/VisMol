@@ -301,9 +301,10 @@ class Simulation:
 		'''
 		Set up and execute molecular dynamics simulations.:
 		Mandatory keys in self.parameters:
-			"MD_method": string containing the integrator algorithm name
-			"protocol" : string indicating if is a normal run or for heating
-			"nsteps"   : Number of steps to be taken in the simulation
+			"MD_method"	 	 : string containing the integrator algorithm name
+			"protocol" 		 : string indicating if is a normal run or for heating
+			"nsteps"   		 : Number of steps to be taken in the simulation
+			"trajectory_name":
 		Optinal  :
 			"temperature" 			  : float with the simulation temperature. If not passed we assume 300.15K as default.
 			"coll_freq"  			  : integer with the colision frequency. Generally set for Langevin integrator. 
@@ -323,7 +324,10 @@ class Simulation:
 			"ATOMS_RC1"             : list of atoms for the first reaction coordinate to be analyzed 
 			"ATOMS_RC2"             : list of atoms for the second reaction coordinate to be analyzed 
 		'''		
-		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'])		
+		
+		traj_name = "trajectory"
+		if "trajectory_name" in self.parameters: traj_name = self.parameters["trajectory_name"]
+		MDrun = MD(self.molecule,self.baseFolder,traj_name, self.parameters['MD_method'])		
 		MDrun.ChangeDefaultParameters(self.parameters)
 		sampling = 0 
 		show = False
@@ -450,7 +454,9 @@ class Simulation:
 				restraint = RestraintDihedral.WithOptions( energyModel=rmodel, point1=rc2.atoms[0],point2=rc2.atoms[1],point3=rc2.atoms[2],point4=rc2.atoms[3] )	
 			restraints['M2'] =  restraint		
 		#----------------------------------------------------------------
-		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'])
+		traj_name = "trajectory"
+		if "trajectory_name" in self.parameters: traj_name = self.parameters["trajectory_name"]
+		MDrun = MD(self.molecule,self.baseFolder,traj_name,self.parameters['MD_method'])
 		MDrun.ChangeDefaultParameters(self.parameters)
 		MDrun.RunProduction(self.parameters['nsteps'],sampling,_Restricted=True)
 		#-----------------------------------------------------------------		

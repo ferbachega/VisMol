@@ -32,7 +32,6 @@ class EnergyRefinement:
 			_dims      : reaction coordinates size; list of integers
 			_chg       : reference QC region charge; integer
 			_multi     : reference QC region multiplicity; integer
-
 		'''
 		self.molecule 	 = _refSystem
 		self.trajFolder  = _trajFolder  
@@ -50,15 +49,12 @@ class EnergyRefinement:
 		self.methods 	 = []
 
 		i = 0
-		_basepath =  os.path.join( _outFolder + "EnergyRefinement")
-		
+		_basepath =  os.path.join( _outFolder + "EnergyRefinement")		
 		self.baseName = _basepath
 		if not os.path.exists(self.baseName):
 			os.makedirs(self.baseName)
-
 		_path = os.path.join( _trajFolder,"")
 		self.fileLists   = glob.glob(_path + "*.pkl")
-
 		if self.ylen  == 0:
 			self.energiesArray = pymp.shared.array( (self.xlen) , dtype='float')
 			self.indexArrayX   = pymp.shared.array( (self.xlen) , dtype='uint8')
@@ -68,8 +64,19 @@ class EnergyRefinement:
 			self.indexArrayX   = pymp.shared.array( (self.ylen,self.xlen) , dtype='uint8')
 			self.indexArrayY   = pymp.shared.array( (self.ylen,self.xlen) , dtype='uint8')
 		self.SMOenergies   = None
+	
+	#=====================================================================================
+	def GetQCCharge(self):
+		'''
+		'''
+		qc_charge=0.0
+		mmCharges = self.molecule.energyModel.mmAtoms.AtomicCharges()
 
-	#====================================================
+		for qcatom in self.pureQCAtoms:
+			qc_charge += mmCharges[qcatom]
+
+		return(qc_charge)
+	#=====================================================================================
 	def ChangeQCRegion(self,_centerAtom,_radius):
 		'''
 		Redefine QC selection from a given atomic coordinates with a certain radius
@@ -77,14 +84,15 @@ class EnergyRefinement:
 			_centerAtom:
 			_radius    :
 		'''
-        #---------------------------------------------------
+        #-----------------------------------------------------------------------------
 		atomref      	 = AtomSelection.FromAtomPattern( self.molecule, _centerAtom )
 		newSelection  	 = AtomSelection.Within(self.molecule,atomref,_radius)
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
 		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
-		self.charge  	 = Get_total_charge(newSystem)
+		self.charge  	 = self.GetQCCharge()
 		self.pureQCAtoms = list(newSelection)
-		qcModel = self.molecule.qcModel 
+		qcModel          = self.molecule.qcModel
+		#-------------------------------------------------------------------------------
 		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
 		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
         #---------------------------------------------------
