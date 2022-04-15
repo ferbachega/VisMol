@@ -7,6 +7,7 @@ import glCore.sphere_data as sphd
 import glCore.cylinder_data as cyd
 import glCore.matrix_operations as mop
 import vModel.cartoon as cartoon
+import ctypes
 
 #from   glCore.sphere_representation import _create_frame_sphere_data
 
@@ -59,7 +60,7 @@ class Representation:
     def _make_gl_index_buffer(self, indexes):
         """ Function doc """
         ind_vbo = GL.glGenBuffers(1)
-        self.visObj.vm_session.vm_session_vbos.append(ind_vbo)
+        self.vbos_list.append(ind_vbo)
 
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, ind_vbo)
         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, indexes.nbytes, indexes, GL.GL_DYNAMIC_DRAW)
@@ -73,6 +74,7 @@ class Representation:
         att_position = GL.glGetAttribLocation(program, 'vert_coord')
         GL.glEnableVertexAttribArray(att_position)
         GL.glVertexAttribPointer(att_position, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*coords.itemsize, ctypes.c_void_p(0))
+        self.vbos_list.append(coord_vbo)
         #GL.glDisableVertexAttribArray(att_position)
         return coord_vbo
         
@@ -87,6 +89,7 @@ class Representation:
             GL.glEnableVertexAttribArray(att_normals)
             GL.glVertexAttribPointer(att_normals, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*normals.itemsize, ctypes.c_void_p(0))
         #GL.glDisableVertexAttribArray(att_normals)
+        self.vbos_list.append(normal_vbo)
         return normal_vbo        
 
     def _make_gl_color_buffer(self, colors, program):
@@ -98,6 +101,7 @@ class Representation:
         GL.glEnableVertexAttribArray(att_colors)
         GL.glVertexAttribPointer(att_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*colors.itemsize, ctypes.c_void_p(0))
         #GL.glDisableVertexAttribArray(att_colors)
+        self.vbos_list.append(col_vbo)
         return col_vbo
 
     def _make_gl_size_buffer (self, dot_sizes, program):
@@ -111,31 +115,37 @@ class Representation:
         GL.glEnableVertexAttribArray(att_size)
         GL.glVertexAttribPointer(att_size, 1, GL.GL_FLOAT, GL.GL_FALSE, dot_sizes.itemsize, ctypes.c_void_p(0))
         #GL.glDisableVertexAttribArray(att_size)
+        self.vbos_list.append(size_vbo)
         return size_vbo
     
     
     def _set_colors_to_buffer (self, col_vbo = True):
         """ Function doc """
-        frame = self.visObj.colors
-        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
+        try:
+            frame = self.visObj.colors
+            #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
+            
+            if col_vbo:
+                    if self.col_vbo:
+                        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+                                        self.col_vbo    )
+                        
+                        GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+                                        frame.nbytes      ,
+                                        frame             , 
+                                        GL.GL_STATIC_DRAW)   
+                        #except:
+                        #    
+                        #    print ('wrong type:', self.col_vbo, type(self.col_vbo))
+                    else: 
+                        pass
+            else: 
+                pass
+        except:
+            print('_set_colors_to_buffer -  error')
         
-        if col_vbo:
-                if self.col_vbo:
-                    GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
-                                    self.col_vbo    )
-                    
-                    GL.glBufferData(GL.GL_ARRAY_BUFFER, 
-                                    frame.nbytes      ,
-                                    frame             , 
-                                    GL.GL_STATIC_DRAW)   
-                    #except:
-                    #    
-                    #    print ('wrong type:', self.col_vbo, type(self.col_vbo))
-                else: 
-                    pass
-        else: 
-            pass
-
+        
+        
     def _set_coordinates_to_buffer (self, coord_vbo = True, sel_coord_vbo = True):
         ''' This function assigns the coordinates to 
         be drawn by the function  "draw_representation"'''
@@ -230,10 +240,38 @@ class Representation:
     def define_new_indexes_to_VBO ( self, input_indexes = []):
         """ Function doc """
         self._check_VAO_and_VBOs ()
+        
         self.indexes = input_indexes
         self.indexes = np.array(self.indexes,dtype=np.uint32)
-        #ind_vbo = self.ind_vbo
         
+        #if self.sel_ind_vbo:
+        #    idn_array = []
+        #    idn_array.append(self.sel_ind_vbo   )
+        #    array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #    GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        #    
+        #    self.ind_vbo = GL.glGenBuffers(1)
+        #    self.visObj.vm_session.vm_session_vbos.append(self.ind_vbo)
+        #
+        #    #ind_vbo = self.sel_ind_vbo
+        #    GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.sel_ind_vbo)
+        #    GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
+        #
+        #if self.ind_vbo:
+        #    idn_array = []
+        #    idn_array.append(self.ind_vbo   )
+        #    array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #    GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        #
+        #    self.ind_vbo = GL.glGenBuffers(1)
+        #    self.visObj.vm_session.vm_session_vbos.append(self.ind_vbo)
+        #    
+        #    GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.ind_vbo)
+        #    GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
+        
+        
+
+        #ind_vbo = self.ind_vbo
         GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, self.ind_vbo)
         GL.glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, self.indexes.nbytes, self.indexes, GL.GL_DYNAMIC_DRAW)
         
@@ -251,9 +289,15 @@ class Representation:
         GL.glVertexAttribPointer(att_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*colors.itemsize, ctypes.c_void_p(0))
 
 
-
-
-
+    def delete_buffers (self, ind_vbo = True, coord_vbo = True, vao = True, col_vbo = True, indexes = []):
+        for vbo in self.vbos_list:
+            try:
+                idn_array = []
+                idn_array.append(vbo)
+                array = (ctypes.c_int * len(idn_array))(*idn_array)
+                GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+            except:
+                print('fail in delete index: ', vbo )
 
 class LinesRepresentation (Representation):
     """ Class doc """
@@ -288,6 +332,7 @@ class LinesRepresentation (Representation):
         #     S H A D E R S
         self.shader_program     = None
         self.sel_shader_program = None
+        self.vbos_list =[]
 
 
     def _make_gl_vao_and_vbos (self, indexes = None):
@@ -421,6 +466,7 @@ class DynamicBonds (Representation):
 
         self.visObj             = visObj
         self.glCore             = glCore
+        self.vbos_list =[]
 
         # representation 	
         self.vao            = None
@@ -558,11 +604,11 @@ class DynamicBonds (Representation):
             if frame < len(self.visObj.dynamic_bonds):
                 self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[frame])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[frame])), GL.GL_UNSIGNED_INT, None)
             else:
                 self.define_new_indexes_to_VBO ( self.visObj.dynamic_bonds[-1])
                 self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])*2), GL.GL_UNSIGNED_INT, None)
+                GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.dynamic_bonds[-1])), GL.GL_UNSIGNED_INT, None)
             
             
             
@@ -597,6 +643,7 @@ class SticksRepresentation (Representation):
 
         self.visObj             = visObj
         self.glCore             = glCore
+        self.vbos_list =[]
 
         # representation 	
         self.vao            = None
@@ -622,7 +669,76 @@ class SticksRepresentation (Representation):
             self.indexes = np.array([], dtype=np.uint32)
         else:
             self.indexes = np.array(indexes, dtype=np.uint32)
-            
+
+    def delete_buffers (self, ind_vbo = True, coord_vbo = True, vao = True, col_vbo = True, indexes = []):
+        """ Function doc """
+        
+        delete_buffers = {
+                           'vao'          : self.vao           ,
+                           'ind_vbo'      : self.ind_vbo       ,
+                           'coord_vbo'    : self.coord_vbo     ,
+                           'col_vbo'      : self.col_vbo       ,
+                           'size_vbo'     : self.size_vbo      ,
+                           'sel_vao'      : self.sel_vao       ,
+                           'sel_ind_vbo'  : self.sel_ind_vbo   ,
+                           'sel_coord_vbo': self.sel_coord_vbo ,
+                           'sel_col_vbo'  : self.sel_col_vbo   ,
+                           'sel_size_vbo' : self.sel_size_vbo  }
+        
+        #
+        #for key , index in delete_buffers.items():
+        #    try:
+        #        idn_array = []
+        #        idn_array.append(index)
+        #        array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #        GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        #    except:
+        #        print('fail in delete index: ', index, key)
+                
+        #idn_array = []
+        #idn_array.append(self.vao   )
+        #array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+
+        
+        
+        
+        #idn_array = []
+        #idn_array.append(self.sel_coord_vbo   )
+        #array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        #
+        #idn_array = []
+        #idn_array.append(self.sel_col_vbo   )
+        #array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        #
+        #
+        #idn_array = []
+        #idn_array.append(self.vao   )
+        #array = (ctypes.c_int * len(idn_array))(*idn_array)
+        #GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        '''
+        idn_array = []
+        idn_array.append(self.ind_vbo   )
+        array = (ctypes.c_int * len(idn_array))(*idn_array)
+        GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        '''
+        
+        '''
+        idn_array = []
+        idn_array.append(self.coord_vbo   )
+        array = (ctypes.c_int * len(idn_array))(*idn_array)
+        GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        '''
+        
+        '''
+        idn_array = []
+        idn_array.append(self.col_vbo   )
+        array = (ctypes.c_int * len(idn_array))(*idn_array)
+        GL.glDeleteBuffers( 1 , ctypes.byref( array) )
+        '''
+    
     def _make_gl_vao_and_vbos (self, indexes = []):
         """ Function doc """
         #if indexes == []:
@@ -675,7 +791,7 @@ class SticksRepresentation (Representation):
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*1), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, len(self.visObj.index_bonds), GL.GL_UNSIGNED_INT, None)
         
         GL.glBindVertexArray(0)
         GL.glUseProgram(0)
@@ -708,7 +824,7 @@ class SticksRepresentation (Representation):
             glArea
             '''
             self._set_coordinates_to_buffer (coord_vbo = False, sel_coord_vbo = True)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, len(self.visObj.index_bonds), GL.GL_UNSIGNED_INT, None)
         GL.glBindVertexArray(0)
         GL.glUseProgram(0)
         GL.glDisable(GL.GL_DEPTH_TEST)
@@ -727,7 +843,8 @@ class RibbonsRepresentation (Representation):
 
         self.visObj             = visObj
         self.glCore             = glCore
-        
+        self.vbos_list =[]
+
         
         if self.visObj.c_alpha_bonds == []:
             self.visObj.get_backbone_indexes ()
@@ -835,7 +952,7 @@ class RibbonsRepresentation (Representation):
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)), GL.GL_UNSIGNED_INT, None)
 
         GL.glBindVertexArray(0)
         #GL.glLineWidth(1)
@@ -880,7 +997,7 @@ class RibbonsRepresentation (Representation):
             #                frame, 
             #                GL.GL_STATIC_DRAW)              
             #print('aquioh')
-            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)*2), GL.GL_UNSIGNED_INT, None)  
+            GL.glDrawElements(GL.GL_LINES, int(len(self.visObj.index_bonds)), GL.GL_UNSIGNED_INT, None)  
         GL.glBindVertexArray(0)
         GL.glLineWidth(1)
         GL.glUseProgram(0)
@@ -899,6 +1016,7 @@ class NonBondedRepresentation (Representation):
         self.name               = name
         self.active             = active
         self.type               = _type
+        self.vbos_list =[]
 
         self.visObj             = visObj
         self.glCore             = glCore
@@ -1032,7 +1150,8 @@ class DotsRepresentation (Representation):
         self.visObj             = visObj
         self.glCore             = glCore
         
-        
+        self.vbos_list =[]
+
 
         
         
@@ -1611,7 +1730,8 @@ class SpheresRepresentation (Representation):
         self.visObj             = visObj
         self.glCore             = glCore
         self.indexes            = indexes
-        
+        self.vbos_list =[]
+
         self.scale              = 0.07
         
         #self.light_position = np.array([-2.5, 2.5, 3.0],dtype=np.float32)
@@ -2131,6 +2251,7 @@ class GlumpyRepresentation (Representation):
         self.visObj             = visObj
         self.glCore             = glCore
         self.scale              = scale
+        self.vbos_list =[]
 
         # representation    
         self.vao            = None
@@ -2291,7 +2412,7 @@ class CartoonRepresentation (Representation):
         self.colors2 = colors
         self.normals2 = normals
         self.indexes2 = indexes
-
+        self.vbos_list =[]
 
     def _make_gl_vao_and_vbos (self, indexes = None):
         """ Function doc """
@@ -2474,7 +2595,8 @@ class SurfaceRepresentation (Representation):
         self.visObj             = visObj
         self.glCore             = glCore
         
-        
+        self.vbos_list =[]
+
 
         
         
@@ -2754,7 +2876,8 @@ class WiresRepresentation (Representation):
         self.type               = _type
         self.visObj             = visObj
         self.glCore             = glCore
-        
+        self.vbos_list =[]
+
         # representation    
         self.vao            = None
         self.ind_vbo        = None
@@ -2867,7 +2990,8 @@ class LabelRepresentation:
         self.name   = name
         self.active = True
         self.glCore = glCore
-        
+        self.vbos_list =[]
+
         self.chars     = 0 
         #self._check_VAO_and_VBOs()
         

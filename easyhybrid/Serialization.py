@@ -256,7 +256,7 @@ class LoadAndSaveFiles:
                 self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
                                                                            system_id = system['id'], 
                                                                          fixed_atoms = True        , 
-                                                                            QC_atoms = False       , 
+                                                                            QC_atoms = False        , 
                                                                               static = False       )
             else:
                 pass

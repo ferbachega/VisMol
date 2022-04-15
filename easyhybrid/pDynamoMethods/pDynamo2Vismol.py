@@ -180,7 +180,7 @@ class pDynamoSession:
         
         self.nbModel_default         = NBModelCutOff.WithDefaults ( )
         self.fixed_color             = [0.5, 0.5, 0.5]
-        self.pdynamo_distance_safety = 0.25
+        self.pdynamo_distance_safety = 0.5
         
         '''self.active_id is the attribute that tells which 
         system is active for calculations in pdynamo 
@@ -535,7 +535,7 @@ class pDynamoSession:
             '''----------------------------------------------------------------'''
             
             self.systems[self.active_id]['system'].DefineQCModel (qcModel, qcSelection = Selection.FromIterable ( self.systems[self.active_id]['qc_table']) )
-            self.refresh_qc_and_fixed_representations()
+            self.refresh_qc_and_fixed_representations()# static = False )
             
             #print('define NBModel = ', self.nbModel)
             self.systems[self.active_id]['system'].DefineNBModel ( NBModelCutOff.WithDefaults ( ) )

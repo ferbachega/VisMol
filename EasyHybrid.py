@@ -295,6 +295,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #vismol_object.create_new_representation (rtype = 'spheresInstace')
         if rep:
+            print('\n\nrep.keys()', rep.keys())
             for key in rep.keys():
                 
                 if key == 'lines':
@@ -315,6 +316,12 @@ button position in the main treeview (active column).""".format(name,self.main_s
                         vismol_object.create_new_representation (rtype = 'sticks')
                     else:
                         vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
+                
+                #if key == 'dynamic_bonds':
+                #    if rep[key] == []:
+                #        vismol_object.create_new_representation (rtype = 'dynamic_bonds')
+                #    else:
+                #        vismol_object.create_new_representation (rtype = 'dynamic_bonds', indexes = rep[key])
                 
                 if key == 'spheres':
                     

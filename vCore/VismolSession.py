@@ -50,7 +50,8 @@ from vCore.vConfig           import VisMolConfig
 
 import glCore.shapes as shapes
 import time
-
+import ctypes
+from OpenGL import GL
 
 
 
@@ -203,15 +204,26 @@ class ShowHideVisMol:
                                                     
                     vobject.representations[rep.name] = rep               
             else:
-
                 if indexes_bonds == []:
                     vobject.representations[_type].active = False
                     pass
                 
                 else:
                     indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)
+                    vobject.representations[_type].delete_buffers()
                     vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
                     vobject.representations[_type].active = True
+                
+
+                #vobject.representations[_type].delete_buffers()
+                #rep  = SticksRepresentation    (name    = _type, 
+                #                                active  = True, 
+                #                                _type   = 'mol', 
+                #                                visObj  = vobject, 
+                #                                glCore  = self.glwidget.vm_widget,
+                #                                indexes = indexes_bonds)
+                #                                
+                #vobject.representations[rep.name] = rep  
 
         else:   
             
@@ -406,15 +418,30 @@ class ShowHideVisMol:
                                                         
                         vobject.representations[rep.name] = rep               
                 else:
-
-                    if indexes_bonds == []:
-                        vobject.representations[_type].active = False
-                        pass
+                    #if indexes_bonds == []:
+                    #    vobject.representations[_type].active = False
+                    #    pass
+                    #
+                    #else:
+                    #    indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)
+                    #    vobject.representations[_type].delete_buffers()
+                    #    vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
+                    #    vobject.representations[_type].active = True
                     
-                    else:
-                        indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)
-                        vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
-                        vobject.representations[_type].active = True
+                    vobject.representations[_type].delete_buffers()
+                    rep  = SticksRepresentation    (name    = _type, 
+                                                    active  = True, 
+                                                    _type   = 'mol', 
+                                                    visObj  = vobject, 
+                                                    glCore  = self.glwidget.vm_widget,
+                                                    indexes = indexes_bonds)
+                                                    
+                    vobject.representations[rep.name] = rep  
+
+
+                    #indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)
+                    #vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
+                    #vobject.representations[_type].active = True
                 
 
 
