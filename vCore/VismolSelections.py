@@ -424,7 +424,7 @@ class VisMolViewingSelection:
 
     def unselecting_by_indexes (self, vismol_object = None, indexes = []):
         """ Function doc """
-        print (indexes)
+        #print (indexes)
         #for atom in vismol_object.atoms: self.vm_session.vismol_objects_dic.items()
         
         if vismol_object:
@@ -448,7 +448,7 @@ class VisMolViewingSelection:
 
     def selecting_by_indexes (self, vismol_object = None, indexes = [], clear = False):
         """ Function doc """
-        print (indexes)
+        #print (indexes)
         
         if clear:
             self._clear_selection_buffer ()
@@ -525,11 +525,18 @@ class VisMolViewingSelection:
             selection_mode2 = self._selection_mode
         
         if selected is None:
-            self.selected_atoms = []
-            self.selected_residues  = []
+            #self.selected_atoms = []
+            #self.selected_residues  = []
             self.active = False
         
         else:
+            #Clear selection only if a new selection is suggested and the previous selection is disabled (same as in pymol)
+            if self.active:
+                pass
+            else:
+                self.selected_atoms     = []
+                self.selected_residues  = []
+                
             if selection_mode2 == 'atom':
                 self.selecting_by_atom (selected, disable)
             

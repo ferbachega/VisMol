@@ -1761,7 +1761,9 @@ class VisMolSession (ShowHideVisMol):
     #''' 
     
     def select (self, vismol_object =  None, indexes = [], sele = None):
-        """ Function doc """
+        """  
+        not being used - check later
+        """
         #print('select',vismol_object, indexes, sele )
         
         self.get_distance()
