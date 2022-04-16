@@ -270,9 +270,9 @@ class pDynamoSession:
         elif systype == 3:
             system = ImportSystem (filesin['coordinates'])
             system.Summary()
-            print ('mmModel',system.mmModel)
-            print ('qcModel',system.qcModel)
-            print ('nbModel',system.nbModel)
+            #print ('mmModel',system.mmModel)
+            #print ('qcModel',system.qcModel)
+            #print ('nbModel',system.nbModel)
 
         '''
         psystem['system']        =  system
@@ -307,6 +307,7 @@ class pDynamoSession:
                   'color_palette' : None , # will be replaced by a dict
                   'fixed_table'   : []   ,
                   'vismol_objects': {}   ,
+                  'selections'    : {}   ,
                   'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
                   'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
                    }
@@ -395,8 +396,9 @@ class pDynamoSession:
         
             self.systems[self.active_id]['system'].freeAtoms = selection_free
             #self.refresh_qc_and_fixed_representations()
+            self.systems[self.active_id]['selections']["fixed atoms"] = list(selection_fixed)
 
-        self.refresh_qc_and_fixed_representations()
+        self.refresh_qc_and_fixed_representations(QC_atoms = False)
         return True
 
     
@@ -539,7 +541,8 @@ class pDynamoSession:
             
             #print('define NBModel = ', self.nbModel)
             self.systems[self.active_id]['system'].DefineNBModel ( NBModelCutOff.WithDefaults ( ) )
-        
+            self.systems[self.active_id]['selections']["QC atoms"] = self.systems[self.active_id]['qc_table']
+            #print(self.systems[self.active_id]['selections']["QC atoms"])
         else:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
@@ -648,7 +651,16 @@ class pDynamoSession:
 
                             if static:
                                 self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                                #self.vm_session.change_attributes_for_selected_atoms(_type = 'sticks', atoms = visObj.atoms, show = False)
+                                #if visObj.representations['sticks']:
+                                #    visObj.representations['sticks'].active = False
+                                #    visObj.representations['sticks'].delete_buffers()
+                                #    visObj.representations['sticks'] = None
                                 self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                                
+                                
+                                
+                                #self.vm_session.show_or_hide (_type = 'sticks',  selection = None , show = True )
                             else:
                                 self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
                 else:
@@ -806,13 +818,13 @@ class pDynamoSession:
                                                  
                                                  ):
         """ Function doc """
-        print('\n\n\ build_vismol_object_from_pDynamo_system 736:', system_id, name)
+        #print('\n\n\ build_vismol_object_from_pDynamo_system 736:', system_id, name)
         
         if system_id is not None:
             pass
         else:
             system_id = self.active_id
-        print('\n\n\ build_vismol_object_from_pDynamo_system 753:', system_id, name)
+       #print('\n\n\ build_vismol_object_from_pDynamo_system 753:', system_id, name)
         
         name = str(self.systems[system_id]['step_counter'])+' '+name
         self.systems[system_id]['step_counter'] += 1
@@ -956,11 +968,11 @@ class pDynamoSession:
                 resn    = res.resn 
                 atom.charge = system.mmState.charges[index_v]
                 
-                print (resn, res.resi, index_v, index_p, charge )
+               #print (resn, res.resi, index_v, index_p, charge )
                 #print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
             
-        for atom in self.systems[self.active_id]['vismol_object'].atoms:
-            print( atom.index, atom.name, atom.charge)
+        #for atom in self.systems[self.active_id]['vismol_object'].atoms:
+           #print( atom.index, atom.name, atom.charge)
         print('Total charge: ', sum(system.mmState.charges))
             
             
@@ -988,7 +1000,7 @@ class pDynamoSession:
         #    frame.append(xyz[2])
         #frame = np.array(frame, dtype=np.float32)
         
-        print('\n\n\data 907:',  traj, first, last, stride, system_id, vobject, name)
+        #print('\n\n\data 907:',  traj, first, last, stride, system_id, vobject, name)
         # . Define the trajectory.
         trajectory = ImportTrajectory ( traj, self.systems[system_id]['system'] )
         trajectory.ReadHeader ( )
@@ -1008,7 +1020,7 @@ class pDynamoSession:
                                                                refresh_qc_and_fixed = False)
             vobject.frames = []
         
-        print('\n\n\data 927:', system_id,vobject,name)
+        #print('\n\n\data 927:', system_id,vobject,name)
         
         while trajectory.RestoreOwnerData ( ):
             frame = []

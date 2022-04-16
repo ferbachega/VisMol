@@ -80,7 +80,7 @@ class VisMolPickingSelection:
                     dist = self.vm_session._get_distance_atom1_atom2 ( atom1, atom2 )
                     name1 = atom1.name
                     name2 = atom2.name
-                    print ('atom',name1, 'atom',name2,  dist)
+                    #print ('atom',name1, 'atom',name2,  dist)
                     
             
             c += 1
@@ -348,7 +348,8 @@ class VisMolViewingSelection:
         #------------------------------------------------
         '''
                     
-        print ('selecting_by_chain', selected_atom )
+        #print ('selecting_by_chain', selected_atom )
+        
         # if the selected atoms is not on the selected list
         
         if selected_atom.selected == False:
@@ -474,7 +475,7 @@ class VisMolViewingSelection:
             for index, vismol_object in self.vm_session.vismol_objects_dic.items():
                 for atom in vismol_object.atoms:
                     if atom.selected:
-                        print (atom.name, atom.selected)
+                        #print (atom.name, atom.selected)
                         atom.selected = False
                     else:
                         atom.selected = True

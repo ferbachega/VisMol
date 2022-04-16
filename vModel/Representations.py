@@ -136,13 +136,13 @@ class Representation:
                                         GL.GL_STATIC_DRAW)   
                         #except:
                         #    
-                        #    print ('wrong type:', self.col_vbo, type(self.col_vbo))
+                        #   #print ('wrong type:', self.col_vbo, type(self.col_vbo))
                     else: 
                         pass
             else: 
                 pass
         except:
-            print('_set_colors_to_buffer -  error')
+           print('_set_colors_to_buffer -  error')
         
         
         
@@ -187,7 +187,7 @@ class Representation:
                                               normals    = None
                                               ):
         """ Function doc """
-        print ('building', self.name,' VAO  and VBOs')    
+       #print ('building', self.name,' VAO  and VBOs')    
         self.vao        =   self._make_gl_VAO()
         self.ind_vbo    =   self._make_gl_index_buffer( indexes                        )
         self.coord_vbo  =   self._make_gl_coord_buffer( coords   , self.shader_program )
@@ -209,7 +209,7 @@ class Representation:
                                                   dot_sizes  = None,
                                                   ):
         """ Function doc """
-        print ('building', self.name,'background selection  VAO  and VBOs')    
+       #print ('building', self.name,'background selection  VAO  and VBOs')    
         self.sel_vao        =   self._make_gl_VAO()
         self.sel_ind_vbo    =   self._make_gl_index_buffer( indexes                             )
         self.sel_coord_vbo  =   self._make_gl_coord_buffer( coords    , self.sel_shader_program )
@@ -297,7 +297,7 @@ class Representation:
                 array = (ctypes.c_int * len(idn_array))(*idn_array)
                 GL.glDeleteBuffers( 1 , ctypes.byref( array) )
             except:
-                print('fail in delete index: ', vbo )
+               print('fail in delete index: ', vbo )
 
 class LinesRepresentation (Representation):
     """ Class doc """
@@ -339,10 +339,10 @@ class LinesRepresentation (Representation):
         """ Function doc """
         
         #if indexes is not None:
-        #    print ('_make_gl_vao_and_vbos',indexes)
+        #   #print ('_make_gl_vao_and_vbos',indexes)
         #    pass
         #else:
-        #    print ('_make_gl_vao_and_vbos',indexes)
+        #   #print ('_make_gl_vao_and_vbos',indexes)
         #    indexes = np.array(self.visObj.index_bonds,dtype=np.uint32)
 
         self.shader_program     = self.glCore.shader_programs[self.name]
@@ -414,7 +414,7 @@ class LinesRepresentation (Representation):
         """ Function doc """
         self._check_VAO_and_VBOs ()
         #if self.sel_vao is None:
-        #    print ('_make_gl_vao_and_vbos')    
+        #   #print ('_make_gl_vao_and_vbos')    
         #    self._make_gl_vao_and_vbos ()
         #else:
         #    pass
@@ -665,7 +665,7 @@ class SticksRepresentation (Representation):
         self.shader_program     = None
         self.sel_shader_program = None
         
-        if indexes == []:
+        if indexes == [] or indexes == None:
             self.indexes = np.array([], dtype=np.uint32)
         else:
             self.indexes = np.array(indexes, dtype=np.uint32)
@@ -693,7 +693,7 @@ class SticksRepresentation (Representation):
         #        array = (ctypes.c_int * len(idn_array))(*idn_array)
         #        GL.glDeleteBuffers( 1 , ctypes.byref( array) )
         #    except:
-        #        print('fail in delete index: ', index, key)
+        #       #print('fail in delete index: ', index, key)
                 
         #idn_array = []
         #idn_array.append(self.vao   )
@@ -850,9 +850,9 @@ class RibbonsRepresentation (Representation):
             self.visObj.get_backbone_indexes ()
             #self.active  = False
             
-            print('self.active  = False')
+           #print('self.active  = False')
         else:
-            print('self.active  = True')
+           #print('self.active  = True')
 
             pass
         
@@ -882,10 +882,10 @@ class RibbonsRepresentation (Representation):
         """ Function doc """
         
         #if indexes is not None:
-        #    print ('_make_gl_vao_and_vbos',indexes)
+        #   #print ('_make_gl_vao_and_vbos',indexes)
         #    pass
         #else:
-        #    print ('_make_gl_vao_and_vbos',indexes)
+        #   #print ('_make_gl_vao_and_vbos',indexes)
         #    indexes = np.array(self.visObj.index_bonds,dtype=np.uint32)
 
         self.shader_program     = self.glCore.shader_programs[self.name]
@@ -966,7 +966,7 @@ class RibbonsRepresentation (Representation):
         """ Function doc """
         self._check_VAO_and_VBOs ()
         #if self.sel_vao is None:
-        #    print ('_make_gl_vao_and_vbos')    
+        #   #print ('_make_gl_vao_and_vbos')    
         #    self._make_gl_vao_and_vbos ()
         #else:
         #    pass
@@ -1382,7 +1382,7 @@ class DotsRepresentation (Representation):
 #        #GL.glDeleteBuffers(1, self.centr_vbo)
 #        #GL.glDeleteBuffers(1, self.col_vbo)
 #        #self._make_gl_vao_and_vbos ()
-#        print ('self.ind_vbo', self.ind_vbo, self.visObj.name, self.visObj.index )
+#       #print ('self.ind_vbo', self.ind_vbo, self.visObj.name, self.visObj.index )
 #        #self._check_VAO_and_VBOs()
 #        #if self.ind_vbo is None:
 #        #    self.draw_representation()
@@ -1439,7 +1439,7 @@ class DotsRepresentation (Representation):
 #                coords[a*offset+i*3+2] += pos[2]
 #            indexes[a*inds_e:(a+1)*inds_e] += a*elems
 #        end = time.time()
-#        print('Time used creating nucleus, vertices and colors:', end-init)
+#       #print('Time used creating nucleus, vertices and colors:', end-init)
 #
 #
 #
@@ -1492,7 +1492,7 @@ class DotsRepresentation (Representation):
 #        
 #        
 #        end = time.time()
-#        print('Time used creating nucleus, vertices and colors:', end-init)
+#       #print('Time used creating nucleus, vertices and colors:', end-init)
 #    
 #        return True
 #    
@@ -1521,7 +1521,7 @@ class DotsRepresentation (Representation):
 #                coords[a*offset+i*3+2] += atom.pos[2]
 #            indexes[a*inds_e:(a+1)*inds_e] += a*elems
 #        end = time.time()
-#        print('Time used creating nucleus, vertices and colors for selection:', end-init)
+#       #print('Time used creating nucleus, vertices and colors for selection:', end-init)
 #        self.sel_coords = np.array(coords, dtype=np.float32)
 #        self.sel_colors = np.array(colors, dtype=np.float32)
 #        self.sel_indexes = indexes
@@ -2003,7 +2003,7 @@ class SpheresRepresentation (Representation):
         GL.glShaderSource(shader, shader_prog)
         GL.glCompileShader(shader)
         if GL.glGetShaderiv(shader, GL.GL_COMPILE_STATUS) != GL.GL_TRUE:
-            print("Error compiling the shader: ", shader_type)
+           #print("Error compiling the shader: ", shader_type)
             raise RuntimeError(GL.glGetShaderInfoLog(shader))
         return shader
 
@@ -2014,7 +2014,7 @@ class SpheresRepresentation (Representation):
         radii = np.ones(1, dtype=np.float32)
         instances = np.zeros(3,dtype=np.float32)
         #coords = coords.reshape(42,3)
-        # print(coords.shape)
+        ##print(coords.shape)
 
         vao = GL.glGenVertexArrays(1)
         GL.glBindVertexArray(vao)
@@ -2282,7 +2282,7 @@ class GlumpyRepresentation (Representation):
         colors  = self.visObj.colors
         radii   = [self.scale] * len(self.visObj.frames[0])
         radii   = np.array(radii)
-        # print ('radii', radii)
+        ##print ('radii', radii)
 
         dot_qtty  = int(len(coords)/3)
         indexes = np.arange(dot_qtty, dtype=np.uint32)
@@ -3002,7 +3002,7 @@ class LabelRepresentation:
             self.visObj.vm_font.make_freetype_texture(self.glCore.freetype_program)
         
         if self.chars == 0:
-            print('self._build_buffer()')
+           #print('self._build_buffer()')
             self._build_buffer()
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.visObj.vm_font.vbos[0])
         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.xyz_pos.itemsize*len(self.xyz_pos), self.xyz_pos, GL.GL_DYNAMIC_DRAW)

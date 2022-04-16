@@ -295,7 +295,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         #vismol_object.create_new_representation (rtype = 'spheresInstace')
         if rep:
-            print('\n\nrep.keys()', rep.keys())
+            #print('\n\nrep.keys()', rep.keys())
             for key in rep.keys():
                 
                 if key == 'lines':
@@ -463,11 +463,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             def menu_show_dynamic_bonds (_):
                 """ Function doc """
-                print('dynamic_test')
+               #print('dynamic_test')
                 self.show_or_hide( _type = 'dynamic_bonds', show = True)
             def menu_hide_dynamic_bonds (_):
                 """ Function doc """
-                print('dynamic_test')
+               #print('dynamic_test')
                 self.show_or_hide( _type = 'dynamic_bonds', show = False)
             
             def select_test (_):
@@ -556,7 +556,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
                         #print('key',key, visObj.name, visObj.easyhybrid_system_id, visObj.active)
                         for index in freelist:
-                            print(index,visObj. atoms[index])
+                           #print(index,visObj. atoms[index])
                             atom = visObj.atoms[index]
                             atom.color = atom.init_color(atom.symbol)
                             #visObj.atoms[index]
@@ -609,7 +609,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     fixedlist = list(fixedlist) + list(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
                     #guarantee that the atom index appears only once in the list
                     fixedlist = list(set(fixedlist)) 
-                    print ('fixedlist',fixedlist)
+                    #print ('fixedlist',fixedlist)
                     #sending to pDynamo
                     refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                     if refresh:

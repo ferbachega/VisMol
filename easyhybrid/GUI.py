@@ -15,6 +15,7 @@ from easyhybrid.gui.umbrella_sampling_window                import  UmbrellaSamp
 from easyhybrid.gui.geometry_optimization_window            import  GeometryOptimizatrionWindow 
 from easyhybrid.gui.QCSetup_window                          import  EasyHybridSetupQCModelWindow 
 from easyhybrid.gui.merge_systems                           import  MergeSystemsWindow 
+from easyhybrid.gui.selection_list_window                   import  SelectionListWindow 
 
 import gc
 import os
@@ -224,6 +225,7 @@ class EasyHybridMainWindow ( ):
         self.PES_scan_window              = PotentialEnergyScanWindow(main=  self)
         self.umbrella_sampling_window     = UmbrellaSamplingWindow (main=  self)
         self.export_data_window           = ExportDataWindow(main=  self)
+        self.selection_list_window        = SelectionListWindow(main=  self)
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
 
         self.save_vismol_file = None
@@ -299,10 +301,7 @@ class EasyHybridMainWindow ( ):
             #self.dialog_import_a_new_systen.hide()
             self.NewSystemWindow.OpenWindow()
         
-        
-        
-        
-        
+
         if button  == self.builder.get_object('toolbutton_save'):
             #self.vm_session.save_serialization_file()
 
@@ -390,6 +389,10 @@ class EasyHybridMainWindow ( ):
 
             dialog.destroy()
             
+
+        if button  == self.builder.get_object('selections'):
+            #print('OpenWindow')
+            self.selection_list_window.OpenWindow()
 
         if button  == self.builder.get_object('toolbutton_energy'):
             energy = self.pDynamo_session.get_energy()
@@ -597,7 +600,8 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         '''
 
         #'''
-        print('\n\n\path1:', path)
+        #print('\n\n\path1:', path)
+        
         #print('\n\n\path:', 'AQUI')
         #print(widget)
         
@@ -614,7 +618,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         #print (path, type(path),self.treestore['0:1'][0] ,  self.treestore[path][0], self.treestore[path][-3],  self.treestore[path][-1])
         self.main_session.vm_session.TrajectoryFrame.change_range(upper = size)
         
-        print('\n\n\path2:', path)
+        #print('\n\n\path2:', path)
         #'''
         
   
@@ -833,7 +837,7 @@ class TreeViewMenu:
         #self.vm_session.vismol_objects_dic.items()
         #for vis_object in self.treeview.vm_session.vismol_objects:
         for vobj_index ,vis_object in self.treeview.vm_session.vismol_objects_dic.items():
-            print ('\n\n',vis_object.name,'\n\n')
+            #print ('\n\n',vis_object.name,'\n\n')
 
             data = [vis_object.active          , 
                     str(vobj_index),
@@ -975,7 +979,7 @@ class TreeViewMenu:
 
     def open_menu (self, visObj = None):
         """ Function doc """
-        print (visObj)
+        #print (visObj)
         
         #print('AQ?UIIIIIIIIIIII')
         self.tree_view_menu.popup(None, None, None, None, 0, 0)
@@ -1183,7 +1187,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         #self.BackUpWindowData()
         self.window.destroy()
         self.Visible    =  False
-        print('self.Visible',self.Visible)
+        #print('self.Visible',self.Visible)
     
     def __init__(self, vm_session = None):
         """ Class initialiser """
@@ -1232,7 +1236,9 @@ class VismolGoToAtomWindow2(Gtk.Window):
             #print("Selected: country=%s" % country)
         
             self.current_filter_residue = residue
-            print("%s Chain selected!" % self.current_filter_residue)
+            
+            #print("%s Chain selected!" % self.current_filter_residue)
+            
             # we update the filter, which updates in turn the view
             if self.residue_filter:
                 self.residue_filter.refilter()
@@ -1255,7 +1261,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
             #print("Selected: country=%s" % country)
         
         self.current_filter_chain = chain
-        print("%s Chain selected!" % self.current_filter_chain)
+        #print("%s Chain selected!" % self.current_filter_chain)
         # we update the filter, which updates in turn the view
         self.chain_filter.refilter()
     
@@ -1420,7 +1426,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         #print ( tree, event)
         
         if event.button == 3:
-            print (3)
+            print ("button 3")
             #selection     = tree.get_selection()
             #model         = tree.get_model()
             #(model, iter) = selection.get_selected()

@@ -249,7 +249,7 @@ class LoadAndSaveFiles:
         
         
         for key, system in self.pDynamo_session.systems.items():
-            print(key, system)
+            #print(key, system)
             if system:
                 system['vismol_object'] = self.vismol_objects_dic[system['vismol_object']]
                 
