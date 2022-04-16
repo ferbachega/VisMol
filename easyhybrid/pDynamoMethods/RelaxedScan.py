@@ -305,9 +305,9 @@ class SCAN:
 
         if self.dihedral: self.Run2DScanDihedral(X,Y)
         else:
-            if self.multipleDistance[0] and self.multipleDistance[1]:            self.Run2DScanMultipleDistance(X,Y)            
+            if self.multipleDistance[0] and self.multipleDistance[1]           : self.Run2DScanMultipleDistance(X,Y)            
             elif self.multipleDistance[0] and self.multipleDistance[1] == False: self.Run2DMixedDistance(X,Y)
-            else:                                                                self.Run2DSimpleDistance(X,Y)
+            else                                                               : self.Run2DSimpleDistance(X,Y)
         #------------------------------------
         for i in range(X):
             for j in range(Y):

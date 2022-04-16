@@ -95,7 +95,7 @@ class EnergyRefinement:
 		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
         #---------------------------------------------------
         
-	#====================================================
+	#=====================================================================================
 	def RunInternalSMO(self,_methods,_NmaxThreads):
 		'''
 		Run energy refinement with the semiempirical hamiltonians available wihthin pDynamo
@@ -106,6 +106,7 @@ class EnergyRefinement:
 		self.SMOenergies = {}
 		self.methods 	 = _methods
 		NBmodel 	 	 = self.molecule.nbModel
+
 		for smo in _methods:
 			if VerifyMNDOKey(smo):
 				with pymp.Parallel(_NmaxThreads) as p:
@@ -122,7 +123,7 @@ class EnergyRefinement:
 							self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
 						else:
 							self.energiesArray[ lsFrames[0] ] = self.molecule.Energy(log=None)
-							self.indexArrayX[ lsFrames[0] ] = lsFrames[0]							
+							self.indexArrayX[ lsFrames[0] ] = lsFrames[0]				
 
 				#-----------------------------------------
 				if self.ylen > 0:
@@ -133,7 +134,48 @@ class EnergyRefinement:
 					self.energiesArray = pymp.shared.array( (self.xlen) , dtype='float')		
 			else:
 				continue		
-	
+	#====================================================
+	def RunInternalDFT(self,_functional,_basis,_NmaxThreads):
+		'''
+		Run energy refinement with the semiempirical hamiltonians available wihthin pDynamo
+		Parameters:
+			_methods:     List of Hamiltoninas
+			_NmaxThreads: Number of maximum threds to be used in the parallel section
+		'''
+		self.SMOenergies = {}		
+		self.methods.append(_functional+"/"+_basis)
+
+		converger      = DIISSCFConverger.WithOptions( densityTolerance = 1.0e-10, maximumIterations = 250 )
+		gridIntegrator = DFTGridIntegrator.WithOptions( accuracy = DFTGridAccuracy.Medium, inCore = True )
+		qcModel        = None
+
+		if not _functional == "hf": qcModel = QCModelDFT.WithOptions(converger=converger,functional="hf", orbitalBasis=_basis)
+		else                      : qcModel = QCModelDFT.WithOptions(converger=converger,functional=_functional,gridIntegrator=gridIntegrator, orbitalBasis=_basis,)
+		
+		self.molecule.electronicState = ElectronicState.WithOptions(charge = self.charge)
+		self.molecule.DefineQCModel( qcModel, qcSelection=Selection(self.pureQCAtoms) )
+		self.molecule.DefineNBModel( NBmodel )
+		
+		
+		with pymp.Parallel(_NmaxThreads) as p:
+			for i in p.range( len(self.fileLists) ):				
+				self.molecule.coordinates3 = ImportCoordinates3( self.fileLists[i],log=None )
+				lsFrames= GetFrameIndex(self.fileLists[i][:-4])						
+				if self.ylen > 0:
+					self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy(log=None)
+					self.indexArrayX[ lsFrames[1], lsFrames[0] ] = lsFrames[0]
+					self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
+				else:
+					self.energiesArray[ lsFrames[0] ] = self.molecule.Energy(log=None)
+					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
+			#-----------------------------------------
+			if self.ylen > 0:
+				self.SMOenergies[ self.methods[0] ] = self.energiesArray
+				self.energiesArray = pymp.shared.array( (self.ylen,self.xlen), dtype='float')	
+			else:
+				self.SMOenergies[ self.methods[0] ] = self.energiesArray
+				self.energiesArray = pymp.shared.array( (self.xlen), dtype='float')
+
 	#====================================================
 	def RunMopacSMO(self,_methods,_keyWords):
 		'''

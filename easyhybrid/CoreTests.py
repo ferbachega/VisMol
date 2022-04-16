@@ -14,6 +14,7 @@
 #=================================================================
 import os, glob, sys 
 
+global NmaxThreads
 NmaxThreads = 1 
 os.environ['MPLCONFIGDIR'] = '/tmp'
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
@@ -1361,6 +1362,37 @@ def pDynamoEnergyRef_2D():
 	#---------------------------------------------
 	proj.RunSimulation(parameters)
 #=====================================================
+def pDynamoEnergyRef_abInitio():
+	'''
+	'''
+	proj=SimulationProject( os.path.join(scratch_path, "pDynamoABintio") )
+	
+	#setting reaction coordinates for ploting labels
+	a1 = [ atom1[0],atom2[0],atom3[0] ]
+	rc1_md = ReactionCoordinate(a1,False)
+	rc1_md.GetRCLable(proj.cSystem)
+	
+	_name = "SCAN1D_4Refinement"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	if not os.path.exists(_path):
+		QCMMScanMultipleDistance(30,0.05,name=_name)
+
+	parameters = { "xnbins":30			               ,
+				   "ynbins":0			               ,
+				   "source_folder":_path                 ,
+				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
+				   "charge":-3		                    ,
+				   "multiplicity":1 	                ,
+				   "methods_lists":methods              ,					   
+				   "NmaxThreads":20		                ,
+				   "simulation_type":"Energy_Refinement",
+				   "crd1_label":rc1_md.label            ,
+				   "contour_lines":12                   ,
+				   "xlim_list": [-1.2,2.0]              ,
+				   "Software":"pDynamo"	}
+
+	proj.RunSimulation(parameters)
+#=====================================================
 def MopacEnergyRef():
 	'''
 	'''
@@ -1426,7 +1458,8 @@ if __name__ == "__main__":
 		help_text+= "\n\t14:Adaptative 2D scan\n\t15:Scan 1D dihedral\n\t16:Scan 2D dihedral\n\t17:Free Energy 1D simple distance\n\t18:Free Energy 1D multiple distance"
 		help_text+= "\n\t19:Free Energy 1D dihedral\n\t20:Free Energy 1D dihedral with optimization\n\t21:Umbrella sampling restart test\n\t22:Free energy simple distance 2D"
 		help_text+= "\n\t23:Free energy simple mixed distance 2D\n\t24:Free energy multiple distance 2D\n\t25:Semiempirical in pDynamo energy refinement\n\t26:Energy Plots analysis"
-		help_text+= "\n\t27:Raction coordinates searching\n\t28:Semiempirical mopac energy refinement\n\t29:Semiempirical in pDynamo energy 2D"
+		help_text+= "\n\t27:Raction coordinates searching\n\t28:Semiempirical mopac energy refinement\n\t29:Semiempirical in pDynamo energy 2D\n\t30:Trajectory Analysis plots"
+		help_text+= "\n\t31:pDynamo internal refinement\n\t32:"
 		print(help_text)
 	#------------------------------------------------
 	if len(sys.argv) > 2:
@@ -1462,5 +1495,6 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 28: MopacEnergyRef()
 	elif int(sys.argv[1]) == 29: pDynamoEnergyRef_2D()
 	elif int(sys.argv[1]) == 30: TrajectoryAnalysisPlots()
+	elif int(sys.argv[1]) == 31: pDynamoEnergyRef_abInitio()
 
 

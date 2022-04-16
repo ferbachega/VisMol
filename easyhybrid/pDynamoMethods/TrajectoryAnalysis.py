@@ -99,16 +99,12 @@ class TrajectoryAnalysis:
 	#=================================================
 	def ExtractFrames(self):
 		'''
-		'''
-		#extractframe based on most common RMS
-		#extractframe base on most commno RG and RMS
-		#extractframe on rc1 and rc2 
-
+		'''		
 		self.rc1_MF = Counter(self.distances1).most_common(1)[0][0]
 		self.rc2_MF = Counter(self.distances2).most_common(1)[0][0]
 		self.rms_MF = Counter(self.RMS).most_common(1)[0][0]
 		self.rg_MF  = Counter(self.RG).most_common(1)[0][0]
-
+		#------------------------------------------------------------------------------
 		distold = abs(self.RMS[0] - self.rms_MF)
 		disnew  = 0.0
 		fn      = 0 
@@ -119,9 +115,9 @@ class TrajectoryAnalysis:
 				fn = i
 		rmsSystem = copySystem(self.molecule)
 		rmsSystem.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
-		ExportSystem("mostFrequentRMS.pdb",rmsSystem)
-		ExportSystem("mostFrequentRMS.pkl",rmsSystem)
-		#=============================================
+		ExportSystem( os.path.join( self.trajFolder, "mostFrequentRMS.pdb" ),rmsSystem,log=None )
+		ExportSystem( os.path.join( self.trajFolder, "mostFrequentRMS.pkl" ),rmsSystem,log=None )
+		#------------------------------------------------------------------------------
 		if len(self.distances2) > 0:
 			distoldRC1 = abs(self.distances1[0] - self.rc1_MF)
 			distoldRC2 = abs(self.distances2[0] - self.rc2_MF)
@@ -135,8 +131,8 @@ class TrajectoryAnalysis:
 					fn = i 
 			dsSystem = copySystem(self.molecule)
 			dsSystem.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
-			ExportSystem("mostFrequentRC1RC2.pdb",rmsSystem)
-			ExportSystem("mostFrequentRC1RC2.pkl",rmsSystem)
+			ExportSystem( os.path.join( self.trajFolder,"mostFrequentRC1RC2.pdb"), rmsSystem,log=None  )
+			ExportSystem( os.path.join( self.trajFolder,"mostFrequentRC1RC2.pkl"), rmsSystem,log=None )
 
 	#=================================================
 	def PlotRG_RMS(self,SHOW=False):
@@ -196,8 +192,7 @@ class TrajectoryAnalysis:
 				if RCs[0].nAtoms == 3:
 					self.distances1.append( self.molecule.coordinates3.Distance( RCs[0].atoms[0], RCs[0].atoms[1]) - self.molecule.coordinates3.Distance(RCs[0].atoms[1], RCs[0].atoms[2]) )
 				elif RCs[0].nAtoms == 2:
-					self.distances1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]))
-		
+					self.distances1.append( self.molecule.coordinates3.Distance(RCs[0].atoms[0], RCs[0].atoms[1]) )		
 		#------------------------------------------------------------------------
 		# . Save the results.        
 		textLog = open( self.trajFolder+"_MDdistAnalysis", "w" )         

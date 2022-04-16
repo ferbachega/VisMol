@@ -125,18 +125,17 @@ class Simulation:
 							  self.parameters["charge"]             ,
 							  self.parameters["multiplicity"]		)
 		#------------------------------------------------------------------
-		if "change_qc_region" in self.parameters:	 	ER.ChangeQCRegion(self.parameters["center"],self.parameters["radius"])
-		if 	 self.parameters["Software"] == "pDynamo":  ER.RunInternalSMO(self.parameters["methods_lists"],nmaxthreads)
-		elif self.parameters["Software"] == "DFTBplus":	ER.RunDFTB()
+		if "change_qc_region" in self.parameters        : ER.ChangeQCRegion(self.parameters["center"],self.parameters["radius"])
+		if 	 self.parameters["Software"] == "pDynamo"   : ER.RunInternalSMO(self.parameters["methods_lists"],nmaxthreads)
+		elif self.parameters["Software"] == "pDynamoDFT": ER.RunInternalDFT(self.parameters["functional"],self.parameters["basis"],nmaxthreads)
+		elif self.parameters["Software"] == "DFTBplus"  : ER.RunDFTB()
+		elif self.parameters["Software"] == "ORCA"		: ER.RunORCA(self.parameters["orca_method"],self.parameters["basis"],nmaxthreads,_restart=_Restart)
 		elif self.parameters["Software"] == "mopac" or self.parameters["Software"]=="MOPAC":
 			_mopacKeyWords = ["AUX","LARGE"] 
 			if "mopac_keywords" in self.parameters:
-				for key in self.parameters["mopac_keywords"]:
-					_mopacKeyWords.append(key)
+				for key in self.parameters["mopac_keywords"]: _mopacKeyWords.append(key)
 			ER.RunMopacSMO(self.parameters["methods_lists"],_mopacKeyWords)
-			#------------------------------------------------------------
-		elif self.parameters["Software"] == "ORCA":
-			ER.RunORCA(self.parameters["orca_method"],self.parameters["basis"],nmaxthreads,_restart=_Restart)
+		#------------------------------------------------------------
 		#===============================================================
 		#Set plor parameters
 		cnt_lines  	= 12
@@ -194,36 +193,36 @@ class Simulation:
 		By the defualt the PKLs were saved on a child folder from the base path passed in the parameters, named "ScanTraj.ptGeo"
 		The trajectory can be saved as files of the formats allowed by pDynamo 3.0
 		Mandatory keys in self.parameters:
-			"ndim": 	number of reaction coordinates to be treated
-			"ATOMS_RC1":list of atoms indices of the first reaction coordinate
+			"ndim"      : number of reaction coordinates to be treated
+			"ATOMS_RC1" : list of atoms indices of the first reaction coordinate
 			"nSteps_RC1": integer indicating the number of steps to scan for the first reaction coordinate
 		Condirional:
-			"ATOMS_RC2":list of atoms indices of the second reaction coordinate. Needed if "ndim = 2"
+			"ATOMS_RC2" :list of atoms indices of the second reaction coordinate. Needed if "ndim = 2"
 			"nSteps_RC2": integer indicating the number of steps to scan for the second reaction coordinate. Needed if "ndim = 2"
 		Optinal   :
-			"dminimum_RC1":
-			"dminimum_RC2":
-			"sigma_pk1pk3_rc1":
-			"sigma_pk3pk1_rc1":
-			"sigma_pk1pk3_rc2":
-			"sigma_pk3pk1_rc2":
-			"force_constant": Float indicating the constant value of energy penalty for the harmonic potential restriction function
-			"force_constant_1" Specifies the force constant for the first reaction coordinate
-			"force_constant_2" Specified the force constant for the second reaction coordinate
-			"maxIterations": Number of maximum iteration for the geometry optimizations
-			"rmsGradient"  : rms torlerance for the stop parameter
-			"optimizer": string containing the optimizer algorithm to be used in geometry optimization
-			"dincre_RC1": float with the step increment for the first reaction coordinate ( Warning! If not passed, 0.0 will be assumed )
-			"dincre_RC2": float with the step increment for the second reaction coordinate
-			"MC_RC1": bool indicating whether to set mass constrained restrictions for the first reaction coordinate 
-			"MC_RC2": bool indicating whether to set mass constrained restrictions for the second reaction coordinate 
-			"rc_type_1": string containing the type for the first reaction coordinate ( Distance or Dihedral ) 
-			"rc_type_2": string containing the type for the second reaction coordinate ( Distance or Dihedral )
-			"adaptative": bool indicating wheter to activate or not the adaptative scheme for two-dimensional scans
-			"save_format": format in which the trajectory will be saved, works only for 1D scans 
-			"log_frequency": parameter for geometry optimization runs
+			"dminimum_RC1"    :parameter given from window
+			"dminimum_RC2"    :parameter given from window
+			"sigma_pk1pk3_rc1":parameter given from window
+			"sigma_pk3pk1_rc1":parameter given from window
+			"sigma_pk1pk3_rc2":parameter given from window
+			"sigma_pk3pk1_rc2":parameter given from window
+			"force_constant"  : Float indicating the constant value of energy penalty for the harmonic potential restriction function
+			"force_constant_1": Specifies the force constant for the first reaction coordinate
+			"force_constant_2": Specified the force constant for the second reaction coordinate
+			"maxIterations"   : Number of maximum iteration for the geometry optimizations
+			"rmsGradient"     : rms torlerance for the stop parameter
+			"optimizer"       : string containing the optimizer algorithm to be used in geometry optimization
+			"dincre_RC1"      : float with the step increment for the first reaction coordinate ( Warning! If not passed, 0.0 will be assumed )
+			"dincre_RC2"      : float with the step increment for the second reaction coordinate
+			"MC_RC1"          : bool indicating whether to set mass constrained restrictions for the first reaction coordinate 
+			"MC_RC2"          : bool indicating whether to set mass constrained restrictions for the second reaction coordinate 
+			"rc_type_1"       : string containing the type for the first reaction coordinate ( Distance or Dihedral ) 
+			"rc_type_2"       : string containing the type for the second reaction coordinate ( Distance or Dihedral )
+			"adaptative"      : bool indicating wheter to activate or not the adaptative scheme for two-dimensional scans
+			"save_format"     : format in which the trajectory will be saved, works only for 1D scans 
+			"log_frequency"   : parameter for geometry optimization runs
 		All plot parameters are optionals. This dict can be passed as none, if so the plots will be perfomed with default parameters. 
-			"contour_lines": integer indicating the number of contour lines to be used in two-dimensional plots
+			"contour_lines"   : integer indicating the number of contour lines to be used in two-dimensional plots
 			"show":boolean indicating whether to display the plot before exiting. 
 		'''
 		#------------------------------------------------------------------
@@ -292,7 +291,7 @@ class Simulation:
 		elif nDims 	== 1: TYPE = "1D"	
 		#------------------------------------------------------------		
 		EA = EnergyAnalysis(self.parameters['nsteps_RC1'],nRC2,_type=TYPE)
-		EA.ReadLog( scan.baseName+".log".format(nDims) ) 
+		EA.ReadLog( os.path.join(scan.baseName,scan.trajFolder+".log") ) 
 		#-------------------------------------------------------------
 		if 	 nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,show)
 		elif nDims == 1: EA.Plot1D(crd1_label,show)		
