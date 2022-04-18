@@ -9,7 +9,7 @@
 #-----------Credits and other information here---------------#
 ##############################################################
 
-#==============================================================================
+#=============================================================
 
 #-----------------------------------------------------
 import os, glob, sys, shutil
@@ -38,7 +38,14 @@ class US:
     Class for setup and execute Umbrella Sampling simulations 
     ''' 
     #----------------------------------------------------------------------------   
-    def __init__(self,_system,_baseFolder,_equiSteps,_prodSteps,mdMethod,RESTART=False,ADAPTATIVE=False,OPTIMIZE=False):
+    def __init__(self,_system     , 
+                 _baseFolder      ,
+                 _equiSteps       ,
+                 _prodSteps       ,
+                 mdMethod         ,
+                 RESTART=False    ,
+                 ADAPTATIVE=False ,
+                 OPTIMIZE=False  ):
         '''
         Class constructor
         '''
@@ -98,14 +105,13 @@ class US:
         ndim = self.nDim # temp var to hold the index of the curren dim
         self.nDim += 1
         self.atoms.append(_RC.atoms)
-
+        #----------------------------------------------------------------------
         self.sigma_a1_a3[ndim]  = _RC.weight13
         self.sigma_a3_a1[ndim]  = _RC.weight31
         self.massConstraint     = _RC.massConstraint
-
+        #----------------------------------------------------------------------
         if len(_RC.atoms) == 3: self.multipleDistance[ndim] = True 
-        if len(_RC.atoms) == 4: self.angle                  = True
-    
+        if len(_RC.atoms) == 4: self.angle                  = True    
     #============================================================================
     def ChangeConvergenceParameters(self):
         '''
@@ -429,7 +435,7 @@ class US:
                     relaxRun.Minimization( self.GeoOptPars["optmizer"] )
                 #-----------------------------------------------------------------------
                 if self.adaptative: self.ChangeDefaultParameters()
-                #-----------------------------------------------------------------------  
+                #----------------------------------------------------------------------- 
                 mdRun = MD(self.molecule,self.mdPaths[i],self.mdMethod)
                 mdRun.RunProduction(self.equiNsteps,0,_Restricted=True)
                 mdRun.RunProduction(self.prodNsteps,self.samplingFactor,_Restricted=True)                 

@@ -49,10 +49,9 @@ class EnergyRefinement:
 		self.methods 	 = []
 
 		i = 0
-		_basepath =  os.path.join( _outFolder + "EnergyRefinement")		
+		_basepath = os.path.join(_outFolder)		
 		self.baseName = _basepath
-		if not os.path.exists(self.baseName):
-			os.makedirs(self.baseName)
+		if not os.path.exists(self.baseName): os.makedirs(self.baseName)
 		_path = os.path.join( _trajFolder,"")
 		self.fileLists   = glob.glob(_path + "*.pkl")
 		if self.ylen  == 0:
@@ -143,30 +142,32 @@ class EnergyRefinement:
 			_NmaxThreads: Number of maximum threds to be used in the parallel section
 		'''
 		self.SMOenergies = {}		
-		self.methods.append(_functional+"/"+_basis)
+		self.methods.append(_functional)
 
-		converger      = DIISSCFConverger.WithOptions( densityTolerance = 1.0e-10, maximumIterations = 250 )
+		converger      = DIISSCFConverger.WithOptions( densityTolerance = 1.0e-10, maximumIterations = 550 )
 		gridIntegrator = DFTGridIntegrator.WithOptions( accuracy = DFTGridAccuracy.Medium, inCore = True )
 		qcModel        = None
+		NBmodel        = self.molecule.nbModel
 
-		if not _functional == "hf": qcModel = QCModelDFT.WithOptions(converger=converger,functional="hf", orbitalBasis=_basis)
-		else                      : qcModel = QCModelDFT.WithOptions(converger=converger,functional=_functional,gridIntegrator=gridIntegrator, orbitalBasis=_basis,)
-		
+		if _functional == "hf": 
+			qcModel = QCModelDFT.WithOptions(converger=converger,functional="hf", orbitalBasis=_basis, fitBasis = "demon" )
+		else                      :
+			qcModel = QCModelDFT.WithOptions(converger=converger,functional=_functional,gridIntegrator=gridIntegrator, orbitalBasis=_basis)
+
 		self.molecule.electronicState = ElectronicState.WithOptions(charge = self.charge)
-		self.molecule.DefineQCModel( qcModel, qcSelection=Selection(self.pureQCAtoms) )
-		self.molecule.DefineNBModel( NBmodel )
-		
+		self.molecule.DefineQCModel( qcModel, qcSelection=Selection(self.pureQCAtoms) )		
+		self.molecule.DefineNBModel( NBmodel )		
 		
 		with pymp.Parallel(_NmaxThreads) as p:
 			for i in p.range( len(self.fileLists) ):				
 				self.molecule.coordinates3 = ImportCoordinates3( self.fileLists[i],log=None )
 				lsFrames= GetFrameIndex(self.fileLists[i][:-4])						
 				if self.ylen > 0:
-					self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy(log=None)
+					self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy()
 					self.indexArrayX[ lsFrames[1], lsFrames[0] ] = lsFrames[0]
 					self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
 				else:
-					self.energiesArray[ lsFrames[0] ] = self.molecule.Energy(log=None)
+					self.energiesArray[ lsFrames[0] ] = self.molecule.Energy()
 					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
 			#-----------------------------------------
 			if self.ylen > 0:
@@ -271,23 +272,22 @@ class EnergyRefinement:
 			lf = GetFrameIndex(fle[:-5])
 			File = open(fle,'r')
 			energy = File.read()
-			if self.xlen > 0:
+			if self.ylen > 1:
 				self.indexArrayX[lf[0],lf[1]] 	= lf[0]
 				self.indexArrayY[lf[0],lf[1]] 	= lf[1]
 				self.energiesArray[lf[0],lf[1]]	= float(energy)
 			else:
 				self.indexArrayX[lf[0]] 	= lf[0]
-				self.indexArrayY[lf[1]] 	= lf[1]
 				self.energiesArray[lf[0]]	= float(energy)
 
 		#-------------------------
 		#remove files from list that already were calculated
-		for fle in reversed(self.fileLists):
-			fle2 = os.path.basename(self.fileLists[:-4])
-			_scratch = os.path.join(self.baseName, fle2)				
+		for fle in reversed(self.fileLists):			
+			fle2 = os.path.basename(fle[:-4])
+			_scratch = os.path.join(self.baseName, fle2)
 			if os.path.exists(_scratch):
-				self.fileLists.remove(fle)
-
+				self.fileLists.remove(fle)			
+		
 	#====================================================
 	def RunORCA(self,_method,_base,_NmaxThreads,_restart=False):
 		'''
@@ -297,8 +297,8 @@ class EnergyRefinement:
 		'''
 		self.methods.append(_method+"/"+_base)
 		self.restart = _restart		
-		if self.restart:
-			self.SetRestart4Orca()				
+		if self.restart: self.SetRestart4Orca()	
+		self.SMOenergies = {}			
 		#---------------------------------------------------------
 		#Initiate parallel run
 		with pymp.Parallel(_NmaxThreads) as p:
@@ -312,7 +312,9 @@ class EnergyRefinement:
 				#----------------------------------------------
 				lsFrames= GetFrameIndex(self.fileLists[i][:-4])
 				#----------------------------------------------
-				tmpPath = os.path.join( self.baseName,"frame{}_{}.eTmp".format(lsFrames[0],lsFrames[1]) )
+				tmpLog = ""
+				if self.ylen > 1: tmpPath = os.path.join( self.baseName,"frame{}_{}.eTmp".format(lsFrames[0],lsFrames[1]) )
+				else: 			  tmpPath = os.path.join( self.baseName,"frame{}.eTmp".format(lsFrames[0]) )
 				tmpLog  = open(tmpPath,'w')
 				tmpText = ""
 				#---------------------------------------------
@@ -324,16 +326,16 @@ class EnergyRefinement:
 				self.molecule.electronicState = ElectronicState.WithOptions(charge       = self.charge 		, 
 				                                                          	multiplicity = self.multiplicity )
 				#...............................................................................................
-				QCmodel = QCModelORCA.WithOptions( keywords        = [ _method, _base, options], 
-				                                   deleteJobFiles  = False                     ,
-				                                   scratch         =_scratch                   )
+				QCmodel = QCModelORCA.WithOptions( keywords        = [_method, _base, options], 
+				                                   deleteJobFiles  = False                    ,
+				                                   scratch         =_scratch                  )
 				#...............................................................................................
 				NBmodel = NBModelORCA.WithDefaults()
 				self.molecule.DefineQCModel( QCmodel , qcSelection=Selection(self.pureQCAtoms) )
 				self.molecule.DefineNBModel( NBmodel)
 				self.molecule.coordinates3 = ImportCoordinates3( self.fileLists[i] )
 				#---------------------------------------------------------------------------
-				if self.ylen > 0:
+				if self.ylen > 1:
 					self.energiesArray[ lsFrames[1], lsFrames[0] ] = self.molecule.Energy()					
 					self.indexArrayX[ lsFrames[1], lsFrames[0] ]   = lsFrames[1]
 					self.indexArrayY[ lsFrames[1], lsFrames[0] ]   = lsFrames[0]
@@ -343,9 +345,11 @@ class EnergyRefinement:
 				else:					
 					self.energiesArray[ lsFrames[0] ] = self.molecule.Energy()
 					self.indexArrayX[ lsFrames[0] ]   = lsFrames[0]
-					tmpText = "{}".format(self.energiesArray[ lsFrames[1], lsFrames[0] ])
+					tmpText = "{}".format(self.energiesArray[ lsFrames[0] ])
 					tmpLog.write(tmpText)
 					tmpLog.close()
+		#--------------------
+		self.SMOenergies[self.methods[0]] = self.energiesArray
 		#--------------------
 		self.TreatOrcaFiles()		
 	#====================================================
@@ -353,13 +357,12 @@ class EnergyRefinement:
 		'''
 		Rename orca files on the scratch folder, bringing them to the base folder with the name related with the respective frames
 		'''
-		_path    = os.path.join( self.baseName, "" )
-		outFiles = glob.glob( _path+"frame*" )
+		outFiles = glob.glob( self.baseName+"/frame*/"+"orcaJob.log" )
+		print(outFiles)
 		for out in outFiles:
-			tmpPath     = os.path.join( out, "orcaJob.log" )
-			outBasename = os.path.basename( out )
-			finalPath   = os.path.join( self.baseName, out + ".out"  )
-			shutil.move(outBasename,finalBasename)
+			outS = out.split("/")
+			finalPath = os.path.join( self.baseName, outS[-2] + ".out" )
+			shutil.move(out,finalPath)
 
 	#====================================================
 	def WriteLog(self):
@@ -375,17 +378,15 @@ class EnergyRefinement:
 			for smo in self.methods:
 				for i in range(self.xlen):
 					self.text +="{} {} {}\n".format(self.indexArrayX[i], self.SMOenergies[smo][i] - self.SMOenergies[smo][0], smo)
-
 		#--------------------------------------------------------------
-		_filename = os.path.join(self.baseName+".log")
+		_filename = os.path.join(self.baseName,"energy.log")
 		#----------------------------
 		logFile = open(_filename,'w')
 		logFile.write(self.text)
 		logFile.close()
 		#----------------------------
-		filesTmp = glob.glob("*.eTmp")
-		for ftpm in filesTmp:
-			os.remove(ftpm)		
+		filesTmp = glob.glob( self.baseName+"/*.eTmp" )
+		for ftpm in filesTmp: os.remove(ftpm)		
 
 #==========================================================
 

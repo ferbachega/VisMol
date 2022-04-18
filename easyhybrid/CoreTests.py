@@ -423,17 +423,20 @@ def Scan1D_Dihedral(_nsteps,_dincre=10.0,name="Default"):
 	#---------------------------------------------
 	#setting atoms for scan	
 	atomsf = [ 4, 6,  8, 14] 
+	print(_dincre)
+	input()
 	#setting parameters
-	parameters = { "ATOMS_RC1":atomsf     ,
-				   "nsteps_RC1":_nsteps   ,
-				   "dincre_RC1":_dincre   , 
-				   "rc_type_1" :"dihedral", 
-				   "ndim":1               ,
-				   "MC_RC1":True          ,
-				   "save_format":".dcd"   ,
-				   "log_frequency":50.0   ,
-				   "simulation_type":"Relaxed_Surface_Scan",
-				   "force_constant":100.0  }
+	parameters = { "ATOMS_RC1":atomsf     					,
+				   "nsteps_RC1":_nsteps   					,
+				   "dincre_RC1":_dincre   					, 
+				   "rc_type_1" :"dihedral"					, 
+				   "ndim":1               					,
+				   "MC_RC1":True          					,
+				   "save_format":".dcd"   					,
+				   "log_frequency":50.0   					,
+				   "Debug":True           					,
+				   "simulation_type":"Relaxed_Surface_Scan" ,
+				   "force_constant":100.0                   }
     #run the simulation
     #---------------------------------------------------------------------
 	proj.RunSimulation(parameters)		
@@ -459,11 +462,13 @@ def Scan2D_Dihedral(_xnsteps,_ynsteps,_dincreX=10.0,_dincreY=10.0,name="Default"
 				   "contour_lines":12     ,
 				   "nsteps_RC1":_xnsteps  ,
 				   "nsteps_RC2":_ynsteps  ,
+				   "dincre_RC1":_dincreX  ,
+				   "dincre_RC2":_dincreY  ,
 				   "rc_type_1" :"dihedral", 
 				   "rc_type_2" :"dihedral", 
 				   "ndim":2               ,
-				   "force_constant_1":40.0,
-				   "force_constant_2":40.0,
+				   "force_constant_1":20.0,
+				   "force_constant_2":20.0,
 				   "log_frequency":100    ,
 				   "simulation_type":"Relaxed_Surface_Scan",
 				   "NmaxThreads":8       }
@@ -642,7 +647,7 @@ def FreeEnergy1DSimpleDistance(nsteps):
 	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atomsf = [ atom1[0], atom2[0] ]	
 	rc1 = ReactionCoordinate(atomsf,False,0)
-	rc1.GetRCLable(proj.cSystem)	
+	rc1.GetRCLabel(proj.cSystem)	
 	#-------------------------------------------------	
 	US_parameters = { "ATOMS_RC1":atomsf		       ,
 				   "ndim": 1 					       ,
@@ -653,7 +658,7 @@ def FreeEnergy1DSimpleDistance(nsteps):
 				   "MD_method":"LeapFrog"		       ,
 				   "MC_RC1":True				       ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":10 				  }
+				   "NmaxThreads":NmaxThreads 		   }
 	#-------------------------------------------------
 	#RUN umbrella sampling
 	proj.RunSimulation(US_parameters,)	
@@ -688,7 +693,7 @@ def FreeEnergy1DSimpleDistanceOPT(nsteps):
 	atom2  = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
 	atomsf = [ atom1[0], atom2[0] ]	
 	rc1 = ReactionCoordinate(atomsf,False,0)
-	rc1.GetRCLable(proj.cSystem)	
+	rc1.GetRCLabel(proj.cSystem)	
 	#-------------------------------------------------
 	#RUN umbrella sampling
 	US_parameters = { "ATOMS_RC1":atomsf		  ,
@@ -701,7 +706,7 @@ def FreeEnergy1DSimpleDistanceOPT(nsteps):
 				   "MC_RC1":True				  ,
 				   "optimize":True                ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":10 				  }	
+				   "NmaxThreads":NmaxThreads      }	
 	proj.RunSimulation(US_parameters)	
 	#-------------------------------------------------
 	#path for the ptRes files
@@ -736,7 +741,7 @@ def FreeEnergy1DMultipleDistance(nsteps):
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 	atomsf = [ atom1[0], atom2[0],atom3[0] ]	
 	rc1 = ReactionCoordinate(atomsf,False,0)
-	rcq.GetRCLable(proj.cSystem)	
+	rc1.GetRCLabel(proj.cSystem)	
 	_plotParameters = { "contour_lines":15,"xwindows":10,"ywindows":0,"crd1_label":rc1.label}
 	#-------------------------------------------------	
 	US_parameters = { 'ATOMS_RC1':atomsf		    ,
@@ -748,7 +753,7 @@ def FreeEnergy1DMultipleDistance(nsteps):
 				   "MD_method":"LeapFrog"			,
 				   "MC_RC1":True					,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":10 				    }
+				   "NmaxThreads":NmaxThreads     }
 	#-------------------------------------------------
 	#Run umbrella sampling 
 	proj.RunSimulation(US_parameters)
@@ -782,7 +787,7 @@ def UmbrellaSampling1Drestart(nsteps):
 	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")
 	atomsf = [ atom1[0], atom2[0],atom3[0] ]	
 	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.GetRCLable(proj.cSystem)
+	rc1.GetRCLabel(proj.cSystem)
 	
 	_name = "SCAN1D_4US_restart_test"
 	QCMMScanMultipleDistance(6,0.2,name=_name)
@@ -799,7 +804,7 @@ def UmbrellaSampling1Drestart(nsteps):
 				   "MC_RC1":True				    ,
 				   "restart":True					,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":6 				    }
+				   "NmaxThreads":NmaxThreads	    }
 	#-------------------------------------------------
 	#Run first umbrella sampling 
 	proj.RunSimulation(US_parameters)
@@ -828,7 +833,7 @@ def UmbrellaSampling1Drestart(nsteps):
 				   "MC_RC1":True					    ,
 				   "restart":True                       ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":10 				    }
+				   "NmaxThreads":NmaxThreads		    }
 
 	proj.RunSimulation(USparameters)
 	_PMFparameters["xwindows"]=10
@@ -852,9 +857,9 @@ def FreeEnergy2DsimpleDistance(nsteps):
 	atomsf = [ atom1[0], atom2[0] ] 
 	atomss = [ atom4[0], atom5[0] ]
 	rc1 = ReactionCoordinate(atomsf,False,0)
-	rc1.GetRCLable(proj.cSystem)	
+	rc1.GetRCLabel(proj.cSystem)	
 	rc2 = ReactionCoordinate(atomss,False,0)
-	rc2.GetRCLable(proj.cSystem)	
+	rc2.GetRCLabel(proj.cSystem)	
 	#------------------------------------------------------------------
 	_name = "SCAN2D_4FEcalculations_simple_distance"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -873,7 +878,7 @@ def FreeEnergy2DsimpleDistance(nsteps):
 				   "MC_RC2":True					,
 				   "temperature":300.15             ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":36 					}
+				   "NmaxThreads":NmaxThreads		}
 	
 	proj.RunSimulation(US_parameters)
 	_path = os.path.join( scratch_path, "FE_2D_simple_distance")	
@@ -907,9 +912,9 @@ def FreeEnergy2DmixedDistance(nsteps):
 	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
 	atomss = [ atom4[0], atom5[0] ]
 	rc1 = ReactionCoordinate(atomsf,False,0)	
-	rc1.GetRCLable(proj.cSystem)
+	rc1.GetRCLabel(proj.cSystem)
 	rc2 = ReactionCoordinate(atomss,False,0)
-	rc2.GetRCLable(proj.cSystem)	
+	rc2.GetRCLabel(proj.cSystem)	
 
 	_name = "SCAN2D_4FEcalculations_mixed_distance"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -928,7 +933,7 @@ def FreeEnergy2DmixedDistance(nsteps):
 				   "MC_RC2":True				,
 				   "restart":True               , 
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":36 				}
+				   "NmaxThreads":NmaxThreads	}
 	
 	proj.RunSimulation(USparameters)
 
@@ -984,7 +989,7 @@ def FreeEnergy2DmultipleDistance(nsteps):
 				   "MC_RC1":True					,
 				   "MC_RC2":True					,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":36 	     			}
+				   "NmaxThreads":NmaxThreads		}
 	
 	proj.RunSimulation(USparameters)
 
@@ -1010,11 +1015,11 @@ def FreeEnergyDihedral1D(nsteps):
 	#-------------------------------------------------
 	_name = "SCAN1D_4FEcalculations_dihedral"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
-	if not os.path.exists(_path ): Scan1D_Dihedral(20, name=_name )
+	if not os.path.exists(_path ): Scan1D_Dihedral(20,18.0, name=_name )
 	#-------------------------------------------------	
 	atomsf = [4, 6,  8, 14]	
 	rc1 = ReactionCoordinate(atomsf,False,0)
-	rc1.GetRCLable(proj.cSystem)	
+	rc1.GetRCLabel(proj.cSystem)	
 	rc1.SetInformation(proj.cSystem,0.0)
 
 	#-------------------------------------------------	
@@ -1023,12 +1028,12 @@ def FreeEnergyDihedral1D(nsteps):
 				   "sampling_factor":nsteps/10	  ,
 				   "rc_type_1":"dihedral"         ,
 				   "equilibration_nsteps":nsteps/2,
-				   "force_constant_1":25.0        ,
+				   "force_constant_1":30.0        ,
 				   "production_nsteps":nsteps	  ,
 				   "source_folder":_path 		  ,
 				   "MD_method":"LeapFrog"		  ,
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":20 			}
+				   "NmaxThreads":NmaxThreads		}
 	#-------------------------------------------------
 	#RUN umbrella sampling
 	proj.RunSimulation(parameters)	
@@ -1057,7 +1062,7 @@ def FreeEnergyDihedral2D(nsteps):
 	rc1 = ReactionCoordinate(atomsf,False,0)
 	rc1.GetRCLable(proj.cSystem)	
 	rc2 = ReactionCoordinate(atomss,False,0)
-	rc2.GetRCLable(proj.cSystem)	
+	rc2.GetRCLabel(proj.cSystem)	
 	
 	_name = "SCAN2D_4FEcalculations_dihedral"
 	_path = os.path.join( scratch_path,_name,"ScanTraj.ptGeo")
@@ -1076,7 +1081,7 @@ def FreeEnergyDihedral2D(nsteps):
 				   "rc_type_2":"dihedral"           ,
 				   "MD_method":"LeapFrog"			,				   
 				   "simulation_type":"Umbrella_Sampling",
-				   "NmaxThreads":24 	     			}
+				   "NmaxThreads":NmaxThreads		}
 	
 	proj.RunSimulation(parameters)
 
@@ -1115,16 +1120,16 @@ def EnergyAnalysisPlots():
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0]]
 	rc1_sd = ReactionCoordinate(a1,False)
-	rc1_sd.GetRCLable(proj.cSystem)
+	rc1_sd.GetRCLabel(proj.cSystem)
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.GetRCLable(proj.cSystem)
+	rc1_md.GetRCLabel(proj.cSystem)
 	a2 = [atom4[0],atom5[0]]
 	rc2_sd = ReactionCoordinate(a2,False)
-	rc2_md.GetRCLable(proj.cSystem)
+	rc2_md.GetRCLabel(proj.cSystem)
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
-	rc2_md.GetRCLable(proj.cSystem)
+	rc2_md.GetRCLabel(proj.cSystem)
 	#----------------------------------------------------------------------------------
 	#1D energy plot test 
 	if not os.path.exists( os.path.join(scratch_path,"QCMM_SCAN1D_simple_distance") ):
@@ -1200,9 +1205,7 @@ def EnergyAnalysisPlots():
 	parameters      = {"xsize":12,"ysize":12,"type":"WHAM2D","log_name":log_pathPMF,"crd1_label":rc1_sd.label,"crd2_label":rc2_sd.label,"contour_lines":10,"simulation_type":"Energy_Plots"} # xsize is for bins size for PMF
 	proj.RunSimulation(parameters)
 	#===========================================================================
-	#internal refinement
-#===============================================================================
-
+	#internal refinemen
 #===============================================================================
 def ReacCoordSearchers(_type):	
 	'''
@@ -1286,7 +1289,7 @@ def pDynamoEnergyRef_1D():
 	#setting reaction coordinates for ploting labels
 	a1 = [ atom1[0],atom2[0],atom3[0] ]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.GetRCLable(proj.cSystem)
+	rc1_md.GetRCLabel(proj.cSystem)
 	
 	_name = "SCAN1D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
@@ -1300,7 +1303,7 @@ def pDynamoEnergyRef_1D():
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
 				   "methods_lists":methods              ,					   
-				   "NmaxThreads":20		                ,
+				   "NmaxThreads":NmaxThreads            ,
 				   "simulation_type":"Energy_Refinement",
 				   "crd1_label":rc1_md.label            ,
 				   "contour_lines":12                   ,
@@ -1327,10 +1330,10 @@ def pDynamoEnergyRef_2D():
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.GetRCLable(proj.cSystem)	
+	rc1_md.GetRCLabel(proj.cSystem)	
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
-	rc2_md.GetRCLable(proj.cSystem)
+	rc2_md.GetRCLabel(proj.cSystem)
 	#---------------------------------------------
 	_name = "SCAN2D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
@@ -1348,10 +1351,10 @@ def pDynamoEnergyRef_2D():
 				   "ynbins":6			,
 				   "source_folder":_path,
 				   "out_folder":os.path.join(scratch_path, "SMO2D_EnergyRefinement"),
-				   "charge":-3		    ,
-				   "multiplicity":1 	,
-				   "methods_lists":methods,					   
-				   "NmaxThreads":10		,
+				   "charge":-3		        ,
+				   "multiplicity":1 	    ,
+				   "methods_lists":methods  ,					   
+				   "NmaxThreads":NmaxThreads,
 				   "crd1_label":rc1_md.label,
 				   "crd2_label":rc2_md.label,
 				   "contour_lines":12       ,
@@ -1368,28 +1371,35 @@ def pDynamoEnergyRef_abInitio():
 	proj=SimulationProject( os.path.join(scratch_path, "pDynamoABintio") )
 	
 	#setting reaction coordinates for ploting labels
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
 	a1 = [ atom1[0],atom2[0],atom3[0] ]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.GetRCLable(proj.cSystem)
+	rc1_md.GetRCLabel(proj.cSystem)
 	
 	_name = "SCAN1D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
-		QCMMScanMultipleDistance(30,0.05,name=_name)
-
+		QCMMScanMultipleDistance(6,0.2,name=_name)
+	methods = ["hf"] 
 	parameters = { "xnbins":30			               ,
 				   "ynbins":0			               ,
 				   "source_folder":_path                 ,
 				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
-				   "methods_lists":methods              ,					   
-				   "NmaxThreads":20		                ,
+				   "functional":"hf"                    ,
+				   "basis":"321g"					    ,
+				   "NmaxThreads":NmaxThreads            ,
 				   "simulation_type":"Energy_Refinement",
 				   "crd1_label":rc1_md.label            ,
 				   "contour_lines":12                   ,
 				   "xlim_list": [-1.2,2.0]              ,
-				   "Software":"pDynamo"	}
+				   "Software":"pDynamoDFT"	}
 
 	proj.RunSimulation(parameters)
 #=====================================================
@@ -1410,10 +1420,10 @@ def MopacEnergyRef():
 	#setting reaction coordinates for ploting labels
 	a1 = [atom1[0],atom2[0],atom3[0]]
 	rc1_md = ReactionCoordinate(a1,False)
-	rc1_md.GetRCLable(proj.cSystem)	
+	rc1_md.GetRCLabel(proj.cSystem)	
 	a2 = [atom4[0],atom5[0],atom6[0]]
 	rc2_md = ReactionCoordinate(a2,False)
-	rc2_md.GetRCLable(proj.cSystem)
+	rc2_md.GetRCLabel(proj.cSystem)
 	_name = "SCAN1D_4MopacRefinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )	
 	if not os.path.exists(_path):
@@ -1443,7 +1453,47 @@ def CombinedFES_ABinitioSMO():
 	pass
 #=====================================================
 def ORCAEnergy_ref():
-	pass
+	'''
+	'''
+	proj=SimulationProject( os.path.join(scratch_path, "ORCA_test") )
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+	
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	#setting reaction coordinates for ploting labels
+	a1 = [atom1[0],atom2[0],atom3[0]]
+	rc1_md = ReactionCoordinate(a1,False)
+	rc1_md.GetRCLabel(proj.cSystem)	
+	a2 = [atom4[0],atom5[0],atom6[0]]
+	rc2_md = ReactionCoordinate(a2,False)
+	rc2_md.GetRCLabel(proj.cSystem)
+	_name = "SCAN1D_4OrcaRefinement"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )	
+	if not os.path.exists(_path):
+		QCMMScanMultipleDistance(6,0.2,name=_name)	
+	#---------------------------------------------
+	parameters = { "xnbins":6			                                           ,
+				   "ynbins":0			                                           ,
+				   "source_folder":_path                                           ,
+				   "orca_method":"hf"                                              ,
+				   "basis":"3-21G"                                                 , 
+				   "folder":os.path.join(scratch_path, "ORCAresults")              ,
+				   "charge":-3		                                               ,
+				   "multiplicity":1 	                                           ,
+				   "restart":False                                                 ,                                             
+				   "NmaxThreads":NmaxThreads	                                   ,
+				   "crd1_label":rc1_md.label                                       ,
+				   "simulation_type":"Energy_Refinement"                           ,
+				   "xlim_list": [-1.25,0.75]                                       , 
+				   "Software":"ORCA"	                                           }
+	#---------------------------------------------
+	proj.RunSimulation(parameters)
 #=====================================================
 def Thermodynamics():
 	pass
@@ -1463,7 +1513,7 @@ if __name__ == "__main__":
 		print(help_text)
 	#------------------------------------------------
 	if len(sys.argv) > 2:
-		if sys.argv[2] == "-np":  NmaxThreads == int(sys.argv[3])
+		if sys.argv[2] == "-np": NmaxThreads = int(sys.argv[3])		
 	#------------------------------------------------
 	if 	 int(sys.argv[1]) == 1:  MMMD_Algorithms()
 	elif int(sys.argv[1]) == 2:	 MMMD_Heating()
@@ -1479,11 +1529,11 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 12: QCMMScan2DmixedDistance(10,10,0.2,0.2)	
 	elif int(sys.argv[1]) == 13: QCMMScan2DmultipleDistance(10,10,0.2,0.2)
 	elif int(sys.argv[1]) == 14: QCMMScans2D_Adaptative(10,10,0.2,0.2)
-	elif int(sys.argv[1]) == 15: Scan1D_Dihedral(36)
-	elif int(sys.argv[1]) == 16: Scan2D_Dihedral(10,10)
+	elif int(sys.argv[1]) == 15: Scan1D_Dihedral(18,20.0)
+	elif int(sys.argv[1]) == 16: Scan2D_Dihedral(12,12,20.0,20.0)
 	elif int(sys.argv[1]) == 17: FreeEnergy1DSimpleDistance(500)
 	elif int(sys.argv[1]) == 18: FreeEnergy1DMultipleDistance(500)
-	elif int(sys.argv[1]) == 19: FreeEnergyDihedral1D(2000)
+	elif int(sys.argv[1]) == 19: FreeEnergyDihedral1D(5000)
 	elif int(sys.argv[1]) == 20: FreeEnergy1DSimpleDistanceOPT(500)
 	elif int(sys.argv[1]) == 21: UmbrellaSampling1Drestart(500)
 	elif int(sys.argv[1]) == 22: FreeEnergy2DsimpleDistance(500)
@@ -1496,5 +1546,6 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 29: pDynamoEnergyRef_2D()
 	elif int(sys.argv[1]) == 30: TrajectoryAnalysisPlots()
 	elif int(sys.argv[1]) == 31: pDynamoEnergyRef_abInitio()
+	elif int(sys.argv[1]) == 32: ORCAEnergy_ref()
 
 

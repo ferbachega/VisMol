@@ -97,7 +97,7 @@ class Simulation:
 		Mandatory keys in self.parameters:
 			"xbins"			: Number of frames for first/only coordinate 
 			"source_folder" : path of folder containing frames to refine 
-			"out_folder"    : path to output logs and other results
+			"folder"        : path to output logs and other results
 			"charge"        : charge for QM region
 			"multiplicity"  : multiplicity for QM region
 			"Software"  	: engine used to calculate the energy refinement
@@ -114,13 +114,13 @@ class Simulation:
 		dimensions    = [0,0] 
 		dimensions[0] =  self.parameters["xnbins"]
 		nmaxthreads   = 1 
-		if "ynbins"  in self.parameters:  dimensions[1] = self.parameters["ynbins"]
-		if "restart" in self.parameters: _Restart = True
-		if "NmaxThreads" in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]
+		if "ynbins"      in self.parameters:  dimensions[1] = self.parameters["ynbins"]
+		if "restart"     in self.parameters:  _Restart = self.parameters["restart"]
+		if "NmaxThreads" in self.parameters:  nmaxthreads = self.parameters["NmaxThreads"]
 		#------------------------------------------------------------------
 		ER = EnergyRefinement(self.molecule  					    ,
 							  self.parameters["source_folder"]  	,
-							  self.parameters["out_folder"]         ,
+							  self.parameters["folder"]             ,
 							  dimensions                            ,
 							  self.parameters["charge"]             ,
 							  self.parameters["multiplicity"]		)
@@ -156,13 +156,13 @@ class Simulation:
 		if dimensions[1] > 0: TYPE = "2DRef"
 		else: TYPE = "1DRef"		
 		EA = EnergyAnalysis(dimensions[0],dimensions[1],_type=TYPE)
-		EA.ReadLog( os.path.join(ER.baseName+".log") )
+		EA.ReadLog( os.path.join(ER.baseName,"energy.log") )
 		#-------------------------------------------------------------
 		if dimensions[1] > 0: EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
 			if "methods_lists" in self.parameters:
 				if len(self.parameters["methods_lists"]) > 1: EA.MultPlot1D(crd1_label)
-			else: EA.Plot1D(crd1_label,show)
+			else: EA.Plot1D(crd1_label,xlim,show)
 	#==================================================================
 	def GeometryOptimization(self):
 		'''
@@ -326,7 +326,7 @@ class Simulation:
 		
 		traj_name = "trajectory"
 		if "trajectory_name" in self.parameters: traj_name = self.parameters["trajectory_name"]
-		MDrun = MD(self.molecule,self.baseFolder,traj_name, self.parameters['MD_method'])		
+		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'],traj_name)		
 		MDrun.ChangeDefaultParameters(self.parameters)
 		sampling = 0 
 		show = False
@@ -455,7 +455,7 @@ class Simulation:
 		#----------------------------------------------------------------
 		traj_name = "trajectory"
 		if "trajectory_name" in self.parameters: traj_name = self.parameters["trajectory_name"]
-		MDrun = MD(self.molecule,self.baseFolder,traj_name,self.parameters['MD_method'])
+		MDrun = MD(self.molecule,self.baseFolder,self.parameters['MD_method'],traj_name)
 		MDrun.ChangeDefaultParameters(self.parameters)
 		MDrun.RunProduction(self.parameters['nsteps'],sampling,_Restricted=True)
 		#-----------------------------------------------------------------		
@@ -552,7 +552,7 @@ class Simulation:
 		rc2 = None
 		if nDims == 2:
 			rc2 = ReactionCoordinate(self.parameters["ATOMS_RC2"],MCR2,_type=rcType2)
-			rc2;GetRCLabel(self.molecule)
+			rc2.GetRCLabel(self.molecule)
 			rc2.SetInformation(self.molecule,0.0,_dminimum=dminimum_RC2,_sigma_pk1_pk3=sigma_pk1pk3_rc2,_sigma_pk3_pk1=sigma_pk3pk1_rc2)
 		#---------------------------------------
 		USrun = US(self.molecule  						  ,
@@ -619,7 +619,7 @@ class Simulation:
 		#------------------------------------------------------------
 		# Plot PMF graphs
 		EA = EnergyAnalysis(self.parameters['xnbins'],nRC2,_type=TYPE)
-		EA.ReadLog( potmean.baseName+".dat" ) 
+		EA.ReadLog( os.path.join(potmean.baseName,"PotentialOfMeanForce.dat") ) 
 		#-------------------------------------------------------------
 		if   nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1: EA.Plot1D(crd1_label,SHOW=show)
@@ -632,7 +632,7 @@ class Simulation:
 		if nDims  == 2:  ylims = [ np.min(EA.RC2), np.max(EA.RC2) ]	
 		#------------------------------------------
 		EAfe = EnergyAnalysis(xwin,ywin,_type=TYPE)
-		EAfe.ReadLog( potmean.baseName+".log" ) 
+		EAfe.ReadLog( os.path.join(potmean.baseName,"FreeEnergy.log") ) 
 		#-------------------------------------------------------------
 		if   nDims == 2: EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1: EAfe.Plot1D(crd1_label,XLIM=xlims,SHOW=show)

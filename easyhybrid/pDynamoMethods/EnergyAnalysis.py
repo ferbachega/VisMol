@@ -99,6 +99,8 @@ class EnergyAnalysis:
 			self.multiple1Dplot.append(energyTmp)
 			self.identifiers.append(method)
 			self.labely = "Potential Energy (kJ/mol)"
+			print(self.energies1D)
+			input()
 		#----------------------------------
 		elif self.Type == "2D":
 			for line in reading:
@@ -233,7 +235,7 @@ class EnergyAnalysis:
 		Plot one dimensional energy plot.
 		'''
 		self.NormalizeEnergies()
-		if self.Type == "FE1D":
+		if self.Type == "FE1D" or self.Type == "1DRef":
 			if XLIM == None:
 				self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
 			else:
@@ -242,9 +244,9 @@ class EnergyAnalysis:
 		elif self.Type == "WHAM1D":
 			self.RC1 = np.linspace( np.min(self.RC1), np.max(self.RC1), len(self.RC1) )
 			self.labely = "Potential of Mean Field (kJ/mol)"
-			self.baseName += "_PMF"
 		
 		#--------------------------------------------
+		print(self.RC1,self.energies1D)
 		plt.plot(self.RC1,self.energies1D,'-ok')
 		plt.xlabel(label)
 		plt.ylabel(self.labely)		
@@ -321,8 +323,6 @@ class EnergyAnalysis:
 		ax0.set_xlabel(crd1label, **axis_font)
 		ax0.set_ylabel(crd2label, **axis_font)
 		fig.tight_layout()
-		if self.Type == "WHAM2D":
-			self.basename += "_PMF"
 		_method = ""
 		if len(self.identifiers) > 0: _method = self.identifiers[-1]
 		plotName = self.baseName + _method		

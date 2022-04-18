@@ -250,13 +250,11 @@ class SCAN:
         #---------------------------------
         restraints = RestraintModel()
         self.molecule.DefineRestraintModel( restraints )
-        #---------------------------------         
-        self.DINCREMENT[0] = 360.0/float(self.nsteps[0])      
-        print(atom1,atom2,atom3,atom4) 
+        #---------------------------------
+        if self.DINCREMENT[0] == 0.0: self.DINCREMENT[0] = 360.0/float(self.nsteps[0])
         #----------------------------------------------------------------------------------------
         for i in range(0,self.nsteps[0]):
             angle = self.DMINIMUM[0] +  self.DINCREMENT[0] * float(i) 
-            print(angle, self.DMINIMUM[0], self.DINCREMENT[0],i)
             #--------------------------------------------------------------------
             rmodel    = RestraintEnergyModel.Harmonic( angle, self.forceC[0], period = 360.0 )
             restraint = RestraintDihedral.WithOptions( energyModel = rmodel,
@@ -566,8 +564,8 @@ class SCAN:
 
         self.reactionCoordinate1[ 0,0 ] = self.molecule.coordinates3.Dihedral( atom1, atom2, atom3, atom4 ) 
         self.reactionCoordinate2[ 0,0 ] = self.molecule.coordinates3.Dihedral( atom5, atom6, atom7, atom8 )
-        self.DINCREMENT[0]              = 360.0 / float(X)
-        self.DINCREMENT[1]              = 360.0 / float(Y)
+        if self.DINCREMENT[0] == 0.0: self.DINCREMENT[0] = 360.0/float(X)
+        if self.DINCREMENT[1] == 0.0: self.DINCREMENT[1] = 360.0/float(Y)
         #-------------------------------------------------------------------------------------
         with pymp.Parallel(self.nprocs) as p:
             for i in p.range ( 1, X ):  

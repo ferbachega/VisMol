@@ -38,7 +38,7 @@ class MD:
     Class to set up Molecular Dynamics Sumulations.
     '''
     #.---------------------------------------
-    def __init__(self,_system,_baseFolder,_trajName,_integrator):
+    def __init__(self,_system,_baseFolder,_integrator,_trajName="production"):
         '''
         Default constructor. 
         Receives a list of paramters to set the simulations.

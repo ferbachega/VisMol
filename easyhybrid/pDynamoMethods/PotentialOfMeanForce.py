@@ -41,7 +41,7 @@ class PMF:
 		self.fileNames	= []
 		
 		self.text		= ""
-		self.LOG		= open(self.baseName+".log","w") # free energy log
+		self.LOG		= open( os.path.join(self.baseName,"FreeEnergy.log") ,"w" ) # free energy log
 		
 		pat = os.path.join( self.srcFolder, "*.ptRes" )
 		self.fileNames = glob.glob ( pat ) # ver como fica o nome dos arquivos de trejetória na nova versão
@@ -70,9 +70,9 @@ class PMF:
 		pmf       = state["PMF"      ]
 		FE		  = state["Free Energies"]
 		if _nbins_y > 0:
-			histogram.ToTextFileWithData ( self.baseName+".dat" , [ pmf ], format = "{:20.3f} {:20.3f} {:20.3f}\n" )
+			histogram.ToTextFileWithData ( os.path.join(self.baseName,"PotentialOfMeanForce.dat") , [ pmf ], format = "{:20.3f} {:20.3f} {:20.3f}\n" )
 		else: 
-			histogram.ToTextFileWithData ( self.baseName+".dat" , [ pmf ], format = "{:20.3f} {:20.3f} \n" )
+			histogram.ToTextFileWithData ( os.path.join(self.baseName,"PotentialOfMeanForce.dat") , [ pmf ], format = "{:20.3f} {:20.3f} \n" )
 		#-----------------------------------------------------------------------------------------------
 		text = ""
 		for i in range(len(FE)):

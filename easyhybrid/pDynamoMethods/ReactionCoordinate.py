@@ -103,8 +103,8 @@ class ReactionCoordinate:
 					atomic_n3 = _molecule.atoms.items[ self.atoms[2] ].atomicNumber
 					mass_a1 = GetAtomicMass(atomic_n1)
 					mass_a3 = GetAtomicMass(atomic_n3)
-					self.weight13 = mass_a1 /(mass_a1+mass_a3)
-					self.weight31 = mass_a3 /(mass_a1+mass_a3)
+					self.weight13 = mass_a1/(mass_a1+mass_a3)
+					self.weight31 = mass_a3/(mass_a1+mass_a3)
 					self.weight31 = self.weight31*-1
 					dist_a1_a2 = _molecule.coordinates3.Distance( self.atoms[0], self.atoms[1] )
 					dist_a2_a3 = _molecule.coordinates3.Distance( self.atoms[1], self.atoms[2] )
