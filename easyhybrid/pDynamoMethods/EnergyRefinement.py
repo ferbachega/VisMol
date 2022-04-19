@@ -53,8 +53,7 @@ class EnergyRefinement:
 		self.methods 	 = []
 
 		i = 0
-		_basepath = os.path.join(_outFolder)		
-		self.baseName = _basepath
+		self.baseName = _outFolder	
 		if not os.path.exists(self.baseName): os.makedirs(self.baseName)
 		_path = os.path.join( _trajFolder,"")
 		self.fileLists   = glob.glob(_path + "*.pkl")
@@ -69,14 +68,13 @@ class EnergyRefinement:
 		self.SMOenergies   = None
 	
 	#=====================================================================================
-	def GetQCCharge(self):
+	def GetQCCharge(self,_system):
 		'''
 		'''
 		qc_charge=0.0
-		mmCharges = self.molecule.AtomicCharges()
-		for qcatom in self.pureQCAtoms:
-			qc_charge += mmCharges[qcatom]
-		return(qc_charge)
+		mmCharges = _system.mmState.charges
+		for i in range(len(mmCharges)): qc_charge += mmCharges[i]		
+		return( round(qc_charge) )
 	#=====================================================================================
 	def ChangeQCRegion(self,_centerAtom,_radius):
 		'''
@@ -90,8 +88,8 @@ class EnergyRefinement:
 		newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
 		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
-		self.charge  	 = self.GetQCCharge()
-		self.pureQCAtoms = list(newSelection)
+		self.charge  	 = self.GetQCCharge(newSystem)
+		self.pureQCAtoms = list(newSelection)		
 		qcModel          = self.molecule.qcModel
 		#-------------------------------------------------------------------------------
 		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
@@ -216,7 +214,6 @@ class EnergyRefinement:
 				self.SMOenergies[smo] = self.energiesArray
 				self.energiesArray    = pymp.shared.array( (self.xlen) , dtype='float')	
 
-
 	#====================================================
 	def RunDFTB(self,_NmaxThreads):
 		'''
@@ -225,7 +222,6 @@ class EnergyRefinement:
 			_NmaxThreads: Number of maximum threds to be used in the parallel section
 		'''
 		self.methods.append("DFTB")
-
 		for i in p.range(0, len(self.fileLists) ):				
 			fle2 = os.path.basename(self.fileLists[i][:-4])
 			_scratch = os.path.join(self.baseName, fle2)				
@@ -362,7 +358,6 @@ class EnergyRefinement:
 		Rename orca files on the scratch folder, bringing them to the base folder with the name related with the respective frames
 		'''
 		outFiles = glob.glob( self.baseName+"/frame*/"+"orcaJob.log" )
-		print(outFiles)
 		for out in outFiles:
 			outS = out.split("/")
 			finalPath = os.path.join( self.baseName, outS[-2] + ".out" )

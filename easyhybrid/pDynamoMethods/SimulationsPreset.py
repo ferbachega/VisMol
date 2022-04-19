@@ -59,11 +59,10 @@ class Simulation:
 		self.molecule   = _parameters["active_system"]
 		self.parameters = _parameters
 		self.baseFolder = None
-		if "folder" in self.parameters:
-			if not self.parameters["folder"]==None:
-				self.baseFolder = self.parameters["folder"]
-				if not os.path.exists(self.parameters["folder"]):
-					os.makedirs(self.parameters["folder"])		
+		if "folder" in self.parameters:			
+			self.baseFolder = self.parameters["folder"]
+			if not os.path.exists(self.parameters["folder"]):
+				os.makedirs(self.parameters["folder"])		
 	#=======================================================================
 	def Execute(self):
 		'''
@@ -161,8 +160,13 @@ class Simulation:
 		if dimensions[1] > 0: EA.MultPlot2D(cnt_lines,crd1_label,crd2_label,xlim,ylim,show)
 		else:
 			if "methods_lists" in self.parameters:
-				if len(self.parameters["methods_lists"]) > 1: EA.MultPlot1D(crd1_label)
-			else: EA.Plot1D(crd1_label,xlim,show)
+				if len(self.parameters["methods_lists"]) > 1: 
+					EA.MultPlot1D(crd1_label)
+				else: 
+					EA.Plot1D(crd1_label,xlim,show)
+			else: 
+				EA.Plot1D(crd1_label,xlim,show)
+
 	#==================================================================
 	def GeometryOptimization(self):
 		'''

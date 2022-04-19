@@ -167,7 +167,6 @@ class EnergyAnalysis:
 				if i % self.xlen == 0:
 					m += 1
 					n = 0	
-
 			for j in range(self.xlen):
 				for i in range(self.ylen):
 					if self.energiesMatrix[i][j] == 43434.0000:
@@ -207,13 +206,11 @@ class EnergyAnalysis:
 				Min = self.energies1D[0]
 				for i in range( len(self.energies1D) ):
 					self.energies1D[i] = self.energies1D[i] - Min
-
 			elif self.nplots1D > 2:
 				for k in range( self.nplots1D ):
 					Min = self.multiple1Dplot[k][0]
 					for i in range(len(self.multiple1Dplot)):
-						self.multiple1Dplot[k][i] = self.multiple1Dplot[k][i] - Min
-		
+						self.multiple1Dplot[k][i] = self.multiple1Dplot[k][i] - Min		
 		#------------------------------------------
 		if self.Type == "2D" or self.Type == "WHAM2D" or self.Type == "FE2D" or self.Type == "2DRef":
 			self.energiesMatrix = self.energiesMatrix - np.min(self.energiesMatrix)
@@ -321,10 +318,11 @@ class EnergyAnalysis:
 		ax0.set_ylabel(crd2label, **axis_font)
 		fig.tight_layout()
 		_method = ""
-		if len(self.identifiers) > 0: _method = self.identifiers[-1]
-		plotName = self.baseName + _method		
+		if len(self.identifiers) > 0: 
+			_method = "_" + self.identifiers[-1]
 
-		plt.savefig(self.baseName+".png",dpi=2000)
+		plotName = self.baseName + _method		
+		plt.savefig(plotName+".png",dpi=2000)
 		if SHOW: plt.show()
 		plt.close()
 	#----------------------------------------------------------------------------------------
