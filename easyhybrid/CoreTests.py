@@ -1385,8 +1385,8 @@ def pDynamoEnergyRef_abInitio():
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
 		QCMMScanMultipleDistance(6,0.2,name=_name)
-	methods = ["hf"] 
-	parameters = { "xnbins":30			               ,
+	methods = ["b3lyp"] 
+	parameters = { "xnbins":6			               ,
 				   "ynbins":0			               ,
 				   "source_folder":_path                 ,
 				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
@@ -1447,7 +1447,46 @@ def MopacEnergyRef():
 	proj.RunSimulation(parameters)	
 #=====================================================
 def Change_QC_Region():
-	pass
+	'''
+	'''
+	proj=SimulationProject( os.path.join(scratch_path, "pDynamoSMO") )
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+
+	methods = ["am1"]
+
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	#setting reaction coordinates for ploting labels
+	a1 = [ atom1[0],atom2[0],atom3[0] ]
+	rc1_md = ReactionCoordinate(a1,False)
+	rc1_md.GetRCLabel(proj.cSystem)
+	
+	_name = "SCAN1D_ChangeQCregion"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	if not os.path.exists(_path):
+		QCMMScanMultipleDistance(12,0.1,name=_name)
+
+	parameters = { "xnbins":12			               ,
+				   "ynbins":0			               ,
+				   "source_folder":_path               ,
+				   "change_qc_region":True             ,
+				   "radius":5.0                        ,
+				   "center":atom2[0]                   , 
+				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
+				   "charge":-3		                    ,
+				   "multiplicity":1 	                ,
+				   "methods_lists":methods              ,					   
+				   "NmaxThreads":NmaxThreads            ,
+				   "simulation_type":"Energy_Refinement",
+				   "crd1_label":rc1_md.label            ,
+				   "contour_lines":12                   ,
+				   "xlim_list": [-1.0,1.0]              ,
+				   "Software":"pDynamo"	}
+
+	proj.RunSimulation(parameters)
 #=====================================================
 def CombinedFES_ABinitioSMO():
 	pass
@@ -1547,5 +1586,7 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 30: TrajectoryAnalysisPlots()
 	elif int(sys.argv[1]) == 31: pDynamoEnergyRef_abInitio()
 	elif int(sys.argv[1]) == 32: ORCAEnergy_ref()
+	elif int(sys.argv[1]) == 33: Change_QC_Region()
+
 
 
