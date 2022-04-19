@@ -178,6 +178,8 @@ class PDynamoSelectionWindow:
             self.easyhybrid_main.vm_session.selection_box_frane.change_toggle_button_selecting_mode_status(False)
         else:
             self.easyhybrid_main.vm_session._picking_selection_mode = False
+        
+        self.easyhybrid_main.vm_session.selections[self.easyhybrid_main.vm_session.current_selection].active = True
         self.easyhybrid_main.vm_session.glwidget.vm_widget.queue_draw()
         
         

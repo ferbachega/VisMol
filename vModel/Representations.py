@@ -791,8 +791,10 @@ class SticksRepresentation (Representation):
             different trajectory sizes to be manipulated at the same time within the 
             glArea'''
             self._set_coordinates_to_buffer (coord_vbo = True, sel_coord_vbo = False)
-            GL.glDrawElements(GL.GL_LINES, len(self.visObj.index_bonds), GL.GL_UNSIGNED_INT, None)
-        
+            try:
+                GL.glDrawElements(GL.GL_LINES, len(self.visObj.index_bonds), GL.GL_UNSIGNED_INT, None)
+            except:
+                pass
         GL.glBindVertexArray(0)
         GL.glUseProgram(0)
         #GL.glDisable(GL.GL_LINE_SMOOTH)
@@ -824,7 +826,10 @@ class SticksRepresentation (Representation):
             glArea
             '''
             self._set_coordinates_to_buffer (coord_vbo = False, sel_coord_vbo = True)
-            GL.glDrawElements(GL.GL_LINES, len(self.visObj.index_bonds), GL.GL_UNSIGNED_INT, None)
+            try:
+                GL.glDrawElements(GL.GL_LINES, len(self.visObj.index_bonds), GL.GL_UNSIGNED_INT, None)
+            except:
+                pass
         GL.glBindVertexArray(0)
         GL.glUseProgram(0)
         GL.glDisable(GL.GL_DEPTH_TEST)
