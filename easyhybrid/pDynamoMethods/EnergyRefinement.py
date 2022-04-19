@@ -16,6 +16,10 @@ from pMolecule.QCModel import *
 from MopacQCMMinput import *
 import os, glob, sys, shutil
 import numpy as np 
+
+from pMolecule import * 
+
+from pSimulation import *
 #================================
 #**********************************************************
 class EnergyRefinement:
@@ -69,7 +73,7 @@ class EnergyRefinement:
 		'''
 		'''
 		qc_charge=0.0
-		mmCharges = self.molecule.energyModel.mmAtoms.AtomicCharges()
+		mmCharges = self.molecule.AtomicCharges()
 		for qcatom in self.pureQCAtoms:
 			qc_charge += mmCharges[qcatom]
 		return(qc_charge)
@@ -81,9 +85,9 @@ class EnergyRefinement:
 			_centerAtom:
 			_radius    :
 		'''
-        #-----------------------------------------------------------------------------
-		atomref      	 = AtomSelection.FromAtomPattern( self.molecule, _centerAtom )
-		newSelection  	 = AtomSelection.Within(self.molecule,atomref,_radius)
+        #-----------------------------------------------------------------------------		
+		sel              = Selection.FromIterable([_centerAtom])
+		newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
 		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
 		self.charge  	 = self.GetQCCharge()

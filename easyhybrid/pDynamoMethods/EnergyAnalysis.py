@@ -99,8 +99,6 @@ class EnergyAnalysis:
 			self.multiple1Dplot.append(energyTmp)
 			self.identifiers.append(method)
 			self.labely = "Potential Energy (kJ/mol)"
-			print(self.energies1D)
-			input()
 		#----------------------------------
 		elif self.Type == "2D":
 			for line in reading:
@@ -246,7 +244,6 @@ class EnergyAnalysis:
 			self.labely = "Potential of Mean Field (kJ/mol)"
 		
 		#--------------------------------------------
-		print(self.RC1,self.energies1D)
 		plt.plot(self.RC1,self.energies1D,'-ok')
 		plt.xlabel(label)
 		plt.ylabel(self.labely)		
