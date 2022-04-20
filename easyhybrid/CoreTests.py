@@ -1291,15 +1291,15 @@ def pDynamoEnergyRef_1D():
 	rc1_md = ReactionCoordinate(a1,False)
 	rc1_md.GetRCLabel(proj.cSystem)
 	
-	_name = "SCAN1D_4Refinement"
+	_name = "SCAN1D_ChangeQCregion"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
-		QCMMScanMultipleDistance(30,0.05,name=_name)
+		QCMMScanMultipleDistance(12,0.1,name=_name)
 
-	parameters = { "xnbins":30			               ,
+	parameters = { "xnbins":12			               ,
 				   "ynbins":0			               ,
-				   "source_folder":_path                 ,
-				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
+				   "source_folder":_path               , 
+				   "folder":os.path.join(scratch_path, "pDynamoSMO"),
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
 				   "methods_lists":methods              ,					   
@@ -1307,7 +1307,7 @@ def pDynamoEnergyRef_1D():
 				   "simulation_type":"Energy_Refinement",
 				   "crd1_label":rc1_md.label            ,
 				   "contour_lines":12                   ,
-				   "xlim_list": [-1.2,2.0]              ,
+				   "xlim_list": [-1.0,1.0]              ,
 				   "Software":"pDynamo"	}
 
 	proj.RunSimulation(parameters)	
@@ -1316,7 +1316,7 @@ def pDynamoEnergyRef_2D():
 	'''
 	Test two dimensinal energy refinement with internal pDynamo quantum chemical methods
 	'''
-	proj=SimulationProject( os.path.join(scratch_path, "pDynamoSMO") )
+	proj=SimulationProject( os.path.join(scratch_path, "pDynamoSMO2D") )
 	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
 		QCMM_optimizations()		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
@@ -1350,7 +1350,7 @@ def pDynamoEnergyRef_2D():
 	parameters = { "xnbins":6			,
 				   "ynbins":6			,
 				   "source_folder":_path,
-				   "out_folder":os.path.join(scratch_path, "SMO2D_EnergyRefinement"),
+				   "folder":os.path.join(scratch_path, "SMO2D_EnergyRefinement"),
 				   "charge":-3		        ,
 				   "multiplicity":1 	    ,
 				   "methods_lists":methods  ,					   
@@ -1381,7 +1381,7 @@ def pDynamoEnergyRef_abInitio():
 	rc1_md = ReactionCoordinate(a1,False)
 	rc1_md.GetRCLabel(proj.cSystem)
 	
-	_name = "SCAN1D_4Refinement"
+	_name = "SCAN1D_4dftRefinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
 		QCMMScanMultipleDistance(6,0.2,name=_name)
@@ -1389,7 +1389,7 @@ def pDynamoEnergyRef_abInitio():
 	parameters = { "xnbins":6			               ,
 				   "ynbins":0			               ,
 				   "source_folder":_path                 ,
-				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
+				   "folder":os.path.join(scratch_path, "abInitio_EnergyRefinement"),
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
 				   "functional":"hf"                    ,
@@ -1433,7 +1433,7 @@ def MopacEnergyRef():
 				   "ynbins":0			,
 				   "mopac_keywords":["grad qmmm","ITRY=5000"] ,
 				   "source_folder":_path,
-				   "out_folder":os.path.join(scratch_path, "MOPAC_EnergyRefinement"),
+				   "folder":os.path.join(scratch_path, "MOPAC_EnergyRefinement"),
 				   "charge":-3		    ,
 				   "multiplicity":1 	,
 				   "methods_lists":methods,					   
@@ -1454,7 +1454,7 @@ def Change_QC_Region():
 		QCMM_optimizations()		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 
-	methods = ["am1"]
+	methods = ["am1","rm1"]
 
 	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
 	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
@@ -1475,7 +1475,7 @@ def Change_QC_Region():
 				   "change_qc_region":True             ,
 				   "radius":5.0                        ,
 				   "center":atom2[0]                   , 
-				   "out_folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
+				   "folder":os.path.join(scratch_path, "changingQC_EnergyRefinement"),
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
 				   "methods_lists":methods              ,					   
@@ -1539,6 +1539,9 @@ def Thermodynamics():
 #=====================================================
 if __name__ == "__main__":	
 	#------------------------------------
+	if len(sys.argv) > 2:
+		if sys.argv[2] == "-np": NmaxThreads = int(sys.argv[3])	
+	#------------------------------------------------
 	if sys.argv[1] == "help":
 		help_text = "Options for testn\n"
 		help_text+= "\t1:Molecular Dynamics Algorithms\n\t2:Molecular Dynamics heating protocol\n\t3:QC/MM energies"
@@ -1548,13 +1551,10 @@ if __name__ == "__main__":
 		help_text+= "\n\t19:Free Energy 1D dihedral\n\t20:Free Energy 1D dihedral with optimization\n\t21:Umbrella sampling restart test\n\t22:Free energy simple distance 2D"
 		help_text+= "\n\t23:Free energy simple mixed distance 2D\n\t24:Free energy multiple distance 2D\n\t25:Semiempirical in pDynamo energy refinement\n\t26:Energy Plots analysis"
 		help_text+= "\n\t27:Raction coordinates searching\n\t28:Semiempirical mopac energy refinement\n\t29:Semiempirical in pDynamo energy 2D\n\t30:Trajectory Analysis plots"
-		help_text+= "\n\t31:pDynamo internal refinement\n\t32:"
-		print(help_text)
+		help_text+= "\n\t31:pDynamo internal refinement\n\t32:ORCA Energy refinement\n\t33:Change QC Region tests"
+		print(help_text)			
 	#------------------------------------------------
-	if len(sys.argv) > 2:
-		if sys.argv[2] == "-np": NmaxThreads = int(sys.argv[3])		
-	#------------------------------------------------
-	if 	 int(sys.argv[1]) == 1:  MMMD_Algorithms()
+	elif int(sys.argv[1]) == 1:  MMMD_Algorithms()
 	elif int(sys.argv[1]) == 2:	 MMMD_Heating()
 	elif int(sys.argv[1]) == 3:	 QCMM_Energies()
 	elif int(sys.argv[1]) == 4:  QCMM_DFTBplus()	
@@ -1587,6 +1587,6 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 31: pDynamoEnergyRef_abInitio()
 	elif int(sys.argv[1]) == 32: ORCAEnergy_ref()
 	elif int(sys.argv[1]) == 33: Change_QC_Region()
-
+	else: pass  
 
 
