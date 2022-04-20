@@ -1291,15 +1291,15 @@ def pDynamoEnergyRef_1D():
 	rc1_md = ReactionCoordinate(a1,False)
 	rc1_md.GetRCLabel(proj.cSystem)
 	
-	_name = "SCAN1D_4Refinement"
+	_name = "SCAN1D_ChangeQCregion"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
-		QCMMScanMultipleDistance(16,0.1,name=_name)
+		QCMMScanMultipleDistance(12,0.1,name=_name)
 
-	parameters = { "xnbins":16			               ,
+	parameters = { "xnbins":12			               ,
 				   "ynbins":0			               ,
-				   "source_folder":_path                 ,
-				   "folder":os.path.join(scratch_path, "SMO_EnergyRefinement"),
+				   "source_folder":_path               , 
+				   "folder":os.path.join(scratch_path, "pDynamoSMO"),
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,
 				   "methods_lists":methods              ,					   
@@ -1307,7 +1307,7 @@ def pDynamoEnergyRef_1D():
 				   "simulation_type":"Energy_Refinement",
 				   "crd1_label":rc1_md.label            ,
 				   "contour_lines":12                   ,
-				   "xlim_list": [-1.2,2.0]              ,
+				   "xlim_list": [-1.0,1.0]              ,
 				   "Software":"pDynamo"	}
 
 	proj.RunSimulation(parameters)	
@@ -1381,7 +1381,7 @@ def pDynamoEnergyRef_abInitio():
 	rc1_md = ReactionCoordinate(a1,False)
 	rc1_md.GetRCLabel(proj.cSystem)
 	
-	_name = "SCAN1D_4Refinement"
+	_name = "SCAN1D_4dftRefinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
 		QCMMScanMultipleDistance(6,0.2,name=_name)
