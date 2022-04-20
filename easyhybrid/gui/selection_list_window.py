@@ -145,9 +145,23 @@ class SelectionListWindow(Gtk.Window):
             pass
         else:
             self.p_session.systems[_key]['selections'] = {}
-            self.p_session.systems[_key]['selections']["QC atoms"] = self.p_session.systems[_key]['qc_table']
-            self.p_session.systems[_key]['selections']["fixed atoms"] = self.p_session.systems[_key]['fixed_table']
-            
+
+        
+        
+        ''' QC atoms'''
+        if self.p_session.systems[_key]['system'].qcModel:
+            self.p_session.systems[_key]['selections']["QC atoms"] = list(self.p_session.systems[_key]['system'].qcState.pureQCAtoms)
+
+        
+        
+        '''Fixed atoms'''
+        if self.p_session.systems[_key]['system'].freeAtoms is None:
+            pass
+        
+        else:
+            self.p_session.systems[_key]['selections']["fixed atoms"]   = self.p_session.get_fixed_atoms_from_system(self.p_session.systems[_key]['system'])
+  
+        
         for key , indexes in self.p_session.systems[_key]['selections'].items():
             #if vobject.easyhybrid_system_id == self.p_session.active_id]:
             self.selection_liststore.append([key, str(len(indexes))])
@@ -173,6 +187,10 @@ class SelectionListWindow(Gtk.Window):
         vobject = self.vm_session.vismol_objects_dic[_key]
         self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vismol_object = vobject, indexes = indexes, clear = True)
         self.vm_session.selections[self.vm_session.current_selection].active = True
+        
+        
+        self.vm_session.center_by_atomlist(atoms = self.vm_session.selections[self.vm_session.current_selection].selected_atoms) 
+        
         self.vm_session.glwidget.queue_draw()
         
     def on_treeview_Objects_button_release_event(self, tree, event):

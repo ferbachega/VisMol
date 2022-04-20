@@ -1833,6 +1833,27 @@ class VisMolSession (ShowHideVisMol):
         visObj._get_center_of_mass (frame)
         self.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
 
+    def center_by_atomlist (self, atoms = []):
+        """ Function doc """
+        
+        x = 0
+        y = 0
+        z = 0
+        size = len(atoms)
+        atom = atoms[0]
+        for atom in atoms:
+            xyz = atom.coords( self.get_frame ())
+            x += xyz[0]
+            y += xyz[1]
+            z += xyz[2]
+        
+        x = x /size
+        y = y /size
+        z = z /size
+        xyz = [x,y,z]
+        
+        self.glwidget.vm_widget.center_on_coordinates(atom.Vobject, xyz)
+        
 
     def center_by_index(self, Vobject =  None, index = None):
         """ Function doc """  

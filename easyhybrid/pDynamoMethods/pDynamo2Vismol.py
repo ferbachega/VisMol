@@ -382,6 +382,18 @@ class pDynamoSession:
         
         return True
 
+    def get_fixed_atoms_from_system (self, system):
+        """ Function doc """
+        if system.freeAtoms is None:
+            pass
+        
+        else:
+            freeAtoms = system.freeAtoms
+            freeAtoms = Selection.FromIterable (freeAtoms)
+            selection_fixed = freeAtoms.Complement( upperBound = len (system.atoms ) )
+            return list(selection_fixed)
+            
+    
     def define_free_or_fixed_atoms_from_iterable (self, fixedlist = None):
         """ Function doc """
         if fixedlist == []:

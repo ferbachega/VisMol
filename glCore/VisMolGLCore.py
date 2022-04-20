@@ -882,23 +882,23 @@ class VisMolGLCore():
 
 
         dot_type = self.vConfig.gl_parameters['dot_type']
-        
+        '''
         self.shader_programs['dots']     = self.load_shaders(glumpyShaders.shader_type[0]['vertex_shader'  ],
                                                              glumpyShaders.shader_type[0]['fragment_shader'],)
                                                                #glumpyShaders.shader_type[1]['geometry_shader'])
         
         self.shader_programs['dots_sel'] = self.load_shaders(glumpyShaders.shader_type[0]['sel_vertex_shader'  ],
                                                              glumpyShaders.shader_type[0]['sel_fragment_shader'])
-
+        '''
 
         
-        #self.shader_programs['dots']     = self.load_shaders(dotsShaders.shader_type[dot_type]['vertex_shader'  ],
-        #                                                     dotsShaders.shader_type[dot_type]['fragment_shader']
-        #                                                     )
-        #
-        #self.shader_programs['dots_sel'] = self.load_shaders(dotsShaders.shader_type[dot_type]['sel_vertex_shader'  ],
-        #                                                     dotsShaders.shader_type[dot_type]['sel_fragment_shader']
-        #                                                     )
+        self.shader_programs['dots']     = self.load_shaders(dotsShaders.shader_type[dot_type]['vertex_shader'  ],
+                                                             dotsShaders.shader_type[dot_type]['fragment_shader']
+                                                             )
+        
+        self.shader_programs['dots_sel'] = self.load_shaders(dotsShaders.shader_type[dot_type]['sel_vertex_shader'  ],
+                                                             dotsShaders.shader_type[dot_type]['sel_fragment_shader']
+                                                             )
     
     
     def _create_line_shaders (self, _type = 0):
