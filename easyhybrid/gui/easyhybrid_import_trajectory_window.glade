@@ -264,6 +264,7 @@
                                   <item translatable="yes">crd - AMBER</item>
                                   <item translatable="yes">netcdf - AMBER </item>
                                   <item translatable="yes">xtc - GROMACS</item>
+                                  <item translatable="yes">pkl  file - pDynamo Coordinates</item>
                                 </items>
                               </object>
                               <packing>

@@ -39,7 +39,7 @@ class SelectionListWindow(Gtk.Window):
     
     def OpenWindow (self):
         """ Function doc /home/fernando/programs/VisMol/easyhybrid/gui/selection_list.glade"""
-        if self.Visible  ==  False:
+        if self.visible  ==  False:
             self.builder = Gtk.Builder()
             self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/selection_list.glade'))
             self.builder.connect_signals(self)
@@ -47,26 +47,28 @@ class SelectionListWindow(Gtk.Window):
             self.window = self.builder.get_object('window')
             #self.window.set_border_width(10)
             self.window.set_default_size(200, 600)  
+            self.window.set_title('Selections')  
             
             self.window.set_keep_above(True)
 
             self.coordinates_liststore.clear()
             self.system_liststore     .clear()
-            self.selection_liststore  .clear()
+            #self.selection_liststore  .clear()
             '''--------------------------------------------------------------------------------------------'''
-            self.system_types_combo =self.builder.get_object('systems_combobox')
-            for key, system  in self.p_session.systems.items():
-                try:
-                    self.system_liststore.append([system['name'], key])
-                except:
-                    print(system)#print (system_type)
-            self.system_types_combo.set_model(self.system_liststore)
-            self.system_types_combo.connect("changed", self.on_name_combo_changed)
-            #self.system_types_combo.set_model(self.system_liststore)
+            self.system_names_combo =self.builder.get_object('systems_combobox')
+            #for key, system  in self.p_session.systems.items():
+            #    try:
+            #        self.system_liststore.append([system['name'], key])
+            #    except:
+            #        print(system)#print (system_type)
+            self.system_names_combo.set_model(self.system_liststore)
+            self.system_names_combo.connect("changed", self.on_system_names_combobox_changed)
+            #self.system_names_combo.set_model(self.system_liststore)
             
             renderer_text = Gtk.CellRendererText()
-            self.system_types_combo.pack_start(renderer_text, True)
-            self.system_types_combo.add_attribute(renderer_text, "text", 0)
+            self.system_names_combo.pack_start(renderer_text, True)
+            self.system_names_combo.add_attribute(renderer_text, "text", 0)
+            self.refresh_system_liststore()
             '''--------------------------------------------------------------------------------------------'''
 
 
@@ -92,7 +94,7 @@ class SelectionListWindow(Gtk.Window):
             self.window.show_all()                                               
             #self.builder.connect_signals(self)                                   
             #self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-            #self.Visible  =  True
+            #self.visible  =  True
             #
             #self.files    = {
             #                'amber_prmtop': None,
@@ -102,74 +104,138 @@ class SelectionListWindow(Gtk.Window):
             #                'opls_folder' : [],
             #                'coordinates' : None,
             #                }
-            #self.system_types_combo.set_active(0)
-
+            #self.system_names_combo.set_active(0)
+            self.system_names_combo.set_active(0)
+            self.visible    =  True
             #----------------------------------------------------------------
 
     def CloseWindow (self, button, data  = None):
         """ Function doc """
         #self.BackUpWindowData()
         self.window.destroy()
-        self.Visible    =  False
-        #print('self.Visible',self.Visible)
+        self.visible    =  False
+        #print('self.visible',self.visible)
     
     def __init__(self, main = None):
         """ Class initialiser """
         self.easyhybrid_main       = main
-        self.Visible               =  False        
+        self.visible               =  False        
         self.p_session             = main.pDynamo_session
         self.vm_session            = main.vm_session
         self.coordinates_liststore = Gtk.ListStore(str, int)
         self.system_liststore      = Gtk.ListStore(str, int)
         
         self.selection_liststore   = Gtk.ListStore(str, str)
+    
 
     
-    def on_name_combo_changed(self, widget):
+    def update_window (self, system_names = True, coordinates = False,  selections = True ):
         """ Function doc """
-        _id = self.system_types_combo.get_active()
-        _, _key = self.system_liststore[_id]
-        
-        #print(_id, _, _key)
-        
-        self.coordinates_liststore.clear()
-        for key , vobject in self.vm_session.vismol_objects_dic.items():
-            if vobject.easyhybrid_system_id == _key:
-                self.coordinates_liststore.append([vobject.name, key])
-        
+        if self.visible:
+            _id = self.system_names_combo.get_active()
+            
+            if system_names:
+                self.refresh_system_liststore ()
+                self.system_names_combo.set_active(_id)
+            
+            if coordinates:
+                self.refresh_coordinates_liststore ()
+            
+            
+            if selections:
+                _, system_id = self.system_liststore[_id]
+                self.refresh_selection_liststore
+        else:
+            pass
 
-        
+    def refresh_system_liststore (self):
+        """ Function doc """
+        self.system_liststore     .clear()
+        #self.selection_liststore  .clear()
+        '''--------------------------------------------------------------------------------------------'''
+        self.system_names_combo =self.builder.get_object('systems_combobox')
+        for key, system  in self.p_session.systems.items():
+            try:
+                self.system_liststore.append([system['name'], key])
+            except:
+                print(system)
+    
+    def refresh_selection_liststore (self, system_id ):
+        """ Function doc """
         self.selection_liststore.clear()
         
-        if 'selections' in self.p_session.systems[_key].keys():
+        if 'selections' in self.p_session.systems[system_id].keys():
             pass
         else:
-            self.p_session.systems[_key]['selections'] = {}
+            self.p_session.systems[system_id]['selections'] = {}
 
         
         
         ''' QC atoms'''
-        if self.p_session.systems[_key]['system'].qcModel:
-            self.p_session.systems[_key]['selections']["QC atoms"] = list(self.p_session.systems[_key]['system'].qcState.pureQCAtoms)
+        if self.p_session.systems[system_id]['system'].qcModel:
+            self.p_session.systems[system_id]['selections']["QC atoms"] = list(self.p_session.systems[system_id]['system'].qcState.pureQCAtoms)
 
         
         
         '''Fixed atoms'''
-        if self.p_session.systems[_key]['system'].freeAtoms is None:
+        if self.p_session.systems[system_id]['system'].freeAtoms is None:
             pass
         
         else:
-            self.p_session.systems[_key]['selections']["fixed atoms"]   = self.p_session.get_fixed_atoms_from_system(self.p_session.systems[_key]['system'])
+            self.p_session.systems[system_id]['selections']["fixed atoms"]   = self.p_session.get_fixed_atoms_from_system(self.p_session.systems[system_id]['system'])
   
         
-        for key , indexes in self.p_session.systems[_key]['selections'].items():
+        for selection , indexes in self.p_session.systems[system_id]['selections'].items():
             #if vobject.easyhybrid_system_id == self.p_session.active_id]:
-            self.selection_liststore.append([key, str(len(indexes))])
+            self.selection_liststore.append([selection, str(len(indexes))])
+    
+    def refresh_coordinates_liststore(self, system_id = None):
+        """ Function doc """
+        cb_id = self.coordinates_combobox.get_active()
+        
+        if system_id:
+            pass
+        else:
+            _id = self.system_names_combo.get_active()
+            if _id == -1:
+                return False
+            else:
+                #print('_id', _id)
+                _, system_id = self.system_liststore[_id]
+        
+        self.coordinates_liststore.clear()
+        for key , vobject in self.vm_session.vismol_objects_dic.items():
+            if vobject.easyhybrid_system_id == system_id:
+                self.coordinates_liststore.append([vobject.name, key])
+        
+        self.coordinates_combobox.set_active(cb_id)
+        
+        
+    def on_system_names_combobox_changed(self, widget):
+        """ Function doc """
+        
+        _id = self.system_names_combo.get_active()
+        #print('_id', _id)
+        
+        if _id == -1:
+            '''_id = -1 means no item inside the combobox'''
+            return None
+        
+        else:    
+            _, system_id = self.system_liststore[_id]
+            
+
+            self.refresh_coordinates_liststore(system_id)
+            self.refresh_selection_liststore (system_id)
+            
+            size  =  len(list(self.coordinates_liststore))
+            self.coordinates_combobox.set_active(size-1)
+
         
         
     def on_treeview_Objects_row_activated(self, tree, event, data):
         #print ('row activated')  
-        _id = self.system_types_combo.get_active()
+        _id = self.system_names_combo.get_active()
         _, system_id = self.system_liststore[_id]
         
         selection     = self.treeview.get_selection()
@@ -271,6 +337,32 @@ class SelectionListWindow(Gtk.Window):
         if event.button == 1:
             print ('event.button == 1:')
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def system_change_selection_list (self):
         """ Function doc """
         
@@ -289,7 +381,7 @@ class SelectionListWindow(Gtk.Window):
         for _file in files:
             #for res in self.VObj.chains[chain].residues:
                 ##print(res.resi, res.resn, chain,  len(res.atoms) ) 
-            systemtype = self.system_types_combo.get_active()
+            systemtype = self.system_names_combo.get_active()
             filetype = self.filetype_parser( _file, systemtype)
             self.residue_liststore.append(list([_file, filetype, '10' ]))
         self.treeview.set_model(self.residue_liststore)
@@ -310,7 +402,7 @@ class SelectionListWindow(Gtk.Window):
             
     def on_button4_import_system_clicked (self, button):
         #print('ok_button_import_a_new_system')
-        systemtype = self.system_types_combo.get_active()
+        systemtype = self.system_names_combo.get_active()
         
         name =  self.builder.get_object('entry_system_name').get_text()
 

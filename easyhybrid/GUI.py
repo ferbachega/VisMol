@@ -397,7 +397,7 @@ class EasyHybridMainWindow ( ):
         if button  == self.builder.get_object('toolbutton_energy'):
             energy = self.pDynamo_session.get_energy()
             #self.pDynamo_session.charge_summary()
-            self.vm_session.selections[self.vm_session.current_selection].active = True
+            #self.vm_session.selections[self.vm_session.current_selection].active = True
             #print(energy)
             dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
             response = dialog.run()

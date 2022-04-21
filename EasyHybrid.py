@@ -172,6 +172,39 @@ button position in the main treeview (active column).""".format(name,self.main_s
 
         
         #print('loading easyhybrid session')
+        for key , vobject in self.vismol_objects_dic.items():
+            for key, rep in vobject.representations.items():
+                if rep:
+                    rep.delete_buffers()
+            
+            vobject.active =  False
+            self.glwidget.queue_draw()
+            del vobject
+        
+        
+        self.vismol_objects_dic      = {} # old Vobjects dic - include molecules
+        self.vobj_counter            = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vismol_object_to_vismol_session.
+        self.vismol_geometric_object = []
+        self.vm_session_vbos         = []
+
+        self.vismol_geometric_object_dic = {
+                                           'pk1pk2' :  None,
+                                           'pk2pk3' :  None,
+                                           'pk3pk4' :  None,
+                                           }
+        self.atom_id_counter  = 0  # 
+        self.atom_dic_id      = {
+                                # atom_id : obj_atom 
+                                 }
+                                 
+                                 
+        self.treestore.clear()
+        self.parents = {}
+        self.main_session.pDynamo_session.restart_pdynamo2vismol_session()
+        
+        
+        
+        
         self.load_session(filename)
         self.main_session.treeview.expand_all()
     
@@ -410,13 +443,17 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                            len(vismol_object.frames)] # is pdynamo system index visible?  9 
                                             )
         self.gtk_treeview_iters.append(treeview_iter)
+        
         #print('\n\n\n')
         #for vobj in self.vismol_objects:
         #    print(vobj.name, vobj.easyhybrid_system_id)
         #print('\n\n\n')
         #print(vismol_object.index)
         self.gtk_widgets_update ()
-
+        if self.main_session.selection_list_window.visible:
+            self.main_session.selection_list_window.update_window(system_names = False, 
+                                                                  coordinates  = True,  
+                                                                  selections   = False )
         
         #print('vismol_objects_dic', self.vismol_objects_dic)
 
@@ -616,6 +653,20 @@ button position in the main treeview (active column).""".format(name,self.main_s
                         self.glwidget.vm_widget.queue_draw()
                     #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
             
+            
+            def add_selection_to_sel_list (_):
+                """ Function doc """
+                #print('self.selections[self.current_selection].invert_selection()')
+                sel_list, sel_resi_table = self.build_index_list_from_atom_selection()
+                if sel_list:
+                    
+                    self.main_session.pDynamo_session.add_a_new_item_to_selection_list (system_id = self.main_session.pDynamo_session.active_id, 
+                                                                                       indexes = sel_list, 
+                                                                                        )
+
+                
+                #self.selections[self.current_selection].invert_selection()
+            
             def invert_selection (_):
                 """ Function doc """
                 #print('self.selections[self.current_selection].invert_selection()')
@@ -623,9 +674,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             
             sele_menu = { 
-                    'header' : ['MenuItem', None],
+                    #'header' : ['MenuItem', None],
                     
+                    'separator0':['separator', None],
                     
+                    'Send to Selection List':['MenuItem', add_selection_to_sel_list],
                     
                     'separator1':['separator', None],
                     
@@ -660,7 +713,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'Invert Selection':['MenuItem', invert_selection],
                     
-                    'Send to Selection List':['MenuItem', invert_selection],
+                    
 
                     
                     'separator2':['separator', None],
@@ -692,7 +745,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'separator3':['separator', None],
                     
-                    'Set as QC atoms2'      :  ['MenuItem', set_as_qc_atoms],
+                    'Set as QC atoms'      :  ['MenuItem', set_as_qc_atoms],
                     
                     'separator4':['separator', None],
 
@@ -705,21 +758,21 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     'separator6':['separator', None],
 
                     
-                    'Label Mode':  ['submenu' , {
-                                            'Atom'         : [
-                                                               'submenu', {
-                                                                           'lines'    : ['MenuItem', None],
-                                                                           'sticks'   : ['MenuItem', None],
-                                                                           'spheres'  : ['MenuItem', None],
-                                                                           'nonbonded': ['MenuItem', None],
-                                                                           }
-                                                              ],
-                                            
-                                            'Atom index'   : ['MenuItem', None],
-                                            'residue name' : ['MenuItem', None],
-                                            'residue_index': ['MenuItem', None],
-                                           },
-                               ]
+                    #'Label Mode':  ['submenu' , {
+                    #                        'Atom'         : [
+                    #                                           'submenu', {
+                    #                                                       'lines'    : ['MenuItem', None],
+                    #                                                       'sticks'   : ['MenuItem', None],
+                    #                                                       'spheres'  : ['MenuItem', None],
+                    #                                                       'nonbonded': ['MenuItem', None],
+                    #                                                       }
+                    #                                          ],
+                    #                        
+                    #                        'Atom index'   : ['MenuItem', None],
+                    #                        'residue name' : ['MenuItem', None],
+                    #                        'residue_index': ['MenuItem', None],
+                    #                       },
+                    #          ]
                     }
       
         if bg_menu is None:
@@ -728,25 +781,34 @@ button position in the main treeview (active column).""".format(name,self.main_s
             def open_structure_data (_):
                 """ Function doc """
                 #print('ebaaaa')
-                self.filechooser   = FileChooser()
-                filename = self.filechooser.open()
-                self.load (filename, widget = None, autocenter = True)
-
-
+                #self.filechooser   = FileChooser()
+                #filename = self.filechooser.open()
+                #self.load (filename, widget = None, autocenter = True)
+                self.main_session.selection_list_window.OpenWindow()
+            
+            def import_system_menu (_):
+                """ Function doc """
+                self.main_session.NewSystemWindow.OpenWindow()
+            
+            def active_selection (_):
+                """ Function doc """
+                self.selections[self.current_selection].active = True
+                self.glwidget.vm_widget.queue_draw()
                 
             bg_menu = { 
-                    'separator0'   :['separator', None],
 
-                    'Open File'    : ['MenuItem', open_structure_data],
+                    'separator3'       : ['separator', None],
+                    'Active Selection' : ['MenuItem', active_selection],
+
                     
-                    'select' : ['MenuItem', select_test],
-
-                    'funcao teste' : ['MenuItem', self.teste],                  
-                    'funcao teste2': ['MenuItem', self.teste2], 
+                    'separator0'          : ['separator', None],
+                    'Show Selection list' : ['MenuItem', open_structure_data],
+                    
+                    
+                    #'funcao teste' : ['MenuItem', self.teste],                  
+                    #'funcao teste2': ['MenuItem', self.teste2], 
 
                     'separator1':['separator', None],
-
-
                     'Selection type'   : [
                                 'submenu' ,{
                                             
@@ -771,35 +833,37 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                ],
                     
                     
-                    'hide'   : [
-                                'submenu',  {
-                                            'lines'    : ['MenuItem', menu_hide_lines],
-                                            'sticks'   : ['MenuItem', menu_hide_sticks],
-                                            'spheres'  : ['MenuItem', menu_hide_spheres],
-                                            'nonbonded': ['MenuItem', None],
-                                            }
-                                ],
+                    #'hide'   : [
+                    #            'submenu',  {
+                    #                        'lines'    : ['MenuItem', menu_hide_lines],
+                    #                        'sticks'   : ['MenuItem', menu_hide_sticks],
+                    #                        'spheres'  : ['MenuItem', menu_hide_spheres],
+                    #                        'nonbonded': ['MenuItem', None],
+                    #                        }
+                    #            ],
                     
                     
                     'separator2':['separator', None],
+                    'Import System' : ['MenuItem', import_system_menu],
+                    'separator3':['separator', None],
 
                     
                     
-                    'label':  ['submenu' , {
-                                            'Atom'         : [
-                                                               'submenu', {
-                                                                           'lines'    : ['MenuItem', None],
-                                                                           'sticks'   : ['MenuItem', None],
-                                                                           'spheres'  : ['MenuItem', None],
-                                                                           'nonbonded': ['MenuItem', None],
-                                                                           }
-                                                              ],
-                                            
-                                            'Atom index'   : ['MenuItem', None],
-                                            'residue name' : ['MenuItem', None],
-                                            'residue_index': ['MenuItem', None],
-                                           },
-                               ]
+                    #'label':  ['submenu' , {
+                    #                        'Atom'         : [
+                    #                                           'submenu', {
+                    #                                                       'lines'    : ['MenuItem', None],
+                    #                                                       'sticks'   : ['MenuItem', None],
+                    #                                                       'spheres'  : ['MenuItem', None],
+                    #                                                       'nonbonded': ['MenuItem', None],
+                    #                                                       }
+                    #                                          ],
+                    #                        
+                    #                        'Atom index'   : ['MenuItem', None],
+                    #                        'residue name' : ['MenuItem', None],
+                    #                        'residue_index': ['MenuItem', None],
+                    #                       },
+                    #           ]
                     }
 
         if obj_menu is None:

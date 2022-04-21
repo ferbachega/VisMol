@@ -199,7 +199,36 @@ class pDynamoSession:
         #self.systems_list = []
         self.counter      = 0
         self.color_palette_counter = 0
-
+        #self.sel_name_counter = 0
+    
+    
+    def restart_pdynamo2vismol_session (self):
+        """ Function doc """
+        self.name           = 'pDynamo_session'
+        #self.nbModel_default         = NBModelCutOff.WithDefaults ( )
+        #self.fixed_color             = [0.5, 0.5, 0.5]
+        #self.pdynamo_distance_safety = 0.5
+        
+        '''self.active_id is the attribute that tells which 
+        system is active for calculations in pdynamo 
+        (always an integer value)'''
+        self.active_id       = 0
+        
+        
+        '''Now we can open more than one pdynamo system. 
+        Each new system loaded into memory is stored in 
+        the form of a dictionary, which has an int as 
+        an access key.'''
+        self.systems =  {
+                         0:None
+                         }
+        
+        #self.systems_list = []
+        self.counter      = 0
+        self.color_palette_counter = 0
+        #self.sel_name_counter = 0
+    
+    
     def export_system (self, sys_id, filename, folder, _format):
         """ Function doc """
         system = self.systems[sys_id]['system']
@@ -339,7 +368,9 @@ class pDynamoSession:
             self.color_palette_counter += 1
             
         self.build_vismol_object_from_pDynamo_system (name = 'initial coordinates' )#psystem['system'].label)
-        
+        if self.vm_session.main_session.selection_list_window.visible:
+            self.vm_session.main_session.selection_list_window.update_window(system_names = True, coordinates = False,  selections = False)
+    
     def get_bonds_from_pDynamo_system(self, safety = 0.5, system_id = False):
         
         if system_id:
@@ -393,7 +424,6 @@ class pDynamoSession:
             selection_fixed = freeAtoms.Complement( upperBound = len (system.atoms ) )
             return list(selection_fixed)
             
-    
     def define_free_or_fixed_atoms_from_iterable (self, fixedlist = None):
         """ Function doc """
         if fixedlist == []:
@@ -408,12 +438,16 @@ class pDynamoSession:
         
             self.systems[self.active_id]['system'].freeAtoms = selection_free
             #self.refresh_qc_and_fixed_representations()
-            self.systems[self.active_id]['selections']["fixed atoms"] = list(selection_fixed)
+            #self.systems[self.active_id]['selections']["fixed atoms"] = list(selection_fixed)
+            
+            
+            self.add_a_new_item_to_selection_list (system_id = self.active_id, 
+                                                    indexes = list(selection_fixed), 
+                                                    name    = 'fixed atoms')
 
         self.refresh_qc_and_fixed_representations(QC_atoms = False)
         return True
 
-    
     def  _check_ref_vismol_object_in_pdynamo_system (self, system_id = None):
         """ Function doc """
         if system_id:
@@ -502,7 +536,7 @@ class pDynamoSession:
         #print('Total charge: ', sum(system.mmState.charges))
     
     
-    def remove_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
+    def remove_item_from_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
         """ Function doc """
         if system_id:
             pass
@@ -511,16 +545,58 @@ class pDynamoSession:
             
         self.systems[system_id]['selections'].pop(name)            
     
-    
-    def make_selection_list (self, system_id = None, indexes = [], name  = 'sele'):
+    def set_selection_name (self, system_id):
         """ Function doc """
+        if 'sel_name_counter' in  self.systems[system_id]:
+            pass
+        else:
+            self.systems[system_id]['sel_name_counter'] = 0
+        
+        name = 'sel_'+ str(self.systems[system_id]['sel_name_counter'])
+        
+        loop = True
+        while loop:
+            if name in self.systems[system_id]['selections']:
+                name = 'sel_'+ str(self.systems[system_id]['sel_name_counter'])
+                self.systems[system_id]['sel_name_counter'] += 1
+            else:
+                loop = False
+                
+        return name
+  
+            
+            
+    
+    def add_a_new_item_to_selection_list (self, system_id = None, indexes = [], name  = None):
+        """ Function doc """
+        
+        if 'selections' in self.systems[system_id].keys():
+            pass
+        else:
+            self.systems[system_id]['selections'] = {}
+        
+        
+        if name:
+            pass
+        else:
+            name = self.set_selection_name(system_id)
+            #print('name', name)
+            #name = 'sel_'+ str(self.sel_name_counter)
+            #self.sel_name_counter += 1
+        
+        
         if system_id:
             pass
         else:
             system_id = self.active_id
             
-        self.systems[system_id]['selections'][name] = indexes    
         
+
+            
+        
+        self.systems[system_id]['selections'][name] = indexes    
+        if self.vm_session.main_session.selection_list_window.visible:
+            self.vm_session.main_session.selection_list_window.update_window()
 
     def define_a_new_QCModel (self, parameters = None):
         """ Function doc """
@@ -553,12 +629,20 @@ class pDynamoSession:
             
             #print('define NBModel = ', self.nbModel)
             self.systems[self.active_id]['system'].DefineNBModel ( NBModelCutOff.WithDefaults ( ) )
-            self.systems[self.active_id]['selections']["QC atoms"] = self.systems[self.active_id]['qc_table']
+            #self.systems[self.active_id]['selections']["QC atoms"] = self.systems[self.active_id]['qc_table']
+            
+            self.add_a_new_item_to_selection_list (system_id = self.active_id, 
+                                                     indexes = self.systems[self.active_id]['qc_table'], 
+                                                     name    = 'QC atoms')
+            
             #print(self.systems[self.active_id]['selections']["QC atoms"])
         else:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
-
+            self.add_a_new_item_to_selection_list (system_id = self.active_id, 
+                                                     indexes = range(0,self.systems[self.active_id]['system'].atoms), 
+                                                     name    = 'QC atoms')
+                                                     
     def refresh_qc_and_fixed_representations (self, _all = False, 
                                                system_id = None , 
                                              fixed_atoms = True , 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <object class="GtkImage" id="image1">
@@ -50,7 +50,7 @@
   <object class="GtkImage" id="image22">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="pixbuf">icons/icon_PMF.png</property>
+    <property name="pixbuf">icons/icon_selection_list.png</property>
   </object>
   <object class="GtkImage" id="image23">
     <property name="visible">True</property>
