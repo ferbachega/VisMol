@@ -126,9 +126,9 @@ class ReactionCoordinate:
 		print( "Printing reaction coordinate information:")
 		print( "\tAtoms Indices: {}".format(self.atoms) )
 		print( "\tType: {}".format(self.Type) )
-		print( "\tWeight N1: ".format(self.weight13) )
-		print( "\tWeight N2: ".format(self.weight31) )
-		print( "\tIncrement: ".format(self.increment) )
-		print( "\tInitial distance:".format(self.minimumD) )		
+		print( "\tWeight N1:{} ".format(self.weight13) )
+		print( "\tWeight N2:{} ".format(self.weight31) )
+		print( "\tIncrement:{} ".format(self.increment) )
+		print( "\tInitial distance:{}".format(self.minimumD) )		
 
 #=======================================================================================================================

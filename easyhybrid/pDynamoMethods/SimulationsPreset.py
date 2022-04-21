@@ -269,7 +269,7 @@ class Simulation:
 		#--------------------------------------------------------------------
 		rc1 = ReactionCoordinate( self.parameters["ATOMS_RC1"], MCR1, _type=rcType1 )
 		rc1.GetRCLabel(self.molecule)
-		rc1.SetInformation(self.molecule,dincre1,_dminimum=dminimum_RC1,_sigma_pk1_pk3=sigma_pk1pk3_rc1,_sigma_pk3_pk1=sigma_pk1pk3_rc1)
+		rc1.SetInformation(self.molecule,dincre1,_dminimum=dminimum_RC1,_sigma_pk1_pk3=sigma_pk1pk3_rc1,_sigma_pk3_pk1=sigma_pk3pk1_rc1)
 		scan.SetReactionCoord(rc1)
 		rc2 = None
 		if nDims == 2:
@@ -548,10 +548,11 @@ class Simulation:
 		if "optimize"          in self.parameters: _Optimize        = self.parameters["optimize"]
 		if "coordinate_format" in self.parameters: _crdFormat       = self.parameters["coordinate_format"]
 		if "sampling"          in self.parameters: sampling         = self.parameters["sampling_factor"]
-		#-------------------------------------------------------------------
+		#------------------------------------------------------------------
 		rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.GetRCLabel(self.molecule)
 		rc1.SetInformation(self.molecule,0.0,_dminimum=dminimum_RC1,_sigma_pk1_pk3=sigma_pk1pk3_rc1,_sigma_pk3_pk1=sigma_pk3pk1_rc1)
+		
 		nDims = self.parameters['ndim']
 		rc2 = None
 		if nDims == 2:

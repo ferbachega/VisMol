@@ -545,7 +545,7 @@ class US:
         
         if not os.path.exists(self.concFolder):  os.makedirs( self.concFolder )
 
-        if self.nDim == 1 and self.samplingFactor >0 :
+        if self.samplingFactor >0 :
             fsize = int(self.prodNsteps/self.samplingFactor)
             pkl_path = self.baseName + "/frame*/production*/frame*.pkl"
             pkl_paths = glob.glob( pkl_path )

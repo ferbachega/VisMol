@@ -524,7 +524,7 @@ class PotentialEnergyScanWindow():
                       "nsteps_RC2":0                          ,
                       "force_constant_1":4000.0               ,
                       "force_constant_2":4000.0               ,
-                      "maxIterations":600                     ,
+                      "maxIterations":1000                    ,
                       "dincre_RC1":0.1                        ,
                       "dincre_RC2":0.1                        ,
                       "dminimum_RC1":0.0                      ,
@@ -533,8 +533,8 @@ class PotentialEnergyScanWindow():
                       "sigma_pk3pk1_rc1":-1.0                 ,
                       "sigma_pk1pk3_rc2":1.0                  ,
                       "sigma_pk3pk1_rc2":-1.0                 ,
-                      "rc_type_1":"distance"                  ,
-                      "rc_type_2":"distance"                  ,
+                      "rc_type_1":"Distance"                  ,
+                      "rc_type_2":"Distance"                  ,
                       "adaptative":False                      , 
                       "save_format":".dcd"                    ,
                       "rmsGradient":0.1                       ,
@@ -619,7 +619,6 @@ class PotentialEnergyScanWindow():
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
-
                 if self.builder.get_object('mass_restraints2').get_active():
                     parameters["MC_RC1"] = True
                     parameters["sigma_pk1pk3_rc2"] = self.sigma_pk1_pk3_rc2 
@@ -633,6 +632,8 @@ class PotentialEnergyScanWindow():
                 index4 = int(self.builder.get_object('entry_atom4_index_coord2').get_text() )
                 dmin   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
         #_-----------------------------------------------------------------------------------
+        print(parameters)
+        input()
         self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters )
 
         self.window.destroy()
@@ -692,4 +693,4 @@ def compute_sigma_a1_a3 (vobject, index1, index3):
     sigma_pk3_pk1 = sigma_pk3_pk1 *-1
     #
     print ("sigma_pk3_pk1: ", sigma_pk3_pk1)
-    return sigma_pk1_pk3, sigma_pk3_pk1
+    return(sigma_pk1_pk3, sigma_pk3_pk1)

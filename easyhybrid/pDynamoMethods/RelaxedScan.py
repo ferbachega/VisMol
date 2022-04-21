@@ -77,7 +77,7 @@ class SCAN:
         #-----------------------------------------------------------
         if "traj_folder_name" in _parameters: self.trajFolder = _parameters["traj_folder_name"]
         if "rmsGradient"      in _parameters: self.GeoOptPars["rmsGradient"]   = _parameters["rmsGradient"]
-        if "maxIrerations"    in _parameters: self.GeoOptPars["maxIterations"] = _parameters["maxIterations"]
+        if "maxIterations"    in _parameters: self.GeoOptPars["maxIterations"] = _parameters["maxIterations"]
         if "log_frequency"    in _parameters: self.GeoOptPars["log_frequency"] = _parameters["log_frequency"]
         if "NmaxThreads"      in _parameters: self.nprocs                      = _parameters["NmaxThreads"]        
         if "force_constant_1" in _parameters: self.forceC[0]  = _parameters["force_constant_1"]
@@ -151,7 +151,6 @@ class SCAN:
         self.sigma_a3_a1[ndim]      = _RC.weight31
         self.DMINIMUM[ndim]         = _RC.minimumD
         self.massConstraint         = _RC.massConstraint
-
         if len(_RC.atoms) == 3:
             self.multipleDistance[ndim] = True
         elif len(_RC.atoms) == 4:
@@ -220,7 +219,7 @@ class SCAN:
         self.molecule.DefineRestraintModel( restraints )
         #---------------------------------
         for i in range(0,self.nsteps[0]):
-            distance = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) ) 
+            distance = self.DMINIMUM[0] + ( self.DINCREMENT[0] * float(i) )             
             #--------------------------------------------------------------------
             rmodel    = RestraintEnergyModel.Harmonic( distance, self.forceC[0] )
             restraint = RestraintMultipleDistance.WithOptions( energyModel = rmodel, distances= [ [ atom2, atom1, weight1 ], [ atom2, atom3, weight2 ] ] )
