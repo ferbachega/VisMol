@@ -705,33 +705,13 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             for item in model:
                 pass
                 #print (item[0], model[iter][0])
-            #print (model[iter][:], iter, model, tree )
             if iter != None:
-                #selectedID0  = str(model.get_value(iter, 0))  # @+
-                #selectedID1  = str(model.get_value(iter, 1))  # @+
-                #selectedID2  = str(model.get_value(iter, 2))  # @+
-                #selectedID3  = str(model.get_value(iter, 3))  # @+
-                #selectedID4  = str(model.get_value(iter, 4))  # @+
-                #print(selectedID0,
-                #      selectedID1,
-                #      selectedID2,
-                #      selectedID3,
-                #      selectedID4,
-                #      str(model.get_value(iter, 5)),  # @+
-                #      str(model.get_value(iter, 6)),  # @+
-                #      str(model.get_value(iter, 7)),  # @+
-                #      str(model.get_value(iter, 8)),  # @+
-                #
-                #)
-
                 vobject_id = str(model.get_value(iter, 7))
                 system_id  = str(model.get_value(iter, 8))
                 
                 self.selectedID  = str(model.get_value(iter, 1))
                 self.selectedObj = str(model.get_value(iter, 2))
-
                 #print(self.selectedID, self.selectedObj)
-                
                 self.treeview_menu.open_menu(vobject_id)
 
 
@@ -783,29 +763,12 @@ class TreeViewMenu:
 
     def menu_export_data_window (self,visObj = None ):
         """ Function doc """
-        #self.treeview.main_session.export_data_window.OpenWindow(sys_selected = model.get_value(iter, 8))
         self.treeview.main_session.export_data_window.OpenWindow()
     
     def load_data_to_a_system (self, visObj = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()
         model, iter      = selection.get_selected()
-        #self.selectedID  = int(model.get_value(iter, 1))  # @+
-        #
-        ##print(selection, model, iter, 'selectedID',self.selectedID)
-        #visObj = self.treeview.vm_session.vismol_objects_dic[self.selectedID]
-        #selection     = self.treeview.get_selection()
-        #
-        #(model, iter) = selection.get_selected()
-        #for item in model:
-        #    pass
-        #    #print (item[0], model[iter][0])
-        ##print (model[iter][:], iter, model, tree )
-        #if iter != None:
-        #    self.selectedID  = str(model.get_value(iter, 1))  # @+
-        #    self.selectedObj = str(model.get_value(iter, 2))
-        #    print(self.selectedID, self.selectedObj, model.get_value(iter, 0),  model.get_value(iter, 8))
-        
         self.treeview.main_session.import_trajectory_window.OpenWindow(sys_selected = model.get_value(iter, 8))
 
     def f2 (self, visObj = None):
@@ -831,14 +794,7 @@ class TreeViewMenu:
         del visObj
         '''
         self.treeview.store.clear()
-        #n = 0
-        #i = 1
-        
-        #self.vm_session.vismol_objects_dic.items()
-        #for vis_object in self.treeview.vm_session.vismol_objects:
         for vobj_index ,vis_object in self.treeview.vm_session.vismol_objects_dic.items():
-            #print ('\n\n',vis_object.name,'\n\n')
-
             data = [vis_object.active          , 
                     str(vobj_index),
                     vis_object.name            , 

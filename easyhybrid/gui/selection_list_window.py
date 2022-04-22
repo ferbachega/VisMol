@@ -54,17 +54,14 @@ class SelectionListWindow(Gtk.Window):
             self.coordinates_liststore.clear()
             self.system_liststore     .clear()
             #self.selection_liststore  .clear()
+            
+            
+            
             '''--------------------------------------------------------------------------------------------'''
             self.system_names_combo =self.builder.get_object('systems_combobox')
-            #for key, system  in self.p_session.systems.items():
-            #    try:
-            #        self.system_liststore.append([system['name'], key])
-            #    except:
-            #        print(system)#print (system_type)
             self.system_names_combo.set_model(self.system_liststore)
             self.system_names_combo.connect("changed", self.on_system_names_combobox_changed)
-            #self.system_names_combo.set_model(self.system_liststore)
-            
+
             renderer_text = Gtk.CellRendererText()
             self.system_names_combo.pack_start(renderer_text, True)
             self.system_names_combo.add_attribute(renderer_text, "text", 0)
@@ -82,32 +79,24 @@ class SelectionListWindow(Gtk.Window):
             #
             #
             
+            '''--------------------------------------------------------------------------------------------'''
             self.treeview = self.builder.get_object('selection_terreview')
             for i, column_title in enumerate(['Selection',"number of atoms"]):
                 renderer = Gtk.CellRendererText()
+                #renderer.set_property("editable", True)
                 column = Gtk.TreeViewColumn(column_title, renderer, text=i)
                 self.treeview.append_column(column)
             self.treeview.set_model(self.selection_liststore)
 
-            #self.treeview.connect('button-release-event', self.on_treeview_Objects_button_release_event )
             self.treeview.connect('row_activated', self.on_treeview_Objects_row_activated )
+            self.treeview.connect('button-release-event', self.on_treeview_Objects_button_release_event )
+
+            self.treeview_menu         = TreeViewMenu(self)
             self.window.show_all()                                               
-            #self.builder.connect_signals(self)                                   
-            #self.builder.get_object('gtkbox_OPLS_folderchooser').hide()
-            #self.visible  =  True
-            #
-            #self.files    = {
-            #                'amber_prmtop': None,
-            #                'charmm_par'  : [],
-            #                'charmm_psf'  : None,
-            #                'charmm_extra': None, 
-            #                'opls_folder' : [],
-            #                'coordinates' : None,
-            #                }
-            #self.system_names_combo.set_active(0)
             self.system_names_combo.set_active(0)
             self.visible    =  True
-            #----------------------------------------------------------------
+            '''--------------------------------------------------------------------------------------------'''
+
 
     def CloseWindow (self, button, data  = None):
         """ Function doc """
@@ -126,13 +115,20 @@ class SelectionListWindow(Gtk.Window):
         self.system_liststore      = Gtk.ListStore(str, int)
         
         self.selection_liststore   = Gtk.ListStore(str, str)
-    
+        
 
     
     def update_window (self, system_names = True, coordinates = False,  selections = True ):
         """ Function doc """
+
         if self.visible:
+            
             _id = self.system_names_combo.get_active()
+            if _id == -1:
+                '''_id = -1 means no item inside the combobox'''
+                return None
+            else:    
+                _, system_id = self.system_liststore[_id]
             
             if system_names:
                 self.refresh_system_liststore ()
@@ -144,7 +140,7 @@ class SelectionListWindow(Gtk.Window):
             
             if selections:
                 _, system_id = self.system_liststore[_id]
-                self.refresh_selection_liststore
+                self.refresh_selection_liststore(system_id)
         else:
             pass
 
@@ -160,10 +156,9 @@ class SelectionListWindow(Gtk.Window):
             except:
                 print(system)
     
-    def refresh_selection_liststore (self, system_id ):
+    def refresh_selection_liststore (self, system_id = None ):
         """ Function doc """
         self.selection_liststore.clear()
-        
         if 'selections' in self.p_session.systems[system_id].keys():
             pass
         else:
@@ -275,139 +270,90 @@ class SelectionListWindow(Gtk.Window):
          int,     # pdynamo system index              # 8
          int,)    # frames  # 9
         '''
-
-        #if event.button == 3:
-        #
-        #    
-        #    selection     = self.get_selection()
-        #    #print(selection)
-        #    model         = self.get_model()
-        #    #print(model)
-        #    #print(self.treestore)
-        #    
-        #    (model, iter) = selection.get_selected()
-        #    for item in model:
-        #        pass
-        #        #print (item[0], model[iter][0])
-        #    #print (model[iter][:], iter, model, tree )
-        #    if iter != None:
-        #        #selectedID0  = str(model.get_value(iter, 0))  # @+
-        #        #selectedID1  = str(model.get_value(iter, 1))  # @+
-        #        #selectedID2  = str(model.get_value(iter, 2))  # @+
-        #        #selectedID3  = str(model.get_value(iter, 3))  # @+
-        #        #selectedID4  = str(model.get_value(iter, 4))  # @+
-        #        #print(selectedID0,
-        #        #      selectedID1,
-        #        #      selectedID2,
-        #        #      selectedID3,
-        #        #      selectedID4,
-        #        #      str(model.get_value(iter, 5)),  # @+
-        #        #      str(model.get_value(iter, 6)),  # @+
-        #        #      str(model.get_value(iter, 7)),  # @+
-        #        #      str(model.get_value(iter, 8)),  # @+
-        #        #
-        #        #)
-        #
-        #        vobject_id = str(model.get_value(iter, 7))
-        #        system_id  = str(model.get_value(iter, 8))
-        #        
-        #        self.selectedID  = str(model.get_value(iter, 1))
-        #        self.selectedObj = str(model.get_value(iter, 2))
-        #
-        #        #print(self.selectedID, self.selectedObj)
-        #        
-        #        self.treeview_menu.open_menu(vobject_id)
-        #
-        #
-        #
-        #if event.button == 2:
-        #    selection     = tree.get_selection()
-        #    model         = tree.get_model()
-        #    (model, iter) = selection.get_selected()
-        #    #pymol_object = model.get_value(iter, 0)
-        #    #self.refresh_gtk_main_self.treeView()
-        #    print ('button == 2')
-        #    
-        #    self.selectedID  = int(model.get_value(iter, 7))  # @+
-        #    #print(self.selectedID, model.get_value(iter, 7))
-        #    #print (model[iter][:], iter)
-        #    visObj = self.vm_session.vismol_objects_dic[self.selectedID]
-        #    self.vm_session.center(visObj)
+        
+        
+        _id = self.system_names_combo.get_active()
+        if _id == -1:
+            '''_id = -1 means no item inside the combobox'''
+            return None
+        else:    
+            _, system_id = self.system_liststore[_id]
+            
+            
+            
+        if event.button == 3:
+            selection     = self.treeview.get_selection()
+            (model, iter) = selection.get_selected()
+            for item in model:
+                pass
+                #print (item[0], model[iter][0])
+            if iter != None:
+                self.treeview_menu.open_menu(iter, system_id)
 
         if event.button == 1:
             print ('event.button == 1:')
 
+
+
+class TreeViewMenu:
+    """ Class doc """
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    def system_change_selection_list (self):
+    def __init__ (self, sele_window):
+        """ Class initialiser """
+        pass
+        self.treeview = sele_window.treeview
+        self.p_session = sele_window.p_session
+        self.sele_window = sele_window 
+        functions = {
+                    'Rename'                : self.print_test ,
+                    'Delete'                : self.delete_system ,
+                    }
+        self.build_tree_view_menu(functions)
+
+
+    def print_test (self, menu_item = None ):
+        """  
+        menu_item = Gtk.MenuItem object at 0x7fbdcc035700 (GtkMenuItem at 0x37cf6c0)
+        
+        """
+        print(menu_item)
+
+    def rename (self, menu_item):
         """ Function doc """
+        pass
+        
+        
         
 
-
-    def on_delete_files_button_clicked (self, button):
+    def delete_system (self, menu_item = None ):
         """ Function doc """
-        files = self.easyhybrid_main.filechooser.open(select_multiple = True)
-        #print(files)
-    
-    def on_import_files_button_clicked (self, button):
+        selection = self.treeview.get_selection()
+        (model, iter) = selection.get_selected()
+        #print(model[iter][0])
+
+
+        sele = self.p_session.systems[self.system_id]['selections'].pop(model[iter][0])
+        #print ('deleting',sele)
+        #print ('selections', self.p_session.systems[self.system_id]['selections'])
+        self.sele_window.update_window (system_names = False, coordinates = False,  selections = True )
+
+
+    def build_tree_view_menu (self, menu_items = None):
         """ Function doc """
-        files = self.easyhybrid_main.filechooser.open(select_multiple = True)
-        #print(files)
+        self.tree_view_menu = Gtk.Menu()
+        for label in menu_items:
+            mitem = Gtk.MenuItem(label)
+            mitem.connect('activate', menu_items[label])
+            self.tree_view_menu.append(mitem)
+            #mitem = Gtk.SeparatorMenuItem()
+            #self.tree_view_menu.append(mitem)
 
-        for _file in files:
-            #for res in self.VObj.chains[chain].residues:
-                ##print(res.resi, res.resn, chain,  len(res.atoms) ) 
-            systemtype = self.system_names_combo.get_active()
-            filetype = self.filetype_parser( _file, systemtype)
-            self.residue_liststore.append(list([_file, filetype, '10' ]))
-        self.treeview.set_model(self.residue_liststore)
-        self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
-        #print(self.files)
+        self.tree_view_menu.show_all()
 
-
-    def on_button_import_a_new_system_clicked (self, button):
+    def open_menu (self, visObj = None, system_id = None):
         """ Function doc """
-        
-        if button == self.builder.get_object('ok_button_import_a_new_system'):
-            print('ok_button_import_a_new_system')
-            #self.on_button1_clicked_create_new_project(button)
-            #self.dialog.hide()
-        if button == self.builder.get_object('cancel_button_import_a_new_system'):
-            print('cancel_button_import_a_new_system')
-            self.dialog.hide()
-            
-    def on_button4_import_system_clicked (self, button):
-        #print('ok_button_import_a_new_system')
-        systemtype = self.system_names_combo.get_active()
-        
-        name =  self.builder.get_object('entry_system_name').get_text()
+        self.system_id = system_id
+        #print (visObj)
+        self.tree_view_menu.popup(None, None, None, None, 0, 0)
 
-        self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin = self.files, 
-                                                                                 systype = systemtype, 
-                                                                                 name = name)
-        self.CloseWindow(button, data  = None)
 
