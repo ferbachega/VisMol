@@ -619,6 +619,8 @@ class PotentialEnergyScanWindow():
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+                parameters["ATOMS_RC2"]     = [ index1, index2, index3 ] 
+                parameters["dminimum_RC2"]  = dmin2 
                 if self.builder.get_object('mass_restraints2').get_active():
                     parameters["MC_RC1"] = True
                     parameters["sigma_pk1pk3_rc2"] = self.sigma_pk1_pk3_rc2 
@@ -630,8 +632,14 @@ class PotentialEnergyScanWindow():
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                 index4 = int(self.builder.get_object('entry_atom4_index_coord2').get_text() )
-                dmin   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+                dmin2   = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
+                parameters["ATOMS_RC2"]     = [ index1, index2, index3,index4 ] 
+                parameters["dminimum_RC2"]  = dmin2 
         #_-----------------------------------------------------------------------------------
+        parameters["nsteps_RC2"]        = int( self.builder.get_object('entry_nstep2').get_text() )
+        parameters["force_constant_1"]  = float( self.builder.get_object('entry_FORCE_coord2').get_text() )
+        parameters["dincre_RC1"]        = float( self.builder.get_object('entry_step_size2').get_text() )
+        #-----------------------------------------------------------------------------------
         print(parameters)
         input()
         self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters )
