@@ -1269,8 +1269,25 @@ def ReacCoordSearchers(_type):
 						"function_step":0.025                                ,
 						"mass_weighting":True                                ,
 						"path_step":2.0          		              		}
-	#-------------------------------------------------------------------------------
+	#------------------------------------------------------------------------------
 	proj.RunSimulation(parameters)
+#================================================================================
+def NEB_FreeEnergy():
+	'''
+	'''
+	if not os.path.exists( os.path.join(scratch_path,"QCMMopts.pkl") ):
+		QCMM_optimizations()
+	proj=SimulationProject( os.path.join(scratch_path,"NEB_FreeEnergy") )		
+	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
+	
+	_name = "SCAN1D_4NEB_and_SAW"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+
+	_type = "NEB" 
+	if not os.path.exists(_path): ReacCoordSearchers(_type):
+		ReacCoordSearchers()
+
+
 #================================================================================
 def pDynamoEnergyRef_1D():
 	'''
@@ -1533,6 +1550,9 @@ def ORCAEnergy_ref():
 				   "Software":"ORCA"	                                           }
 	#---------------------------------------------
 	proj.RunSimulation(parameters)
+#=====================================================
+def 
+
 #=====================================================
 def Thermodynamics():
 	pass
