@@ -136,10 +136,21 @@ class Atom:
 
     
     def coords (self, frame = None):
-        """ Function doc """
+        """
+        This method returns the atom's coordinates. If a frame (integer) 
+        is not given as an argument, the value of the trajectory bar is used. 
+        If the value of the trajectory bar exceeds the number of frames of 
+        the vobject, the last frame of the vobject is used.
+        """
+        
         if frame is None:
             frame  = self.Vobject.vm_session.glwidget.vm_widget.frame
 
+            if frame > len(self.Vobject.frames)-1:
+                frame = -1
+            else:
+                pass
+            
         coords = [self.Vobject.frames[frame][(self.index-1)*3  ],
                   self.Vobject.frames[frame][(self.index-1)*3+1],
                   self.Vobject.frames[frame][(self.index-1)*3+2],]

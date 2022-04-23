@@ -168,7 +168,8 @@ class PotentialEnergyScanWindow():
             self.window.set_title('PES Scan Window')
             self.window.set_keep_above(True)            
             
-            self.box_reaction_coordinate2 =  self.builder.get_object('box_reaction_coordinate2')           
+            #self.box_reaction_coordinate2 =  self.builder.get_object('box_reaction_coordinate2')           
+            self.box_reaction_coordinate2 =  self.builder.get_object('box_reaction_coordinate22')           
             #'''--------------------------------------------------------------------------------------------'''
             #'''
             self.method_store = Gtk.ListStore(str)
@@ -260,8 +261,8 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord2').hide()
             self.builder.get_object('label_name4_coord2').hide()
             self.builder.get_object('entry_atom4_name_coord2').hide()            
-            
-            self.box_reaction_coordinate2.set_sensitive(False)
+            self.change_check_button_reaction_coordinate (None)
+            #self.box_reaction_coordinate2.set_sensitive(False)
             self.Visible  = True
     
     def CloseWindow (self, button, data  = None):
@@ -299,7 +300,7 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord1').hide()
             self.builder.get_object('label_name4_coord1').hide()
             self.builder.get_object('entry_atom4_name_coord1').hide()
-
+            self.builder.get_object('mass_restraints1').set_sensitive(False)
 
         if _type == 1:
             self.builder.get_object('label_atom3_coord1').show()
@@ -311,7 +312,8 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord1').hide()
             self.builder.get_object('label_name4_coord1').hide()
             self.builder.get_object('entry_atom4_name_coord1').hide()
-            
+            self.builder.get_object('mass_restraints1').set_sensitive(True)
+
         if _type == 2:
             self.builder.get_object('label_atom3_coord1').show()
             self.builder.get_object('entry_atom3_index_coord1').show()
@@ -322,6 +324,8 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord1').show()
             self.builder.get_object('label_name4_coord1').show()
             self.builder.get_object('entry_atom4_name_coord1').show()
+            self.builder.get_object('mass_restraints1').set_sensitive(False)
+
         try:
             self.refresh_dmininum ( coord1 = True)
         except:
@@ -343,6 +347,8 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord2').hide()
             self.builder.get_object('label_name4_coord2').hide()
             self.builder.get_object('entry_atom4_name_coord2').hide()
+            self.builder.get_object('mass_restraints2').set_sensitive(False)
+
         if _type == 1:
             self.builder.get_object('label_atom3_coord2').show()
             self.builder.get_object('entry_atom3_index_coord2').show()
@@ -353,7 +359,8 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord2').hide()
             self.builder.get_object('label_name4_coord2').hide()
             self.builder.get_object('entry_atom4_name_coord2').hide()
-            
+            self.builder.get_object('mass_restraints2').set_sensitive(True)
+
         if _type == 2:
             self.builder.get_object('label_atom3_coord2').show()
             self.builder.get_object('entry_atom3_index_coord2').show()
@@ -364,6 +371,8 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_index_coord2').show()
             self.builder.get_object('label_name4_coord2').show()
             self.builder.get_object('entry_atom4_name_coord2').show()
+            self.builder.get_object('mass_restraints2').set_sensitive(False)
+
         #try:
         self.refresh_dmininum ( coord2 = True)
 
@@ -409,29 +418,32 @@ class PotentialEnergyScanWindow():
               
         if coord2:
             _type = self.combobox_reaction_coord2.get_active()
-            
-            if _type == 0:
-                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
-                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+            try:
+                if _type == 0:
+                    index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                    index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
 
-                dist1 = get_distance(self.vismol_object, index1, index2 )
-                self.builder.get_object('entry_dmin_coord2').set_text(str(dist1))
-            if _type == 1:
-                index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
-                index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
-                index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
-                
-                dist1 = get_distance(self.vismol_object, index1, index2 )
-                dist2 = get_distance(self.vismol_object, index2, index3 )
-                
-                if self.builder.get_object('mass_restraints2').get_active():
-                    self.sigma_pk1_pk3_rc2, self.sigma_pk3_pk1_rc2  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
-                    #print('distance a1 - a2:', dist1 - dist2)
-                    DMINIMUM =  (self.sigma_pk1_pk3_rc2 * dist1) -(self.sigma_pk3_pk1_rc2 * dist2*-1)
-                    self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
-                else:
-                    DMINIMUM =  dist1- dist2
-                    self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
+                    dist1 = get_distance(self.vismol_object, index1, index2 )
+                    self.builder.get_object('entry_dmin_coord2').set_text(str(dist1))
+                if _type == 1:
+                    index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
+                    index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+                    index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
+                    
+                    dist1 = get_distance(self.vismol_object, index1, index2 )
+                    dist2 = get_distance(self.vismol_object, index2, index3 )
+                    
+                    if self.builder.get_object('mass_restraints2').get_active():
+                        self.sigma_pk1_pk3_rc2, self.sigma_pk3_pk1_rc2  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
+                        #print('distance a1 - a2:', dist1 - dist2)
+                        DMINIMUM =  (self.sigma_pk1_pk3_rc2 * dist1) -(self.sigma_pk3_pk1_rc2 * dist2*-1)
+                        self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
+                    else:
+                        DMINIMUM =  dist1- dist2
+                        self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
+            except:
+                print(texto_d1)
+                print(texto_d2d1)
         else:
             pass
     
@@ -453,8 +465,11 @@ class PotentialEnergyScanWindow():
         atom2 = self.vm_session.picking_selections.picking_selections_list[1]
         atom3 = self.vm_session.picking_selections.picking_selections_list[2]
         atom4 = self.vm_session.picking_selections.picking_selections_list[3]
-        self.vismol_object = atom1.Vobject
-        
+        if atom1:
+            self.vismol_object = atom1.Vobject
+        else:
+            return None
+            
         if widget == self.builder.get_object('import_picking_selection_button1'):
             if atom1:
                 self.builder.get_object('entry_atom1_index_coord1').set_text(str(atom1.index-1) )
@@ -501,14 +516,17 @@ class PotentialEnergyScanWindow():
     
             self.refresh_dmininum( coord2 =  True, )
 
-    def change_radio_button_reaction_coordinate (self, widget):
+    def change_check_button_reaction_coordinate (self, widget):
         """ Function doc """
         #radiobutton_bidimensional = self.builder.get_object('radiobutton_bidimensional')
-        if self.builder.get_object('radiobutton_bidimensional').get_active():
+        if self.builder.get_object('label_check_button_reaction_coordinate2').get_active():
             self.box_reaction_coordinate2.set_sensitive(True)
+            self.builder.get_object('n_CPUs_spinbutton').set_sensitive(True)
+            self.builder.get_object('n_CPUs_label').set_sensitive(True)
         else:
             self.box_reaction_coordinate2.set_sensitive(False)
-        
+            self.builder.get_object('n_CPUs_spinbutton').set_sensitive(False)
+            self.builder.get_object('n_CPUs_label')     .set_sensitive(False)
         #print(widget)
 
     #======================================================================================
@@ -543,6 +561,7 @@ class PotentialEnergyScanWindow():
                       "MC_RC2":False                          ,
                       "log_frequency":50                      ,
                       "contour_lines":10                      ,
+                      "nprocs":1                              ,
                       "show":False                             }
         
         parameters["optimizer"]        = self.opt_methods[self.methods_combo.get_active()]
@@ -601,7 +620,9 @@ class PotentialEnergyScanWindow():
         '''
         coordenada  de reacao 2
         '''        
-        if self.builder.get_object('radiobutton_bidimensional').get_active():
+        if self.builder.get_object('label_check_button_reaction_coordinate2').get_active():
+            
+            parameters["nprocs"] =  int(self.builder.get_object('n_CPUs_spinbutton').get_value())
             self.is_scan2d = True
             parameters["ndim"] = 2
             _type = self.combobox_reaction_coord2.get_active()            
@@ -651,6 +672,7 @@ class PotentialEnergyScanWindow():
 #=====================================================================================
 def get_distance (vobject, index1, index2):
     """ Function doc """
+    print( index1, index2)
     atom1 = vobject.atoms[index1]
     atom2 = vobject.atoms[index2]
     a1_coord = atom1.coords()

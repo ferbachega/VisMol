@@ -176,7 +176,7 @@ NOTE: You can include more than one parameter file if needed.'''
                 
    
         
-        elif filetype in ['par', 'prmtop', 'prm', 'PAR', 'PRM']:
+        elif filetype in ['par', 'prmtop', 'prm', 'PAR', 'PRM', 'str']:
             if systemtype == 1:
                 self.files['charmm_par'].append(filein)
                 return 'charmm parameters'

@@ -1842,11 +1842,18 @@ class VisMolSession (ShowHideVisMol):
         size = len(atoms)
         atom = atoms[0]
         for atom in atoms:
-            xyz = atom.coords( self.get_frame ())
+            
+            frame = self.get_frame ()
+            if frame > len(atom.Vobject.frames)-1:
+                frame = len(atom.Vobject.frames)-1
+            else:
+                pass
+            
+            xyz = atom.coords( frame)
             x += xyz[0]
             y += xyz[1]
             z += xyz[2]
-        
+
         x = x /size
         y = y /size
         z = z /size

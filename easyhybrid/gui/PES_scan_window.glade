@@ -2,6 +2,13 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">1</property>
+    <property name="upper">10000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkWindow" id="pes_scan_window">
     <property name="can_focus">False</property>
     <signal name="delete-event" handler="CloseWindow" swapped="no"/>
@@ -25,50 +32,7 @@
             <property name="orientation">vertical</property>
             <property name="spacing">14</property>
             <child>
-              <object class="GtkButtonBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="spacing">8</property>
-                <property name="layout_style">spread</property>
-                <child>
-                  <object class="GtkRadioButton" id="radiobutton_unidimensional">
-                    <property name="label" translatable="yes">Unidimensional</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="change_radio_button_reaction_coordinate" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkRadioButton" id="radiobutton_bidimensional">
-                    <property name="label" translatable="yes">bidimensional</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                    <property name="group">radiobutton_unidimensional</property>
-                    <signal name="toggled" handler="change_radio_button_reaction_coordinate" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
               <object class="GtkBox">
@@ -533,7 +497,7 @@
                     <property name="label_xalign">0.5</property>
                     <property name="shadow_type">etched-out</property>
                     <child>
-                      <object class="GtkAlignment">
+                      <object class="GtkAlignment" id="box_reaction_coordinate22">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="top_padding">10</property>
@@ -964,10 +928,13 @@
                       </object>
                     </child>
                     <child type="label">
-                      <object class="GtkLabel" id="label_reaction_coordinate2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                      <object class="GtkCheckButton" id="label_check_button_reaction_coordinate2">
                         <property name="label" translatable="yes">Reaction Coordinate 2</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="change_check_button_reaction_coordinate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -1087,7 +1054,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">4</property>
+                                <property name="top_attach">5</property>
                               </packing>
                             </child>
                             <child>
@@ -1099,7 +1066,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">5</property>
+                                <property name="top_attach">6</property>
                               </packing>
                             </child>
                             <child>
@@ -1111,7 +1078,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">4</property>
+                                <property name="top_attach">5</property>
                               </packing>
                             </child>
                             <child>
@@ -1148,7 +1115,30 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">5</property>
+                                <property name="top_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="n_CPUs_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Number of CPUs:</property>
+                                <property name="xalign">1</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
+                                <property name="top_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSpinButton" id="n_CPUs_spinbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="adjustment">adjustment1</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">4</property>
                               </packing>
                             </child>
                           </object>
