@@ -400,6 +400,8 @@ class EasyHybridMainWindow ( ):
 
             dialog.destroy()
             
+        if button == self.builder.get_object('button_go_to_atom'):
+            self.treeview.main_session.go_to_atom_window.OpenWindow()
 
         if button  == self.builder.get_object('selections'):
             #print('OpenWindow')
