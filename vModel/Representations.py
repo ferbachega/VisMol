@@ -938,7 +938,7 @@ class RibbonsRepresentation (Representation):
         GL.glUseProgram(self.shader_program)
         
         ribbon_width = self.visObj.vm_session.vConfig.gl_parameters['ribbon_width']
-        LineWidth = ((ribbon_width*40)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
+        LineWidth = ((ribbon_width*80)/abs(self.glCore.dist_cam_zrp)/2)  #40/abs(self.glCore.dist_cam_zrp)
         #print(LineWidth)
         GL.glLineWidth(LineWidth)
 

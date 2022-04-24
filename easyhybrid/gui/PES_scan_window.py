@@ -237,8 +237,10 @@ class PotentialEnergyScanWindow():
             self.folder_chooser_button = FolderChooserButton(main =  self.window)
             self.builder.get_object('folder_chooser_box').pack_start(self.folder_chooser_button.btn, True, True, 0)
             system_id      = self.p_session.active_id
+            
             working_folder = self.p_session.systems[system_id]['working_folder']
             self.folder_chooser_button.set_folder(folder = working_folder) 
+            
             ''' 
             self.builder.get_object('label_atom4_coord1').hide()
             self.builder.get_object('entry_atom4_index_coord1').hide()
@@ -528,6 +530,16 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('n_CPUs_spinbutton').set_sensitive(False)
             self.builder.get_object('n_CPUs_label')     .set_sensitive(False)
         #print(widget)
+
+    #def update_working_folder_chooser (self, folder = None):
+    #    """ Function doc """
+    #    if folder:
+    #        #print('update_working_folder_chooser')
+    #        self.save_trajectory_box.set_folder(folder = folder)
+    #    else:
+    #        self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'])
+   
+
 
     #======================================================================================
     def run_scan(self,button):

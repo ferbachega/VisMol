@@ -36,7 +36,7 @@ import glCore.sphere_data as sph_d
 import glCore.matrix_operations as mop
 import glCore.selection_box as sb
 import glCore.draw_dynamic_line as dl
-import glCore.sphere_representation as sph_r
+#import glCore.sphere_representation as sph_r
 
 import glCore.shaders.sticks                  as sticksShaders
 #import glCore.shaders.new_lines              as linesShaders
