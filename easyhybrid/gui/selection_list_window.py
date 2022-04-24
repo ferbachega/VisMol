@@ -105,16 +105,17 @@ class SelectionListWindow(Gtk.Window):
         self.visible    =  False
         #print('self.visible',self.visible)
     
-    def __init__(self, main = None):
+    def __init__(self, main = None, system_liststore = None):
         """ Class initialiser """
         self.easyhybrid_main       = main
         self.visible               =  False        
         self.p_session             = main.pDynamo_session
         self.vm_session            = main.vm_session
         self.coordinates_liststore = Gtk.ListStore(str, int)
-        self.system_liststore      = Gtk.ListStore(str, int)
+        #self.system_liststore      = Gtk.ListStore(str, int)
+        self.system_liststore      = system_liststore
         
-        self.selection_liststore   = Gtk.ListStore(str, str)
+        self.selection_liststore   = Gtk.ListStore(str, int)
         
 
     
@@ -146,15 +147,16 @@ class SelectionListWindow(Gtk.Window):
 
     def refresh_system_liststore (self):
         """ Function doc """
-        self.system_liststore     .clear()
-        #self.selection_liststore  .clear()
-        '''--------------------------------------------------------------------------------------------'''
-        self.system_names_combo =self.builder.get_object('systems_combobox')
-        for key, system  in self.p_session.systems.items():
-            try:
-                self.system_liststore.append([system['name'], key])
-            except:
-                print(system)
+        self.easyhybrid_main.refresh_system_liststore()
+        #self.system_liststore     .clear()
+        ##self.selection_liststore  .clear()
+        #'''--------------------------------------------------------------------------------------------'''
+        #self.system_names_combo =self.builder.get_object('systems_combobox')
+        #for key, system  in self.p_session.systems.items():
+        #    try:
+        #        self.system_liststore.append([system['name'], key])
+        #    except:
+        #        print(system)
     
     def refresh_selection_liststore (self, system_id = None ):
         """ Function doc """
@@ -182,7 +184,8 @@ class SelectionListWindow(Gtk.Window):
         
         for selection , indexes in self.p_session.systems[system_id]['selections'].items():
             #if vobject.easyhybrid_system_id == self.p_session.active_id]:
-            self.selection_liststore.append([selection, str(len(indexes))])
+            #print([selection, str(len(indexes))])
+            self.selection_liststore.append([selection, len(indexes)])
     
     def refresh_coordinates_liststore(self, system_id = None):
         """ Function doc """

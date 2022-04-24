@@ -83,8 +83,7 @@ class EasyHybridSetupQCModelWindow:
             
             self.window = self.builder.get_object('SetupQCModelWindow')
             self.window.set_keep_above(True)
-            #self.window.set_border_width(10)
-            #self.window.set_default_size(500, 370)  
+
 
             
             '''--------------------------------------------------------------------------------------------'''
@@ -100,7 +99,7 @@ class EasyHybridSetupQCModelWindow:
                 ]
             for method_type in methods_types:
                 self.methods_type_store.append([method_type])
-                print (method_type)
+                #print (method_type)
             
             self.methods_combo = self.builder.get_object('QCModel_methods_combobox')
             self.methods_combo.connect("changed", self.on_name_combo_changed)
@@ -119,19 +118,35 @@ class EasyHybridSetupQCModelWindow:
             
             self.window.show_all()                                               
             self.builder.connect_signals(self)                                   
-
+            
+            
+            ''' Updating the number of atoms '''
+            self.update_number_of_qc_atoms ()
+            
             self.Visible  =  True
-            #self.builder.get_object('dftp_setup_box').hide()
-            #self.builder.get_object('orca_setup_box').hide()
 
+        else:
+            ''' Updating the number of atoms '''
+            self.update_number_of_qc_atoms ()
+
+            
+    def update_number_of_qc_atoms (self):
+        """ Function doc """
+        self.entry_number_of_qc_atoms = self.builder.get_object('entry_number_of_qc_atoms')
+        if self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['qc_table']:
+            number_of_qc_atoms = len(self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['qc_table'])
+            self.entry_number_of_qc_atoms.set_text(str(number_of_qc_atoms))
+        else:
+            number_of_qc_atoms = len(self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['system'].atoms)
+            self.entry_number_of_qc_atoms.set_text(str(number_of_qc_atoms)+ ' (all)')
+    
+    
     def CloseWindow (self, button, data  = None):
         """ Function doc """
-        #self.BackUpWindowData()
         self.window.destroy()
         self.Visible    =  False
-        #print('self.Visible',self.Visible)
     
-            #----------------------------------------------------------------
+    #----------------------------------------------------------------
     def on_spian_button_change (self, widget):
         """ Function doc """
         self.charge       = self.spinbutton_charge.get_value_as_int()
@@ -167,15 +182,9 @@ class EasyHybridSetupQCModelWindow:
                     
                      
                      }
-        
-        
-        ##print(parameters)
+
         
         self.easyhybrid_main.pDynamo_session.define_a_new_QCModel(parameters =parameters)
-        
-        
-        #self.easyhybrid_main.vm_session.
-        
         self.window.destroy()
         self.Visible    =  False
 

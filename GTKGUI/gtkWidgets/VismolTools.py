@@ -114,6 +114,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
             
             for i, column_title in enumerate(
                 ['', "index", "Residue",  "Chain", 'size']
+                #[ "index", "Residue",  "Chain", 'size']
             ):
                 if i == 0:
                     cell = Gtk.CellRendererToggle()

@@ -369,6 +369,7 @@ class pDynamoSession:
             
         self.build_vismol_object_from_pDynamo_system (name = 'initial coordinates' )#psystem['system'].label)
         if self.vm_session.main_session.selection_list_window.visible:
+            self.vm_session.main_session.refresh_system_liststore()
             self.vm_session.main_session.selection_list_window.update_window(system_names = True, coordinates = False,  selections = False)
     
     def get_bonds_from_pDynamo_system(self, safety = 0.5, system_id = False):

@@ -212,7 +212,7 @@ class EasyHybridMainWindow ( ):
         self.pDynamo_session = pDynamoSession(vm_session = vm_session)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
-               
+        self.system_liststore      = Gtk.ListStore(str, int)
         
         '''#- - - - - - - - - - G T K  W I N D O W S - - - - - - - - - - -#'''
         self.NewSystemWindow              = ImportANewSystemWindow(main = self)
@@ -225,7 +225,8 @@ class EasyHybridMainWindow ( ):
         self.PES_scan_window              = PotentialEnergyScanWindow(main=  self)
         self.umbrella_sampling_window     = UmbrellaSamplingWindow (main=  self)
         self.export_data_window           = ExportDataWindow(main=  self)
-        self.selection_list_window        = SelectionListWindow(main=  self)
+        self.selection_list_window        = SelectionListWindow     (main=  self, system_liststore = self.system_liststore)
+        self.go_to_atom_window            = EasyHybridGoToAtomWindow(main=  self, system_liststore = self.system_liststore)
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
 
         self.save_vismol_file = None
@@ -234,8 +235,18 @@ class EasyHybridMainWindow ( ):
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
 
-        #Gtk.main()
 
+    def refresh_system_liststore (self):
+        """ Function doc """
+        self.system_liststore     .clear()
+        #self.selection_liststore  .clear()
+        for key, system  in self.pDynamo_session.systems.items():
+            try:
+                self.system_liststore.append([system['name'], key])
+            except:
+                print(system)
+    
+    
     def run (self):
         """ Function doc """
         Gtk.main()
@@ -775,7 +786,8 @@ class TreeViewMenu:
         """ Function doc """
         #print('f2')
         #self._show_lines(visObj = self.vismol_objects[0], indices = [0,1,2,3,4] )
-        self.treeview.vm_session.go_to_atom_window.OpenWindow()
+        self.treeview.main_session.go_to_atom_window.OpenWindow()
+        #self.treeview.vm_session.go_to_atom_window.OpenWindow()
 
     def f3 (self, visObj = None):
         """ Function doc """
@@ -951,36 +963,56 @@ def check_filetype(filein):
 
 
 
-class VismolGoToAtomWindow2(Gtk.Window):
+class EasyHybridGoToAtomWindow(Gtk.Window):
     def OpenWindow (self):
         """ Function doc """
-        if self.Visible  ==  False:
+        if self.visible  ==  False:
             
-            self.vm_session.Vismol_Objects_ListStore
+            #self.vm_session.Vismol_Objects_ListStore
             
             #------------------------------------------------------------------#
-            #                  VISOBJ combobox and Label
+            #                  SYSTEM combobox and Label
             #------------------------------------------------------------------#
-            self.box_vertical    = Gtk.Box(orientation = Gtk.Orientation.VERTICAL,   spacing = 6)
-            self.box_horizontal1 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 6)
-            
+            self.box_vertical    = Gtk.Box(orientation = Gtk.Orientation.VERTICAL,   spacing = 10)
+            self.box_horizontal1 = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 10)
+             
+
             
             self.label1  = Gtk.Label()
-            self.label1.set_text('Object:')
+            self.label1.set_text('System:')
             self.box_horizontal1.pack_start(self.label1, False, False, 0)
 
-            combobox_vobjects = Gtk.ComboBox.new_with_model(self.vm_session.Vismol_Objects_ListStore)
-            combobox_vobjects.connect("changed", self.on_combobox_vobjects_changed)
+            
+            self.combobox_systems = Gtk.ComboBox.new_with_model(self.system_liststore)
+            self.combobox_systems.connect("changed", self.on_combobox_systems_changed)
             renderer_text = Gtk.CellRendererText()
-            combobox_vobjects.pack_start(renderer_text, True)
-            combobox_vobjects.add_attribute(renderer_text, "text", 2)
-            #
-            #vbox.pack_start(combobox_vobjects, False, False, True)
-
-            self.box_horizontal1.pack_start(combobox_vobjects, False, False, 0)
+            self.combobox_systems.pack_start(renderer_text, True)
+            self.combobox_systems.add_attribute(renderer_text, "text", 0)
+            
+            self.box_horizontal1.pack_start(self.combobox_systems, False, False, 0)
             #------------------------------------------------------------------#
             
             
+            
+            
+            
+            #------------------------------------------------------------------#
+            #                  COORDINATES combobox and Label
+            #------------------------------------------------------------------#
+            self.label1  = Gtk.Label()
+            self.label1.set_text('Coordinates:')
+            self.box_horizontal1.pack_start(self.label1, False, False, 0)
+            self.coordinates_combobox = Gtk.ComboBox.new_with_model(self.coordinates_liststore)
+            #self.coordinates_combobox.connect("changed", self.on_self.coordinates_combobox_changed)
+            renderer_text = Gtk.CellRendererText()
+            self.coordinates_combobox.pack_start(renderer_text, True)
+            self.coordinates_combobox.add_attribute(renderer_text, "text", 0)
+            self.box_horizontal1.pack_start(self.coordinates_combobox, False, False, 0)
+            #------------------------------------------------------------------#
+            
+            
+
+
             
             #------------------------------------------------------------------#
             #                  CHAIN combobox and Label
@@ -1001,6 +1033,10 @@ class VismolGoToAtomWindow2(Gtk.Window):
             self.combobox_chains.add_attribute(renderer_text, "text", 0)
             #vbox.pack_start(self.combobox_chains, False, False, True)
             self.box_horizontal2.pack_start(self.combobox_chains, False, False, 0)
+            
+            
+            
+            
             #------------------------------------------------------------------#
             #                  RESIDUES combobox and Label
             #------------------------------------------------------------------#
@@ -1085,7 +1121,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
             self.treeview_atom.connect("row-activated", self.on_treeview_atom_row_activated_event)
 
             for i, column_title in enumerate(
-                ['', "index", "name",  "type", 'mass']
+                ['', "index", "name", "MM atom", 'MM charge']
             ):
                 if i == 0:
                     cell = Gtk.CellRendererToggle()
@@ -1121,19 +1157,23 @@ class VismolGoToAtomWindow2(Gtk.Window):
             self.treeviewbox_horizontal.pack_start(self.scrollable_treelist2, True, True, 0)
             
             self.box_vertical.pack_start(self.treeviewbox_horizontal, False, True, 0)
-
-
-            combobox_vobjects.set_active(0)
+            
+            self.refresh_system_liststore()
+            self.update_window (system_names = True, coordinates = True)
+            
+            self.combobox_systems.set_active(0)
             self.window =  Gtk.Window()
             self.window.set_border_width(10)
             self.window.set_default_size(600, 600)  
             self.window.add(self.box_vertical)
             self.window.connect("destroy", self.CloseWindow)
-            self.window.show_all()                                               
+            self.window.set_title('Go to Atom Window') 
+            self.window.show_all() 
+                                                          
             #                                                                
             #self.builder.connect_signals(self)                                   
             
-            self.Visible  =  True
+            self.visible  =  True
             #self.PutBackUpWindowData()
             #gtk.main()
             #----------------------------------------------------------------
@@ -1142,46 +1182,89 @@ class VismolGoToAtomWindow2(Gtk.Window):
         """ Function doc """
         #self.BackUpWindowData()
         self.window.destroy()
-        self.Visible    =  False
-        #print('self.Visible',self.Visible)
+        self.visible    =  False
+        #print('self.visible',self.visible)
     
-    def __init__(self, vm_session = None):
+    def __init__(self, main = None, system_liststore = None):
         """ Class initialiser """
-        self.vm_session = vm_session
-        #if EasyHybridSession != None:
-        #    self.project          = EasyHybridSession.project
-        #    self.main_builder     = EasyHybridSession.builder
-        #    self.EasyHybridSession = EasyHybridSession        
-        #    self.window_control   = EasyHybridSession.window_control
-        #
-        #self.atom1_index = ''
-        #self.name1       = ''
-        #self.atom2_index = ''
-        #self.name2       = ''
-        #self.atom3_index = ''
-        #self.name3       = ''
-        #
-        #
-        #self.distanceType  = 0
-        #self.DMINIMUM      = ''
-        #self.minitype      = 0
-        #
-        #self.DINCREMENT    = '0.1'
-        #self.NWINDOWS      = '10'
-        #self.FORCECONSTANT = '4000'
-        #self.max_int       = '500'
-        #self.rms_grad      = '0.1'
-        #
-        #self._mass_weight_check = False
-        #
-        #
-        #self.project   =  project
-        self.Visible    =  False
+        
+        self.main_session  = main
+        self.vm_session    = self.main_session.vm_session
+        self.p_session     = self.main_session.pDynamo_session
+        self.system_liststore      = system_liststore
+        self.coordinates_liststore = Gtk.ListStore(str, int)
+        
         
         self.residue_liststore = Gtk.ListStore(bool, int, str, str, int)
-        self.atom_liststore    = Gtk.ListStore(bool, int, str, str, int, int, )
+        self.atom_liststore    = Gtk.ListStore(bool, int, str, str, float, int, )
         self.residue_filter    = False
+        self.visible           = False
 
+    
+    def update_window (self, system_names = False, coordinates = True,  selections = False ):
+        """ Function doc """
+
+        if self.visible:
+            
+            _id = self.combobox_systems.get_active()
+            if _id == -1:
+                '''_id = -1 means no item inside the combobox'''
+                return None
+            else:    
+                _, system_id = self.system_liststore[_id]
+            
+            if system_names:
+                self.refresh_system_liststore ()
+                self.combobox_systems.set_active(_id)
+            
+            if coordinates:
+                self.refresh_coordinates_liststore ()
+                
+            
+            #if selections:
+            #    _, system_id = self.system_liststore[_id]
+            #    self.refresh_selection_liststore(system_id)
+        else:
+            if system_names:
+                self.refresh_system_liststore ()
+            if coordinates:
+                self.refresh_coordinates_liststore ()
+            
+    
+    def refresh_coordinates_liststore(self, system_id = None):
+        """ Function doc """
+        cb_id =  self.coordinates_combobox.get_active()
+        if system_id:
+            pass
+        else:
+            _id = self.combobox_systems.get_active()
+            if _id == -1:
+                return False
+            else:
+                #print('_id', _id)
+                _, system_id = self.system_liststore[_id]
+        
+        self.coordinates_liststore.clear()
+        n = 0
+        for key , vobject in self.vm_session.vismol_objects_dic.items():
+            if vobject.easyhybrid_system_id == system_id:
+                self.coordinates_liststore.append([vobject.name, key])
+                n += 1
+        
+        self.coordinates_combobox.set_active(n-1)
+        
+    def refresh_system_liststore (self):
+        """ Function doc """
+        self.main_session.refresh_system_liststore()
+        #self.system_liststore     .clear()
+        ##self.selection_liststore  .clear()
+        #'''--------------------------------------------------------------------------------------------'''
+        ##self.combobox_systems =self.builder.get_object('systems_combobox')
+        #for key, system  in self.p_session.systems.items():
+        #    try:
+        #        self.system_liststore.append([system['name'], key])
+        #    except:
+        #        print(system)
 
     def on_combobox_residues_changed (self, widget):
         """ Function doc """
@@ -1222,7 +1305,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         self.chain_filter.refilter()
     
     
-    def on_combobox_vobjects_changed (self, widget):
+    def on_combobox_systems_changed (self, widget):
         """ Function doc """
         #print(widget)
         #print(widget.get_active())
@@ -1233,76 +1316,85 @@ class VismolGoToAtomWindow2(Gtk.Window):
         #self.vm_session.vismol_objects_dic.items()
         
         #self.vm_session.vismol_objects_dic.items()
-        self.VObj = self.vm_session.vismol_objects_dic[widget.get_active()]
-        #self.VObj = self.vm_session.vismol_objects[widget.get_active()]
-        
-        
-        self.liststore_chains = Gtk.ListStore(str)
-        self.liststore_chains.append(['all'])
-        chains = self.VObj.chains.keys()
-        
-        #self.chain_liststore = Gtk.ListStore(str)
-        
-        for chain in chains:
-            self.liststore_chains.append([chain])
-        self.combobox_chains.set_model(self.liststore_chains)
-        self.combobox_chains.set_active(0)
-        
-        
-        self.residue_liststore = Gtk.ListStore(bool, int, str, str, int)
-        for chain in self.VObj.chains:
-            for res in self.VObj.chains[chain].residues:
-                #print(res.resi, res.resn, chain,  len(res.atoms) ) 
-                
-                self.residue_liststore.append(list([True, res.resi, res.resn, chain,  len(res.atoms)]))
-        #-----------------------------------------------------------------------------------------
-        #                                      Chain filter
-        #-----------------------------------------------------------------------------------------
-        self.current_filter_chain = None
-        # Creating the filter, feeding it with the liststore model
-        self.chain_filter = self.residue_liststore.filter_new()
-        # setting the filter function, note that we're not using the
-        self.chain_filter.set_visible_func(self.chain_filter_func)
-        #-----------------------------------------------------------------------------------------
-        
-        
-        
-        
-        
-        
-        #-----------------------------------------------------------------------------------------
-        #                                      Residue combobox
-        #-----------------------------------------------------------------------------------------
-        self.liststore_residues = Gtk.ListStore(str)
-        self.liststore_residues.append(['all'])
-        
-        resn_labels = {}
-        
-        for residue in self.VObj.residues:
-            resn_labels[residue.resn] = True
-        
-        for resn in resn_labels.keys():
-            #print (resn)
-            self.liststore_residues.append([resn])
-        
-        self.combobox_residues.set_model(self.liststore_residues)
-        self.combobox_residues.set_active(0)
-        
-        #-----------------------------------------------------------------------------------------
-        #                                      Residue filter
-        #-----------------------------------------------------------------------------------------
-        self.current_filter_residue = None
-        # Creating the filter, feeding it with the liststore model
-        self.residue_filter = self.chain_filter.filter_new()
-        # setting the filter function, note that we're not using the
-        self.residue_filter.set_visible_func(self.residue_filter_func)
-        #-----------------------------------------------------------------------------------------        
-        
-        
-        #self.treeview.set_model(self.residue_liststore)
-        #self.treeview.set_model(self.chain_filter)
-        self.treeview.set_model(self.residue_filter)
-        
+        cb_id = widget.get_active()
+        if cb_id == -1:
+            return None
+        else:
+            
+            self.update_window (coordinates = True)
+            
+            cb_id =  self.coordinates_combobox.get_active()
+            _, key = self.coordinates_liststore[cb_id]
+            
+            self.VObj = self.vm_session.vismol_objects_dic[key]
+            
+            
+            self.liststore_chains = Gtk.ListStore(str)
+            self.liststore_chains.append(['all'])
+            chains = self.VObj.chains.keys()
+            
+            #self.chain_liststore = Gtk.ListStore(str)
+            
+            for chain in chains:
+                self.liststore_chains.append([chain])
+            self.combobox_chains.set_model(self.liststore_chains)
+            self.combobox_chains.set_active(0)
+            
+            
+            self.residue_liststore = Gtk.ListStore(bool, int, str, str, int)
+            for chain in self.VObj.chains:
+                for res in self.VObj.chains[chain].residues:
+                    #print(res.resi, res.resn, chain,  len(res.atoms) ) 
+                    
+                    self.residue_liststore.append(list([True, res.resi, res.resn, chain,  len(res.atoms)]))
+            #-----------------------------------------------------------------------------------------
+            #                                      Chain filter
+            #-----------------------------------------------------------------------------------------
+            self.current_filter_chain = None
+            # Creating the filter, feeding it with the liststore model
+            self.chain_filter = self.residue_liststore.filter_new()
+            # setting the filter function, note that we're not using the
+            self.chain_filter.set_visible_func(self.chain_filter_func)
+            #-----------------------------------------------------------------------------------------
+            
+            
+            
+            
+            
+            
+            #-----------------------------------------------------------------------------------------
+            #                                      Residue combobox
+            #-----------------------------------------------------------------------------------------
+            self.liststore_residues = Gtk.ListStore(str)
+            self.liststore_residues.append(['all'])
+            
+            resn_labels = {}
+            
+            for residue in self.VObj.residues:
+                resn_labels[residue.resn] = True
+            
+            for resn in resn_labels.keys():
+                #print (resn)
+                self.liststore_residues.append([resn])
+            
+            self.combobox_residues.set_model(self.liststore_residues)
+            self.combobox_residues.set_active(0)
+            
+            #-----------------------------------------------------------------------------------------
+            #                                      Residue filter
+            #-----------------------------------------------------------------------------------------
+            self.current_filter_residue = None
+            # Creating the filter, feeding it with the liststore model
+            self.residue_filter = self.chain_filter.filter_new()
+            # setting the filter function, note that we're not using the
+            self.residue_filter.set_visible_func(self.residue_filter_func)
+            #-----------------------------------------------------------------------------------------        
+            
+            
+            #self.treeview.set_model(self.residue_liststore)
+            #self.treeview.set_model(self.chain_filter)
+            self.treeview.set_model(self.residue_filter)
+            
         
     def on_treeview_atom_button_release_event(self, tree, event):
         if event.button == 2:
@@ -1360,6 +1452,11 @@ class VismolGoToAtomWindow2(Gtk.Window):
         self.selectedID  = int(data[1])  # @+
         self.selectedObj = str(data[2])
         self.selectedChn = str(data[3])
+        
+        cb_id =  self.coordinates_combobox.get_active()
+        _, key = self.coordinates_liststore[cb_id]
+        self.VObj = self.vm_session.vismol_objects_dic[key]
+        
         res = self.VObj.chains[self.selectedChn].residues_by_index[self.selectedID]
         
         
@@ -1372,6 +1469,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         self.vm_session.glwidget.queue_draw()
         
         self.atom_liststore.clear()
+        
         for atom in res.atoms:
             self.atom_liststore.append(list([True, int(atom.index), atom.name, atom.symbol, atom.charge, atom.atom_id ]))
 
@@ -1445,8 +1543,21 @@ class VismolGoToAtomWindow2(Gtk.Window):
                 
                 self.atom_liststore.clear()
                 #self.atom_liststore = Gtk.ListStore(bool, int, str, str, float)
-                for atom in res.atoms:
-                     self.atom_liststore.append(list([True, int(atom.index), atom.name, atom.symbol, atom.charge, int(atom.atom_id)]))
+                try:
+                    #charges = list(self.p_session.systems[self.VObj.easyhybrid_system_id]['system'].AtomicCharges())
+                    charges         = list(self.p_session.systems[self.VObj.easyhybrid_system_id]['system'].mmState.charges)
+                    atomTypes       = self.p_session.systems[self.VObj.easyhybrid_system_id]['system'].mmState.atomTypes
+                    atomTypeIndices = list(self.p_session.systems[self.VObj.easyhybrid_system_id]['system'].mmState.atomTypeIndices)
+
+                    for atom in res.atoms:
+                         #self.atom_liststore.append(list([True, int(atom.index), atom.name, atom.symbol,  charges[atom.index-1] , int(atom.atom_id)]))
+                         self.atom_liststore.append(list([True, int(atom.index), atom.name, atomTypes[atomTypeIndices[atom.index-1]] ,  charges[atom.index-1] , int(atom.atom_id)]))
+                except:
+                    charges = [0]*len(self.VObj.atoms)
+                    for atom in res.atoms:
+                         self.atom_liststore.append(list([True, int(atom.index), atom.name, 'UNK',  charges[atom.index-1] , int(atom.atom_id)]))
+                
+                
                 
                 #self.treeview_atom.set_model(self.atom_liststore)
             self.treeview.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
@@ -1497,7 +1608,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         """ Function doc """
         print('VismolGoToAtomWindow2 update')
         pass
-        #self.combobox_vobjects.set_active(-1)
+        #self.self.combobox_systems.set_active(-1)
 
 
 
