@@ -633,8 +633,8 @@ class PotentialEnergyScanWindow():
         coordenada  de reacao 2
         '''        
         if self.builder.get_object('label_check_button_reaction_coordinate2').get_active():
-            
-            parameters["nprocs"] =  int(self.builder.get_object('n_CPUs_spinbutton').get_value())
+            parameters["NmaxThreads"] =  int(self.builder.get_object('n_CPUs_spinbutton').get_value())
+            #parameters["nprocs"] =  int(self.builder.get_object('n_CPUs_spinbutton').get_value())
             self.is_scan2d = True
             parameters["ndim"] = 2
             _type = self.combobox_reaction_coord2.get_active()            

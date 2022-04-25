@@ -434,6 +434,7 @@
                   <object class="GtkToolButton" id="button_go_to_atom">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Go To Atom</property>
                     <property name="label" translatable="yes">toolbutton7</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image23</property>
