@@ -409,15 +409,30 @@ class ShowHideVisMol:
                     #print (_type, indexes_bonds)
                     if indexes_bonds == []:
                         pass
+                        #if _type == 'lines':
+                        #    vobject.representations[rep.name] = None
+                    
                     else:
-                        rep  = SticksRepresentation    (name    = _type, 
-                                                        active  = True, 
-                                                        _type   = 'mol', 
-                                                        visObj  = vobject, 
-                                                        glCore  = self.glwidget.vm_widget,
-                                                        indexes = indexes_bonds)
-                                                        
-                        vobject.representations[rep.name] = rep               
+                        if _type == 'lines':
+                            rep  = LinesRepresentation     (name    = _type, 
+                                                            active  = True, 
+                                                            _type   = 'mol', 
+                                                            visObj  = vobject, 
+                                                            glCore  = self.glwidget.vm_widget,
+                                                            indexes = indexes_bonds)
+                                                            
+                            vobject.representations[rep.name] = rep 
+                        
+                        
+                        if _type == 'sticks':
+                            rep  = SticksRepresentation    (name    = _type, 
+                                                            active  = True, 
+                                                            _type   = 'mol', 
+                                                            visObj  = vobject, 
+                                                            glCore  = self.glwidget.vm_widget,
+                                                            indexes = indexes_bonds)
+                                                            
+                            vobject.representations[rep.name] = rep               
                 else:
                     #if indexes_bonds == []:
                     #    vobject.representations[_type].active = False
@@ -429,15 +444,21 @@ class ShowHideVisMol:
                     #    vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
                     #    vobject.representations[_type].active = True
                     
-                    vobject.representations[_type].delete_buffers()
-                    rep  = SticksRepresentation    (name    = _type, 
-                                                    active  = True, 
-                                                    _type   = 'mol', 
-                                                    visObj  = vobject, 
-                                                    glCore  = self.glwidget.vm_widget,
-                                                    indexes = indexes_bonds)
-                                                    
-                    vobject.representations[rep.name] = rep  
+                    if _type == 'lines':
+                        #vobject.representations[_type].delete_buffers()
+                        vobject.representations[_type].define_new_indexes_to_VBO ( indexes_bonds)
+
+                        
+                    if _type == 'sticks':
+                        vobject.representations[_type].delete_buffers()
+                        rep  = SticksRepresentation    (name    = _type, 
+                                                        active  = True, 
+                                                        _type   = 'mol', 
+                                                        visObj  = vobject, 
+                                                        glCore  = self.glwidget.vm_widget,
+                                                        indexes = indexes_bonds)
+                                                        
+                        vobject.representations[rep.name] = rep  
 
 
                     #indexes_bonds = np.array(indexes_bonds, dtype=np.uint32)

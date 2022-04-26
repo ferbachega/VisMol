@@ -9,6 +9,8 @@ import glCore.matrix_operations as mop
 import vModel.cartoon as cartoon
 import ctypes
 
+from  vModel.MolecularProperties import residues_dictionary
+
 #from   glCore.sphere_representation import _create_frame_sphere_data
 
 #import EDTSurf.edtsurf as  edtsurf
@@ -241,6 +243,13 @@ class Representation:
         """ Function doc """
         self._check_VAO_and_VBOs ()
         
+        
+        if input_indexes == []:
+            self.active = False
+            return None
+        else:
+            self.active = True
+            
         self.indexes = input_indexes
         self.indexes = np.array(self.indexes,dtype=np.uint32)
         
@@ -380,6 +389,7 @@ class LinesRepresentation (Representation):
         GL.glUseProgram(self.shader_program)
         
         line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width']
+        #print('drawing lines')
         line_width = (line_width*200/abs(self.glCore.dist_cam_zrp)/2)**0.5  #40/abs(self.glCore.dist_cam_zrp)
         GL.glLineWidth(line_width)
 
@@ -750,7 +760,7 @@ class SticksRepresentation (Representation):
         self.shader_program     = self.glCore.shader_programs[self.name]
         self.sel_shader_program = self.glCore.shader_programs[self.name+'_sel']
         
-        
+
         #indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         coords  = self.visObj.frames[0]
         colors  = self.visObj.colors
@@ -774,6 +784,7 @@ class SticksRepresentation (Representation):
 
         GL.glUseProgram(self.shader_program)
         GL.glLineWidth(40/abs(self.glCore.dist_cam_zrp))
+        #print('drawing sticks')
 
         self.glCore.load_matrices(self.shader_program, self.visObj.model_mat)
         self.glCore.load_fog(self.shader_program)
@@ -853,12 +864,11 @@ class RibbonsRepresentation (Representation):
         
         if self.visObj.c_alpha_bonds == []:
             self.visObj.get_backbone_indexes ()
-            #self.active  = False
             
-           #print('self.active  = False')
+            if self.visObj.c_alpha_bonds == []:
+                self.active =  False
+        
         else:
-           #print('self.active  = True')
-
             pass
         
         
@@ -913,8 +923,8 @@ class RibbonsRepresentation (Representation):
             indexes = np.array(indexes,dtype=np.uint32)
 
             coords  = self.visObj.frames[0]
-            colors  = self.visObj.colors
-            #colors  = self.visObj.colors_rainbow
+            #colors  = self.visObj.colors
+            colors  = self.visObj.colors_rainbow
             #colors  = np.array([1.0 ]*len(coords),dtype=np.float32)
             self._make_gl_representation_vao_and_vbos (indexes    = indexes,
                                                        coords     = coords ,
