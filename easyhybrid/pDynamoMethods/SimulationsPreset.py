@@ -608,16 +608,18 @@ class Simulation:
 		if ynbins > 0: nDims = 2
 		xlims = [ 0,  self.parameters['xnbins'] ]
 		ylims = [ 0,  ynbins ]
+		OneDimPlot = False
 		#-------------------------------------------------------------
 		#check parameters for plot
-		if "contour_lines" 	in self.parameters: cnt_lines  	= self.parameters["contour_lines"]		
-		if "xlim_list" 		in self.parameters: xlims 		= self.parameters["xlim_list"]
-		if "ylim_list" 		in self.parameters:	ylims 		= self.parameters["ylim_list"]
-		if "show" 			in self.parameters:	show 		= self.parameters["show"]
-		if "crd1_label" 	in self.parameters:	crd1_label 	= self.parameters["crd1_label"]
-		if "crd2_label" 	in self.parameters:	crd2_label 	= self.parameters["crd2_label"]
-		if "xwindows" 		in self.parameters: xwin 		= self.parameters["xwindows"]
-		if "ywindows" 		in self.parameters:	ywin 		= self.parameters["ywindows"]
+		if "contour_lines" 	in self.parameters: cnt_lines  = self.parameters["contour_lines"]		
+		if "xlim_list" 		in self.parameters: xlims 	   = self.parameters["xlim_list"]
+		if "ylim_list" 		in self.parameters:	ylims 	   = self.parameters["ylim_list"]
+		if "show" 			in self.parameters:	show 	   = self.parameters["show"]
+		if "crd1_label" 	in self.parameters:	crd1_label = self.parameters["crd1_label"]
+		if "crd2_label" 	in self.parameters:	crd2_label = self.parameters["crd2_label"]
+		if "xwindows" 		in self.parameters: xwin 	   = self.parameters["xwindows"]
+		if "ywindows" 		in self.parameters:	ywin 	   = self.parameters["ywindows"]
+		if "oneDimPlot"     in self.parameters: OneDimPlot = self.parameters["oneDimPlot"]
 		#------------------------------------------------------------
 		if   nDims == 2: TYPE = "WHAM2D"
 		elif nDims == 1: TYPE = "WHAM1D"	
@@ -630,8 +632,10 @@ class Simulation:
 		elif nDims == 1: EA.Plot1D(crd1_label,SHOW=show)
 		#-------------------------------------------
 		#Plot Free energy of the calculated windows
-		if   nDims == 2: TYPE = "FE2D"
-		elif nDims == 1: TYPE = "FE1D"	
+		if 	 OneDimPlot == True: TYPE = "FE1D"
+		elif nDims 		== 2: 	 TYPE = "FE2D"
+		elif nDims 		== 1: 	 TYPE = "FE1D"
+
 		xlims = [ np.min(EA.RC1), np.max(EA.RC1) ]
 
 		if nDims  == 2:  ylims = [ np.min(EA.RC2), np.max(EA.RC2) ]	
@@ -639,7 +643,9 @@ class Simulation:
 		EAfe = EnergyAnalysis(xwin,ywin,_type=TYPE)
 		EAfe.ReadLog( os.path.join(potmean.baseName,"FreeEnergy.log") ) 
 		#-------------------------------------------------------------
-		if   nDims == 2: EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
+		if nDims == 2: 
+			if OneDimPlot: EAfe.Plot1D_FreeEnergy(crd1_label,crd2_label,xlims,ylims,show)
+			else 		 : EAfe.Plot2D(cnt_lines,crd1_label,crd2_label,xlims,ylims,show)
 		elif nDims == 1: EAfe.Plot1D(crd1_label,XLIM=xlims,SHOW=show)
 	#=========================================================================
 	def NormalModes(self):
@@ -722,8 +728,11 @@ class Simulation:
 			"xlim_list"                :
 		'''
 
-		RSrun = GeometrySearcher(self.molecule,self.baseFolder)		
-		RSrun.ChangeDefaultParameters(self.parameters)
+
+		_traj_name = "ReactionPath"
+		if "trajectory_name" in self.parameters: _traj_name = self.parameters["trajectory_name"]
+		RSrun = GeometrySearcher(self.molecule,self.baseFolder,_trajName=_traj_name)		
+		RSrun.ChangeDefaultParameters(self.parameters)		
 
 		if   self.parameters["simulation_type"] == "NEB"                : RSrun.NudgedElasticBand(self.parameters)
 		elif self.parameters["simulation_type"] == "SAW"                : RSrun.SelfAvoidWalking(self.parameters)
@@ -754,7 +763,7 @@ class Simulation:
 			if "show" 		in self.parameters: show       = self.parameters["show"]
 			#------------------------------------------------------------				
 			EA = EnergyAnalysis(self.parameters["traj_bins"],1,_type="1DRef")
-			EA.ReadLog( os.path.join(ER.baseName,ER.trajFolder+".log") )
+			EA.ReadLog( os.path.join(ER.baseName,"energy.log") )
 			EA.MultPlot1D(crd1_label,show)	
 			RSrun.Finalize()
 	#=========================================================================	

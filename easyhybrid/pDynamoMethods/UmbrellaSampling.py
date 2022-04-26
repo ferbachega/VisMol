@@ -91,6 +91,7 @@ class US:
         if "pressure_coupling"  in _parameters: self.mdParameters["pressure_coupling"]= _parameters["pressure_coupling"]
         if "seed"               in _parameters: self.mdParameters["seed"]             = _parameters["seed"]
         if "log_frequency_md"   in _parameters: self.mdParameters["log_frequency"]    = _parameters["log_frequency_md"]
+        if "sampling_factor"   in _parameters: self.mdParameters["sampling_factor"]    = _parameters["sampling_factor"]
         #parameters for optimization
         if "maxIterations"      in _parameters: self.GeoOptPars["maxIterations"]      = _parameters["maxIterations"]
         if "log_frequency_OPT"  in _parameters: self.GeoOptPars["log_frequency"]      = _parameters["log_frequency_OPT"]
@@ -545,7 +546,7 @@ class US:
         
         if not os.path.exists(self.concFolder):  os.makedirs( self.concFolder )
 
-        if self.samplingFactor >0 :
+        if self.samplingFactor>0:
             fsize = int(self.prodNsteps/self.samplingFactor)
             pkl_path = self.baseName + "/frame*/production*/frame*.pkl"
             pkl_paths = glob.glob( pkl_path )

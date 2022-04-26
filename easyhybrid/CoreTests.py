@@ -423,8 +423,6 @@ def Scan1D_Dihedral(_nsteps,_dincre=10.0,name="Default"):
 	#---------------------------------------------
 	#setting atoms for scan	
 	atomsf = [ 4, 6,  8, 14] 
-	print(_dincre)
-	input()
 	#setting parameters
 	parameters = { "ATOMS_RC1":atomsf     					,
 				   "nsteps_RC1":_nsteps   					,
@@ -820,7 +818,6 @@ def UmbrellaSampling1Drestart(nsteps):
 	#-------------------------------------------------
 	#Run umbrella sampling 
 	proj.RunSimulation(_PMFparameters)
-	input()
 	#*************************************************************
 	QCMMScanMultipleDistance(10,0.2,name=_name)
 	USparameters={ "ATOMS_RC1":atomsf				    ,
@@ -1280,12 +1277,54 @@ def NEB_FreeEnergy():
 	proj=SimulationProject( os.path.join(scratch_path,"NEB_FreeEnergy") )		
 	proj.LoadSystemFromSavedProject( os.path.join(scratch_path,"QCMMopts.pkl") )
 	
-	_name = "SCAN1D_4NEB_and_SAW"
-	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
+	_name = "ReactionPathsSearchers"
+	_path = os.path.join( os.path.join(scratch_path,_name,"ReactionPath.ptGeo") )
 
 	_type = "NEB" 
-	if not os.path.exists(_path): ReacCoordSearchers(_type):
-		ReacCoordSearchers()
+	if not os.path.exists(_path): ReacCoordSearchers(_type)
+	
+	atom1 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:C02")
+	atom2 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:H02")
+	atom3 = AtomSelection.FromAtomPattern(proj.cSystem,"*:GLU.164:OE2")	
+	atom6 = AtomSelection.FromAtomPattern(proj.cSystem,"*:LIG.*:O06")
+	atom5 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:HE2")
+	atom4 = AtomSelection.FromAtomPattern(proj.cSystem,"*:HIE.94:NE2")
+	atomsf = [ atom1[0], atom2[0], atom3[0] ] 
+	atomss = [ atom4[0], atom5[0], atom6[0] ]
+	
+	rc1 = ReactionCoordinate(atomsf,False,0)
+	rc1.GetRCLabel(proj.cSystem)	
+	rc2 = ReactionCoordinate(atomss,False,0)	
+	rc2.GetRCLabel(proj.cSystem)
+
+	USparameters = { "ATOMS_RC1":atomsf				,
+				   "ATOMS_RC2":atomss				,
+				   "ndim":2 						,
+				   "sampling_factor":500		    ,
+				   "equilibration_nsteps":2500 	    ,
+				   "production_nsteps":5000		    ,
+				   "source_folder":_path 			,
+				   "MD_method":"LeapFrog"			,
+				   "MC_RC1":True					,
+				   "MC_RC2":True					,
+				   "simulation_type":"Umbrella_Sampling",
+				   "NmaxThreads":NmaxThreads		}
+
+	proj.RunSimulation(USparameters)
+
+	_path = os.path.join( scratch_path, "NEB_FreeEnergy")	
+	PMFparameters = { "source_folder":_path,
+				   "xnbins":10           ,
+				   "ynbins":10           ,
+				   "ywindows":0          ,
+				   "xwindows":16         ,
+				   "crd1_label":rc1.label,
+				   "crd2_label":rc2.label,
+				   "oneDimPlot":True     ,
+				   "simulation_type":"PMF_Analysis",
+				   "temperature":300.15	 }
+	#RUN WHAM, calculate PMF and free energy
+	proj.RunSimulation(PMFparameters)
 
 
 #================================================================================
@@ -1550,8 +1589,6 @@ def ORCAEnergy_ref():
 				   "Software":"ORCA"	                                           }
 	#---------------------------------------------
 	proj.RunSimulation(parameters)
-#=====================================================
-def 
 
 #=====================================================
 def Thermodynamics():
@@ -1607,6 +1644,7 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 31: pDynamoEnergyRef_abInitio()
 	elif int(sys.argv[1]) == 32: ORCAEnergy_ref()
 	elif int(sys.argv[1]) == 33: Change_QC_Region()
+	elif int(sys.argv[1]) == 34: NEB_FreeEnergy()
 	else: pass  
 
 

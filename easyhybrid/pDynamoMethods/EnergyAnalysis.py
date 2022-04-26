@@ -182,7 +182,7 @@ class EnergyAnalysis:
 				lns = line.split()
 				m = int( lns[0])				
 				n = int( lns[1])
-				self.energiesMatrix[n][m] = float(lns[2]) 
+				self.energiesMatrix[n][m] = float(lns[2])
 		#----------------------------------
 		self.nplots1D += 1	
 	#================================================
@@ -213,7 +213,8 @@ class EnergyAnalysis:
 						self.multiple1Dplot[k][i] = self.multiple1Dplot[k][i] - Min		
 		#------------------------------------------
 		if self.Type == "2D" or self.Type == "WHAM2D" or self.Type == "FE2D" or self.Type == "2DRef":
-			self.energiesMatrix = self.energiesMatrix - np.min(self.energiesMatrix)
+			if not self.energiesMatrix[0][0] == 0.0:
+				self.energiesMatrix = self.energiesMatrix - np.min(self.energiesMatrix)
 	#===============================================
 	def FES_HL_SMO(self, logPES, logSMO, logFE):
 		'''
@@ -225,7 +226,7 @@ class EnergyAnalysis:
 		'''
 		pass
 	#===============================================
-	def Plot1D(self, label,XLIM=None,SHOW=False):
+	def Plot1D(self,label,XLIM=None,SHOW=False):
 		'''
 		Plot one dimensional energy plot.
 		'''
@@ -268,7 +269,7 @@ class EnergyAnalysis:
 		if SHOW: plt.show()		
 		plt.close()
 	#===============================================
-	def Plot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
+	def Plot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False,_figS=[6.7,5]):
 		'''
 		Plot contour plot for potential, free energy and potential of mean field
 		'''			
@@ -287,7 +288,7 @@ class EnergyAnalysis:
 		#------------------------------------------------------
 		z = self.energiesMatrix
 		#------------------------------------------------------
-		fig, (ax0) = plt.subplots(nrows=1)
+		fig, (ax0) = plt.subplots( nrows=1, figsize=(_figS[0],_figS[1]) )
 		vmin=z.min()
 		vmax=z.max()
 		#------------------------------------------------------
@@ -333,6 +334,37 @@ class EnergyAnalysis:
 			self.identifiers.append( self.identifiers[i] )
 			self.energiesMatrix = self.multiple2Dplot[i]
 			self.Plot2D(contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False)
+	#----------------------------------------------------------------------------------------
+	def Plot1D_FreeEnergy(self,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
+		'''
+		'''
+		self.NormalizeEnergies()
+
+		if _xlim == None: self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
+		else 			: self.RC1 = np.linspace( _xlim[0],_xlim[1],len(self.energies1D) )
+		
+		if _ylim == None: self.RC2 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
+		else 			: self.RC2 = np.linspace( _ylim[0],_ylim[1],len(self.energies1D) )
+
+		if 	 self.Type == "FE2D"   and self.Type == "FE1D"  : self.labely = "Free Energy (kJ/mol)"
+		elif self.Type == "WHAM1D" and self.Type == "WHAM2D": self.labely = "Potential of Mean Field (kJ/mol)"
+		
+		#--------------------------------------------
+		plt.plot(self.RC1,self.energies1D,'-ok')
+		plt.xlabel(crd1label)
+		plt.ylabel(self.labely)	
+		plt.savefig(self.baseName+"_rc1.png",dpi=1000)
+		#---------------------------------------------
+		if SHOW: plt.show()	
+		plt.close()
+
+		plt.plot(self.RC2,self.energies1D,'-ok')
+		plt.xlabel(crd2label)
+		plt.ylabel(self.labely)	
+		plt.savefig(self.baseName+"_rc2.png",dpi=1000)
+		#---------------------------------------------
+		if SHOW: plt.show()	
+		plt.close()
 
 #=====================================================================
 
