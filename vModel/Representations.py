@@ -9,6 +9,8 @@ import glCore.matrix_operations as mop
 import vModel.cartoon as cartoon
 import ctypes
 
+from  vModel.MolecularProperties import residues_dictionary
+
 #from   glCore.sphere_representation import _create_frame_sphere_data
 
 #import EDTSurf.edtsurf as  edtsurf
@@ -121,28 +123,29 @@ class Representation:
     
     def _set_colors_to_buffer (self, col_vbo = True):
         """ Function doc """
-        try:
-            frame = self.visObj.colors
-            #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
-            
-            if col_vbo:
-                    if self.col_vbo:
-                        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
-                                        self.col_vbo    )
-                        
-                        GL.glBufferData(GL.GL_ARRAY_BUFFER, 
-                                        frame.nbytes      ,
-                                        frame             , 
-                                        GL.GL_STATIC_DRAW)   
-                        #except:
-                        #    
-                        #   #print ('wrong type:', self.col_vbo, type(self.col_vbo))
-                    else: 
-                        pass
-            else: 
-                pass
-        except:
-           print('_set_colors_to_buffer -  error')
+        #try:
+        frame = self.visObj.colors
+        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
+        frame = np.array(self.visObj.colors, dtype = np.float32)
+        
+        if col_vbo:
+                if self.col_vbo:
+                    GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+                                    self.col_vbo    )
+                    
+                    GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+                                    frame.nbytes      ,
+                                    frame             , 
+                                    GL.GL_STATIC_DRAW)   
+                    #except:
+                    #    
+                    #   #print ('wrong type:', self.col_vbo, type(self.col_vbo))
+                else: 
+                    pass
+        else: 
+            pass
+        #except:
+        #   print('_set_colors_to_buffer -  error')
         
         
         
@@ -241,6 +244,13 @@ class Representation:
         """ Function doc """
         self._check_VAO_and_VBOs ()
         
+        
+        if input_indexes == []:
+            self.active = False
+            return None
+        else:
+            self.active = True
+            
         self.indexes = input_indexes
         self.indexes = np.array(self.indexes,dtype=np.uint32)
         
@@ -380,6 +390,7 @@ class LinesRepresentation (Representation):
         GL.glUseProgram(self.shader_program)
         
         line_width = self.visObj.vm_session.vConfig.gl_parameters['line_width']
+        #print('drawing lines')
         line_width = (line_width*200/abs(self.glCore.dist_cam_zrp)/2)**0.5  #40/abs(self.glCore.dist_cam_zrp)
         GL.glLineWidth(line_width)
 
@@ -750,7 +761,7 @@ class SticksRepresentation (Representation):
         self.shader_program     = self.glCore.shader_programs[self.name]
         self.sel_shader_program = self.glCore.shader_programs[self.name+'_sel']
         
-        
+
         #indexes = np.array(self.visObj.index_bonds, dtype=np.uint32)
         coords  = self.visObj.frames[0]
         colors  = self.visObj.colors
@@ -774,6 +785,7 @@ class SticksRepresentation (Representation):
 
         GL.glUseProgram(self.shader_program)
         GL.glLineWidth(40/abs(self.glCore.dist_cam_zrp))
+        #print('drawing sticks')
 
         self.glCore.load_matrices(self.shader_program, self.visObj.model_mat)
         self.glCore.load_fog(self.shader_program)
@@ -853,12 +865,11 @@ class RibbonsRepresentation (Representation):
         
         if self.visObj.c_alpha_bonds == []:
             self.visObj.get_backbone_indexes ()
-            #self.active  = False
             
-           #print('self.active  = False')
+            if self.visObj.c_alpha_bonds == []:
+                self.active =  False
+        
         else:
-           #print('self.active  = True')
-
             pass
         
         
@@ -913,8 +924,8 @@ class RibbonsRepresentation (Representation):
             indexes = np.array(indexes,dtype=np.uint32)
 
             coords  = self.visObj.frames[0]
-            colors  = self.visObj.colors
-            #colors  = self.visObj.colors_rainbow
+            #colors  = self.visObj.colors
+            colors  = self.visObj.colors_rainbow
             #colors  = np.array([1.0 ]*len(coords),dtype=np.float32)
             self._make_gl_representation_vao_and_vbos (indexes    = indexes,
                                                        coords     = coords ,
@@ -1762,7 +1773,7 @@ class SpheresRepresentation (Representation):
         self.light_intensity      = glCore.light_intensity     
         self.light_specular_color = glCore.light_specular_color
         
-        
+        self.col_vbo = False
 
 
 
@@ -2035,16 +2046,16 @@ class SpheresRepresentation (Representation):
         GL.glEnableVertexAttribArray(gl_coord)
         GL.glVertexAttribPointer(gl_coord, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*coords.itemsize, ctypes.c_void_p(0))
 
-        col_vbo = GL.glGenBuffers(1)
-        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)
+        self.col_vbo = GL.glGenBuffers(1)
+        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.col_vbo)
         GL.glBufferData(GL.GL_ARRAY_BUFFER, colors.nbytes, colors, GL.GL_STATIC_DRAW)
         gl_colors = GL.glGetAttribLocation(program, "vert_color")
         GL.glEnableVertexAttribArray(gl_colors)
         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*colors.itemsize, ctypes.c_void_p(0))
         GL.glVertexAttribDivisor(gl_colors, 1)
         
-        #sel_col_vbo = GL.glGenBuffers(1)
-        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, sel_col_vbo)
+        #sel_self.col_vbo = GL.glGenBuffers(1)
+        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, sel_self.col_vbo)
         #GL.glBufferData(GL.GL_ARRAY_BUFFER, colors.nbytes, colors, GL.GL_STATIC_DRAW)
         #gl_colors = GL.glGetAttribLocation(sel_program, "vert_color")
         #GL.glEnableVertexAttribArray(gl_colors)
@@ -2074,7 +2085,7 @@ class SpheresRepresentation (Representation):
         GL.glDisableVertexAttribArray(gl_insta)
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
 
-        return vao, (coord_vbo, col_vbo, rad_vbo, insta_vbo), int(len(indexes))
+        return vao, (coord_vbo, self.col_vbo, rad_vbo, insta_vbo), int(len(indexes))
  
     
     def update_atomic_indexes (self, indexes = [] ):

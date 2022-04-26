@@ -601,7 +601,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             self.vm_session.glwidget.queue_draw()
         else:
             obj_index = self.treestore[path][7]
-
+            print ('obj_index:', obj_index)
             self.vm_session.disable_by_index(index = int(obj_index))
             self.vm_session.glwidget.queue_draw()
 

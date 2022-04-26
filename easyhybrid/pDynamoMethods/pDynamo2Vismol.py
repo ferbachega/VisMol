@@ -644,8 +644,110 @@ class pDynamoSession:
                                                      indexes = range(0,self.systems[self.active_id]['system'].atoms), 
                                                      name    = 'QC atoms')
                                                      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    def refresh_vobject_qc_and_fixed_representations (self         ,
+                                                      visObj = None,    
+                                                 fixed_atoms = True , 
+                                                    QC_atoms = True , 
+                                                      static = True ):
+        """ Function doc """
+        
+        
+        system_id = visObj.easyhybrid_system_id
+        if fixed_atoms:
+            #system_id = visObj.easyhybrid_system_id
+            #print ("system_id", system_id)
+            
+            if self.systems[system_id]['system'].freeAtoms is None:
+                #print('pass')
+                pass
+            else:
+                if self.systems[system_id]['fixed_table'] == []:
+                    freeAtoms = self.systems[system_id]['system'].freeAtoms
+                    freeAtoms                             = Selection.FromIterable (freeAtoms)
+                    selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+                    self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+                            #self.systems[self.active_id]['system'].freeAtoms = selection_free
+                        
+                        
+                #print('set_color_by_index')
+                #try:
+            indexes = np.array(self.systems[system_id]['fixed_table'], dtype=np.int32)    
+            color   = np.array(self.fixed_color, dtype=np.float32)    
+            
+            self.vm_session.set_color_by_index(vismol_object = visObj , 
+                                               indexes       = indexes, 
+                                               color         = color)
+        
+                #except:
+                #    pass
+        
+        
+        
+        if QC_atoms:
+            if self.systems[system_id]['system'].qcModel:
+                self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)
+                
+                self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                if static:
+                    #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+                    self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms = visObj.atoms , show = False )
+                    self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+                else:
+                    pass
+                    self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     def refresh_qc_and_fixed_representations (self, _all = False, 
                                                system_id = None , 
+                                                  visObj = None,    
                                              fixed_atoms = True , 
                                                 QC_atoms = True , 
                                                   static = True ):
@@ -665,103 +767,175 @@ class pDynamoSession:
         This loop is assigning the color of the fixed atoms to all objects 
         belonging to the pdynamo project that is active. 
         '''
-        if fixed_atoms:
+        
+        if _all:
+            
             for key, visObj in self.vm_session.vismol_objects_dic.items():
                 
-                if _all:
-                    # It applies the "color fixed atoms" representation to all vobjects. 
-                    # Only being used in load - serialization file 
-                    system_id = visObj.easyhybrid_system_id
-                    #print ("system_id", system_id)
-                    
-                    if self.systems[system_id]['system'].freeAtoms is None:
-                        pass
-                    
-                    else:
-                        if self.systems[system_id]['fixed_table'] == []:
-                            freeAtoms = self.systems[system_id]['system'].freeAtoms
-                            freeAtoms                             = Selection.FromIterable (freeAtoms)
-                            selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
-                            self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
-                            #self.systems[self.active_id]['system'].freeAtoms = selection_free
-                        
-                        
-                        
-                    self.vm_session.set_color_by_index(vismol_object = visObj , 
-                                                       indexes       = self.systems[system_id]['fixed_table'], 
-                                                       color         = self.fixed_color)
+                self.refresh_vobject_qc_and_fixed_representations ( 
+                                                                    visObj = visObj     ,    
+                                                               fixed_atoms = fixed_atoms, 
+                                                                  QC_atoms = QC_atoms   , 
+                                                                    static = static     )
                 
-                else:
-                    #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
-                    if visObj.easyhybrid_system_id == system_id:
-                       
-                        if self.systems[system_id]['system'].freeAtoms is None:
-                            pass
-                        
-                        else:
-                            if self.systems[system_id]['fixed_table'] == []:
-                                freeAtoms = self.systems[system_id]['system'].freeAtoms
-                                freeAtoms                             = Selection.FromIterable (freeAtoms)
-                                selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
-                                self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+                #system_id = visObj.easyhybrid_system_id
+                #
+                #if self.systems[system_id]['system'].qcModel:
+                #    #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
+                #    # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
+                #    self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                #    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                #
+                #    if static:
+                #        #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+                #        self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms = visObj.atoms , show = False )
+                #        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                #
+                #    else:
+                #        pass
+                #        self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                #else:
+                #    pass
+            
 
-                        self.vm_session.set_color_by_index(vismol_object = visObj , 
-                                                              indexes       = self.systems[system_id]['fixed_table'], 
-                                                              color         = self.fixed_color)
         else:
-            pass
+            #if self.systems[system_id]['system'].qcModel:
 
-
-
-
-        if QC_atoms:
-            if _all:
+                #self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)               
                 
-                for key, visObj in self.vm_session.vismol_objects_dic.items():
-                    system_id = visObj.easyhybrid_system_id
-                    
-                    if self.systems[system_id]['system'].qcModel:
-                        #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
-                        # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
-                        self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+            for key, visObj in self.vm_session.vismol_objects_dic.items():
+                if visObj.easyhybrid_system_id == self.active_id:
+                    self.refresh_vobject_qc_and_fixed_representations ( 
+                                                                      visObj = visObj     ,    
+                                                                 fixed_atoms = fixed_atoms, 
+                                                                    QC_atoms = QC_atoms   , 
+                                                                      static = static     )
+                        
+                        
+                        #print('vobj index:',visObj.index,visObj.easyhybrid_system_id )
+                        #
+                        #self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                        #self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                        #
+                        #if static:
+                        #    self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms =   visObj.atoms , show = False )
+                        #    self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+                        #else:
+                        #    self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+            
 
-                        if static:
-                            self.vm_session.show_or_hide_by_object (_type = 'sticks',   vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
-                            self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-
-                        else:
-                            pass
-                            self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                    else:
-                        pass
-                
-
-            else:
-                if self.systems[system_id]['system'].qcModel:
-
-                    self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)               
-                    for key, visObj in self.vm_session.vismol_objects_dic.items():
-                        if visObj.easyhybrid_system_id == self.active_id:
-                            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-
-                            if static:
-                                self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                                #self.vm_session.change_attributes_for_selected_atoms(_type = 'sticks', atoms = visObj.atoms, show = False)
-                                #if visObj.representations['sticks']:
-                                #    visObj.representations['sticks'].active = False
-                                #    visObj.representations['sticks'].delete_buffers()
-                                #    visObj.representations['sticks'] = None
-                                self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                                
-                                
-                                
-                                #self.vm_session.show_or_hide (_type = 'sticks',  selection = None , show = True )
-                            else:
-                                self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                else:
-                    pass
+        
+        
+        
+        #if fixed_atoms:
+        #    for key, visObj in self.vm_session.vismol_objects_dic.items():
+        #        
+        #        if _all:
+        #            # It applies the "color fixed atoms" representation to all vobjects. 
+        #            # Only being used in load - serialization file 
+        #            system_id = visObj.easyhybrid_system_id
+        #            #print ("system_id", system_id)
+        #            
+        #            if self.systems[system_id]['system'].freeAtoms is None:
+        #                pass
+        #            
+        #            else:
+        #                if self.systems[system_id]['fixed_table'] == []:
+        #                    freeAtoms = self.systems[system_id]['system'].freeAtoms
+        #                    freeAtoms                             = Selection.FromIterable (freeAtoms)
+        #                    selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+        #                    self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+        #                    #self.systems[self.active_id]['system'].freeAtoms = selection_free
+        #                
+        #                
+        #                
+        #            self.vm_session.set_color_by_index(vismol_object = visObj , 
+        #                                               indexes       = self.systems[system_id]['fixed_table'], 
+        #                                               color         = self.fixed_color)
+        #        
+        #        else:
+        #            #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
+        #            if visObj.easyhybrid_system_id == system_id:
+        #               
+        #                if self.systems[system_id]['system'].freeAtoms is None:
+        #                    pass
+        #                
+        #                else:
+        #                    if self.systems[system_id]['fixed_table'] == []:
+        #                        freeAtoms = self.systems[system_id]['system'].freeAtoms
+        #                        freeAtoms                             = Selection.FromIterable (freeAtoms)
+        #                        selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
+        #                        self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
+        #
+        #                self.vm_session.set_color_by_index(vismol_object = visObj , 
+        #                                                      indexes       = self.systems[system_id]['fixed_table'], 
+        #                                                      color         = self.fixed_color)
+        #else:
+        #    pass
+        #
+        #
+        #
+        #
+        #if QC_atoms:
+        #    
+        #    if visObj:
+        #        system_id = visObj.easyhybrid_system_id
+        #        if self.systems[system_id]['system'].qcModel:
+        #            self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+        #            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #
+        #            if static:
+        #                #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+        #                self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms = visObj.atoms , show = False )
+        #                self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #
+        #            else:
+        #                pass
+        #                self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #
+        #    
+        #    
+        #    else:
+        #        if _all:
+        #            
+        #            for key, visObj in self.vm_session.vismol_objects_dic.items():
+        #                system_id = visObj.easyhybrid_system_id
+        #                
+        #                if self.systems[system_id]['system'].qcModel:
+        #                    #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
+        #                    # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
+        #                    self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+        #                    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #
+        #                    if static:
+        #                        #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+        #                        self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms = visObj.atoms , show = False )
+        #                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #
+        #                    else:
+        #                        pass
+        #                        self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #                else:
+        #                    pass
+        #            
+        #
+        #        else:
+        #            if self.systems[system_id]['system'].qcModel:
+        #
+        #                self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)               
+        #                for key, visObj in self.vm_session.vismol_objects_dic.items():
+        #                    if visObj.easyhybrid_system_id == self.active_id:
+        #                        print('vobj index:',visObj.index,visObj.easyhybrid_system_id )
+        #                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+        #                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #
+        #                        if static:
+        #                            self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms =   visObj.atoms , show = False )
+        #                            self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #                        else:
+        #                            self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
+        #            else:
+        #                pass
 
     def merge_systems (self, system1 = None, system2 =  None, label = 'Merged System', summary = True):
         """ Function doc """
@@ -993,7 +1167,7 @@ class pDynamoSession:
                                                                 autocenter       = autocenter)
         
         if refresh_qc_and_fixed:
-            self.refresh_qc_and_fixed_representations(system_id = system_id) 
+            self.refresh_qc_and_fixed_representations(system_id = system_id, visObj = vismol_object) 
 
         self.vm_session.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.vm_session.main_session.update_gui_widgets()

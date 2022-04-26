@@ -329,39 +329,92 @@ button position in the main treeview (active column).""".format(name,self.main_s
         #vismol_object.create_new_representation (rtype = 'spheresInstace')
         if rep:
             #print('\n\nrep.keys()', rep.keys())
-            for key in rep.keys():
-                
-                if key == 'lines':
-                    if rep[key] == []:
-                        vismol_object.create_new_representation (rtype = 'lines')
+            try:
+                for key in rep.keys():
+                    if rep[key]:
+                        self.show_or_hide_by_object (_type = key, 
+                                                   vobject = vismol_object,  
+                                           selection_table = rep[key], 
+                                                      show = True)     
                     else:
+                        if key == 'lines':
+                            self.show_or_hide_by_object (_type = 'lines', 
+                                                       vobject = vismol_object,  
+                                               selection_table = range(0, len(vismol_object.atoms)), 
+                                                                                  show = True)
+                        if key == 'nonbonded':
+                                self.show_or_hide_by_object (_type = 'nonbonded', 
+                                                            vobject = vismol_object,  
+                                                    selection_table = vismol_object.non_bonded_atoms , 
+                                                                show = True)
                         
-                        vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
-               
-                if key == 'nonbonded':
-                    if rep[key] == []:
-                        vismol_object.create_new_representation (rtype = 'nonbonded')
-                    else:
-                        vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
-                    
-                if key == 'sticks':
-                    if rep[key] == []:
-                        vismol_object.create_new_representation (rtype = 'sticks')
-                    else:
-                        vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
+                        pass
+                        #self.show_or_hide_by_object (_type = key, 
+                        #                           vobject = vismol_object,  
+                        #                   selection_table = range(0, len(vismol_object.atoms)), 
+                        #                              show = True)
+            except:
                 
-                #if key == 'dynamic_bonds':
-                #    if rep[key] == []:
-                #        vismol_object.create_new_representation (rtype = 'dynamic_bonds')
-                #    else:
-                #        vismol_object.create_new_representation (rtype = 'dynamic_bonds', indexes = rep[key])
-                
-                if key == 'spheres':
-                    
-                    if rep[key] == []:
-                        vismol_object.create_new_representation (rtype = 'spheres')
-                    else:
-                        vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
+                print( 'except: rep:',rep )
+               #
+               #
+               #if key == 'lines':
+               #    if rep[key] == []:
+               #        self.show_or_hide_by_object (_type = 'lines', 
+               #                                   vobject = vismol_object,  
+               #                           selection_table = range(0, len(vismol_object.atoms)), 
+               #                                      show = True)
+               #    else:
+               #        self.show_or_hide_by_object (_type = 'lines', 
+               #                                   vobject = vismol_object,  
+               #                           selection_table = rep[key], 
+               #                                      show = True)
+               #if key == 'nonbonded':
+               #    if rep[key] == []:
+               #        self.show_or_hide_by_object (_type = 'nonbonded', 
+               #                                   vobject = vismol_object,  
+               #                           selection_table = range(0, len(vismol_object.atoms)), 
+               #                                      show = True)
+               #    else:
+               #        self.show_or_hide_by_object (_type = 'nonbonded', 
+               #                                   vobject = vismol_object,  
+               #                           selection_table = rep[key], 
+               #                                      show = True)
+               #    
+               #    
+               #    
+               #    
+               #    
+               #    #if rep[key] == []:
+               #    #    vismol_object.create_new_representation (rtype = 'lines')
+               #    #else:
+               #    #    
+               #    #    vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
+               #
+               #if key == 'nonbonded':
+               #    if rep[key] == []:
+               #        vismol_object.create_new_representation (rtype = 'nonbonded')
+               #    else:
+               #        vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
+               #    
+               #if key == 'sticks':
+               #    if rep[key] == []:
+               #        vismol_object.create_new_representation (rtype = 'sticks')
+               #    else:
+               #        vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
+               #
+               ##if key == 'dynamic_bonds':
+               ##    if rep[key] == []:
+               ##        vismol_object.create_new_representation (rtype = 'dynamic_bonds')
+               ##    else:
+               ##        vismol_object.create_new_representation (rtype = 'dynamic_bonds', indexes = rep[key])
+               #
+               #if key == 'spheres':
+               #    
+               #    if rep[key] == []:
+               #        vismol_object.create_new_representation (rtype = 'spheres')
+               #    else:
+               #        vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
         else:
             print('no representation')
         #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
