@@ -233,7 +233,7 @@ class LoadAndSaveFiles:
                                                       rep             = representations, 
                                                       vismol_object   = vismol_object, 
                                                       vobj_count      = False,
-                                                      autocenter      = False)
+                                                      autocenter      = True)
         
             
             
@@ -246,13 +246,13 @@ class LoadAndSaveFiles:
         
         
         
-        
-        self.pDynamo_session.refresh_qc_and_fixed_representations(       _all = True       ,
-                                                                   # system_id = system['id'], 
-                                                                  fixed_atoms = True        , 
-                                                                     QC_atoms = False       ,
-                                                                       static = False       )
-        
+        #
+        #self.pDynamo_session.refresh_qc_and_fixed_representations(       _all = True       ,
+        #                                                           # system_id = system['id'], 
+        #                                                          fixed_atoms = True        , 
+        #                                                             QC_atoms = False       ,
+        #                                                               static = False       )
+        #
         
         for key, system in self.pDynamo_session.systems.items():
         #    #print(key, system)
@@ -283,7 +283,11 @@ class LoadAndSaveFiles:
         if self.main_session.selection_list_window.visible:
             self.main_session.selection_list_window.update_window(system_names = True, coordinates = False,  selections = False)
         
-        
+        self.pDynamo_session.refresh_qc_and_fixed_representations(       _all = True       ,
+                                                                   # system_id = system['id'],
+                                                                  fixed_atoms = True        , 
+                                                                     QC_atoms = False       ,
+                                                                       static = True       )
         
         #self.pDynamo_session.refresh_qc_and_fixed_representations(_all = True)#_all = True)
         

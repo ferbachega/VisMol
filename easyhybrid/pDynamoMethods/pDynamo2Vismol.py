@@ -688,13 +688,16 @@ class pDynamoSession:
                         
                         
                 #print('set_color_by_index')
-                try:
-                    self.vm_session.set_color_by_index(vismol_object = visObj , 
-                                                       indexes       = self.systems[system_id]['fixed_table'], 
-                                                       color         = self.fixed_color)
+                #try:
+            indexes = np.array(self.systems[system_id]['fixed_table'], dtype=np.int32)    
+            color   = np.array(self.fixed_color, dtype=np.float32)    
+            
+            self.vm_session.set_color_by_index(vismol_object = visObj , 
+                                               indexes       = indexes, 
+                                               color         = color)
         
-                except:
-                    pass
+                #except:
+                #    pass
         
         
         

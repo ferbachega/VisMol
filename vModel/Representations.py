@@ -1773,7 +1773,7 @@ class SpheresRepresentation (Representation):
         self.light_intensity      = glCore.light_intensity     
         self.light_specular_color = glCore.light_specular_color
         
-        
+        self.col_vbo = False
 
 
 
@@ -2046,16 +2046,16 @@ class SpheresRepresentation (Representation):
         GL.glEnableVertexAttribArray(gl_coord)
         GL.glVertexAttribPointer(gl_coord, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*coords.itemsize, ctypes.c_void_p(0))
 
-        col_vbo = GL.glGenBuffers(1)
-        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, col_vbo)
+        self.col_vbo = GL.glGenBuffers(1)
+        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.col_vbo)
         GL.glBufferData(GL.GL_ARRAY_BUFFER, colors.nbytes, colors, GL.GL_STATIC_DRAW)
         gl_colors = GL.glGetAttribLocation(program, "vert_color")
         GL.glEnableVertexAttribArray(gl_colors)
         GL.glVertexAttribPointer(gl_colors, 3, GL.GL_FLOAT, GL.GL_FALSE, 3*colors.itemsize, ctypes.c_void_p(0))
         GL.glVertexAttribDivisor(gl_colors, 1)
         
-        #sel_col_vbo = GL.glGenBuffers(1)
-        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, sel_col_vbo)
+        #sel_self.col_vbo = GL.glGenBuffers(1)
+        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, sel_self.col_vbo)
         #GL.glBufferData(GL.GL_ARRAY_BUFFER, colors.nbytes, colors, GL.GL_STATIC_DRAW)
         #gl_colors = GL.glGetAttribLocation(sel_program, "vert_color")
         #GL.glEnableVertexAttribArray(gl_colors)
@@ -2085,7 +2085,7 @@ class SpheresRepresentation (Representation):
         GL.glDisableVertexAttribArray(gl_insta)
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
 
-        return vao, (coord_vbo, col_vbo, rad_vbo, insta_vbo), int(len(indexes))
+        return vao, (coord_vbo, self.col_vbo, rad_vbo, insta_vbo), int(len(indexes))
  
     
     def update_atomic_indexes (self, indexes = [] ):
