@@ -341,7 +341,16 @@ class ShowHideVisMol:
             if indexes_bonds == []:
                 vobject.representations['sticks'].active = False
             else:
-                vobject.representations['sticks'].define_new_indexes_to_VBO ( indexes_bonds)
+                vobject.representations['sticks'].active = False
+                #vobject.representations['sticks'].define_new_indexes_to_VBO ( indexes_bonds)
+                rep  = SticksRepresentation     (name    = 'sticks', 
+                                                active  = True, 
+                                                _type   = 'mol', 
+                                                visObj  = vobject, 
+                                                glCore  = self.glwidget.vm_widget,
+                                                indexes = indexes_bonds)
+                vobject.representations['sticks'] = rep
+                
         
         else:
             rep  = SticksRepresentation     (name    = 'sticks', 
