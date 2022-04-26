@@ -123,28 +123,29 @@ class Representation:
     
     def _set_colors_to_buffer (self, col_vbo = True):
         """ Function doc """
-        try:
-            frame = self.visObj.colors
-            #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
-            
-            if col_vbo:
-                    if self.col_vbo:
-                        GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
-                                        self.col_vbo    )
-                        
-                        GL.glBufferData(GL.GL_ARRAY_BUFFER, 
-                                        frame.nbytes      ,
-                                        frame             , 
-                                        GL.GL_STATIC_DRAW)   
-                        #except:
-                        #    
-                        #   #print ('wrong type:', self.col_vbo, type(self.col_vbo))
-                    else: 
-                        pass
-            else: 
-                pass
-        except:
-           print('_set_colors_to_buffer -  error')
+        #try:
+        frame = self.visObj.colors
+        #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
+        frame = np.array(self.visObj.colors, dtype = np.float32)
+        
+        if col_vbo:
+                if self.col_vbo:
+                    GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+                                    self.col_vbo    )
+                    
+                    GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+                                    frame.nbytes      ,
+                                    frame             , 
+                                    GL.GL_STATIC_DRAW)   
+                    #except:
+                    #    
+                    #   #print ('wrong type:', self.col_vbo, type(self.col_vbo))
+                else: 
+                    pass
+        else: 
+            pass
+        #except:
+        #   print('_set_colors_to_buffer -  error')
         
         
         

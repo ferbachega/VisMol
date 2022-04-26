@@ -239,7 +239,7 @@ class LoadAndSaveFiles:
             
             
             
-            
+            #self.main_session.vm_session.glwidget.queue_draw()
             self.main_session.vm_session.vismol_objects_dic[vobj_id].active = vobject_data['active']
         
         
@@ -247,19 +247,25 @@ class LoadAndSaveFiles:
         
         
         
+        self.pDynamo_session.refresh_qc_and_fixed_representations(       _all = True       ,
+                                                                   # system_id = system['id'], 
+                                                                  fixed_atoms = True        , 
+                                                                     QC_atoms = False       ,
+                                                                       static = False       )
+        
         
         for key, system in self.pDynamo_session.systems.items():
-            #print(key, system)
+        #    #print(key, system)
             if system:
                 system['vismol_object'] = self.vismol_objects_dic[system['vismol_object']]
-                
-                self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
-                                                                           system_id = system['id'], 
-                                                                         fixed_atoms = True        , 
-                                                                            QC_atoms = False        , 
-                                                                              static = False       )
-            else:
-                pass
+        #        
+        #        self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
+        #                                                                   system_id = system['id'], 
+        #                                                                 fixed_atoms = True        , 
+        #                                                                    QC_atoms = False        , 
+        #                                                                      static = False       )
+        #    else:
+        #        pass
         
         '''Here we will select the radio button corresponding to the system that is active. 
         When "path" = None, we select the first system from the treeview''' 
@@ -269,6 +275,8 @@ class LoadAndSaveFiles:
             self.main_session.treeview.on_cell_radio_toggled(widget, path)
         else:
             self.main_session.treeview.on_cell_radio_toggled(widget, 0)
+        
+        
         
         self.main_session.vm_session.center(self.pDynamo_session.systems[self.pDynamo_session.active_id]['vismol_object'])
         
