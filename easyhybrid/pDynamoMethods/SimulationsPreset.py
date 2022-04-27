@@ -547,7 +547,7 @@ class Simulation:
 		if "adaptative"  	   in self.parameters: _Adaptative      = self.parameters["adaptative"]
 		if "optimize"          in self.parameters: _Optimize        = self.parameters["optimize"]
 		if "coordinate_format" in self.parameters: _crdFormat       = self.parameters["coordinate_format"]
-		if "sampling"          in self.parameters: sampling         = self.parameters["sampling_factor"]
+		if "sampling_factor"   in self.parameters: sampling         = self.parameters["sampling_factor"]
 		#------------------------------------------------------------------
 		rc1 = ReactionCoordinate(self.parameters["ATOMS_RC1"],MCR1,_type=rcType1)
 		rc1.GetRCLabel(self.molecule)
