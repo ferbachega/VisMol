@@ -104,8 +104,8 @@ class ImportTrajectoryWindow:
             #------------------------------------------------------------------------------------
 
             #'''--------------------------------------------------------------------------------------------'''
-            self.combox = self.builder.get_object('combobox_trajectory_type')
-            self.combox.connect("changed", self.on_name_combo_changed)
+            self.combox = self.builder.get_object('combobox_coordinate_type')
+            self.combox.connect("changed", self.on_combobox_coordinate_type)
 
             self.combox.set_active(0)
             self.window.show_all()
@@ -133,7 +133,17 @@ class ImportTrajectoryWindow:
         self.combobox_starting_coordinates = self.builder.get_object('vobjects_combobox')
         self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
 
-    
+    def on_combobox_coordinate_type (self, widget):
+        """ Function doc """
+        traj_type = self.builder.get_object('combobox_coordinate_type').get_active() 
+        print (traj_type, self.traj_type_dic[traj_type])
+        traj_type = self.traj_type_dic[traj_type]
+        
+        if  traj_type in self.folder_type_list:
+            self.folder_chooser_button.sel_type = 'folder'
+        else:
+            self.folder_chooser_button.sel_type = 'file'
+        
     def on_vobject_combo_changed (self, widget):
         '''this combobox has the reference to the starting coordinates of a simulation'''
         #combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
@@ -149,7 +159,11 @@ class ImportTrajectoryWindow:
     
     def on_name_combo_changed (self, widget):
         """ Function doc """
-        if  self.combox.get_active() == 0:
+        traj_type = self.builder.get_object('combobox_coordinate_type').get_active() 
+        print (traj_type, self.traj_type_dic[traj_type])
+        traj_type = self.traj_type_dic[traj_type]
+        
+        if  traj_type in self.folder_type_list:
             self.folder_chooser_button.sel_type = 'folder'
         else:
             self.folder_chooser_button.sel_type = 'file'
@@ -207,18 +221,34 @@ class ImportTrajectoryWindow:
                 vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
             #-----------------------------------------------------------------------------
         
-        
-        #traj = os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo')
-        
-        print('\n\n\data:', system_id,vobject,name)
-        self.easyhybrid_main.pDynamo_session.import_trajectory ( traj         = forder_or_file, 
-                                                                 #first        =  0, 
-                                                                 #last         = -1, 
-                                                                 #stride       =  1,
-                                                                 system_id =  system_id, 
-                                                                 vobject      = vobject, 
-                                                                 name         = name
-                                                                 )
+       
+        traj_type = self.builder.get_object('combobox_coordinate_type').get_active() 
+        print (traj_type, self.traj_type_dic[traj_type])
+        traj_type = self.traj_type_dic[traj_type]
+        self.easyhybrid_main.pDynamo_session.import_data ( 
+                                                         _type      = traj_type, 
+                                                          data      = forder_or_file, 
+                                                          #first     = 0 , 
+                                                          #last      = -1, 
+                                                          #stride    = 1, 
+                                                          system_id = system_id, 
+                                                          vobject   = vobject, 
+                                                          name      = name
+                                                          ) 
+        """ Function doc """
+        pass
+       
+        ##traj = os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo')
+        #
+        #print('\n\n\data:', system_id,vobject,name)
+        #self.easyhybrid_main.pDynamo_session.import_trajectory ( traj         = forder_or_file, 
+        #                                                         #first        =  0, 
+        #                                                         #last         = -1, 
+        #                                                         #stride       =  1,
+        #                                                         system_id    =  system_id, 
+        #                                                         vobject      = vobject, 
+        #                                                         name         = name
+        #                                                         )
         
         
         if self.builder.get_object('checbox_keep_it_open').get_active():
@@ -239,4 +269,17 @@ class ImportTrajectoryWindow:
         self.easyhybrid_main     = main
         self.Visible             =  False        
         self.starting_coords_liststore = Gtk.ListStore(str, int)
-
+        self.traj_type_dic = {
+                        0:'pklfile'    , #  single file
+                        1:'pklfolder'  , #  trajectory
+                        2:'pklfolder2D', #  2d trajectory  
+                        3:'pdbfile'    ,
+                        4:'pdbfolder'  ,
+                        5:'dcd',
+                        6:'crd',
+                        7:'xyz',
+                        8:'mol2',
+                        9:'netcdf',
+                         }
+        
+        self.folder_type_list = ['pklfolder', 'pklfolder2D', 'pdbfolder']

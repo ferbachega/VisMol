@@ -40,6 +40,11 @@ from vModel import VismolObject
 from vModel.MolecularProperties import ATOM_TYPES_BY_ATOMICNUMBER
 from vModel.MolecularProperties import COLOR_PALETTE
 
+from easyhybrid.gui import *
+from easyhybrid.gui.PES_analisys_window  import  PotentialEnergyAnalysisWindow 
+from easyhybrid.gui.PES_analisys_window  import  parse_2D_scan_logfile 
+
+
 HOME = os.environ.get('HOME')
 
 #==========================================================================
@@ -1257,22 +1262,209 @@ class pDynamoSession:
         energy = self.systems[self.active_id]['system'].Energy( )
         return energy
 
-    def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
+
+    def import_data (self, _type = 'pklfile', data = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
+        """ Function doc """
+        if _type == 'pklfile':
+            frame = ImportCoordinates3 ( data )
+            frame = list(frame) 
+            print(list(frame))
+
+            if vobject:
+                pass
+            else:
+                vobject = self.build_vismol_object_from_pDynamo_system (
+                                                                   name                 = name  ,
+                                                                   system_id            = system_id,
+                                                                   vismol_object_active = True        ,
+                                                                   autocenter           = True        ,
+                                                                   refresh_qc_and_fixed = False)
+                vobject.frames = []            
+            
+            frame = np.array(frame, dtype=np.float32)
+            vobject.frames.append(frame)
+            self.refresh_qc_and_fixed_representations(_all = False, 
+                                                 system_id = system_id,
+                                                 visObj    = vobject,
+                                                 fixed_atoms = True,
+                                                 QC_atoms    = True,
+                                                 static      = True,
+                                                 ) 
+            
+            
+            
+            
+            
+        
+        
+        elif _type == 'pklfolder':
+            self.import_trajectory ( traj = data, 
+                                    first = first , 
+                                     last = last, 
+                                   stride = stride, 
+                                system_id = system_id, 
+                                  vobject = vobject, 
+                                     name = name)
+            
+        elif _type == 'pklfolder2D':
+            self.import_2D_trajectory (traj = data, system_id = system_id, vobject = vobject, name = name)
+        
+        
+        
+        
+        elif _type == 'pdbfile':
+            pass
+        elif _type == 'pdbfolder':
+            pass
+        elif _type == 'dcd':
+            pass
+        elif _type == 'crd':
+            pass
+        elif _type == 'xyz':
+            pass
+        elif _type == 'mol2':
+            pass
+        elif _type == 'netcdf':
+            pass
+        else:
+            pass
+             
+             
+             
+             
+             
+             
+             
+    def parse_logfile (self, logfile):
         """ Function doc """
         
-        #traj   = '/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo'
+        data  =  open(logfile, 'r')
+        lines =  data.readlines()
+        xlist = []
+        ylist = []
+        zlist = []
+        
+        lastline = lines[-1].split()
+        x_size = int(lastline[0])
+        y_size = int(lastline[1])
+        
+        #zlist = [[None]*(x_size+1)]*(y_size+1)
+        #
+        #for line in lines[1:]:
+        #    line2 = line.split()
+        #    x = int(line2[0])
+        #    y = int(line2[1])
+        #    print(x,y, line2[-1])
+        #    zlist[y][x] = float(line2[-1])        
+        
+        #print (zlist)
+        
+        import numpy as np
+        import matplotlib.pyplot as plt
+        import matplotlib.colors as colors
+
+        rows = y_size+1
+        cols = x_size+1
+         
+        zlist = [[0]*cols for _ in range(rows)]
+        print (zlist)
+        
+        for line in lines[1:]:
+            line2 = line.split()
+            x = int(line2[0])
+            y = int(line2[1])
+            #print(x,y, line2[-1])
+            zlist[y][x] = float(line2[-1]) 
+            
+        self.Z = zlist 
+        
+        #self.Z = [[56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], 
+        #          [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036]]
+        self.Y  = range(0,len(self.Z))
+        self.X  = range(0,len(self.Z[0]))
+        
+        
+        #N = 10 
+        #X, Y = np.mgrid[-3:3:complex(0, N), -2:2:complex(0, N)]
+        #Z1 = np.exp(-X**2 - Y**2)
+        #Z2 = np.exp(-(X - 1)**2 - (Y - 1)**2)
+        #Z = (Z1 - Z2) * 2
+        #print(Z)
+        
+        #Y  = range(0,len(zlist))
+        #X  = range(0,len(zlist[0]))
+        #Z  = zlist 
+        
+        fig, ax = plt.subplots(1, 1)
+        #pcm = ax[0].pcolormesh(X, Y, Z, norm=colors.SymLogNorm(linthresh=0.03, linscale=0.03, vmin=-1.0, vmax=1.0, ), cmap='RdBu_r', shading='nearest')
+        #fig.colorbar(pcm, ax=ax[0], extend='both')
+
+        pcm = ax.pcolormesh(self.X, self.Y, self.Z, cmap='jet', vmin=np.min(self.Z), shading='gouraud')
+        fig.colorbar(pcm, ax=ax)#, extend='both')
+
+        plt.show()
+        
+        
+             
+    def import_2D_trajectory (self, traj = None, system_id = 0, vobject = None, name = None):
+        """ Function doc """
         frames = []
         frame  = []
         
-        #for atom in self.systems[self.active_id]['system'].atoms.items:
-        #    xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom)
-        #    frame.append(xyz[0])
-        #    frame.append(xyz[1])
-        #    frame.append(xyz[2])
-        #frame = np.array(frame, dtype=np.float32)
+        data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
         
-        #print('\n\n\data 907:',  traj, first, last, stride, system_id, vobject, name)
-        # . Define the trajectory.
+        if vobject:
+            pass
+        else:
+            vobject = self.build_vismol_object_from_pDynamo_system (
+                                                               name                 = name  ,
+                                                               system_id            = system_id,
+                                                               vismol_object_active = True        ,
+                                                               autocenter           = True        ,
+                                                               refresh_qc_and_fixed = False)
+            vobject.frames = []
+        
+        files = os.listdir(traj)
+        files = sorted(files)
+        vobject.trajectory2D_xy_indexes = {}
+        vobject.trajectory2D_f_indexes  = {}
+        vobject.trajectory2D_data       = data
+        
+        n = 0
+        for _file in files:
+            if _file[-3:] == 'pkl':
+                frame = ImportCoordinates3 ( os.path.join(traj, _file) )
+                frame = list(frame) 
+                #print(list(frame))
+                
+                x_y = _file[5:-4].split('_')
+                
+                vobject.trajectory2D_xy_indexes[(int(x_y[0]), int(x_y[1]))] = n
+                vobject.trajectory2D_f_indexes[n] = (int(x_y[0]), int(x_y[1]))
+                
+                
+                frame = np.array(frame, dtype=np.float32)
+                vobject.frames.append(frame)
+                n+=1
+        print(vobject.trajectory2D_xy_indexes)
+        self.refresh_qc_and_fixed_representations(_all = False, 
+                                                 system_id = system_id,
+                                                 visObj    = vobject,
+                                                 fixed_atoms = True,
+                                                 QC_atoms    = True,
+                                                 static      = True,
+                                                 ) 
+        self.vm_session.main_session.PES_analysis_window.OpenWindow()
+        self.vm_session.main_session.PES_analysis_window.vobject = vobject
+        #win = PotentialEnergyAnalysisWindow()
+        #win.OpenWindow()
+        
+    
+    def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
+        """ Function doc """
+        
+        frames = []
+        frame  = []
         trajectory = ImportTrajectory ( traj, self.systems[system_id]['system'] )
         trajectory.ReadHeader ( )
         
@@ -1291,8 +1483,6 @@ class pDynamoSession:
                                                                refresh_qc_and_fixed = False)
             vobject.frames = []
         
-        #print('\n\n\data 927:', system_id,vobject,name)
-        
         while trajectory.RestoreOwnerData ( ):
             frame = []
             for atom in self.systems[system_id]['system'].atoms.items:
@@ -1309,29 +1499,7 @@ class pDynamoSession:
         trajectory.Close ( )
         #return frames
         self.refresh_qc_and_fixed_representations(system_id = system_id)           
-        '''
-        system = self.easyhybrid_main.pDynamo_session.systems[0]['system']
-        trajectory = ImportTrajectory ( os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo'), system)
-        
-        
-        while trajectory.RestoreOwnerData ( ):
-            #system.coordinates3.Superimpose ( reference3, selection = protein, weights = masses )
-            #atoms = []     
-            frame = []
-            #for atom in self.systems[self.active_id]['system'].atoms.items:
-            for atom in system.atoms.items:
-                xyz = system.coordinates3[atom.index]
-                xyz = [float(xyz[0]),float(xyz[1]), float(xyz[2])]
-                #xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom)
-                frame.append(xyz[0])
-                frame.append(xyz[1])
-                frame.append(xyz[2])
-                
-                #atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom))
 
-            frame = np.array(frame, dtype=np.float32)
-            self.easyhybrid_main.vm_session.vismol_geometric_object[0].frames.append(frame)
-        '''
 
     def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
                                                       logFrequency           , 

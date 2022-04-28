@@ -254,18 +254,23 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBoxText" id="combobox_trajectory_type">
+                              <object class="GtkComboBoxText" id="combobox_coordinate_type">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="hexpand">True</property>
                                 <items>
-                                  <item id="&lt;Enter ID&gt;" translatable="yes">pkl folder - pDynamo (standard)</item>
-                                  <item translatable="yes">dcd - CHARMM</item>
-                                  <item translatable="yes">crd - AMBER</item>
-                                  <item translatable="yes">netcdf - AMBER </item>
-                                  <item translatable="yes">xtc - GROMACS</item>
-                                  <item translatable="yes">pkl  file - pDynamo Coordinates</item>
+                                  <item translatable="yes">pkl  file - pDynamo coordinates</item>
+                                  <item translatable="yes">pkl folder -  pDynamo trajectory</item>
+                                  <item translatable="yes">pkl folder2d -  pDynamo 2D trajectory</item>
+                                  <item translatable="yes">pdb file - Protein Data Bank files  </item>
+                                  <item translatable="yes">pdb folder - multiple files trajactory</item>
+                                  <item translatable="yes">dcd - CHARMM  binary trajectory file</item>
+                                  <item translatable="yes">crd - AMBER coordinates</item>
+                                  <item translatable="yes">xyz -  simple coordinate file</item>
+                                  <item translatable="yes">mol2 - SYBIL coordinate file</item>
+                                  <item translatable="yes">netcdf -  AMBER dinary trajectory file</item>
                                 </items>
+                                <signal name="changed" handler="on_combobox_coordinate_type" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
