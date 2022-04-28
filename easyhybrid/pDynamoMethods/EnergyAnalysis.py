@@ -39,7 +39,7 @@ class EnergyAnalysis:
 		'''
 		Desfault constructor initializing the atributes.
 		'''
-		self.energies1D 	= []							  # array for energy values from one-dimension coordinate simulation 
+		self.energies1D 	= []						  # array for energy values from one-dimension coordinate simulation 
 		self.energiesMatrix = np.zeros( (y, x), dtype=float ) # array for energy values from two-dimension coordinate simulation
 		self.multiple1Dplot = []							  # List of one-dimension energy arrays, each one for a different energy method
 		self.multiple2Dplot = []							  # List of two-dimension energy arrays, 
@@ -173,9 +173,12 @@ class EnergyAnalysis:
 						self.energiesMatrix[i][j] = MaX
 		#----------------------------------
 		elif self.Type == "FE1D":
+			energyTmp = np.zeros( (x), dtype=float )
 			for line in reading:
-				lns = line.split()				
-				self.energies1D.append( float(lns[1]) )				
+				lns = line.split()
+				m = int( lns[0] )
+				energyTmp[m]  = float(lns[1]) 
+			self.energies1D = energyTmp		
 		#----------------------------------
 		elif self.Type == "FE2D":
 			for line in reading:
