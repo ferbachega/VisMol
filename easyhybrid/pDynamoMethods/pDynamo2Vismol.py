@@ -1287,11 +1287,7 @@ class pDynamoSession:
         """ Function doc """
         frames = []
         frame  = []
-        
 
-        
-        
-        
         if vobject:
             pass
         else:
@@ -1337,8 +1333,10 @@ class pDynamoSession:
         
         '''--------------------------------------------------------------------'''
         if logfile:
-            data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
-            base = os.path.basename(traj[:-5]+'log')
+            #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
+            data = parse_2D_scan_logfile (logfile)
+            #base = os.path.basename(traj[:-5]+'log')
+            base = os.path.basename(logfile)
             
             print(self.systems[system_id])
             

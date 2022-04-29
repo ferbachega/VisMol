@@ -204,6 +204,7 @@ class ImportTrajectoryWindow:
         forder_or_file = self.folder_chooser_button.get_folder()
         logfile        = self.builder.get_object('file_chooser_btn_logfile').get_filename()
         
+        print ('logfile', logfile)
         #-----------------------------------------------------------------------------
         tree_iter = self.combobox_pdynamo_system.get_active_iter()
         if tree_iter is not None:
