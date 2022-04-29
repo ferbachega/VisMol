@@ -737,6 +737,7 @@ class VisMolGLCore():
                     
                     if self.vm_session.vismol_geometric_object_dic[rep_name].representations['dotted_lines'].active:                 
                         #print(rep_name,self.vm_session.vismol_geometric_object_dic[rep_name].representations['dotted_lines'].active)
+                        self.vm_session.picking_selections.frame_change_refresh()
                         self.vm_session.vismol_geometric_object_dic[rep_name].representations['dotted_lines'].draw_representation()
                     else:
                         pass

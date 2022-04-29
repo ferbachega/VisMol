@@ -49,7 +49,66 @@ class VisMolPickingSelection:
         #        rep.draw_numbers(atom, i+1, coord)
     
     
-    
+    def frame_change_refresh (self):
+        """ Function doc """
+        atom1 = self.picking_selections_list[0]
+        atom2 = self.picking_selections_list[1]
+        atom3 = self.picking_selections_list[2]
+        atom4 = self.picking_selections_list[3]
+        #print(atom1,atom2,atom3,atom4)
+        #self.refresh_pk1pk2_representations( vobj_label ='pk1pk2', atom1 = atom1, atom2 = atom2)
+        
+        if atom1 and atom2:
+            #print ('line 95')
+            self.refresh_pk1pk2_representations( vobj_label =  'pk1pk2',
+                                                      atom1 = atom1    , 
+                                                      atom2 = atom2    )
+            self.vm_session.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  True
+            #if atom3:
+            #    xyz1 = atom1.coords()
+            #    xyz2 = atom2.coords()
+            #    xyz3 = atom3.coords()
+            #    
+            #    xyz1 = [ xyz1[0] - xyz2[0], xyz1[1] - xyz2[1],   xyz1[2] - xyz2[2]]
+            #    xyz3 = [ xyz3[0] - xyz2[0], xyz3[1] - xyz2[1],   xyz3[2] - xyz2[2]]
+            #
+            #    angle = LA.angle(xyz1, xyz3)
+            #    print ('Angle: ', angle*57.297)
+            #    text =  'Angle: '+ str( angle*57.297)
+            #    self.vm_session.main_session.statusbar_main.push(1,text)
+            #    if atom4:
+            #        xyz4 = atom4.coords()
+            #        angle = LA.dihedral(xyz1, xyz2, xyz3, xyz4)
+            #        print ('Dihedral: ', angle*57.297)
+        
+        else:
+            ##print(self.vm_session.vismol_geometric_object_dic['pk1pk2'],self.vm_session.vismol_geometric_object_dic['pk1pk2'].active )
+            if self.vm_session.vismol_geometric_object_dic['pk1pk2']:
+                #print('120')
+                self.vm_session.vismol_geometric_object_dic['pk1pk2'].representations['dotted_lines'].active =  False
+                                                                            
+                                                                            
+        if atom2 and atom3:                                                 
+            #print ('line 95')                                              
+            self.refresh_pk1pk2_representations( vobj_label = 'pk2pk3' ,    
+                                                      atom1 = atom2    ,    
+                                                      atom2 = atom3    )    
+            self.vm_session.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  True
+        else:
+            #print('128')
+            if self.vm_session.vismol_geometric_object_dic['pk2pk3']:
+                self.vm_session.vismol_geometric_object_dic['pk2pk3'].representations['dotted_lines'].active =  False
+                                                                            
+                                                                            
+        if atom3 and atom4:                                                 
+            self.refresh_pk1pk2_representations( vobj_label =  'pk3pk4',    
+                                                      atom1 = atom3    ,    
+                                                      atom2 = atom4    )    
+            self.vm_session.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  True
+
+        else:
+            if self.vm_session.vismol_geometric_object_dic['pk3pk4']:
+                self.vm_session.vismol_geometric_object_dic['pk3pk4'].representations['dotted_lines'].active =  False
     
     def selection_function_picking (self, selected):
         """ Function doc """

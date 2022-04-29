@@ -261,6 +261,7 @@ class pDynamoSession:
                   'color_palette' : None           , # will be replaced by a dict
                   'fixed_table'   : []             ,
                   'selections'    : {}             ,
+                  'logfile_data'  : {}             , # <--- vobject_id : [['logfilename', data], ['logfilename', data]]
                   'working_folder': working_folder , 
                    }
         
@@ -283,6 +284,7 @@ class pDynamoSession:
                   'fixed_table'   : []   ,
                   'selections'    : {}   ,
                   'vismol_objects': {}   ,
+                  'logfile_data'  : {}   ,
                   'working_folder': HOME , 
                    }
         
@@ -345,6 +347,7 @@ class pDynamoSession:
                   'vismol_objects': {}   ,
                   'selections'    : {}   ,
                   'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
+                  'logfile_data'  : {}   ,
                   'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
                    }
         
@@ -818,132 +821,6 @@ class pDynamoSession:
                                                                     QC_atoms = QC_atoms   , 
                                                                       static = static     )
                         
-                        
-                        #print('vobj index:',visObj.index,visObj.easyhybrid_system_id )
-                        #
-                        #self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-                        #self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                        #
-                        #if static:
-                        #    self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms =   visObj.atoms , show = False )
-                        #    self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-                        #else:
-                        #    self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-            
-
-        
-        
-        
-        #if fixed_atoms:
-        #    for key, visObj in self.vm_session.vismol_objects_dic.items():
-        #        
-        #        if _all:
-        #            # It applies the "color fixed atoms" representation to all vobjects. 
-        #            # Only being used in load - serialization file 
-        #            system_id = visObj.easyhybrid_system_id
-        #            #print ("system_id", system_id)
-        #            
-        #            if self.systems[system_id]['system'].freeAtoms is None:
-        #                pass
-        #            
-        #            else:
-        #                if self.systems[system_id]['fixed_table'] == []:
-        #                    freeAtoms = self.systems[system_id]['system'].freeAtoms
-        #                    freeAtoms                             = Selection.FromIterable (freeAtoms)
-        #                    selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
-        #                    self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
-        #                    #self.systems[self.active_id]['system'].freeAtoms = selection_free
-        #                
-        #                
-        #                
-        #            self.vm_session.set_color_by_index(vismol_object = visObj , 
-        #                                               indexes       = self.systems[system_id]['fixed_table'], 
-        #                                               color         = self.fixed_color)
-        #        
-        #        else:
-        #            #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)                
-        #            if visObj.easyhybrid_system_id == system_id:
-        #               
-        #                if self.systems[system_id]['system'].freeAtoms is None:
-        #                    pass
-        #                
-        #                else:
-        #                    if self.systems[system_id]['fixed_table'] == []:
-        #                        freeAtoms = self.systems[system_id]['system'].freeAtoms
-        #                        freeAtoms                             = Selection.FromIterable (freeAtoms)
-        #                        selection_fixed                       = freeAtoms.Complement( upperBound = len (self.systems[system_id]['system'].atoms ) )
-        #                        self.systems[self.active_id]['fixed_table'] = list(selection_fixed)
-        #
-        #                self.vm_session.set_color_by_index(vismol_object = visObj , 
-        #                                                      indexes       = self.systems[system_id]['fixed_table'], 
-        #                                                      color         = self.fixed_color)
-        #else:
-        #    pass
-        #
-        #
-        #
-        #
-        #if QC_atoms:
-        #    
-        #    if visObj:
-        #        system_id = visObj.easyhybrid_system_id
-        #        if self.systems[system_id]['system'].qcModel:
-        #            self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-        #            self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #
-        #            if static:
-        #                #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
-        #                self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms = visObj.atoms , show = False )
-        #                self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #
-        #            else:
-        #                pass
-        #                self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #
-        #    
-        #    
-        #    else:
-        #        if _all:
-        #            
-        #            for key, visObj in self.vm_session.vismol_objects_dic.items():
-        #                system_id = visObj.easyhybrid_system_id
-        #                
-        #                if self.systems[system_id]['system'].qcModel:
-        #                    #print('\n\n\n\n system_id', system_id, visObj.name, visObj.easyhybrid_system_id, visObj.active )
-        #                    # Here we have to hide all the sticks and spheres so that there is no confusion in the representation of the QC region
-        #                    self.vm_session.show_or_hide_by_object (_type = 'spheres',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-        #                    self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #
-        #                    if static:
-        #                        #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
-        #                        self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms = visObj.atoms , show = False )
-        #                        self.vm_session.show_or_hide_by_object (_type = 'sticks' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #
-        #                    else:
-        #                        pass
-        #                        self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #                else:
-        #                    pass
-        #            
-        #
-        #        else:
-        #            if self.systems[system_id]['system'].qcModel:
-        #
-        #                self.systems[system_id]['qc_table'] = list(self.systems[system_id]['system'].qcState.pureQCAtoms)               
-        #                for key, visObj in self.vm_session.vismol_objects_dic.items():
-        #                    if visObj.easyhybrid_system_id == self.active_id:
-        #                        print('vobj index:',visObj.index,visObj.easyhybrid_system_id )
-        #                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
-        #                        self.vm_session.show_or_hide_by_object (_type = 'spheres', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #
-        #                        if static:
-        #                            self.vm_session.change_attributes_for_selected_atoms( _type = 'sticks', atoms =   visObj.atoms , show = False )
-        #                            self.vm_session.show_or_hide_by_object (_type = 'sticks', vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #                        else:
-        #                            self.vm_session.show_or_hide_by_object (_type = 'dynamic_bonds' , vobject = visObj, selection_table = self.systems[system_id]['qc_table'] , show = True )
-        #            else:
-        #                pass
-
     def merge_systems (self, system1 = None, system2 =  None, label = 'Merged System', summary = True):
         """ Function doc """
         system  = MergeByAtom ( system1, system2 )
@@ -1265,7 +1142,7 @@ class pDynamoSession:
         return energy
 
 
-    def import_data (self, _type = 'pklfile', data = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
+    def import_data (self, _type = 'pklfile', data = None, logfile = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
         """ Function doc """
         if _type == 'pklfile':
             frame = ImportCoordinates3 ( data )
@@ -1309,7 +1186,7 @@ class pDynamoSession:
                                      name = name)
             
         elif _type == 'pklfolder2D':
-            self.import_2D_trajectory (traj = data, system_id = system_id, vobject = vobject, name = name)
+            self.import_2D_trajectory (traj = data, logfile = logfile, system_id = system_id, vobject = vobject, name = name)
         
         
         
@@ -1408,13 +1285,11 @@ class pDynamoSession:
         
         
              
-    def import_2D_trajectory (self, traj = None, system_id = 0, vobject = None, name = None):
+    def import_2D_trajectory (self, traj = None,logfile = None, system_id = 0, vobject = None, name = None):
         """ Function doc """
         frames = []
         frame  = []
-        
-        data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
-        
+
         if vobject:
             pass
         else:
@@ -1428,10 +1303,10 @@ class pDynamoSession:
         
         files = os.listdir(traj)
         files = sorted(files)
+        
         vobject.trajectory2D_xy_indexes = {}
         vobject.trajectory2D_f_indexes  = {}
-        vobject.trajectory2D_data       = data
-        
+
         n = 0
         for _file in files:
             if _file[-3:] == 'pkl':
@@ -1448,7 +1323,6 @@ class pDynamoSession:
                 frame = np.array(frame, dtype=np.float32)
                 vobject.frames.append(frame)
                 n+=1
-        print(vobject.trajectory2D_xy_indexes)
         self.refresh_qc_and_fixed_representations(_all = False, 
                                                  system_id = system_id,
                                                  visObj    = vobject,
@@ -1456,10 +1330,37 @@ class pDynamoSession:
                                                  QC_atoms    = True,
                                                  static      = True,
                                                  ) 
-        self.vm_session.main_session.PES_analysis_window.OpenWindow()
-        self.vm_session.main_session.PES_analysis_window.vobject = vobject
-        #win = PotentialEnergyAnalysisWindow()
-        #win.OpenWindow()
+        
+        
+        
+        '''--------------------------------------------------------------------'''
+        if logfile:
+            #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
+            data = parse_2D_scan_logfile (logfile)
+            #base = os.path.basename(traj[:-5]+'log')
+            base = os.path.basename(logfile)
+            
+            print(self.systems[system_id])
+            
+            if 'logfile_data' in  self.systems[system_id].keys():
+                if vobject.index in self.systems[system_id]['logfile_data']:
+                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+            
+                else:
+                    self.systems[system_id]['logfile_data'][vobject.index] = []
+                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+            
+            
+            else:
+                self.systems[system_id]['logfile_data'] = {}
+                self.systems[system_id]['logfile_data'][vobject.index] = []
+                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        '''--------------------------------------------------------------------'''
+
+
+        self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
+
+
         
     
     def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):

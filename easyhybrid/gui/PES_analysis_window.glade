@@ -36,7 +36,7 @@
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Coordinates</property>
+                    <property name="label" translatable="yes">Coordinates:</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -44,21 +44,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBox" id="coordinates_combobox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">False</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Style</property>
+                    <property name="label" translatable="yes">data:</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -108,6 +97,16 @@
                   </object>
                   <packing>
                     <property name="left_attach">6</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="coordinates_combobox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
                   </packing>
                 </child>
