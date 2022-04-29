@@ -98,7 +98,7 @@ def get_atom_info_from_pdynamo_atom_obj (atom, sequence):
     at_occup     = 0.0
     at_bfactor   = 0.0
     at_charge    = 0.0
-    
+
     return [index, at_name, cov_rad,  at_pos, at_resi, at_resn, at_ch, at_symbol, [], gridpos, at_occup, at_bfactor, at_charge ]
 
 #==========================================================================
@@ -297,7 +297,9 @@ class pDynamoSession:
             system.coordinates3 = ImportCoordinates3 ( filesin['coordinates'] )
             self.define_NBModel(_type = 1, system = system)        
         elif systype == 2:
-            mmModel        = MMModelOPLS.WithParameterSet ( filesin['opls_folder'] )            
+            mmModel        = MMModelOPLS.WithParameterSet ( filesin['opls_folder'] )  
+            print(filesin['opls_folder'])
+            input()          
             system         = ImportSystem       ( filesin['coordinates'])
             system.DefineMMModel ( mmModel )
             self.define_NBModel(_type = 1, system = system)          

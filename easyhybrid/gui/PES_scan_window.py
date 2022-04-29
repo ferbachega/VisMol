@@ -673,8 +673,6 @@ class PotentialEnergyScanWindow():
         parameters["force_constant_1"]  = float( self.builder.get_object('entry_FORCE_coord2').get_text() )
         parameters["dincre_RC1"]        = float( self.builder.get_object('entry_step_size2').get_text() )
         #-----------------------------------------------------------------------------------
-        print(parameters)
-        input()
         self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters )
 
         self.window.destroy()
