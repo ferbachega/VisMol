@@ -136,7 +136,7 @@ class FolderChooserButton:
         name = os.path.basename(folder )
         #print( name)
         self.label.set_text(name)
-        
+        return folder
         #self.main.pdynamo_session.systems[self.main.pdynamo_session.active_id]['working_folder'] = self.folder
     #====================================================================================
     def get_folder (self):

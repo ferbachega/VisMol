@@ -30,7 +30,7 @@ from gi.repository import Gtk
 import gc
 import os
 import sys
-
+from os.path import exists
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
 
@@ -57,9 +57,12 @@ class ImportTrajectoryWindow:
             self.combobox_pdynamo_system = self.builder.get_object('combobox_pdynamo_system')
             renderer_text = Gtk.CellRendererText()
             self.combobox_pdynamo_system.add_attribute(renderer_text, "text", 0)
-
-            self.system_liststore = Gtk.ListStore(str, int)
             
+            #if self.easyhybrid_main:
+            #    self.system_liststore = self.easyhybrid_main.system_liststore
+            #else:
+            
+            self.system_liststore = Gtk.ListStore(str, int)
             names = [ ]
             for key , system in self.easyhybrid_main.pDynamo_session.systems.items():
                 if system:
@@ -67,8 +70,10 @@ class ImportTrajectoryWindow:
                     self.system_liststore.append([name, int(key)])
                 else:
                     pass
-            self.combobox_pdynamo_system.set_model(self.system_liststore)
             
+            
+            self.combobox_pdynamo_system.set_model(self.system_liststore)
+
             if sys_selected:
                 self.combobox_pdynamo_system.set_active(sys_selected)
             else:
@@ -106,12 +111,25 @@ class ImportTrajectoryWindow:
             #'''--------------------------------------------------------------------------------------------'''
             self.combox = self.builder.get_object('combobox_coordinate_type')
             self.combox.connect("changed", self.on_combobox_coordinate_type)
-
+    
+            self.folder_chooser_button.btn.connect('clicked', self.print_test)
+            self.on_combobox_pdynamo_system(None)
             self.combox.set_active(0)
             self.window.show_all()
             self.Visible  = True
     
-    def combobox_pdynamo_system (self, widget):
+    def print_test (self, widget):
+        """ Function doc """
+        print(self.folder_chooser_button.folder)
+        logfile = self.folder_chooser_button.folder[:-5]+'log'
+        if exists(logfile):
+            self.builder.get_object('file_chooser_btn_logfile').set_filename(logfile)
+        else:
+            pass
+        
+        
+        
+    def on_combobox_pdynamo_system (self, widget):
         """ Function doc """
         tree_iter = self.combobox_pdynamo_system.get_active_iter()
         if tree_iter is not None:
@@ -125,7 +143,7 @@ class ImportTrajectoryWindow:
         
         self.starting_coords_liststore = Gtk.ListStore(str, int)
         for key, vobject  in self.easyhybrid_main.vm_session.vismol_objects_dic.items():
-            print(key, vobject)
+            print('combobox_pdynamo_system: ',key, vobject)
             if vobject.easyhybrid_system_id == sys_id:
                 self.starting_coords_liststore.append([vobject.name, key])
         
@@ -184,27 +202,19 @@ class ImportTrajectoryWindow:
         idnum          = self.combobox_pdynamo_system.get_active()
         text           = self.combobox_pdynamo_system.get_active_text()
         forder_or_file = self.folder_chooser_button.get_folder()
-        
+        logfile        = self.builder.get_object('file_chooser_btn_logfile').get_filename()
         
         #-----------------------------------------------------------------------------
         tree_iter = self.combobox_pdynamo_system.get_active_iter()
         if tree_iter is not None:
-            
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.combobox_pdynamo_system.get_model()
             _name, system_id = model[tree_iter][:2]
             print ('\n\n\_name, system_id:', _name, system_id, '\n\n')
         #-----------------------------------------------------------------------------
-       
-       
-       
 
-        
-        
         print(idnum, text,  forder_or_file)
-        
-        
-        
+
         if self.builder.get_object('radiobutton_import_as_new_object').get_active():
             name    = self.builder.get_object('entry_create_a_new_vobj').get_text()
             vobject = None
@@ -223,11 +233,15 @@ class ImportTrajectoryWindow:
         
        
         traj_type = self.builder.get_object('combobox_coordinate_type').get_active() 
+        
         print (traj_type, self.traj_type_dic[traj_type])
+        
         traj_type = self.traj_type_dic[traj_type]
+        
         self.easyhybrid_main.pDynamo_session.import_data ( 
                                                          _type      = traj_type, 
                                                           data      = forder_or_file, 
+                                                          logfile   = logfile,
                                                           #first     = 0 , 
                                                           #last      = -1, 
                                                           #stride    = 1, 
@@ -235,22 +249,7 @@ class ImportTrajectoryWindow:
                                                           vobject   = vobject, 
                                                           name      = name
                                                           ) 
-        """ Function doc """
-        pass
-       
-        ##traj = os.path.join ( '/home/fernando/', 'NewTrajectory.ptGeo')
-        #
-        #print('\n\n\data:', system_id,vobject,name)
-        #self.easyhybrid_main.pDynamo_session.import_trajectory ( traj         = forder_or_file, 
-        #                                                         #first        =  0, 
-        #                                                         #last         = -1, 
-        #                                                         #stride       =  1,
-        #                                                         system_id    =  system_id, 
-        #                                                         vobject      = vobject, 
-        #                                                         name         = name
-        #                                                         )
-        
-        
+
         if self.builder.get_object('checbox_keep_it_open').get_active():
             pass
         else:
@@ -269,6 +268,7 @@ class ImportTrajectoryWindow:
         self.easyhybrid_main     = main
         self.Visible             =  False        
         self.starting_coords_liststore = Gtk.ListStore(str, int)
+        
         self.traj_type_dic = {
                         0:'pklfile'    , #  single file
                         1:'pklfolder'  , #  trajectory

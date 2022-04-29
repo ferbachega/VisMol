@@ -49,20 +49,20 @@ HOME        = os.environ.get('HOME')
 
 class PotentialEnergyAnalysisWindow():
     
-    def OpenWindow (self):
+    def OpenWindow (self, vobject = None):
         """ Function doc """
         if self.Visible  ==  False:
             self.builder = Gtk.Builder()
             self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/PES_analysis_window.glade'))
             self.builder.connect_signals(self)
-            #
+            self.vobject = vobject
             self.window = self.builder.get_object('window')
             self.window.set_title('Analysis Window')
             self.window.set_keep_above(True)            
             self.window.set_default_size(700, 450)
             
-            self.hbox       = self.builder.get_object('hbox_matplot_figures')
-            self.scale_traj = self.builder.get_object('scale_trajectory_from_PES')
+            self.hbox           = self.builder.get_object('hbox_matplot_figures')
+            self.scale_traj     = self.builder.get_object('scale_trajectory_from_PES')
             self.adjustment     = Gtk.Adjustment(value         = 0,
                                                  lower         = 0,
                                                  upper         = 100,
@@ -82,36 +82,55 @@ class PotentialEnergyAnalysisWindow():
             
             
             self.fig = Figure(figsize=(6, 4),constrained_layout=True)
-
             self.canvas = FigureCanvas(self.fig)  # a Gtk.DrawingArea
             self.canvas.mpl_connect('button_press_event', self.onpick2)
 
             self.hbox.pack_start(self.canvas, True, True, 0)
             self.ax = self.fig.add_subplot()
             
-            data = parse_2D_scan_logfile (logfile = '/home/fernando/programs/VisMol/examples/tobachega/ScanTraj.log')
-            #N = 20
-            #self.X, self.Y = np.mgrid[-3:3:complex(0, N), -2:2:complex(0, N)]
-            #Z1 = np.exp(-self.X**2 - self.Y**2)
-            #Z2 = np.exp(-(self.X - 1)**2 - (self.Y - 1)**2)
-            #self.Z = (Z1 - Z2) * 2
+            
+            
+            
+            sys_selected = 0
+            #'''------------------------------------------------------------------------------------
+            self.coordinates_combobox = self.builder.get_object('coordinates_combobox')
+            renderer_text = Gtk.CellRendererText()
+            self.coordinates_combobox.add_attribute(renderer_text, "text", 0)
+            
+
+            self.vobject_liststore = Gtk.ListStore(str, int)
+            names = [ ]
+            for key , system in self.main.pDynamo_session.systems.items():
+                
+                for vobject_id in  system['logfile_data'].keys():
+                    _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
+                    print(['_vobject:', _vobject.name, int(key)])
+                    self.vobject_liststore.append([_vobject.name, int(key)])
+                    
+
+            self.coordinates_combobox.set_model(self.vobject_liststore)
+
+            if sys_selected:
+                self.coordinates_combobox.set_active(sys_selected)
+            else:
+                self.coordinates_combobox.set_active(0)
+            #------------------------------------------------------------------------------------'''
+
+
+
+            
+            if self.vobject:
+                data =self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][0][1]
+                #data = self.vobject.trajectory2D_data
+            else:
+                data = None#parse_2D_scan_logfile (logfile = '/home/fernando/programs/VisMol/examples/tobachega/ScanTraj.log')
+            
+
             
             
             self.Z = data['Z']
 
-            
-            #self.line, = self.ax.plot(self.data[0, :], 'go')  # plot the first row
-            #self.line, = self.ax.plot(self.data[0, :], '-o')  # plot the first row
-            
-            #pcm = self.ax.pcolormesh(self.X, self.Y, self.Z,  
-            #                         norm=colors.SymLogNorm(linthresh=0.03, linscale=0.03,vmin=-1.0, vmax=1.0), 
-            #                         cmap='RdBu_r',  
-            #                         shading='nearest')
 
-
-
-            #pcm = self.ax.pcolormesh(X, Y, Z,  norm=colors.SymLogNorm(linthresh=0.03, linscale=0.03,vmin=-1.0, vmself.ax=1.0, ),cmap='YlOrBr', shading='nearest')
-            
             self.X = range(len(self.Z[0]))
             self.Y = range(len(self.Z))
             print(self.X)
@@ -194,7 +213,12 @@ class PotentialEnergyAnalysisWindow():
         #self.p_session           = self.easyhybrid_main.pDynamo_session
         #self.vm_session          = main.vm_session
         self.Visible             =  False        
-        self.residue_liststore   = Gtk.ListStore(str, str, str)
+        
+        self.vobject_liststore   = Gtk.ListStore(str, int)
+        self.data_liststore      = Gtk.ListStore(str, int)
+        #self.residue_liststore   = Gtk.ListStore(str, str, str)
+        
+        
         self.opt_methods = { 0 : 'ConjugatedGradient',
                              1 : 'SteepestDescent'   ,
                              2 : 'LFBGS'             ,
