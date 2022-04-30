@@ -229,7 +229,8 @@ class PotentialEnergyAnalysisWindow():
                                       range(len(self.data['Z'])), 
                                       self.data['Z'], 
                                       cmap='jet', 
-                                      vmin=0)
+                                      vmin=0, shading='auto'
+                                      )
                                       
         
         am = self.ax.contour(range(len(self.data['Z'][0])), 
@@ -301,7 +302,7 @@ class PotentialEnergyAnalysisWindow():
             self.pcm = self.ax.pcolormesh(range(len(self.data['Z'][0])), 
                                           range(len(self.data['Z'])), 
                                           self.data['Z'], 
-                                          cmap='jet', 
+                                          cmap='jet', shading='auto', 
                                           vmin=0)
                                           
             
