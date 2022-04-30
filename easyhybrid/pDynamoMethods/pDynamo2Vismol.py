@@ -1275,7 +1275,7 @@ class pDynamoSession:
             n = 0
             for _file in files:
                 if _file[-3:] == 'pkl':
-                    frame = ImportCoordinates3 ( os.path.join(traj, _file) )
+                    frame = ImportCoordinates3 ( os.path.join(traj, _file) , log = None)
                     frame = list(frame) 
                     #print(list(frame))
                     

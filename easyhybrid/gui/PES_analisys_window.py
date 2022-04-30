@@ -256,7 +256,7 @@ class PotentialEnergyAnalysisWindow():
 
         self.data_liststore.clear()
         for index , data in enumerate(self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][vobject_index]):
-            print(data)
+            #print(data)
             self.data_liststore.append([data[0], index])
         
         
@@ -273,7 +273,7 @@ class PotentialEnergyAnalysisWindow():
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.data_combobox.get_model()
             _name, index = model[_iter][:2]
-            print ('\n\n\_name, index:', _name,  index, '\n\n')
+            #print ('\n\n\_name, index:', _name,  index, '\n\n')
         
         #self.vobject = self.main.vm_session.vismol_objects_dic[vobject_index]
         self.data = self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index][1]
@@ -356,7 +356,6 @@ class PotentialEnergyAnalysisWindow():
             
             self.canvas.draw()
             self.canvas2.draw()
-            print()  
 
     def __init__(self, main = None ):
         """ Class initialiser """
