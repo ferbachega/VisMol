@@ -279,11 +279,12 @@ button position in the main treeview (active column).""".format(name,self.main_s
 
     
     
-    def add_vismol_object_to_vismol_session (self, pdynamo_session = None, 
-                                                   rep             = {'lines': [], 'nonbonded': []}, 
-                                                   vismol_object   = None, 
-                                                   vobj_count      = True,
-                                                   autocenter      = True):
+    def add_vismol_object_to_vismol_session (self, pdynamo_session    = None, 
+                                                   rep                = {'lines': [], 'nonbonded': []}, 
+                                                   vismol_object      = None, 
+                                                   vobj_count         = True,
+                                                   autocenter         = True,
+                                                   find_dynamic_bonds = True):
         """ Function doc """
        
         if vobj_count:
@@ -335,7 +336,9 @@ button position in the main treeview (active column).""".format(name,self.main_s
                         self.show_or_hide_by_object (_type = key, 
                                                    vobject = vismol_object,  
                                            selection_table = rep[key], 
-                                                      show = True)     
+                                                      show = True,
+                                        find_dynamic_bonds = find_dynamic_bonds,     
+                                                      )     
                     else:
                         if key == 'lines':
                             self.show_or_hide_by_object (_type = 'lines', 

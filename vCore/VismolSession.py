@@ -151,41 +151,6 @@ class ShowHideVisMol:
                     else:
                         atom.dynamic_bonds = False
 
-
-
-
-
-
-
-    def show_or_hide_by_object (self, _type = 'lines', vobject = None,  selection_table = [], show = True):
-        """ Function doc """
-        atoms = []
-        
-        for atom_index in selection_table:
-            atoms.append(vobject.atoms[atom_index])
-        self.change_attributes_for_selected_atoms (_type = _type , 
-                                                   atoms = atoms,  
-                                                    show = show)
-        if _type == 'lines':
-            self._lines_show_or_hide (vobject)
-        
-        if _type == 'sticks':
-            self._sticks_show_or_hide (vobject)
-            
-        if _type == 'dynamic_bonds':
-            self._dynamic_bonds_show_or_hide(vobject, atoms, show = show)
-
-        if _type == 'dots':
-            self._dots_show_or_hide (vobject)
-
-        if _type == 'nonbonded':
-            self._nonbonded_show_or_hide(vobject)
-
-        if  _type == 'spheres':
-            self._spheres_show_or_hide(vobject)
-
-        self.glwidget.queue_draw()
-
     def _dots_show_or_hide (self, vobject):
         """ Function doc """
         indexes = []
@@ -292,18 +257,17 @@ class ShowHideVisMol:
                 vobject.representations['spheres'].update_atomic_indexes(indexes = indexes)
                 vobject.representations['spheres'].active = True
 
-
-
-
-    
-    def _dynamic_bonds_show_or_hide (self, vobject, selection, show = True):
+    def _dynamic_bonds_show_or_hide (self, vobject, selection, show = True, find_dynamic_bonds = True):
         """ Function doc """
         
         if show:
             atom_list = selection
-            vobject.find_dynamic_bonds (atom_list = atom_list, 
-                                   index_list = None     , 
-                                       update = False    )
+            if find_dynamic_bonds:
+                vobject.find_dynamic_bonds (atom_list = atom_list, 
+                                       index_list = None     , 
+                                           update = False    )
+            else:
+                pass
             
             if vobject.representations['dynamic_bonds']:
                 vobject.representations['dynamic_bonds'].active = True
@@ -425,7 +389,34 @@ class ShowHideVisMol:
 
         self.glwidget.queue_draw()
 
+    def show_or_hide_by_object (self, _type = 'lines', vobject = None,  selection_table = [], show = True, find_dynamic_bonds = True):
+        """ Function doc """
+        atoms = []
+        
+        for atom_index in selection_table:
+            atoms.append(vobject.atoms[atom_index])
+        self.change_attributes_for_selected_atoms (_type = _type , 
+                                                   atoms = atoms,  
+                                                    show = show)
+        if _type == 'lines':
+            self._lines_show_or_hide (vobject)
+        
+        if _type == 'sticks':
+            self._sticks_show_or_hide (vobject)
+            
+        if _type == 'dynamic_bonds':
+            self._dynamic_bonds_show_or_hide(vobject, atoms, show = show, find_dynamic_bonds = find_dynamic_bonds)
 
+        if _type == 'dots':
+            self._dots_show_or_hide (vobject)
+
+        if _type == 'nonbonded':
+            self._nonbonded_show_or_hide(vobject)
+
+        if  _type == 'spheres':
+            self._spheres_show_or_hide(vobject)
+
+        self.glwidget.queue_draw()
 
 class VisMolSession (ShowHideVisMol):
     """ Class doc """

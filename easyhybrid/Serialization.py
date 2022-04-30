@@ -225,7 +225,7 @@ class LoadAndSaveFiles:
                 
             vismol_object.index                = vobj_id
             vismol_object.active               = vobject_data['active']
-            vismol_object.dynamic_bonds         = vobject_data['dynamic_bonds']
+            vismol_object.dynamic_bonds        = vobject_data['dynamic_bonds']
             vismol_object.easyhybrid_system_id = vobject_data['easyhybrid_system_id']
             vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)
             try:
@@ -235,11 +235,12 @@ class LoadAndSaveFiles:
             # - - - - - - - - - R E P R E S E N T A T I O N - - - - - - - - - - - - - - - 
             #for rep_key in representations.keys():
                 
-            self.add_vismol_object_to_vismol_session (pdynamo_session = self.pDynamo_session, 
-                                                      rep             = representations, 
-                                                      vismol_object   = vismol_object, 
-                                                      vobj_count      = False,
-                                                      autocenter      = True)
+            self.add_vismol_object_to_vismol_session (pdynamo_session    = self.pDynamo_session, 
+                                                      rep                = representations, 
+                                                      vismol_object      = vismol_object, 
+                                                      vobj_count         = False,
+                                                      autocenter         = True,
+                                                      find_dynamic_bonds = False)
         
             
             
