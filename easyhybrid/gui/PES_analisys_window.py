@@ -321,12 +321,12 @@ class PotentialEnergyAnalysisWindow():
 
             else:
                 
-                print('you pressed', event.button)
-                print('you pressed', event.xdata, event.ydata)
+                #print('you pressed', event.button)
+                #print('you pressed', event.xdata, event.ydata)
                 x, y = int(event.xdata), int(event.ydata)
-                print (x, y)
+                #print (x, y)
                 print('you pressed', x, y, self.data['Z'][y][x])
-                print('you pressed', event)
+                #print('you pressed', event)
                 
                 if self.interpolate:
                     if len(self.xy_traj) > 0 :
