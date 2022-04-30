@@ -269,6 +269,7 @@
                                   <item translatable="yes">xyz -  simple coordinate file</item>
                                   <item translatable="yes">mol2 - SYBIL coordinate file</item>
                                   <item translatable="yes">netcdf -  AMBER dinary trajectory file</item>
+                                  <item translatable="yes">logfile</item>
                                 </items>
                                 <signal name="changed" handler="on_combobox_coordinate_type" swapped="no"/>
                               </object>
@@ -339,7 +340,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFrame">
+              <object class="GtkFrame" id="frame_stride_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label_xalign">0.5</property>

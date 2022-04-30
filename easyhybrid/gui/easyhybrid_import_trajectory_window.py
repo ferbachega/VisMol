@@ -153,15 +153,57 @@ class ImportTrajectoryWindow:
 
     def on_combobox_coordinate_type (self, widget):
         """ Function doc """
-        traj_type = self.builder.get_object('combobox_coordinate_type').get_active() 
-        print (traj_type, self.traj_type_dic[traj_type])
-        traj_type = self.traj_type_dic[traj_type]
+        data_type = self.builder.get_object('combobox_coordinate_type').get_active() 
+
         
-        if  traj_type in self.folder_type_list:
+        
+        if data_type == 10:
+            self.builder.get_object('frame_stride_box').set_sensitive(False) 
+            self.builder.get_object('folder_chooser_box').set_sensitive(False) 
+            self.builder.get_object('entry_create_a_new_vobj').set_sensitive(False)
+            self.builder.get_object('vobjects_combobox').set_sensitive(True)
+
+        
+        elif data_type == 0:
+            self.builder.get_object('frame_stride_box').set_sensitive(False) 
+            self.builder.get_object('folder_chooser_box').set_sensitive(True) 
+            self.builder.get_object('entry_create_a_new_vobj').set_sensitive(True)
+            self.builder.get_object('vobjects_combobox').set_sensitive(True)
+
+        elif data_type in [1,3,5,6,7,8,9]:
+            self.builder.get_object('frame_stride_box').set_sensitive(True) 
+            self.builder.get_object('folder_chooser_box').set_sensitive(True) 
+            self.builder.get_object('entry_create_a_new_vobj').set_sensitive(True)
+            self.builder.get_object('vobjects_combobox').set_sensitive(True)
+
+        elif data_type in [2,4]:
+            self.builder.get_object('frame_stride_box').set_sensitive(False) 
+            self.builder.get_object('folder_chooser_box').set_sensitive(True) 
+            self.builder.get_object('entry_create_a_new_vobj').set_sensitive(True)
+            self.builder.get_object('vobjects_combobox').set_sensitive(False)
+        else:
+            self.builder.get_object('frame_stride_box').set_sensitive(True) 
+            self.builder.get_object('folder_chooser_box').set_sensitive(True) 
+            self.builder.get_object('entry_create_a_new_vobj').set_sensitive(True)
+            self.builder.get_object('vobjects_combobox').set_sensitive(True)        
+        
+        print (data_type, self.traj_type_dic[data_type])
+        data_type = self.traj_type_dic[data_type]
+        
+        if  data_type in self.folder_type_list:
             self.folder_chooser_button.sel_type = 'folder'
         else:
-            self.folder_chooser_button.sel_type = 'file'
-        
+            self.folder_chooser_button.sel_type = 'file'        
+
+
+
+
+
+
+
+
+
+
     def on_vobject_combo_changed (self, widget):
         '''this combobox has the reference to the starting coordinates of a simulation'''
         #combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
@@ -235,10 +277,10 @@ class ImportTrajectoryWindow:
        
         traj_type = self.builder.get_object('combobox_coordinate_type').get_active() 
         
-        print (traj_type, self.traj_type_dic[traj_type])
+        #print (traj_type, self.traj_type_dic[traj_type])
         
         traj_type = self.traj_type_dic[traj_type]
-        
+
         self.easyhybrid_main.pDynamo_session.import_data ( 
                                                          _type      = traj_type, 
                                                           data      = forder_or_file, 
@@ -281,6 +323,6 @@ class ImportTrajectoryWindow:
                         7:'xyz',
                         8:'mol2',
                         9:'netcdf',
-                         }
+                       10:'log_file'  }
         
         self.folder_type_list = ['pklfolder', 'pklfolder2D', 'pdbfolder']

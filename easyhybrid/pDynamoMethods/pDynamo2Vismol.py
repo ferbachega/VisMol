@@ -1184,10 +1184,27 @@ class pDynamoSession:
                                      name = name)
             
         elif _type == 'pklfolder2D':
-            self.import_2D_trajectory (traj = data, logfile = logfile, system_id = system_id, vobject = vobject, name = name)
+            #print('vobject',vobject )
+            vobject = self.import_2D_trajectory (traj = data, logfile = logfile, system_id = system_id, vobject = vobject, name = name)
         
-        
-        
+            if logfile:
+                data = parse_2D_scan_logfile (logfile)
+                base = os.path.basename(logfile)
+                print('vobject',vobject )
+                if 'logfile_data' in  self.systems[system_id].keys():
+                    if vobject.index in self.systems[system_id]['logfile_data']:
+                        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                
+                    else:
+                        self.systems[system_id]['logfile_data'][vobject.index] = []
+                        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                else:
+                    self.systems[system_id]['logfile_data'] = {}
+                    self.systems[system_id]['logfile_data'][vobject.index] = []
+                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+            
+                self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
+                #self.vm_session.main_session.PES_analysis_window.on_coordinates_combobox_change(None)
         
         elif _type == 'pdbfile':
             pass
@@ -1202,6 +1219,28 @@ class pDynamoSession:
         elif _type == 'mol2':
             pass
         elif _type == 'netcdf':
+            pass
+        
+        elif _type == 'log_file':
+            if logfile:
+                data = parse_2D_scan_logfile (logfile)
+                base = os.path.basename(logfile)
+
+                if 'logfile_data' in  self.systems[system_id].keys():
+                    if vobject.index in self.systems[system_id]['logfile_data']:
+                        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                
+                    else:
+                        self.systems[system_id]['logfile_data'][vobject.index] = []
+                        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                
+                
+                else:
+                    self.systems[system_id]['logfile_data'] = {}
+                    self.systems[system_id]['logfile_data'][vobject.index] = []
+                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+            self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
+            #self.vm_session.main_session.PES_analysis_window.on_coordinates_combobox_change(None)
             pass
         else:
             pass
@@ -1288,75 +1327,85 @@ class pDynamoSession:
         frames = []
         frame  = []
 
-        if vobject:
-            pass
-        else:
-            vobject = self.build_vismol_object_from_pDynamo_system (
-                                                               name                 = name  ,
-                                                               system_id            = system_id,
-                                                               vismol_object_active = True        ,
-                                                               autocenter           = True        ,
-                                                               refresh_qc_and_fixed = False)
-            vobject.frames = []
         
-        files = os.listdir(traj)
-        files = sorted(files)
-        
-        vobject.trajectory2D_xy_indexes = {}
-        vobject.trajectory2D_f_indexes  = {}
-
-        n = 0
-        for _file in files:
-            if _file[-3:] == 'pkl':
-                frame = ImportCoordinates3 ( os.path.join(traj, _file) )
-                frame = list(frame) 
-                #print(list(frame))
-                
-                x_y = _file[5:-4].split('_')
-                
-                vobject.trajectory2D_xy_indexes[(int(x_y[0]), int(x_y[1]))] = n
-                vobject.trajectory2D_f_indexes[n] = (int(x_y[0]), int(x_y[1]))
-                
-                
-                frame = np.array(frame, dtype=np.float32)
-                vobject.frames.append(frame)
-                n+=1
-        self.refresh_qc_and_fixed_representations(_all = False, 
-                                                 system_id = system_id,
-                                                 visObj    = vobject,
-                                                 fixed_atoms = True,
-                                                 QC_atoms    = True,
-                                                 static      = True,
-                                                 ) 
-        
-        
-        
-        '''--------------------------------------------------------------------'''
-        if logfile:
-            #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
-            data = parse_2D_scan_logfile (logfile)
-            #base = os.path.basename(traj[:-5]+'log')
-            base = os.path.basename(logfile)
-            
-            print(self.systems[system_id])
-            
-            if 'logfile_data' in  self.systems[system_id].keys():
-                if vobject.index in self.systems[system_id]['logfile_data']:
-                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-            
-                else:
-                    self.systems[system_id]['logfile_data'][vobject.index] = []
-                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-            
-            
+        if traj:
+            if vobject:
+                pass
             else:
-                self.systems[system_id]['logfile_data'] = {}
-                self.systems[system_id]['logfile_data'][vobject.index] = []
-                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                vobject = self.build_vismol_object_from_pDynamo_system (
+                                                                   name                 = name  ,
+                                                                   system_id            = system_id,
+                                                                   vismol_object_active = True        ,
+                                                                   autocenter           = True        ,
+                                                                   refresh_qc_and_fixed = False)
+                vobject.frames = []
+            
+            files = os.listdir(traj)
+            files = sorted(files)
+            
+            vobject.trajectory2D_xy_indexes = {}
+            vobject.trajectory2D_f_indexes  = {}
+
+            n = 0
+            for _file in files:
+                if _file[-3:] == 'pkl':
+                    frame = ImportCoordinates3 ( os.path.join(traj, _file) )
+                    frame = list(frame) 
+                    #print(list(frame))
+                    
+                    x_y = _file[5:-4].split('_')
+                    
+                    vobject.trajectory2D_xy_indexes[(int(x_y[0]), int(x_y[1]))] = n
+                    vobject.trajectory2D_f_indexes[n] = (int(x_y[0]), int(x_y[1]))
+                    
+                    
+                    frame = np.array(frame, dtype=np.float32)
+                    vobject.frames.append(frame)
+                    n+=1
+            
+            
+            self.refresh_qc_and_fixed_representations(_all = False, 
+                                                     system_id = system_id,
+                                                     visObj    = vobject,
+                                                     fixed_atoms = True,
+                                                     QC_atoms    = True,
+                                                     static      = True,
+                                                     ) 
+            return vobject
+        else:
+            pass
+        
+        
+        '''--------------------------------------------------------------------'''
+        #if logfile:
+        #    #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
+        #    data = parse_2D_scan_logfile (logfile)
+        #    #base = os.path.basename(traj[:-5]+'log')
+        #    base = os.path.basename(logfile)
+        #    
+        #    #print(self.systems[system_id])
+        #    
+        #    if 'logfile_data' in  self.systems[system_id].keys():
+        #        if vobject.index in self.systems[system_id]['logfile_data']:
+        #            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        #    
+        #        else:
+        #            self.systems[system_id]['logfile_data'][vobject.index] = []
+        #            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        #    
+        #    
+        #    else:
+        #        self.systems[system_id]['logfile_data'] = {}
+        #        self.systems[system_id]['logfile_data'][vobject.index] = []
+        #        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        #        
+        #    
+        #    #data = parse_2D_scan_logfile ('/home/fernando/ScanTraj2.log')
+        #    #base = os.path.basename('/home/fernando/ScanTraj2.log')
+        #    #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
         '''--------------------------------------------------------------------'''
 
-
-        self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
+        
 
 
         
