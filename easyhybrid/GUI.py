@@ -309,16 +309,10 @@ class EasyHybridMainWindow ( ):
     def on_main_toolbar_clicked (self, button):
         """ Function doc """
         if button  == self.builder.get_object('toolbutton_new_system'):
-            #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.pDynamo_session, self)
-            #self.dialog_import_a_new_systen.run()
-            #self.dialog_import_a_new_systen.hide()
             self.NewSystemWindow.OpenWindow()
         
-
         if button  == self.builder.get_object('toolbutton_save'):
-            #self.vm_session.save_serialization_file()
 
-            
             if self.save_vismol_file:
                 print('saving easyhybrid session - file: ', self.save_vismol_file)
                 self.vm_session.save_serialization_file(self.save_vismol_file)
@@ -363,8 +357,7 @@ class EasyHybridMainWindow ( ):
                     print("Cancel clicked")
 
                 dialog.destroy()
-            
-            
+             
         if button  == self.builder.get_object('toolbutton_save_as'):
             dialog = Gtk.FileChooserDialog("Save as", self.window,
                 Gtk.FileChooserAction.SAVE,
@@ -418,89 +411,6 @@ class EasyHybridMainWindow ( ):
             dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
             response = dialog.run()
             dialog.destroy()
-            '''
-            import matplotlib
-            matplotlib.use('GTK3Agg')  # or 'GTK3Cairo'
-            import matplotlib.pyplot as plt
-            
-            from matplotlib.backends.backend_gtk3agg import (
-                FigureCanvasGTK3Agg as FigureCanvas)
-            from matplotlib.figure import Figure
-            import numpy as np
-            '''
-            #import gi
-            #gi.require_version('Gtk', '3.0')
-            #from gi.repository import Gtk
-            
-            def onpick2(event):
-                #print('onpick2 line:', event.pickx, event.picky)
-                #print('onpick2 line:', event.data )
-                print('you pressed', event.button, event.xdata, event.ydata, event)
-                print()  
-
-            fig, ax = plt.subplots()
-            ax.plot([1, 2, 3], 'ro-', label='easy as 1 2 3')
-            ax.plot([1, 4, 9], 'gs--', label='easy as 1 2 3 squared')
-            ax.legend()
-
-            manager = fig.canvas.manager
-            # you can access the window or vbox attributes this way
-            toolbar = manager.toolbar
-            vbox = manager.vbox
-            print(vbox)
-            # now let's add a button to the toolbar
-            button = Gtk.Button(label='Click me')
-            button.show()
-            button.connect('clicked', lambda button: print('hi mom'))
-
-            toolitem = Gtk.ToolItem()
-            toolitem.show()
-            toolitem.set_tooltip_text('Click me for fun and profit')
-            toolitem.add(button)
-
-            pos = 8  # where to insert this in the toolbar
-            toolbar.insert(toolitem, pos)
-
-            # now let's add a widget to the vbox
-            label = Gtk.Label()
-            label.set_markup('Drag mouse over axes for position')
-            label.show()
-            vbox.pack_start(label, False, False, 0)
-            vbox.reorder_child(toolbar, -1)
-
-
-            def update(event):
-                if event.xdata is None:
-                    label.set_markup('Drag mouse over axes for position')
-                else:
-                    label.set_markup(
-                        f'<span color="#ef0000">x,y=({event.xdata}, {event.ydata})</span>')
-
-
-            fig.canvas.mpl_connect('motion_notify_event', update)
-            fig.canvas.mpl_connect('button_press_event', onpick2)
-            
-            win = Gtk.Window()
-            #win.connect("delete-event", Gtk.main_quit)
-            win.set_default_size(400, 300)
-            win.set_title("Embedding in GTK3")
-            ax = fig.add_subplot()
-            t = np.arange(0.0, 3.0, 0.01)
-            s = np.sin(2*np.pi*t)
-            ax.plot(t, s)
-
-            sw = Gtk.ScrolledWindow()
-            win.add(sw)
-            plt.show()
-            #sw.set_border_width(10)
-
-            #canvas = FigureCanvas(fig)  # a Gtk.DrawingArea
-            #canvas.set_size_request(800, 600)
-            #sw.add(canvas)
-
-            #win.show_all()
-         
-         
             
         if button  == self.builder.get_object('toolbutton_setup_QCModel'):
             #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.pDynamo_session, self)

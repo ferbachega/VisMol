@@ -251,7 +251,7 @@ NOTE: You can include more than one parameter file if needed.'''
         systemtype = self.system_types_combo.get_active()
         
         name =  self.builder.get_object('entry_system_name').get_text()
-
+        print(self.files, systemtype)
         self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin = self.files, 
                                                                                  systype = systemtype, 
                                                                                  name = name)

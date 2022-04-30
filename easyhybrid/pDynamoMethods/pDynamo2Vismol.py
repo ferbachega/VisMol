@@ -305,12 +305,13 @@ class pDynamoSession:
             system         = ImportSystem       ( filesin['coordinates'])
             system.DefineMMModel ( mmModel )
             self.define_NBModel(_type = 1, system = system)          
-        elif systype == 3:
+        elif systype == 3 or systype == 4 :
             system = ImportSystem (filesin['coordinates'])
             system.Summary()
-            #print ('mmModel',system.mmModel)
-            #print ('qcModel',system.qcModel)
-            #print ('nbModel',system.nbModel)
+        
+        else:
+            pass
+
 
         '''
         psystem['system']        =  system
@@ -415,15 +416,21 @@ class pDynamoSession:
         elif _type == 3:
             self.nbModel = NBModelDFTB.WithDefaults ( )
         
-        if system:
-            system.DefineNBModel ( self.nbModel )
-            system.Summary ( )
-        else:
-            self.systems[self.active_id]['system'].DefineNBModel ( self.nbModel )
-            self.systems[self.active_id]['system'].Summary ( )
         
-        return True
-
+        try:
+            if system:
+                system.DefineNBModel ( self.nbModel )
+                system.Summary ( )
+            else:
+                self.systems[self.active_id]['system'].DefineNBModel ( self.nbModel )
+                self.systems[self.active_id]['system'].Summary ( )
+            return True
+        
+        except:
+            print('failed to bind nbModel')
+            return False
+        
+        
     def get_fixed_atoms_from_system (self, system):
         """ Function doc """
         if system.freeAtoms is None:
@@ -482,6 +489,9 @@ class pDynamoSession:
         qc_residue_table = self.systems[self.active_id]['qc_residue_table']
         system           = self.systems[self.active_id]['system']
         qc_charge        = 0.0
+        
+        if system.mmModel is None:
+            return None 
         
         '''Here we are going to arrange the atoms that are not in the QC part, 
         but are in the same residues as some atoms of the QC part.'''  
@@ -639,21 +649,22 @@ class pDynamoSession:
             self.refresh_qc_and_fixed_representations()# static = False )
             
             #print('define NBModel = ', self.nbModel)
-            self.systems[self.active_id]['system'].DefineNBModel ( NBModelCutOff.WithDefaults ( ) )
-            #self.systems[self.active_id]['selections']["QC atoms"] = self.systems[self.active_id]['qc_table']
-            
-            self.add_a_new_item_to_selection_list (system_id = self.active_id, 
-                                                     indexes = self.systems[self.active_id]['qc_table'], 
-                                                     name    = 'QC atoms')
+            if self.systems[self.active_id]['system'].mmModel:
+                self.systems[self.active_id]['system'].DefineNBModel ( NBModelCutOff.WithDefaults ( ) )
+            else:
+                pass
+            #self.add_a_new_item_to_selection_list (system_id = self.active_id, 
+            #                                         indexes = self.systems[self.active_id]['qc_table'], 
+            #                                         name    = 'QC atoms')
             
             #print(self.systems[self.active_id]['selections']["QC atoms"])
         else:
             self.systems[self.active_id]['system'].DefineQCModel (qcModel)
             self.refresh_qc_and_fixed_representations()
-            self.add_a_new_item_to_selection_list (system_id = self.active_id, 
-                                                     indexes = range(0,self.systems[self.active_id]['system'].atoms), 
-                                                     name    = 'QC atoms')
-                                                     
+            #self.add_a_new_item_to_selection_list (system_id = self.active_id, 
+            #                                         indexes = range(0, self.systems[self.active_id]['system'].atoms), 
+            #                                         name    = 'QC atoms')
+            #                                         
     
     
     
@@ -825,6 +836,7 @@ class pDynamoSession:
         """ Function doc """
         system  = MergeByAtom ( system1, system2 )
         system.label = label
+        
         self.define_NBModel(_type = 1, system = system)
         #system.define_NBModel( self.nbModel )
         
@@ -854,7 +866,11 @@ class pDynamoSession:
         """ Function doc """
         p_selection   = Selection.FromIterable ( selection )
         system        = PruneByAtom ( self.systems[self.active_id]['system'], p_selection )
+        
         self.define_NBModel(_type = 1, system = system)
+
+        
+        
         system.label  = label        
         if summary:
             system.Summary ( )
