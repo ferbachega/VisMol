@@ -1141,6 +1141,25 @@ class pDynamoSession:
         energy = self.systems[self.active_id]['system'].Energy( )
         return energy
 
+    def _load_2D_data_to_system (self, logfile = None, vobject = None, system_id = 0):
+        """ Function doc """
+
+        data = parse_2D_scan_logfile (logfile)
+        base = os.path.basename(logfile)
+        print('vobject',vobject )
+        if 'logfile_data' in  self.systems[system_id].keys():
+            if vobject.index in self.systems[system_id]['logfile_data']:
+                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        
+            else:
+                self.systems[system_id]['logfile_data'][vobject.index] = []
+                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        else:
+            self.systems[system_id]['logfile_data'] = {}
+            self.systems[system_id]['logfile_data'][vobject.index] = []
+            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+
+        self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
 
     def import_data (self, _type = 'pklfile', data = None, logfile = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
         """ Function doc """
@@ -1169,12 +1188,7 @@ class pDynamoSession:
                                                  QC_atoms    = True,
                                                  static      = True,
                                                  ) 
-            
-            
-            
-            
-            
-        
+
         
         elif _type == 'pklfolder':
             self.import_trajectory ( traj = data, 
@@ -1186,10 +1200,14 @@ class pDynamoSession:
                                      name = name)
             
         elif _type == 'pklfolder2D':
-            self.import_2D_trajectory (traj = data, logfile = logfile, system_id = system_id, vobject = vobject, name = name)
+            #print('vobject',vobject )
+            vobject = self.import_2D_trajectory (traj = data, logfile = logfile, system_id = system_id, vobject = vobject, name = name)
         
-        
-        
+            if logfile:
+                self._load_2D_data_to_system ( logfile   = logfile, 
+                                               vobject   = vobject, 
+                                               system_id = system_id)
+
         
         elif _type == 'pdbfile':
             pass
@@ -1205,163 +1223,100 @@ class pDynamoSession:
             pass
         elif _type == 'netcdf':
             pass
+        
+        elif _type == 'log_file':
+            if logfile:
+                self._load_2D_data_to_system ( logfile   = logfile, 
+                                               vobject   = vobject, 
+                                               system_id = system_id)
+
+            pass
         else:
             pass
-             
-             
-             
-             
-             
-             
-             
-    def parse_logfile (self, logfile):
-        """ Function doc """
-        
-        data  =  open(logfile, 'r')
-        lines =  data.readlines()
-        xlist = []
-        ylist = []
-        zlist = []
-        
-        lastline = lines[-1].split()
-        x_size = int(lastline[0])
-        y_size = int(lastline[1])
-        
-        #zlist = [[None]*(x_size+1)]*(y_size+1)
-        #
-        #for line in lines[1:]:
-        #    line2 = line.split()
-        #    x = int(line2[0])
-        #    y = int(line2[1])
-        #    print(x,y, line2[-1])
-        #    zlist[y][x] = float(line2[-1])        
-        
-        #print (zlist)
-        
-        import numpy as np
-        import matplotlib.pyplot as plt
-        import matplotlib.colors as colors
-
-        rows = y_size+1
-        cols = x_size+1
-         
-        zlist = [[0]*cols for _ in range(rows)]
-        print (zlist)
-        
-        for line in lines[1:]:
-            line2 = line.split()
-            x = int(line2[0])
-            y = int(line2[1])
-            #print(x,y, line2[-1])
-            zlist[y][x] = float(line2[-1]) 
-            
-        self.Z = zlist 
-        
-        #self.Z = [[56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], 
-        #          [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036], [56.34677450550225, 58.942831334607035, 73.21370758385456, 84.50838319960894, 84.47451804763841, 58.662963058639434, 38.687759070060565, 16.784363008395303, 33.923242461554764, 49.60649282127997, 45.99324563978007, 41.97248472983483, 40.403898982011015, 41.64380281602644, 44.31448492241907, 26.295264548542036]]
-        self.Y  = range(0,len(self.Z))
-        self.X  = range(0,len(self.Z[0]))
-        
-        
-        #N = 10 
-        #X, Y = np.mgrid[-3:3:complex(0, N), -2:2:complex(0, N)]
-        #Z1 = np.exp(-X**2 - Y**2)
-        #Z2 = np.exp(-(X - 1)**2 - (Y - 1)**2)
-        #Z = (Z1 - Z2) * 2
-        #print(Z)
-        
-        #Y  = range(0,len(zlist))
-        #X  = range(0,len(zlist[0]))
-        #Z  = zlist 
-        
-        fig, ax = plt.subplots(1, 1)
-        #pcm = ax[0].pcolormesh(X, Y, Z, norm=colors.SymLogNorm(linthresh=0.03, linscale=0.03, vmin=-1.0, vmax=1.0, ), cmap='RdBu_r', shading='nearest')
-        #fig.colorbar(pcm, ax=ax[0], extend='both')
-
-        pcm = ax.pcolormesh(self.X, self.Y, self.Z, cmap='jet', vmin=np.min(self.Z), shading='gouraud')
-        fig.colorbar(pcm, ax=ax)#, extend='both')
-
-        plt.show()
-        
-        
              
     def import_2D_trajectory (self, traj = None,logfile = None, system_id = 0, vobject = None, name = None):
         """ Function doc """
         frames = []
         frame  = []
 
-        if vobject:
-            pass
-        else:
-            vobject = self.build_vismol_object_from_pDynamo_system (
-                                                               name                 = name  ,
-                                                               system_id            = system_id,
-                                                               vismol_object_active = True        ,
-                                                               autocenter           = True        ,
-                                                               refresh_qc_and_fixed = False)
-            vobject.frames = []
         
-        files = os.listdir(traj)
-        files = sorted(files)
-        
-        vobject.trajectory2D_xy_indexes = {}
-        vobject.trajectory2D_f_indexes  = {}
-
-        n = 0
-        for _file in files:
-            if _file[-3:] == 'pkl':
-                frame = ImportCoordinates3 ( os.path.join(traj, _file) )
-                frame = list(frame) 
-                #print(list(frame))
-                
-                x_y = _file[5:-4].split('_')
-                
-                vobject.trajectory2D_xy_indexes[(int(x_y[0]), int(x_y[1]))] = n
-                vobject.trajectory2D_f_indexes[n] = (int(x_y[0]), int(x_y[1]))
-                
-                
-                frame = np.array(frame, dtype=np.float32)
-                vobject.frames.append(frame)
-                n+=1
-        self.refresh_qc_and_fixed_representations(_all = False, 
-                                                 system_id = system_id,
-                                                 visObj    = vobject,
-                                                 fixed_atoms = True,
-                                                 QC_atoms    = True,
-                                                 static      = True,
-                                                 ) 
-        
-        
-        
-        '''--------------------------------------------------------------------'''
-        if logfile:
-            #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
-            data = parse_2D_scan_logfile (logfile)
-            #base = os.path.basename(traj[:-5]+'log')
-            base = os.path.basename(logfile)
-            
-            print(self.systems[system_id])
-            
-            if 'logfile_data' in  self.systems[system_id].keys():
-                if vobject.index in self.systems[system_id]['logfile_data']:
-                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-            
-                else:
-                    self.systems[system_id]['logfile_data'][vobject.index] = []
-                    self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-            
-            
+        if traj:
+            if vobject:
+                pass
             else:
-                self.systems[system_id]['logfile_data'] = {}
-                self.systems[system_id]['logfile_data'][vobject.index] = []
-                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                vobject = self.build_vismol_object_from_pDynamo_system (
+                                                                   name                 = name  ,
+                                                                   system_id            = system_id,
+                                                                   vismol_object_active = True        ,
+                                                                   autocenter           = True        ,
+                                                                   refresh_qc_and_fixed = False)
+                vobject.frames = []
+            
+            files = os.listdir(traj)
+            files = sorted(files)
+            
+            vobject.trajectory2D_xy_indexes = {}
+            vobject.trajectory2D_f_indexes  = {}
+
+            n = 0
+            for _file in files:
+                if _file[-3:] == 'pkl':
+                    frame = ImportCoordinates3 ( os.path.join(traj, _file) )
+                    frame = list(frame) 
+                    #print(list(frame))
+                    
+                    x_y = _file[5:-4].split('_')
+                    
+                    vobject.trajectory2D_xy_indexes[(int(x_y[0]), int(x_y[1]))] = n
+                    vobject.trajectory2D_f_indexes[n] = (int(x_y[0]), int(x_y[1]))
+                    
+                    
+                    frame = np.array(frame, dtype=np.float32)
+                    vobject.frames.append(frame)
+                    n+=1
+            
+            
+            self.refresh_qc_and_fixed_representations(_all = False, 
+                                                     system_id = system_id,
+                                                     visObj    = vobject,
+                                                     fixed_atoms = True,
+                                                     QC_atoms    = True,
+                                                     static      = True,
+                                                     ) 
+            return vobject
+        else:
+            pass
+        
+        
+        '''--------------------------------------------------------------------'''
+        #if logfile:
+        #    #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
+        #    data = parse_2D_scan_logfile (logfile)
+        #    #base = os.path.basename(traj[:-5]+'log')
+        #    base = os.path.basename(logfile)
+        #    
+        #    #print(self.systems[system_id])
+        #    
+        #    if 'logfile_data' in  self.systems[system_id].keys():
+        #        if vobject.index in self.systems[system_id]['logfile_data']:
+        #            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        #    
+        #        else:
+        #            self.systems[system_id]['logfile_data'][vobject.index] = []
+        #            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        #    
+        #    
+        #    else:
+        #        self.systems[system_id]['logfile_data'] = {}
+        #        self.systems[system_id]['logfile_data'][vobject.index] = []
+        #        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+        #        
+        #    
+        #    #data = parse_2D_scan_logfile ('/home/fernando/ScanTraj2.log')
+        #    #base = os.path.basename('/home/fernando/ScanTraj2.log')
+        #    #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
         '''--------------------------------------------------------------------'''
 
-
-        self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
-
-
-        
     
     def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
         """ Function doc """
@@ -1404,6 +1359,20 @@ class pDynamoSession:
         self.refresh_qc_and_fixed_representations(system_id = system_id)           
 
 
+    #---------------------------------------------------------------------------------
+    def run_simulation(self, _parametersList = None):
+        '''
+        bsname = base name of the folder where will be created the next
+        '''
+        _parametersList["active_system"] = self.systems[self.active_id]['system']
+        run = Simulation(_parametersList)
+        run.Execute()        
+        self.build_vismol_object_from_pDynamo_system (name = 'new_geometry', autocenter = False)
+        
+#======================================================================================================
+ 
+
+    '''
     def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
                                                       logFrequency           , 
                                                       maximumIterations      , 
@@ -1431,20 +1400,6 @@ class pDynamoSession:
         
         self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = True)
 
-    #---------------------------------------------------------------------------------
-    def run_simulation(self, _parametersList = None):
-        '''
-        bsname = base name of the folder where will be created the next
-        '''
-        _parametersList["active_system"] = self.systems[self.active_id]['system']
-        run = Simulation(_parametersList)
-        run.Execute()        
-        self.build_vismol_object_from_pDynamo_system (name = 'new_geometry', autocenter = False)
-        
-#======================================================================================================
- 
-
-
-
+    '''
 
 

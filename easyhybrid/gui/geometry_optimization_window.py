@@ -238,7 +238,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             self.starting_coords_liststore = self.easyhybrid_main.vm_session.starting_coords_liststore
             self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
             #self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
-            self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
+            #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
             
             renderer_text = Gtk.CellRendererText()
             self.combobox_starting_coordinates.pack_start(renderer_text, True)

@@ -574,6 +574,9 @@ class EasyHybridMainWindow ( ):
         if menuitem == self.builder.get_object('menu_item_merge_system'):
             #print(menuitem, 'menu_item_merge_system')
             self.merge_pdynamo_systems_window.OpenWindow()
+        if menuitem == self.builder.get_object('2d_energy_analysis_menuitem'):
+            #print(menuitem, 'menu_item_merge_system')
+            self.PES_analysis_window.OpenWindow()
 
 
     def update_gui_widgets (self, update_folder = True, update_coords = True):
