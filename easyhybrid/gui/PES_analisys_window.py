@@ -79,12 +79,12 @@ class PotentialEnergyAnalysisWindow():
             
             
             '''-------------------------------------------------------------'''
-            self.fig = Figure(figsize=(6, 4),constrained_layout=True)
+            self.fig = Figure(figsize=(6, 4))#,constrained_layout=True)
             self.canvas = FigureCanvas(self.fig)  # a Gtk.DrawingArea
             self.canvas.mpl_connect('button_press_event', self.onpick2)
 
             self.hbox.pack_start(self.canvas, True, True, 0)
-            self.ax = self.fig.add_subplot()
+            self.ax = self.fig.add_subplot(1,1,1)
             '''-------------------------------------------------------------'''
 
 
@@ -92,11 +92,11 @@ class PotentialEnergyAnalysisWindow():
 
             '''-------------------------------------------------------------'''
             self.fig2 = Figure(figsize=(6, 4), dpi=100)
-            self.ax2 = self.fig2.add_subplot( )
-            self.ax3 = self.fig2.add_subplot( )
+            self.ax2 = self.fig2.add_subplot(1,1,1)
+            self.ax3 = self.fig2.add_subplot(1,1,1)
             
-            self.line2, = self.ax2.plot([], [], '-o')
-            secax = self.ax2.secondary_xaxis('top', functions=(None))
+            #self.line2, = self.ax2.plot([], [], '-o')
+            #secax = self.ax2.secondary_xaxis('top', functions=(None))
 
             self.canvas2 = FigureCanvas(self.fig2)  # a Gtk.DrawingArea
             self.hbox.pack_start(self.canvas2, True, True, 0)        
@@ -217,10 +217,13 @@ class PotentialEnergyAnalysisWindow():
         """ Function doc """
         print('self.pcm.cla()')
         if cla:
-            self.ax.cla()
-            #if self.pcm:
-            self.fig.gca().clear()
-            self.fig.canvas.draw()
+            if self.ax:
+                self.ax.cla()
+                #if self.pcm:
+                self.fig.gca().clear()
+                self.fig.canvas.draw()
+            else:
+                pass
 
         self.pcm = self.ax.pcolormesh(range(len(self.data['Z'][0])), 
                                       range(len(self.data['Z'])), 
