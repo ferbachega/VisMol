@@ -229,7 +229,7 @@ class PotentialEnergyAnalysisWindow():
                                       range(len(self.data['Z'])), 
                                       self.data['Z'], 
                                       cmap='jet', 
-                                      vmin=0, shading='auto'
+                                      vmin=0, #shading='auto'
                                       )
                                       
         
@@ -302,7 +302,7 @@ class PotentialEnergyAnalysisWindow():
             self.pcm = self.ax.pcolormesh(range(len(self.data['Z'][0])), 
                                           range(len(self.data['Z'])), 
                                           self.data['Z'], 
-                                          cmap='jet', shading='auto', 
+                                          cmap='jet',# shading='auto', 
                                           vmin=0)
                                           
             
@@ -529,7 +529,7 @@ def build_chain_of_states( input_coord):
             except:
                 a = True
                 #print input_coord
-    return input_coord
+    return input_coord[1:]
 
 
 def check_distance (coord1 , coord2):
