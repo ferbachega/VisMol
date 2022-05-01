@@ -38,7 +38,8 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
-
+import copy as cp
+from vModel import VismolObject
 
 
 
@@ -72,7 +73,7 @@ class PotentialEnergyAnalysisWindow():
 
             self.scale_traj.set_adjustment ( self.adjustment)
             self.scale_traj.set_digits(0)
-            
+            self.reaction_coord_label = self.builder.get_object('RC1_RC2_label')
             
             
             
@@ -81,7 +82,8 @@ class PotentialEnergyAnalysisWindow():
             '''-------------------------------------------------------------'''
             self.fig = Figure(figsize=(6, 4))#,constrained_layout=True)
             self.canvas = FigureCanvas(self.fig)  # a Gtk.DrawingArea
-            self.canvas.mpl_connect('button_press_event', self.onpick2)
+            self.canvas.mpl_connect('button_press_event', self.on_pick)
+            self.canvas.mpl_connect('motion_notify_event', self.on_motion_notify_event)
 
             self.hbox.pack_start(self.canvas, True, True, 0)
             self.ax = self.fig.add_subplot(1,1,1)
@@ -96,7 +98,7 @@ class PotentialEnergyAnalysisWindow():
             self.ax3 = self.fig2.add_subplot(1,1,1)
             
             #self.line2, = self.ax2.plot([], [], '-o')
-            #secax = self.ax2.secondary_xaxis('top', functions=(None))
+            #self.secax = self.ax2.secondary_xaxis('top', functions=(self.seconday_xaxis_function))
 
             self.canvas2 = FigureCanvas(self.fig2)  # a Gtk.DrawingArea
             self.hbox.pack_start(self.canvas2, True, True, 0)        
@@ -155,46 +157,6 @@ class PotentialEnergyAnalysisWindow():
             else:
                 self.coordinates_combobox.set_active(0)
             #------------------------------------------------------------------------------------'''
-
-
-            
-            #if self.vobject:
-            #    data =self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][0][1]
-            #    #data = self.vobject.trajectory2D_data
-            #else:
-            #    data = None#parse_2D_scan_logfile (logfile = '/home/fernando/programs/VisMol/examples/tobachega/ScanTraj.log')
-            
-
-            
-            '''
-            self.Z = data['Z']
-
-
-            self.X = range(len(self.Z[0]))
-            self.Y = range(len(self.Z))
-            
-            #print(self.X)
-            #print(self.Y)
-            #print(self.Z)
-            
-            #self.pcm = self.ax.pcolormesh(self.X, self.Y, self.Z, cmap='jet', vmin=0, shading='gouraud')
-            self.pcm = self.ax.pcolormesh(self.X, self.Y, self.Z, cmap='jet', vmin=0)#, shading='gouraud')
-            am = self.ax.contour(self.X, self.Y, self.Z, colors='k')
-            
-            self.fig.colorbar(self.pcm,  ax=self.ax)#, extend='both')
-            
-
-            
-            fig = Figure(figsize=(5, 4), dpi=100)
-            self.ax2 = fig.add_subplot( )
-            self.ax3 = fig.add_subplot( )
-            
-            self.line2, = self.ax2.plot([], [], '-o')
-            secax = self.ax2.secondary_xaxis('top', functions=(None))
-
-            self.canvas2 = FigureCanvas(fig)  # a Gtk.DrawingArea
-            self.hbox.pack_start(self.canvas2, True, True, 0)        
-            '''
  
             self.window.show_all()
             self.Visible  = True
@@ -212,6 +174,11 @@ class PotentialEnergyAnalysisWindow():
             #self.vobject_liststore.append(['all', _vobject.index])
             self.coordinates_combobox.set_model(self.vobject_liststore)
             self.coordinates_combobox.set_active(_id)
+
+
+    def seconday_xaxis_function (self):
+        """ Function doc """
+        pass
 
     def _draw_data (self, cla = True, refresh = True):
         """ Function doc """
@@ -285,9 +252,25 @@ class PotentialEnergyAnalysisWindow():
         self._draw_data(cla = True)
         
         
-
+    def on_motion_notify_event (self, event):
+        """ Function doc """
+        if event.xdata is None or event.ydata is None:
+            pass
+        else:
+            x, y = int(event.xdata), int(event.ydata)
+            try:
+                rc1 = self.data['RC1'][y][x]
+                rc2 = self.data['RC2'][y][x]
+                
+                label_text =  '({:3d}) RC1: {:.4f}     ({:3d}) RC2: {:.4f}  '.format(x, rc1, y, rc2) 
+                
+                self.reaction_coord_label.set_text(label_text)
+                print(rc1, rc2, x,y)
+            except:
+                pass
+            
     
-    def onpick2(self, event):
+    def on_pick(self, event):
         ''' Function doc '''
         
         #self.ax.pcolormesh(self.X, self.Y, self.Z, cmap='jet', vmin=0, shading='gouraud')
@@ -387,7 +370,7 @@ class PotentialEnergyAnalysisWindow():
         self.pcm = None
         self.color_bar = None
         self.vobject = None
-
+        self.traj_export_index = 1
     def scale_traj_new_definitions(self):
         #self.scale_traj
         self.scale_traj.set_range(0, len(self.xy_traj))
@@ -414,6 +397,59 @@ class PotentialEnergyAnalysisWindow():
         self.canvas2.draw()
         #self.scale_traj.set_value(int(value))
 
+    def on_button_export_trajectory (self, widget):
+        """ Function doc """
+        print (
+        self.xdata   ,
+        self.ydata   ,
+        self.zdata   ,
+        self.xy_traj ,
+        self.vobject ,
+        )
+        
+        #print (self.main.pDynamo_session.systems.keys())
+        #print (self.vobject.easyhybrid_system_id)
+        active_id = self.main.pDynamo_session.active_id
+        
+        
+        self.main.pDynamo_session.active_id = self.vobject.easyhybrid_system_id
+        system_id = self.vobject.easyhybrid_system_id
+
+        frames     = []
+        frame      = []
+
+        for xy in self.xy_traj:
+            frame_number = self.vobject.trajectory2D_xy_indexes[(xy[0], xy[1])]
+            #print(frame, len(vobject.frames))
+            frames.append(self.vobject.frames[frame_number])
+        self.traj_export_index += 1
+        
+        
+        
+        print(len(frames))
+        vobject = self.main.pDynamo_session.build_vismol_object_from_pDynamo_system (
+                                                           name                 = 'Trajectory from PES', #+str(self.traj_export_index)  ,
+                                                           system_id            = system_id,
+                                                           vismol_object_active = True        ,
+                                                           autocenter           = True        ,
+                                                           refresh_qc_and_fixed = False,
+                                                           frames               = frames)
+        
+        
+        
+        
+        
+        
+        self.main.pDynamo_session.refresh_qc_and_fixed_representations(_all = False, 
+                                                                  system_id = system_id , 
+                                                                     visObj = vobject,    
+                                                                fixed_atoms = True , 
+                                                                   QC_atoms = True , 
+                                                                     static = True )
+
+        self.main.pDynamo_session.active_id = active_id
+
+
     def change_check_button_reaction_coordinate (self, widget):
         """ Function doc """
         #radiobutton_bidimensional = self.builder.get_object('radiobutton_bidimensional')
@@ -431,6 +467,13 @@ class PotentialEnergyAnalysisWindow():
         """ Function doc """
         self.window.destroy()
         self.Visible    =  False
+
+
+
+
+
+
+
 
 
 def parse_2D_scan_logfile (logfile):
@@ -474,11 +517,6 @@ def parse_2D_scan_logfile (logfile):
            'Z': Z
            }
     return data
-
-
-
-
-
 
 def find_the_midpoint (coord1 , coord2):
 	""" Function doc """

@@ -136,12 +136,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">5</property>
                     <child>
-                      <object class="GtkButton">
-                        <property name="label" translatable="yes">button</property>
+                      <object class="GtkLabel" id="RC1_RC2_label">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">RC1 / RC2</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -150,11 +150,12 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton">
-                        <property name="label" translatable="yes">button</property>
+                      <object class="GtkCheckButton">
+                        <property name="label" translatable="yes">Interpolate (picking)</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -163,12 +164,11 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkCheckButton">
-                        <property name="label" translatable="yes">checkbutton</property>
+                      <object class="GtkButton">
+                        <property name="label" translatable="yes">button</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
+                        <property name="receives_default">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -191,6 +191,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkScale" id="scale_trajectory_from_PES">
                         <property name="visible">True</property>
@@ -208,7 +209,18 @@
                       <placeholder/>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkButton" id="button_export">
+                        <property name="label" translatable="yes">Export trajectory</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="on_button_export_trajectory" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>

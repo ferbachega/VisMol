@@ -57,12 +57,12 @@ class ExportDataWindow:
             '''--------------------------------------------------------------------------------------------'''
             self.format_store = Gtk.ListStore(str)
             self.formats = {
-                       0 : 'pkl - pdynamo system',
-                       1 : 'pkl - pdynamo coordinates',
-                       2 : 'pdb' ,
-                       3 : 'xyz' ,
-                       4 : 'mol' ,
-                       5 : 'mol2',
+                       0 : 'pkl - pDynamo system'      ,
+                       1 : 'pkl - pDynamo coordinates' ,
+                       2 : 'pdb'                       ,
+                       3 : 'xyz'                       ,
+                       4 : 'mol'                       ,
+                       5 : 'mol2'                      ,
                        }
                        
             for key, _format in self.formats.items():
@@ -299,6 +299,15 @@ class ExportDataWindow:
     def export_data (self, button):
         """ Function doc """
         
+        tree_iter = self.combobox_starting_coordinates.get_active_iter()
+        if tree_iter is not None:
+            
+            '''selecting the vismol object from the content that is in the combobox '''
+            model = self.combobox_starting_coordinates.get_model()
+            name, vobject_id = model[tree_iter][:2]
+            print ('name:', name, model[tree_iter][:2])
+        
+        
         '''Getting the correct format'''
         _format  = self.combobox_fileformat.get_active()
         _format  = self.formats[_format]
@@ -309,7 +318,7 @@ class ExportDataWindow:
         folder   = self.folder_chooser_button.get_folder()
         filename = self.builder.get_object('entry_filename').get_text()
         
-        print (folder, filename, _format)
+        print (folder, filename, _format, name, vobject_id)
         
         
         tree_iter = self.psystem_combo.get_active_iter()
@@ -320,7 +329,15 @@ class ExportDataWindow:
             name, sys_id = model[tree_iter][:2]
             print (name, sys_id)
 
-        self.easyhybrid_main.pDynamo_session.export_system (sys_id, filename, folder, _format)
+        #self.easyhybrid_main.pDynamo_session.export_system (sys_id, filename, folder, _format)
+        vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+        
+        self.easyhybrid_main.pDynamo_session.export_system (system_id = sys_id  , 
+                                                            filename  = filename, 
+                                                            folder    = folder  , 
+                                                            _format   = _format , 
+                                                            vobject   = None
+                                                            )
 
         
         
