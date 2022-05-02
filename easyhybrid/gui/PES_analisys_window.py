@@ -339,6 +339,7 @@ class PotentialEnergyAnalysisWindow():
                 #self.line, = self.ax.plot(event.xdata, event.ydata, '-o')  # plot the first row
             
             self.line, = self.ax.plot(self.xdata, self.ydata, '-ok')  # plot the first row
+            self.ax2.cla()
             self.line2, = self.ax2.plot(range(0, len(self.zdata)), self.zdata, '-ob')  # plot the first row
             
             self.canvas.draw()
@@ -381,13 +382,13 @@ class PotentialEnergyAnalysisWindow():
         value = self.scale_traj.get_value()
         pos   = self.scale_traj.get_value_pos ()
         
-        self.ax3.cla()
         
         #print(self.xy_traj[int(value)])
         xy = self.xy_traj[int(value)]
         print(xy, self.zdata[int(value)])
         
-        
+        self.ax2.cla()
+        self.ax3.cla()
         self.ax2.plot(range(0, len(self.zdata)), self.zdata, '-ob')
         self.ax3.plot( [int(value)], [self.zdata[int(value)]], '-or')
         
