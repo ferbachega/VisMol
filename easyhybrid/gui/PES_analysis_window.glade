@@ -210,7 +210,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button_export">
-                        <property name="label" translatable="yes">Export trajectory</property>
+                        <property name="label" translatable="yes">Export as visualization object</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>

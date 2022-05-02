@@ -57,12 +57,12 @@ class ExportDataWindow:
             '''--------------------------------------------------------------------------------------------'''
             self.format_store = Gtk.ListStore(str)
             self.formats = {
-                       0 : 'pkl - pDynamo system'      ,
-                       1 : 'pkl - pDynamo coordinates' ,
-                       2 : 'pdb'                       ,
-                       3 : 'xyz'                       ,
-                       4 : 'mol'                       ,
-                       5 : 'mol2'                      ,
+                       0 : 'pkl - pDynamo system'         ,
+                       1 : 'pkl - pDynamo coordinates'    ,
+                       2 : 'pdb - Protein Data Bank'      ,
+                       3 : 'xyz - cartesian coordinates'  ,
+                       4 : 'mol'                          ,
+                       5 : 'mol2'                         ,
                        }
                        
             for key, _format in self.formats.items():
@@ -92,10 +92,12 @@ class ExportDataWindow:
             self.psystem_liststore = Gtk.ListStore(str,int)
             names = [ ]
             for key , system in self.easyhybrid_main.pDynamo_session.systems.items():
-                name = system['name']
-                print ([name, int(key)])
-                self.psystem_liststore.append([name, int(key)])
-            
+                try:
+                    name = system['name']
+                    print ([name, int(key)])
+                    self.psystem_liststore.append([name, int(key)])
+                except:
+                    print(system)
             self.psystem_combo = self.builder.get_object('combobox_pdynamo_system')
             self.psystem_combo.set_model(self.psystem_liststore)
             #self.psystem_combo.connect("changed", self.on_name_combo_changed)
@@ -221,7 +223,6 @@ class ExportDataWindow:
             self.builder.get_object('entry_stride').set_sensitive(False)
             self.builder.get_object('label_stride').set_sensitive(False)
         
-    
     def on_combobox_fileformat (self, widget):
         """ Function doc """
         print('on_combobox_fileformat')
@@ -257,8 +258,6 @@ class ExportDataWindow:
             self.builder.get_object('entry_stride').set_sensitive(False)
             self.builder.get_object('label_stride').set_sensitive(False)
    
-      
-   
     def on_name_combo_changed (self, widget):
         """ Function doc """
         if  self.combox.get_active() == 0:
@@ -286,58 +285,90 @@ class ExportDataWindow:
         else:
             self.is_single_file = False
 
-            #self.builder.get_object('entry_first').set_sensitive(True)
-            #self.builder.get_object('label_first').set_sensitive(True)
-            #
-            #self.builder.get_object('entry_stride').set_sensitive(True)
-            #self.builder.get_object('label_stride').set_sensitive(True)
-        
-        #if self.builder.get_object('radiobutton_append_to_a_vobject').get_active():
-        #    self.builder.get_object('entry_create_a_new_vobj').set_sensitive(False)
-        #    self.builder.get_object('vobjects_combobox').set_sensitive(True)
-
     def export_data (self, button):
         """ Function doc """
         
+        parameters = {
+                      'system_id'       : None,
+                      'vobject_id'      : None, 
+                      'format'          : None,
+                      'is_single_file'  : True,
+                      
+                      'fist'            : 0   ,
+                      'last'            : -1  ,
+                      'stride'          : 1   ,
+                      
+                      'filename'        :'exported_system',
+                      'folder'          :None, 
+                      
+                      }
+        
+        
+        '''--------------------------------------------------------------------------'''
         tree_iter = self.combobox_starting_coordinates.get_active_iter()
         if tree_iter is not None:
             
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.combobox_starting_coordinates.get_model()
             name, vobject_id = model[tree_iter][:2]
-            print ('name:', name, model[tree_iter][:2])
+        parameters['vobject_id'] = vobject_id
+        '''--------------------------------------------------------------------------'''
+
+
         
-        
-        '''Getting the correct format'''
+        '''---------------------  Getting the correct format  ---------------------------'''
         _format  = self.combobox_fileformat.get_active()
-        _format  = self.formats[_format]
-        _format  = _format.split()
-        _format  = _format[0]
-        '''--------------------------------------------'''
+        parameters['format'] = _format
+        '''------------------------------------------------------------------------------'''
         
+        
+        
+        '''------------------------   Fomrat  ------------------------------------------'''
         folder   = self.folder_chooser_button.get_folder()
         filename = self.builder.get_object('entry_filename').get_text()
+        parameters['folder'] = folder
+        parameters['filename'] = filename
+        '''------------------------------------------------------------------------------'''
         
-        print (folder, filename, _format, name, vobject_id)
         
         
+        '''------------------------  pDynam System   ------------------------------------'''
         tree_iter = self.psystem_combo.get_active_iter()
         if tree_iter is not None:
-            
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.psystem_combo.get_model()
-            name, sys_id = model[tree_iter][:2]
-            print (name, sys_id)
-
-        #self.easyhybrid_main.pDynamo_session.export_system (sys_id, filename, folder, _format)
-        vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            name, system_id = model[tree_iter][:2]
+        parameters['system_id'] = system_id
+        '''------------------------------------------------------------------------------'''
         
-        self.easyhybrid_main.pDynamo_session.export_system (system_id = sys_id  , 
-                                                            filename  = filename, 
-                                                            folder    = folder  , 
-                                                            _format   = _format , 
-                                                            vobject   = None
-                                                            )
+        
+        '''--------------------------- Is single file -----------------------------------'''
+        if self.builder.get_object('radiobutton_singlefile').get_active():
+            parameters['is_single_file'] = True          
+        else:
+            parameters['is_single_file'] = False
+        '''------------------------------------------------------------------------------'''
+        
+        
+        
+        '''----------------------   FIRST  LAST and STRIDE   -----------------------------'''
+        parameters['first']  = int(self.builder.get_object('entry_first').get_text() )
+        parameters['last']   = int(self.builder.get_object('entry_last').get_text()  )
+        parameters['stride'] = int(self.builder.get_object('entry_stride').get_text())
+        '''-------------------------------------------------------------------------------'''
+
+
+        '''------------------------------------------------------------------------------'''
+        self.easyhybrid_main.pDynamo_session.export_system (parameters)
+        '''------------------------------------------------------------------------------'''
+        #vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+        
+        #self.easyhybrid_main.pDynamo_session.export_system (system_id = sys_id  , 
+        #                                                    filename  = filename, 
+        #                                                    folder    = folder  , 
+        #                                                    _format   = _format , 
+        #                                                    vobject   = None
+        #                                                    )
 
         
         

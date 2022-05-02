@@ -139,7 +139,8 @@ class ImportTrajectoryWindow:
             name, sys_id = model[tree_iter][:2]
             print (name, sys_id)
             #name, vobject_id = model[tree_iter][:2]
-        
+        else:
+            return False
         
         self.starting_coords_liststore = Gtk.ListStore(str, int)
         for key, vobject  in self.easyhybrid_main.vm_session.vismol_objects_dic.items():

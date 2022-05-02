@@ -234,15 +234,71 @@ class pDynamoSession:
         #self.sel_name_counter = 0
     
     
-    def export_system (self, system_id = None, 
-                              filename = None, 
-                              folder   = None, 
-                              _format  = None, 
-                              vobject  = None
-                              ):
+    def export_system (self,  parameters ): 
+                              
         """ Function doc """
-        system = self.systems[system_id]['system']
-        ExportSystem ( os.path.join ( folder, filename+'.'+_format), system )
+        vobject  = self.vm_session.vismol_objects_dic[parameters['vobject_id']]
+        folder   = parameters['folder'] 
+        filename = parameters['filename'] 
+        
+        
+        if parameters['last'] == -1:
+            parameters['last'] = len(vobject.frames)
+        
+        active_id = self.active_id 
+        self.active_id = parameters['system_id']
+        
+        if parameters['format'] == 0:
+            self.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object = vobject, 
+                                                                      system_id     = parameters['system_id'], 
+                                                                      frame         = parameters['last'])
+            
+            system   = self.systems[parameters['system_id']]['system']
+            ExportSystem ( os.path.join ( folder, filename+'.pkl'), system )
+            
+        if parameters['format'] == 1:
+            
+            #'''   When is Single File     '''
+            if parameters['is_single_file']:
+                self.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object = vobject, 
+                                                                          system_id     = parameters['system_id'], 
+                                                                          frame         = parameters['last'])
+                
+                system   = self.systems[parameters['system_id']]['system']
+                
+                Pickle( os.path.join ( folder, filename+'.pkl'), 
+                        system.coordinates3 )
+            
+            
+            
+            #'''   When are Multiple Files   '''
+            else:
+                #folder   = parameters['folder'] 
+                #filename = parameters['filename']
+                #os.chdir(folder)
+                if os.path.isdir( os.path.join ( folder,filename+".ptGeo")):
+                    pass
+                else:
+                    os.mkdir(os.path.join ( folder,filename+".ptGeo"))
+                
+                folder = os.path.join ( folder,filename+".ptGeo")
+                
+                
+                i = 0
+                for frame in range(parameters['first'], parameters['last'], parameters['stride']):
+                    
+                    self.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object = vobject, 
+                                                                              system_id     = parameters['system_id'], 
+                                                                              frame         = frame)
+                    
+                    system   = self.systems[parameters['system_id']]['system']
+                    
+                    Pickle( os.path.join ( folder, "frame{}.pkl".format(i) ), 
+                            system.coordinates3 )
+                    
+                    i += 1
+        self.active_id  = active_id
+
 
     def generate_pSystem_dictionary (self, system, working_folder = None ):
         """ Function doc """
@@ -875,18 +931,19 @@ class pDynamoSession:
             
         self.append_system_to_pdynamo_session (system)
 
-    def get_coordinates_from_vismol_object_to_pDynamo_system (self, vismol_object ):
+    def get_coordinates_from_vismol_object_to_pDynamo_system (self, vismol_object = None, system_id =  None, frame = -1):
         """ Function doc """
+        if system_id:
+            pass
+        else:
+            system_id = self.active_id
         
-        #print('\n\n')
-        print('Loading coordinates from', vismol_object.name)
-        #print('\n\n')
-        
+        print('Loading coordinates from', vismol_object.name, 'frame', frame)
         for i, atom in enumerate(vismol_object.atoms):
-            xyz = atom.coords(frame = -1)
-            self.systems[self.active_id]['system'].coordinates3[i][0] = xyz[0]
-            self.systems[self.active_id]['system'].coordinates3[i][1] = xyz[1]
-            self.systems[self.active_id]['system'].coordinates3[i][2] = xyz[2]
+            xyz = atom.coords(frame = frame)
+            self.systems[system_id]['system'].coordinates3[i][0] = xyz[0]
+            self.systems[system_id]['system'].coordinates3[i][1] = xyz[1]
+            self.systems[system_id]['system'].coordinates3[i][2] = xyz[2]
     
     def get_sequence_from_pDynamo_system (self, system_id = None):
         """ Function doc """
@@ -971,12 +1028,12 @@ class pDynamoSession:
                                                  ):
         """ Function doc """
         #print('\n\n\ build_vismol_object_from_pDynamo_system 736:', system_id, name)
-        print('frames ',len(frames) )
+        #print('frames ',len(frames) )
         if system_id is not None:
             pass
         else:
             system_id = self.active_id
-        
+        print('1036')       
         #print('\n\n\ build_vismol_object_from_pDynamo_system 753:', system_id, name)
         
         name = str(self.systems[system_id]['step_counter'])+' '+name
@@ -995,7 +1052,7 @@ class pDynamoSession:
             frame.append(xyz[2])
             atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom, system_id = system_id))
         frame = np.array(frame, dtype=np.float32)
-        
+        print('1055')       
         
         if frames is None:
             frames = [frame]
@@ -1022,7 +1079,7 @@ class pDynamoSession:
         #    pass
 
         name  = os.path.basename(name)
-        
+        print('1082')       
         vismol_object  = VismolObject.VismolObject(name                           = name                                          ,    
                                                    atoms                          = atoms                                         ,    
                                                    vm_session                     = self.vm_session                            ,    
@@ -1035,7 +1092,7 @@ class pDynamoSession:
         vismol_object.set_model_matrix(self.vm_session.glwidget.vm_widget.model_mat)
         vismol_object.active = vismol_object_active
         vismol_object._get_center_of_mass(frame = 0)
-        
+        print('1095')       
         if self.systems[system_id]['system'].qcModel:
             sum_x = 0.0 
             sum_y = 0.0 
@@ -1060,7 +1117,7 @@ class pDynamoSession:
             
         else:
             center = vismol_object.mass_center
-        
+        print('1120')       
         #self._check_ref_vismol_object_in_pdynamo_system()
         self.systems[system_id]['vismol_object'] = vismol_object
         if add_visObj_to_vm_session:
@@ -1074,6 +1131,7 @@ class pDynamoSession:
 
         self.vm_session.glwidget.vm_widget.center_on_coordinates(vismol_object, center)
         self.vm_session.main_session.update_gui_widgets()
+        print('1134')       
         return vismol_object
 
     def selections (self, _centerAtom = None, _radius = None, _method = None, system_id = None):
@@ -1388,9 +1446,22 @@ class pDynamoSession:
         '''
         _parametersList["active_system"] = self.systems[self.active_id]['system']
         run = Simulation(_parametersList)
-        run.Execute()        
-        self.build_vismol_object_from_pDynamo_system (name = 'new_geometry', autocenter = False)
+        run.Execute() 
+        print('1449')       
+        vobject = self.build_vismol_object_from_pDynamo_system ( name                     = 'new_geometry',
+                                                       #system_id                = None              ,
+                                                       #vismol_object_active     = True              ,
+                                                       autocenter               = False              ,
+                                                       refresh_qc_and_fixed     = False              ,
+                                                       add_visObj_to_vm_session = True              ,
+                                                       #frames                   = None
+                                                       )
         
+        self.refresh_vobject_qc_and_fixed_representations ( 
+                                                      visObj = vobject,    
+                                                 fixed_atoms = True , 
+                                                    QC_atoms = True , 
+                                                      static = True )                                               
 #======================================================================================================
  
 
