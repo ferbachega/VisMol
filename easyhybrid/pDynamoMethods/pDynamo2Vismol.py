@@ -236,7 +236,16 @@ class pDynamoSession:
     
     def export_system (self,  parameters ): 
                               
-        """ Function doc """
+        """  
+        Export system model, as pDynamo serization files or Cartesian coordinates.
+            0 : 'pkl - pDynamo system'         ,
+            1 : 'pkl - pDynamo coordinates'    ,
+            2 : 'pdb - Protein Data Bank'      ,
+            3 : 'xyz - cartesian coordinates'  ,
+            4 : 'mol'                          ,
+            5 : 'mol2'                         ,
+        
+        """
         vobject  = self.vm_session.vismol_objects_dic[parameters['vobject_id']]
         folder   = parameters['folder'] 
         filename = parameters['filename'] 
@@ -300,7 +309,7 @@ class pDynamoSession:
         self.active_id  = active_id
 
 
-    def generate_pSystem_dictionary (self, system, working_folder = None ):
+    def generate_pSystem_dictionary (self, system = None, working_folder = None ):
         """ Function doc """
         
         if working_folder:
@@ -322,32 +331,19 @@ class pDynamoSession:
                   'color_palette' : None           , # will be replaced by a dict
                   'fixed_table'   : []             ,
                   'selections'    : {}             ,
-                  'logfile_data'  : {}             , # <--- vobject_id : [['logfilename', data], ['logfilename', data]]
+                  'vismol_objects': {}             ,
+                  'logfile_data'  : {}             , # <--- vobject_id : [data0, data1, data2], ...]  obs: each "data" is a dictionary 
                   'working_folder': working_folder , 
+                  'step_counter'  : 0    , 
                    }
+        return psystem
         
     def load_a_new_pDynamo_system_from_dict (self, filesin = {}, systype = 0, name = None):
         """ Function doc """
                 
         '''Every new system is added in the form of a 
         dict, which contains the items:'''
-        psystem = {
-                  'id'            : 0    ,  # access number (same as the access key in the self.systems dictionary)
-                  'name'          : None ,
-                  'system'        : None ,  # pdynamo system                  
-                  'vismol_object' : None ,  # Vismol object associated with the system -> is the object that will 
-                                            # undergo changes when something new is requested by the interface, for example: show the QC region
-                  'active'        : False, 
-                  'bonds'         : None ,
-                  'sequence'      : None ,
-                  'qc_table'      : None ,
-                  'color_palette' : None , # will be replaced by a dict
-                  'fixed_table'   : []   ,
-                  'selections'    : {}   ,
-                  'vismol_objects': {}   ,
-                  'logfile_data'  : {}   ,
-                  'working_folder': HOME , 
-                   }
+        psystem = self.generate_pSystem_dictionary()
         
         system = None 
         if systype == 0:
@@ -392,26 +388,27 @@ class pDynamoSession:
 
     def append_system_to_pdynamo_session (self, system, name = None, working_folder = None):
         """ Function doc """
-        
-        psystem = {
-                  'id'            : 0    ,  # access number (same as the access key in the self.systems dictionary)
-                  'name'          : None ,
-                  'system'        : None ,  # pdynamo system
-                  
-                  'vismol_object' : None ,  # Vismol object associated with the system -> is the object that will 
-                                            # undergo changes when something new is requested by the interface, for example: show the QC region
-                  'active'        : False, 
-                  'bonds'         : None ,
-                  'sequence'      : None ,
-                  'qc_table'      : None ,
-                  'color_palette' : None , # will be replaced by a dict
-                  'fixed_table'   : []   ,
-                  'vismol_objects': {}   ,
-                  'selections'    : {}   ,
-                  'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
-                  'logfile_data'  : {}   ,
-                  'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
-                   }
+        psystem = self.generate_pSystem_dictionary()
+
+        #psystem = {
+        #          'id'            : 0    ,  # access number (same as the access key in the self.systems dictionary)
+        #          'name'          : None ,
+        #          'system'        : None ,  # pdynamo system
+        #          
+        #          'vismol_object' : None ,  # Vismol object associated with the system -> is the object that will 
+        #                                    # undergo changes when something new is requested by the interface, for example: show the QC region
+        #          'active'        : False, 
+        #          'bonds'         : None ,
+        #          'sequence'      : None ,
+        #          'qc_table'      : None ,
+        #          'color_palette' : None , # will be replaced by a dict
+        #          'fixed_table'   : []   ,
+        #          'vismol_objects': {}   ,
+        #          'selections'    : {}   ,
+        #          'working_folder': HOME , #is a default folder that will be called to store simulation results, trajectories and log files. It is changed which the user changes the folder to a new simulation 
+        #          'logfile_data'  : {}   ,
+        #          'step_counter'  : 0    , #is a process counter that will be added to the name of each process executed inside easyhybrid
+        #           }
         
         if name:
             pass
@@ -555,7 +552,7 @@ class pDynamoSession:
             return None 
         
         '''Here we are going to arrange the atoms that are not in the QC part, 
-        but are in the same residues as some atoms of the QC part.'''  
+        but are in the same residues as those atoms within the QC part.'''  
 
         self._check_ref_vismol_object_in_pdynamo_system()
         
@@ -1194,6 +1191,7 @@ class pDynamoSession:
             #self.systems[self.active_id]['system']
         
         self._check_ref_vismol_object_in_pdynamo_system()
+        
         for res in self.systems[self.active_id]['vismol_object'].residues:
             for atom in res.atoms:
                 index_v =  atom.index-1
@@ -1203,17 +1201,9 @@ class pDynamoSession:
                 resn    = res.resn 
                 atom.charge = system.mmState.charges[index_v]
                 
-               #print (resn, res.resi, index_v, index_p, charge )
-                #print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
-            
-        #for atom in self.systems[self.active_id]['vismol_object'].atoms:
-           #print( atom.index, atom.name, atom.charge)
-        print('Total charge: ', sum(system.mmState.charges))
-            
-            
-        #for atom in system.atoms.items:
-        #    idx = atom.index
-        #    print(atom.index, atom.atomicNumber, system.mmState.charges[idx],self.systems[self.active_id]['vismol_object'].atoms[idx].resn )
+
+        #print('Total charge: ', sum(system.mmState.charges))
+
       
     def get_energy (self):
         """ Function doc """
@@ -1225,19 +1215,23 @@ class pDynamoSession:
         """ Function doc """
 
         data = parse_2D_scan_logfile (logfile)
-        base = os.path.basename(logfile)
+        data['name'] = os.path.basename(logfile)
+        #base = os.path.basename(logfile)
         print('vobject',vobject )
         if 'logfile_data' in  self.systems[system_id].keys():
             if vobject.index in self.systems[system_id]['logfile_data']:
-                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                self.systems[system_id]['logfile_data'][vobject.index].append(data)
         
             else:
                 self.systems[system_id]['logfile_data'][vobject.index] = []
-                self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+                self.systems[system_id]['logfile_data'][vobject.index].append(data)
         else:
             self.systems[system_id]['logfile_data'] = {}
             self.systems[system_id]['logfile_data'][vobject.index] = []
-            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+            #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
+            self.systems[system_id]['logfile_data'][vobject.index].append(data)
 
         self.vm_session.main_session.PES_analysis_window.OpenWindow(vobject = vobject)
 
@@ -1356,7 +1350,7 @@ class pDynamoSession:
                     n+=1
             
             
-            self.refresh_qc_and_fixed_representations(_all = False, 
+            self.refresh_qc_and_fixed_representations(    _all = False, 
                                                      system_id = system_id,
                                                      visObj    = vobject,
                                                      fixed_atoms = True,
@@ -1463,36 +1457,4 @@ class pDynamoSession:
                                                     QC_atoms = True , 
                                                       static = True )                                               
 #======================================================================================================
- 
-
-    '''
-    def run_ConjugateGradientMinimize_SystemGeometry (self                   , 
-                                                      logFrequency           , 
-                                                      maximumIterations      , 
-                                                      rmsGradientTolerance   , 
-                                                      save_trajectory = False,
-                                                      trajectory_path = None):
-        """ Function doc """
-        if save_trajectory:            
-            #if trajectory_path == None:                 
-            trajectory_path = '/home/fernando/Documents'
-            trajectory = ExportTrajectory ('/home/fernando/programs/pDynamo3/scratch/examples-3.1.2/book/generatedFiles/cyclohexane_sdpath.ptGeo', self.systems[self.active_id]['system'] )
-
-            ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system']                        ,
-                                                       logFrequency                       = logFrequency             ,
-                                                       maximumIterations                  = maximumIterations        ,
-                                                       rmsGradientTolerance               = rmsGradientTolerance     ,
-                                                       trajectory                         = trajectory
-                                                       )        
-        
-        else:
-            ConjugateGradientMinimize_SystemGeometry ( self.systems[self.active_id]['system']                        ,
-                                                       logFrequency                       = logFrequency             ,
-                                                       maximumIterations                  = maximumIterations        ,
-                                                       rmsGradientTolerance               = rmsGradientTolerance     )
-        
-        self.build_vismol_object_from_pDynamo_system (name = 'geometry optimization', autocenter = True)
-
-    '''
-
 

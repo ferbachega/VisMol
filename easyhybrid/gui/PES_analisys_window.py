@@ -228,7 +228,7 @@ class PotentialEnergyAnalysisWindow():
         self.data_liststore.clear()
         for index , data in enumerate(self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][vobject_index]):
             #print(data)
-            self.data_liststore.append([data[0], index])
+            self.data_liststore.append([data['name'], index])
         
         
         #self.data_liststore.append(['all', 2])
@@ -247,8 +247,8 @@ class PotentialEnergyAnalysisWindow():
             #print ('\n\n\_name, index:', _name,  index, '\n\n')
         
         #self.vobject = self.main.vm_session.vismol_objects_dic[vobject_index]
-        self.data = self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index][1]
-        #print(self.data)
+        self.data = self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index] 
+        print(self.data)
         self._draw_data(cla = True)
         
         

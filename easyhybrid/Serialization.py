@@ -54,7 +54,8 @@ class LoadAndSaveFiles:
                 
                 else:
                     try:
-                        representations[rep_name] = list(rep_data.indexes)               
+                        if rep_data.active:
+                            representations[rep_name] = list(rep_data.indexes)               
                     except:
                         representations[rep_name] = None
                     #if rep_name == 'spheres':
