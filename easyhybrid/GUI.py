@@ -20,9 +20,9 @@ from easyhybrid.gui.PES_analisys_window                     import  PotentialEne
 
 import gc
 import os
-
-VISMOL_HOME = os.environ.get('VISMOL_HOME')
-HOME        = os.environ.get('HOME')
+EASYHYBRID_VERSION = '3.0'
+VISMOL_HOME        = os.environ.get('VISMOL_HOME')
+HOME               = os.environ.get('HOME')
 
 
 
@@ -84,6 +84,7 @@ class EasyHybridMainWindow ( ):
         self.builder.connect_signals(self)
         self.window = self.builder.get_object('window1')
         self.window.set_default_size(1000, 600)                          
+        self.window.set_title('EasyHybrid {}'.format(EASYHYBRID_VERSION))                          
         
         #self.toolbar_builder = self.builder.get_object('toolbar_builder') 
         #self.builder.get_object('box1').pack_start(self.toolbar_builder, True, True, 1)
@@ -91,7 +92,7 @@ class EasyHybridMainWindow ( ):
         # Status Bar
         self.statusbar_main = self.builder.get_object('statusbar1')
         #self.statusbar_main.push(0,'wellcome to EasyHydrid')
-        self.statusbar_main.push(1,'welcome to EasyHybrid 3.0')
+        self.statusbar_main.push(1,'Welcome to EasyHybrid version {}, a pDynamo3 graphical tool'.format(EASYHYBRID_VERSION))
         
         self.paned_V = self.builder.get_object('paned_V')
         #self.nootbook  =  self.builder.get_object('notebook2')
@@ -210,7 +211,7 @@ class EasyHybridMainWindow ( ):
         
         '''#- - - - - - - - - - - -  pDynamo - - - - - - - - - - - - - - -#'''
         
-        self.pDynamo_session = pDynamoSession(vm_session = vm_session)
+        self.p_session = pDynamoSession(vm_session = vm_session)
 
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
         self.system_liststore      = Gtk.ListStore(str, int)
@@ -237,12 +238,66 @@ class EasyHybridMainWindow ( ):
         self.window.connect("delete-event",    Gtk.main_quit)
         self.window.show_all()
 
+    
+    def refresh_main_statusbar(self, _type = 'summary', psystem = None):
+        """ Function doc """
+        if psystem:
+            pass
+        else:
+            psystem = self.p_session.systems[self.p_session.active_id]
+            
+        if _type == 'summary':
+            
+            #string = 'System: {}  Size: {}  '.format()
+            name    = psystem['name']
+            size    = len(psystem['system'].atoms)
+            string = 'system: {}    atoms: {}    '.format(name, size)
 
+            if psystem['system'].qcModel:
+                hamiltonian = psystem['system'].qcModel.hamiltonian
+                n_QC_atoms  = len(psystem['qc_table'])
+                
+                
+                summary_items = psystem['system'].electronicState.SummaryItems()
+                
+                string += 'hamiltonian: {}    QC atoms: {}    QC charge:    {}    Spin multiplicity    {}    '.format(hamiltonian, 
+                                                                                                               n_QC_atoms,
+                                                                                                               summary_items[1][1],
+                                                                                                               summary_items[2][1],
+                                                                                                                 )
+                
+            n_fixed_atoms = len(psystem['fixed_table'])
+            string += 'fixed_atoms: {}    '.format(n_fixed_atoms)
+            
+            if psystem['system'].mmModel:
+                forceField = psystem['system'].mmModel.forceField
+                string += 'forceField: {}    '.format(forceField)
+            
+                if psystem['system'].nbModel:
+                    nbmodel = psystem['system'].mmModel.forceField
+                    string += 'nbModel: True    '
+                    
+                    summary_items = psystem['system'].nbModel.SummaryItems()
+                    
+                
+                else:
+                    string += 'nbModel: False    '
+            
+            
+            #if len(psystem['fixed_table'] > 0:
+
+            
+            self.statusbar_main.push(1,string)
+            
+            #qcModel = psystem['system']
+            #mmModel = 
+        
+    
     def refresh_system_liststore (self):
         """ Function doc """
         self.system_liststore     .clear()
         #self.selection_liststore  .clear()
-        for key, system  in self.pDynamo_session.systems.items():
+        for key, system  in self.p_session.systems.items():
             try:
                 self.system_liststore.append([system['name'], key])
             except:
@@ -302,7 +357,7 @@ class EasyHybridMainWindow ( ):
             else:
                 files = {'coordinates': filename}
                 systemtype = 3
-                self.pDynamo_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
+                self.p_session.load_a_new_pDynamo_system_from_dict(files, systemtype)
         else:
             pass
 
@@ -403,8 +458,8 @@ class EasyHybridMainWindow ( ):
             self.selection_list_window.OpenWindow()
 
         if button  == self.builder.get_object('toolbutton_energy'):
-            energy = self.pDynamo_session.get_energy()
-            #self.pDynamo_session.charge_summary()
+            energy = self.p_session.get_energy()
+            #self.p_session.charge_summary()
             #self.vm_session.selections[self.vm_session.current_selection].active = True
             #print(energy)
             
@@ -413,7 +468,7 @@ class EasyHybridMainWindow ( ):
             dialog.destroy()
             
         if button  == self.builder.get_object('toolbutton_setup_QCModel'):
-            #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.pDynamo_session, self)
+            #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.p_session, self)
             #self.dialog_import_a_new_systen.run()
             #self.dialog_import_a_new_systen.hide()
             #self.NewSystemWindow.OpenWindow()
@@ -424,7 +479,7 @@ class EasyHybridMainWindow ( ):
         
         if button  == self.builder.get_object('toolbutton_pDynamo_selections'):
             #print('toolbutton_pDynamo_selections')
-            #print('self.pDynamo_session.picking_selections_list', self.vm_session.picking_selections.picking_selections_list)
+            #print('self.p_session.picking_selections_list', self.vm_session.picking_selections.picking_selections_list)
             self.pDynamo_selection_window.OpenWindow()
             
             '''
@@ -435,7 +490,7 @@ class EasyHybridMainWindow ( ):
             _centerAtom ="%s:%s.%s:%s" %(atom1.chain, atom1.resn, atom1.resi, atom1.name)
             _radius =  10.0
             
-            self.pDynamo_session.selections (_centerAtom, _radius)
+            self.p_session.selections (_centerAtom, _radius)
             '''
        
         if button  == self.builder.get_object('toolbutton_pes_scan'):
@@ -491,18 +546,18 @@ class EasyHybridMainWindow ( ):
 
     def update_gui_widgets (self, update_folder = True, update_coords = True):
         """ Function doc """
-        
+        self.refresh_main_statusbar()
         # should be a function . in the future!!!
         if update_coords:
             #print(self.vm_session.starting_coords_liststore)
             starting_coords = []
-            #self.easyhybrid_main.pDynamo_session
+            #self.easyhybrid_main.p_session
             self.vm_session.starting_coords_liststore.clear()
             for key, visObj in self.vm_session.vismol_objects_dic.items():
                 
                 #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
                 
-                if visObj.easyhybrid_system_id == self.pDynamo_session.active_id:
+                if visObj.easyhybrid_system_id == self.p_session.active_id:
                     starting_coords.append([visObj.name, key])
             
             for item in starting_coords:
@@ -513,8 +568,8 @@ class EasyHybridMainWindow ( ):
         
         '''--------------------------------------------------------------------------------------------'''
         if update_folder:
-            active_id = self.pDynamo_session.active_id
-            working_folder = self.pDynamo_session.systems[active_id]['working_folder']
+            active_id = self.p_session.active_id
+            working_folder = self.p_session.systems[active_id]['working_folder']
             
             if self.geometry_optimization_window.Visible:
                 self.geometry_optimization_window.update_working_folder_chooser(folder = working_folder)
@@ -659,11 +714,11 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         for row in self.treestore:
             row[3] = row.path == selected_path
             if row[3]:
-                self.main_session.pDynamo_session.active_id = row[8]
+                self.main_session.p_session.active_id = row[8]
             else:
                 pass
         
-        #print('\n\nactive_id', self.main_session.pDynamo_session.active_id,'\n\n')
+        #print('\n\nactive_id', self.main_session.p_session.active_id,'\n\n')
         
         self.main_session.update_gui_widgets()
 
@@ -862,7 +917,7 @@ class TreeViewMenu:
                     self.treeview.main_session.vm_session.vismol_objects_dic.pop(key)
                 self.treeview.main_session.update_gui_widgets()
 
-                self.treeview.main_session.pDynamo_session.systems.pop(system_id)
+                self.treeview.main_session.p_session.systems.pop(system_id)
                 self.treeview.main_session.vm_session.parents.pop(system_id)
                 #self.treeview.main_session.vm_session.gtk_treeview_iters.pop(self.treeview.main_session.vm_session.parents[system_id])
                 #model.remove(iter)
@@ -896,7 +951,7 @@ class TreeViewMenu:
         self.treeview.treestore.clear()
 
         for key , vismol_object in self.treeview.main_session.vm_session.vismol_objects_dic.items():
-            self.treeview.main_session.vm_session.add_vismol_object_to_vismol_session (pdynamo_session = self.treeview.main_session.pDynamo_session, 
+            self.treeview.main_session.vm_session.add_vismol_object_to_vismol_session (pdynamo_session = self.treeview.main_session.p_session, 
                                                       rep             = None, 
                                                       vismol_object   = vismol_object, 
                                                       vobj_count      = False,
@@ -909,18 +964,18 @@ class TreeViewMenu:
         '''This loop guarantees the correct assignment of "true" 
         to the radiobutton of the system that is in memory.
         
-        system that is in memory = self.treeview.main_session.pDynamo_session.active_id
+        system that is in memory = self.treeview.main_session.p_session.active_id
         
         '''
         for row in self.treeview.treestore:
             #row[3] = row.path == selected_path
-            if self.treeview.main_session.pDynamo_session.active_id == row[8]:
+            if self.treeview.main_session.p_session.active_id == row[8]:
                 row[3] = True
             else:
                 row[3] = False
             #print(list(row))
             #if row[3]:
-            #    self.main_session.pDynamo_session.active_id = row[8]
+            #    self.main_session.p_session.active_id = row[8]
             #else:
             #    pass
         
@@ -1191,7 +1246,7 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
         
         self.main_session  = main
         self.vm_session    = self.main_session.vm_session
-        self.p_session     = self.main_session.pDynamo_session
+        self.p_session     = self.main_session.p_session
         self.system_liststore      = system_liststore
         self.coordinates_liststore = Gtk.ListStore(str, int)
         

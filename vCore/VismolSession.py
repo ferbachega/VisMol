@@ -1008,13 +1008,13 @@ class VisMolSession (ShowHideVisMol):
                 """ Function doc """
                 selection         = self.selections[self.current_selection]
 
-                pdmsys_active =   self.main_session.pDynamo_session.active_id
-                self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = []
+                pdmsys_active =   self.main_session.p_session.active_id
+                self.main_session.p_session.systems[pdmsys_active]['qc_table'] = []
                 
                 for atom in selection.selected_atoms:
                     #print(atom.index-1, atom.name, atom.resn)
-                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'].append(atom.index -1)
-                #print('selection_qc',self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] )
+                    self.main_session.p_session.systems[pdmsys_active]['qc_table'].append(atom.index -1)
+                #print('selection_qc',self.main_session.p_session.systems[pdmsys_active]['qc_table'] )
                 self.main_session.run_dialog_set_QC_atoms()
 
             def set_as_free_atoms (_):
@@ -1028,9 +1028,9 @@ class VisMolSession (ShowHideVisMol):
                     freelist.append(atom.index -1)
                     atom.get_color()  
                 #----------------------------------------------
-                pdmsys_active =   self.main_session.pDynamo_session.active_id
-                #fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
-                a = set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
+                pdmsys_active =   self.main_session.p_session.active_id
+                #fixedlist = fixedlist + self.main_session.p_session.systems[pdmsys_active]['fixed_table']
+                a = set(self.main_session.p_session.systems[pdmsys_active]['fixed_table'])
                 b = set(freelist)
                 
                 c = a - b
@@ -1038,15 +1038,15 @@ class VisMolSession (ShowHideVisMol):
                 #print (a)
                 #print (b)
                 #Combining with list that the already exists  
-                fixedlist =  set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
+                fixedlist =  set(self.main_session.p_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(c) 
                 #print ('fixedlist',fixedlist)
                 #sending to pDynamo
-                refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                refresh = self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
                     self.glwidget.vm_widget.queue_draw()
-                #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
+                #self.main_session.p_session.vismol_selection_qc = selection.copy()
 
             def set_as_fixed_atoms (_):
                 """ Function doc """
@@ -1061,17 +1061,17 @@ class VisMolSession (ShowHideVisMol):
                 #----------------------------------------------
                 
                 #Combining with list that the already exists
-                pdmsys_active =   self.main_session.pDynamo_session.active_id
+                pdmsys_active =   self.main_session.p_session.active_id
                 
-                fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
+                fixedlist = fixedlist + self.main_session.p_session.systems[pdmsys_active]['fixed_table']
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(set(fixedlist)) 
                 #print ('fixedlist',fixedlist)
                 #sending to pDynamo
-                refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                refresh = self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
                     self.glwidget.vm_widget.queue_draw()
-                #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
+                #self.main_session.p_session.vismol_selection_qc = selection.copy()
             
             def invert_selection (_):
                 """ Function doc """
@@ -1772,7 +1772,7 @@ class VisMolSession (ShowHideVisMol):
         return True
 
 
-        #refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+        #refresh = self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
     
     def set_frame (self, frame = 0):
         """ Function doc """

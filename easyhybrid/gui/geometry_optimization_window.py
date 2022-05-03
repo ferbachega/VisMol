@@ -329,7 +329,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             
             '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
             print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
-            self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+            self.easyhybrid_main.p_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
                 
         simParameters["optimizer"]      = self.opt_methods[self.builder.get_object('combobox_geo_opt').get_active()]
         simParameters["log_frequency"]  = int  ( self.builder.get_object('entry_log_frequence').get_text())
@@ -348,9 +348,9 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             elif saveFormat == 1: simParameters["save_format"] = ".mdcrd"
             elif saveFormat == 2: simParameters["save_format"] = ".dcd"
             elif saveFormat == 3: simParameters["save_format"] = ".xyz"
-            self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'] = simParameters["folder"] 
+            self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['working_folder'] = simParameters["folder"] 
         #-------------------------------------------------------------------------------------    
-        self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = simParameters )
+        self.easyhybrid_main.p_session.run_simulation( _parametersList = simParameters )
         self.window.destroy()
         self.Visible    =  False
     #=================================================================================
@@ -364,7 +364,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             #print('update_working_folder_chooser')
             self.save_trajectory_box.set_folder(folder = folder)
         else:
-            self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'])
+            self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['working_folder'])
    
 #=====================================================================================
    

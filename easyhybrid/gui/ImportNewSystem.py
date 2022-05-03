@@ -252,7 +252,7 @@ NOTE: You can include more than one parameter file if needed.'''
         
         name =  self.builder.get_object('entry_system_name').get_text()
         print(self.files, systemtype)
-        self.easyhybrid_main.pDynamo_session.load_a_new_pDynamo_system_from_dict(filesin = self.files, 
+        self.easyhybrid_main.p_session.load_a_new_pDynamo_system_from_dict(filesin = self.files, 
                                                                                  systype = systemtype, 
                                                                                  name = name)
         
@@ -260,8 +260,8 @@ NOTE: You can include more than one parameter file if needed.'''
         #    self.files['opls_folder'] =  self.builder.get_object('OPLS_folderchooserbutton').get_filename()
         
         #print ('systemtype',systemtype, self.files )
-        ##self.easyhybrid_main.pDynamo_session.get_bonds_from_pDynamo_system()
+        ##self.easyhybrid_main.p_session.get_bonds_from_pDynamo_system()
         #
-        #vismol_object = self.easyhybrid_main.pDynamo_session.build_vismol_object_from_pDynamo_system (name = name)
+        #vismol_object = self.easyhybrid_main.p_session.build_vismol_object_from_pDynamo_system (name = name)
         self.CloseWindow(button, data  = None)
 

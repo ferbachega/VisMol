@@ -6,16 +6,16 @@ import ctypes
 class LoadAndSaveFiles:
     """ Class doc """
     
-    def __init__ (self, vm_session, pDynamo_session):
+    def __init__ (self, vm_session, p_session):
         """ Class initialiser """
         
-        self.pDynamo_session = self.main_session.pDynamo_session
+        self.p_session = self.main_session.p_session
         self.main_session    = self.main_session
         
     def save_session (self, filename):
         """ Function doc """
   
-        self.pDynamo_session = self.main_session.pDynamo_session
+        self.p_session = self.main_session.p_session
         
         vismol_objects_dic = {}
         
@@ -100,18 +100,18 @@ class LoadAndSaveFiles:
         #                 P D Y N A M O    P R O J E C T S
         #---------------------------------------------------------------
         pdynamo_projects = {
-                            'name'                   : self.pDynamo_session.name,
-                            'nbModel_default'        : self.pDynamo_session.nbModel_default,
-                            'fixed_color'            : self.pDynamo_session.fixed_color,
-                            'pdynamo_distance_safety': self.pDynamo_session.pdynamo_distance_safety,
-                            'active_id'              : self.pDynamo_session.active_id,
-                            'counter'                : self.pDynamo_session.counter  ,
-                            'color_palette_counter'  : self.pDynamo_session.color_palette_counter,
+                            'name'                   : self.p_session.name,
+                            'nbModel_default'        : self.p_session.nbModel_default,
+                            'fixed_color'            : self.p_session.fixed_color,
+                            'pdynamo_distance_safety': self.p_session.pdynamo_distance_safety,
+                            'active_id'              : self.p_session.active_id,
+                            'counter'                : self.p_session.counter  ,
+                            'color_palette_counter'  : self.p_session.color_palette_counter,
                             'systems'                : {0:None},
                             }
         
         
-        for system_id, system in self.pDynamo_session.systems.items():
+        for system_id, system in self.p_session.systems.items():
             pdynamo_projects['systems'][system_id] = {}
             if system:
                 for key in system.keys():
@@ -162,7 +162,7 @@ class LoadAndSaveFiles:
 
     def load_session (self, infile):
         """ Function doc """
-        self.pDynamo_session = self.main_session.pDynamo_session
+        self.p_session = self.main_session.p_session
         infile             = open(infile,'rb')
         easyhybrid_session_data = pickle.load(infile)
         
@@ -189,16 +189,16 @@ class LoadAndSaveFiles:
         self.main_session.treeview.selected_path = easyhybrid_session_data['vm_session']['selected_path'] #An integer that indicates which radio button is active in the tree
         
         
-        self.pDynamo_session.name            = easyhybrid_session_data['pdynamo_projects']['name']
-        self.pDynamo_session.nbModel_default = easyhybrid_session_data['pdynamo_projects']['nbModel_default']
-        self.pDynamo_session.fixed_color     = easyhybrid_session_data['pdynamo_projects']['fixed_color']
+        self.p_session.name            = easyhybrid_session_data['pdynamo_projects']['name']
+        self.p_session.nbModel_default = easyhybrid_session_data['pdynamo_projects']['nbModel_default']
+        self.p_session.fixed_color     = easyhybrid_session_data['pdynamo_projects']['fixed_color']
         
         
-        self.pDynamo_session.pdynamo_distance_safety = easyhybrid_session_data['pdynamo_projects']['pdynamo_distance_safety']
-        self.pDynamo_session.active_id               = easyhybrid_session_data['pdynamo_projects']['active_id']
-        self.pDynamo_session.counter                 = easyhybrid_session_data['pdynamo_projects']['counter']
-        self.pDynamo_session.systems                 = easyhybrid_session_data['pdynamo_projects']['systems']
-        self.pDynamo_session.color_palette_counter   = easyhybrid_session_data['pdynamo_projects']['color_palette_counter']
+        self.p_session.pdynamo_distance_safety = easyhybrid_session_data['pdynamo_projects']['pdynamo_distance_safety']
+        self.p_session.active_id               = easyhybrid_session_data['pdynamo_projects']['active_id']
+        self.p_session.counter                 = easyhybrid_session_data['pdynamo_projects']['counter']
+        self.p_session.systems                 = easyhybrid_session_data['pdynamo_projects']['systems']
+        self.p_session.color_palette_counter   = easyhybrid_session_data['pdynamo_projects']['color_palette_counter']
         
         
         
@@ -236,7 +236,7 @@ class LoadAndSaveFiles:
             # - - - - - - - - - R E P R E S E N T A T I O N - - - - - - - - - - - - - - - 
             #for rep_key in representations.keys():
                 
-            self.add_vismol_object_to_vismol_session (pdynamo_session    = self.pDynamo_session, 
+            self.add_vismol_object_to_vismol_session (pdynamo_session    = self.p_session, 
                                                       rep                = representations, 
                                                       vismol_object      = vismol_object, 
                                                       vobj_count         = False,
@@ -255,7 +255,7 @@ class LoadAndSaveFiles:
         
         
         #
-        #self.pDynamo_session.refresh_qc_and_fixed_representations(       _all = True       ,
+        #self.p_session.refresh_qc_and_fixed_representations(       _all = True       ,
         #                                                           # system_id = system['id'], 
         #                                                          fixed_atoms = True        , 
         #                                                             QC_atoms = False       ,
@@ -265,14 +265,14 @@ class LoadAndSaveFiles:
         
         
         #'''-----------------------------------------------------------------------------------
-        for key, system in self.pDynamo_session.systems.items():
+        for key, system in self.p_session.systems.items():
         #    #print(key, system)
             if system:
                 system['vismol_object'] = self.vismol_objects_dic[system['vismol_object']]
         #'''#----------------------------------------------------------------------------------        
         
         
-        #        self.pDynamo_session.refresh_qc_and_fixed_representations(      _all = False       , 
+        #        self.p_session.refresh_qc_and_fixed_representations(      _all = False       , 
         #                                                                   system_id = system['id'], 
         #                                                                 fixed_atoms = True        , 
         #                                                                    QC_atoms = False        , 
@@ -291,18 +291,18 @@ class LoadAndSaveFiles:
         
         
         
-        self.main_session.vm_session.center(self.pDynamo_session.systems[self.pDynamo_session.active_id]['vismol_object'])
+        self.main_session.vm_session.center(self.p_session.systems[self.p_session.active_id]['vismol_object'])
         
         if self.main_session.selection_list_window.visible:
             self.main_session.selection_list_window.update_window(system_names = True, coordinates = False,  selections = False)
         
-        self.pDynamo_session.refresh_qc_and_fixed_representations(       _all = True       ,
+        self.p_session.refresh_qc_and_fixed_representations(       _all = True       ,
                                                                    # system_id = system['id'],
                                                                   fixed_atoms = True        , 
                                                                      QC_atoms = False       ,
                                                                        static = True       )
         
-        #self.pDynamo_session.refresh_qc_and_fixed_representations(_all = True)#_all = True)
+        #self.p_session.refresh_qc_and_fixed_representations(_all = True)#_all = True)
         
         #for index, visObj in self.main_session.vm_session.vismol_objects_dic.items():
         #    # for all the visObj in all created visObjs  

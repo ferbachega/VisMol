@@ -109,7 +109,7 @@ class SelectionListWindow(Gtk.Window):
         """ Class initialiser """
         self.easyhybrid_main       = main
         self.visible               =  False        
-        self.p_session             = main.pDynamo_session
+        self.p_session             = main.p_session
         self.vm_session            = main.vm_session
         self.coordinates_liststore = Gtk.ListStore(str, int)
         #self.system_liststore      = Gtk.ListStore(str, int)

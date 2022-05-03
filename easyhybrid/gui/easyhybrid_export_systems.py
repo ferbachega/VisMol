@@ -91,7 +91,7 @@ class ExportDataWindow:
             '''--------------------------------------------------------------------------------------------'''
             self.psystem_liststore = Gtk.ListStore(str,int)
             names = [ ]
-            for key , system in self.easyhybrid_main.pDynamo_session.systems.items():
+            for key , system in self.easyhybrid_main.p_session.systems.items():
                 try:
                     name = system['name']
                     print ([name, int(key)])
@@ -359,11 +359,11 @@ class ExportDataWindow:
 
 
         '''------------------------------------------------------------------------------'''
-        self.easyhybrid_main.pDynamo_session.export_system (parameters)
+        self.easyhybrid_main.p_session.export_system (parameters)
         '''------------------------------------------------------------------------------'''
         #vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
         
-        #self.easyhybrid_main.pDynamo_session.export_system (system_id = sys_id  , 
+        #self.easyhybrid_main.p_session.export_system (system_id = sys_id  , 
         #                                                    filename  = filename, 
         #                                                    folder    = folder  , 
         #                                                    _format   = _format , 

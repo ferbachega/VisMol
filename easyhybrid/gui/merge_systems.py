@@ -54,7 +54,7 @@ class MergeSystemsWindow(Gtk.Window):
             '''--------------------------------------------------------------------------------------------'''
             self.system_type_store = Gtk.ListStore(int, str)
             
-            for index, system in self.easyhybrid_main.pDynamo_session.systems.items():
+            for index, system in self.easyhybrid_main.p_session.systems.items():
                 
                 name  = "{} {}".format(index, system['name'] )
                 print(name)
@@ -117,13 +117,13 @@ class MergeSystemsWindow(Gtk.Window):
         if index2 != index1 and name1 is not None and name2 is not None:
             
             
-            system1 = self.easyhybrid_main.pDynamo_session.systems[index1]['system']
-            system2 = self.easyhybrid_main.pDynamo_session.systems[index2]['system']
+            system1 = self.easyhybrid_main.p_session.systems[index1]['system']
+            system2 = self.easyhybrid_main.p_session.systems[index2]['system']
             system1.Summary()
             system2.Summary()
             print(system1)
             print(system2)
-            self.easyhybrid_main.pDynamo_session.merge_systems (system1 = system1, 
+            self.easyhybrid_main.p_session.merge_systems (system1 = system1, 
                                                                 system2 = system2, 
                                                                 label   = 'Merged System', 
                                                                 summary = True)

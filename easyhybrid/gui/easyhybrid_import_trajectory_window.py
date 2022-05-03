@@ -64,7 +64,7 @@ class ImportTrajectoryWindow:
             
             self.system_liststore = Gtk.ListStore(str, int)
             names = [ ]
-            for key , system in self.easyhybrid_main.pDynamo_session.systems.items():
+            for key , system in self.easyhybrid_main.p_session.systems.items():
                 if system:
                     name = system['name']
                     self.system_liststore.append([name, int(key)])
@@ -282,7 +282,7 @@ class ImportTrajectoryWindow:
         
         traj_type = self.traj_type_dic[traj_type]
 
-        self.easyhybrid_main.pDynamo_session.import_data ( 
+        self.easyhybrid_main.p_session.import_data ( 
                                                          _type      = traj_type, 
                                                           data      = forder_or_file, 
                                                           logfile   = logfile,

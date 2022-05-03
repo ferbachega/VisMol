@@ -172,7 +172,7 @@ class PDynamoSelectionWindow:
         _radius     =  self.radius_spinbutton.get_value ()
         _method     =  self.method_combo.get_active()
         
-        self.easyhybrid_main.pDynamo_session.selections (_centerAtom, _radius, _method )
+        self.easyhybrid_main.p_session.selections (_centerAtom, _radius, _method )
 
         if self.easyhybrid_main.vm_session.selection_box_frane:
             self.easyhybrid_main.vm_session.selection_box_frane.change_toggle_button_selecting_mode_status(False)

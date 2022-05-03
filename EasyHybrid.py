@@ -84,7 +84,7 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
     #   
     def save_serialization_file (self, filename = 'session.easy'):
         """ Function doc """
-        #serialization = LoadAndSaveFiles(self, self.main_session.pDynamo_session)
+        #serialization = LoadAndSaveFiles(self, self.main_session.p_session)
         self.save_session(filename)
 
 
@@ -117,10 +117,10 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
 
     def check_selected_atom(self, atom, dialog = True):
         '''checks if selected atoms belong to the dynamo system in memory'''
-        if atom.Vobject.easyhybrid_system_id != self.main_session.pDynamo_session.active_id:
+        if atom.Vobject.easyhybrid_system_id != self.main_session.p_session.active_id:
             #print(atom.index-1, atom.name, atom.resn)
             
-            name = self.main_session.pDynamo_session.systems[self.main_session.pDynamo_session.active_id]['name']
+            name = self.main_session.p_session.systems[self.main_session.p_session.active_id]['name']
             
             dialog = Gtk.MessageDialog(
                         transient_for = self.main_session.window,
@@ -135,7 +135,7 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
 {} ({}) 
 
 You can choose the active pDynamo system by changing the radio 
-button position in the main treeview (active column).""".format(name,self.main_session.pDynamo_session.active_id)
+button position in the main treeview (active column).""".format(name,self.main_session.p_session.active_id)
             )
             dialog.run()
             print("INFO dialog closed")
@@ -148,7 +148,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
     def load_easyhybrid_serialization_file (self, filename):
         """ Function doc """
         #new_session = self.restart_session(filename)
-        #serialization = LoadAndSaveFiles(self, self.main_session.pDynamo_session)
+        #serialization = LoadAndSaveFiles(self, self.main_session.p_session)
         '''
         #--------------------------------------------------------------------------
         self.vismol_objects     = [] # old Vobjects - include molecules
@@ -200,7 +200,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                  
         self.treestore.clear()
         self.parents = {}
-        self.main_session.pDynamo_session.restart_pdynamo2vismol_session()
+        self.main_session.p_session.restart_pdynamo2vismol_session()
         
         
         
@@ -611,15 +611,15 @@ button position in the main treeview (active column).""".format(name,self.main_s
             def set_as_qc_atoms (_):
                 """ Function doc """
                 #selection = self.selections[self.current_selection]
-                pdmsys_active = self.main_session.pDynamo_session.active_id
+                pdmsys_active = self.main_session.p_session.active_id
                 qc_list, residue_list = self.build_index_list_from_atom_selection()
                 
                 #print('residue_list:', residue_list)
                 
                 if qc_list:
                     
-                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_residue_table'] = residue_list
-                    self.main_session.pDynamo_session.systems[pdmsys_active]['qc_table'] = qc_list
+                    self.main_session.p_session.systems[pdmsys_active]['qc_residue_table'] = residue_list
+                    self.main_session.p_session.systems[pdmsys_active]['qc_table'] = qc_list
                     self.main_session.run_dialog_set_QC_atoms()
 
             def set_as_free_atoms (_):
@@ -646,7 +646,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 
                 '''here we are returning the original color of the selected atoms'''
                 for key, visObj in self.vismol_objects_dic.items():
-                    if visObj.easyhybrid_system_id == self.main_session.pDynamo_session.active_id:
+                    if visObj.easyhybrid_system_id == self.main_session.p_session.active_id:
                         #print('key',key, visObj.name, visObj.easyhybrid_system_id, visObj.active)
                         for index in freelist:
                            #print(index,visObj. atoms[index])
@@ -661,9 +661,9 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 
                 #print(atom.index, atom.name, atom.color) 
                 #----------------------------------------------
-                pdmsys_active =   self.main_session.pDynamo_session.active_id
-                #fixedlist = fixedlist + self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']
-                a = set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
+                pdmsys_active =   self.main_session.p_session.active_id
+                #fixedlist = fixedlist + self.main_session.p_session.systems[pdmsys_active]['fixed_table']
+                a = set(self.main_session.p_session.systems[pdmsys_active]['fixed_table'])
                 b = set(freelist)
                 
                 c = a - b
@@ -672,25 +672,25 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 #print (b)
                 
                 #Combining with list that the already exists  
-                fixedlist =  set(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
+                fixedlist =  set(self.main_session.p_session.systems[pdmsys_active]['fixed_table']) -set(freelist)
                 #guarantee that the atom index appears only once in the list
                 fixedlist = list(c) 
                 
                 #print ('fixedlist',fixedlist)
                 #sending to pDynamo
-                refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                refresh = self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                 if refresh:
-                    #self.main_session.pDynamo_session.refresh_qc_and_fixed_representations()
+                    #self.main_session.p_session.refresh_qc_and_fixed_representations()
                     self.glwidget.vm_widget.queue_draw()
-                #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
+                #self.main_session.p_session.vismol_selection_qc = selection.copy()
             
             def prune_atoms (_):
                 """ Function doc """
                 fixedlist, resi_table = self.build_index_list_from_atom_selection()
                 if fixedlist:
                     fixedlist = list(set(fixedlist))
-                    #self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
-                    self.main_session.pDynamo_session.prune_system (selection = fixedlist, label = 'Pruned System', summary = True)
+                    #self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                    self.main_session.p_session.prune_system (selection = fixedlist, label = 'Pruned System', summary = True)
             
             def set_as_fixed_atoms (_):
                 """ Function doc """
@@ -698,16 +698,16 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 fixedlist, sel_resi_table = self.build_index_list_from_atom_selection()
                 
                 if fixedlist:
-                    pdmsys_active = self.main_session.pDynamo_session.active_id
-                    fixedlist = list(fixedlist) + list(self.main_session.pDynamo_session.systems[pdmsys_active]['fixed_table'])
+                    pdmsys_active = self.main_session.p_session.active_id
+                    fixedlist = list(fixedlist) + list(self.main_session.p_session.systems[pdmsys_active]['fixed_table'])
                     #guarantee that the atom index appears only once in the list
                     fixedlist = list(set(fixedlist)) 
                     #print ('fixedlist',fixedlist)
                     #sending to pDynamo
-                    refresh = self.main_session.pDynamo_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
+                    refresh = self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
                     if refresh:
                         self.glwidget.vm_widget.queue_draw()
-                    #self.main_session.pDynamo_session.vismol_selection_qc = selection.copy()
+                    #self.main_session.p_session.vismol_selection_qc = selection.copy()
             
             
             def add_selection_to_sel_list (_):
@@ -716,7 +716,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 sel_list, sel_resi_table = self.build_index_list_from_atom_selection()
                 if sel_list:
                     
-                    self.main_session.pDynamo_session.add_a_new_item_to_selection_list (system_id = self.main_session.pDynamo_session.active_id, 
+                    self.main_session.p_session.add_a_new_item_to_selection_list (system_id = self.main_session.p_session.active_id, 
                                                                                        indexes = sel_list, 
                                                                                         )
 

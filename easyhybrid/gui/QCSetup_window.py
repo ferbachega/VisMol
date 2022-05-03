@@ -133,11 +133,11 @@ class EasyHybridSetupQCModelWindow:
     def update_number_of_qc_atoms (self):
         """ Function doc """
         self.entry_number_of_qc_atoms = self.builder.get_object('entry_number_of_qc_atoms')
-        if self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['qc_table']:
-            number_of_qc_atoms = len(self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['qc_table'])
+        if self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['qc_table']:
+            number_of_qc_atoms = len(self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['qc_table'])
             self.entry_number_of_qc_atoms.set_text(str(number_of_qc_atoms))
         else:
-            number_of_qc_atoms = len(self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['system'].atoms)
+            number_of_qc_atoms = len(self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['system'].atoms)
             self.entry_number_of_qc_atoms.set_text(str(number_of_qc_atoms)+ ' (all)')
     
     
@@ -184,7 +184,8 @@ class EasyHybridSetupQCModelWindow:
                      }
 
         
-        self.easyhybrid_main.pDynamo_session.define_a_new_QCModel(parameters =parameters)
+        self.easyhybrid_main.p_session.define_a_new_QCModel(parameters =parameters)
+        self.easyhybrid_main.update_gui_widgets ()
         self.window.destroy()
         self.Visible    =  False
 

@@ -276,7 +276,7 @@ class PotentialEnergyScanWindow():
     def __init__(self, main = None):
         """ Class initialiser """
         self.easyhybrid_main     = main
-        self.p_session           = self.easyhybrid_main.pDynamo_session
+        self.p_session           = self.easyhybrid_main.p_session
         self.vm_session          = main.vm_session
         self.Visible             =  False        
         self.residue_liststore   = Gtk.ListStore(str, str, str)
@@ -537,7 +537,7 @@ class PotentialEnergyScanWindow():
     #        #print('update_working_folder_chooser')
     #        self.save_trajectory_box.set_folder(folder = folder)
     #    else:
-    #        self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.pDynamo_session.systems[self.easyhybrid_main.pDynamo_session.active_id]['working_folder'])
+    #        self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['working_folder'])
    
 
 
@@ -593,7 +593,7 @@ class PotentialEnergyScanWindow():
             
             '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
             print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
-            self.easyhybrid_main.pDynamo_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+            self.easyhybrid_main.p_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
             
         #----------------------------------------------------------------------------------               
         _type = self.combobox_reaction_coord1.get_active()
@@ -673,7 +673,7 @@ class PotentialEnergyScanWindow():
         parameters["force_constant_1"]  = float( self.builder.get_object('entry_FORCE_coord2').get_text() )
         parameters["dincre_RC1"]        = float( self.builder.get_object('entry_step_size2').get_text() )
         #-----------------------------------------------------------------------------------
-        self.easyhybrid_main.pDynamo_session.run_simulation( _parametersList = parameters )
+        self.easyhybrid_main.p_session.run_simulation( _parametersList = parameters )
 
         self.window.destroy()
         self.Visible =  False

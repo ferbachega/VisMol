@@ -118,7 +118,7 @@ class PotentialEnergyAnalysisWindow():
             #'''------------------------------------------------------------------------------------
             self.vobject_liststore = Gtk.ListStore(str, int)
             names = [ ]
-            for key , system in self.main.pDynamo_session.systems.items():
+            for key , system in self.main.p_session.systems.items():
                 
                 for vobject_id in  system['logfile_data'].keys():
                     _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
@@ -165,7 +165,7 @@ class PotentialEnergyAnalysisWindow():
             _id = self.coordinates_combobox.get_active()
             self.vobject_liststore = Gtk.ListStore(str, int)
             names = [ ]
-            for key , system in self.main.pDynamo_session.systems.items():
+            for key , system in self.main.p_session.systems.items():
                 
                 for vobject_id in  system['logfile_data'].keys():
                     _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
@@ -226,7 +226,7 @@ class PotentialEnergyAnalysisWindow():
         self.vobject = self.main.vm_session.vismol_objects_dic[vobject_index]
 
         self.data_liststore.clear()
-        for index , data in enumerate(self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][vobject_index]):
+        for index , data in enumerate(self.main.p_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][vobject_index]):
             #print(data)
             self.data_liststore.append([data['name'], index])
         
@@ -247,7 +247,7 @@ class PotentialEnergyAnalysisWindow():
             #print ('\n\n\_name, index:', _name,  index, '\n\n')
         
         #self.vobject = self.main.vm_session.vismol_objects_dic[vobject_index]
-        self.data = self.main.pDynamo_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index] 
+        self.data = self.main.p_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index] 
         print(self.data)
         self._draw_data(cla = True)
         
@@ -348,7 +348,7 @@ class PotentialEnergyAnalysisWindow():
     def __init__(self, main = None ):
         """ Class initialiser """
         self.main     = main
-        #self.p_session           = self.easyhybrid_main.pDynamo_session
+        #self.p_session           = self.easyhybrid_main.p_session
         #self.vm_session          = main.vm_session
         self.Visible             =  False        
         
@@ -372,6 +372,7 @@ class PotentialEnergyAnalysisWindow():
         self.color_bar = None
         self.vobject = None
         self.traj_export_index = 1
+    
     def scale_traj_new_definitions(self):
         #self.scale_traj
         self.scale_traj.set_range(0, len(self.xy_traj))
@@ -408,12 +409,12 @@ class PotentialEnergyAnalysisWindow():
         self.vobject ,
         )
         
-        #print (self.main.pDynamo_session.systems.keys())
+        #print (self.main.p_session.systems.keys())
         #print (self.vobject.easyhybrid_system_id)
-        active_id = self.main.pDynamo_session.active_id
+        active_id = self.main.p_session.active_id
         
         
-        self.main.pDynamo_session.active_id = self.vobject.easyhybrid_system_id
+        self.main.p_session.active_id = self.vobject.easyhybrid_system_id
         system_id = self.vobject.easyhybrid_system_id
 
         frames     = []
@@ -428,7 +429,7 @@ class PotentialEnergyAnalysisWindow():
         
         
         print(len(frames))
-        vobject = self.main.pDynamo_session.build_vismol_object_from_pDynamo_system (
+        vobject = self.main.p_session.build_vismol_object_from_pDynamo_system (
                                                            name                 = 'Trajectory from PES', #+str(self.traj_export_index)  ,
                                                            system_id            = system_id,
                                                            vismol_object_active = True        ,
@@ -441,14 +442,14 @@ class PotentialEnergyAnalysisWindow():
         
         
         
-        self.main.pDynamo_session.refresh_qc_and_fixed_representations(_all = False, 
+        self.main.p_session.refresh_qc_and_fixed_representations(_all = False, 
                                                                   system_id = system_id , 
                                                                      visObj = vobject,    
                                                                 fixed_atoms = True , 
                                                                    QC_atoms = True , 
                                                                      static = True )
 
-        self.main.pDynamo_session.active_id = active_id
+        self.main.p_session.active_id = active_id
 
 
     def change_check_button_reaction_coordinate (self, widget):
@@ -475,7 +476,9 @@ class PotentialEnergyAnalysisWindow():
 
 
 
-
+def parse_1D_scan_logfile (logfile):
+    """ Function doc """
+    
 
 def parse_2D_scan_logfile (logfile):
     """ Function doc """
@@ -507,10 +510,11 @@ def parse_2D_scan_logfile (logfile):
         #print(x,y, line2[-1])
         
         
-        
+    
         Z[y][x]       = float(line2[-1]) 
         RC1[y][x]     = float(line2[-3]) 
         RC2[y][x]     = float(line2[-2]) 
+    data.close()
 
     data = {
            'RC1': RC1,

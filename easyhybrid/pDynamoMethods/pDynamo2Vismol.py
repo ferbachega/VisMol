@@ -181,7 +181,7 @@ class pDynamoSession:
     def __init__ (self, vm_session = None):
         """ Class initialiser """
         self.vm_session  = vm_session
-        self.name           = 'pDynamo_session'
+        self.name           = 'p_session'
         
         self.nbModel_default         = NBModelCutOff.WithDefaults ( )
         self.fixed_color             = [0.5, 0.5, 0.5]
@@ -209,7 +209,7 @@ class pDynamoSession:
     
     def restart_pdynamo2vismol_session (self):
         """ Function doc """
-        self.name           = 'pDynamo_session'
+        self.name           = 'p_session'
         #self.nbModel_default         = NBModelCutOff.WithDefaults ( )
         #self.fixed_color             = [0.5, 0.5, 0.5]
         #self.pdynamo_distance_safety = 0.5
@@ -1362,34 +1362,6 @@ class pDynamoSession:
             pass
         
         
-        '''--------------------------------------------------------------------'''
-        #if logfile:
-        #    #data = parse_2D_scan_logfile (logfile = traj[:-5]+'log')
-        #    data = parse_2D_scan_logfile (logfile)
-        #    #base = os.path.basename(traj[:-5]+'log')
-        #    base = os.path.basename(logfile)
-        #    
-        #    #print(self.systems[system_id])
-        #    
-        #    if 'logfile_data' in  self.systems[system_id].keys():
-        #        if vobject.index in self.systems[system_id]['logfile_data']:
-        #            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-        #    
-        #        else:
-        #            self.systems[system_id]['logfile_data'][vobject.index] = []
-        #            self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-        #    
-        #    
-        #    else:
-        #        self.systems[system_id]['logfile_data'] = {}
-        #        self.systems[system_id]['logfile_data'][vobject.index] = []
-        #        self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-        #        
-        #    
-        #    #data = parse_2D_scan_logfile ('/home/fernando/ScanTraj2.log')
-        #    #base = os.path.basename('/home/fernando/ScanTraj2.log')
-        #    #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
-        '''--------------------------------------------------------------------'''
 
     
     def import_trajectory (self, traj = None, first = 0 , last = -1, stride = 1, system_id = 0, vobject = None, name = None):
