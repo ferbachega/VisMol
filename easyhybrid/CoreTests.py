@@ -1394,16 +1394,10 @@ def pDynamoEnergyRef_2D():
 	_name = "SCAN2D_4Refinement"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
-		QCMMScan2DmultipleDistance(6,6,0.1,0.1,name=_name)
+		QCMMScan2DmultipleDistance(8,6,0.1,0.1,name=_name)
 	#---------------------------------------------
-	_plotParameters = {	"show":True              ,
-						"crd1_label":rc1_md.label,
-						"crd2_label":rc2_md.label,
-						"contour_lines":12       ,
-						"xlim_list": [-1.2,-0.3] ,
-						"ylim_list": [-0.9,-0.2] }
 	#---------------------------------------------
-	parameters = { "xnbins":6			,
+	parameters = { "xnbins":8			,
 				   "ynbins":6			,
 				   "source_folder":_path,
 				   "folder":os.path.join(scratch_path, "SMO2D_EnergyRefinement"),
