@@ -939,7 +939,7 @@ class VisMolGLCore():
         
         line_type = self.vConfig.gl_parameters['ribbon_type']
         
-        '''    
+        #'''    
 
         self.shader_programs['ribbons']      = self.load_shaders(sticksShaders.vertex_shader_sticks,  
                                                                  sticksShaders.fragment_shader_sticks, 
@@ -952,7 +952,7 @@ class VisMolGLCore():
                                                                  sticksShaders.sel_geometry_shader_sticks)
         
         #'''    
-        #'''    
+        '''    
         self.shader_programs['ribbons']      = self.load_shaders(linesShaders.shader_type[line_type]['vertex_shader'  ], 
                                                                  linesShaders.shader_type[line_type]['fragment_shader'], 
                                                                  linesShaders.shader_type[line_type]['geometry_shader'])

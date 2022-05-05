@@ -106,7 +106,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkMenuItem" id="menuitem1">
+              <object class="GtkMenuItem" id="menuitem1_file">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_File</property>
@@ -116,21 +116,23 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem1">
+                      <object class="GtkImageMenuItem" id="menuitem_new">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem2">
+                      <object class="GtkImageMenuItem" id="menuitem_open">
                         <property name="label">gtk-open</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -140,21 +142,23 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem3">
+                      <object class="GtkImageMenuItem" id="menuitem_save">
                         <property name="label">gtk-save</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem4">
+                      <object class="GtkImageMenuItem" id="menuitem_save_as">
                         <property name="label">gtk-save-as</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -164,11 +168,12 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem">
+                      <object class="GtkMenuItem" id="menuitem_export">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Export As ...</property>
                         <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -178,12 +183,13 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem5">
+                      <object class="GtkImageMenuItem" id="menuitem_quit">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -191,7 +197,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menuitem2">
+              <object class="GtkMenuItem" id="menuitem2_edit">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Edit</property>
@@ -238,7 +244,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menu_item_merge_system">
+                      <object class="GtkMenuItem" id="menuitem_merge_system">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">merge system</property>
@@ -251,7 +257,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem">
+              <object class="GtkMenuItem" id="menuitem3_selection">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Selection</property>
@@ -259,20 +265,94 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem">
+              <object class="GtkMenuItem" id="menuitem4_view">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_View</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="menuitem5_simulate">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Simulate</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkMenuItem" id="2d_energy_analysis_menuitem">
+                      <object class="GtkMenuItem" id="menuitem_energy">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">2D Energy Analysis</property>
+                        <property name="label" translatable="yes">Energy</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_geometry_optimization">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Geometry optimization</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_molecular_dynamics">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Molecular Dynamics</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_normal_modes">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Normal Modes</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_rection_coordinate_scans">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Reaction Coordinate Scans</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_nudged_elastic_band">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Nudged Elastic Band (NEB)</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_umbrella_sampling">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Umbrella Sampling</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
@@ -282,23 +362,30 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Simulate</property>
-                <property name="use_underline">True</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuItem">
+              <object class="GtkMenuItem" id="menuitem6_analysis">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Analysis</property>
                 <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem_energy_analysis">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Energy Analysis</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menuitem4">
+              <object class="GtkMenuItem" id="menuitem7_help">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Help</property>
@@ -308,12 +395,13 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="imagemenuitem10">
+                      <object class="GtkImageMenuItem" id="menuitem_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_main_menu_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -340,6 +428,7 @@
                   <object class="GtkToolButton" id="toolbutton_new_system">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Import a new system</property>
                     <property name="halign">center</property>
                     <property name="label" translatable="yes">new project</property>
                     <property name="use_underline">True</property>
@@ -355,6 +444,7 @@
                   <object class="GtkToolButton" id="toolbutton_open">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Open EasyHybrid/pDynamo serialization files</property>
                     <property name="label" translatable="yes">open</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image2</property>
@@ -369,6 +459,7 @@
                   <object class="GtkToolButton" id="toolbutton_save">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Save EasyHybrid session</property>
                     <property name="label" translatable="yes">save</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image3</property>
@@ -383,6 +474,7 @@
                   <object class="GtkToolButton" id="toolbutton_save_as">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Save As EasyHybrid session</property>
                     <property name="label" translatable="yes">save as</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image4</property>
@@ -406,12 +498,14 @@
                 <property name="can_focus">False</property>
                 <property name="toolbar_style">icons</property>
                 <child>
-                  <object class="GtkToggleToolButton" id="toolbutton2">
+                  <object class="GtkToggleToolButton" id="toolbutton_terminal">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Show Terminal</property>
                     <property name="label" translatable="yes">Command line</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image20</property>
+                    <signal name="toggled" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -422,9 +516,11 @@
                   <object class="GtkToggleToolButton" id="toolbutton_trajectory_tool1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Show Trajectory Handler</property>
                     <property name="label" translatable="yes">toolbutton13</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image21</property>
+                    <signal name="toggled" handler="on_main_toolbar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -435,6 +531,7 @@
                   <object class="GtkToolButton" id="selections">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Show Selection List</property>
                     <property name="label" translatable="yes">toolbutton6</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image22</property>
@@ -464,6 +561,7 @@
                   <object class="GtkToolButton" id="toolbutton_pDynamo_selections">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">pDynamo Selections</property>
                     <property name="label" translatable="yes">toolbutton8</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image24</property>
@@ -478,6 +576,7 @@
                   <object class="GtkToolButton" id="toolbutton_setup_QCModel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Quantum Chemistry</property>
                     <property name="label" translatable="yes">toolbutton9</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image25</property>
@@ -501,9 +600,10 @@
                 <property name="can_focus">False</property>
                 <property name="toolbar_style">icons</property>
                 <child>
-                  <object class="GtkToolButton" id="toolbutton10">
+                  <object class="GtkToolButton" id="toolbutton_system_check">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">System Check</property>
                     <property name="label" translatable="yes">toolbutton10</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image11</property>
@@ -518,7 +618,8 @@
                   <object class="GtkToolButton" id="toolbutton_energy">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">__glade_unnamed_7</property>
+                    <property name="tooltip_text" translatable="yes">Energy / Energy Refinement</property>
+                    <property name="label" translatable="yes">Energy</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image14</property>
                     <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
@@ -532,7 +633,8 @@
                   <object class="GtkToolButton" id="toolbutton_geometry_optimization">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">__glade_unnamed_8</property>
+                    <property name="tooltip_text" translatable="yes">Geometry Optimization</property>
+                    <property name="label" translatable="yes">Geometry Optmization</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image15</property>
                     <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
@@ -546,7 +648,8 @@
                   <object class="GtkToolButton" id="toolbutton_molecular_dynamics">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">__glade_unnamed_9</property>
+                    <property name="tooltip_text" translatable="yes">Molecular Dynamics</property>
+                    <property name="label" translatable="yes">Molecular Dynamics</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image13</property>
                     <signal name="clicked" handler="on_main_toolbar_clicked" swapped="no"/>
@@ -560,6 +663,7 @@
                   <object class="GtkToolButton">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Normal Modes</property>
                     <property name="margin_left">1</property>
                     <property name="label" translatable="yes">__glade_unnamed_10</property>
                     <property name="use_underline">True</property>
@@ -575,6 +679,7 @@
                   <object class="GtkToolButton" id="toolbutton_pes_scan">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Reaction Coordinate Scans</property>
                     <property name="label" translatable="yes">__glade_unnamed_8</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image5</property>
@@ -589,6 +694,7 @@
                   <object class="GtkToolButton" id="toolbutton_umbrella_sampling">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Umbrella Sampling</property>
                     <property name="label" translatable="yes">__glade_unnamed_7</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">image6</property>

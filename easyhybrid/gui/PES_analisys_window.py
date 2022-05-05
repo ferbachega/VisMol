@@ -26,8 +26,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 #from GTKGUI.gtkWidgets.filechooser import FileChooser
 #from easyhybrid.pDynamoMethods.pDynamo2Vismol import *
-import gc
-import os
+
 
 
 gi.require_version('Gdk', '3.0')
@@ -39,6 +38,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import copy as cp
+import gc
+import os
 from vModel import VismolObject
 
 

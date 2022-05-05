@@ -563,6 +563,15 @@ button position in the main treeview (active column).""".format(name,self.main_s
                #print('dynamic_test')
                 self.show_or_hide( _type = 'dynamic_bonds', show = False)
             
+            def menu_show_ribbons (_):
+                """ Function doc """
+               #print('dynamic_test')
+                self.show_or_hide( _type = 'ribbons', show = True)
+            def menu_hide_ribbons (_):
+                """ Function doc """
+               #print('dynamic_test')
+                self.show_or_hide( _type = 'ribbons', show = False)
+            
             def select_test (_):
                 """ Function doc """
                 self.select(indexes = 'all')
@@ -747,6 +756,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'spheres'       : ['MenuItem', menu_show_spheres],
                                             'dots'          : ['MenuItem', menu_show_dots],
                                             'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
+                                            'ribbons' : ['MenuItem', menu_show_ribbons],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_show_nonbonded],
                     
@@ -761,6 +771,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             'spheres'       : ['MenuItem', menu_hide_spheres],
                                             'dots'          : ['MenuItem', menu_hide_dots],
                                             'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
+                                            'ribbons' : ['MenuItem', menu_hide_ribbons],
 
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_hide_nonbonded],

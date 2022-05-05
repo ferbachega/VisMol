@@ -17,6 +17,7 @@ from easyhybrid.gui.QCSetup_window                          import  EasyHybridSe
 from easyhybrid.gui.merge_systems                           import  MergeSystemsWindow 
 from easyhybrid.gui.selection_list_window                   import  SelectionListWindow 
 from easyhybrid.gui.PES_analisys_window                     import  PotentialEnergyAnalysisWindow 
+from easyhybrid.gui.easyhybrid_terminal                     import  TerminalWindow 
 
 import gc
 import os
@@ -230,6 +231,7 @@ class EasyHybridMainWindow ( ):
         self.selection_list_window        = SelectionListWindow     (main=  self, system_liststore = self.system_liststore)
         self.go_to_atom_window            = EasyHybridGoToAtomWindow(main=  self, system_liststore = self.system_liststore)
         self.PES_analysis_window          = PotentialEnergyAnalysisWindow(main = self)#, coor_liststore = self.system_liststore)
+        self.terminal_window              = TerminalWindow(main = self)
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
 
         self.save_vismol_file = None
@@ -260,7 +262,7 @@ class EasyHybridMainWindow ( ):
                 
                 summary_items = psystem['system'].electronicState.SummaryItems()
                 
-                string += 'hamiltonian: {}    QC atoms: {}    QC charge:    {}    Spin multiplicity    {}    '.format(hamiltonian, 
+                string += 'hamiltonian: {}    QC atoms: {}    QC charge: {}    spin multiplicity {}    '.format(hamiltonian, 
                                                                                                                n_QC_atoms,
                                                                                                                summary_items[1][1],
                                                                                                                summary_items[2][1],
@@ -288,11 +290,7 @@ class EasyHybridMainWindow ( ):
 
             
             self.statusbar_main.push(1,string)
-            
-            #qcModel = psystem['system']
-            #mmModel = 
-        
-    
+
     def refresh_system_liststore (self):
         """ Function doc """
         self.system_liststore     .clear()
@@ -302,8 +300,7 @@ class EasyHybridMainWindow ( ):
                 self.system_liststore.append([system['name'], key])
             except:
                 print(system)
-    
-    
+
     def run (self):
         """ Function doc """
         Gtk.main()
@@ -361,63 +358,19 @@ class EasyHybridMainWindow ( ):
         else:
             pass
 
-    def on_main_toolbar_clicked (self, button):
+    def gtk_save_file (self, widget = None):
         """ Function doc """
-        if button  == self.builder.get_object('toolbutton_new_system'):
-            self.NewSystemWindow.OpenWindow()
-        
-        if button  == self.builder.get_object('toolbutton_save'):
-
-            if self.save_vismol_file:
-                print('saving easyhybrid session - file: ', self.save_vismol_file)
-                self.vm_session.save_serialization_file(self.save_vismol_file)
-                
-            else:
-                dialog = Gtk.FileChooserDialog("Save", self.window,
-                    Gtk.FileChooserAction.SAVE,
-                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                     Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
-
-                #self.win.add_filters(dialog)
-
-                filter = Gtk.FileFilter()  
-                filter.set_name("EasyHybrid files - *.easy")
-
-                filter.add_mime_type("Easy files files")
-                filter.add_pattern("*.easy")
-                #
-                dialog.add_filter(filter)
-                filter = Gtk.FileFilter()
-                filter.set_name("All files")
-                filter.add_pattern("*")
-                #
-                dialog.add_filter(filter) 
-
-
-
-                response = dialog.run()
-                if response == Gtk.ResponseType.OK:
-                    file_path = dialog.get_filename()
-                    file_path = file_path+'.easy'
-                    
-                    print("Save clicked")
-                    print("File selected: " + file_path)
-                    
-                    self.save_vismol_file = file_path
-
-                    print('saving easyhybrid session - file: ', self.save_vismol_file)
-                    self.vm_session.save_serialization_file(self.save_vismol_file)
-
-                elif response == Gtk.ResponseType.CANCEL:
-                    print("Cancel clicked")
-
-                dialog.destroy()
-             
-        if button  == self.builder.get_object('toolbutton_save_as'):
-            dialog = Gtk.FileChooserDialog("Save as", self.window,
+        if self.save_vismol_file:
+            print('saving easyhybrid session - file: ', self.save_vismol_file)
+            self.vm_session.save_serialization_file(self.save_vismol_file)
+            
+        else:
+            dialog = Gtk.FileChooserDialog("Save", self.window,
                 Gtk.FileChooserAction.SAVE,
                 (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                  Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+
+            #self.win.add_filters(dialog)
 
             filter = Gtk.FileFilter()  
             filter.set_name("EasyHybrid files - *.easy")
@@ -431,6 +384,8 @@ class EasyHybridMainWindow ( ):
             filter.add_pattern("*")
             #
             dialog.add_filter(filter) 
+
+
 
             response = dialog.run()
             if response == Gtk.ResponseType.OK:
@@ -449,7 +404,80 @@ class EasyHybridMainWindow ( ):
                 print("Cancel clicked")
 
             dialog.destroy()
+
+    def gtk_save_as_file (self, widget):
+        """ Function doc """
+        dialog = Gtk.FileChooserDialog("Save as", self.window,
+            Gtk.FileChooserAction.SAVE,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
+
+        filter = Gtk.FileFilter()  
+        filter.set_name("EasyHybrid files - *.easy")
+
+        filter.add_mime_type("Easy files files")
+        filter.add_pattern("*.easy")
+        #
+        dialog.add_filter(filter)
+        filter = Gtk.FileFilter()
+        filter.set_name("All files")
+        filter.add_pattern("*")
+        #
+        dialog.add_filter(filter) 
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            file_path = dialog.get_filename()
+            file_path = file_path+'.easy'
             
+            print("Save clicked")
+            print("File selected: " + file_path)
+            
+            self.save_vismol_file = file_path
+
+            print('saving easyhybrid session - file: ', self.save_vismol_file)
+            self.vm_session.save_serialization_file(self.save_vismol_file)
+
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel clicked")
+
+        dialog.destroy()
+
+    def gtk_get_energy (self, widget):
+        """ Function doc """
+        energy = self.p_session.get_energy()
+        dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
+        response = dialog.run()
+        dialog.destroy()
+
+    def on_main_toolbar_clicked (self, button):
+        """ Function doc """
+        if button  == self.builder.get_object('toolbutton_new_system'):
+            self.NewSystemWindow.OpenWindow()
+        
+        if button  == self.builder.get_object('toolbutton_save'):
+            self.gtk_save_file (button)
+             
+        if button  == self.builder.get_object('toolbutton_save_as'):
+            self.gtk_save_as_file (button)
+            
+        if button == self.builder.get_object('toolbutton_terminal'):
+            if button.get_active ():
+                self.terminal_window.OpenWindow()
+            else:
+                self.terminal_window.CloseWindow(None, None)
+        
+        if button == self.builder.get_object('toolbutton_trajectory_tool1'):
+            if button.get_active ():
+                self.traj_frame.hide()
+                #window = Gtk.Window()
+                #window.add(self.traj_frame)
+                #window.show_all()
+                #self.traj_frame
+                #print('ativo')
+            else:
+                print('desativo')
+                self.traj_frame.show()
         if button == self.builder.get_object('button_go_to_atom'):
             self.treeview.main_session.go_to_atom_window.OpenWindow()
 
@@ -458,14 +486,7 @@ class EasyHybridMainWindow ( ):
             self.selection_list_window.OpenWindow()
 
         if button  == self.builder.get_object('toolbutton_energy'):
-            energy = self.p_session.get_energy()
-            #self.p_session.charge_summary()
-            #self.vm_session.selections[self.vm_session.current_selection].active = True
-            #print(energy)
-            
-            dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy)
-            response = dialog.run()
-            dialog.destroy()
+            self.gtk_get_energy(button)
             
         if button  == self.builder.get_object('toolbutton_setup_QCModel'):
             #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.p_session, self)
@@ -473,6 +494,12 @@ class EasyHybridMainWindow ( ):
             #self.dialog_import_a_new_systen.hide()
             #self.NewSystemWindow.OpenWindow()
             self.setup_QCModel_window.OpenWindow()
+        
+        if button  == self.builder.get_object('toolbutton_system_check'): 
+            self.p_session.systems[self.p_session.active_id]['vismol_object'].get_backbone_indexes ()
+            print(self.p_session.systems[self.p_session.active_id]['vismol_object'].c_alpha_bonds)          
+            print(self.p_session.systems[self.p_session.active_id]['vismol_object'].c_alpha_atoms)
+        
         
         if button  == self.builder.get_object('toolbutton_geometry_optimization'):
             self.geometry_optimization_window.OpenWindow()
@@ -536,12 +563,77 @@ class EasyHybridMainWindow ( ):
         """ Function doc """
         #print(menuitem)
         
-        if menuitem == self.builder.get_object('menu_item_merge_system'):
+        if menuitem == self.builder.get_object('menuitem_new'):
+            self.NewSystemWindow.OpenWindow()
+        
+        elif menuitem == self.builder.get_object('menuitem_open'):
+            self.gtk_load_files (menuitem)
+            
+        elif menuitem == self.builder.get_object('menuitem_save'):
+            self.gtk_save_file (menuitem)
+            
+        elif menuitem == self.builder.get_object('menuitem_save_as'):
+            self.gtk_save_as_file (menuitem)
+
+        elif menuitem == self.builder.get_object('menuitem_export'):
+            self.treeview.main_session.export_data_window.OpenWindow()
+            
+        elif menuitem == self.builder.get_object('menuitem_quit'):
+            #print(menuitem, 'menu_item_merge_system')
+            pass
+        
+        
+        
+        
+        elif menuitem == self.builder.get_object('menuitem_energy'):
+            self.gtk_get_energy(button)
+            
+        elif menuitem == self.builder.get_object('menuitem_geometry_optimization'):
+            self.geometry_optimization_window.OpenWindow()
+            
+        elif menuitem == self.builder.get_object('menuitem_molecular_dynamics'):
+            self.molecular_dynamics_window.OpenWindow()
+            
+        elif menuitem == self.builder.get_object('menuitem_normal_modes'):
+            pass
+            
+        elif menuitem == self.builder.get_object('menuitem_rection_coordinate_scans'):
+            self.PES_scan_window.OpenWindow()
+            
+        elif menuitem == self.builder.get_object('menuitem_nudged_elastic_band'):
+            pass
+            
+        elif menuitem == self.builder.get_object('menuitem_umbrella_sampling'):
+            self.umbrella_sampling_window.OpenWindow()
+        
+        
+        
+        
+        
+        
+        
+        
+        elif menuitem == self.builder.get_object('menuitem_merge_system'):
             #print(menuitem, 'menu_item_merge_system')
             self.merge_pdynamo_systems_window.OpenWindow()
-        if menuitem == self.builder.get_object('2d_energy_analysis_menuitem'):
+        elif menuitem == self.builder.get_object('menuitem_energy_analysis'):
             #print(menuitem, 'menu_item_merge_system')
             self.PES_analysis_window.OpenWindow()
+        
+        elif menuitem == self.builder.get_object('menuitem_about'):
+            dialog = Gtk.AboutDialog()
+            dialog.set_title("About")
+            dialog.set_name("EasyHybrid")
+            dialog.set_version(EASYHYBRID_VERSION)
+            dialog.set_comments("EasyHybrid, a pDynamo Graphical Tool")
+            dialog.set_website("https://sites.google.com/site/gtkdynamo/home")
+            dialog.set_website_label("EasyHybrid Website")
+            dialog.set_authors(["Fernando Bachega, Carlos Sequeiros, Igor Barden and Martin Field"])
+            #dialog.set_logo('easyhybrid/icons/easyhybrid_solo_100x100.png')
+            dialog.connect('response', lambda dialog, data: dialog.destroy())
+            dialog.show_all()
+
+
 
 
     def update_gui_widgets (self, update_folder = True, update_coords = True):

@@ -115,6 +115,13 @@ class ShowHideVisMol:
                     else:         
                         atom.sticks = False 
                         ##print(atom.index, atom.name, atom.sticks)
+                
+                if _type == 'ribbons':
+                    if show:
+                        atom.ribbons = True        
+                    else:         
+                        atom.ribbons = False 
+                        ##print(atom.index, atom.name, atom.sticks)
            
             #               A T O M S 
             else:
@@ -287,6 +294,54 @@ class ShowHideVisMol:
             else:
                 return None
 
+    def _ribbons_show_or_hide (self, vobject):
+        """ Function doc """
+        indexes_bonds = []
+        
+        if vobject.c_alpha_bonds == []:
+            vobject.get_backbone_indexes ()
+            
+            if vobject.c_alpha_bonds == []:
+                return None
+                #self.active =  False
+            else:
+                pass
+
+        
+        for bond in vobject.c_alpha_bonds:
+            if bond.atom_i.ribbons  and  bond.atom_j.ribbons:
+                indexes_bonds.append(bond.atom_index_i)
+                indexes_bonds.append(bond.atom_index_j)
+            else:
+                pass
+
+
+
+        if vobject.representations['ribbons']:
+
+            if indexes_bonds == []:
+                vobject.representations['ribbons'].active = False
+            else:
+                vobject.representations['ribbons'].active = False
+                #vobject.representations['sticks'].define_new_indexes_to_VBO ( indexes_bonds)
+                rep  = RibbonsRepresentation   (name    = 'ribbons', 
+                                                active  = True, 
+                                                _type   = 'mol', 
+                                                visObj  = vobject, 
+                                                glCore  = self.glwidget.vm_widget,
+                                                indexes = indexes_bonds)
+                vobject.representations['ribbons'] = rep
+                
+        
+        else:
+            rep  = RibbonsRepresentation   (name    = 'ribbons', 
+                                            active  = True, 
+                                            _type   = 'mol', 
+                                            visObj  = vobject, 
+                                            glCore  = self.glwidget.vm_widget,
+                                            indexes = indexes_bonds)
+            vobject.representations['ribbons'] = rep 
+
     def _sticks_show_or_hide (self, vobject):
         """ Function doc """
         indexes_bonds = []
@@ -372,21 +427,25 @@ class ShowHideVisMol:
             if _type == 'lines':
                 self._lines_show_or_hide (vobject)
             
-            if _type == 'sticks':
+            elif _type == 'sticks':
                 self._sticks_show_or_hide (vobject)
                 
-            if _type == 'dynamic_bonds':
+            elif _type == 'dynamic_bonds':
                 self._dynamic_bonds_show_or_hide(vobject, selection.selected_atoms, show = show)
 
-            if _type == 'dots':
+            elif _type == 'dots':
                 self._dots_show_or_hide (vobject)
 
-            if _type == 'nonbonded':
+            elif _type == 'nonbonded':
                 self._nonbonded_show_or_hide(vobject)
 
-            if  _type == 'spheres':
+            elif  _type == 'spheres':
                 self._spheres_show_or_hide(vobject)
-
+            
+            elif  _type == 'ribbons':
+                self._ribbons_show_or_hide(vobject)
+            else:
+                pass
         self.glwidget.queue_draw()
 
     def show_or_hide_by_object (self, _type = 'lines', vobject = None,  selection_table = [], show = True, find_dynamic_bonds = True):
@@ -401,21 +460,25 @@ class ShowHideVisMol:
         if _type == 'lines':
             self._lines_show_or_hide (vobject)
         
-        if _type == 'sticks':
+        elif _type == 'sticks':
             self._sticks_show_or_hide (vobject)
             
-        if _type == 'dynamic_bonds':
+        elif _type == 'dynamic_bonds':
             self._dynamic_bonds_show_or_hide(vobject, atoms, show = show, find_dynamic_bonds = find_dynamic_bonds)
 
-        if _type == 'dots':
+        elif _type == 'dots':
             self._dots_show_or_hide (vobject)
 
-        if _type == 'nonbonded':
+        elif _type == 'nonbonded':
             self._nonbonded_show_or_hide(vobject)
 
-        if  _type == 'spheres':
+        elif  _type == 'spheres':
             self._spheres_show_or_hide(vobject)
-
+        
+        elif  _type == 'ribbons':
+            self._ribbons_show_or_hide(vobject)
+        else:
+            pass
         self.glwidget.queue_draw()
 
 class VisMolSession (ShowHideVisMol):

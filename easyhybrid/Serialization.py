@@ -240,7 +240,7 @@ class LoadAndSaveFiles:
                                                       rep                = representations, 
                                                       vismol_object      = vismol_object, 
                                                       vobj_count         = False,
-                                                      autocenter         = True,
+                                                      autocenter         = False,
                                                       find_dynamic_bonds = False)
         
             
