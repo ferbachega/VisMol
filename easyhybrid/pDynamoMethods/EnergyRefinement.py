@@ -107,12 +107,14 @@ class EnergyRefinement:
 		self.SMOenergies = {}
 		self.methods 	 = _methods
 		NBmodel 	 	 = self.molecule.nbModel
-
+		converger = DIISSCFConverger.WithOptions( energyTolerance   = 1.0e-4,
+                                                  densityTolerance  = 1.0e-6,
+                                                  maximumIterations = 500  )
 		for smo in _methods:
 			if VerifyMNDOKey(smo):
 				with pymp.Parallel(_NmaxThreads) as p:
 					for i in p.range( len(self.fileLists) ):
-						qcModel = QCModelMNDO.WithOptions( hamiltonian = smo )
+						qcModel = QCModelMNDO.WithOptions( hamiltonian = smo,converger=converger )
 						self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
 						self.molecule.DefineQCModel( qcModel, qcSelection=Selection(self.pureQCAtoms) )
 						self.molecule.DefineNBModel( NBmodel )
@@ -321,7 +323,10 @@ class EnergyRefinement:
 				options =  "\n% output\n"
 				options +=  "print [ p_mos ] 1\n"
 				options +=  "print [ p_overlap ] 5\n"
-				options +=  "end # output"
+				options +=  "end # output\n"
+				options +=  "! SlowConv\n"
+				options +=  "%scf \nMaxIter 500\n end"
+
 				#...............................................................................................
 				self.molecule.electronicState = ElectronicState.WithOptions(charge       = self.charge 		, 
 				                                                          	multiplicity = self.multiplicity )
@@ -372,7 +377,7 @@ class EnergyRefinement:
 			for smo in self.methods:
 				for i in range(self.xlen):
 					for j in range(self.ylen):
-						self.text +="{} {} {} {}\n".format(self.indexArrayX[ i, j ],self.indexArrayY[ i, j ], self.SMOenergies[smo][i,j] - self.SMOenergies[smo][0,0], smo)
+						self.text +="{} {} {} {}\n".format(self.indexArrayX[ j, i ],self.indexArrayY[ j,i ], self.SMOenergies[smo][j,i] - self.SMOenergies[smo][0,0], smo)
 		else:
 			for smo in self.methods:
 				for i in range(self.xlen):
@@ -384,8 +389,8 @@ class EnergyRefinement:
 		logFile.write(self.text)
 		logFile.close()
 		#----------------------------
-		filesTmp = glob.glob( self.baseName+"/*.eTmp" )
-		for ftpm in filesTmp: os.remove(ftpm)		
+		#filesTmp = glob.glob( self.baseName+"/*.eTmp" )
+		#for ftpm in filesTmp: os.remove(ftpm)		
 
 #==========================================================
 

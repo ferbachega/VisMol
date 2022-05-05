@@ -173,7 +173,7 @@ class EnergyAnalysis:
 						self.energiesMatrix[i][j] = MaX
 		#----------------------------------
 		elif self.Type == "FE1D":
-			energyTmp = np.zeros( (x), dtype=float )
+			energyTmp = np.zeros( (self.xlen), dtype=float )
 			for line in reading:
 				lns = line.split()
 				m = int( lns[0] )
@@ -272,7 +272,7 @@ class EnergyAnalysis:
 		if SHOW: plt.show()		
 		plt.close()
 	#===============================================
-	def Plot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False,_figS=[6.7,5]):
+	def Plot2D(self,contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False,_figS=[7,5]):
 		'''
 		Plot contour plot for potential, free energy and potential of mean field
 		'''			
@@ -326,7 +326,7 @@ class EnergyAnalysis:
 			_method = "_" + self.identifiers[-1]
 
 		plotName = self.baseName + _method		
-		plt.savefig(plotName+".png",dpi=2000)
+		plt.savefig(plotName+".png",dpi=1000)
 		if SHOW: plt.show()
 		plt.close()
 	#----------------------------------------------------------------------------------------
@@ -338,37 +338,22 @@ class EnergyAnalysis:
 			self.energiesMatrix = self.multiple2Dplot[i]
 			self.Plot2D(contourlines,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False)
 	#----------------------------------------------------------------------------------------
-	def Plot1D_FreeEnergy(self,crd1label,crd2label,_xlim=None,_ylim=None,SHOW=False):
+	def Plot1D_FreeEnergy(self,crd1label,crd2label,SHOW=False):
 		'''
 		'''
 		self.NormalizeEnergies()
-
-		if _xlim == None: self.RC1 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
-		else 			: self.RC1 = np.linspace( _xlim[0],_xlim[1],len(self.energies1D) )
+		if 	 self.Type == "FE2D"   or self.Type == "FE1D"  : self.labely = "Free Energy (kJ/mol)"
+		elif self.Type == "WHAM1D" or self.Type == "WHAM2D": self.labely = "Potential of Mean Field (kJ/mol)"
 		
-		if _ylim == None: self.RC2 = np.linspace( 0,len(self.energies1D),len(self.energies1D) )
-		else 			: self.RC2 = np.linspace( _ylim[0],_ylim[1],len(self.energies1D) )
-
-		if 	 self.Type == "FE2D"   and self.Type == "FE1D"  : self.labely = "Free Energy (kJ/mol)"
-		elif self.Type == "WHAM1D" and self.Type == "WHAM2D": self.labely = "Potential of Mean Field (kJ/mol)"
-		
+		rc0 = np.linspace( 0, len(self.energies1D)-1, len(self.energies1D) )
 		#--------------------------------------------
-		plt.plot(self.RC1,self.energies1D,'-ok')
-		plt.xlabel(crd1label)
+		plt.plot(rc0,self.energies1D,'-ok')
+		plt.xlabel("Frame Window (n)")
 		plt.ylabel(self.labely)	
-		plt.savefig(self.baseName+"_rc1.png",dpi=1000)
+		plt.savefig(self.baseName+".png",dpi=1000)
 		#---------------------------------------------
 		if SHOW: plt.show()	
 		plt.close()
-
-		plt.plot(self.RC2,self.energies1D,'-ok')
-		plt.xlabel(crd2label)
-		plt.ylabel(self.labely)	
-		plt.savefig(self.baseName+"_rc2.png",dpi=1000)
-		#---------------------------------------------
-		if SHOW: plt.show()	
-		plt.close()
-
 #=====================================================================
 
 
