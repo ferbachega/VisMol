@@ -102,12 +102,18 @@ class ShowHideVisMol:
         for atom in atoms:
 
             #               B O N D S
-            if _type in ['lines','sticks','ribbons']:
+            if _type in ['lines', 'dotted_lines', 'sticks','ribbons']:
                 if _type == 'lines':
                     if show:
                         atom.lines = True        
                     else:         
                         atom.lines = False 
+                
+                if _type == 'dotted_lines':
+                    if show:
+                        atom.dotted_lines = True        
+                    else:         
+                        atom.dotted_lines = False 
 
                 if _type == 'sticks':
                     if show:
@@ -345,11 +351,15 @@ class ShowHideVisMol:
     def _sticks_show_or_hide (self, vobject):
         """ Function doc """
         indexes_bonds = []
-
+        metal_indexes_bonds = []
         for bond in vobject.bonds:
             if bond.atom_i.sticks  and  bond.atom_j.sticks:
-                indexes_bonds.append(bond.atom_index_i)
-                indexes_bonds.append(bond.atom_index_j)
+                if bond.has_metal:
+                    metal_indexes_bonds.append(bond.atom_index_i)
+                    metal_indexes_bonds.append(bond.atom_index_j)
+                else:
+                    indexes_bonds.append(bond.atom_index_i)
+                    indexes_bonds.append(bond.atom_index_j)
             else:
                 pass
 
@@ -382,19 +392,24 @@ class ShowHideVisMol:
 
     def _lines_show_or_hide (self, vobject):
         """ Function doc """
-        indexes_bonds = []
-
+        indexes_bonds       = []
+        metal_indexes_bonds = []
+        #print('UHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU')
         for bond in vobject.bonds:
             if bond.atom_i.lines  and  bond.atom_j.lines:
-                indexes_bonds.append(bond.atom_index_i)
-                indexes_bonds.append(bond.atom_index_j)
+                if bond.has_metal:
+                    metal_indexes_bonds.append(bond.atom_index_i)
+                    metal_indexes_bonds.append(bond.atom_index_j)
+                else:
+                    indexes_bonds.append(bond.atom_index_i)
+                    indexes_bonds.append(bond.atom_index_j)
             else:
                 pass
 
 
-
+        '''-----------------------------------------------------------------------------------'''
         if vobject.representations['lines']:
-
+        
             if indexes_bonds == []:
                 vobject.representations['lines'].active = False
             else:
@@ -408,6 +423,49 @@ class ShowHideVisMol:
                                             glCore  = self.glwidget.vm_widget,
                                             indexes = indexes_bonds)
             vobject.representations['lines'] = rep 
+        '''-----------------------------------------------------------------------------------'''
+        
+    def _dotted_lines_show_or_hide (self, vobject):
+
+        #indexes_bonds       = []
+        metal_indexes_bonds = []
+        for bond in vobject.bonds:
+            #if bond.atom_i.dotted_lines  and  bond.atom_j.dotted_lines:
+            if bond.has_metal:
+                #print(bond.atom_i.name, bond.atom_j.name)
+                #if bond.has_metal:
+                metal_indexes_bonds.append(bond.atom_index_i)
+                metal_indexes_bonds.append(bond.atom_index_j)
+                #else:
+                #    indexes_bonds.append(bond.atom_index_i)
+                #    indexes_bonds.append(bond.atom_index_j)
+            else:
+                pass
+
+        '''-----------------------------------------------------------------------------------'''
+        print ('metal_indexes_bonds', metal_indexes_bonds, vobject.metal_bonded_atoms)
+        if vobject.representations['dotted_lines']:
+            #print('AQUIII   1')
+            if metal_indexes_bonds == []:
+                vobject.representations['dotted_lines'].active = False
+            else:
+                vobject.representations['dotted_lines'].define_new_indexes_to_VBO ( metal_indexes_bonds)
+        
+        else:
+            #print('AQUIII   2')
+            rep  = LinesRepresentation     (name    = 'dotted_lines', 
+                                            active  = True, 
+                                            _type   = 'mol', 
+                                            visObj  = vobject, 
+                                            glCore  = self.glwidget.vm_widget,
+                                            indexes = metal_indexes_bonds)
+            vobject.representations['dotted_lines'] = rep
+
+        '''-----------------------------------------------------------------------------------'''
+            
+
+
+
 
     def show_or_hide (self, _type = 'lines', selection = None,  show = True ):
         """ Function doc """
@@ -426,6 +484,9 @@ class ShowHideVisMol:
 
             if _type == 'lines':
                 self._lines_show_or_hide (vobject)
+            
+            elif _type == 'dotted_lines':
+                self._dotted_lines_show_or_hide (vobject)
             
             elif _type == 'sticks':
                 self._sticks_show_or_hide (vobject)
@@ -459,7 +520,10 @@ class ShowHideVisMol:
                                                     show = show)
         if _type == 'lines':
             self._lines_show_or_hide (vobject)
-        
+
+        elif _type == 'dotted_lines':
+            self._dotted_lines_show_or_hide (vobject)
+
         elif _type == 'sticks':
             self._sticks_show_or_hide (vobject)
             

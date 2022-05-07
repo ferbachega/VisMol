@@ -821,7 +821,7 @@ class VisMolGLCore():
         
         
         
-        for atom in  self.vm_session.picking_selections.picking_selections_list:
+        for atom in self.vm_session.picking_selections.picking_selections_list:
             if atom:
                 #print (number, atom.name)
                 frame = self._get_visObj_frame(atom.Vobject)
@@ -847,7 +847,150 @@ class VisMolGLCore():
                     self.uv_coords.append((y+1)*self.vm_font.text_v)
 
             number+=1
+        
+        
+        
+        # ditance label - atom #1  -  atom #2
+        '''----------------------------------------------------------------------------------------------------------------------------'''
+        if self.vm_session.picking_selections.picking_selections_list[0] and self.vm_session.picking_selections.picking_selections_list[1]:
+            atom1 = self.vm_session.picking_selections.picking_selections_list[0] 
+            atom2 = self.vm_session.picking_selections.picking_selections_list[1]
+            
+            xyz1 = atom1.coords(frame)
+            xyz2 = atom2.coords(frame)
+            
+            dx = (xyz1[0] - xyz2[0])
+            dy = (xyz1[1] - xyz2[1])
+            dz = (xyz1[2] - xyz2[2])
+            
+            dist = (dx**2 + dy**2 + dz**2)**0.5
+            
+            dx = (dx)/2
+            dy = (dy)/2
+            dz = (dz)/2
+            
+            coords = [xyz1[0]-dx,  xyz1[1]-dy, xyz1[2]-dz]
+            
+            
+                #print (number, atom.name)
+            frame = self._get_visObj_frame(atom1.Vobject)
+                    
+            texto =  '{:.3f}'.format(dist)
+            point = np.array(coords,np.float32)
+            point = np.array((point[0],point[1],point[2],1),np.float32)
+            point = np.dot(point, self.model_mat)
 
+            GL.glBindTexture(GL.GL_TEXTURE_2D, self.vm_font.texture_id)
+            for i,c in enumerate(texto):
+                self.chars += 1
+                c_id = ord(c)
+                x = c_id%16
+                y = c_id//16-2
+                self.xyz_pos.append(point[0]+i*self.vm_font.char_width-0.5)#*self.vm_font.char_width)
+                self.xyz_pos.append(point[1])
+                self.xyz_pos.append(point[2])
+
+                self.uv_coords.append(x*self.vm_font.text_u)
+                self.uv_coords.append(y*self.vm_font.text_v)
+                self.uv_coords.append((x+1)*self.vm_font.text_u)
+                self.uv_coords.append((y+1)*self.vm_font.text_v)
+        '''----------------------------------------------------------------------------------------------------------------------------'''
+        
+        # ditance label - atom #2  -  atom #3
+        '''----------------------------------------------------------------------------------------------------------------------------'''
+        if self.vm_session.picking_selections.picking_selections_list[1] and self.vm_session.picking_selections.picking_selections_list[2]:
+            atom1 = self.vm_session.picking_selections.picking_selections_list[1] 
+            atom2 = self.vm_session.picking_selections.picking_selections_list[2]
+            
+            xyz1 = atom1.coords(frame)
+            xyz2 = atom2.coords(frame)
+            
+            dx = (xyz1[0] - xyz2[0])
+            dy = (xyz1[1] - xyz2[1])
+            dz = (xyz1[2] - xyz2[2])
+            
+            dist = (dx**2 + dy**2 + dz**2)**0.5
+            
+            dx = (dx)/2
+            dy = (dy)/2
+            dz = (dz)/2
+            
+            coords = [xyz1[0]-dx,  xyz1[1]-dy, xyz1[2]-dz]
+            
+            
+                #print (number, atom.name)
+            frame = self._get_visObj_frame(atom1.Vobject)
+                    
+            texto =  '{:.3f}'.format(dist)
+            point = np.array(coords,np.float32)
+            point = np.array((point[0],point[1],point[2],1),np.float32)
+            point = np.dot(point, self.model_mat)
+
+            GL.glBindTexture(GL.GL_TEXTURE_2D, self.vm_font.texture_id)
+            for i,c in enumerate(texto):
+                self.chars += 1
+                c_id = ord(c)
+                x = c_id%16
+                y = c_id//16-2
+                self.xyz_pos.append(point[0]+i*self.vm_font.char_width-0.5)#*self.vm_font.char_width)
+                self.xyz_pos.append(point[1])
+                self.xyz_pos.append(point[2])
+
+                self.uv_coords.append(x*self.vm_font.text_u)
+                self.uv_coords.append(y*self.vm_font.text_v)
+                self.uv_coords.append((x+1)*self.vm_font.text_u)
+                self.uv_coords.append((y+1)*self.vm_font.text_v)
+        '''----------------------------------------------------------------------------------------------------------------------------'''
+        
+        # ditance label - atom #3  -  atom #4
+        '''----------------------------------------------------------------------------------------------------------------------------'''
+        if self.vm_session.picking_selections.picking_selections_list[2] and self.vm_session.picking_selections.picking_selections_list[3]:
+            atom1 = self.vm_session.picking_selections.picking_selections_list[2] 
+            atom2 = self.vm_session.picking_selections.picking_selections_list[3]
+            
+            xyz1 = atom1.coords(frame)
+            xyz2 = atom2.coords(frame)
+            
+            dx = (xyz1[0] - xyz2[0])
+            dy = (xyz1[1] - xyz2[1])
+            dz = (xyz1[2] - xyz2[2])
+            
+            dist = (dx**2 + dy**2 + dz**2)**0.5
+            
+            dx = (dx)/2
+            dy = (dy)/2
+            dz = (dz)/2
+            
+            coords = [xyz1[0]-dx,  xyz1[1]-dy, xyz1[2]-dz]
+            
+            
+                #print (number, atom.name)
+            frame = self._get_visObj_frame(atom1.Vobject)
+                    
+            texto =  '{:.3f}'.format(dist)
+            point = np.array(coords,np.float32)
+            point = np.array((point[0],point[1],point[2],1),np.float32)
+            point = np.dot(point, self.model_mat)
+
+            GL.glBindTexture(GL.GL_TEXTURE_2D, self.vm_font.texture_id)
+            for i,c in enumerate(texto):
+                self.chars += 1
+                c_id = ord(c)
+                x = c_id%16
+                y = c_id//16-2
+                self.xyz_pos.append(point[0]+i*self.vm_font.char_width-0.5)#*self.vm_font.char_width)
+                self.xyz_pos.append(point[1])
+                self.xyz_pos.append(point[2])
+
+                self.uv_coords.append(x*self.vm_font.text_u)
+                self.uv_coords.append(y*self.vm_font.text_v)
+                self.uv_coords.append((x+1)*self.vm_font.text_u)
+                self.uv_coords.append((y+1)*self.vm_font.text_v)
+        '''----------------------------------------------------------------------------------------------------------------------------'''
+        
+        
+        
+        
         self.xyz_pos   = np.array(self.xyz_pos  , np.float32)
         self.uv_coords = np.array(self.uv_coords, np.float32)
 

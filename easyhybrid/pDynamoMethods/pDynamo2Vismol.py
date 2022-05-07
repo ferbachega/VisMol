@@ -744,11 +744,27 @@ class pDynamoSession:
     def refresh_vobject_qc_and_fixed_representations (self         ,
                                                       visObj = None,    
                                                  fixed_atoms = True , 
-                                                    QC_atoms = True , 
+                                                    QC_atoms = True ,
+                                                metal_bonds  = True ,
                                                       static = True ):
         """ Function doc """
         
         system_id = visObj.easyhybrid_system_id
+        
+        if metal_bonds:
+            if visObj.metal_bonded_atoms != []:
+                #print('dbweiubiubfuodfhosdehfosihofilhdhfishd')
+                pass
+                '''
+                self.vm_session.show_or_hide_by_object (_type = 'dotted_lines',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False )
+                self.vm_session.show_or_hide_by_object (_type = 'dotted_lines',  vobject = visObj, selection_table = visObj.metal_bonded_atoms   , show = True )
+                
+                if static:
+                    #self.vm_session.show_or_hide_by_object (_type = 'sticks',  vobject = visObj, selection_table = range(0, len(visObj.atoms)),  show = False)
+                    self.vm_session.change_attributes_for_selected_atoms( _type = 'dotted_lines', atoms = visObj.atoms , show = False )
+                    self.vm_session.show_or_hide_by_object (_type = 'dotted_lines' , vobject = visObj, selection_table = visObj.metal_bonded_atoms , show = True )
+                '''
+        
         if fixed_atoms:
             
             if self.systems[system_id]['system'].freeAtoms is None:
@@ -824,7 +840,8 @@ class pDynamoSession:
                                                system_id = None , 
                                                   visObj = None,    
                                              fixed_atoms = True , 
-                                                QC_atoms = True , 
+                                                QC_atoms = True ,
+                                             metal_bonds = True ,
                                                   static = True ):
         """ 
                 
@@ -850,7 +867,8 @@ class pDynamoSession:
                 self.refresh_vobject_qc_and_fixed_representations ( 
                                                                     visObj = visObj     ,    
                                                                fixed_atoms = fixed_atoms, 
-                                                                  QC_atoms = QC_atoms   , 
+                                                                  QC_atoms = QC_atoms   ,
+                                                               metal_bonds = metal_bonds,
                                                                     static = static     )
                 
 
@@ -863,6 +881,7 @@ class pDynamoSession:
                                                                       visObj = visObj     ,    
                                                                  fixed_atoms = fixed_atoms, 
                                                                     QC_atoms = QC_atoms   , 
+                                                                 metal_bonds = metal_bonds,
                                                                       static = static     )
                         
     def merge_systems (self, system1 = None, system2 =  None, label = 'Merged System', summary = True):

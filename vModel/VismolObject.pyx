@@ -49,222 +49,222 @@ from vModel.MolecularProperties import COLOR_PALETTE
 import vModel.cDistances as cdist
 
 
-class VismolGeometricObject:
-    """ Class doc """
-    
-    def __init__ (self, vm_session =  None):
-        """ Class initialiser """
-        self.vm_session = vm_session
-        
-        self.atoms              = []    # this a list  atom objects!
-        #-----------------------#
-        #         Bonds         #
-        #-----------------------#
-        self.index_bonds        = []
-        self.bonds              = [] 
-        self.frames             = []
-
-		#-----------------------------------------#
-		#      R E P R E S E N T A T I O N S      #
-        #-----------------------------------------#
-        self.representations = {
-                                'lines'     : None,
-                                }
-        
-        #-----------------------------------------------------------------    
-        self.model_mat = np.identity(4, dtype=np.float32)
-        self.trans_mat = np.identity(4, dtype=np.float32)
-        #-----------------------------------------------------------------
-    
-    def add_new_atom_list_to_vismol_geometric_object (self, atoms):
-        """ Function doc """
-        frame_number = self.vm_session.frame -1
-        #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
-        self.frames      = [] 
-        self.index_bonds = []
-        self.atoms       = atoms
-        frame            = []
-        
-        self.color_indexes  = []
-        self.colors         = []
-
-
-        atom1 = self.atoms[0]
-        atom2 = self.atoms[1]
-        atom3 = self.atoms[2]
-        atom4 = self.atoms[3]
-
-        #print(atom1)
-        #print(atom2)
-        #print(atom3)
-        #print(atom4)
-
-
-
-        if atom1 != None and atom2 != None:
-            frame.append(atom1.coords(frame_number))
-            frame.append(atom2.coords(frame_number))
-            self.index_bonds.append(0)
-            self.index_bonds.append(1)
-            
-            
-        if atom2 != None and atom3 != None:
-            frame.append(atom2.coords(frame_number))
-            frame.append(atom3.coords(frame_number))
-            self.index_bonds.append(1)
-            self.index_bonds.append(2)
-        
-        if atom3 != None and atom4 != None:
-            frame.append(atom2.coords(frame_number))
-            frame.append(atom3.coords(frame_number))
-            self.index_bonds.append(2)
-            self.index_bonds.append(3)
-
-        frame =  np.array(frame, dtype=np.float32)
-        self.frames = [frame]
-
-        self._generate_color_vectors()
-
-
-        
-        print (self.index_bonds)
-        if len(self.index_bonds)>= 2:
-            
-            rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
-            self.representations['lines'] = rep
-        else:
-            if self.representations['lines']:
-                self.representations['lines'].active =  False
-        #print(self.representations['lines'].active)
-
-    def set_model_matrix(self, mat):
-        """ Function doc
-        """
-        self.model_mat = np.copy(mat)
-        return True
-
-    def _generate_color_vectors (self):
-        """ Function doc 
-        
-        (1) This method assigns to each atom of the system a 
-        unique identifier based on the RGB color standard. 
-        This identifier will be used in the selection function. 
-        There are no two atoms with the same color ID in  
-        
-        
-        
-        (2) This method builds the "colors" np array that will 
-        be sent to the GPU and which contains the RGB values 
-        for each atom of the system.
-       
-        """
-        
-        size       = len(self.atoms)
-        half       = int(size/2)
-        quarter    = int(size/4)
-        color_step = 1.0/(size/4)
-        red   = 0.0
-        green = 0.0
-        blue  = 1.0 
-        #print (size,half, quarter, color_step )
-        
-        
-        
-        
-        self.color_indexes  = []
-        self.colors         = []        
-        self.color_rainbow  = []
-
-        self.vdw_dot_sizes  = []
-        self.cov_dot_sizes  = []
-        
-        counter = 0
-        temp_counter = 0
-        
-        for atom in self.atoms:
-            if atom:
-                #-------------------------------------------------------
-                # (1)                  ID Colors
-                #-------------------------------------------------------
-                '''
-                i = atom.atom_id
-                r = (i & 0x000000FF) >>  0
-                g = (i & 0x0000FF00) >>  8
-                b = (i & 0x00FF0000) >> 16
-                '''
-                
-                '''
-                self.color_indexes.append(r/255.0)
-                self.color_indexes.append(g/255.0)
-                self.color_indexes.append(b/255.0)
-                '''
-                
-                self.color_indexes.append(atom.color[0])
-                self.color_indexes.append(atom.color[1])
-                self.color_indexes.append(atom.color[2])
-                
-                '''
-                pickedID = r + g * 256 + b * 256*256
-                atom.color_id = [r/255.0, g/255.0, b/255.0]
-                #print (pickedID)
-                self.vm_session.atom_dic_id[pickedID] = atom
-                '''
-                #-------------------------------------------------------
-                # (2)                   Colors
-                #-------------------------------------------------------
-                
-                self.colors.append(atom.color[0])        
-                self.colors.append(atom.color[1])        
-                self.colors.append(atom.color[2])   
-
-                #-------------------------------------------------------
-                # (3)                  VdW list
-                #-------------------------------------------------------
-                self.vdw_dot_sizes.append(atom.vdw_rad*3)
-                self.cov_dot_sizes.append(atom.cov_rad)
-            
-                #-------------------------------------------------------
-                # (4)                Rainbow colors
-                #-------------------------------------------------------
-                if counter <= 1*quarter:
-                    self.color_rainbow.append(red   )
-                    self.color_rainbow.append(green )
-                    self.color_rainbow.append(blue  )
-                    
-                    green += color_step
-
-                if counter >= 1*quarter  and counter <= 2*quarter:
-                    self.color_rainbow.append(red   )
-                    self.color_rainbow.append(green )
-                    self.color_rainbow.append(blue  )
-
-                    blue -= color_step
-
-                if counter >= 2*quarter  and counter <= 3*quarter:
-                    
-                    self.color_rainbow.append(red   )
-                    self.color_rainbow.append(green )
-                    self.color_rainbow.append(blue  )
-
-                    red += color_step
-
-                if counter >= 3*quarter  and counter <= 4*quarter:
-                    
-                    self.color_rainbow.append(red   )
-                    self.color_rainbow.append(green )
-                    self.color_rainbow.append(blue  )
-                    green -= color_step
-                
-                ##print(red, green, blue,counter )
-                counter += 1
-                #-------------------------------------------------------
-
-        self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
-        self.colors         = np.array(self.colors       , dtype=np.float32)    
-        self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
-        self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
-        self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32) 
-
+#class VismolGeometricObject:
+#    """ Class doc """
+#    
+#    def __init__ (self, vm_session =  None):
+#        """ Class initialiser """
+#        self.vm_session = vm_session
+#        
+#        self.atoms              = []    # this a list  atom objects!
+#        #-----------------------#
+#        #         Bonds         #
+#        #-----------------------#
+#        self.index_bonds        = []
+#        self.bonds              = [] 
+#        self.frames             = []
+#
+#		#-----------------------------------------#
+#		#      R E P R E S E N T A T I O N S      #
+#        #-----------------------------------------#
+#        self.representations = {
+#                                'lines'     : None,
+#                                }
+#        
+#        #-----------------------------------------------------------------    
+#        self.model_mat = np.identity(4, dtype=np.float32)
+#        self.trans_mat = np.identity(4, dtype=np.float32)
+#        #-----------------------------------------------------------------
+#    
+#    def add_new_atom_list_to_vismol_geometric_object (self, atoms):
+#        """ Function doc """
+#        frame_number = self.vm_session.frame -1
+#        #self.set_model_matrix(self.self.vm_session.glwidget.vm_widget.model_mat)
+#        self.frames      = [] 
+#        self.index_bonds = []
+#        self.atoms       = atoms
+#        frame            = []
+#        
+#        self.color_indexes  = []
+#        self.colors         = []
+#
+#
+#        atom1 = self.atoms[0]
+#        atom2 = self.atoms[1]
+#        atom3 = self.atoms[2]
+#        atom4 = self.atoms[3]
+#
+#        #print(atom1)
+#        #print(atom2)
+#        #print(atom3)
+#        #print(atom4)
+#
+#
+#
+#        if atom1 != None and atom2 != None:
+#            frame.append(atom1.coords(frame_number))
+#            frame.append(atom2.coords(frame_number))
+#            self.index_bonds.append(0)
+#            self.index_bonds.append(1)
+#            
+#            
+#        if atom2 != None and atom3 != None:
+#            frame.append(atom2.coords(frame_number))
+#            frame.append(atom3.coords(frame_number))
+#            self.index_bonds.append(1)
+#            self.index_bonds.append(2)
+#        
+#        if atom3 != None and atom4 != None:
+#            frame.append(atom2.coords(frame_number))
+#            frame.append(atom3.coords(frame_number))
+#            self.index_bonds.append(2)
+#            self.index_bonds.append(3)
+#
+#        frame =  np.array(frame, dtype=np.float32)
+#        self.frames = [frame]
+#
+#        self._generate_color_vectors()
+#
+#
+#        
+#        print (self.index_bonds)
+#        if len(self.index_bonds)>= 2:
+#            
+#            rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
+#            self.representations['lines'] = rep
+#        else:
+#            if self.representations['lines']:
+#                self.representations['lines'].active =  False
+#        #print(self.representations['lines'].active)
+#
+#    def set_model_matrix(self, mat):
+#        """ Function doc
+#        """
+#        self.model_mat = np.copy(mat)
+#        return True
+#
+#    def _generate_color_vectors (self):
+#        """ Function doc 
+#        
+#        (1) This method assigns to each atom of the system a 
+#        unique identifier based on the RGB color standard. 
+#        This identifier will be used in the selection function. 
+#        There are no two atoms with the same color ID in  
+#        
+#        
+#        
+#        (2) This method builds the "colors" np array that will 
+#        be sent to the GPU and which contains the RGB values 
+#        for each atom of the system.
+#       
+#        """
+#        
+#        size       = len(self.atoms)
+#        half       = int(size/2)
+#        quarter    = int(size/4)
+#        color_step = 1.0/(size/4)
+#        red   = 0.0
+#        green = 0.0
+#        blue  = 1.0 
+#        #print (size,half, quarter, color_step )
+#        
+#        
+#        
+#        
+#        self.color_indexes  = []
+#        self.colors         = []        
+#        self.color_rainbow  = []
+#
+#        self.vdw_dot_sizes  = []
+#        self.cov_dot_sizes  = []
+#        
+#        counter = 0
+#        temp_counter = 0
+#        
+#        for atom in self.atoms:
+#            if atom:
+#                #-------------------------------------------------------
+#                # (1)                  ID Colors
+#                #-------------------------------------------------------
+#                '''
+#                i = atom.atom_id
+#                r = (i & 0x000000FF) >>  0
+#                g = (i & 0x0000FF00) >>  8
+#                b = (i & 0x00FF0000) >> 16
+#                '''
+#                
+#                '''
+#                self.color_indexes.append(r/255.0)
+#                self.color_indexes.append(g/255.0)
+#                self.color_indexes.append(b/255.0)
+#                '''
+#                
+#                self.color_indexes.append(atom.color[0])
+#                self.color_indexes.append(atom.color[1])
+#                self.color_indexes.append(atom.color[2])
+#                
+#                '''
+#                pickedID = r + g * 256 + b * 256*256
+#                atom.color_id = [r/255.0, g/255.0, b/255.0]
+#                #print (pickedID)
+#                self.vm_session.atom_dic_id[pickedID] = atom
+#                '''
+#                #-------------------------------------------------------
+#                # (2)                   Colors
+#                #-------------------------------------------------------
+#                
+#                self.colors.append(atom.color[0])        
+#                self.colors.append(atom.color[1])        
+#                self.colors.append(atom.color[2])   
+#
+#                #-------------------------------------------------------
+#                # (3)                  VdW list
+#                #-------------------------------------------------------
+#                self.vdw_dot_sizes.append(atom.vdw_rad*3)
+#                self.cov_dot_sizes.append(atom.cov_rad)
+#            
+#                #-------------------------------------------------------
+#                # (4)                Rainbow colors
+#                #-------------------------------------------------------
+#                if counter <= 1*quarter:
+#                    self.color_rainbow.append(red   )
+#                    self.color_rainbow.append(green )
+#                    self.color_rainbow.append(blue  )
+#                    
+#                    green += color_step
+#
+#                if counter >= 1*quarter  and counter <= 2*quarter:
+#                    self.color_rainbow.append(red   )
+#                    self.color_rainbow.append(green )
+#                    self.color_rainbow.append(blue  )
+#
+#                    blue -= color_step
+#
+#                if counter >= 2*quarter  and counter <= 3*quarter:
+#                    
+#                    self.color_rainbow.append(red   )
+#                    self.color_rainbow.append(green )
+#                    self.color_rainbow.append(blue  )
+#
+#                    red += color_step
+#
+#                if counter >= 3*quarter  and counter <= 4*quarter:
+#                    
+#                    self.color_rainbow.append(red   )
+#                    self.color_rainbow.append(green )
+#                    self.color_rainbow.append(blue  )
+#                    green -= color_step
+#                
+#                ##print(red, green, blue,counter )
+#                counter += 1
+#                #-------------------------------------------------------
+#
+#        self.color_indexes  = np.array(self.color_indexes, dtype=np.float32)
+#        self.colors         = np.array(self.colors       , dtype=np.float32)    
+#        self.vdw_dot_sizes  = np.array(self.vdw_dot_sizes, dtype=np.float32)
+#        self.cov_dot_sizes  = np.array(self.cov_dot_sizes, dtype=np.float32)
+#        self.colors_rainbow = np.array(self.color_rainbow, dtype=np.float32) 
+#
 class VismolObject:
     """ Class doc 
     
@@ -328,7 +328,7 @@ class VismolObject:
         #                V I S M O L   a t t r i b u t e s
         #----------------------------------------------------------------- 
         self.vm_session    = vm_session     #
-        self.index            = 0             # import to find vboject in self.vm_session.vismol_objects_dic
+        self.index            = 0             # import to find vobject in self.vm_session.vismol_objects_dic
         self.active           = active        # for "show and hide"   enable/disable
         self.editing          = False         # for translate and rotate  xyz coords 
         self.Type             = 'molecule'    # Not used yet
@@ -368,6 +368,7 @@ class VismolObject:
         #-----------------------#
         self.dynamic_bonds       = [] # Pair of atoms, something like: [0,1,1,2,3,4] 
         self.index_bonds        = [] # Pair of atoms, something like: [1, 3, 1, 17, 3, 4, 4, 20]
+        self.index_metal_bonds  = []
         self.bonds              = [] # A list of bond-like objects                     
 
         #-----------------------#
@@ -385,6 +386,7 @@ class VismolObject:
         #       Nonbonded       #
         #-----------------------#
         self.non_bonded_atoms    = [] # A list of indexes
+        self.metal_bonded_atoms  = [] # A list of indexes
         
         self.residues_in_protein = []
         self.residues_in_solvent = []
@@ -400,6 +402,7 @@ class VismolObject:
         #-----------------------------------------#
         self.representations = {'nonbonded'     : None,
                                 'lines'         : None,
+                                'dotted_lines'  : None,
                                 'dots'          : None,
                                 'spheres'       : None,
                                 'sticks'        : None,
@@ -1054,11 +1057,34 @@ class VismolObject:
                           atom_index_j = self.atoms[index_j].index-1,
                           )
 
+            
+            
+            if self.atoms[index_i].is_metal or self.atoms[index_j].is_metal:
+                self.index_metal_bonds.append(index_i)
+                self.index_metal_bonds.append(index_j)
+                
+                if self.atoms[index_i].is_metal:
+                    #self.atoms[index_i].dotted_lines = True
+                    self.atoms[index_i].lines        = False
+                    self.non_bonded_atoms.append(index_i)
+                    self.metal_bonded_atoms.append(index_i)
+                
+                if self.atoms[index_j].is_metal:
+                    #self.atoms[index_j].dotted_lines = True
+                    self.atoms[index_j].lines        = False
+                    self.non_bonded_atoms.append(index_j)
+                    self.metal_bonded_atoms.append(index_j)
+                
+                bond.has_metal = True
+                #self.index_bonds.append(index_i)
+                #self.index_bonds.append(index_j)
+            
+            else:
+                self.index_bonds.append(index_i)
+                self.index_bonds.append(index_j)
+                bond.has_metal = False
+                
             self.bonds.append(bond)
-            
-            self.index_bonds.append(index_i)
-            self.index_bonds.append(index_j)
-            
             self.atoms[index_i].bonds.append(bond)
             self.atoms[index_j].bonds.append(bond)
             

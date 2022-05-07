@@ -250,7 +250,7 @@ class VisMolPickingSelection:
             #print('bulding vobject_picking line 161')
             self.vobject_picking = VismolObject.VismolObject(name                           = 'UNK'              , 
                                                              atoms                          = atoms              ,
-                                                             vm_session                  = self.vm_session , 
+                                                             vm_session                     = self.vm_session , 
                                                              trajectory                     = [frame],
                                                              bonds_pair_of_indexes          = [0,1] , 
                                                              auto_find_bonded_and_nonbonded = False)

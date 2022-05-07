@@ -1292,6 +1292,32 @@ ATOM_TYPES = {
             }
 
 
+
+NON_METAL_LIST =[
+'H',
+'He',
+'C',
+'N',
+'O',
+'F',
+'Ne',
+'P',
+'S',
+'Cl',
+'Ar',
+'Se',
+'Br',
+'Kr',
+'I',
+'Xe',
+'At',
+'Rn',
+'Ts',
+'Og',
+'X' ,
+'Xx',
+'pK']
+
 CARBON_COLOR_PICK = {
                      0 : [0.      , 1.0     , 0.      ],
                      1 : [0.3     , 0.0     , 0.46    ],

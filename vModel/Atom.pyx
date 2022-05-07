@@ -2,7 +2,7 @@
 
 #GTK3EasyMol/VISMOL/Model/atom_types.py
 from   vModel import MolecularProperties
-from   vModel.MolecularProperties import ATOM_TYPES , ATOM_TYPES_list , ATOM_TYPES_BY_ATOMICNUMBER
+from   vModel.MolecularProperties import ATOM_TYPES , ATOM_TYPES_list , ATOM_TYPES_BY_ATOMICNUMBER, NON_METAL_LIST
 
 
 
@@ -63,6 +63,7 @@ class Atom:
         else:
             self.symbol = self.get_symbol(self.name)
         
+        self.is_metal   = self.is_metal_check(self.symbol)
         
         self.resi       = resi    #
         self.resn       = resn    #
@@ -118,6 +119,7 @@ class Atom:
 
         self.selected       = False
         self.lines          = True
+        self.dotted_lines   = False
         self.dots           = False
         self.nonbonded      = False
         self.ribbons        = False
@@ -133,6 +135,7 @@ class Atom:
         self.isfree         = True
         #self.sphere_data    = self.get_sphere_data(self.symbol)
         
+
 
     
     def coords (self, frame = None):
@@ -189,7 +192,12 @@ class Atom:
 
 
 
-
+    def is_metal_check (self, symbol = None): #, vm_session = None):
+        """ Function doc """
+        if symbol in NON_METAL_LIST:
+            return False
+        else:
+            return True
 
 
 

@@ -330,35 +330,41 @@ button position in the main treeview (active column).""".format(name,self.main_s
         #vismol_object.create_new_representation (rtype = 'spheresInstace')
         if rep:
             #print('\n\nrep.keys()', rep.keys())
-            try:
-                for key in rep.keys():
-                    if rep[key]:
-                        self.show_or_hide_by_object (_type = key, 
+            #try:
+            for key in rep.keys():
+                if rep[key]:
+                    self.show_or_hide_by_object (_type = key, 
+                                               vobject = vismol_object,  
+                                       selection_table = rep[key], 
+                                                  show = True,
+                                    find_dynamic_bonds = find_dynamic_bonds,     
+                                                  )     
+                else:
+                    
+                    if key == 'lines':
+                        self.show_or_hide_by_object (_type = 'lines', 
                                                    vobject = vismol_object,  
-                                           selection_table = rep[key], 
-                                                      show = True,
-                                        find_dynamic_bonds = find_dynamic_bonds,     
-                                                      )     
-                    else:
-                        if key == 'lines':
-                            self.show_or_hide_by_object (_type = 'lines', 
-                                                       vobject = vismol_object,  
-                                               selection_table = range(0, len(vismol_object.atoms)), 
-                                                                                  show = True)
-                        if key == 'nonbonded':
-                                self.show_or_hide_by_object (_type = 'nonbonded', 
-                                                            vobject = vismol_object,  
-                                                    selection_table = vismol_object.non_bonded_atoms , 
-                                                                show = True)
+                                           selection_table = range(0, len(vismol_object.atoms)), 
+                                                      show = True)
                         
-                        pass
-                        #self.show_or_hide_by_object (_type = key, 
-                        #                           vobject = vismol_object,  
-                        #                   selection_table = range(0, len(vismol_object.atoms)), 
-                        #                              show = True)
-            except:
-                
-                print( 'except: rep:',rep )
+                        #self.show_or_hide_by_object (_type = 'dotted_lines', 
+                        #                       vobject = vismol_object,  
+                        #               selection_table = vismol_object.metal_bonded_atoms, 
+                        #                          show = True,
+                        #           #find_dynamic_bonds = find_dynamic_bonds,     
+                        #                          )
+
+                    if key == 'nonbonded':
+                            self.show_or_hide_by_object (_type = 'nonbonded', 
+                                                        vobject = vismol_object,  
+                                                selection_table = vismol_object.non_bonded_atoms , 
+                                                            show = True)
+                    
+                    pass
+
+            #except:
+            #    
+            #    print( 'except: rep:',rep )
                #
                #
                #if key == 'lines':
@@ -579,12 +585,20 @@ button position in the main treeview (active column).""".format(name,self.main_s
             def menu_show_lines (_):
                 """ Function doc """
                 self.show_or_hide( _type = 'lines', show = True)
+            
+            def menu_show_dotted_lines (_):
+                """ Function doc """
+                self.show_or_hide( _type = 'dotted_lines', show = True)
 
             def menu_hide_lines (_):
                 """ Function doc """
                 #print('hide')
                 self.show_or_hide( _type = 'lines', show = False)
-
+            
+            def menu_hide_dotted_lines (_):
+                """ Function doc """
+                self.show_or_hide( _type = 'dotted_lines', show = False)
+            
             def menu_show_sticks (_):
                 """ Function doc """
                 self.show_or_hide( _type = 'sticks', show = True)
@@ -752,11 +766,12 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                 'submenu' ,{
                                             
                                             'lines'         : ['MenuItem', menu_show_lines],
+                                            #'dotted_lines'  : ['MenuItem', menu_show_dotted_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
                                             'dots'          : ['MenuItem', menu_show_dots],
                                             'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
-                                            'ribbons' : ['MenuItem', menu_show_ribbons],
+                                            'ribbons'       : ['MenuItem', menu_show_ribbons],
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_show_nonbonded],
                     
@@ -767,6 +782,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     'hide'   : [
                                 'submenu',  {
                                             'lines'         : ['MenuItem', menu_hide_lines],
+                                            #'dotted_lines'  : ['MenuItem', menu_hide_dotted_lines],
                                             'sticks'        : ['MenuItem', menu_hide_sticks],
                                             'spheres'       : ['MenuItem', menu_hide_spheres],
                                             'dots'          : ['MenuItem', menu_hide_dots],
