@@ -280,13 +280,14 @@ class EnergyRefinement:
 				self.energiesArray[lf[0],lf[1]]	= float(energy)
 			else:
 				self.indexArrayX[lf[0]] 	= lf[0]
+				print(lf[0])
 				self.energiesArray[lf[0]]	= float(energy)
 
 		#-------------------------
 		#remove files from list that already were calculated
 		for fle in reversed(self.fileLists):			
 			fle2 = os.path.basename(fle[:-4])
-			_scratch = os.path.join(self.baseName, fle2)
+			_scratch = os.path.join(self.baseName, fle2, ".eTmp")
 			if os.path.exists(_scratch):
 				self.fileLists.remove(fle)			
 		
@@ -325,7 +326,10 @@ class EnergyRefinement:
 				options +=  "print [ p_overlap ] 5\n"
 				options +=  "end # output\n"
 				options +=  "! SlowConv\n"
-				options +=  "%scf \nMaxIter 500\n end"
+				if self.restart:
+					options += "%scf \nMaxIter 500\n "
+					options += "SOSCFStart 0.00033 \n end\n"
+					#options += '!MORead \n %moinp "orcaJob.gbw"'			
 
 				#...............................................................................................
 				self.molecule.electronicState = ElectronicState.WithOptions(charge       = self.charge 		, 
