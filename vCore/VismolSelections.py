@@ -429,6 +429,9 @@ class VisMolViewingSelection:
         self._build_selection_buffer ()
         print ('selected atoms: ',len(self.selected_atoms))
     
+    def selecting_by_c_alpha (self, selected_atom, disable = True):
+        """ Function doc """
+        
 
     def selecting_by_molecule (self, selected_atom, disable = True):
         """       

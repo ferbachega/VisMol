@@ -31,7 +31,24 @@ import os
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 HOME        = os.environ.get('HOME')
 
+class CommandLineInterpreter:
+    """ Class doc """
+    
+    def __init__(self, main = None):
+        """ Class initialiser """
+        self.easyhybrid_main       = main
+        self.visible               =  False        
+        self.p_session             = main.p_session
+        self.vm_session            = main.vm_session
+        
 
+    def cmd (self, command_line):
+        """ Function doc """
+        
+
+
+        
+        
 class TerminalWindow():
     """ Class doc """
     
@@ -51,8 +68,8 @@ class TerminalWindow():
             self.entry_terminal = self.builder.get_object('entry_terminal')
             #self.entry_terminal.set_placeholder_text('>>>')
             #self.entry_terminal.do_insert_at_cursor ('>')
-            
-
+            self.textview = self.builder.get_object('entry_text_buffer')
+            self.textview.set_buffer(self.textbuffer)
             self.window.show_all()                                               
             #self.system_names_combo.set_active(0)
             self.visible    =  True
@@ -75,10 +92,25 @@ class TerminalWindow():
         
         self.cmd_history = []
         self.cmd_history_counter = 0
+        self.textbuffer          = Gtk.TextBuffer()
+        self.command_list= {
+                          'list'   : True,
+                          'show'   : True,
+                          'hide'   : True,
+                          'bond'   : True,
+                          'unbond' : True,
+                          'rename' : True,
+                          'delete' : True,
+                          'save'   : True,
+                          }
+    
     
     def run_cmd (self, cmd):
         """ Function doc """
-        print(cmd)
+        text  = '\n'+cmd
+        end_iter = self.textbuffer.get_end_iter ()
+        self.textbuffer.insert(end_iter, text)
+        print(self.cmd_history)
     
     def on_entry_terminal (self, widget):
         """ Function doc """
@@ -87,15 +119,19 @@ class TerminalWindow():
         self.entry_terminal.set_text('')
         self.run_cmd (cmd)
         print(self.cmd_history)
+    
     def on_entry_terminal_backspace (self, widget):
-        print('on_entry_terminal_backspace', widget)
+        pass
+        #print('on_entry_terminal_backspace', widget)
     
     def on_entry_terminal_move_cursor (self, widget, data, data2, data3 ):
-        print('on_entry_terminal_move_cursor', widget, data, data2, data3)
+        pass
+        #print('on_entry_terminal_move_cursor', widget, data, data2, data3)
 
     def on_entry_terminal_change (self, widget):
         """ Function doc """
-        print('on_entry_terminal_change', widget)
+        pass
+        #print('on_entry_terminal_change', widget)
     
     
     def update_window (self, system_names = True, coordinates = False,  selections = True ):
@@ -140,3 +176,10 @@ class TerminalWindow():
                 #print(self.cmd_history_counter, size)
             
             
+
+
+        elif k_name =='Tab' :
+            text = self.entry_terminal.get_text()
+            for key in self.command_list:
+                if  text in key:
+                    print(key)
