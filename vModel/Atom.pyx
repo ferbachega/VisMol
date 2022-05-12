@@ -153,7 +153,7 @@ class Atom:
                 frame = -1
             else:
                 pass
-            
+        #print(self.index, frame )
         coords = [self.Vobject.frames[frame][(self.index-1)*3  ],
                   self.Vobject.frames[frame][(self.index-1)*3+1],
                   self.Vobject.frames[frame][(self.index-1)*3+2],]

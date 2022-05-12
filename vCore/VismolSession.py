@@ -639,7 +639,11 @@ class VisMolSession (ShowHideVisMol):
                 data = ['atom'   , 
                         'residue',
                         'chain'  , 
-                        'molecule', 
+                        'protein', 
+                        'C alpha',
+                        'solvent',
+                        'atom name',
+                        'element',
                         #'segment' 
                         ]
                 for i in data:

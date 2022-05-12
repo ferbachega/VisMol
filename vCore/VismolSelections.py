@@ -280,7 +280,10 @@ class VisMolViewingSelection:
         self.selected_atoms        = [] #List of atoms objects (obj)
         self.selected_atoms_coords = [] #coordinate (floats) x y z
         self.vm_session             = vm_session
-    
+        
+        self.selected_element_list    = []
+        self.selected_atom_names_list = []
+        
     def get_selection_info (self):
         """ Function doc """
         ##print('self._selection_mode          ',self._selection_mode           )
@@ -431,7 +434,221 @@ class VisMolViewingSelection:
     
     def selecting_by_c_alpha (self, selected_atom, disable = True):
         """ Function doc """
+        """       
+        when disable = True
+        If the object selection is disabled, all atoms within the 
+        residue will be set to False 
         
+        The disable variable does not allow, if the selected 
+        atom is already in the selected list, to be removed. 
+        
+        The disable variable is "False" for when we use 
+        selection by area (selection box)  """
+        
+        self._clear_selection_buffer(selected_atom)
+
+            
+        #if selected
+        
+        # if the selected atoms is not in the selected list
+        if selected_atom not in self.selected_atoms:
+            
+            for atom in selected_atom.residue.atoms:
+                '''print (len(selected.residue.atoms), atom.name, atom.index)'''
+                
+                # the atom is not on the list -  add atom by atom
+                if atom not in self.selected_atoms:
+                    #only add C alpha atoms!
+                    if atom.name == 'CA':
+                        self.selected_atoms.append(atom)
+                        atom.selected = True
+                # the atom IS on the list - do nothing 
+                else:
+                    pass
+    
+        # else: if the selected atoms IS in the selected list
+        else:
+            if disable:
+                # So, add all atoms  - selected residue <- selected.resi
+                for atom in selected_atom.residue.atoms:
+                    
+                    # the atom is not on the list -  add atom by atom
+                    if atom in self.selected_atoms:
+                        
+                        #only add C alpha atoms!
+                        if atom.name == 'CA':
+                            index = self.selected_atoms.index(atom)
+                            self.selected_atoms.pop(index)
+                            atom.selected = False
+                    # the atom IS in the list - do nothing 
+                    else:
+                        pass   
+
+            else:
+                pass
+
+    def selecting_by_protein (self, selected_atom, disable = True):
+        """ Function doc """
+        """       
+        when disable = True
+        If the object selection is disabled, all atoms within the 
+        residue will be set to False 
+        
+        The disable variable does not allow, if the selected 
+        atom is already in the selected list, to be removed. 
+        
+        The disable variable is "False" for when we use 
+        selection by area (selection box)  """
+        
+        self._clear_selection_buffer(selected_atom)
+
+            
+        #if selected
+        
+        # if the selected atoms is not in the selected list
+        if selected_atom not in self.selected_atoms:
+            
+            for atom in selected_atom.residue.atoms:
+                '''print (len(selected.residue.atoms), atom.name, atom.index)'''
+                
+                # the atom is not on the list -  add atom by atom
+                if atom not in self.selected_atoms:
+                    #only protein atoms!
+                    if atom.residue.isProtein:
+                        self.selected_atoms.append(atom)
+                        atom.selected = True
+                # the atom IS on the list - do nothing 
+                else:
+                    pass
+    
+        # else: if the selected atoms IS in the selected list
+        else:
+            if disable:
+                # So, add all atoms  - selected residue <- selected.resi
+                for atom in selected_atom.residue.atoms:
+                    
+                    # the atom is not on the list -  add atom by atom
+                    if atom in self.selected_atoms:
+                        
+                        #only protein atoms!
+                        if atom.residue.isProtein:
+                            index = self.selected_atoms.index(atom)
+                            self.selected_atoms.pop(index)
+                            atom.selected = False
+                    # the atom IS in the list - do nothing 
+                    else:
+                        pass   
+
+            else:
+                pass
+    
+    def selecting_by_solvent (self, selected_atom, disable = True):
+        """ Function doc """
+        """       
+        when disable = True
+        If the object selection is disabled, all atoms within the 
+        residue will be set to False 
+        
+        The disable variable does not allow, if the selected 
+        atom is already in the selected list, to be removed. 
+        
+        The disable variable is "False" for when we use 
+        selection by area (selection box)  """
+        
+        self._clear_selection_buffer(selected_atom)
+
+            
+        #if selected
+        
+        # if the selected atoms is not in the selected list
+        if selected_atom not in self.selected_atoms:
+            
+            for atom in selected_atom.residue.atoms:
+                '''print (len(selected.residue.atoms), atom.name, atom.index)'''
+                
+                # the atom is not on the list -  add atom by atom
+                if atom not in self.selected_atoms:
+                    #only solvent atoms!
+                    if atom.residue.isSolvent:
+                        self.selected_atoms.append(atom)
+                        atom.selected = True
+                # the atom IS on the list - do nothing 
+                else:
+                    pass
+    
+        # else: if the selected atoms IS in the selected list
+        else:
+            if disable:
+                # So, add all atoms  - selected residue <- selected.resi
+                for atom in selected_atom.residue.atoms:
+                    
+                    # the atom is not on the list -  add atom by atom
+                    if atom in self.selected_atoms:
+                        
+                        #only solvent atoms!
+                        if atom.residue.isSolvent:
+                            index = self.selected_atoms.index(atom)
+                            self.selected_atoms.pop(index)
+                            atom.selected = False
+                    # the atom IS in the list - do nothing 
+                    else:
+                        pass   
+
+            else:
+                pass
+
+    def selecting_by_atom_name (self, selected_atom, disable = True):
+        """
+        The "disable" variable does not allow, if the selected 
+        atom is already in the selected list, to be removed. 
+
+        The disable variable is "False" for when we use 
+        selection by area (selection box)
+        """
+        
+        self._clear_selection_buffer(selected_atom)
+
+        if selected_atom not in self.selected_atoms:
+            if selected_atom.name in self.selected_atom_names_list:
+                self.selected_atoms.append(selected_atom)
+                selected_atom.selected = True
+                
+        else:
+            if disable:
+                if selected_atom.name in self.selected_atom_names_list:
+                    index = self.selected_atoms.index(selected_atom)
+                    self.selected_atoms.pop(index)
+                    selected_atom.selected = False
+            else:
+                pass
+                
+
+    def selecting_by_element (self, selected_atom, disable = True):
+        """
+        The "disable" variable does not allow, if the selected 
+        atom is already in the selected list, to be removed. 
+
+        The disable variable is "False" for when we use 
+        selection by area (selection box)
+        """
+        
+        self._clear_selection_buffer(selected_atom)
+
+        if selected_atom not in self.selected_atoms:
+            if selected_atom.symbol in self.selected_element_list:
+                self.selected_atoms.append(selected_atom)
+                selected_atom.selected = True
+            
+        else:
+            if disable:
+                if selected_atom.symbol in self.selected_element_list:
+                    index = self.selected_atoms.index(selected_atom)
+                    self.selected_atoms.pop(index)
+                    selected_atom.selected = False
+            else:
+                pass
+                
+
 
     def selecting_by_molecule (self, selected_atom, disable = True):
         """       
@@ -608,6 +825,21 @@ class VisMolViewingSelection:
 
             elif selection_mode2 == 'chain':
                 self.selecting_by_chain (selected, disable)
+            
+            elif selection_mode2 == 'C alpha':
+                self.selecting_by_c_alpha (selected, disable)
+            
+            elif selection_mode2 == 'protein':
+                self.selecting_by_protein (selected, disable)
+            
+            elif selection_mode2 == 'solvent':
+                self.selecting_by_solvent (selected, disable)
+            
+            elif selection_mode2 == 'atom name':
+                self.selecting_by_atom_name (selected, disable)
+            
+            elif selection_mode2 == 'element':
+                self.selecting_by_element (selected, disable)
             else:
                 pass
             

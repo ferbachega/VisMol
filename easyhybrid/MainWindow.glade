@@ -270,6 +270,32 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_View</property>
                 <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkCheckMenuItem" id="menuitem_check_selection_toolbar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Selection toolbar</property>
+                        <property name="use_underline">True</property>
+                        <property name="active">True</property>
+                        <signal name="toggled" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCheckMenuItem" id="menuitem_check_pDynamo_tools_bar">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">pDynamo tools</property>
+                        <property name="use_underline">True</property>
+                        <property name="active">True</property>
+                        <signal name="toggled" handler="on_main_menu_activate" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
@@ -493,7 +519,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolbar" id="toolbar2">
+              <object class="GtkToolbar" id="toolbar2_selections">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="toolbar_style">icons</property>
@@ -595,7 +621,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolbar" id="toolbar4">
+              <object class="GtkToolbar" id="toolbar4_pdynamo_tools">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="toolbar_style">icons</property>
