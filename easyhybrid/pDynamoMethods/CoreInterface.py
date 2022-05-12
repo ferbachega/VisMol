@@ -49,7 +49,6 @@ class SimulationProject:
         self.NBmodel        = None 
         self.QCmodel        = None
         self.MMmodel        = None                
-        self.logfile = LogFile.LogFile(_projectName+"_EasyHybrid3.log")
     #===================================================================================
     def LoadSystemFromForceField(self,_topologyFile,_coordinateFile):
         '''
@@ -60,8 +59,6 @@ class SimulationProject:
         '''
         #------------------------------------------------------------
         oldSystem = Clone(self.cSystem) 
-        self.logfile.separator()
-        self.logfile.inputLine("None Current System Found. Creating one from topologies and coordinate files!")
         #------------------------------------------------------------
         self.cSystem              = ImportSystem(_topologyFile, log=None)
         self.cSystem.coordinates3 = ImportCoordinates3(_coordinateFile, log=None)
@@ -73,7 +70,7 @@ class SimulationProject:
             self.SystemStates.append(oldSystem) 
         #------------------------------------------------------------
         #testing the MMmodel
-        self.NBmodel = NBModelCutOff.WithDefaults ( )
+        self.NBmodel = NBModelCutOff.WithDefaults( )
         self.cSystem.DefineNBModel( self.NBmodel )
         #------------------------------------------------------------
         if self.DEBUG:
@@ -82,8 +79,6 @@ class SimulationProject:
         #------------------------------------------------------------      
         self.NBmodel = self.cSystem.nbModel
         self.MMmodel = self.cSystem.mmModel
-        self.logfile.inputLine("Energy Model loaded: " + self.cSystem.energyModelLabel )
-        self.logfile.inputLine("New System loaded!")
     #====================================================================================
     def LoadSystemFromSavedProject(self,_pklPath):
         '''
@@ -92,14 +87,10 @@ class SimulationProject:
             _pklPath: PKL file path; string or path 
         '''
         if self.cSystem == None:
-            self.logfile.separator()
-            self.logfile.inputLine("None Current System Found. Creating one from a coordinate files!")
             self.cSystem = ImportSystem(_pklPath,log=None)
             self.cSystem.label = self.baseName + "_#" + str(self.systemCoutCurr)
             self.systemCoutCurr += 1
         else:
-            self.logfile.separator()
-            self.logfile.inputLine("There is already a loaded System. Back off the current System and Creating one new from a coordinate file!")
             oldSystem = copySystem(self.cSystem)
             self.SystemStates.append( oldSystem ) # put the current system 
             #------------------------------------------------------
@@ -114,7 +105,6 @@ class SimulationProject:
         if self.DEBUG:
             energy = self.cSystem.Energy( doGradients = True )            
             self.cSystem.Summary()
-        self.logfile.inputLine("New System loaded!")
     #====================================================================================
     def SphericalPruning(self, _centerAtom, _radius):
         '''
@@ -123,10 +113,6 @@ class SimulationProject:
             _centerAtom:
             _radius    :
         '''
-        #---------------------------------------------------
-        self.logfile.separator()
-        self.logfile.inputLine("Starting Spherical pruning!")
-        self.logfile.inputLine("BackOffing onld System!")
         #---------------------------------------------------
         oldSystem = copySystem(self.cSystem)
         self.SystemStates.append(oldSystem)
@@ -150,10 +136,6 @@ class SimulationProject:
             _centerAtom:
             _radius    :
         '''
-        #-----------------------------------------------------
-        self.logfile.separator()
-        self.logfile.inputLine("Setting fixed atoms!")
-        self.logfile.inputLine("BackOffing onld System!")
         #-----------------------------------------------------
         oldSystem = copySystem(self.cSystem)
         self.SystemStates.append(oldSystem)
@@ -182,10 +164,6 @@ class SimulationProject:
             _QCmultiplicity: 
         '''
         #---------------------------------------------------------------------
-        self.logfile.separator()
-        self.logfile.inputLine("Defining Semiempirical method and QC atoms regions!")
-        self.logfile.inputLine("\tHamiltonian {}".format(_method) )
-        #_--------------------------------------------------------------------
         if not VerifyMNDOKey(_method):
             return(-1)            
         #---------------------------------------------
@@ -223,7 +201,6 @@ class SimulationProject:
             ExportSystem(self.baseName+"_qcSystem.pdb",qcSystem)
             ExportSystem(self.baseName+"_qcSystemEntire.pdb",self.cSystem)
             energy = self.cSystem.Energy() 
-            self.logfile.inputLine( "Total Energy of the System: " + str(energy) ) 
     #=====================================================================================
     def SetOrcaSystem(self,_model,_basis,_region,_QCcharge,_QCmultiplicity):
         '''
@@ -235,9 +212,6 @@ class SimulationProject:
             _QCcharge      :
             _QCmultiplicity:
         '''
-        #----------------------------------------------
-        self.logfile.separator()
-        self.logfile.inputLine("Defining method and QC atoms regions to run in ORCA software!")
         #seting scratch path
         _scratch = os.path.join( orcaScratchBase,self.baseName )
         if not os.path.exists(_scratch):
@@ -302,9 +276,6 @@ class SimulationProject:
         #define QC atoms selection
         _QCRegion = Selection.FromIterable(atomlist)
         #---------------------------------------------
-        self.logfile.separator()
-        self.logfile.inputLine("Defining DFTB method and QC atoms regions!")        
-        #---------------------------------------------
         #Sending the system
         self.cSystem.nbModel = None
         oldSystem = Clone( self.cSystem )      
@@ -334,21 +305,16 @@ class SimulationProject:
         #--------------------------------------------------------------------
         self.cSystem.qcModel.maximumSCCIterations=1200
         energy = self.cSystem.Energy()      
-        self.logfile.inputLine("Total Energy of the System: " + str(energy) )
     #=========================================================================
     def RunSinglePoint(self):
         '''
         Calculate the energy for the system.
         '''
-        #---------------------------------------------------------------
-        self.logfile.inputLine("Single Point Energy calculation chosen!")
         #----------------------------------------------------------------
         energy = self.cSystem.Energy()
         #----------------------------------------------------------------
         print("Single Point Energy Calculations Done!\n")
         print(energy)
-        #_---------------------------------------------------------------
-        self.logfile.inputLine("Total Energy of the System: " + str(energy) )
         #----------------------------------------------------------------
         return(energy)
     #=========================================================================
@@ -358,10 +324,6 @@ class SimulationProject:
         Parameters:
            _parameters:
         '''
-        #----------------------------------------------------------------------        
-        self.logfile.separator()
-        self.logfile.inputLine("Setting Simulation Protocol:")
-        self.logfile.inputLine( "\t{}".format(_parameters["simulation_type"]) )
         #----------------------------------------------------------------------
         oldSystem = copySystem( self.cSystem )
         self.SystemStates.append( oldSystem )
@@ -405,7 +367,6 @@ class SimulationProject:
         '''
         Finalize the run.
         '''
-        self.logfile.inputLine("Finishing simulation project using pDynamo3 methods!")
-        self.logfile.close()
+        
 #==============================================================================
 
