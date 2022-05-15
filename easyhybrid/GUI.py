@@ -84,7 +84,7 @@ class EasyHybridMainWindow ( ):
         #self.builder.add_from_file(os.path.join(VISMOL_HOME,'GTKGUI/toolbar_builder.glade'))
         self.builder.connect_signals(self)
         self.window = self.builder.get_object('window1')
-        self.window.set_default_size(1000, 600)                          
+        self.window.set_default_size(1200, 600)                          
         self.window.set_title('EasyHybrid {}'.format(EASYHYBRID_VERSION))                          
         
         #self.toolbar_builder = self.builder.get_object('toolbar_builder') 
@@ -605,6 +605,20 @@ class EasyHybridMainWindow ( ):
             
         elif menuitem == self.builder.get_object('menuitem_umbrella_sampling'):
             self.umbrella_sampling_window.OpenWindow()
+        
+        elif menuitem == self.builder.get_object('menuitem_check_pDynamo_tools_bar'):
+            if menuitem.get_active():
+                self.builder.get_object('toolbar4_pdynamo_tools').show()
+            else:
+                self.builder.get_object('toolbar4_pdynamo_tools').hide()
+        
+        elif menuitem == self.builder.get_object('menuitem_check_selection_toolbar'):
+            if menuitem.get_active():
+                self.builder.get_object('toolbar2_selections').show()
+            else:
+                self.builder.get_object('toolbar2_selections').hide()
+
+            #self.umbrella_sampling_window.OpenWindow()
         
         
         

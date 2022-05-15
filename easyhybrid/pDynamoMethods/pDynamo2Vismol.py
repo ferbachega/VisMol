@@ -252,7 +252,7 @@ class pDynamoSession:
         
         
         if parameters['last'] == -1:
-            parameters['last'] = len(vobject.frames)
+            parameters['last'] = len(vobject.frames)-1
         
         active_id = self.active_id 
         self.active_id = parameters['system_id']

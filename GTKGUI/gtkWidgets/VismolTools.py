@@ -590,46 +590,177 @@ class VismolSelectionTypeBox(Gtk.Box):
         self.toggle_button_selecting_mode = Gtk.ToggleButton('Viewing')
         self.toggle_button_selecting_mode.connect('clicked', self.on_toggle_button_selecting_mode)
         
-
+        
+        #Atom name entry box
+        self.entry_atom_names = None#Gtk.Entry()
+        self.entry_elements   = None
+        
         # Packing 
         self.box.pack_start(self.toggle_button_selecting_mode, False, False, 0)
         self.box.pack_start(self.label_selecting_by          , False, False, 0)
         self.box.pack_start(self.combobox_selection_type     , False, False, 0)
+        
         self.combobox_selection_type.set_active(1)
 
+    def on_entry_data_change (self, widget):
+        """ Function doc """
+        
+        string = widget.get_text()
+        
+        if widget == self.entry_atom_names:
+            self.vm_session.selections[self.vm_session.current_selection].selected_atom_names_list = []
+            selected_atom_names_list = self.vm_session.selections[self.vm_session.current_selection].selected_atom_names_list 
+        
+            keys = string.split('+')
+            for key in keys:
+                selected_atom_names_list.append(key.strip())
+            
+            print ('entry_atom_names', self.vm_session.selections[self.vm_session.current_selection].selected_atom_names_list)
+        
+        
+        
+        elif widget == self.entry_elements:
+            self.vm_session.selections[self.vm_session.current_selection].selected_element_list = []
+            selected_element_list = self.vm_session.selections[self.vm_session.current_selection].selected_element_list  
+            
+            keys = string.split('+')
+            for key in keys:
+                selected_element_list.append(key.strip())
+            
+            print ('entry_elements', self.vm_session.selections[self.vm_session.current_selection].selected_element_list)
+
+        
+        else: 
+            pass
+
+    def show_or_hide_entries (self, name = 'atom_names', show = True):
+        """ Function doc """
+        if name == 'atom_names':
+            if show:
+                if self.entry_atom_names:
+                    self.entry_atom_names.show()
+                else:
+                    self.entry_atom_names = Gtk.Entry()
+                    self.entry_atom_names.set_width_chars(8)
+                    self.entry_atom_names.connect('changed', self.on_entry_data_change)
+                    self.box.pack_start(self.entry_atom_names     , False, False, 0)
+                    self.entry_atom_names.show()
+            else:
+                if self.entry_atom_names:
+                    self.entry_atom_names.hide()
+                else:
+                    pass
+                    #self.entry_atom_names = Gtk.Entry()
+                    #self.entry_atom_names.set_width_chars(8)
+                    #self.entry_atom_names.connect('changed', self.on_entry_data_change)
+                    #self.box.pack_start(self.entry_atom_names     , False, False, 0)
+                    #self.entry_atom_names.hide()
+        
+        if name == 'element':
+            if show:
+                if self.entry_elements:
+                    self.entry_elements.show()
+                else:
+                    self.entry_elements = Gtk.Entry()
+                    self.entry_elements.set_width_chars(8)
+                    self.entry_elements.connect('changed', self.on_entry_data_change)
+                    self.box.pack_start(self.entry_elements     , False, False, 0)
+                    self.entry_elements.show()
+            else:
+                if self.entry_elements:
+                    self.entry_elements.hide()
+                else:
+                    pass
+                    #self.entry_elements = Gtk.Entry()
+                    #self.entry_elements.connect('changed', self.on_entry_data_change)
+                    #self.entry_elements.set_width_chars(8)
+                    #self.box.pack_start(self.entry_elements     , False, False, 0)
+                    #self.entry_elements.hide()
+                
+                
     def on_combobox_selection_type (self, combobox):
         """ Function doc """
         self.active = combobox.get_active()
-        
+
         if self.active == 0:
             self.vm_session.viewing_selection_mode(sel_type = 'atom')
-        if self.active == 1:
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = False)
+
+        elif self.active == 1:
             self.vm_session.viewing_selection_mode(sel_type = 'residue')
-        if self.active == 2:
-            self.vm_session.viewing_selection_mode(sel_type = 'chain')
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = False)
         
-        if self.active == 3:
-            self.vm_session.viewing_selection_mode(sel_type = 'molecule')
-            
+        elif self.active == 2:
+            self.vm_session.viewing_selection_mode(sel_type = 'chain')
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = False)
+        
+        elif self.active == 3:
+            self.vm_session.viewing_selection_mode(sel_type = 'protein')
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = False)
+        
+        elif self.active == 4:
+            self.vm_session.viewing_selection_mode(sel_type = 'C alpha')
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = False)
+        
+        elif self.active == 5:
+            self.vm_session.viewing_selection_mode(sel_type = 'solvent')
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = False)
+        
+        elif self.active == 6:
+            self.vm_session.viewing_selection_mode(sel_type = 'atom name')
+            self.show_or_hide_entries (name = 'atom_names', show = True)
+            self.show_or_hide_entries (name = 'element', show = False)
+        
+        elif self.active == 7:
+            self.vm_session.viewing_selection_mode(sel_type = 'element')
+            self.show_or_hide_entries (name = 'atom_names', show = False)
+            self.show_or_hide_entries (name = 'element', show = True)
+                
+        else:pass
+        
     def change_sel_type_in_combobox (self, sel_type):
         """ Function doc """
         
         if sel_type == 'atom':
             self.combobox_selection_type.set_active(0)
-        if sel_type == 'residue':
+        
+        elif sel_type == 'residue':
             self.combobox_selection_type.set_active(1)
-        if sel_type == 'chain':
+        
+        elif sel_type == 'chain':
             self.combobox_selection_type.set_active(2)
-        if sel_type == 'molecule':
+        
+        elif sel_type == 'protein':
             self.combobox_selection_type.set_active(3)
-    
+        
+        elif sel_type == 'C alpha':
+            self.combobox_selection_type.set_active(4)
+        
+        elif sel_type == 'solvent':
+            self.combobox_selection_type.set_active(5)
+        
+        elif sel_type == 'atom name':
+            self.combobox_selection_type.set_active(6)
+        
+        elif sel_type == 'element':
+            self.combobox_selection_type.set_active(7)
+        
+        else: pass
+        
+        
     def on_toggle_button_selecting_mode (self, button):
         """ Function doc """
         if button.get_active():
             state = "on"
             self.vm_session._picking_selection_mode = True
             button.set_label('Picking')
-            print(self.combobox_selection_type.get_active())
+            #print(self.combobox_selection_type.get_active())
             self.vm_session._selection_function (None)
             self.vm_session.glwidget.vm_widget.queue_draw()
             
