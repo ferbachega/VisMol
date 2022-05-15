@@ -127,7 +127,7 @@ class EnergyAnalysis:
 					self.energiesMatrix = np.zeros( (self.ylen, self.xlen), dtype=float )
 				m = int( lns[0])				
 				n = int( lns[1])				
-				self.energiesMatrix[n][m] = float(lns[2])
+				self.energiesMatrix[m][n] = float(lns[2])
 			
 			self.multiple2Dplot.append(self.energiesMatrix)
 			self.identifiers.append(method)
@@ -325,7 +325,7 @@ class EnergyAnalysis:
 		if len(self.identifiers) > 0: 
 			_method = "_" + self.identifiers[-1]
 
-		plotName = self.baseName + _method		
+		plotName = self.baseName + _method
 		plt.savefig(plotName+".png",dpi=1000)
 		if SHOW: plt.show()
 		plt.close()

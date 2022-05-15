@@ -32,6 +32,8 @@ from pMolecule                 import *
 from CoreInterface 			   import SimulationProject
 from ReactionCoordinate import *
 from TrajectoryAnalysis import *
+from MopacQCMMinput import *
+from WriteQMLog import * 
 #-------------------------------------------------------------------
 #path for the required files on the examples folder of EasyHynrid 3.0
 easyhybrid   = os.path.join(VISMOL_HOME, "easyhybrid")
@@ -41,6 +43,7 @@ scratch_path = os.path.join(easyhybrid,"TestsScratch")
 timTop       = os.path.join(ex_path,"TIM","7tim.top")
 timCrd       = os.path.join(ex_path,"TIM","7tim.crd")
 balapkl      = os.path.join(ex_path,"bala","bAla.pkl")
+meth         = os.path.join(ex_path,"pdb","methane.pdb")
 #--------------------------------------------------------
 if not os.path.exists(scratch_path):
 	os.makedirs(scratch_path)
@@ -1588,6 +1591,24 @@ def ORCAEnergy_ref():
 def Thermodynamics():
 	pass
 #=====================================================
+def write_qm_log():
+	'''
+	'''		
+	proj = SimulationProject( os.path.join(scratch_path, "QMlog") )
+	proj.LoadSystemFromSavedProject( balapkl )
+	qcModel = QCModelMNDO.WithOptions( hamiltonian = "am1" )
+	proj.cSystem.DefineQCModel(qcModel)
+
+	proj.cSystem.Energy()
+	test = WriteQMLog(proj.cSystem,"test.log")
+	test.write()
+	'''
+	_mopacKeys = ["AUX", "LARGE"]	
+	mop = MopacQCMMinput(proj.cSystem,os.path.join(scratch_path, "QMlog"),balapkl[:-4],_mopacKeys,"am1")
+	mop.CalculateGradVectors()
+	mop.write_input(0,1)
+	'''
+#=====================================================
 if __name__ == "__main__":	
 	#------------------------------------
 	if len(sys.argv) > 2:
@@ -1639,6 +1660,7 @@ if __name__ == "__main__":
 	elif int(sys.argv[1]) == 32: ORCAEnergy_ref()
 	elif int(sys.argv[1]) == 33: Change_QC_Region()
 	elif int(sys.argv[1]) == 34: NEB_FreeEnergy()
+	elif int(sys.argv[1]) == 35: write_qm_log()
 	else: pass  
 
 

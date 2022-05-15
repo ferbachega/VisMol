@@ -275,9 +275,9 @@ class EnergyRefinement:
 			File = open(fle,'r')
 			energy = File.read()
 			if self.ylen > 1:
-				self.indexArrayX[lf[0],lf[1]] 	= lf[0]
-				self.indexArrayY[lf[0],lf[1]] 	= lf[1]
-				self.energiesArray[lf[0],lf[1]]	= float(energy)
+				self.indexArrayX[lf[1],lf[0]] 	= lf[0]
+				self.indexArrayY[lf[1],lf[0]] 	= lf[1]
+				self.energiesArray[lf[1],lf[0]]	= float(energy)
 			else:
 				self.indexArrayX[lf[0]] 	= lf[0]
 				print(lf[0])
@@ -309,7 +309,8 @@ class EnergyRefinement:
 			#Initiate Loop			
 			for i in p.range(0, len(self.fileLists) ):				
 				fle2 = os.path.basename(self.fileLists[i][:-4])
-				_scratch = os.path.join(self.baseName, fle2)				
+				_scratch = os.path.join(self.baseName, fle2 )				
+				_scratch2 = os.path.join(self.baseName, fle2,".eTmp" )				
 				if not os.path.exists(_scratch):
 					os.makedirs(_scratch)
 				#----------------------------------------------

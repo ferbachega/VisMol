@@ -14,16 +14,19 @@ import SimulationsPreset
 class WriteQMLog:
 	'''
 	'''
-	def __init__(self,_system):
+	def __init__(self,_system,_outFile):
 		'''
 		'''
 		self.scratch = _system.scratch
-		self.text    = "{}".format( self.scratch.energyTerms["Potential Energy"])
+		self.outname = _outFile
+
+		self.text    = "{}".format( self.scratch.energyTerms["Potential Energy"] )
 		self.charges = _system.AtomicCharges()
 
+		self.outFile = open(_outFile,"w")
 
 	#==============================================
-	def write(self,out_file):
+	def write(self):
 		'''
 		'''
 		#fill energy terms
@@ -32,23 +35,36 @@ class WriteQMLog:
 		#number of orbitals
 		#basis set information
 		#obital energies and occupancies 
-		norbitals   = scratch.orbitalsP.numberOrbitals
-		occupancies = scratch.orbitalsP.occupancies
-		energies    = scratch.orbitalsP.energies
+		norbitals   = self.scratch.orbitalsP.numberOrbitals
+		occupancies = self.scratch.orbitalsP.occupancies
+		energies    = self.scratch.orbitalsP.energies		
+		#self.scratch.overlapEigenValues 
 		#overlap matrix
-		block       = scratch.oneElectronMatrix.block
+		block       = self.scratch.oneElectronMatrix.block
+
+		print(len(block))
+		for i in range(len(block)):
+			if i % 10 == 0:
+				self.text += "\n"
+			self.text += "{} ".format(block[i])
+
+		print(block[0],block[1])
 		#molecular orbitals 
-		orbitals    = scratch.orbitalsP.orbitals
+		orbitals    = self.scratch.orbitalsP.orbitals
+		print(orbitals[1][0])
+
+
+		outFile = open(self.outname,"w")
+		outFile.write(self.text)
+		outFile.close()
+	
+	#==============================================
+	
+
 
 #==================================================
 #Scans 1D with the broken nad and arg 106
 #--------------------------------------------------
 #Setting reaction coordinates
 
-LDL = SimulationProject("OMTest")
-LDL.LoadSystemFromSavedProject("LDL.pkl")
-
-LDL.cSystem.Energy()
-scratch = LDL.cSystem.scratch
-	
 
