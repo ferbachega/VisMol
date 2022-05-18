@@ -1395,17 +1395,9 @@ class pDynamoSession:
         phi = []
         psi = []
         
-        if vobject:
-            pass
-        else:
-            vobject = self.build_vismol_object_from_pDynamo_system (
-                                                               name                 = name  ,
-                                                               system_id            = system_id,
-                                                               vismol_object_active = True        ,
-                                                               autocenter           = True        ,
-                                                               refresh_qc_and_fixed = False)
-            vobject.frames = []
+
         
+        frames = []
         while trajectory.RestoreOwnerData ( ):
             frame = []
             for atom in self.systems[system_id]['system'].atoms.items:
@@ -1414,8 +1406,31 @@ class pDynamoSession:
                 frame.append(xyz[1])
                 frame.append(xyz[2])
             frame = np.array(frame, dtype=np.float32)
-            #frames.append(frame)
-            vobject.frames.append(frame)
+            frames.append(frame)
+            #vobject.frames.append(frame)
+
+
+        if vobject:
+            vobject.frames = frames
+        else:
+            vobject = self.build_vismol_object_from_pDynamo_system (
+                                                               name                 = name,  
+                                                               system_id            = system_id,
+                                                               vismol_object_active = True        ,
+                                                               autocenter           = True        ,
+                                                               refresh_qc_and_fixed = False,
+                                                               frames               = frames)            
+
+            #vobject = self.build_vismol_object_from_pDynamo_system (
+            #                                                   name                 = name  ,
+            #                                                   system_id            = system_id,
+            #                                                   vismol_object_active = True        ,
+            #                                                   autocenter           = True        ,
+            #                                                   refresh_qc_and_fixed = False)
+            #vobject.frames = []
+
+
+
 
         # . Finish up.
         trajectory.ReadFooter ( )

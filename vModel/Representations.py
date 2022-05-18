@@ -2997,7 +2997,39 @@ class SpheresRepresentation (Representation):
         GL.glBindBuffer(GL.GL_ARRAY_BUFFER, self.instances_vbos[2])
         GL.glBufferData(GL.GL_ARRAY_BUFFER, self.insta_rads.nbytes, self.insta_rads, GL.GL_STATIC_DRAW)
         
-        
+    
+    #def _set_colors_to_buffer (self, col_vbo = True):
+    #    """ Function doc """
+    #    #try:
+    #    frame = self.visObj.colors
+    #    #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, visObj.line_buffers[1])
+    #    frame = np.array(self.visObj.colors, dtype = np.float32)
+    #
+    #    #if self.instances_vao is None:
+    #    #self.instances_vao, self.instances_vbos, self.instances_elemns = self._make_gl_vao_and_vbos(self.gl_program_instances, self.gl_program_sel_instances )
+    #
+    #
+    #    #'''
+    #    if col_vbo:
+    #            if self.col_vbo:
+    #                print ('\n\n\n\n\n\n COLOR')
+    #                GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 
+    #                                self.col_vbo    )
+    #                
+    #                GL.glBufferData(GL.GL_ARRAY_BUFFER, 
+    #                                frame.nbytes      ,
+    #                                frame             , 
+    #                                GL.GL_STATIC_DRAW)   
+    #                #except:
+    #                #    
+    #                #   #print ('wrong type:', self.col_vbo, type(self.col_vbo))
+    #            else: 
+    #                pass
+    #    else: 
+    #        pass
+    #    #'''
+    #    #except:
+    #    #   print('_set_colors_to_buffer -  error')
         
     def draw_representation (self):
         """ Function doc """

@@ -631,6 +631,76 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 """ Function doc """
                 self.show_or_hide( _type = 'dots', show = False)
             
+            
+            
+            def menu_set_color_green (_):
+                """ Function doc """
+                selection         = self.selections[self.current_selection]
+                
+                vobject_list = []
+                
+                for atom in selection.selected_atoms:
+                    if atom.symbol == 'C':
+                        atom.color = [0.0     , 1.0     , 0.0     ]
+                        if atom.Vobject in vobject_list:
+                            pass
+                        else:
+                            vobject_list.append(atom.Vobject)
+                
+                for vismol_object in vobject_list:
+                    vismol_object._generate_color_vectors ( do_colors         = True,
+                                                            do_colors_idx     = False,
+                                                            do_colors_raindow = False,
+                                                            do_vdw_dot_sizes  = False,
+                                                            do_cov_dot_sizes  = False,
+                                                           )
+                
+                    
+                    for rep  in vismol_object.representations.keys():
+                        if vismol_object.representations[rep]:
+                            #try:
+                            vismol_object.representations[rep]._set_colors_to_buffer()
+                            #except:
+                            #    print("VisMol/vModel/Representations.py, line 123, in _set_colors_to_buffer GL.glBindBuffer(GL.GL_ARRAY_BUFFER, ctypes.ArgumentError: argument 2: <class 'TypeError'>: wrong type'")
+                
+                    self.p_session.refresh_vobject_qc_and_fixed_representations (
+                                                                              visObj = vismol_object,    
+                                                                         fixed_atoms = True         , 
+                                                                            QC_atoms = True         ,
+                                                                        metal_bonds  = True         ,
+                                                                              static = True         )
+                #self.show_or_hide( _type = 'spheres', show = False)
+                #self.show_or_hide( _type = 'spheres', show = True)
+                
+                self.glwidget.vm_widget.queue_draw()
+                return True
+
+            def menu_set_color_magenta (_):
+                """ Function doc """
+
+            
+            
+            def menu_color_change (_):
+                """ Function doc """
+                selection         = self.selections[self.current_selection]
+                self.colorchooserdialog = Gtk.ColorChooserDialog()
+                if self.colorchooserdialog.run() == Gtk.ResponseType.OK:
+                    color = self.colorchooserdialog.get_rgba()
+                    print(color.red,color.green, color.blue )
+                    new_color = [color.red,color.green, color.blue]
+                #color_activated()
+                self.colorchooserdialog.destroy()
+                
+                #indexes = []
+                for atom in selection.selected_atoms:
+                    if atom.symbol == 'C':
+                        
+                        self.set_color_by_index (vismol_object = atom.Vobject, 
+                                                       indexes = [atom.index-1], 
+                                                         color = new_color )
+                        #atom.color = new_color
+                
+            
             def set_as_qc_atoms (_):
                 """ Function doc """
                 #selection = self.selections[self.current_selection]
@@ -769,7 +839,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             #'dotted_lines'  : ['MenuItem', menu_show_dotted_lines],
                                             'sticks'        : ['MenuItem', menu_show_sticks],
                                             'spheres'       : ['MenuItem', menu_show_spheres],
-                                            'dots'          : ['MenuItem', menu_show_dots],
+                                            #'dots'          : ['MenuItem', menu_show_dots],
                                             'dynamic bonds' : ['MenuItem', menu_show_dynamic_bonds],
                                             'ribbons'       : ['MenuItem', menu_show_ribbons],
                                             'separator2'    : ['separator', None],
@@ -785,12 +855,20 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                             #'dotted_lines'  : ['MenuItem', menu_hide_dotted_lines],
                                             'sticks'        : ['MenuItem', menu_hide_sticks],
                                             'spheres'       : ['MenuItem', menu_hide_spheres],
-                                            'dots'          : ['MenuItem', menu_hide_dots],
+                                            #'dots'          : ['MenuItem', menu_hide_dots],
                                             'dynamic bonds' : ['MenuItem', menu_hide_dynamic_bonds],
                                             'ribbons' : ['MenuItem', menu_hide_ribbons],
 
                                             'separator2'    : ['separator', None],
                                             'nonbonded'     : ['MenuItem', menu_hide_nonbonded],
+                                            }
+                                ],
+                    
+                    'color'   : [
+                                'submenu',  {
+                                            'green'         : ['MenuItem', menu_set_color_green],
+                                            'custon'         : ['MenuItem', menu_color_change],
+                                            #'dotted_lines'  : ['MenuItem', menu_hide_dotted_lines],
                                             }
                                 ],
                     

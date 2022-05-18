@@ -122,9 +122,13 @@ class PotentialEnergyAnalysisWindow():
             for key , system in self.main.p_session.systems.items():
                 
                 for vobject_id in  system['logfile_data'].keys():
-                    _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
-                    print(['_vobject:', _vobject.name,_vobject.index])
-                    self.vobject_liststore.append([_vobject.name, _vobject.index])
+                    print(['vobject_id:', vobject_id ,system['logfile_data'].keys()])
+                    try:
+                        _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
+                        print(['_vobject:', _vobject.name,_vobject.index])
+                        self.vobject_liststore.append([_vobject.name, _vobject.index])
+                    except:
+                        print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
             #self.vobject_liststore.append(['all', _vobject.index])
 
             self.coordinates_combobox = Gtk.ComboBox()
@@ -169,9 +173,13 @@ class PotentialEnergyAnalysisWindow():
             for key , system in self.main.p_session.systems.items():
                 
                 for vobject_id in  system['logfile_data'].keys():
-                    _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
-                    print(['_vobject:', _vobject.name,_vobject.index])
-                    self.vobject_liststore.append([_vobject.name, _vobject.index])
+                    try:
+                        _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
+                        print(['_vobject:', _vobject.name,_vobject.index])
+                        self.vobject_liststore.append([_vobject.name, _vobject.index])
+                    except:
+                        print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
+
             #self.vobject_liststore.append(['all', _vobject.index])
             self.coordinates_combobox.set_model(self.vobject_liststore)
             self.coordinates_combobox.set_active(_id)

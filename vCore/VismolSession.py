@@ -1531,8 +1531,8 @@ class VisMolSession (ShowHideVisMol):
             #rep =  CartoonRepresentation(name = 'cartoon', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
             #vismol_object.representations[rep.name] = rep
             
-            rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
-            vismol_object.representations[rep.name] = rep
+            #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
+            #vismol_object.representations[rep.name] = rep
             
             vismol_object.create_new_representation (rtype = 'lines')
             vismol_object.create_new_representation (rtype = 'nonbonded')
@@ -1879,7 +1879,7 @@ class VisMolSession (ShowHideVisMol):
         
         #fixedlist = []
         #if len(indexes) > 0:
-        
+        #print ('\n\n\n\n\n\n COLOR')
         for atom_index in indexes:
             vismol_object.atoms[atom_index].color = color    
             #print(atom_index, color)
