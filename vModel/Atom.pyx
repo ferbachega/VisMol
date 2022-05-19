@@ -33,7 +33,7 @@ class Atom:
                         residue      = 'X' ,
                         
                         
-                        color        = None,
+                        color        = []  ,
                         color_id     = None,
                         
                         radius       = None,
@@ -46,7 +46,7 @@ class Atom:
                         bfactor      = 0.0 , 
                         charge       = 0.0 ,
 						bonds_indexes= []  ,
-                        Vobject      = None):
+                        vobject      = None):
  
         #if pos is None:
         #    pos = np.array([0.0, 0.0, 0.0])
@@ -68,7 +68,7 @@ class Atom:
         self.resi       = resi    #
         self.resn       = resn    #
         self.chain      = chain   #
-        self.Vobject    = Vobject
+        self.vobject    = vobject
         self.residue    = residue    
         
         
@@ -81,10 +81,10 @@ class Atom:
 
         self.atom_id = atom_id        # An unique number
         #----------------------------------------------        
-        if color:
-            self.color = color
-        else:
+        if color == []:# or color == None:
             self.color   = self.init_color (self.symbol)
+        else:
+            self.color = color
         #----------------------------------------------        
         if color_id:
             self.color_id = color_id
@@ -147,16 +147,16 @@ class Atom:
         """
         
         if frame is None:
-            frame  = self.Vobject.vm_session.glwidget.vm_widget.frame
+            frame  = self.vobject.vm_session.glwidget.vm_widget.frame
 
-            if frame > len(self.Vobject.frames)-1:
+            if frame > len(self.vobject.frames)-1:
                 frame = -1
             else:
                 pass
         #print(self.index, frame )
-        coords = [self.Vobject.frames[frame][(self.index-1)*3  ],
-                  self.Vobject.frames[frame][(self.index-1)*3+1],
-                  self.Vobject.frames[frame][(self.index-1)*3+2],]
+        coords = [self.vobject.frames[frame][(self.index-1)*3  ],
+                  self.vobject.frames[frame][(self.index-1)*3+1],
+                  self.vobject.frames[frame][(self.index-1)*3+2],]
 
         return coords
 
@@ -173,7 +173,7 @@ class Atom:
 
     #def get_color (self):
     #    """ Function doc """
-    #    #self.at = Vobject.vm_session.vConfig.atom_types
+    #    #self.at = vobject.vm_session.vConfig.atom_types
     #
     #    self.color   = self.at.get_color(self.symbol)
  
@@ -188,7 +188,7 @@ class Atom:
         self.color_id = [r/255.0, g/255.0, b/255.0]
         #print ('pickedID',pickedID, self.atom_id)
         #return pickedID
-        #self.Vobject.vm_session.atom_dic_id[pickedID] = self
+        #self.vobject.vm_session.atom_dic_id[pickedID] = self
 
 
 
@@ -213,31 +213,31 @@ class Atom:
             given, it returns the default dummy value of atom X.
         """
         try:
-            color = color =self.Vobject.color_palette[name]
+            color = color =self.vobject.color_palette[name]
             #color = ATOM_TYPES[name][1]
         except KeyError:
             if name[0] == 'H':# or name in self.hydrogen:
                 #color = ATOM_TYPES['H'][1]
-                color = self.Vobject.color_palette['H']
+                color = self.vobject.color_palette['H']
             
             elif name[0] == 'C':
                 #color = ATOM_TYPES['C'][1]
-                color = self.Vobject.color_palette['C']
+                color = self.vobject.color_palette['C']
             
             elif name[0] == 'O':
                 #color = ATOM_TYPES['O'][1]
-                color = self.Vobject.color_palette['O']
+                color = self.vobject.color_palette['O']
             
             elif name[0] == 'N':
                 #color = ATOM_TYPES['N'][1]
-                color = self.Vobject.color_palette['N']
+                color = self.vobject.color_palette['N']
                 
             elif name[0] == 'S':
                 #color = ATOM_TYPES['S'][1]
-                color = self.Vobject.color_palette['S']
+                color = self.vobject.color_palette['S']
             else:
                 #color = ATOM_TYPES['X'][1]
-                color = self.Vobject.color_palette['X']
+                color = self.vobject.color_palette['X']
                 
         color = [int(color[0]*250), int(color[1]*250), int(color[2]*250)]
         return color
@@ -249,31 +249,31 @@ class Atom:
             given, it returns the default dummy value of atom X.
         """
         try:
-            color = color =self.Vobject.color_palette[name]
+            color = color =self.vobject.color_palette[name]
             #color = ATOM_TYPES[name][1]
         except KeyError:
             if name[0] == 'H':# or name in self.hydrogen:
                 #color = ATOM_TYPES['H'][1]
-                color = self.Vobject.color_palette['H']
+                color = self.vobject.color_palette['H']
             
             elif name[0] == 'C':
                 #color = ATOM_TYPES['C'][1]
-                color = self.Vobject.color_palette['C']
+                color = self.vobject.color_palette['C']
             
             elif name[0] == 'O':
                 #color = ATOM_TYPES['O'][1]
-                color = self.Vobject.color_palette['O']
+                color = self.vobject.color_palette['O']
             
             elif name[0] == 'N':
                 #color = ATOM_TYPES['N'][1]
-                color = self.Vobject.color_palette['N']
+                color = self.vobject.color_palette['N']
                 
             elif name[0] == 'S':
                 #color = ATOM_TYPES['S'][1]
-                color = self.Vobject.color_palette['S']
+                color = self.vobject.color_palette['S']
             else:
                 #color = ATOM_TYPES['X'][1]
-                color = self.Vobject.color_palette['X']
+                color = self.vobject.color_palette['X']
                 ##print(name)
         return color
 

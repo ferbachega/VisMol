@@ -1,7 +1,7 @@
 class Chain:
     """ Class doc """
     
-    def __init__ (self, name=None, residues=None, label=None, Vobject = None):
+    def __init__ (self, name=None, residues=None, label=None, vobject = None):
         """ Class initialiser """
         #self.residues = {}
         self.residues = []
@@ -13,7 +13,7 @@ class Chain:
         self.name     = ''
         #self.label    = None
         
-        self.Vobject  = Vobject
+        self.vobject  = vobject
         self.backbone_pair_indexes_full = []
         self.backbone_pair_indexes_show = []
     
@@ -47,8 +47,8 @@ class Chain:
         bonds_indexes = [] 
         
         for pair in self.backbone_pair_indexes_show:
-            self.Vobject.backbone_full_indexes.append(pair[0])
-            self.Vobject.backbone_full_indexes.append(pair[1])
+            self.vobject.backbone_full_indexes.append(pair[0])
+            self.vobject.backbone_full_indexes.append(pair[1])
           
             
         bonds_indexes = np.array(bonds_indexes, dtype=np.uint32)

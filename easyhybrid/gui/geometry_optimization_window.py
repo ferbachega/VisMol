@@ -235,7 +235,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             self.methods_combo.set_active(0)            
             '''--------------------------------------------------------------------------------------------'''
             self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-            self.starting_coords_liststore = self.easyhybrid_main.vm_session.starting_coords_liststore
+            self.starting_coords_liststore = self.main.vm_session.starting_coords_liststore
             self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
             #self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
             #self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
@@ -253,6 +253,16 @@ class GeometryOptimizatrionWindow(Gtk.Window):
                         
             # updating data 
             self.update_working_folder_chooser()            
+            
+            if 'tag' in self.main.p_session.systems[self.main.p_session.active_id].keys():
+                pass
+            else:
+                self.main.p_session.systems[self.main.p_session.active_id]['tag'] = 'molsys'
+            
+            tag  = self.main.p_session.systems[self.main.p_session.active_id]['tag']
+            step = str(self.main.p_session.systems[self.main.p_session.active_id]['step_counter'])
+            tag  = step+'_'+tag+'_geo_opt'  
+            self.save_trajectory_box.builder.get_object('entry_trajectory_name').set_text(tag)
             
             self.window.show_all()
             self.Visible  = True   
@@ -290,7 +300,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
     
     def __init__(self, main = None):
         """ Class initialiser """
-        self.easyhybrid_main     = main
+        self.main     = main
         self.Visible             =  False        
         self.residue_liststore = Gtk.ListStore(str, str, str)
 
@@ -325,16 +335,17 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             '''selecting the vismol object from the content that is in the combobox '''
             model = combobox_starting_coordinates.get_model()
             name, vobject_id = model[tree_iter][:2]
-            vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            vobject = self.main.vm_session.vobjects_dic[vobject_id]
             
-            '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
-            print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
-            self.easyhybrid_main.p_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+            '''This function imports the coordinates of a vobject into the dynamo system in memory.''' 
+            print('vobject:', vobject.name, len(vobject.frames) )
+            self.main.p_session.get_coordinates_from_vobject_to_pDynamo_system(vobject)
                 
         simParameters["optimizer"]      = self.opt_methods[self.builder.get_object('combobox_geo_opt').get_active()]
         simParameters["log_frequency"]  = int  ( self.builder.get_object('entry_log_frequence').get_text())
         simParameters["maxIterations"]  = int  ( self.builder.get_object('entry_max_int').get_text() )
         simParameters["rmsGradient"]    = float( self.builder.get_object('entry_rmsd_tol').get_text() )
+        simParameters["vobject_name"]   = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
         
         #------------------------------------------------------------------------------------
         if self.save_trajectory_box.builder.get_object('checkbox_save_traj').get_active():
@@ -348,9 +359,9 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             elif saveFormat == 1: simParameters["save_format"] = ".mdcrd"
             elif saveFormat == 2: simParameters["save_format"] = ".dcd"
             elif saveFormat == 3: simParameters["save_format"] = ".xyz"
-            self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['working_folder'] = simParameters["folder"] 
+            self.main.p_session.systems[self.main.p_session.active_id]['working_folder'] = simParameters["folder"] 
         #-------------------------------------------------------------------------------------    
-        self.easyhybrid_main.p_session.run_simulation( _parametersList = simParameters )
+        self.main.p_session.run_simulation( _parametersList = simParameters )
         self.window.destroy()
         self.Visible    =  False
     #=================================================================================
@@ -364,7 +375,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
             #print('update_working_folder_chooser')
             self.save_trajectory_box.set_folder(folder = folder)
         else:
-            self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['working_folder'])
+            self.save_trajectory_box.set_folder(folder = self.main.p_session.systems[self.main.p_session.active_id]['working_folder'])
    
 #=====================================================================================
    

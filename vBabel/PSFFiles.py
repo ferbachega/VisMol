@@ -9,10 +9,10 @@ from   vModel.MolecularProperties import ATOM_TYPES
 import numpy as np
 
 '''
-def load_amber_crd_file (filein = None, visObj = None):
+def load_amber_crd_file (filein = None, vobject = None):
     """ Function doc """
     
-    size = len(visObj.atoms)*3
+    size = len(vobject.atoms)*3
     #size = 158*3
     filein =  open(filein, 'r')
     
@@ -142,14 +142,14 @@ def load_PSF_topology_file (infile = None, vm_session =  None, gridsize = 3):
         
         
     name = os.path.basename(filename)
-    vismol_object  = VismolObject.VismolObject(name                           = name       ,    
+    vobject  = VismolObject.VismolObject(name                           = name       ,    
                                                atoms                          = atoms      ,    
                                                vm_session                      = vm_session  ,    
                                                bonds_pair_of_indexes          = bonds      ,    
                                                trajectory                     = []         ,    
                                                auto_find_bonded_and_nonbonded = False      )    
             
-    return   vismol_object      
+    return   vobject      
         
         
     
@@ -346,14 +346,14 @@ def load_PSF_topology_file (infile = None, vm_session =  None, gridsize = 3):
     #
     #
     #name = os.path.basename(filename)
-    #vismol_object  = VismolObject.VismolObject(name                           = name       , 
+    #vobject  = VismolObject.VismolObject(name                           = name       , 
     #                                           atoms                          = atoms      , 
     #                                           vm_session                      = vm_session  , 
     #                                           bonds_pair_of_indexes          = total_bonds,
     #                                           trajectory                     = []         ,
     #                                           auto_find_bonded_and_nonbonded = False      )
     #    
-    #return   vismol_object  
+    #return   vobject  
     
         
 

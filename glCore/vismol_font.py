@@ -35,7 +35,7 @@ class VisMolFont():
         resolution, font color, etc.
     """
     
-    def __init__ (self, visObj   = None, 
+    def __init__ (self, vobject   = None, 
                         font_file= os.path.join(VISMOL_HOME,'glCore/Fonts/VeraMono.ttf'),
                         #font_file= 'VISMOL/glCore/Fonts/VeraMono.ttf', 
                         char_res = 64, 
@@ -45,7 +45,7 @@ class VisMolFont():
                             
         """ Class initialiser
         """
-        self.visObj    = visObj
+        self.vobject    = vobject
         self.font_file = font_file
         self.char_res = char_res
         self.char_width = c_w

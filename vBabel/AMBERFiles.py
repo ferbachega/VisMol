@@ -7,7 +7,7 @@ from   vModel import VismolObject
 
 import numpy as np
 
-def load_netcdf4_file (filein = None, visObj = None):
+def load_netcdf4_file (filein = None, vobject = None):
     """ Function doc """
     
     #from netCDF4 import Dataset
@@ -20,7 +20,7 @@ def load_netcdf4_file (filein = None, visObj = None):
     #except:
     #    import netCDF4 as nc
     #    f= nc.Dataset(filein)
-    size = len(visObj.atoms)*3
+    size = len(vobject.atoms)*3
     
     frames = np.array(f.variables["coordinates"][:], dtype=np.float32)
     frames = frames.reshape((frames.shape[0], frames.shape[1]*frames.shape[2]))
@@ -49,10 +49,10 @@ def load_netcdf4_file (filein = None, visObj = None):
 
     
     
-def load_amber_crd_file (filein = None, visObj = None):
+def load_amber_crd_file (filein = None, vobject = None):
     """ Function doc """
     
-    size = len(visObj.atoms)*3
+    size = len(vobject.atoms)*3
     #size = 158*3
     filein =  open(filein, 'r')
     
@@ -297,14 +297,14 @@ def load_amber_topology_file (infile = None, vm_session =  None, gridsize = 3):
 
 
     name = os.path.basename(filename)
-    vismol_object  = VismolObject.VismolObject(name                           = name       , 
+    vobject  = VismolObject.VismolObject(name                           = name       , 
                                                atoms                          = atoms      , 
                                                vm_session                  = vm_session  , 
                                                bonds_pair_of_indexes          = bonds_pair_of_indexes,
                                                trajectory                     = []         ,
                                                auto_find_bonded_and_nonbonded = False      )
         
-    return   vismol_object  
+    return   vobject  
     
         
 

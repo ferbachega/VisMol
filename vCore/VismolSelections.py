@@ -41,9 +41,9 @@ class VisMolPickingSelection:
         pass
         #for i,atom in enumerate(self.picking_selections_list):
         #    if atom is not None:
-        #        coord = [atom.Vobject.frames[frame][(atom.index-1)*3  ],
-        #                 atom.Vobject.frames[frame][(atom.index-1)*3+1],
-        #                 atom.Vobject.frames[frame][(atom.index-1)*3+2],]
+        #        coord = [atom.vobject.frames[frame][(atom.index-1)*3  ],
+        #                 atom.vobject.frames[frame][(atom.index-1)*3+1],
+        #                 atom.vobject.frames[frame][(atom.index-1)*3+2],]
         #                
         #        rep.draw_selected(atom, coord, [0.83, 0.48, 1])
         #        rep.draw_numbers(atom, i+1, coord)
@@ -297,11 +297,11 @@ class VisMolViewingSelection:
         for atom in self.selected_atoms:
             #print(atom.name,                             # nome
                   atom.resi,                             # residue index
-                  atom.Vobject.residues[atom.resi].resn, # residue name  taken from residues dic
+                  atom.vobject.residues[atom.resi].resn, # residue name  taken from residues dic
                   atom.residue)                          # residue obj
         '''
             
-        ##print(atom.name, atom.resi, atom.Vobject.residues) 
+        ##print(atom.name, atom.resi, atom.vobject.residues) 
         ##print('self.selected_residues        ',self.selected_residues         )
         ##print('self.selected_atoms           ',self.selected_atoms            )
         ##print('self.selected_frames          ',self.selected_frames           )
@@ -392,11 +392,11 @@ class VisMolViewingSelection:
         selection by area (selection box) 
         
         '''
-        #vm_session      = selected_atom.Vobject.vm_session
+        #vm_session      = selected_atom.vobject.vm_session
         self._clear_selection_buffer(selected_atom)
         
         '''
-        vm_session      = selected_atom.Vobject.vm_session
+        vm_session      = selected_atom.vobject.vm_session
         
         #------------------------------------------------
         # Clearing the selections buffer
@@ -404,8 +404,8 @@ class VisMolViewingSelection:
         if self.active:
             pass
         else:
-            for Vobject in vm_session.vismol_objects:
-                for atom in Vobject.atoms:
+            for vobject in vm_session.vobjects:
+                for atom in vobject.atoms:
                     atom.selected = False
         #------------------------------------------------
         '''
@@ -419,13 +419,13 @@ class VisMolViewingSelection:
             chain = selected_atom.chain
             print (chain)
             
-            for atom in selected_atom.Vobject.atoms_by_chains[chain]:
+            for atom in selected_atom.vobject.atoms_by_chains[chain]:
                 atom.selected = True 
             
         else:
             if disable:
                 chain = selected_atom.chain
-                for atom in selected_atom.Vobject.atoms_by_chains[chain]:
+                for atom in selected_atom.vobject.atoms_by_chains[chain]:
                     atom.selected = False 
             else:
                 pass
@@ -702,57 +702,57 @@ class VisMolViewingSelection:
         #   
 
 
-    def unselecting_by_indexes (self, vismol_object = None, indexes = []):
+    def unselecting_by_indexes (self, vobject = None, indexes = []):
         """ Function doc """
         #print (indexes)
-        #for atom in vismol_object.atoms: self.vm_session.vismol_objects_dic.items()
+        #for atom in vobject.atoms: self.vm_session.vobjects_dic.items()
         
-        if vismol_object:
+        if vobject:
             for i in indexes:
-                vismol_object.atoms[i].selected = False
+                vobject.atoms[i].selected = False
         
         else:
-            #for vismol_object in self.vm_session.vismol_objects:
-            for vobj_index, vismol_object in self.vm_session.vismol_objects_dic.items():
+            #for vobject in self.vm_session.vobjects:
+            for vobj_index, vobject in self.vm_session.vobjects_dic.items():
                 if indexes:
                     for i in indexes:
-                        vismol_object.atoms[i].selected = False
+                        vobject.atoms[i].selected = False
                 else:
-                    for i in range(0, len(vismol_object.atoms)):
-                        vismol_object.atoms[i].selected = False
+                    for i in range(0, len(vobject.atoms)):
+                        vobject.atoms[i].selected = False
                 
                 
         self._build_selection_buffer()
         #self.active = True
         self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
 
-    def selecting_by_indexes (self, vismol_object = None, indexes = [], clear = False):
+    def selecting_by_indexes (self, vobject = None, indexes = [], clear = False):
         """ Function doc """
         #print (indexes)
         
         if clear:
             self._clear_selection_buffer ()
-        #for atom in vismol_object.atoms:
+        #for atom in vobject.atoms:
         for i in indexes:
-            vismol_object.atoms[i].selected = True
+            vobject.atoms[i].selected = True
         
         self._build_selection_buffer()
         #self.active = True
         self.build_selected_atoms_coords_and_selected_objects_from_selected_atoms ()
     
-    def invert_selection (self, vismol_object = None):
+    def invert_selection (self, vobject = None):
         """ not workign """
-        if vismol_object:
-            for atom in vismol_object.atoms:
+        if vobject:
+            for atom in vobject.atoms:
                 if atom.selected:
                     atom.selected = False
                 else:
                     atom.selected = True
         
         else:
-            #for vismol_object in self.vm_session.vismol_objects:
-            for index, vismol_object in self.vm_session.vismol_objects_dic.items():
-                for atom in vismol_object.atoms:
+            #for vobject in self.vm_session.vobjects:
+            for index, vobject in self.vm_session.vobjects_dic.items():
+                for atom in vobject.atoms:
                     if atom.selected:
                         #print (atom.name, atom.selected)
                         atom.selected = False
@@ -767,9 +767,9 @@ class VisMolViewingSelection:
         """ Function doc """
         self.selected_atoms = []
         
-        #for Vobject in self.vm_session.vismol_objects:
-        for index, Vobject in self.vm_session.vismol_objects_dic.items():
-            for atom in Vobject.atoms:
+        #for vobject in self.vm_session.vobjects:
+        for index, vobject in self.vm_session.vobjects_dic.items():
+            for atom in vobject.atoms:
                 if atom.selected:
                     #print ('',atom )
                     self.selected_atoms.append(atom)
@@ -787,9 +787,9 @@ class VisMolViewingSelection:
         if self.active:
             pass
         else:
-            #for Vobject in self.vm_session.vismol_objects:
-            for index, Vobject in self.vm_session.vismol_objects_dic.items():
-                for atom in Vobject.atoms:
+            #for vobject in self.vm_session.vobjects:
+            for index, vobject in self.vm_session.vobjects_dic.items():
+                for atom in vobject.atoms:
                     atom.selected = False
         #------------------------------------------------""
 
@@ -857,10 +857,10 @@ class VisMolViewingSelection:
         self.selected_objects          = {}
         for atom in self.selected_atoms:
             
-            if atom.Vobject in self.selected_objects:
-                self.selected_objects[atom.Vobject] += [atom.index-1]
+            if atom.vobject in self.selected_objects:
+                self.selected_objects[atom.vobject] += [atom.index-1]
             else:
-                self.selected_objects[atom.Vobject] = [atom.index-1]
+                self.selected_objects[atom.vobject] = [atom.index-1]
             
             #coords =  atom.coords()
             #self.selected_atoms_coords = self.selected_atoms_coords + coords

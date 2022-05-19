@@ -223,11 +223,11 @@ class MolecularDynamicsWindow():
             '''selecting the vismol object from the content that is in the combobox '''
             model = self.combobox_starting_coordinates.get_model()
             name, vobject_id = model[tree_iter][:2]
-            vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            vobject = self.easyhybrid_main.vm_session.vobjects_dic[vobject_id]
             
-            '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
-            print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
-            self.easyhybrid_main.p_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+            '''This function imports the coordinates of a vobject into the dynamo system in memory.''' 
+            print('vobject:', vobject.name, len(vobject.frames) )
+            self.easyhybrid_main.p_session.get_coordinates_from_vobject_to_pDynamo_system(vobject)
 
 
         coord_id            = self.builder.get_object('combobox_starting_coordinates').get_active()

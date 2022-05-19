@@ -222,7 +222,7 @@ class PotentialEnergyScanWindow():
             
             '''--------------------------------------------------------------------------------------------'''
             self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
-            self.starting_coords_liststore = self.easyhybrid_main.vm_session.starting_coords_liststore
+            self.starting_coords_liststore = self.main.vm_session.starting_coords_liststore
             self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
             #self.combobox_starting_coordinates.connect("changed", self.on_name_combo_changed)
             self.combobox_starting_coordinates.set_model(self.starting_coords_liststore)
@@ -265,6 +265,13 @@ class PotentialEnergyScanWindow():
             self.builder.get_object('entry_atom4_name_coord2').hide()            
             self.change_check_button_reaction_coordinate (None)
             #self.box_reaction_coordinate2.set_sensitive(False)
+            
+            tag  = self.main.p_session.systems[self.main.p_session.active_id]['tag']
+            step = str(self.main.p_session.systems[self.main.p_session.active_id]['step_counter'])
+            tag  = step+'_'+tag+'_reaction_coord_scan'  
+            #self.save_trajectory_box.builder.get_object('entry_trajectory_name').set_text(tag)
+            self.builder.get_object('traj_name').set_text(tag)     
+            
             self.Visible  = True
     
     def CloseWindow (self, button, data  = None):
@@ -275,8 +282,8 @@ class PotentialEnergyScanWindow():
     
     def __init__(self, main = None):
         """ Class initialiser """
-        self.easyhybrid_main     = main
-        self.p_session           = self.easyhybrid_main.p_session
+        self.main     = main
+        self.p_session           = self.main.p_session
         self.vm_session          = main.vm_session
         self.Visible             =  False        
         self.residue_liststore   = Gtk.ListStore(str, str, str)
@@ -396,7 +403,7 @@ class PotentialEnergyScanWindow():
                 index1 = int(self.builder.get_object('entry_atom1_index_coord1').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
 
-                dist1 = get_distance(self.vismol_object, index1, index2 )
+                dist1 = get_distance(self.vobject, index1, index2 )
                 self.builder.get_object('entry_dmin_coord1').set_text(str(dist1))
             
             elif _type == 1:
@@ -404,11 +411,11 @@ class PotentialEnergyScanWindow():
                 index2 = int(self.builder.get_object('entry_atom2_index_coord1').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord1').get_text() )
                 
-                dist1 = get_distance(self.vismol_object, index1, index2 )
-                dist2 = get_distance(self.vismol_object, index2, index3 )
+                dist1 = get_distance(self.vobject, index1, index2 )
+                dist2 = get_distance(self.vobject, index2, index3 )
                 
                 if self.builder.get_object('mass_restraints1').get_active():
-                    self.sigma_pk1_pk3, self.sigma_pk3_pk1  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
+                    self.sigma_pk1_pk3, self.sigma_pk3_pk1  = compute_sigma_a1_a3(self.vobject, index1, index3)
                     #print('distance a1 - a2:', dist1 - dist2)
                     DMINIMUM =  (self.sigma_pk1_pk3 * dist1) -(self.sigma_pk3_pk1 * dist2*-1)
                     self.builder.get_object('entry_dmin_coord1').set_text(str(DMINIMUM))
@@ -425,18 +432,18 @@ class PotentialEnergyScanWindow():
                     index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                     index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
 
-                    dist1 = get_distance(self.vismol_object, index1, index2 )
+                    dist1 = get_distance(self.vobject, index1, index2 )
                     self.builder.get_object('entry_dmin_coord2').set_text(str(dist1))
                 if _type == 1:
                     index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                     index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                     index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
                     
-                    dist1 = get_distance(self.vismol_object, index1, index2 )
-                    dist2 = get_distance(self.vismol_object, index2, index3 )
+                    dist1 = get_distance(self.vobject, index1, index2 )
+                    dist2 = get_distance(self.vobject, index2, index3 )
                     
                     if self.builder.get_object('mass_restraints2').get_active():
-                        self.sigma_pk1_pk3_rc2, self.sigma_pk3_pk1_rc2  = compute_sigma_a1_a3(self.vismol_object, index1, index3)
+                        self.sigma_pk1_pk3_rc2, self.sigma_pk3_pk1_rc2  = compute_sigma_a1_a3(self.vobject, index1, index3)
                         #print('distance a1 - a2:', dist1 - dist2)
                         DMINIMUM =  (self.sigma_pk1_pk3_rc2 * dist1) -(self.sigma_pk3_pk1_rc2 * dist2*-1)
                         self.builder.get_object('entry_dmin_coord2').set_text(str(DMINIMUM))
@@ -468,7 +475,7 @@ class PotentialEnergyScanWindow():
         atom3 = self.vm_session.picking_selections.picking_selections_list[2]
         atom4 = self.vm_session.picking_selections.picking_selections_list[3]
         if atom1:
-            self.vismol_object = atom1.Vobject
+            self.vobject = atom1.vobject
         else:
             return None
             
@@ -537,7 +544,7 @@ class PotentialEnergyScanWindow():
     #        #print('update_working_folder_chooser')
     #        self.save_trajectory_box.set_folder(folder = folder)
     #    else:
-    #        self.save_trajectory_box.set_folder(folder = self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['working_folder'])
+    #        self.save_trajectory_box.set_folder(folder = self.main.p_session.systems[self.main.p_session.active_id]['working_folder'])
    
 
 
@@ -581,6 +588,7 @@ class PotentialEnergyScanWindow():
         parameters["maxIterations"]    = float(self.builder.get_object('entry_max_int').get_text() )
         parameters["rmsGradient"]      = float(self.builder.get_object('entry_rmsd_tol').get_text() )
         parameters["traj_folder_name"] = self.builder.get_object('traj_name').get_text()        
+        parameters["vobject_name"]     = self.builder.get_object('traj_name').get_text()        
         
         combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
         print(combobox_starting_coordinates)
@@ -589,11 +597,11 @@ class PotentialEnergyScanWindow():
             '''selecting the vismol object from the content that is in the combobox '''
             model = combobox_starting_coordinates.get_model()
             name, vobject_id = model[tree_iter][:2]
-            vismol_object = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+            vobject = self.main.vm_session.vobjects_dic[vobject_id]
             
-            '''This function imports the coordinates of a vismol_object into the dynamo system in memory.''' 
-            print('vismol_object:', vismol_object.name, len(vismol_object.frames) )
-            self.easyhybrid_main.p_session.get_coordinates_from_vismol_object_to_pDynamo_system(vismol_object)
+            '''This function imports the coordinates of a vobject into the dynamo system in memory.''' 
+            print('vobject:', vobject.name, len(vobject.frames) )
+            self.main.p_session.get_coordinates_from_vobject_to_pDynamo_system(vobject)
             
         #----------------------------------------------------------------------------------               
         _type = self.combobox_reaction_coord1.get_active()
@@ -645,7 +653,7 @@ class PotentialEnergyScanWindow():
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
                 parameters["ATOMS_RC2"]     = [ index1, index2 ] 
-                parameters["dminimum_RC2"]  = dmin 
+                parameters["dminimum_RC2"]  = dmin2 
             #------------------------------------------
             elif _type == 1: # multiple
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
@@ -670,11 +678,13 @@ class PotentialEnergyScanWindow():
                 parameters["dminimum_RC2"]  = dmin2 
         #_-----------------------------------------------------------------------------------
         parameters["nsteps_RC2"]        = int( self.builder.get_object('entry_nstep2').get_text() )
-        parameters["force_constant_1"]  = float( self.builder.get_object('entry_FORCE_coord2').get_text() )
-        parameters["dincre_RC1"]        = float( self.builder.get_object('entry_step_size2').get_text() )
+        parameters["force_constant_2"]  = float( self.builder.get_object('entry_FORCE_coord2').get_text() )
+        parameters["dincre_RC2"]        = float( self.builder.get_object('entry_step_size2').get_text() )
         #-----------------------------------------------------------------------------------
-        self.easyhybrid_main.p_session.run_simulation( _parametersList = parameters )
-
+        print(parameters)
+        a = input('')
+        self.main.p_session.run_simulation( _parametersList = parameters )
+        
         self.window.destroy()
         self.Visible =  False
 #*********************************************************************************************

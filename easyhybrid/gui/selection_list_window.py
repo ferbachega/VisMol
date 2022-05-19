@@ -202,7 +202,7 @@ class SelectionListWindow(Gtk.Window):
                 _, system_id = self.system_liststore[_id]
         
         self.coordinates_liststore.clear()
-        for key , vobject in self.vm_session.vismol_objects_dic.items():
+        for key , vobject in self.vm_session.vobjects_dic.items():
             if vobject.easyhybrid_system_id == system_id:
                 self.coordinates_liststore.append([vobject.name, key])
         
@@ -248,8 +248,8 @@ class SelectionListWindow(Gtk.Window):
         _, _key = self.coordinates_liststore[_id]
         
         
-        vobject = self.vm_session.vismol_objects_dic[_key]
-        self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vismol_object = vobject, indexes = indexes, clear = True)
+        vobject = self.vm_session.vobjects_dic[_key]
+        self.vm_session.selections[self.vm_session.current_selection].selecting_by_indexes (vobject = vobject, indexes = indexes, clear = True)
         self.vm_session.selections[self.vm_session.current_selection].active = True
         
         
@@ -353,10 +353,10 @@ class TreeViewMenu:
 
         self.tree_view_menu.show_all()
 
-    def open_menu (self, visObj = None, system_id = None):
+    def open_menu (self, vobject = None, system_id = None):
         """ Function doc """
         self.system_id = system_id
-        #print (visObj)
+        #print (vobject)
         self.tree_view_menu.popup(None, None, None, None, 0, 0)
 
 

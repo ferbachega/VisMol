@@ -282,7 +282,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         
         #print(widget.get_active_id())
         #print(widget.get_active_iter())
-        self.VObj = self.vm_session.vismol_objects[widget.get_active()]
+        self.VObj = self.vm_session.vobjects[widget.get_active()]
         
         
         self.liststore_chains = Gtk.ListStore(str)
@@ -414,7 +414,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
         '''centering and selecting'''
         frame = self.vm_session.get_frame ()
         res.get_center_of_mass(frame = frame)
-        self.vm_session.glwidget.vm_widget.center_on_coordinates(res.Vobject, res.mass_center)
+        self.vm_session.glwidget.vm_widget.center_on_coordinates(res.vobject, res.mass_center)
         
         self.vm_session._selection_function (res.atoms[0], _type = 'residue')
         self.vm_session.glwidget.queue_draw()
@@ -465,7 +465,7 @@ class VismolGoToAtomWindow2(Gtk.Window):
                 frame = self.vm_session.get_frame ()
                 res.get_center_of_mass(frame = frame)
                 
-                self.vm_session.glwidget.vm_widget.center_on_coordinates(res.Vobject, res.mass_center)
+                self.vm_session.glwidget.vm_widget.center_on_coordinates(res.vobject, res.mass_center)
         
                 self.atom_liststore.clear()
                 for atom in res.atoms:
@@ -756,7 +756,7 @@ class VismolTrajectoryFrame(Gtk.Frame):
         print(widget)
         print(widget.get_active())
         
-        self.VObj = self.vm_session.vismol_objects[widget.get_active()]
+        self.VObj = self.vm_session.vobjects[widget.get_active()]
         number_of_frames = len(self.VObj.frames)
         self.scale.set_range(0, int(number_of_frames)-1)
         self.scale.set_value(self.vm_session.get_frame())
@@ -770,7 +770,7 @@ class VismolTrajectoryFrame(Gtk.Frame):
     def update (self):
         """ Function doc """
         print('VismolTrajectoryFrame update')
-        last_obj = len(self.vm_session.vismol_objects) -1
+        last_obj = len(self.vm_session.vobjects) -1
         self.combobox_vobjects.set_active(last_obj)
 
 

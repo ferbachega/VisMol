@@ -199,12 +199,12 @@ def load_aux_file (infile = None, vm_session =  None, gridsize = 3):
     name = os.path.basename(infile)
     #print (name, atoms, frames)     
 
-    vismol_object  = VismolObject.VismolObject(name        = name, 
+    vobject  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
                                                vm_session   = vm_session, 
                                                trajectory  = frames)
     
-    return vismol_object
+    return vobject
 
 
 

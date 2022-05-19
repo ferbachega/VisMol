@@ -348,14 +348,14 @@ def make_normals(coords, indexes):
     
     
     
-def cartoon(visObj, spline_detail=3, SSE_list = []):
+def cartoon(vobject, spline_detail=3, SSE_list = []):
     sd = spline_detail
     
     #calphas = np.loadtxt(calphas_file)
-    visObj.get_backbone_indexes()
+    vobject.get_backbone_indexes()
     
     calphas = []
-    for atom in visObj.c_alpha_atoms:
+    for atom in vobject.c_alpha_atoms:
         #print(atom.index, atom.name, atom.resn, atom.resi, atom.coords())
         calphas.append(atom.coords())
     calphas = np.array(calphas, dtype = np.float32)
@@ -377,7 +377,7 @@ def cartoon(visObj, spline_detail=3, SSE_list = []):
     
     #secstruc = [[0, 0, 40],[1, 40, 50] ]#, [2,1,6], [0,6,11], [2,11,16], [0,16,21], [1,21,35], [0,35,40], [2,40,45], [0,45,55], [1,55,60], [0,60,65],[2,65,71], [0,71,74]]
     #secstruc = [[0, 0, 1], [0, 1, 10], [1, 10, 19], [0, 19, 26], [1, 26, 33], [0, 33, 37], [1, 37, 47] ]          
-    secstruc = calculate_secondary_structure(visObj)
+    secstruc = calculate_secondary_structure(vobject)
     #secstruc.pop(0)
     #secstruc[0][1] = 0
     
@@ -446,7 +446,7 @@ def bezier_curve(p1, p2, p3, bezier_detail):
 
 
 
-def calculate_secondary_structure(visObj):
+def calculate_secondary_structure(vobject):
     '''
         First, the distances d2i, d3i and d4i between the (i - 1)th
         residue and the (i + 1)th, the (i + 2)th and the (i + 3)th,
@@ -470,14 +470,14 @@ def calculate_secondary_structure(visObj):
 
 
     '''
-    if visObj.c_alpha_bonds == [] or visObj.c_alpha_atoms == []:
-        visObj.get_backbone_indexes()
+    if vobject.c_alpha_bonds == [] or vobject.c_alpha_atoms == []:
+        vobject.get_backbone_indexes()
     
-    for atom in visObj.c_alpha_atoms:
+    for atom in vobject.c_alpha_atoms:
         print(atom.index, atom.name, atom.bonds_indexes, atom.bonds)
     
 
-    size = len(visObj.c_alpha_bonds)
+    size = len(vobject.c_alpha_bonds)
     SSE_list  = "C"
     SSE_list2 = []
     
@@ -486,20 +486,20 @@ def calculate_secondary_structure(visObj):
     SS_before = 1
     for i in range(1,size -2):
         
-        CA0 = visObj.c_alpha_bonds[i-1].atom_i # i - 1
-        CA1 = visObj.c_alpha_bonds[i-1].atom_j # i
+        CA0 = vobject.c_alpha_bonds[i-1].atom_i # i - 1
+        CA1 = vobject.c_alpha_bonds[i-1].atom_j # i
         
-        CA2 = visObj.c_alpha_bonds[i].atom_i   # i
-        CA3 = visObj.c_alpha_bonds[i].atom_j   # i + 1
+        CA2 = vobject.c_alpha_bonds[i].atom_i   # i
+        CA3 = vobject.c_alpha_bonds[i].atom_j   # i + 1
                                                
-        CA4 = visObj.c_alpha_bonds[i+1].atom_i # i + 1
-        CA5 = visObj.c_alpha_bonds[i+1].atom_j # i + 2
+        CA4 = vobject.c_alpha_bonds[i+1].atom_i # i + 1
+        CA5 = vobject.c_alpha_bonds[i+1].atom_j # i + 2
                                                
-        CA6 = visObj.c_alpha_bonds[i+2].atom_i # i + 2
-        CA7 = visObj.c_alpha_bonds[i+2].atom_j # i + 3
+        CA6 = vobject.c_alpha_bonds[i+2].atom_i # i + 2
+        CA7 = vobject.c_alpha_bonds[i+2].atom_j # i + 3
                                                
-        #CA8 = visObj.c_alpha_bonds[i+3].atom_i # i + 3 
-        #CA9 = visObj.c_alpha_bonds[i+3].atom_j #
+        #CA8 = vobject.c_alpha_bonds[i+3].atom_i # i + 3 
+        #CA9 = vobject.c_alpha_bonds[i+3].atom_j #
 
 
         if CA1 == CA2 and CA3 == CA4 and CA5 == CA6:

@@ -173,7 +173,7 @@ class ExportDataWindow:
         
         
         self.starting_coords_liststore = Gtk.ListStore(str, int)
-        for key, vobject  in self.easyhybrid_main.vm_session.vismol_objects_dic.items():
+        for key, vobject  in self.easyhybrid_main.vm_session.vobjects_dic.items():
             print(key, vobject)
             if vobject.easyhybrid_system_id == sys_id:
                 self.starting_coords_liststore.append([vobject.name, key])
@@ -196,9 +196,9 @@ class ExportDataWindow:
             #name, vobject_id = model[tree_iter][:2]
         
         
-        if len(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].frames) > 1:
-            print(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].name,
-                  len(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].frames),'True')
+        if len(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].frames) > 1:
+            print(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].name,
+                  len(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].frames),'True')
             self.is_single_frame = True
             
             if self.combobox_fileformat.get_active( ) == 0:
@@ -214,8 +214,8 @@ class ExportDataWindow:
             
             
         else:
-            print(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].name,
-                  len(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].frames),'False')
+            print(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].name,
+                  len(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].frames),'False')
             
             self.is_single_frame = False
             self.builder.get_object('entry_first').set_sensitive(False)
@@ -234,9 +234,9 @@ class ExportDataWindow:
             name, vobject_id = model[tree_iter][:2]
             print (name, model[tree_iter][:2])
             
-        if len(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].frames) > 1:
-            print(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].name,
-                  len(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].frames),'True')
+        if len(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].frames) > 1:
+            print(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].name,
+                  len(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].frames),'True')
             self.is_single_frame = True
             if self.combobox_fileformat.get_active( ) == 0:
                 self.builder.get_object('entry_first').set_sensitive(False)
@@ -249,8 +249,8 @@ class ExportDataWindow:
                 self.builder.get_object('entry_stride').set_sensitive(True)
                 self.builder.get_object('label_stride').set_sensitive(True)
         else:
-            print(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].name,
-                  len(self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id].frames),'False')
+            print(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].name,
+                  len(self.easyhybrid_main.vm_session.vobjects_dic[vobject_id].frames),'False')
             
             self.is_single_frame = False
             self.builder.get_object('entry_first').set_sensitive(False)
@@ -361,7 +361,7 @@ class ExportDataWindow:
         '''------------------------------------------------------------------------------'''
         self.easyhybrid_main.p_session.export_system (parameters)
         '''------------------------------------------------------------------------------'''
-        #vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+        #vobject = self.easyhybrid_main.vm_session.vobjects_dic[vobject_id]
         
         #self.easyhybrid_main.p_session.export_system (system_id = sys_id  , 
         #                                                    filename  = filename, 

@@ -64,7 +64,7 @@ class GtkMainTreeView():
         n = 0
         i = 1
         
-        for vis_object in self.vm_session.vismol_objects:
+        for vis_object in self.vm_session.vobjects:
             print ('\n\n',vis_object.name,'\n\n')
             
             if vis_object.actived:
@@ -156,49 +156,49 @@ class GtkMainTreeView():
         model = tree.get_model()
         (model, iter) = selection.get_selected()
         obj_index = model.get_value(iter, 1)
-        visObj = self.vm_session.vismol_objects[(int(obj_index)-1)]
+        vobject = self.vm_session.vobjects[(int(obj_index)-1)]
 
         
         if widget == self.builder.get_object('menuitem_center'):
-            self.vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+            self.vm_session.glwidget.vm_widget.center_on_coordinates(vobject, vobject.mass_center)
 
         
         if widget == self.builder.get_object('menu_show_lines'):
-            visObj.lines_actived     =  True
-            #self.vm_session._show_lines (visObj = visObj)
+            vobject.lines_actived     =  True
+            #self.vm_session._show_lines (vobject = vobject)
 
 
         if widget == self.builder.get_object('menu_show_sticks'):
-            visObj.sticks_actived =  True
+            vobject.sticks_actived =  True
 
         if widget == self.builder.get_object('menu_show_spheres'):
-            visObj.spheres_actived   =  True
+            vobject.spheres_actived   =  True
 
         if widget == self.builder.get_object('menu_show_ribbons'):
-            visObj.ribbons_actived   =  True
+            vobject.ribbons_actived   =  True
 
         if widget == self.builder.get_object('menu_show_dots'):
-            visObj.dots_actived      =  True
+            vobject.dots_actived      =  True
             self.vm_session.glwidget.vm_widget.queue_draw()
 
 
         
         
         if widget == self.builder.get_object('menu_hide_lines'):
-            visObj.lines_actived     = False
-            #self.vm_session._hide_lines (visObj = visObj)
+            vobject.lines_actived     = False
+            #self.vm_session._hide_lines (vobject = vobject)
 
         if widget == self.builder.get_object('menu_hide_sticks'):
-            visObj.sticks_actived = False
+            vobject.sticks_actived = False
 
         if widget == self.builder.get_object('menu_hide_spheres'):
-            visObj.spheres_actived   = False
+            vobject.spheres_actived   = False
 
         if widget == self.builder.get_object('menu_hide_ribbons'):
-            visObj.ribbons_actived   = False
+            vobject.ribbons_actived   = False
             
         if widget == self.builder.get_object('menu_hide_dots'):
-            visObj.dots_actived      = False
+            vobject.dots_actived      = False
             self.vm_session.glwidget.vm_widget.queue_draw()
         
 

@@ -14,14 +14,14 @@ def create_empty_vismol_obj (infile = None, vm_session =  None, gridsize = 3):
     #                         Building   V I S M O L    O B J
     #-------------------------------------------------------------------------------------------
     #name = os.path.basename(infile)
-    vismol_object  = VismolObject.VismolObject(name                           = 'UNK', 
+    vobject  = VismolObject.VismolObject(name                           = 'UNK', 
                                                atoms                          = atoms, 
                                                vm_session                      = vm_session, 
                                                trajectory                     = frames,
                                                auto_find_bonded_and_nonbonded = False)
     
     #-------------------------------------------------------------------------------------------
-    return vismol_object
+    return vobject
 
 
 

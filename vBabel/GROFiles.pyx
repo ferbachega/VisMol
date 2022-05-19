@@ -46,7 +46,7 @@ cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):
     ##-------------------------------------------------------------------------------------------
     #
     name = os.path.basename(infile)
-    vismol_object  = VismolObject.VismolObject(name        = name, 
+    vobject  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
                                                vm_session   = vm_session, 
                                                trajectory  = frames,
@@ -67,15 +67,15 @@ cpdef load_gro_file (infile = None, gridsize = 3, vm_session =  None):
     #-------------------------------------------------------------------------------------------
 
     
-    #vismol_object.non_bonded_atoms  = NB_indices_list
-    #vismol_object._generate_atomtree_structure()
-    #vismol_object._generate_atom_unique_color_id()
-    #vismol_object.index_bonds       = bonds_full_indices
-    #vismol_object.import_bonds(bonds_pair_of_indices)
+    #vobject.non_bonded_atoms  = NB_indices_list
+    #vobject._generate_atomtree_structure()
+    #vobject._generate_atom_unique_color_id()
+    #vobject.index_bonds       = bonds_full_indices
+    #vobject.import_bonds(bonds_pair_of_indices)
 	'''
 
     #-------------------------------------------------------------------------------------------
-    return vismol_object
+    return vobject
     
     
     

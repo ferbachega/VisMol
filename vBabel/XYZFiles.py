@@ -152,19 +152,19 @@ def load_xyz_file (infile = None, vm_session =  None, gridsize = 3):
     name = os.path.basename(infile)
     #print (atoms)
     #print (frames)
-    vismol_object  = VismolObject.VismolObject(name        = name, 
+    vobject  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
                                                vm_session   = vm_session, 
                                                trajectory  = frames)
     
     
-    #vismol_object._generate_atomtree_structure()
-    #vismol_object._generate_atom_unique_color_id()
-    #vismol_object.index_bonds       = bonds_full_indexes
-    #vismol_object.index_bonds_pairs = bonds_pair_of_indexes
-    #vismol_object.non_bonded_atoms  = NB_indexes_list
+    #vobject._generate_atomtree_structure()
+    #vobject._generate_atom_unique_color_id()
+    #vobject.index_bonds       = bonds_full_indexes
+    #vobject.index_bonds_pairs = bonds_pair_of_indexes
+    #vobject.non_bonded_atoms  = NB_indexes_list
     #-------------------------------------------------------------------------------------------
-    return vismol_object
+    return vobject
 
 
 

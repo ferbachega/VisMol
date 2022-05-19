@@ -100,12 +100,12 @@ def build_gl_VAO_and_buffers (program   = None,
     
     return vao, (ind_vbo, coord_vbo, col_vbo)
 
-def _make_gl_selection_dots(program, vismol_object = None):
+def _make_gl_selection_dots(program, vobject = None):
     """ Function doc
     """
 
-    dot_sizes = vismol_object.vdw_dot_sizes
-    coords    = vismol_object.frames[0]
+    dot_sizes = vobject.vdw_dot_sizes
+    coords    = vobject.frames[0]
     colors    = [0.,1.,1.]*int(len(coords)/3)
     colors    = np.array(colors, dtype=np.float32)
    
@@ -153,17 +153,17 @@ def _make_gl_selection_dots(program, vismol_object = None):
     GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
     GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0)
     
-    vismol_object.selection_dots_vao      = vao
-    vismol_object.selection_dot_buffers   = (ind_vbo, coord_vbo, col_vbo)
+    vobject.selection_dots_vao      = vao
+    vobject.selection_dot_buffers   = (ind_vbo, coord_vbo, col_vbo)
     return True
 
-def _make_gl_dots_surface(program, vismol_object = None):
+def _make_gl_dots_surface(program, vobject = None):
     """ Function doc
     """
     
-    colors = vismol_object.colors
-    coords = vismol_object.frames[0]
-    indices = np.array(vismol_object.dot_indices,dtype=np.uint32)
+    colors = vobject.colors
+    coords = vobject.frames[0]
+    indices = np.array(vobject.dot_indices,dtype=np.uint32)
     
     vao , buffers =  build_gl_VAO_and_buffers (program   = program, 
                                                VAO       = True,
@@ -172,8 +172,8 @@ def _make_gl_dots_surface(program, vismol_object = None):
                                                colors    = colors, 
                                                dot_sizes = None)
     
-    vismol_object.dots_surface_vao      = vao
-    vismol_object.dots_surface_buffers  = buffers
+    vobject.dots_surface_vao      = vao
+    vobject.dots_surface_buffers  = buffers
     
     #vao = GL.glGenVertexArrays(1)
     #GL.glBindVertexArray(vao)
@@ -202,16 +202,16 @@ def _make_gl_dots_surface(program, vismol_object = None):
     #GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
     #GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0)
     #
-    #vismol_object.dots_surface_vao     = vao
-    #vismol_object.dots_surface_buffers = (ind_vbo, coord_vbo, col_vbo)
+    #vobject.dots_surface_vao     = vao
+    #vobject.dots_surface_buffers = (ind_vbo, coord_vbo, col_vbo)
     return True
 
-def _make_gl_ribbon_lines(program, vismol_object = None):
+def _make_gl_ribbon_lines(program, vobject = None):
     """ Function doc
     """  
-    indices = np.array(vismol_object.ribbons_Calpha_indices_rep,dtype=np.uint32)
-    coords  = vismol_object.frames[0]
-    colors  = vismol_object.colors
+    indices = np.array(vobject.ribbons_Calpha_indices_rep,dtype=np.uint32)
+    coords  = vobject.frames[0]
+    colors  = vobject.colors
     
     vao , buffers =  build_gl_VAO_and_buffers (program   = program, 
                                                VAO       = True,
@@ -220,20 +220,20 @@ def _make_gl_ribbon_lines(program, vismol_object = None):
                                                colors    = colors, 
                                                dot_sizes = None)
     
-    vismol_object.ribbons_vao     = vao
-    vismol_object.ribbons_buffers = buffers
+    vobject.ribbons_vao     = vao
+    vobject.ribbons_buffers = buffers
     
 
 '''
               S E L E C T I O N S 
 '''
 
-def _make_sel_gl_dots_surface(program, vismol_object = None):
+def _make_sel_gl_dots_surface(program, vobject = None):
     """ Function doc
     """
-    colors = vismol_object.color_indices
-    coords = vismol_object.frames[0]
-    indices = np.array(vismol_object.dot_indices,dtype=np.uint32)
+    colors = vobject.color_indices
+    coords = vobject.frames[0]
+    indices = np.array(vobject.dot_indices,dtype=np.uint32)
     
     vao = GL.glGenVertexArrays(1)
     GL.glBindVertexArray(vao)
@@ -269,6 +269,6 @@ def _make_sel_gl_dots_surface(program, vismol_object = None):
     GL.glBindBuffer(GL.GL_ARRAY_BUFFER, 0)
     GL.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0)
     
-    vismol_object.sel_dots_surface_vao = vao
-    vismol_object.sel_dots_surface_buffers = (ind_vbo, coord_vbo, col_vbo)
+    vobject.sel_dots_surface_vao = vao
+    vobject.sel_dots_surface_buffers = (ind_vbo, coord_vbo, col_vbo)
     return True

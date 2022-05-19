@@ -113,12 +113,12 @@ def load_mol2_files (infile = None, vm_session =  None, gridsize = 3):
     #                         Building   V I S M O L    O B J
     #-------------------------------------------------------------------------------------------
     name = os.path.basename(infile)
-    vismol_object  = VismolObject.VismolObject(name        = name, 
+    vobject  = VismolObject.VismolObject(name        = name, 
                                                atoms       = atoms, 
                                                vm_session   = vm_session, 
                                                trajectory  = frames)
     #-------------------------------------------------------------------------------------------
-    return vismol_object
+    return vobject
 
 
 

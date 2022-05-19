@@ -496,9 +496,9 @@ class EasyHybridMainWindow ( ):
             self.setup_QCModel_window.OpenWindow()
         
         if button  == self.builder.get_object('toolbutton_system_check'): 
-            self.p_session.systems[self.p_session.active_id]['vismol_object'].get_backbone_indexes ()
-            print(self.p_session.systems[self.p_session.active_id]['vismol_object'].c_alpha_bonds)          
-            print(self.p_session.systems[self.p_session.active_id]['vismol_object'].c_alpha_atoms)
+            self.p_session.systems[self.p_session.active_id]['vobject'].get_backbone_indexes ()
+            print(self.p_session.systems[self.p_session.active_id]['vobject'].c_alpha_bonds)          
+            print(self.p_session.systems[self.p_session.active_id]['vobject'].c_alpha_atoms)
         
         
         if button  == self.builder.get_object('toolbutton_geometry_optimization'):
@@ -659,12 +659,12 @@ class EasyHybridMainWindow ( ):
             starting_coords = []
             #self.easyhybrid_main.p_session
             self.vm_session.starting_coords_liststore.clear()
-            for key, visObj in self.vm_session.vismol_objects_dic.items():
+            for key, vobject in self.vm_session.vobjects_dic.items():
                 
-                #print(visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                #print(vobject.name, vobject.easyhybrid_system_id, vobject.active)
                 
-                if visObj.easyhybrid_system_id == self.p_session.active_id:
-                    starting_coords.append([visObj.name, key])
+                if vobject.easyhybrid_system_id == self.p_session.active_id:
+                    starting_coords.append([vobject.name, key])
             
             for item in starting_coords:
                 self.vm_session.starting_coords_liststore.append(list(item))
@@ -785,7 +785,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         
         
         vob_id = self.treestore[path][-3]
-        size = len(self.main_session.vm_session.vismol_objects_dic[vob_id].frames)
+        size = len(self.main_session.vm_session.vobjects_dic[vob_id].frames)
         self.treestore[path][-1] = size
         size = self.treestore[path][-1]
         #print (path, type(path),self.treestore['0:1'][0] ,  self.treestore[path][0], self.treestore[path][-3],  self.treestore[path][-1])
@@ -900,8 +900,8 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
             self.selectedID  = int(model.get_value(iter, 7))  # @+
             #print(self.selectedID, model.get_value(iter, 7))
             #print (model[iter][:], iter)
-            visObj = self.vm_session.vismol_objects_dic[self.selectedID]
-            self.vm_session.center(visObj)
+            vobject = self.vm_session.vobjects_dic[self.selectedID]
+            self.vm_session.center(vobject)
 
         if event.button == 1:
             print ('event.button == 1:')
@@ -934,24 +934,24 @@ class TreeViewMenu:
 
 
 
-    def menu_export_data_window (self,visObj = None ):
+    def menu_export_data_window (self,vobject = None ):
         """ Function doc """
         self.treeview.main_session.export_data_window.OpenWindow()
     
-    def load_data_to_a_system (self, visObj = None ):
+    def load_data_to_a_system (self, vobject = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()
         model, iter      = selection.get_selected()
         self.treeview.main_session.import_trajectory_window.OpenWindow(sys_selected = model.get_value(iter, 8))
 
-    def f2 (self, visObj = None):
+    def f2 (self, vobject = None):
         """ Function doc """
         #print('f2')
-        #self._show_lines(visObj = self.vismol_objects[0], indices = [0,1,2,3,4] )
+        #self._show_lines(vobject = self.vobjects[0], indices = [0,1,2,3,4] )
         self.treeview.main_session.go_to_atom_window.OpenWindow()
         #self.treeview.vm_session.go_to_atom_window.OpenWindow()
 
-    def f3 (self, visObj = None):
+    def f3 (self, vobject = None):
         """ Function doc """
         
         selection     = self.treeview.get_selection()
@@ -962,13 +962,13 @@ class TreeViewMenu:
         
         
         
-        del self.treeview.vm_session.vismol_objects_dic[self.selectedID]
+        del self.treeview.vm_session.vobjects_dic[self.selectedID]
         '''
-        visObj = self.treeview.vm_session.vismol_objects_dic.pop(self.selectedID)
-        del visObj
+        vobject = self.treeview.vm_session.vobjects_dic.pop(self.selectedID)
+        del vobject
         '''
         self.treeview.store.clear()
-        for vobj_index ,vis_object in self.treeview.vm_session.vismol_objects_dic.items():
+        for vobj_index ,vis_object in self.treeview.vm_session.vobjects_dic.items():
             data = [vis_object.active          , 
                     str(vobj_index),
                     vis_object.name            , 
@@ -978,7 +978,7 @@ class TreeViewMenu:
             model.append(data)
         self.treeview.vm_session.glwidget.queue_draw()
 
-    def delete_system (self,visObj = None ):
+    def delete_system (self,vobject = None ):
         """ Function doc """
         selection = self.treeview.get_selection()
         # get_selected_rows() returns a tuple
@@ -1013,14 +1013,14 @@ class TreeViewMenu:
                 """model.get_value(iter, 4) = True , it means that it is a header 
                 referring to a pdynamo system (containing several associated vobjects), 
                 in which case the entire system will be removed."""
-                for key , vismol_object in self.treeview.main_session.vm_session.vismol_objects_dic.items():
-                    if vismol_object.easyhybrid_system_id == system_id:
+                for key , vobject in self.treeview.main_session.vm_session.vobjects_dic.items():
+                    if vobject.easyhybrid_system_id == system_id:
                         remove_list.append(key)
-                        vismol_object.active = False
+                        vobject.active = False
                         self.treeview.main_session.vm_session.glwidget.queue_draw()
                         
                 for key in remove_list:
-                    self.treeview.main_session.vm_session.vismol_objects_dic.pop(key)
+                    self.treeview.main_session.vm_session.vobjects_dic.pop(key)
                 self.treeview.main_session.update_gui_widgets()
 
                 self.treeview.main_session.p_session.systems.pop(system_id)
@@ -1034,12 +1034,12 @@ class TreeViewMenu:
         
         
             else:
-                """model.get_value(iter, 4) = False , it means that it is vismol_object, 
+                """model.get_value(iter, 4) = False , it means that it is vobject, 
                 in this case, only the coordinates will be removed.""" 
                 vobj_id = model.get_value(iter, 7)
-                self.treeview.main_session.vm_session.vismol_objects_dic[vobj_id].active = False
+                self.treeview.main_session.vm_session.vobjects_dic[vobj_id].active = False
                 self.treeview.main_session.vm_session.glwidget.queue_draw()
-                self.treeview.main_session.vm_session.vismol_objects_dic.pop(vobj_id)
+                self.treeview.main_session.vm_session.vobjects_dic.pop(vobj_id)
                 # Remove the ListStore row referenced by iter
                 #self.treeview.main_session.update_gui_widgets()
             
@@ -1056,10 +1056,10 @@ class TreeViewMenu:
         self.treeview.main_session.vm_session.parents = {}
         self.treeview.treestore.clear()
 
-        for key , vismol_object in self.treeview.main_session.vm_session.vismol_objects_dic.items():
-            self.treeview.main_session.vm_session.add_vismol_object_to_vismol_session (pdynamo_session = self.treeview.main_session.p_session, 
+        for key , vobject in self.treeview.main_session.vm_session.vobjects_dic.items():
+            self.treeview.main_session.vm_session.add_vobject_to_vismol_session (pdynamo_session = self.treeview.main_session.p_session, 
                                                       rep             = None, 
-                                                      vismol_object   = vismol_object, 
+                                                      vobject   = vobject, 
                                                       vobj_count      = False,
                                                       autocenter      = False)
 
@@ -1107,9 +1107,9 @@ class TreeViewMenu:
 
         self.tree_view_menu.show_all()
 
-    def open_menu (self, visObj = None):
+    def open_menu (self, vobject = None):
         """ Function doc """
-        #print (visObj)
+        #print (vobject)
         
         #print('AQ?UIIIIIIIIIIII')
         self.tree_view_menu.popup(None, None, None, None, 0, 0)
@@ -1408,7 +1408,7 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
         
         self.coordinates_liststore.clear()
         n = 0
-        for key , vobject in self.vm_session.vismol_objects_dic.items():
+        for key , vobject in self.vm_session.vobjects_dic.items():
             if vobject.easyhybrid_system_id == system_id:
                 self.coordinates_liststore.append([vobject.name, key])
                 n += 1
@@ -1475,9 +1475,9 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
         #print(widget.get_active_id())
         #print(widget.get_active_iter())
         
-        #self.vm_session.vismol_objects_dic.items()
+        #self.vm_session.vobjects_dic.items()
         
-        #self.vm_session.vismol_objects_dic.items()
+        #self.vm_session.vobjects_dic.items()
         cb_id = widget.get_active()
         if cb_id == -1:
             return None
@@ -1488,7 +1488,7 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
             cb_id =  self.coordinates_combobox.get_active()
             _, key = self.coordinates_liststore[cb_id]
             
-            self.VObj = self.vm_session.vismol_objects_dic[key]
+            self.VObj = self.vm_session.vobjects_dic[key]
             
             
             self.liststore_chains = Gtk.ListStore(str)
@@ -1617,7 +1617,7 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
         
         cb_id =  self.coordinates_combobox.get_active()
         _, key = self.coordinates_liststore[cb_id]
-        self.VObj = self.vm_session.vismol_objects_dic[key]
+        self.VObj = self.vm_session.vobjects_dic[key]
         
         res = self.VObj.chains[self.selectedChn].residues_by_index[self.selectedID]
         
@@ -1625,7 +1625,7 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
         '''centering and selecting'''
         frame = self.vm_session.get_frame ()
         res.get_center_of_mass(frame = frame)
-        self.vm_session.glwidget.vm_widget.center_on_coordinates(res.Vobject, res.mass_center)
+        self.vm_session.glwidget.vm_widget.center_on_coordinates(res.vobject, res.mass_center)
         
         self.vm_session._selection_function (res.atoms[0], _type = 'residue')
         self.vm_session.glwidget.queue_draw()
@@ -1677,7 +1677,7 @@ class EasyHybridGoToAtomWindow(Gtk.Window):
                 frame = self.vm_session.get_frame ()
                 res.get_center_of_mass(frame = frame)
                 
-                self.vm_session.glwidget.vm_widget.center_on_coordinates(res.Vobject, res.mass_center)
+                self.vm_session.glwidget.vm_widget.center_on_coordinates(res.vobject, res.mass_center)
         
                 self.atom_liststore.clear()
                 for atom in res.atoms:

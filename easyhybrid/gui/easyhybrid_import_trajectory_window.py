@@ -143,7 +143,7 @@ class ImportTrajectoryWindow:
             return False
         
         self.starting_coords_liststore = Gtk.ListStore(str, int)
-        for key, vobject  in self.easyhybrid_main.vm_session.vismol_objects_dic.items():
+        for key, vobject  in self.easyhybrid_main.vm_session.vobjects_dic.items():
             print('combobox_pdynamo_system: ',key, vobject)
             if vobject.easyhybrid_system_id == sys_id:
                 self.starting_coords_liststore.append([vobject.name, key])
@@ -272,7 +272,7 @@ class ImportTrajectoryWindow:
                 '''selecting the vismol object from the content that is in the combobox '''
                 model = self.combobox_starting_coordinates.get_model()
                 name, vobject_id = model[tree_iter][:2]
-                vobject = self.easyhybrid_main.vm_session.vismol_objects_dic[vobject_id]
+                vobject = self.easyhybrid_main.vm_session.vobjects_dic[vobject_id]
             #-----------------------------------------------------------------------------
         
        

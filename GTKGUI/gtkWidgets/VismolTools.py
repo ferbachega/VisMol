@@ -292,11 +292,11 @@ class VismolGoToAtomWindow2(Gtk.Window):
         #print(widget.get_active_id())
         #print(widget.get_active_iter())
         
-        #self.vm_session.vismol_objects_dic.items()
+        #self.vm_session.vobjects_dic.items()
         
-        #self.vm_session.vismol_objects_dic.items()
-        self.VObj = self.vm_session.vismol_objects_dic[widget.get_active()]
-        #self.VObj = self.vm_session.vismol_objects[widget.get_active()]
+        #self.vm_session.vobjects_dic.items()
+        self.VObj = self.vm_session.vobjects_dic[widget.get_active()]
+        #self.VObj = self.vm_session.vobjects[widget.get_active()]
         
         
         self.liststore_chains = Gtk.ListStore(str)
@@ -917,9 +917,9 @@ class VismolTrajectoryFrame(Gtk.Frame):
         print('\n\n',widget.get_active())
         
         cb_index = widget.get_active()
-        if cb_index in self.vm_session.vismol_objects_dic:
-            self.VObj = self.vm_session.vismol_objects_dic[widget.get_active()]
-            #self.VObj = self.vm_session.vismol_objects[widget.get_active()]
+        if cb_index in self.vm_session.vobjects_dic:
+            self.VObj = self.vm_session.vobjects_dic[widget.get_active()]
+            #self.VObj = self.vm_session.vobjects[widget.get_active()]
             number_of_frames = len(self.VObj.frames)
             self.scale.set_range(0, int(number_of_frames))
             self.scale.set_value(self.vm_session.get_frame())
@@ -937,9 +937,9 @@ class VismolTrajectoryFrame(Gtk.Frame):
     def update (self):
         """ Function doc """
         print('VismolTrajectoryFrame update')
-        #for index , visObj in self.vm_session.vismol_objects_dic.items():
-        #last_obj = len(self.vm_session.vismol_objects) -1
-        last_obj = len(self.vm_session.vismol_objects_dic.items()) -1
+        #for index , vobject in self.vm_session.vobjects_dic.items():
+        #last_obj = len(self.vm_session.vobjects) -1
+        last_obj = len(self.vm_session.vobjects_dic.items()) -1
         self.combobox_vobjects.set_active(last_obj)
     def change_range (self, upper = 100):
         """ Function doc """

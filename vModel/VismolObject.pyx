@@ -130,7 +130,7 @@ import vModel.cDistances as cdist
 #        print (self.index_bonds)
 #        if len(self.index_bonds)>= 2:
 #            
-#            rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', visObj = self, glCore = self.vm_session.glwidget.vm_widget)
+#            rep  = LinesRepresentation (name = 'lines', active = True, _type = 'geo', vobject = self, glCore = self.vm_session.glwidget.vm_widget)
 #            self.representations['lines'] = rep
 #        else:
 #            if self.representations['lines']:
@@ -328,7 +328,7 @@ class VismolObject:
         #                V I S M O L   a t t r i b u t e s
         #----------------------------------------------------------------- 
         self.vm_session    = vm_session     #
-        self.index            = 0             # import to find vobject in self.vm_session.vismol_objects_dic
+        self.index            = 0             # import to find vobject in self.vm_session.vobjects_dic
         self.active           = active        # for "show and hide"   enable/disable
         self.editing          = False         # for translate and rotate  xyz coords 
         self.Type             = 'molecule'    # Not used yet
@@ -436,7 +436,7 @@ class VismolObject:
             self._generate_atomtree_structure()
             self._generate_color_vectors()
         #else:
-            #print("vismol_object's list of atoms is empty")
+            #print("vobject's list of atoms is empty")
         
         
         
@@ -499,7 +499,7 @@ class VismolObject:
             residue = Residue(name=atom.resn, 
                              index=atom.resi, 
                              chain=atom.chain,
-                             Vobject = self)
+                             vobject = self)
                                 
             atom.residue     = residue
             residue.atoms.append(atom)
@@ -520,7 +520,7 @@ class VismolObject:
             residue = Residue(name=atom.resn, 
                              index=atom.resi, 
                              chain=atom.chain,
-                             Vobject = self)
+                             vobject = self)
                                 
             atom.residue     = residue
             residue.atoms.append(atom)
@@ -569,7 +569,7 @@ class VismolObject:
                                                                     active = True, 
                                                                      _type = 'geo', 
                                                                    indexes = indexes, 
-                                                                    visObj = self, 
+                                                                    vobject = self, 
                                                                     glCore = self.vm_session.glwidget.vm_widget)
         if rtype == 'nonbonded':
 
@@ -577,7 +577,7 @@ class VismolObject:
                                                                 active =  True, 
                                                                  _type = 'geo', 
                                                                indexes = indexes, 
-                                                                visObj =  self, 
+                                                                vobject =  self, 
                                                                 glCore = self.vm_session.glwidget.vm_widget)
 
         if rtype == 'dots':
@@ -586,7 +586,7 @@ class VismolObject:
                                                                 active =  True, 
                                                                  _type = 'geo', 
                                                                indexes = indexes, 
-                                                                visObj =  self, 
+                                                                vobject =  self, 
                                                                 glCore = self.vm_session.glwidget.vm_widget)
         
 
@@ -596,14 +596,14 @@ class VismolObject:
                                                                 active =  True, 
                                                                  _type = 'geo', 
                                                                indexes = indexes, 
-                                                                visObj =  self, 
+                                                                vobject =  self, 
                                                                 glCore = self.vm_session.glwidget.vm_widget )               
         if rtype == 'ribbons':
 
             self.representations['ribbons']  = RibbonsRepresentation (name   = 'ribbons', 
                                                                 active =  True, 
                                                                  _type = 'geo', 
-                                                                visObj =  self, 
+                                                                vobject =  self, 
                                                                 glCore = self.vm_session.glwidget.vm_widget )               
                                                                 
         if rtype == 'spheres':
@@ -611,7 +611,7 @@ class VismolObject:
             self.representations['spheres'] =  SpheresRepresentation (name    = rtype, 
                                                                       active  = True, 
                                                                       _type   = 'mol', 
-                                                                      visObj  = self,
+                                                                      vobject  = self,
                                                                       glCore  = self.vm_session.glwidget.vm_widget,
                                                                       indexes  = indexes
                                                                      )
@@ -625,7 +625,7 @@ class VismolObject:
         #    self.representations['spheres_instance'] =  SphereInstanceRepresentation (name    = rtype, 
         #                                                              active  = True, 
         #                                                              _type   = 'mol', 
-        #                                                              visObj  = self,
+        #                                                              vobject  = self,
         #                                                              glCore  = self.vm_session.glwidget.vm_widget,
         #                                                              indexes  = indexes
         #                                                             )
@@ -649,7 +649,7 @@ class VismolObject:
             self.representations['dotted_lines']  = LinesRepresentation (name = 'dotted_lines', 
                                                                        active =  True, 
                                                                         _type = 'geo', 
-                                                                       visObj =  self, 
+                                                                       vobject =  self, 
                                                                        glCore = self.vm_session.glwidget.vm_widget)
         
         
@@ -741,7 +741,7 @@ class VismolObject:
                                occupancy     = d_atom['occupancy']                 ,
                                bfactor       = d_atom['bfactor']                   ,
                                charge        = d_atom['charge']                    ,
-                               Vobject       = self                                ,
+                               vobject       = self                                ,
                                )
             
             atom.selected       = d_atom['selected'] 
@@ -792,6 +792,10 @@ class VismolObject:
         self.atoms   = [] 
 
         for atom2 in self.atoms2:
+            if 'color' in atom2.keys():
+                pass
+            else:
+                atom2['color'] = []
             atom        = Atom(name          = atom2['name']                      ,
                                index         = atom2['index']+1                   ,
                                symbol        = atom2['symbol']                    , 
@@ -802,7 +806,8 @@ class VismolObject:
                                occupancy     = atom2['occupancy']                 ,
                                bfactor       = atom2['bfactor']                   ,
                                charge        = atom2['charge']                    ,
-                               Vobject       = self                               ,
+                               color         = atom2['color']                     ,
+                               vobject       = self                               ,
                                )
             self.vm_session.atom_dic_id[self.vm_session.atom_id_counter] = atom
             self._add_new_atom_to_vobj(atom)  

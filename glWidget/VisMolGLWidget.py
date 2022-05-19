@@ -544,63 +544,63 @@ class GtkGLAreaWidget(Gtk.GLArea):
             filename = self.vm_session.main_session.filechooser.open()
             self.vm_session.load(filename)
             #self.main_treeview.refresh_gtk_main_treeview()
-            visObj = self.vm_session.vismol_objects[-1]
-            self.vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+            vobject = self.vm_session.vobjects[-1]
+            self.vm_session.glwidget.vm_widget.center_on_coordinates(vobject, vobject.mass_center)
 
         #if k_name == 'r':
-        #    #self.vm_session.show(_type = 'ball_and_stick', Vobjects =  [self.vm_session.vismol_objects[-1]])
-        #    visObj = self.vm_session.vismol_objects[0]
-        #    #visObj.ribbons_active =  True
-        #    if visObj.ribbons_active:
-        #        visObj.ribbons_active =  False
+        #    #self.vm_session.show(_type = 'ball_and_stick', vobjects =  [self.vm_session.vobjects[-1]])
+        #    vobject = self.vm_session.vobjects[0]
+        #    #vobject.ribbons_active =  True
+        #    if vobject.ribbons_active:
+        #        vobject.ribbons_active =  False
         #    else:
-        #        visObj.ribbons_active =  True
+        #        vobject.ribbons_active =  True
 
 
 
 
 
         #if k_name == 'f':
-        #    #self.vm_session.show(_type = 'ball_and_stick', Vobjects =  [self.vm_session.vismol_objects[-1]])
-        #    visObj = self.vm_session.vismol_objects[0]
+        #    #self.vm_session.show(_type = 'ball_and_stick', vobjects =  [self.vm_session.vobjects[-1]])
+        #    vobject = self.vm_session.vobjects[0]
         #    
-        #    if visObj.spheres_ON_THE_FLY_active:
-        #        visObj.spheres_ON_THE_FLY_active =  False
+        #    if vobject.spheres_ON_THE_FLY_active:
+        #        vobject.spheres_ON_THE_FLY_active =  False
         #    else:
-        #        visObj.spheres_ON_THE_FLY_active =  True
-        #    #self.vm_session.show (_type = 'lines', Vobjects =  [])
+        #        vobject.spheres_ON_THE_FLY_active =  True
+        #    #self.vm_session.show (_type = 'lines', vobjects =  [])
 
 
 
 
         #if k_name == 't':
-        #    #self.vm_session.show(_type = 'ball_and_stick', Vobjects =  [self.vm_session.vismol_objects[-1]])
-        #    for visObj in self.vm_session.vismol_objects:
+        #    #self.vm_session.show(_type = 'ball_and_stick', vobjects =  [self.vm_session.vobjects[-1]])
+        #    for vobject in self.vm_session.vobjects:
         #        
-        #        if visObj.sticks_active:
-        #            print (visObj.sticks_active)
-        #            print("visObj.representations['sticks'].active =  True")
-        #            visObj.representations['sticks'].active =  False
+        #        if vobject.sticks_active:
+        #            print (vobject.sticks_active)
+        #            print("vobject.representations['sticks'].active =  True")
+        #            vobject.representations['sticks'].active =  False
         #        else:
-        #            print (visObj.sticks_active)
+        #            print (vobject.sticks_active)
         #            indexes = np.array([0,1,0,2,1,2], dtype=np.uint32)
-        #            visObj.representations['sticks'].indexes = indexes
+        #            vobject.representations['sticks'].indexes = indexes
         #            
-        #            print("visObj.representations['sticks'].active =  False")
-        #            visObj.representations['sticks'].active =  True
+        #            print("vobject.representations['sticks'].active =  False")
+        #            vobject.representations['sticks'].active =  True
 
         #if k_name == 'd':
-        #    self.vm_session.show(_type = 'dots', Vobjects =  [self.vm_session.vismol_objects[-1]])
-        #    #visObj = self.vm_session.vismol_objects[0]
-        #    #visObj.dots_active =  True
+        #    self.vm_session.show(_type = 'dots', vobjects =  [self.vm_session.vobjects[-1]])
+        #    #vobject = self.vm_session.vobjects[0]
+        #    #vobject.dots_active =  True
         
         if k_name == 'v':
-            #self.vm_session.show(_type = 'dots', Vobjects =  [self.vm_session.vismol_objects[-1]])
-            visObj = self.vm_session.vismol_objects[0]
-            if visObj.dots_surface_active:
-                visObj.dots_surface_active =  False
+            #self.vm_session.show(_type = 'dots', vobjects =  [self.vm_session.vobjects[-1]])
+            vobject = self.vm_session.vobjects[0]
+            if vobject.dots_surface_active:
+                vobject.dots_surface_active =  False
             else:
-                visObj.dots_surface_active =  True
+                vobject.dots_surface_active =  True
 
 
         if k_name == 'e':                             
@@ -629,7 +629,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
 
        
         if k_name == 'z':
-            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (vobject = self.vm_session.vobjects[0],  indexes = False)
 
             # Associates selected bonds as false / true
             for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
@@ -655,10 +655,10 @@ class GtkGLAreaWidget(Gtk.GLArea):
                 else:
                     #print('indexes_bonds ==', indexes_bonds)
                     vobject.representations['lines'].define_new_indexes_to_VBO(indexes_bonds)
-                    #self.vm_widget.set_draw_lines_indexes (visObj = vobject,  show = False, input_indexes = indexes_bonds)
+                    #self.vm_widget.set_draw_lines_indexes (vobject = vobject,  show = False, input_indexes = indexes_bonds)
 
         if k_name == 'x':
-            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (vobject = self.vm_session.vobjects[0],  indexes = False)
             
             # Associates selected bonds as false / true
             for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
@@ -690,7 +690,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
 
 
         if k_name == 'c':
-            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (vobject = self.vm_session.vobjects[0],  indexes = False)
             
             # Associates selected bonds as false / true
             for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:
@@ -715,7 +715,7 @@ class GtkGLAreaWidget(Gtk.GLArea):
                     vobject.representations['nonbonded'].define_new_indexes_to_VBO(indexes)
 
         if k_name == 'b':
-            #self.vm_session.glwidget._set_draw_dots_indexes (visObj = self.vm_session.vismol_objects[0],  indexes = False)
+            #self.vm_session.glwidget._set_draw_dots_indexes (vobject = self.vm_session.vobjects[0],  indexes = False)
             
             # Associates selected bonds as false / true
             for atom in self.vm_session.selections[self.vm_session.current_selection].selected_atoms:

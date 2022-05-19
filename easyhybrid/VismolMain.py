@@ -18,10 +18,10 @@ class VismolMainWindow ( ):
             
             #self.treeview.append()
             #self.treeview.refresh_gtk_main_treeview()
-            #visObj = self.vm_session.vismol_objects[-1]
-            #self.treeview.append(visObj)
+            #vobject = self.vm_session.vobjects[-1]
+            #self.treeview.append(vobject)
 
-            #self.vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+            #self.vm_session.glwidget.vm_widget.center_on_coordinates(vobject, vobject.mass_center)
         else:
             pass
 
@@ -260,14 +260,14 @@ class GtkMainTreeView(Gtk.TreeView):
             self.vm_session.glwidget.queue_draw()
  
     
-    def append(self, visObj):
-        i = self.vm_session.vismol_objects.index(visObj)
+    def append(self, vobject):
+        i = self.vm_session.vobjects.index(vobject)
         
-        data = [visObj.active         , 
+        data = [vobject.active         , 
                str(i)                 ,
-               visObj.name            , 
-               str(len(visObj.atoms)) , 
-               str(len(visObj.frames)),
+               vobject.name            , 
+               str(len(vobject.atoms)) , 
+               str(len(vobject.frames)),
                ]
         print (data)
         self.store.append(data)
@@ -303,8 +303,8 @@ class GtkMainTreeView(Gtk.TreeView):
             print ('button == 2')
             
             self.selectedID  = int(model.get_value(iter, 1))  # @+
-            visObj = self.vm_session.vismol_objects[self.selectedID]
-            self.vm_session.center(visObj)
+            vobject = self.vm_session.vobjects[self.selectedID]
+            self.vm_session.center(vobject)
 
         if event.button == 1:
             print ('event.button == 1:')
@@ -328,26 +328,26 @@ class TreeViewMenu:
 
 
 
-    def f1 (self, visObj = None ):
+    def f1 (self, vobject = None ):
         """ Function doc """
         selection        = self.treeview.get_selection()
         (model, iter)    = selection.get_selected()
         self.selectedID  = int(model.get_value(iter, 1))  # @+
         
-        visObj = self.treeview.vm_session.vismol_objects[self.selectedID]
+        vobject = self.treeview.vm_session.vobjects[self.selectedID]
         
         infile = self.filechooser.open()
         
-        self.treeview.vm_session.load_xyz_coords_to_vismol_obejct(infile , visObj)
+        self.treeview.vm_session.load_xyz_coords_to_vismol_obejct(infile , vobject)
         
         print (infile)
         
         
         self.treeview.store .clear()
-        for vis_object in self.treeview.vm_session.vismol_objects:
+        for vis_object in self.treeview.vm_session.vobjects:
             print ('\n\n',vis_object.name,'\n\n')
             data = [vis_object.active          , 
-                    str(self.treeview.vm_session.vismol_objects.index(vis_object)),
+                    str(self.treeview.vm_session.vobjects.index(vis_object)),
                     vis_object.name            , 
                     str(len(vis_object.atoms)) , 
                     str(len(vis_object.frames)),
@@ -358,13 +358,13 @@ class TreeViewMenu:
         #self.treeview.vm_session.go_to_atom_window.OpenWindow()
     
     
-    def f2 (self, visObj = None):
+    def f2 (self, vobject = None):
         """ Function doc """
         print('f2')
-        #self._show_lines(visObj = self.vismol_objects[0], indices = [0,1,2,3,4] )
+        #self._show_lines(vobject = self.vobjects[0], indices = [0,1,2,3,4] )
         self.treeview.vm_session.go_to_atom_window.OpenWindow()
 
-    def f3 (self, visObj = None):
+    def f3 (self, vobject = None):
         """ Function doc """
         
         selection     = self.treeview.get_selection()
@@ -375,17 +375,17 @@ class TreeViewMenu:
         
         
         
-        #visObj = self.treeview.vm_session.vismol_objects[self.selectedID]
-        visObj = self.treeview.vm_session.vismol_objects.pop(self.selectedID)
-        del visObj
+        #vobject = self.treeview.vm_session.vobjects[self.selectedID]
+        vobject = self.treeview.vm_session.vobjects.pop(self.selectedID)
+        del vobject
         self.treeview.store .clear()
         #n = 0
         #i = 1
-        for vis_object in self.treeview.vm_session.vismol_objects:
+        for vis_object in self.treeview.vm_session.vobjects:
             print ('\n\n',vis_object.name,'\n\n')
 
             data = [vis_object.active          , 
-                    str(self.treeview.vm_session.vismol_objects.index(vis_object)),
+                    str(self.treeview.vm_session.vobjects.index(vis_object)),
                     vis_object.name            , 
                     str(len(vis_object.atoms)) , 
                     str(len(vis_object.frames)),
@@ -396,7 +396,7 @@ class TreeViewMenu:
             #n = n + 1
         
         
-        #self.treeview.vm_session.center(visObj)
+        #self.treeview.vm_session.center(vobject)
 
         
         print('f3')
@@ -413,9 +413,9 @@ class TreeViewMenu:
 
         self.glMenu.show_all()
 
-    def open_menu (self, visObj = None):
+    def open_menu (self, vobject = None):
         """ Function doc """
-        print (visObj)
+        print (vobject)
         
         
         self.glMenu.popup(None, None, None, None, 0, 0)
@@ -531,14 +531,14 @@ class GtkMainTreeView_old(Gtk.TreeView):
      
 
 
-    def append(self, visObj):
-        i = self.vm_session.vismol_objects.index(visObj)
+    def append(self, vobject):
+        i = self.vm_session.vobjects.index(vobject)
         
-        data = [visObj.active, 
+        data = [vobject.active, 
                str(i)        ,
-               visObj.name      , 
-               str(len(visObj.atoms)) , 
-               str(len(visObj.frames)),
+               vobject.name      , 
+               str(len(vobject.atoms)) , 
+               str(len(vobject.frames)),
                ]
         self.liststore.append(data)
         self.set_model(self.liststore)
@@ -554,7 +554,7 @@ class GtkMainTreeView_old(Gtk.TreeView):
         n = 0
         i = 1
         
-        for vis_object in self.vm_session.vismol_objects:
+        for vis_object in self.vm_session.vobjects:
             print ('\n\n',vis_object.name,'\n\n')
     
             data = [vis_object.active, 
@@ -598,7 +598,7 @@ class GtkMainTreeView_old(Gtk.TreeView):
             print ('button == 2')
             
             #self.selectedID  = int(model.get_value(iter, 1))  # @+
-            #self.vm_session.center(Vobject_index = self.selectedID -1)
+            #self.vm_session.center(vobject_index = self.selectedID -1)
 
         if event.button == 1:
             print ('event.button == 1:')
@@ -649,49 +649,49 @@ class GtkMainTreeView_old(Gtk.TreeView):
         model = tree.get_model()
         (model, iter) = selection.get_selected()
         obj_index = model.get_value(iter, 1)
-        visObj = self.vm_session.vismol_objects[(int(obj_index)-1)]
+        vobject = self.vm_session.vobjects[(int(obj_index)-1)]
 
         
         if widget == self.builder.get_object('menuitem_center'):
-            self.vm_session.glwidget.vm_widget.center_on_coordinates(visObj, visObj.mass_center)
+            self.vm_session.glwidget.vm_widget.center_on_coordinates(vobject, vobject.mass_center)
 
         
         if widget == self.builder.get_object('menu_show_lines'):
-            visObj.lines_actived     =  True
-            #self.vm_session._show_lines (visObj = visObj)
+            vobject.lines_actived     =  True
+            #self.vm_session._show_lines (vobject = vobject)
 
 
         if widget == self.builder.get_object('menu_show_sticks'):
-            visObj.sticks_actived =  True
+            vobject.sticks_actived =  True
 
         if widget == self.builder.get_object('menu_show_spheres'):
-            visObj.spheres_actived   =  True
+            vobject.spheres_actived   =  True
 
         if widget == self.builder.get_object('menu_show_ribbons'):
-            visObj.ribbons_actived   =  True
+            vobject.ribbons_actived   =  True
 
         if widget == self.builder.get_object('menu_show_dots'):
-            visObj.dots_actived      =  True
+            vobject.dots_actived      =  True
             self.vm_session.glwidget.vm_widget.queue_draw()
 
 
         
         
         if widget == self.builder.get_object('menu_hide_lines'):
-            visObj.lines_actived     = False
-            #self.vm_session._hide_lines (visObj = visObj)
+            vobject.lines_actived     = False
+            #self.vm_session._hide_lines (vobject = vobject)
 
         if widget == self.builder.get_object('menu_hide_sticks'):
-            visObj.sticks_actived = False
+            vobject.sticks_actived = False
 
         if widget == self.builder.get_object('menu_hide_spheres'):
-            visObj.spheres_actived   = False
+            vobject.spheres_actived   = False
 
         if widget == self.builder.get_object('menu_hide_ribbons'):
-            visObj.ribbons_actived   = False
+            vobject.ribbons_actived   = False
             
         if widget == self.builder.get_object('menu_hide_dots'):
-            visObj.dots_actived      = False
+            vobject.dots_actived      = False
             self.vm_session.glwidget.vm_widget.queue_draw()
         
 

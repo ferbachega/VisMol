@@ -74,8 +74,8 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
     #                                   bool, # toggle visible = 3
     #                                   bool, # radio  visible = 4
     #                                   
-    #                                   int , # vismol_object index
-    #                                   bool, # is vismol_object index visible?
+    #                                   int , # vobject index
+    #                                   bool, # is vobject index visible?
     #                                   int , # pdynamo system index 
     #                                   bool, # is pdynamo system index visible?
     #
@@ -99,7 +99,7 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
         residue_list = {} 
         
         for atom in selection.selected_atoms:
-            #print(atom.Vobject.easyhybrid_system_id , pdmsys_active)
+            #print(atom.vobject.easyhybrid_system_id , pdmsys_active)
             true_or_false = self.check_selected_atom (atom)
             if true_or_false:
                 index_list.append(atom.index -1)
@@ -117,7 +117,7 @@ class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
 
     def check_selected_atom(self, atom, dialog = True):
         '''checks if selected atoms belong to the dynamo system in memory'''
-        if atom.Vobject.easyhybrid_system_id != self.main_session.p_session.active_id:
+        if atom.vobject.easyhybrid_system_id != self.main_session.p_session.active_id:
             #print(atom.index-1, atom.name, atom.resn)
             
             name = self.main_session.p_session.systems[self.main_session.p_session.active_id]['name']
@@ -145,15 +145,55 @@ button position in the main treeview (active column).""".format(name,self.main_s
             return True
         
     
+    def set_color (self, color = [0.5 , 0.5 , 0.5]):
+        """ Function doc """
+        selection         = self.selections[self.current_selection]
+
+        vobject_list = []
+
+        for atom in selection.selected_atoms:
+            if atom.symbol == 'C':
+                atom.color = color
+                if atom.vobject in vobject_list:
+                    pass
+                else:
+                    vobject_list.append(atom.vobject)
+
+        for vobject in vobject_list:
+            vobject._generate_color_vectors ( do_colors         = True,
+                                              do_colors_idx     = False,
+                                              do_colors_raindow = False,
+                                              do_vdw_dot_sizes  = False,
+                                              do_cov_dot_sizes  = False,
+                                              )
+
+            
+            for rep  in vobject.representations.keys():
+                if vobject.representations[rep]:
+                    #try:
+                    vobject.representations[rep]._set_colors_to_buffer()
+                    #except:
+                    #    print("VisMol/vModel/Representations.py, line 123, in _set_colors_to_buffer GL.glBindBuffer(GL.GL_ARRAY_BUFFER, ctypes.ArgumentError: argument 2: <class 'TypeError'>: wrong type'")
+
+            self.main_session.p_session.refresh_vobject_qc_and_fixed_representations (
+                                                                      vobject = vobject,    
+                                                                 fixed_atoms = True         , 
+                                                                    QC_atoms = True         ,
+                                                                metal_bonds  = True         ,
+                                                                      static = True         )
+        self.glwidget.vm_widget.queue_draw()
+        return True
+    
+    
     def load_easyhybrid_serialization_file (self, filename):
         """ Function doc """
         #new_session = self.restart_session(filename)
         #serialization = LoadAndSaveFiles(self, self.main_session.p_session)
         '''
         #--------------------------------------------------------------------------
-        self.vismol_objects     = [] # old Vobjects - include molecules
-        self.vismol_objects_dic = {} # old Vobjects dic - include molecules
-        self.vobj_counter       = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vismol_object_to_vismol_session.
+        self.vobjects     = [] # old vobjects - include molecules
+        self.vobjects_dic = {} # old vobjects dic - include molecules
+        self.vobj_counter       = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vobject_to_vismol_session.
         self.vismol_geometric_object     = []
         
         self.vismol_geometric_object_dic = {
@@ -172,7 +212,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
 
         
         #print('loading easyhybrid session')
-        for key , vobject in self.vismol_objects_dic.items():
+        for key , vobject in self.vobjects_dic.items():
             for key, rep in vobject.representations.items():
                 if rep:
                     rep.delete_buffers()
@@ -182,8 +222,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
             del vobject
         
         
-        self.vismol_objects_dic      = {} # old Vobjects dic - include molecules
-        self.vobj_counter            = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vismol_object_to_vismol_session.
+        self.vobjects_dic      = {} # old vobjects dic - include molecules
+        self.vobj_counter            = 0  # Each vismol object has a unique access key (int), which is generated in the method: add_vobject_to_vismol_session.
         self.vismol_geometric_object = []
         self.vm_session_vbos         = []
 
@@ -212,7 +252,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         """ Function doc """
         
         
-        #vismol_object.active = active_original
+        #vobject.active = active_original
 
         for sys_index in pdynamo_session.systems.keys():
             '''        T R E E S T O R E           '''
@@ -222,7 +262,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 # Creates a new "parent" when a new system is loaded into memory. 
                 for row in self.treestore:
                     row[3] =  False
-                vismol_object = pdynamo_session.systems[sys_index]['vismol_object']
+                vobject = pdynamo_session.systems[sys_index]['vobject']
                 
                 if  pdynamo_session.systems[sys_index] == pdynamo_session.systems[pdynamo_session.active_id]:
                     is_active = True
@@ -241,8 +281,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                                                 False,                                      # traj radio  active = 5
                                                                 False,                                      # is trajectory radio visible?
                                                                 
-                                                                vismol_object.index,                        #
-                                                                vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                                vobject.index,                        #
+                                                                vobject.easyhybrid_system_id,         # pdynamo system index
                                                                 0])                                     # is pdynamo system index visible?
                 
                 self.gtk_treeview_iters.append(self.parents[sys_index])
@@ -251,11 +291,11 @@ button position in the main treeview (active column).""".format(name,self.main_s
             #for treeview_iter in self.gtk_treeview_iters:
             #    self.treestore[treeview_iter][5] = False
             #    n+=1
-            for key , vismol_object in pdynamo_session.systems[sys_index]['vismol_objects'].items():
-                treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
+            for key , vobject in pdynamo_session.systems[sys_index]['vobjects'].items():
+                treeview_iter = self.treestore.append(self.parents[vobject.easyhybrid_system_id]      ,        #parent
                                                   
-                                                  [vismol_object.name, 
-                                                   vismol_object.active ,   # toggle active   =1       
+                                                  [vobject.name, 
+                                                   vobject.active ,   # toggle active   =1       
                                                    True ,                   # toggle visible  = 2                  
                                                    
                                                    False ,                  # radio  active  = 3                       
@@ -264,9 +304,9 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                                    True  ,                  # traj radio  active = 5                     
                                                    True  ,                  # is trajectory radio visible?  6                   
                                                    
-                                                   vismol_object.index,     # 7
-                                                   vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
-                                                   len(vismol_object.frames)] # is pdynamo system index visible?  9 
+                                                   vobject.index,     # 7
+                                                   vobject.easyhybrid_system_id,   # pdynamo system index  8    
+                                                   len(vobject.frames)] # is pdynamo system index visible?  9 
                                                     )
                 self.gtk_treeview_iters.append(treeview_iter)
                 self.gtk_widgets_update ()
@@ -279,36 +319,36 @@ button position in the main treeview (active column).""".format(name,self.main_s
 
     
     
-    def add_vismol_object_to_vismol_session (self, pdynamo_session    = None, 
+    def add_vobject_to_vismol_session (self, pdynamo_session    = None, 
                                                    rep                = {'lines': [], 'nonbonded': []}, 
-                                                   vismol_object      = None, 
+                                                   vobject      = None, 
                                                    vobj_count         = True,
                                                    autocenter         = True,
                                                    find_dynamic_bonds = True):
         """ Function doc """
        
         if vobj_count:
-            vismol_object.index = self.vobj_counter
+            vobject.index = self.vobj_counter
         else:
             pass
         
-        #self.vismol_objects.append(vismol_object)
-        self.vismol_objects_dic[vismol_object.index] = vismol_object
+        #self.vobjects.append(vobject)
+        self.vobjects_dic[vobject.index] = vobject
         
-        #self.append_vismol_object_to_vismol_objects_listStore(vismol_object)
+        #self.append_vobject_to_vobjects_listStore(vobject)
         
         if vobj_count:
             self.vobj_counter += 1
         
             
-        vobj_index = vismol_object.index
-        sys_index  = vismol_object.easyhybrid_system_id
+        vobj_index = vobject.index
+        sys_index  = vobject.easyhybrid_system_id
         
-        if 'vismol_objects' in pdynamo_session.systems[sys_index].keys():
-            pdynamo_session.systems[sys_index]['vismol_objects'][vobj_index] = vismol_object
+        if 'vobjects' in pdynamo_session.systems[sys_index].keys():
+            pdynamo_session.systems[sys_index]['vobjects'][vobj_index] = vobject
         else:
-            pdynamo_session.systems[sys_index]['vismol_objects'] = {}
-            pdynamo_session.systems[sys_index]['vismol_objects'][vobj_index] = vismol_object
+            pdynamo_session.systems[sys_index]['vobjects'] = {}
+            pdynamo_session.systems[sys_index]['vobjects'][vobj_index] = vobject
         
         
         '''
@@ -322,19 +362,19 @@ button position in the main treeview (active column).""".format(name,self.main_s
         '''
 
         #            Saving the object's active/inactive condition 
-        active_original  = vismol_object.active
+        active_original  = vobject.active
         
         #---------------------------------------------------------------------#
-        vismol_object.active =  True        
+        vobject.active =  True        
         
-        #vismol_object.create_new_representation (rtype = 'spheresInstace')
+        #vobject.create_new_representation (rtype = 'spheresInstace')
         if rep:
             #print('\n\nrep.keys()', rep.keys())
             #try:
             for key in rep.keys():
                 if rep[key]:
                     self.show_or_hide_by_object (_type = key, 
-                                               vobject = vismol_object,  
+                                               vobject = vobject,  
                                        selection_table = rep[key], 
                                                   show = True,
                                     find_dynamic_bonds = find_dynamic_bonds,     
@@ -343,21 +383,21 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     if key == 'lines':
                         self.show_or_hide_by_object (_type = 'lines', 
-                                                   vobject = vismol_object,  
-                                           selection_table = range(0, len(vismol_object.atoms)), 
+                                                   vobject = vobject,  
+                                           selection_table = range(0, len(vobject.atoms)), 
                                                       show = True)
                         
                         #self.show_or_hide_by_object (_type = 'dotted_lines', 
-                        #                       vobject = vismol_object,  
-                        #               selection_table = vismol_object.metal_bonded_atoms, 
+                        #                       vobject = vobject,  
+                        #               selection_table = vobject.metal_bonded_atoms, 
                         #                          show = True,
                         #           #find_dynamic_bonds = find_dynamic_bonds,     
                         #                          )
 
                     if key == 'nonbonded':
                             self.show_or_hide_by_object (_type = 'nonbonded', 
-                                                        vobject = vismol_object,  
-                                                selection_table = vismol_object.non_bonded_atoms , 
+                                                        vobject = vobject,  
+                                                selection_table = vobject.non_bonded_atoms , 
                                                             show = True)
                     
                     pass
@@ -370,23 +410,23 @@ button position in the main treeview (active column).""".format(name,self.main_s
                #if key == 'lines':
                #    if rep[key] == []:
                #        self.show_or_hide_by_object (_type = 'lines', 
-               #                                   vobject = vismol_object,  
-               #                           selection_table = range(0, len(vismol_object.atoms)), 
+               #                                   vobject = vobject,  
+               #                           selection_table = range(0, len(vobject.atoms)), 
                #                                      show = True)
                #    else:
                #        self.show_or_hide_by_object (_type = 'lines', 
-               #                                   vobject = vismol_object,  
+               #                                   vobject = vobject,  
                #                           selection_table = rep[key], 
                #                                      show = True)
                #if key == 'nonbonded':
                #    if rep[key] == []:
                #        self.show_or_hide_by_object (_type = 'nonbonded', 
-               #                                   vobject = vismol_object,  
-               #                           selection_table = range(0, len(vismol_object.atoms)), 
+               #                                   vobject = vobject,  
+               #                           selection_table = range(0, len(vobject.atoms)), 
                #                                      show = True)
                #    else:
                #        self.show_or_hide_by_object (_type = 'nonbonded', 
-               #                                   vobject = vismol_object,  
+               #                                   vobject = vobject,  
                #                           selection_table = rep[key], 
                #                                      show = True)
                #    
@@ -395,45 +435,45 @@ button position in the main treeview (active column).""".format(name,self.main_s
                #    
                #    
                #    #if rep[key] == []:
-               #    #    vismol_object.create_new_representation (rtype = 'lines')
+               #    #    vobject.create_new_representation (rtype = 'lines')
                #    #else:
                #    #    
-               #    #    vismol_object.create_new_representation (rtype = 'lines', indexes = rep[key])
+               #    #    vobject.create_new_representation (rtype = 'lines', indexes = rep[key])
                #
                #if key == 'nonbonded':
                #    if rep[key] == []:
-               #        vismol_object.create_new_representation (rtype = 'nonbonded')
+               #        vobject.create_new_representation (rtype = 'nonbonded')
                #    else:
-               #        vismol_object.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
+               #        vobject.create_new_representation (rtype = 'nonbonded', indexes = rep[key])
                #    
                #if key == 'sticks':
                #    if rep[key] == []:
-               #        vismol_object.create_new_representation (rtype = 'sticks')
+               #        vobject.create_new_representation (rtype = 'sticks')
                #    else:
-               #        vismol_object.create_new_representation (rtype = 'sticks', indexes = rep[key])
+               #        vobject.create_new_representation (rtype = 'sticks', indexes = rep[key])
                #
                ##if key == 'dynamic_bonds':
                ##    if rep[key] == []:
-               ##        vismol_object.create_new_representation (rtype = 'dynamic_bonds')
+               ##        vobject.create_new_representation (rtype = 'dynamic_bonds')
                ##    else:
-               ##        vismol_object.create_new_representation (rtype = 'dynamic_bonds', indexes = rep[key])
+               ##        vobject.create_new_representation (rtype = 'dynamic_bonds', indexes = rep[key])
                #
                #if key == 'spheres':
                #    
                #    if rep[key] == []:
-               #        vismol_object.create_new_representation (rtype = 'spheres')
+               #        vobject.create_new_representation (rtype = 'spheres')
                #    else:
-               #        vismol_object.create_new_representation (rtype = 'spheres', indexes = rep[key])
+               #        vobject.create_new_representation (rtype = 'spheres', indexes = rep[key])
         else:
             print('no representation')
-        #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', visObj = vismol_object, glCore = self.glwidget.vm_widget)
-        #vismol_object.representations[rep.name] = rep
+        #rep =  RibbonsRepresentation(name = 'ribbons', active = True, _type = 'mol', vobject = vobject, glCore = self.glwidget.vm_widget)
+        #vobject.representations[rep.name] = rep
     
 
         #'''
         if autocenter:
-            #print(self.vismol_objects[-1].mass_center)
-            self.glwidget.vm_widget.center_on_coordinates(vismol_object, vismol_object.mass_center, sleep_time = 0.0000001)
+            #print(self.vobjects[-1].mass_center)
+            self.glwidget.vm_widget.center_on_coordinates(vobject, vobject.mass_center, sleep_time = 0.0000001)
         else:
             self.glwidget.vm_widget.queue_draw()
         #---------------------------------------------------------------------#
@@ -443,7 +483,7 @@ button position in the main treeview (active column).""".format(name,self.main_s
         
         
         #  Loading the object's active/inactive condition 
-        vismol_object.active = active_original
+        vobject.active = active_original
                 
         '''        T R E E S T O R E           '''
         if sys_index in self.parents.keys():
@@ -475,8 +515,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                                             False,                                      # traj radio  active = 5
                                                             False,                                      # is trajectory radio visible?
                                                             
-                                                            vismol_object.index,                        #
-                                                            vismol_object.easyhybrid_system_id,         # pdynamo system index
+                                                            vobject.index,                        #
+                                                            vobject.easyhybrid_system_id,         # pdynamo system index
                                                             0])                                     # is pdynamo system index visible?
             
             self.gtk_treeview_iters.append(self.parents[sys_index])
@@ -488,10 +528,10 @@ button position in the main treeview (active column).""".format(name,self.main_s
             #print ('\ntreeview_iter', treeview_iter, n)
             n+=1
             
-        treeview_iter = self.treestore.append(self.parents[vismol_object.easyhybrid_system_id]      ,        #parent
+        treeview_iter = self.treestore.append(self.parents[vobject.easyhybrid_system_id]      ,        #parent
                                           
-                                          [vismol_object.name, 
-                                           vismol_object.active ,   # toggle active   =1       
+                                          [vobject.name, 
+                                           vobject.active ,   # toggle active   =1       
                                            True ,                   # toggle visible  = 2                  
                                            
                                            False ,                  # radio  active  = 3                       
@@ -500,24 +540,24 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                            True  ,                  # traj radio  active = 5                     
                                            True  ,                  # is trajectory radio visible?  6                   
                                            
-                                           vismol_object.index,     # 7
-                                           vismol_object.easyhybrid_system_id,   # pdynamo system index  8    
-                                           len(vismol_object.frames)] # is pdynamo system index visible?  9 
+                                           vobject.index,     # 7
+                                           vobject.easyhybrid_system_id,   # pdynamo system index  8    
+                                           len(vobject.frames)] # is pdynamo system index visible?  9 
                                             )
         self.gtk_treeview_iters.append(treeview_iter)
         
         #print('\n\n\n')
-        #for vobj in self.vismol_objects:
+        #for vobj in self.vobjects:
         #    print(vobj.name, vobj.easyhybrid_system_id)
         #print('\n\n\n')
-        #print(vismol_object.index)
+        #print(vobject.index)
         self.gtk_widgets_update ()
         if self.main_session.selection_list_window.visible:
             self.main_session.selection_list_window.update_window(system_names = False, 
                                                                   coordinates  = True,  
                                                                   selections   = False )
         
-        #print('vismol_objects_dic', self.vismol_objects_dic)
+        #print('vobjects_dic', self.vobjects_dic)
 
 
 
@@ -635,45 +675,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             def menu_set_color_green (_):
                 """ Function doc """
-                selection         = self.selections[self.current_selection]
-                
-                vobject_list = []
-                
-                for atom in selection.selected_atoms:
-                    if atom.symbol == 'C':
-                        atom.color = [0.0     , 1.0     , 0.0     ]
-                        if atom.Vobject in vobject_list:
-                            pass
-                        else:
-                            vobject_list.append(atom.Vobject)
-                
-                for vismol_object in vobject_list:
-                    vismol_object._generate_color_vectors ( do_colors         = True,
-                                                            do_colors_idx     = False,
-                                                            do_colors_raindow = False,
-                                                            do_vdw_dot_sizes  = False,
-                                                            do_cov_dot_sizes  = False,
-                                                           )
-                
-                    
-                    for rep  in vismol_object.representations.keys():
-                        if vismol_object.representations[rep]:
-                            #try:
-                            vismol_object.representations[rep]._set_colors_to_buffer()
-                            #except:
-                            #    print("VisMol/vModel/Representations.py, line 123, in _set_colors_to_buffer GL.glBindBuffer(GL.GL_ARRAY_BUFFER, ctypes.ArgumentError: argument 2: <class 'TypeError'>: wrong type'")
-                
-                    self.p_session.refresh_vobject_qc_and_fixed_representations (
-                                                                              visObj = vismol_object,    
-                                                                         fixed_atoms = True         , 
-                                                                            QC_atoms = True         ,
-                                                                        metal_bonds  = True         ,
-                                                                              static = True         )
-                #self.show_or_hide( _type = 'spheres', show = False)
-                #self.show_or_hide( _type = 'spheres', show = True)
-                
-                self.glwidget.vm_widget.queue_draw()
-                return True
+                self.set_color(color = [0.0     , 1.0     , 0.0 ] )
+
 
             def menu_set_color_magenta (_):
                 """ Function doc """
@@ -682,24 +685,17 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             def menu_color_change (_):
                 """ Function doc """
-                selection         = self.selections[self.current_selection]
+                selection               = self.selections[self.current_selection]
                 self.colorchooserdialog = Gtk.ColorChooserDialog()
+                
                 if self.colorchooserdialog.run() == Gtk.ResponseType.OK:
                     color = self.colorchooserdialog.get_rgba()
                     print(color.red,color.green, color.blue )
-                    new_color = [color.red,color.green, color.blue]
-                #color_activated()
+                    new_color = [color.red, color.green, color.blue]
+
                 self.colorchooserdialog.destroy()
-                
-                #indexes = []
-                for atom in selection.selected_atoms:
-                    if atom.symbol == 'C':
-                        
-                        self.set_color_by_index (vismol_object = atom.Vobject, 
-                                                       indexes = [atom.index-1], 
-                                                         color = new_color )
-                        #atom.color = new_color
-                
+                self.set_color(new_color)
+
             
             def set_as_qc_atoms (_):
                 """ Function doc """
@@ -738,15 +734,15 @@ button position in the main treeview (active column).""".format(name,self.main_s
                 
                 
                 '''here we are returning the original color of the selected atoms'''
-                for key, visObj in self.vismol_objects_dic.items():
-                    if visObj.easyhybrid_system_id == self.main_session.p_session.active_id:
-                        #print('key',key, visObj.name, visObj.easyhybrid_system_id, visObj.active)
+                for key, vobject in self.vobjects_dic.items():
+                    if vobject.easyhybrid_system_id == self.main_session.p_session.active_id:
+                        #print('key',key, vobject.name, vobject.easyhybrid_system_id, vobject.active)
                         for index in freelist:
-                           #print(index,visObj. atoms[index])
-                            atom = visObj.atoms[index]
+                           #print(index,vobject. atoms[index])
+                            atom = vobject.atoms[index]
                             atom.color = atom.init_color(atom.symbol)
-                            #visObj.atoms[index]
-                            #visObj.atoms[index].init_color(atom.symbol) 
+                            #vobject.atoms[index]
+                            #vobject.atoms[index].init_color(atom.symbol) 
                 
                 
                 
@@ -1149,8 +1145,8 @@ button position in the main treeview (active column).""".format(name,self.main_s
                                                 bool, # toggle visible = 3
                                                 bool, # radio  visible = 4
                                                 
-                                                int , # vismol_object index
-                                                bool, # is vismol_object index visible?
+                                                int , # vobject index
+                                                bool, # is vobject index visible?
                                                 int , # pdynamo system index 
                                                 bool, # is pdynamo system index visible?
                                                 )
@@ -1228,7 +1224,7 @@ def main():
                                         bool, # radio  visible = 4
                                         
                                         bool, # radio  active = 5 
-                                        #int , # vismol_object index
+                                        #int , # vobject index
                                         bool, # is trajectory toogle visible?
                                         int , # pdynamo system index 
                                         bool, # is pdynamo system index visible?

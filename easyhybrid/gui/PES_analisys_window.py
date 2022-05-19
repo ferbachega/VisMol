@@ -124,7 +124,7 @@ class PotentialEnergyAnalysisWindow():
                 for vobject_id in  system['logfile_data'].keys():
                     print(['vobject_id:', vobject_id ,system['logfile_data'].keys()])
                     try:
-                        _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
+                        _vobject = self.main.vm_session.vobjects_dic[vobject_id]
                         print(['_vobject:', _vobject.name,_vobject.index])
                         self.vobject_liststore.append([_vobject.name, _vobject.index])
                     except:
@@ -174,7 +174,7 @@ class PotentialEnergyAnalysisWindow():
                 
                 for vobject_id in  system['logfile_data'].keys():
                     try:
-                        _vobject = self.main.vm_session.vismol_objects_dic[vobject_id]
+                        _vobject = self.main.vm_session.vobjects_dic[vobject_id]
                         print(['_vobject:', _vobject.name,_vobject.index])
                         self.vobject_liststore.append([_vobject.name, _vobject.index])
                     except:
@@ -232,7 +232,7 @@ class PotentialEnergyAnalysisWindow():
             _name, vobject_index = model[_iter][:2]
             print ('\n\n\_name, vobject_index:', _name, vobject_index, '\n\n')
         #-----------------------------------------------------------------------------
-        self.vobject = self.main.vm_session.vismol_objects_dic[vobject_index]
+        self.vobject = self.main.vm_session.vobjects_dic[vobject_index]
 
         self.data_liststore.clear()
         for index , data in enumerate(self.main.p_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][vobject_index]):
@@ -255,7 +255,7 @@ class PotentialEnergyAnalysisWindow():
             _name, index = model[_iter][:2]
             #print ('\n\n\_name, index:', _name,  index, '\n\n')
         
-        #self.vobject = self.main.vm_session.vismol_objects_dic[vobject_index]
+        #self.vobject = self.main.vm_session.vobjects_dic[vobject_index]
         self.data = self.main.p_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index] 
         print(self.data)
         self._draw_data(cla = True)
@@ -438,10 +438,10 @@ class PotentialEnergyAnalysisWindow():
         
         
         print(len(frames))
-        vobject = self.main.p_session.build_vismol_object_from_pDynamo_system (
+        vobject = self.main.p_session.build_vobject_from_pDynamo_system (
                                                            name                 = 'Trajectory from PES', #+str(self.traj_export_index)  ,
                                                            system_id            = system_id,
-                                                           vismol_object_active = True        ,
+                                                           vobject_active = True        ,
                                                            autocenter           = True        ,
                                                            refresh_qc_and_fixed = False,
                                                            frames               = frames)
@@ -451,12 +451,12 @@ class PotentialEnergyAnalysisWindow():
         
         
         
-        self.main.p_session.refresh_qc_and_fixed_representations(_all = False, 
+        self.main.p_session.refresh_qc_and_fixed_representations(      _all = False, 
                                                                   system_id = system_id , 
-                                                                     visObj = vobject,    
-                                                                fixed_atoms = True , 
-                                                                   QC_atoms = True , 
-                                                                     static = True )
+                                                                     vobject = vobject,    
+                                                                 fixed_atoms = True , 
+                                                                    QC_atoms = True , 
+                                                                      static = True )
 
         self.main.p_session.active_id = active_id
 

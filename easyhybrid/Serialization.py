@@ -17,7 +17,7 @@ class LoadAndSaveFiles:
   
         self.p_session = self.main_session.p_session
         
-        vismol_objects_dic = {}
+        vobjects_dic = {}
         
         #********************************************************************** 
         
@@ -25,9 +25,9 @@ class LoadAndSaveFiles:
         #                 V I S M O L    O B J E C T S
         #---------------------------------------------------------------
         
-        for vobj_id, vobj in self.vismol_objects_dic.items():
+        for vobj_id, vobj in self.vobjects_dic.items():
             
-            vismol_objects_dic[vobj_id] = {}
+            vobjects_dic[vobj_id] = {}
             '''-------------------------------------------------------'''
             '''Exporting atom list'''
             '''-------------------------------------------------------'''
@@ -43,7 +43,8 @@ class LoadAndSaveFiles:
                               'symbol'     : atom.symbol     , 
                               'occupancy'  : atom.occupancy  , 
                               'bfactor'    : atom.bfactor    , 
-                              'charge'     : atom.charge   
+                              'charge'     : atom.charge     ,
+                              'color'      : atom.color      ,
                               })
             
             representations = {}
@@ -74,21 +75,21 @@ class LoadAndSaveFiles:
             
 
             #'''
-            vismol_objects_dic[vobj_id] = {'name'                    : vobj.name                 ,
-                                           'atoms'                   : atoms                     ,
-                                           'index_bonds'             : list(vobj.index_bonds)    ,
-                                           'dynamic_bonds'            : list(vobj.dynamic_bonds) ,
-                                           'active'                  : vobj.active               ,
-                                           'frames'                  : vobj.frames               ,
-                                           'vobj_id'                 : vobj_id                   ,
-                                           'easyhybrid_system_id'    : vobj.easyhybrid_system_id ,
-                                           'representations'         : representations           ,
-                                           'color_palette'           : vobj.color_palette        ,
-                                           #'trajectory2D_xy_indexes' : vobj.trajectory2D_xy_indexes
+            vobjects_dic[vobj_id] = {'name'                    : vobj.name                 ,
+                                     'atoms'                   : atoms                     ,
+                                     'index_bonds'             : list(vobj.index_bonds)    ,
+                                     'dynamic_bonds'            : list(vobj.dynamic_bonds) ,
+                                     'active'                  : vobj.active               ,
+                                     'frames'                  : vobj.frames               ,
+                                     'vobj_id'                 : vobj_id                   ,
+                                     'easyhybrid_system_id'    : vobj.easyhybrid_system_id ,
+                                     'representations'         : representations           ,
+                                     'color_palette'           : vobj.color_palette        ,
+                                     #'trajectory2D_xy_indexes' : vobj.trajectory2D_xy_indexes
                                            }
             
             try:
-                vismol_objects_dic[vobj_id]['trajectory2D_xy_indexes'] = vobj.trajectory2D_xy_indexes
+                vobjects_dic[vobj_id]['trajectory2D_xy_indexes'] = vobj.trajectory2D_xy_indexes
             except:
                 pass
             
@@ -116,11 +117,11 @@ class LoadAndSaveFiles:
             if system:
                 for key in system.keys():
                     
-                    if key == 'vismol_object':
-                        pdynamo_projects['systems'][system_id]['vismol_object'] = system['vismol_object'].index
+                    if key == 'vobject':
+                        pdynamo_projects['systems'][system_id]['vobject'] = system['vobject'].index
                     
-                    elif key == 'vismol_objects':
-                        pdynamo_projects['systems'][system_id]['vismol_objects'] = {}
+                    elif key == 'vobjects':
+                        pdynamo_projects['systems'][system_id]['vobjects'] = {}
                     
                     else:
                         pdynamo_projects['systems'][system_id][key] = system[key]
@@ -130,7 +131,7 @@ class LoadAndSaveFiles:
                                                         'id'            : system['id'           ],
                                                         'name'          : system['name'         ],
                                                         'system'        : system['system'       ],
-                                                        'vismol_object' : system['vismol_object'].index,
+                                                        'vobject' : system['vobject'].index,
                                                         'active'        : system['active'       ],
                                                         'bonds'         : system['bonds'        ],
                                                         'sequence'      : system['sequence'     ],
@@ -150,7 +151,7 @@ class LoadAndSaveFiles:
 
         easyhybrid_session_data = { 
                                     'pdynamo_projects'   : pdynamo_projects  ,
-                                    'vismol_objects_dic' : vismol_objects_dic,
+                                    'vobjects_dic' : vobjects_dic,
                                     'vm_session'         : vm_session    ,
                                     }
         
@@ -167,7 +168,7 @@ class LoadAndSaveFiles:
         easyhybrid_session_data = pickle.load(infile)
         
         '''
-        self.main_session.vm_session.vismol_objects = []
+        self.main_session.vm_session.vobjects = []
         #---------------------------------------------------------------
         print(self.main_session.vm_session.vm_session_vbos)
         for index in self.main_session.vm_session.vm_session_vbos:
@@ -178,7 +179,7 @@ class LoadAndSaveFiles:
             GL.glDeleteBuffers( 1 , ctypes.byref( array) )
         
         
-        #for vismol_object in self.main_session.vm_session.vismol_objects:
+        #for vobject in self.main_session.vm_session.vobjects:
             
         #---------------------------------------------------------------
         #'''
@@ -203,7 +204,7 @@ class LoadAndSaveFiles:
         
         
         
-        for vobj_id, vobject_data in easyhybrid_session_data['vismol_objects_dic'].items():
+        for vobj_id, vobject_data in easyhybrid_session_data['vobjects_dic'].items():
 
             frames          = vobject_data['frames']
             name            = vobject_data['name']
@@ -213,8 +214,8 @@ class LoadAndSaveFiles:
             representations = vobject_data['representations']
             color_palette   = vobject_data['color_palette']
         
-            vismol_object  = VismolObject.VismolObject(
-                                                       #active                         = easyhybrid_session_data['vismol_objects_dic'][vobj_id]['active']
+            vobject  = VismolObject.VismolObject(
+                                                       #active                         = easyhybrid_session_data['vobjects_dic'][vobj_id]['active']
                                                        name                           = name, 
                                                        atoms                          = atoms, 
                                                        vm_session                     = self, 
@@ -224,21 +225,21 @@ class LoadAndSaveFiles:
                                                        color_palette                  = color_palette,
                                                        )
                 
-            vismol_object.index                = vobj_id
-            vismol_object.active               = vobject_data['active']
-            vismol_object.dynamic_bonds        = vobject_data['dynamic_bonds']
-            vismol_object.easyhybrid_system_id = vobject_data['easyhybrid_system_id']
-            vismol_object.set_model_matrix(self.glwidget.vm_widget.model_mat)
+            vobject.index                = vobj_id
+            vobject.active               = vobject_data['active']
+            vobject.dynamic_bonds        = vobject_data['dynamic_bonds']
+            vobject.easyhybrid_system_id = vobject_data['easyhybrid_system_id']
+            vobject.set_model_matrix(self.glwidget.vm_widget.model_mat)
             try:
-                vismol_object.trajectory2D_xy_indexes = vobject_data['trajectory2D_xy_indexes']
+                vobject.trajectory2D_xy_indexes = vobject_data['trajectory2D_xy_indexes']
             except:
                 print('no trajectory2D_xy_indexes  found')
             # - - - - - - - - - R E P R E S E N T A T I O N - - - - - - - - - - - - - - - 
             #for rep_key in representations.keys():
                 
-            self.add_vismol_object_to_vismol_session (pdynamo_session    = self.p_session, 
+            self.add_vobject_to_vismol_session (pdynamo_session    = self.p_session, 
                                                       rep                = representations, 
-                                                      vismol_object      = vismol_object, 
+                                                      vobject      = vobject, 
                                                       vobj_count         = False,
                                                       autocenter         = True,
                                                       find_dynamic_bonds = False)
@@ -248,7 +249,7 @@ class LoadAndSaveFiles:
             
             
             #self.main_session.vm_session.glwidget.queue_draw()
-            self.main_session.vm_session.vismol_objects_dic[vobj_id].active = vobject_data['active']
+            self.main_session.vm_session.vobjects_dic[vobj_id].active = vobject_data['active']
         
         
         
@@ -268,7 +269,7 @@ class LoadAndSaveFiles:
         for key, system in self.p_session.systems.items():
         #    #print(key, system)
             if system:
-                system['vismol_object'] = self.vismol_objects_dic[system['vismol_object']]
+                system['vobject'] = self.vobjects_dic[system['vobject']]
         #'''#----------------------------------------------------------------------------------        
         
         
@@ -291,7 +292,7 @@ class LoadAndSaveFiles:
         
         
         
-        self.main_session.vm_session.center(self.p_session.systems[self.p_session.active_id]['vismol_object'])
+        self.main_session.vm_session.center(self.p_session.systems[self.p_session.active_id]['vobject'])
         
         if self.main_session.selection_list_window.visible:
             self.main_session.selection_list_window.update_window(system_names = True, coordinates = False,  selections = False)
@@ -304,10 +305,10 @@ class LoadAndSaveFiles:
         
         #self.p_session.refresh_qc_and_fixed_representations(_all = True)#_all = True)
         
-        #for index, visObj in self.main_session.vm_session.vismol_objects_dic.items():
-        #    # for all the visObj in all created visObjs  
-        #    for rep_name in visObj.representations:
+        #for index, vobject in self.main_session.vm_session.vobjects_dic.items():
+        #    # for all the vobject in all created vobjects  
+        #    for rep_name in vobject.representations:
         #        print (rep_name)
         #        
-        #        if visObj.representations[rep_name]  != None:
-        #            visObj.representations[rep_name].draw_representation()
+        #        if vobject.representations[rep_name]  != None:
+        #            vobject.representations[rep_name].draw_representation()

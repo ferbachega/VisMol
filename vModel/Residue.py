@@ -10,13 +10,13 @@ class Residue:
                         name    = 'UNK', 
                         index   = None,
                         chain   = None,
-                        Vobject = None):
+                        vobject = None):
         """ Class initialiser """
         self.atoms     = []
         self.resi      = index
         self.resn      = name
         self.chain     = chain
-        self.Vobject   = Vobject
+        self.vobject   = vobject
         self.isProtein = False
         self.isSolvent = False
         self.mass_center = None
@@ -31,7 +31,7 @@ class Residue:
     def get_center_of_mass (self, mass = False, frame = 0):
         """ Function doc """
         
-        frame_size = len(self.Vobject.frames)-1
+        frame_size = len(self.vobject.frames)-1
         
         if frame <= frame_size:
             pass
@@ -58,8 +58,8 @@ class Residue:
 
     def is_protein (self):
         """ Function doc """
-        #residues_dictionary = MolecularProperties.#self.Vobject.vm_session.vConfig.residues_dictionary
-        #solvent_dictionary  = MolecularProperties.#self.Vobject.vm_session.vConfig.solvent_dictionary
+        #residues_dictionary = MolecularProperties.#self.vobject.vm_session.vConfig.residues_dictionary
+        #solvent_dictionary  = MolecularProperties.#self.vobject.vm_session.vConfig.solvent_dictionary
         # is it a protein residue?
         if self.resn in residues_dictionary.keys():
             self.isProtein = True
