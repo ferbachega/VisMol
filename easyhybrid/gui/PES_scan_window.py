@@ -555,6 +555,8 @@ class PotentialEnergyScanWindow():
         '''         
         parameters = {"simulation_type":"Relaxed_Surface_Scan",
                       "ndim":1                                ,
+                      "dialog"   :True                        ,
+                      "traj_type"  :'pklfolder'               ,
                       "ATOMS_RC1":None                        ,
                       "ATOMS_RC2":None                        ,
                       "nsteps_RC1":0                          ,
@@ -645,6 +647,7 @@ class PotentialEnergyScanWindow():
             #parameters["nprocs"] =  int(self.builder.get_object('n_CPUs_spinbutton').get_value())
             self.is_scan2d = True
             parameters["ndim"] = 2
+            parameters["traj_type"] = 'pklfolder2D'
             _type = self.combobox_reaction_coord2.get_active()            
             entry_FORCE_coord2 = int(self.builder.get_object('entry_FORCE_coord2').get_text() )
             #------------------------------------------
@@ -682,7 +685,7 @@ class PotentialEnergyScanWindow():
         parameters["dincre_RC2"]        = float( self.builder.get_object('entry_step_size2').get_text() )
         #-----------------------------------------------------------------------------------
         print(parameters)
-        a = input('')
+        #a = input('')
         self.main.p_session.run_simulation( _parametersList = parameters )
         
         self.window.destroy()

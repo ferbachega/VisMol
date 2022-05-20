@@ -318,6 +318,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         '''this combobox has the reference to the starting coordinates of a simulation'''
         simParameters={ "simulation_type":"Geometry_Optimization",
                         "trajectory_name": None                  , 
+                        "dialog"         : False                 , 
                         "folder"         :os.getcwd()            , 
                         "optimizer"      :"ConjugatedGradient"   ,
                         "maxIterations"  :600                    ,
@@ -350,6 +351,7 @@ class GeometryOptimizatrionWindow(Gtk.Window):
         #------------------------------------------------------------------------------------
         if self.save_trajectory_box.builder.get_object('checkbox_save_traj').get_active():
             simParameters["save_traj"]       = True
+            simParameters["dialog"]          = True
             simParameters["folder"]          = self.save_trajectory_box.folder_chooser_button.get_folder()
             simParameters["trajectory_name"] = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
             saveFormat                       = self.save_trajectory_box.builder.get_object('combobox_format').get_active()
