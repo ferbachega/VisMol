@@ -55,8 +55,12 @@ class EnergyRefinement:
 		i = 0
 		self.baseName = _outFolder	
 		if not os.path.exists(self.baseName): os.makedirs(self.baseName)
-		_path = os.path.join( _trajFolder,"")
-		self.fileLists   = glob.glob(_path + "*.pkl")
+		if self.xlen > 1:
+			_path = os.path.join( _trajFolder,"")
+			self.fileLists   = glob.glob(_path + "*.pkl")
+		elif self.xlen == 1:
+			self.fileLists.append("single")		
+		#----------------------------------------------------------------------
 		if self.ylen  == 0:
 			self.energiesArray = pymp.shared.array( (self.xlen) , dtype='float')
 			self.indexArrayX   = pymp.shared.array( (self.xlen) , dtype='uint8')
@@ -89,8 +93,11 @@ class EnergyRefinement:
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
 		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
 		self.charge  	 = self.GetQCCharge(newSystem)
-		self.pureQCAtoms = list(newSelection)		
-		qcModel          = self.molecule.qcModel
+		self.pureQCAtoms = list(newSelection)	
+		qcModel          = None
+		if self.molecule.qcModel == None:
+			qcModel = QCModelMNDO.WithOptions( hamiltonian = "am1" )
+		else: qcModel = self.molecule.qcModel
 		#-------------------------------------------------------------------------------
 		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
 		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )

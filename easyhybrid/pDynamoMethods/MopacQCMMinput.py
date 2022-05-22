@@ -31,7 +31,8 @@ class MopacQCMMinput:
 		self.inputFile 		= None
 		self.atomsDict		= {}
 		self.Hamiltonian    = _hamiltonian
-		#self.molecule.coordinates3 = ImportCoordinates3(_coordName+".pkl",log=None)
+		if _coordName == "single": 
+			self.molecule.coordinates3 = ImportCoordinates3(_coordName+".pkl",log=None)
 		# ver se é assim que se pega as cargas ainda
 		self.charges = self.molecule.mmState.charges
 		

@@ -1517,12 +1517,12 @@ def Change_QC_Region():
 	rc1_md = ReactionCoordinate(a1,False)
 	rc1_md.GetRCLabel(proj.cSystem)
 	
-	_name = "SCAN1D_ChangeQCregion"
+	_name = "SCAN1D_ChangeQCregion_single"
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
-		QCMMScanMultipleDistance(12,0.1,name=_name)
+		QCMMScanMultipleDistance(1,0.1,name=_name)
 
-	parameters = { "xnbins":12			               ,
+	parameters = { "xnbins":1			               ,
 				   "ynbins":0			               ,
 				   "source_folder":_path               ,
 				   "change_qc_region":True             ,
@@ -1537,7 +1537,7 @@ def Change_QC_Region():
 				   "crd1_label":rc1_md.label            ,
 				   "contour_lines":12                   ,
 				   "xlim_list": [-1.0,1.0]              ,
-				   "Software":"pDynamo"	}
+				   "Software":"mopac"	}
 
 	proj.RunSimulation(parameters)
 #=====================================================
