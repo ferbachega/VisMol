@@ -12,6 +12,11 @@ import glob, math, os, os.path, sys
 from datetime import date
 from pprint import pprint
 import numpy as np
+
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
 VISMOL_HOME = os.environ.get('VISMOL_HOME')
 #path fo the core python files on your machine
 sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") )
@@ -1062,7 +1067,7 @@ class pDynamoSession:
         #print('\n\n\ build_vobject_from_pDynamo_system 753:', system_id, name)
         
         #name = str(self.systems[system_id]['step_counter'])+' '+name
-        self.systems[system_id]['step_counter'] += 1
+        
         
         self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety, system_id = system_id)
         self.get_sequence_from_pDynamo_system(system_id = system_id)
@@ -1458,23 +1463,73 @@ class pDynamoSession:
         _parametersList["active_system"] = self.systems[self.active_id]['system']
         run = Simulation(_parametersList)
         run.Execute() 
-        print('1449')       
+        self.systems[self.active_id]['step_counter'] += 1
         
-        #dialog = Gtk.Dialog()
-        #dialog.run()
-        vobject = self.build_vobject_from_pDynamo_system ( name                     = _parametersList["vobject_name"],
-                                                           #system_id                = None              ,
-                                                           #vobject_active     = True              ,
-                                                           autocenter               = False              ,
-                                                           refresh_qc_and_fixed     = False              ,
-                                                           add_vobject_to_vm_session = True              ,
-                                                           #frames                   = None
-                                                           )
         
-        self.refresh_vobject_qc_and_fixed_representations ( 
-                                                      vobject = vobject,    
-                                                 fixed_atoms = True , 
-                                                    QC_atoms = True , 
-                                                      static = True )                                               
+        '''---------------------------------------------------------------------'''
+        #                 AUTO OPEN DIALOG
+        if _parametersList['dialog']:
+            dialog = Gtk.MessageDialog(
+                                       flags=0,
+                                       message_type=Gtk.MessageType.QUESTION,
+                                       buttons=Gtk.ButtonsType.YES_NO,
+                                       text="Your calculation is done!",
+                                       )
+            
+            dialog.format_secondary_text(
+                                        " Would you like to analyze the trajectory/data now?"
+                                        )
+            response = dialog.run()
+            
+            if response == Gtk.ResponseType.YES:
+                
+                #                 AUTO OPEN TRAJECTORY AND LOG
+                #--------------------------------------------------------------------------------
+                traj_type      =  _parametersList['traj_type']
+                folder         = _parametersList['folder']
+                name           = _parametersList['traj_folder_name']+'.ptGeo'
+                logfile        = os.path.join( folder, _parametersList['traj_folder_name']+'.log')
+                forder_or_file = os.path.join(folder, name)
+                
+                print(_parametersList)
+                
+                self.import_data ( 
+                                 _type      = traj_type, 
+                                  data      = forder_or_file, 
+                                  logfile   = logfile,
+                                  #first     = 0 , 
+                                  #last      = -1, 
+                                  #stride    = 1, 
+                                  system_id = self.active_id, 
+                                  vobject   = None, 
+                                  name      = _parametersList["vobject_name"]
+                                  ) 
+                #--------------------------------------------------------------------------------
+            
+            elif response == Gtk.ResponseType.NO:
+                pass
+
+
+            dialog.destroy()
+        
+        
+        else:
+            vobject = self.build_vobject_from_pDynamo_system ( name                     = _parametersList["vobject_name"],
+                                                               #system_id                = None              ,
+                                                               #vobject_active     = True              ,
+                                                               autocenter               = False              ,
+                                                               refresh_qc_and_fixed     = False              ,
+                                                               add_vobject_to_vm_session = True              ,
+                                                               #frames                   = None
+                                                               )
+            
+            self.refresh_vobject_qc_and_fixed_representations ( 
+                                                          vobject = vobject,    
+                                                     fixed_atoms = True , 
+                                                        QC_atoms = True , 
+                                                          static = True )  
+
+        '''---------------------------------------------------------------------'''
+
 #======================================================================================================
 
