@@ -113,16 +113,18 @@ class Simulation:
 		dimensions    = [0,0] 
 		dimensions[0] =  self.parameters["xnbins"]
 		nmaxthreads   = 1 
+		_trajfolder   = "single"
 		if "ynbins"      in self.parameters:  dimensions[1] = self.parameters["ynbins"]
 		if "restart"     in self.parameters:  _Restart = self.parameters["restart"]
 		if "NmaxThreads" in self.parameters:  nmaxthreads = self.parameters["NmaxThreads"]
+		if "source_folder" in self.parameters: _trajfolder = self.parameters["source_folder"] 
 		#------------------------------------------------------------------
-		ER = EnergyRefinement(self.molecule  					    ,
-							  self.parameters["source_folder"]  	,
-							  self.parameters["folder"]             ,
-							  dimensions                            ,
-							  self.parameters["charge"]             ,
-							  self.parameters["multiplicity"]		)
+		ER = EnergyRefinement(self.molecule  				,
+							  _trajfolder  					,
+							  self.parameters["folder"]     ,
+							  dimensions                    ,
+							  self.parameters["charge"]     ,
+							  self.parameters["multiplicity"])
 		#------------------------------------------------------------------
 		if "change_qc_region" in self.parameters        : ER.ChangeQCRegion(self.parameters["center"],self.parameters["radius"])
 		if 	 self.parameters["Software"] == "pDynamo"   : ER.RunInternalSMO(self.parameters["methods_lists"],nmaxthreads)

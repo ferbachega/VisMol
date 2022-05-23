@@ -83,7 +83,7 @@ class MopacQCMMinput:
 		elif _mult == 5:
 			MULT = "quintet"
 
-		mol_file_name = os.path.join(self.baseName,"mol.in")
+		mol_file_name = os.path.join( os.getcwd(),"mol.in")
 		self.mop_file_name = os.path.join(self.baseName, os.path.basename(self.coordName) + "_" + self.Hamiltonian+ ".mop" )
 		mol_file  = open( mol_file_name, "w" )
 		mop_file  = open( self.mop_file_name, "w" )
@@ -114,7 +114,7 @@ class MopacQCMMinput:
 	def Execute(self, mopac_path="/opt/mopac/MOPAC2016.exe"):
 		'''
 		'''
-		command = mopac_path + " " + self.mop_file_name 
+		command = mopac_path + " " + self.mop_file_name 		
 		os.system(command)
 	#--------------------------------------------------------
 	def GetEnergy(self):
@@ -122,7 +122,7 @@ class MopacQCMMinput:
 		Read ARC file to get and return the total energy
 		'''
 		arcfile = open(self.mop_file_name[:-4]+".arc","r")
-		energy = 0.0 
+		energy = 0.0 		
 		for line in arcfile:
 			line2 = line.split()
 			if len(line2) == 9:

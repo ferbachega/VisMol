@@ -39,7 +39,7 @@ class EnergyRefinement:
 		'''
 		self.molecule 	 = _refSystem
 		self.trajFolder  = _trajFolder  
-		self.pureQCAtoms = list(self.molecule.qcState.pureQCAtoms)
+		self.pureQCAtoms = []
 		self.RC1 	 	 = []
 		self.RC2 		 = []
 		self.rc1CoordName= []
@@ -51,13 +51,16 @@ class EnergyRefinement:
 		self.multiplicity= _mult
 		self.text 		 = ""
 		self.methods 	 = []
-
+		self.fileLists   = []
+		
+		if hasattr(self.molecule,"qcState"): 
+			self.pureQCAtoms = list(self.molecule.qcState.pureQCAtoms)
 		i = 0
 		self.baseName = _outFolder	
 		if not os.path.exists(self.baseName): os.makedirs(self.baseName)
 		if self.xlen > 1:
 			_path = os.path.join( _trajFolder,"")
-			self.fileLists   = glob.glob(_path + "*.pkl")
+			self.fileLists  = glob.glob(_path + "*.pkl")
 		elif self.xlen == 1:
 			self.fileLists.append("single")		
 		#----------------------------------------------------------------------
@@ -92,6 +95,8 @@ class EnergyRefinement:
 		newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
 		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
+		#ExportSystem("testQC.pdb",newSystem)
+		#input()
 		self.charge  	 = self.GetQCCharge(newSystem)
 		self.pureQCAtoms = list(newSelection)	
 		qcModel          = None
@@ -207,7 +212,9 @@ class EnergyRefinement:
 				mop.CalculateGradVectors()
 				mop.write_input(self.charge,self.multiplicity)
 				mop.Execute()
-				lsFrames= GetFrameIndex(self.fileLists[i][:-4])						
+				lsFrames = []
+				if self.fileLists[i] == "single": lsFrames.append(0)
+				else: lsFrames = GetFrameIndex(self.fileLists[i][:-4])						
 				if self.ylen > 0:
 					self.energiesArray[ lsFrames[1], lsFrames[0] ] = mop.GetEnergy()
 					self.indexArrayX[ lsFrames[1], lsFrames[0] ] = lsFrames[0]
@@ -217,8 +224,8 @@ class EnergyRefinement:
 					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
 			#----------------
 			if self.ylen > 0:
-					self.SMOenergies[smo] = self.energiesArray
-					self.energiesArray    = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')	
+				self.SMOenergies[smo] = self.energiesArray
+				self.energiesArray    = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')	
 			else:
 				self.SMOenergies[smo] = self.energiesArray
 				self.energiesArray    = pymp.shared.array( (self.xlen) , dtype='float')	
