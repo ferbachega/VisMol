@@ -132,7 +132,7 @@ class Simulation:
 		elif self.parameters["Software"] == "DFTBplus"  : ER.RunDFTB()
 		elif self.parameters["Software"] == "ORCA"		: ER.RunORCA(self.parameters["orca_method"],self.parameters["basis"],nmaxthreads,_restart=_Restart)
 		elif self.parameters["Software"] == "mopac" or self.parameters["Software"]=="MOPAC":
-			_mopacKeyWords = ["AUX","LARGE"] 
+			_mopacKeyWords = ["AUX","LARGE","PDBOUT"] 
 			if "mopac_keywords" in self.parameters:
 				for key in self.parameters["mopac_keywords"]: _mopacKeyWords.append(key)
 			ER.RunMopacSMO(self.parameters["methods_lists"],_mopacKeyWords)

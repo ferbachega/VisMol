@@ -62,7 +62,7 @@ class EnergyRefinement:
 			_path = os.path.join( _trajFolder,"")
 			self.fileLists  = glob.glob(_path + "*.pkl")
 		elif self.xlen == 1:
-			self.fileLists.append("single")		
+			self.fileLists.append(_trajFolder+".pkl")		
 		#----------------------------------------------------------------------
 		if self.ylen  == 0:
 			self.energiesArray = pymp.shared.array( (self.xlen) , dtype='float')
@@ -80,7 +80,7 @@ class EnergyRefinement:
 		'''
 		qc_charge=0.0
 		mmCharges = _system.mmState.charges
-		for i in range(len(mmCharges)): qc_charge += mmCharges[i]		
+		for i in range(len(mmCharges)): qc_charge += mmCharges[i]			
 		return( round(qc_charge) )
 	#=====================================================================================
 	def ChangeQCRegion(self,_centerAtom,_radius):
@@ -91,12 +91,11 @@ class EnergyRefinement:
 			_radius    :
 		'''
         #-----------------------------------------------------------------------------		
+		
 		sel              = Selection.FromIterable([_centerAtom])
 		newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
-		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )
-		#ExportSystem("testQC.pdb",newSystem)
-		#input()
+		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )		
 		self.charge  	 = self.GetQCCharge(newSystem)
 		self.pureQCAtoms = list(newSelection)	
 		qcModel          = None
@@ -106,6 +105,7 @@ class EnergyRefinement:
 		#-------------------------------------------------------------------------------
 		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
 		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
+		self.molecule.Summary()		
         #---------------------------------------------------
         
 	#=====================================================================================
@@ -213,7 +213,7 @@ class EnergyRefinement:
 				mop.write_input(self.charge,self.multiplicity)
 				mop.Execute()
 				lsFrames = []
-				if self.fileLists[i] == "single": lsFrames.append(0)
+				if self.fileLists[i] == "single.pkl": lsFrames.append(0)
 				else: lsFrames = GetFrameIndex(self.fileLists[i][:-4])						
 				if self.ylen > 0:
 					self.energiesArray[ lsFrames[1], lsFrames[0] ] = mop.GetEnergy()

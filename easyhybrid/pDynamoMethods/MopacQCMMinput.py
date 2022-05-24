@@ -31,9 +31,9 @@ class MopacQCMMinput:
 		self.inputFile 		= None
 		self.atomsDict		= {}
 		self.Hamiltonian    = _hamiltonian
-		if _coordName == "single": 
+		if not _coordName == "single": 
 			self.molecule.coordinates3 = ImportCoordinates3(_coordName+".pkl",log=None)
-		# ver se é assim que se pega as cargas ainda
+
 		self.charges = self.molecule.mmState.charges
 		
 		for i in self.molecule.atoms.items:
@@ -44,8 +44,8 @@ class MopacQCMMinput:
 			z      = self.molecule.coordinates3[i.index, 2]
 			self.atomsDict[index] = [ symbol,x,y,z,self.charges[index] ]
 
-		self.QCatoms		= list(self.molecule.qcState.pureQCAtoms)
-		self.BoundaryAtoms	= list(self.molecule.qcState.boundaryAtoms)
+		self.QCatoms		= list(self.molecule.qcState.qcAtoms)
+		self.BAatoms		= list(self.molecule.qcState.boundaryAtoms)
 
 	#==================================================================
 	def CalculateGradVectors(self):
@@ -89,6 +89,7 @@ class MopacQCMMinput:
 		mop_file  = open( self.mop_file_name, "w" )
 		molInText = "\n{} 0\n".format( len(self.QCatoms) )
 		mop_text  = self.Hamiltonian + " 1SCF charge={} {} ".format(_chg,MULT)
+		#mop_text  = self.Hamiltonian + " 1SCF  {} ".format(MULT)
 
 		for _key in self.keywords:
 			mop_text += _key
@@ -97,7 +98,10 @@ class MopacQCMMinput:
 		mop_text+="\n\n\n"
 
 		for i in self.QCatoms:
-			mop_text += "{} {} 1 {} 1 {} 1\n".format(self.atomsDict[i][0],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3])
+			if i in self.BAatoms:
+				mop_text += "{} {} 1 {} 1 {} 1\n".format("H",self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3])
+			else:
+				mop_text += "{} {} 1 {} 1 {} 1\n".format(self.atomsDict[i][0],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3])
 
 		idx = 0 
 		for i in self.QCatoms:
