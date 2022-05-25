@@ -42,7 +42,7 @@ class MolecularDynamicsSetupWindow():
         """ Function doc """
         if self.Visible  ==  False:
             self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_molecular_dynamics_window2.glade'))
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_molecular_dynamics_window.glade'))
             #job_list_canvas = self.builder.get_object('job_list_canvas')
             #self.builder.connect_signals(self)
             ##
@@ -409,7 +409,7 @@ class MolecularDynamicsWindow():
         """ Function doc """
         if self.Visible  ==  False:
             self.builder = Gtk.Builder()
-            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_molecular_dynamics_window2.glade'))
+            self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_molecular_dynamics_window.glade'))
             job_list_canvas = self.builder.get_object('job_list_canvas')
             self.builder.connect_signals(self)
             ##
