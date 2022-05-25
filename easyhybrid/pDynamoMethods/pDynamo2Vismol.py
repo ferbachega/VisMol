@@ -566,7 +566,9 @@ class pDynamoSession:
         '''----------------------------------------------------------------'''
         '''Restoring the original charges before rescheduling a new region.'''
         original_charges = self.systems[self.active_id]['system_original_charges'].copy()
-        system.mmState.charges   = original_charges
+        
+        for index, charge in enumerate(original_charges):
+            system.mmState.charges[index]   = original_charges[index]
         '''----------------------------------------------------------------'''
         print('\n\n\Sum of total charges(MM)', sum(system.mmState.charges))
 
