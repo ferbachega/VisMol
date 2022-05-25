@@ -325,31 +325,32 @@ class pDynamoSession:
             working_folder = HOME
         
         psystem = {
-                  'id'             : 0              ,  # access number (same as the access key in the self.systems dictionary)
-                  'name'           : name           ,
-                  'tag'            : tag            ,  # 15 length string
-                                   
-                  'created'        : date.today()   ,  # Time     
-                  'original_files' : []             ,  # a list of files used to create the system 
-                  'color_palette'  : None           , # will be replaced by a dict
-
-                  'system'         : system         ,  # pdynamo system
-                                                    
-                  'vobject'        : None           ,  # Vismol object associated with the system -> is the object that will 
-                                                       # undergo changes when something new is requested by the interface, for example: show the QC region
-                  'active'         : False          , 
-                  'bonds'          : None           ,
-                  'sequence'       : None           ,
-                                   
-                  'qc_table'       : None           ,
-                  'fixed_table'    : []             ,
-                  'selections'     : {}             ,
+                  'id'                      : 0              ,  # access number (same as the access key in the self.systems dictionary)
+                  'name'                    : name           ,
+                  'tag'                     : tag            ,  # 15 length string
+ 
+                  'created'                 : date.today()   ,  # Time     
+                  'original_files'          : []             ,  # a list of files used to create the system 
+                  'color_palette'           : None           ,  # will be replaced by a dict
+                                            
+                  'system'                  : system         ,  # pdynamo system
+                                                             
+                  'vobject'                 : None           ,  # Vismol object associated with the system -> is the object that will 
+                                                                # undergo changes when something new is requested by the interface, for example: show the QC region
+                  'active'                  : False          , 
+                  'bonds'                   : None           ,
+                  'sequence'                : None           ,
+                                            
+                  'qc_table'                : None           ,
+                  'fixed_table'             : []             ,
+                  'system_original_charges' : []    ,
+                  'selections'              : {}             ,
                   
-                  'vobjects': {}                    ,
-                  'logfile_data'   : {}             , # <--- vobject_id : [data0, data1, data2], ...]  obs: each "data" is a dictionary 
-                  'working_folder' : working_folder , 
-                  
-                  'step_counter'   : 0              , 
+                  'vobjects'                : {}                    ,
+                  'logfile_data'            : {}             , # <--- vobject_id : [data0, data1, data2], ...]  obs: each "data" is a dictionary 
+                  'working_folder'          : working_folder , 
+                                            
+                  'step_counter'            : 0              , 
                    }
         return psystem
         
@@ -425,7 +426,7 @@ class pDynamoSession:
             name = system.label
         
         try:
-            psystem['system_original_charges'] =  list(system.AtomicCharges())
+            psystem['system_original_charges'] =  list(system.AtomicCharges()).copy()
         except:
             psystem['system_original_charges'] = []
         psystem['system']                  =  system
@@ -556,10 +557,19 @@ class pDynamoSession:
     
     def check_charge_fragmentation(self, correction = True):
         """ Function doc """
-
+        #self.systems[self.active_id]['system_original_charges']
         mm_residue_table = {}
         qc_residue_table = self.systems[self.active_id]['qc_residue_table']
         system           = self.systems[self.active_id]['system']
+        
+        print('\n\n\Sum of total charges(MM)', sum(system.mmState.charges))
+        '''----------------------------------------------------------------'''
+        '''Restoring the original charges before rescheduling a new region.'''
+        original_charges = self.systems[self.active_id]['system_original_charges'].copy()
+        system.mmState.charges   = original_charges
+        '''----------------------------------------------------------------'''
+        print('\n\n\Sum of total charges(MM)', sum(system.mmState.charges))
+
         qc_charge        = 0.0
         
         if system.mmModel is None:
@@ -577,10 +587,11 @@ class pDynamoSession:
                 mm_residue_table[res.resi] = []
                 
                 for atom in res.atoms:
-                    index_v =  atom.index-1
-                    index_p =  system.atoms.items[index_v].index
-                    index_p =  system.atoms.items[index_v].label
-                    charge  =  system.mmState.charges[index_v]
+                    index_v = atom.index-1
+                    index_p = system.atoms.items[index_v].index
+                    index_p = system.atoms.items[index_v].label
+                    #print( system.mmState.charges)
+                    charge  = system.mmState.charges[index_v]
                     resn    = res.resn 
                     atom.charge = system.mmState.charges[index_v]
                     
@@ -623,6 +634,9 @@ class pDynamoSession:
                     #total += pcharge
             else:
                 pass
+        print('\n\n\Sum of total charges(MM) after rescaling', sum(system.mmState.charges))
+        print('\n\n\Sum of total charges(MM) original', sum(self.systems[self.active_id]['system_original_charges']))
+        
         print('QC charge from selected atoms: ',round(qc_charge) )
         #for atom in self.systems[self.active_id]['vobject'].atoms:
         #    print( atom.index, atom.name, atom.charge)
@@ -712,7 +726,7 @@ class pDynamoSession:
         
         if self.systems[self.active_id]['qc_table'] :
             
-            '''This function reschedules the remaining loads in the MM part. The 
+            '''This function rescales the remaining charges in the MM part. The 
             sum of the charges in the MM region must be an integer value!'''
             self.check_charge_fragmentation()
             '''----------------------------------------------------------------'''
@@ -1057,16 +1071,11 @@ class pDynamoSession:
                                                  frames                   = None
                                                  ):
         """ Function doc """
-        #print('\n\n\ build_vobject_from_pDynamo_system 736:', system_id, name)
-        #print('frames ',len(frames) )
+
         if system_id is not None:
             pass
         else:
             system_id = self.active_id
-        print('1036')       
-        #print('\n\n\ build_vobject_from_pDynamo_system 753:', system_id, name)
-        
-        #name = str(self.systems[system_id]['step_counter'])+' '+name
         
         
         self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety, system_id = system_id)
@@ -1082,35 +1091,16 @@ class pDynamoSession:
             frame.append(xyz[2])
             atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom, system_id = system_id))
         frame = np.array(frame, dtype=np.float32)
-        print('1055')       
+      
         
         if frames is None:
             frames = [frame]
         else:
             pass
-        
-        print('frames ',len(frames) )
-        #if frames:
-        #    frame = []
-        #    
-        #    for atom in self.systems[system_id]['system'].atoms.items:
-        #        xyz = self.get_atom_coords_from_pdynamo_system (atom   = atom, system  = self.systems[system_id]['system'])
-        #        frame.append(xyz[0])
-        #        frame.append(xyz[1])
-        #        frame.append(xyz[2])
-        #        
-        #        atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom, system_id = system_id))
-        #
-        #    frame = np.array(frame, dtype=np.float32)
-        #    frames = [frame]
-        #else:
-        #    for atom in self.systems[system_id]['system'].atoms.items:
-        #        atoms.append(self.get_atom_info_from_pdynamo_atom_obj(atom   = atom, system_id = system_id))
-        #    pass
+
 
         name  = os.path.basename(name)
-        print('1082')       
-        #try:
+
         vobject  = VismolObject.VismolObject(name                           = name                                          ,    
                                              atoms                          = atoms                                         ,    
                                              vm_session                     = self.vm_session                            ,    
@@ -1118,13 +1108,11 @@ class pDynamoSession:
                                              trajectory                     = frames                                       ,  
                                              color_palette                  = self.systems[system_id]['color_palette'] ,
                                              auto_find_bonded_and_nonbonded = False               )
-        #except:
-        #    print(atoms)
+
         vobject.easyhybrid_system_id = self.systems[system_id]['id']
         vobject.set_model_matrix(self.vm_session.glwidget.vm_widget.model_mat)
         vobject.active = vobject_active
         vobject._get_center_of_mass(frame = 0)
-        print('1095')       
         if self.systems[system_id]['system'].qcModel:
             sum_x = 0.0 
             sum_y = 0.0 
@@ -1149,8 +1137,7 @@ class pDynamoSession:
             
         else:
             center = vobject.mass_center
-        print('1120')       
-        #self._check_ref_vobject_in_pdynamo_system()
+
         self.systems[system_id]['vobject'] = vobject
         if add_vobject_to_vm_session:
             self.vm_session.add_vobject_to_vismol_session (pdynamo_session  = self,
@@ -1163,7 +1150,6 @@ class pDynamoSession:
 
         self.vm_session.glwidget.vm_widget.center_on_coordinates(vobject, center)
         self.vm_session.main_session.update_gui_widgets()
-        print('1134')       
         return vobject
 
     def selections (self, _centerAtom = None, _radius = None, _method = None, system_id = None):

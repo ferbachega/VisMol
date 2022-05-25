@@ -174,7 +174,7 @@ class PotentialEnergyScanWindow():
             #'''
             self.method_store = Gtk.ListStore(str)
             
-            methods = ["simple distance", "combined distance", 'dihedral']
+            methods = ["simple distance", "multiple distance", 'dihedral']
             
             for method in methods:
                 self.method_store.append([method])
@@ -194,8 +194,7 @@ class PotentialEnergyScanWindow():
             self.combobox_reaction_coord2.pack_start(renderer_text, True)
             self.combobox_reaction_coord2.add_attribute(renderer_text, "text", 0)
             
-            self.combobox_reaction_coord1.set_active(1)
-            self.combobox_reaction_coord2.set_active(1)
+
             #'''--------------------------------------------------------------------------------------------'''
 
             self.method_store = Gtk.ListStore(str)
@@ -271,7 +270,8 @@ class PotentialEnergyScanWindow():
             tag  = step+'_'+tag+'_reaction_coord_scan'  
             #self.save_trajectory_box.builder.get_object('entry_trajectory_name').set_text(tag)
             self.builder.get_object('traj_name').set_text(tag)     
-            
+            self.combobox_reaction_coord1.set_active(0)
+            self.combobox_reaction_coord2.set_active(0)
             self.Visible  = True
     
     def CloseWindow (self, button, data  = None):

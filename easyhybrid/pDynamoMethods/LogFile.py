@@ -12,12 +12,39 @@ from pCore import *
 from datetime import datetime
 from timeit import default_timer as timer
 #*************************************************************
+
+HEADER = '''
+#-----------------------------------------------------------------------------#
+#                                                                             #
+#                                EasyHybrid 3.0                               #
+#                   - A pDynamo3 graphical user interface -                   #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+#                                                                             #
+#             visit: https://sites.google.com/site/EasyHybrid/                #
+#                                                                             #
+#                                                                             #
+#   EasyHybrid team:                                                          #
+#   - Fernando Bachega                                                        #
+#   - Igor Barden                                                             #
+#   - Luis Fernando S M Timmers                                               #
+#   - Martin Field                                                            #
+#   - Troy Wymore                                                             #
+#                                                                             #
+#   Cite this work as:                                                        #
+#   J.F.R. Bachega, L.F.S.M. Timmers, L.Assirati, L.B. Bachega, M.J. Field,   #
+#   T. Wymore. J. Comput. Chem. 2013, 34, 2190-2196. DOI: 10.1002/jcc.23346   #
+#                                                                             #
+#-----------------------------------------------------------------------------#
+'''
+
+
 class LogFile:
     '''
     Class to create and handle Logfiles of pDynamo
     '''
     #-----------------------------------------------------------------
-    def __init__(self, _filePath ):
+    def __init__(self, _filePath):
         '''
         Class constructor.
         Opens the file and initialize the text variable.

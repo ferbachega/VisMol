@@ -68,7 +68,7 @@ class SaveTrajectoryBox:
         self.formats_combo.add_attribute(renderer_text, "text", 0)
         '''--------------------------------------------------------------------------------------------'''
         self.formats_combo.set_active(0)
-        
+        #simParameters["trajectory_name"] = self.save_trajectory_box.builder.get_object('entry_trajectory_name').get_text()
     #====================================================================================
     def on_toggle_save_checkbox (self, widget):
         """ Function doc """
@@ -93,7 +93,21 @@ class SaveTrajectoryBox:
             self.builder.get_object('label_trajectory_frequence').set_sensitive(False)
             self.builder.get_object('entry_trajectory_frequence').set_sensitive(False)
             self.folder_chooser_button.btn.set_sensitive(False)
+       
+    
+    def get_trajectory_frequency (self):
+        """ Function doc """
+        return int(self.builder.get_object('entry_trajectory_frequence').get_text())
+    
+    def get_format (self):
+        return  self.formats_combo.get_active()
         
+    def get_active (self):
+        """ Function doc """
+        if self.builder.get_object('checkbox_save_traj').get_active():
+            return True
+        else:
+            return False
     #====================================================================================
     def get_folder (self):
         """ Function doc """
@@ -102,6 +116,15 @@ class SaveTrajectoryBox:
     def set_folder (self, folder):
         """ Function doc """
         self.folder_chooser_button.set_folder(folder)
+    
+    def get_filename (self):
+        """ Function doc """
+        return self.builder.get_object('entry_trajectory_name').get_text()
+    
+    def set_filename (self, filename = 'filename'):
+        """ Function doc """
+        return self.builder.get_object('entry_trajectory_name').set_text(filename)
+
 
 #=========================================================================================
 class FolderChooserButton:

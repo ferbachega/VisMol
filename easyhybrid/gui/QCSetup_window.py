@@ -133,6 +133,19 @@ class EasyHybridSetupQCModelWindow:
     def update_number_of_qc_atoms (self):
         """ Function doc """
         self.entry_number_of_qc_atoms = self.builder.get_object('entry_number_of_qc_atoms')
+        
+        '''   Estiamting the QC charge  '''
+        '''----------------------------------------------------------------------------------------------'''
+        psystem          = self.easyhybrid_main.p_session.systems [self.easyhybrid_main.p_session.active_id]
+        estimated_charge = 0.0
+        for index in psystem['qc_table']:
+            estimated_charge += psystem['system'].mmState.charges[index]
+        
+        estimated_charge = int(round(estimated_charge))
+        self.spinbutton_charge.set_value (estimated_charge)
+        '''----------------------------------------------------------------------------------------------'''
+
+        
         if self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['qc_table']:
             number_of_qc_atoms = len(self.easyhybrid_main.p_session.systems[self.easyhybrid_main.p_session.active_id]['qc_table'])
             self.entry_number_of_qc_atoms.set_text(str(number_of_qc_atoms))
