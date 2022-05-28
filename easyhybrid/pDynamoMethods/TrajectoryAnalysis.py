@@ -160,8 +160,8 @@ class TrajectoryAnalysis:
 		#---------------------------------------------------------------------------
 		try:
 			import seaborn as sns
-			g = sns.jointplot(x=self.RG,y=self.RMS,kind="kde",cmap="plasma",shade=True)
-			g.set_axis_labels("Radius of Gyration $\AA$","RMSD $\AA$",fontsize=12)
+			g = sns.jointplot(x=self.RG,y=self.RMS,kind="kde",cmap="plasma",shade=True,height=4)
+			g.set_axis_labels("Radius of Gyration $\AA$","RMSD $\AA$",fontsize=4)
 			plt.savefig( os.path.join( self.trajFolder,"rg_rmsd_biplot.png") )
 			if SHOW:
 				plt.show()
@@ -230,7 +230,7 @@ class TrajectoryAnalysis:
 		if len(RCs) == 2:
 			try:
 				import seaborn as sns
-				g=sns.jointplot(x=self.distances1,y=self.distances2,kind="kde",cmap="plasma",shade=True)
+				g=sns.jointplot(x=self.distances1,y=self.distances2,kind="kde",cmap="plasma",shade=True,height=4)
 				g.set_axis_labels(RCs[0].label,RCs[1].label)
 				plt.savefig( os.path.join( self.trajFolder,"distanceBiplot.png") )
 				if SHOW:

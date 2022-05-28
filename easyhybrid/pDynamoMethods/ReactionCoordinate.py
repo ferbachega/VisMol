@@ -56,7 +56,8 @@ class ReactionCoordinate:
 				self.label =  A1.label + "(" + A1res[0] + A1res[1] + ")-"
 				self.label += A2.label + "(" + A2res[0] + A2res[1] + ")--"
 				self.label += A3.label + "(" + A3res[0] + A3res[1] + ") $\AA$"
-			else:  self.label = A1.label + "-" + A2.label +"-"+ A3.label              
+			else: 
+				self.label = A1.label + "-" + A2.label +"-"+ A3.label              
 		elif self.Type == "Distance":
 			A1 = _molecule.atoms.items[ self.atoms[0] ]
 			A2 = _molecule.atoms.items[ self.atoms[1] ]

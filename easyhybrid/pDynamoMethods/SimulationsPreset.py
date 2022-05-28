@@ -774,7 +774,7 @@ class Simulation:
 		Mandatory keys in self.parameters:
 		Optional keys in self.parameters:
 		'''
-
+		
 		pass
 	#=========================================================================
 	def EnergyPlots(self):

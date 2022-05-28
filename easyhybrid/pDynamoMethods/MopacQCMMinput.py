@@ -32,6 +32,7 @@ class MopacQCMMinput:
 		self.atomsDict		= {}
 		self.Hamiltonian    = _hamiltonian
 		if not _coordName == "single": 
+			print(_coordName)
 			self.molecule.coordinates3 = ImportCoordinates3(_coordName+".pkl",log=None)
 
 		self.charges = self.molecule.mmState.charges
@@ -89,7 +90,6 @@ class MopacQCMMinput:
 		mop_file  = open( self.mop_file_name, "w" )
 		molInText = "\n{} 0\n".format( len(self.QCatoms) )
 		mop_text  = self.Hamiltonian + " 1SCF charge={} {} ".format(_chg,MULT)
-		#mop_text  = self.Hamiltonian + " 1SCF  {} ".format(MULT)
 
 		for _key in self.keywords:
 			mop_text += _key

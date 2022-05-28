@@ -60,7 +60,7 @@ class EnergyRefinement:
 		if not os.path.exists(self.baseName): os.makedirs(self.baseName)
 		if self.xlen > 1:
 			_path = os.path.join( _trajFolder,"")
-			self.fileLists  = glob.glob(_path + "*.pkl")
+			self.fileLists  = glob.glob(_path + "frame*.pkl")			
 		elif self.xlen == 1:
 			self.fileLists.append(_trajFolder+".pkl")		
 		#----------------------------------------------------------------------
