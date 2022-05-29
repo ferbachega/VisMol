@@ -18,6 +18,7 @@ from easyhybrid.gui.merge_systems                           import  MergeSystems
 from easyhybrid.gui.selection_list_window                   import  SelectionListWindow 
 from easyhybrid.gui.PES_analisys_window                     import  PotentialEnergyAnalysisWindow 
 from easyhybrid.gui.easyhybrid_terminal                     import  TerminalWindow 
+from easyhybrid.gui.easyhybrid_energy_refinement            import  EnergyRefinementWindow 
 
 import gc
 import os
@@ -231,6 +232,7 @@ class EasyHybridMainWindow ( ):
         self.selection_list_window        = SelectionListWindow     (main=  self, system_liststore = self.system_liststore)
         self.go_to_atom_window            = EasyHybridGoToAtomWindow(main=  self, system_liststore = self.system_liststore)
         self.PES_analysis_window          = PotentialEnergyAnalysisWindow(main = self)#, coor_liststore = self.system_liststore)
+        self.energy_refinement_window     = EnergyRefinementWindow(main = self)#, coor_liststore = self.system_liststore)
         self.terminal_window              = TerminalWindow(main = self)
         '''#- - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -#'''
 
@@ -486,6 +488,7 @@ class EasyHybridMainWindow ( ):
             self.selection_list_window.OpenWindow()
 
         if button  == self.builder.get_object('toolbutton_energy'):
+            self.energy_refinement_window.OpenWindow()
             self.gtk_get_energy(button)
             
         if button  == self.builder.get_object('toolbutton_setup_QCModel'):

@@ -673,9 +673,33 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             
             
+            def menu_set_color_grey (_):
+                """ Function doc """
+                self.set_color(color = [0.3     , 0.3     , 0.5 ] )
+            
             def menu_set_color_green (_):
                 """ Function doc """
                 self.set_color(color = [0.0     , 1.0     , 0.0 ] )
+            
+            def menu_set_color_yellow (_):
+                """ Function doc """
+                self.set_color(color = [1.0     , 1.0     , 0.0 ] )
+            
+            def menu_set_color_light_blue (_):
+                """ Function doc """
+                self.set_color(color = [0.5     , 0.5     , 1.0 ] )
+            
+            def menu_set_color_light_red (_):
+                """ Function doc """
+                self.set_color(color = [1.0     , 0.5     , 0.5 ] )
+            
+            def menu_set_color_purple (_):
+                """ Function doc """
+                self.set_color(color = [1.0     , 0.0     , 1.0 ] )
+            
+            def menu_set_color_orange (_):
+                """ Function doc """
+                self.set_color(color = [1.0     , 0.5     , 0.0 ] )
 
 
             def menu_set_color_magenta (_):
@@ -862,8 +886,14 @@ button position in the main treeview (active column).""".format(name,self.main_s
                     
                     'color'   : [
                                 'submenu',  {
+                                            'grey'          : ['MenuItem', menu_set_color_grey],
+                                            'yellow'        : ['MenuItem', menu_set_color_yellow],
                                             'green'         : ['MenuItem', menu_set_color_green],
-                                            'custon'         : ['MenuItem', menu_color_change],
+                                            'light_blue'    : ['MenuItem', menu_set_color_light_blue],
+                                            'light_red'     : ['MenuItem', menu_set_color_light_red],
+                                            'purple'        : ['MenuItem', menu_set_color_purple],
+                                            'orange'        : ['MenuItem', menu_set_color_orange],
+                                            'custon'        : ['MenuItem', menu_color_change],
                                             #'dotted_lines'  : ['MenuItem', menu_hide_dotted_lines],
                                             }
                                 ],
