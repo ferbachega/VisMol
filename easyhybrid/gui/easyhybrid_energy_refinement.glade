@@ -208,7 +208,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="label_inputlogfile">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Input logfile (optional):</property>
@@ -923,7 +923,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">11</property>
                 <child>
-                  <object class="GtkFrame" id="frame3">
+                  <object class="GtkFrame" id="frame_output">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label_xalign">0.5</property>

@@ -89,7 +89,6 @@ class EnergyRefinementWindow():
             
             
             
-            
             self.builder.get_object('box_reaction_coordinate').set_sensitive(False)
             self.builder.get_object('label_CPUs').set_sensitive(False)
             self.builder.get_object('n_CPUs_spinbutton').set_sensitive(False)
@@ -98,6 +97,8 @@ class EnergyRefinementWindow():
             self.builder.get_object('folder_chooser_box2').set_sensitive(False)
             self.builder.get_object('combobox_coordinate_type').set_sensitive(False)
             self.builder.get_object('label_coordinate_type').set_sensitive(False)
+            self.builder.get_object('label_input_logfile').set_sensitive(False)
+            self.builder.get_object('frame_output').set_sensitive(False)
             
             
             #self.window.set_keep_above(True)            
@@ -266,8 +267,6 @@ class EnergyRefinementWindow():
         self.data = self.main.p_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index] 
         print(self.data)
         self._draw_data(cla = True)
-        
-
 
     def __init__(self, main = None ):
         """ Class initialiser """
@@ -278,30 +277,12 @@ class EnergyRefinementWindow():
         
         self.vobject_liststore   = Gtk.ListStore(str, int)
         self.data_liststore      = Gtk.ListStore(str, int)
-        #self.residue_liststore   = Gtk.ListStore(str, str, str)
-        
-        ##self.interpolate = False#True
-        #self.interpolate =  True
-        #self.opt_methods = { 0 : 'ConjugatedGradient',
-        #                     1 : 'SteepestDescent'   ,
-        #                     2 : 'LFBGS'             ,
-        #                     3 : 'QuasiNewton'       ,
-        #                     4 : 'FIRE'              }
-        #
-        #self.xdata = []
-        #self.ydata = []
-        #self.zdata = []
-        #self.xy_traj = []
-        #self.pcm = None
-        #self.color_bar = None
-        #self.vobject = None
-        #self.traj_export_index = 1
+
     
     def radiobutton_single_point_toggled_cb (self, widget):
         """ Function doc """
         if self.builder.get_object('radiobutton_single_point').get_active():
             self.builder.get_object('box_reaction_coordinate').set_sensitive(False)
-            
             self.builder.get_object('label_CPUs').set_sensitive(False)
             self.builder.get_object('n_CPUs_spinbutton').set_sensitive(False)
             self.builder.get_object('label_input_logfile').set_sensitive(False)
@@ -309,6 +290,8 @@ class EnergyRefinementWindow():
             self.builder.get_object('folder_chooser_box2').set_sensitive(False)
             self.builder.get_object('combobox_coordinate_type').set_sensitive(False)
             self.builder.get_object('label_coordinate_type').set_sensitive(False)
+            self.builder.get_object('label_input_logfile').set_sensitive(False)
+            self.builder.get_object('frame_output').set_sensitive(False)
             print ('radiobutton_single_point')
         else:
             self.builder.get_object('box_reaction_coordinate').set_sensitive(True)
@@ -319,6 +302,8 @@ class EnergyRefinementWindow():
             self.builder.get_object('folder_chooser_box2').set_sensitive(True)
             self.builder.get_object('combobox_coordinate_type').set_sensitive(True)
             self.builder.get_object('label_coordinate_type').set_sensitive(True)
+            self.builder.get_object('label_input_logfile').set_sensitive(True)
+            self.builder.get_object('frame_output').set_sensitive(True)
         
         
     def change_check_button_reaction_coordinate (self, widget):
