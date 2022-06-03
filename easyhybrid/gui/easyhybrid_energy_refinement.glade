@@ -124,7 +124,7 @@
                             <property name="row_spacing">8</property>
                             <property name="column_spacing">10</property>
                             <child>
-                              <object class="GtkLabel" id="label_input_logfile">
+                              <object class="GtkLabel" id="label_file_or_folder">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">File / Folder:</property>
@@ -208,18 +208,6 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="label_inputlogfile">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Input logfile (optional):</property>
-                                <property name="xalign">1</property>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkLabel" id="label_CPUs">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -252,6 +240,18 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label_input_logfile">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">File / Folder:</property>
+                                <property name="xalign">1</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">0</property>
                                 <property name="top_attach">3</property>
                               </packing>
                             </child>
@@ -1029,7 +1029,7 @@
                   <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="button_cancel">
                     <property name="label" translatable="yes">Cancel</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -1042,7 +1042,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="run_scan">
+                  <object class="GtkButton" id="button_run">
                     <property name="label" translatable="yes">Run</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>

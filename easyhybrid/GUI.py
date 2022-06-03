@@ -489,7 +489,7 @@ class EasyHybridMainWindow ( ):
 
         if button  == self.builder.get_object('toolbutton_energy'):
             self.energy_refinement_window.OpenWindow()
-            self.gtk_get_energy(button)
+            #self.gtk_get_energy(button)
             
         if button  == self.builder.get_object('toolbutton_setup_QCModel'):
             #self.dialog_import_a_new_systen = EasyHybridImportANewSystemDialog(self.p_session, self)

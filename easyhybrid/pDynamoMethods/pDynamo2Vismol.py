@@ -452,6 +452,7 @@ class pDynamoSession:
         #self.build_vobject_from_pDynamo_system (name = 'initial coordinates' )#psystem['system'].label)
         
         self.build_vobject_from_pDynamo_system (name = '0_'+psystem['tag']+'_init_coords' )#psystem['system'].label)
+        self.systems[self.active_id]['step_counter'] += 1
         if self.vm_session.main_session.selection_list_window.visible:
             self.vm_session.main_session.refresh_system_liststore()
             self.vm_session.main_session.selection_list_window.update_window(system_names = True, coordinates = False,  selections = False)
