@@ -66,6 +66,9 @@ class EnergyRefinementWindow():
             self.window.set_title('Energy Refinement Window')
             self.window.connect('destroy', self.CloseWindow)
             
+            self.builder.get_object('button_cancel').connect('clicked', self.CloseWindow)
+            self.builder.get_object('button_run').connect('clicked', self.on_button_run_clicked)
+            
             '''--------------------------------------------------------------------------------------------''' 
             self.combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
             self.starting_coords_liststore = self.main.vm_session.starting_coords_liststore
@@ -88,8 +91,7 @@ class EnergyRefinementWindow():
             #'''--------------------------------------------------------------------------------------------------
             
             
-            
-            
+            #'''--------------------------------------------------------------------------------------------------
             self.builder.get_object('box_reaction_coordinate').set_sensitive(False)
             self.builder.get_object('label_CPUs').set_sensitive(False)
             self.builder.get_object('n_CPUs_spinbutton').set_sensitive(False)
@@ -98,7 +100,10 @@ class EnergyRefinementWindow():
             self.builder.get_object('folder_chooser_box2').set_sensitive(False)
             self.builder.get_object('combobox_coordinate_type').set_sensitive(False)
             self.builder.get_object('label_coordinate_type').set_sensitive(False)
-            
+            self.builder.get_object('label_file_or_folder').set_sensitive(False)
+            self.builder.get_object('label_input_logfile').set_sensitive(False)
+            self.builder.get_object('frame_output').set_sensitive(False)
+            #'''--------------------------------------------------------------------------------------------------
             
             #self.window.set_keep_above(True)            
             #self.window.set_default_size(700, 450)
@@ -266,8 +271,6 @@ class EnergyRefinementWindow():
         self.data = self.main.p_session.systems[self.vobject.easyhybrid_system_id]['logfile_data'][self.vobject.index][index] 
         print(self.data)
         self._draw_data(cla = True)
-        
-
 
     def __init__(self, main = None ):
         """ Class initialiser """
@@ -278,30 +281,12 @@ class EnergyRefinementWindow():
         
         self.vobject_liststore   = Gtk.ListStore(str, int)
         self.data_liststore      = Gtk.ListStore(str, int)
-        #self.residue_liststore   = Gtk.ListStore(str, str, str)
-        
-        ##self.interpolate = False#True
-        #self.interpolate =  True
-        #self.opt_methods = { 0 : 'ConjugatedGradient',
-        #                     1 : 'SteepestDescent'   ,
-        #                     2 : 'LFBGS'             ,
-        #                     3 : 'QuasiNewton'       ,
-        #                     4 : 'FIRE'              }
-        #
-        #self.xdata = []
-        #self.ydata = []
-        #self.zdata = []
-        #self.xy_traj = []
-        #self.pcm = None
-        #self.color_bar = None
-        #self.vobject = None
-        #self.traj_export_index = 1
+
     
     def radiobutton_single_point_toggled_cb (self, widget):
         """ Function doc """
         if self.builder.get_object('radiobutton_single_point').get_active():
             self.builder.get_object('box_reaction_coordinate').set_sensitive(False)
-            
             self.builder.get_object('label_CPUs').set_sensitive(False)
             self.builder.get_object('n_CPUs_spinbutton').set_sensitive(False)
             self.builder.get_object('label_input_logfile').set_sensitive(False)
@@ -309,7 +294,9 @@ class EnergyRefinementWindow():
             self.builder.get_object('folder_chooser_box2').set_sensitive(False)
             self.builder.get_object('combobox_coordinate_type').set_sensitive(False)
             self.builder.get_object('label_coordinate_type').set_sensitive(False)
-            print ('radiobutton_single_point')
+            self.builder.get_object('label_file_or_folder').set_sensitive(False)
+            self.builder.get_object('label_input_logfile').set_sensitive(False)
+            self.builder.get_object('frame_output').set_sensitive(False)
         else:
             self.builder.get_object('box_reaction_coordinate').set_sensitive(True)
             self.builder.get_object('label_CPUs').set_sensitive(True)
@@ -319,6 +306,9 @@ class EnergyRefinementWindow():
             self.builder.get_object('folder_chooser_box2').set_sensitive(True)
             self.builder.get_object('combobox_coordinate_type').set_sensitive(True)
             self.builder.get_object('label_coordinate_type').set_sensitive(True)
+            self.builder.get_object('label_file_or_folder').set_sensitive(True)
+            self.builder.get_object('label_input_logfile').set_sensitive(True)
+            self.builder.get_object('frame_output').set_sensitive(True)
         
         
     def change_check_button_reaction_coordinate (self, widget):
@@ -340,132 +330,56 @@ class EnergyRefinementWindow():
         self.Visible    =  False
 
 
-
-
-
-
-
-def parse_1D_scan_logfile (logfile):
-    """ Function doc """
-    
-
-def parse_2D_scan_logfile (logfile):
-    """ Function doc """
-    
-    data  =  open(logfile, 'r')
-    lines =  data.readlines()
-    xlist = []
-    ylist = []
-    zlist = []
-    
-    lastline = lines[-1].split()
-    x_size = int(lastline[0])
-    y_size = int(lastline[1])
-
-    
-    rows = y_size+1
-    cols = x_size+1
-     
-    Z       = [[0]*cols for _ in range(rows)]
-    RC1     = [[0]*cols for _ in range(rows)]
-    RC2     = [[0]*cols for _ in range(rows)]
-    
-    #print (zlist)
-    
-    for line in lines[1:]:
-        line2 = line.split()
-        x = int(line2[0])
-        y = int(line2[1])
-        #print(x,y, line2[-1])
+    def on_button_run_clicked (self, button):
+        """ Function doc """
         
-        
-    
-        Z[y][x]       = float(line2[-1]) 
-        RC1[y][x]     = float(line2[-3]) 
-        RC2[y][x]     = float(line2[-2]) 
-    data.close()
-
-    data = {
-           'RC1': RC1,
-           'RC2': RC2,
-           'Z': Z
-           }
-    return data
-
-def find_the_midpoint (coord1 , coord2):
-	""" Function doc """
-	#print (coord1, coord2)
-	
-	x = float(coord2[0] - coord1[0])
-	x = (x/2)
-	#print ('x', x)
-	x = coord1[0] + x
-
-
-	y = float(coord2[1] - coord1[1])
-	y = (y/2)
-	#print ('y', y)
-
-	y = coord1[1] + y
-
-	#print (x, y)
-	#return [int(x), int(round(y))]
-	return [int(x), int( y )]
-
-def build_chain_of_states( input_coord):
- 
-    #print (input_coord)
-    inset_point = True
-
-
-    while inset_point == True:
-        a = 0
-        counter = 0
-
-        while a == 0:
-
-            try:
-                coord1 =  input_coord[ counter  ]
-                coord2 =  input_coord[ counter+1]
-
-                inset_point = check_distance (coord1 , coord2)
+        #----------------------------------------------------------------------------------------------
+        #                            S I N G L E    P O I N T 
+        if self.builder.get_object('radiobutton_single_point').get_active():
+            
+            combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
+            tree_iter = combobox_starting_coordinates.get_active_iter()
+            if tree_iter is not None:
                 
-                if inset_point == False:
-                    counter += 1
-                    #print ('inset_point == False')
-                else:
-                    midpoint = find_the_midpoint (coord1 , coord2)
-                    #print counter, counter+1, midpoint, input_coord
-                    input_coord.insert(counter+1, 0 )
-                    input_coord[counter+1] = midpoint
-            except:
-                a = True
-                #print input_coord
-    return input_coord[1:]
+                '''selecting the vismol object from the content that is in the combobox '''
+                model = combobox_starting_coordinates.get_model()
+                name, vobject_id = model[tree_iter][:2]
+                vobject = self.main.vm_session.vobjects_dic[vobject_id]
+                
+                '''This function imports the coordinates of a vobject into the dynamo system in memory.''' 
+                print('vobject:', vobject.name, len(vobject.frames) )
+                self.main.p_session.get_coordinates_from_vobject_to_pDynamo_system(vobject)
 
-
-def check_distance (coord1 , coord2):
-	""" Function doc """
-	x = float(coord2[0] - coord1[0])
-	y = float(coord2[1] - coord1[1])
-	d =  (x**2 + y**2)**0.5
-	if d < 1.42:
-		return False
-	else:
-		#print 'not too close'
-		return True
+            energy = self.main.p_session.get_energy()
+            
+            self.CloseWindow ( button =None, data  = None)
+            
+            dialog = EasyHybridDialogEnergy(parent = self.window, energy = energy, name = vobject.name)
+            response = dialog.run()
+            dialog.destroy()
+        #----------------------------------------------------------------------------------------------
 
 
 
 
 
-def main(args):
-    
-    win = PotentialEnergyAnalysisWindow()
-    win.OpenWindow()
-    Gtk.main()
-    return 0
 
-if __name__ == '__main__':
-    import sys
-    sys.exit(main(sys.argv))
+
+
+class EasyHybridDialogEnergy(Gtk.Dialog):
+    def __init__(self, parent, energy = None, name = 'UNK'):
+        super().__init__(title="Energy Dialog", transient_for=parent, flags=0)
+        self.add_buttons(
+             Gtk.STOCK_OK, Gtk.ResponseType.OK
+        )
+
+        self.set_default_size(300, 100)
+        string  = "Coordinates = "+name 
+        string += "\n\nEnergy = {0:.5f} (KJ/mol)".format(energy)
+        
+        label = Gtk.Label(label=string)
+
+        box = self.get_content_area()
+        box.add(label)
+        self.show_all()
+

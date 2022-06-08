@@ -205,7 +205,7 @@ class PotentialEnergyAnalysisWindow():
                                       range(len(self.data['Z'])), 
                                       self.data['Z'], 
                                       cmap='jet', 
-                                      vmin=0, #shading='auto'
+                                      #vmin=0, #shading='auto'
                                       )
                                       
         
