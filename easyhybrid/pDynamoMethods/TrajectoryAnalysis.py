@@ -14,7 +14,6 @@ import os, sys, glob
 import numpy as np
 #--------------------------------------------------------------
 import matplotlib.pyplot as plt
-from collections import Counter
 #--------------------------------------------------------------
 from commonFunctions 			import *
 from pBabel                     import *                                     
@@ -95,45 +94,76 @@ class TrajectoryAnalysis:
 		for i in range(len(self.RG)):
 			_Text += "{} {} {}\n".format(i,self.RG[i],self.RMS[i])
 		#--------------------------------------------------------------------------------
-       
+		textLog.write(_Text)
+		textLog.close()
 	#=================================================
 	def ExtractFrames(self):
 		'''
-		'''		
+		'''	
+		'''
 		self.rc1_MF = Counter(self.distances1).most_common(1)[0][0]
 		self.rc2_MF = Counter(self.distances2).most_common(1)[0][0]
 		self.rms_MF = Counter(self.RMS).most_common(1)[0][0]
 		self.rg_MF  = Counter(self.RG).most_common(1)[0][0]
+        '''
+		try:
+			from sklearn.neighbors import KernelDensity
+		except:
+			pass
+		kde = KernelDensity(bandwidth=1.0, kernel='gaussian')
+		self.distances1 = np.array(self.distances1, dtype=np.float32)
+		self.distances2 = np.array(self.distances2, dtype=np.float32)
+		self.RMS        = np.array(self.RMS, dtype=np.float32)
+		self.RG         = np.array(self.RG, dtype=np.float32)
+		self.distances1.reshape(-1,1)
+		self.distances2.reshape(-1,1)
+		self.RMS.reshape(-1,1)
+		self.RG.reshape(-1,1)
+		kde.fit(self.distances1[:, None])
+		density_rc1 = kde.score_samples(self.distances1[:,None])
+		density_rc1 = np.exp(density_rc1)
+		self.rc1_MF = max(density_rc1)
+		self.distances2.reshape(-1,1)
+		kde.fit(self.distances2[:,None])
+		density_rc2 = np.exp(kde.score_samples(self.distances2[:,None]))
+		self.rc2_MF = max(density_rc2)
+		kde.fit(self.RMS[:,None])
+		density_rms = np.exp(kde.score_samples(self.RMS[:,None]))
+		self.rms_MF = max(density_rms[:,None])
+		kde.fit(self.RG[:,None])
+		density_rg  = np.exp(kde.score_samples(self.RG[:,None]))
+		self.rg_MF  = max(density_rg[:,None])
+		
 		#------------------------------------------------------------------------------
-		distold = abs(self.RMS[0] - self.rms_MF)
-		disnew  = 0.0
+		distold = abs(density_rms[0] - self.rms_MF)
+		distnew = 0.0
 		fn      = 0 
-		for i in range( len(self.RMS) ):
-			distnew = abs(self.RMS[i] - self.rms_MF)
+		for i in range( len(density_rms) ):
+			distnew = abs(density_rms[i] - self.rms_MF)
 			if distnew < distold:
 				distold = distnew
 				fn = i
-		rmsSystem = copySystem(self.molecule)
-		rmsSystem.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
-		ExportSystem( os.path.join( self.trajFolder, "mostFrequentRMS.pdb" ),rmsSystem,log=None )
-		ExportSystem( os.path.join( self.trajFolder, "mostFrequentRMS.pkl" ),rmsSystem,log=None )
+		#------------------------------------------------		
+		self.molecule.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
+		ExportSystem( os.path.join( self.trajFolder, "mostFrequentRMS.pdb" ),self.molecule,log=None )
+		ExportSystem( os.path.join( self.trajFolder, "mostFrequentRMS.pkl" ),self.molecule,log=None )
 		#------------------------------------------------------------------------------
+		input()
 		if len(self.distances2) > 0:
-			distoldRC1 = abs(self.distances1[0] - self.rc1_MF)
-			distoldRC2 = abs(self.distances2[0] - self.rc2_MF)
+			distoldRC1 = abs(density_rc1[0] - self.rc1_MF)
+			distoldRC2 = abs(density_rc2[0] - self.rc2_MF)
 			distold    = abs(distoldRC1-distoldRC2)
 			distnew    = 0.0
 			fn         = 0 
 			for i in range( len(self.distances1) ):
-				distnew = abs( abs(self.distances1[i] - self.rc1_MF) -  abs(self.distances2[i] - self.rc2_MF) )
+				distnew = abs( abs(density_rc1[i] - self.rc1_MF) -  abs(density_rc2[i] - self.rc2_MF) )
 				if distnew < distold:
 					distold = distnew
-					fn = i 
-			dsSystem = copySystem(self.molecule)
-			dsSystem.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
-			ExportSystem( os.path.join( self.trajFolder,"mostFrequentRC1RC2.pdb"), rmsSystem,log=None  )
-			ExportSystem( os.path.join( self.trajFolder,"mostFrequentRC1RC2.pkl"), rmsSystem,log=None )
-
+					fn = i			
+			self.molecule.coordinates3 = ImportCoordinates3( os.path.join(self.trajFolder,"frame{}.pkl".format(fn) ) )
+			ExportSystem( os.path.join( self.trajFolder,"mostFrequentRC1RC2.pdb"), self.molecule,log=None  )
+			ExportSystem( os.path.join( self.trajFolder,"mostFrequentRC1RC2.pkl"), self.molecule,log=None )
+		
 	#=================================================
 	def PlotRG_RMS(self,SHOW=False):
 		'''
@@ -238,6 +268,9 @@ class TrajectoryAnalysis:
 			except:
 				print("Error in importing seaborn package!\nSkipping biplot distribution plot!")
 				pass
+		
+		textLog.write(_Text)
+		textLog.close()
 	#=========================================================================
 	def Print(self):
 		'''

@@ -211,8 +211,7 @@ class EnergyRefinement:
 				mop = MopacQCMMinput(self.molecule,self.baseName,self.fileLists[i][:-4],_mopacKeys,smo)
 				mop.CalculateGradVectors()
 				mop.write_input(self.charge,self.multiplicity)
-				#mop.Execute()
-				'''
+				mop.Execute()				
 				lsFrames = []
 				if self.fileLists[i] == "single.pkl": lsFrames.append(0)
 				else: lsFrames = GetFrameIndex(self.fileLists[i][:-4])						
@@ -223,16 +222,15 @@ class EnergyRefinement:
 				else:
 					self.energiesArray[ lsFrames[0] ] = mop.GetEnergy()
 					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
-				'''
-			#----------------
-			'''
+				
+			#----------------			
 			if self.ylen > 0:
 				self.SMOenergies[smo] = self.energiesArray
 				self.energiesArray    = pymp.shared.array( (self.ylen,self.xlen) , dtype='float')	
 			else:
 				self.SMOenergies[smo] = self.energiesArray
 				self.energiesArray    = pymp.shared.array( (self.xlen) , dtype='float')	
-			'''
+			
 	#====================================================
 	def RunDFTB(self,_NmaxThreads):
 		'''
