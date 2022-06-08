@@ -166,35 +166,36 @@ class ShowHideVisMol:
 
     def _dots_show_or_hide (self, vobject):
         """ Function doc """
-        indexes = []
-        for atom in vobject.atoms:
-            if atom.dots:
-                index = vobject.atoms.index(atom)
-                indexes.append(index)
-            else:
-                pass
-
-        
-        
-        if vobject.representations['dots'] is None:            
-            rep  = DotsRepresentation    (name    = 'dots', 
-                                          active  = True, 
-                                          _type   = 'mol', 
-                                          vobject  = vobject, 
-                                          glCore  = self.glwidget.vm_widget,
-                                          indexes = indexes)
-                                            
-            vobject.representations['dots'] = rep 
-        else:
-
-            if indexes  == []:
-                vobject.representations[_type].active = False
-                pass
-            
-            else:
-                indexes = np.array(indexes, dtype=np.uint32)
-                vobject.representations[_type].define_new_indexes_to_VBO ( indexes)
-                vobject.representations[_type].active = True
+        pass
+        #indexes = []
+        #for atom in vobject.atoms:
+        #    if atom.dots:
+        #        index = vobject.atoms.index(atom)
+        #        indexes.append(index)
+        #    else:
+        #        pass
+        #
+        #
+        #
+        #if vobject.representations['dots'] is None:            
+        #    rep  = DotsRepresentation    (name    = 'dots', 
+        #                                  active  = True, 
+        #                                  _type   = 'mol', 
+        #                                  vobject  = vobject, 
+        #                                  glCore  = self.glwidget.vm_widget,
+        #                                  indexes = indexes)
+        #                                    
+        #    vobject.representations['dots'] = rep 
+        #else:
+        #
+        #    if indexes  == []:
+        #        vobject.representations[_type].active = False
+        #        pass
+        #    
+        #    else:
+        #        indexes = np.array(indexes, dtype=np.uint32)
+        #        vobject.representations[_type].define_new_indexes_to_VBO ( indexes)
+        #        vobject.representations[_type].active = True
 
     def _nonbonded_show_or_hide (self, vobject):
         """ Function doc """
@@ -414,6 +415,15 @@ class ShowHideVisMol:
                 vobject.representations['lines'].active = False
             else:
                 vobject.representations['lines'].define_new_indexes_to_VBO ( indexes_bonds)
+                #vobject.representations['lines'].active = False
+                #rep  = LinesRepresentation     (name    = 'lines', 
+                #                            active  = True, 
+                #                            _type   = 'mol', 
+                #                            vobject  = vobject, 
+                #                            glCore  = self.glwidget.vm_widget,
+                #                            indexes = indexes_bonds)
+                #vobject.representations['lines'] = rep
+                
         
         else:
             rep  = LinesRepresentation     (name    = 'lines', 

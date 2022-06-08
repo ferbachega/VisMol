@@ -18,6 +18,7 @@ from GeometrySearcher import *
 #pDynamo library
 from pMolecule import *
 from pMolecule.QCModel import *
+from LogFile import LogFileWriter
 #**************************************************************
 class SCAN:
     '''
@@ -38,6 +39,9 @@ class SCAN:
             Implement the possibility to deal with other type of restraits               
                 Thether
         '''
+        self.parameters         = None 
+        self.logfile            = None
+        
         self.baseName           = _baseFolder
         self.molecule           = _system 
         self.nDim               = 0                                  # Number of active reaction coordinates to Scan
@@ -74,6 +78,7 @@ class SCAN:
         '''
         Class method to alter deafult parameters
         '''
+        self.parameters = _parameters
         #-----------------------------------------------------------
         if "traj_folder_name" in _parameters: self.trajFolder = _parameters["traj_folder_name"]
         if "rmsGradient"      in _parameters: self.GeoOptPars["rmsGradient"]   = _parameters["rmsGradient"]
@@ -86,7 +91,13 @@ class SCAN:
         if "force_constant"   in _parameters: 
             self.forceC[0] = _parameters["force_constant"]
             self.forceC[1] = _parameters["force_constant"]     
-           
+        #-----------------------------------------------------------------
+        
+        if self.parameters:
+            self.logfile = LogFileWriter()
+            self.logfile.add_simulation_parameters_text (self.parameters)
+
+
     #===========================================================================================
     def ChangeConvergenceParameters(self,_xframe,_yframe):
         '''
@@ -162,7 +173,14 @@ class SCAN:
         '''
         if not os.path.exists( os.path.join( self.baseName, self.trajFolder +".ptGeo" ) ):  os.makedirs(  os.path.join( self.baseName,self.trajFolder +".ptGeo"  ) )
 
-        self.text += "x RC1 Energy\n" 
+        text_line = "{0:>3s} {1:>15s} {2:>15s}".format('x','RC1','Energy' )
+        #self.text += "x RC1 Energy\n"
+        self.text += text_line+"\n"
+        
+        self.logfile.add_text_Line("")
+        self.logfile.add_text_Line("DATA  "+text_line)
+        
+        
         self.energiesMatrix      = pymp.shared.array( (_nsteps), dtype=float ) 
         self.reactionCoordinate1 = pymp.shared.array( (_nsteps), dtype=float )
         self.nsteps[0] = _nsteps
@@ -170,7 +188,15 @@ class SCAN:
         else:
             if    self.multipleDistance[0]:  self.Run1DScanMultipleDistance()
             else: self.Run1DScanSimpleDistance()        
-        for i in range(_nsteps):  self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
+        for i in range(_nsteps):  
+            #self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
+            
+            text_line =  "{0:3d} {1:15.8f} {2:15.8f}".format( i,self.reactionCoordinate1[i], self.energiesMatrix[i])
+            #self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
+            self.text += text_line+ '\n'
+            self.logfile.add_text_Line("DATA  "+text_line)
+            
+            
     #=================================================================================================
     def Run1DScanSimpleDistance(self):
         '''
@@ -283,8 +309,17 @@ class SCAN:
         '''
         if not os.path.exists( os.path.join( self.baseName, self.trajFolder +".ptGeo" ) ):  os.makedirs(  os.path.join( self.baseName,self.trajFolder +".ptGeo"  ) )
         #------------------------------------------------------
-        self.text += "x y RC1 RC2 Energy\n" 
+        #self.text += "x y RC1 RC2 Energy\n" 
+        
+        text_line = "{0:>3s} {1:>3s} {2:>15s} {3:>15s} {4:>15s}".format('x', 'y', 'RC1', 'RC2', 'Energy' )
+        #self.text += "{0:>3s} {1:>3s} {2:>15s} {3:>15s} {4:>15s}\n".format('x', 'y', 'RC1', 'RC2', 'Energy' )#i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
+        
+        self.text += text_line+"\n"
         #------------------------------------------------------               
+        self.logfile.add_text_Line("")
+        self.logfile.add_text_Line("DATA  "+text_line)
+        
+        
         self.nsteps[0] = X = _nsteps_x   
         self.nsteps[1] = Y = _nsteps_y 
         self.energiesMatrix = pymp.shared.array( (X,Y), dtype=float ) 
@@ -299,7 +334,11 @@ class SCAN:
         #------------------------------------
         for i in range(X):
             for j in range(Y):
-                self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
+                text_line =  "{0:3d} {1:3d} {2:15.8f} {3:15.8f} {4:15.8f}".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
+                #self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
+                self.text += text_line+ '\n'
+                self.logfile.add_text_Line("DATA  "+text_line)
+    
     #=======================================================
     def Run2DSimpleDistance(self, X, Y ):
         '''
@@ -683,7 +722,9 @@ class SCAN:
         '''
         Writing logs, making plots and saving trajectories
         '''
-        #-----------------------------------------------------------------
+        
+        
+        
         if self.nDim == 1:
             #..................................................
             if not self.saveFormat == None: 
@@ -692,6 +733,16 @@ class SCAN:
                 trajpath = os.path.join( self.baseName, self.trajFolder+".ptGeo" )
                 Duplicate( trajpath, trajName, self.molecule )
         #..................................................
+        
+        if self.logfile:
+            trajName = os.path.join( self.baseName, self.trajFolder+self.saveFormat )
+            trajpath = os.path.join( self.baseName, self.trajFolder+".ptGeo" )
+            
+            
+            print(self.baseName, self.trajFolder)
+            #self.logfile.save_logfile("datafile", "/home/fernando")
+            self.logfile.save_logfile(self.trajFolder, trajpath)
+            
         textLog = open( os.path.join(self.baseName,self.trajFolder+".log"), "w" ) 
         textLog.write(self.text)
         textLog.close() 

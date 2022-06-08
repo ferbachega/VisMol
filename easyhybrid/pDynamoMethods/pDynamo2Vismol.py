@@ -22,6 +22,8 @@ VISMOL_HOME = os.environ.get('VISMOL_HOME')
 sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/pDynamoMethods") )
 sys.path.append(os.path.join(VISMOL_HOME,"easyhybrid/gui"))
 
+from LogFile import LogFileReader
+
 #---------------------------------------
 from pBabel                    import*                                     
 from pCore                     import*  
@@ -213,6 +215,17 @@ class pDynamoSession:
         self.color_palette_counter = 0
         #self.sel_name_counter = 0
     
+    
+    
+    def get_system_name (self, system_id = None):
+        """ Function doc """
+        if system_id:
+            return self.systems[system_id]['name']
+        else:
+            return self.systems[self.active_id]['name']
+
+        
+
     
     def restart_pdynamo2vismol_session (self):
         """ Function doc """
@@ -945,7 +958,7 @@ class pDynamoSession:
         
         self.append_system_to_pdynamo_session (system)
         
-    def prune_system (self, selection = None, label = 'Pruned System', summary = True):
+    def prune_system (self, selection = None, name = 'Pruned System', summary = True, tag = "molsys"):
         """ Function doc """
         p_selection   = Selection.FromIterable ( selection )
         system        = PruneByAtom ( self.systems[self.active_id]['system'], p_selection )
@@ -954,7 +967,7 @@ class pDynamoSession:
 
         
         
-        system.label  = label        
+        system.label  = name        
         if summary:
             system.Summary ( )
             
@@ -976,7 +989,7 @@ class pDynamoSession:
         '''
             
             
-        self.append_system_to_pdynamo_session (system)
+        self.append_system_to_pdynamo_session (system = system, name =  name, tag = tag)
 
     def get_coordinates_from_vobject_to_pDynamo_system (self, vobject = None, system_id =  None, frame = -1):
         """ Function doc """
@@ -1235,13 +1248,30 @@ class pDynamoSession:
         energy = self.systems[self.active_id]['system'].Energy( )
         return energy
 
-    def _load_2D_data_to_system (self, logfile = None, vobject = None, system_id = 0):
-        """ Function doc """
+    def _append_logdata_to_vobject (self, logfile = None, vobject = None, system_id = 0):
+        """ Function doc 
+            
 
-        data = parse_2D_scan_logfile (logfile)
-        data['name'] = os.path.basename(logfile)
+            self.systems[system_id]['logfile_data'] = {
+                                                       vobject1(int) : [data1, data2, data3 ...] 
+                                                       vobject2(int) : [data1, data2, data3 ...] 
+                                                       vobject3(int) : [data1, data2, data3 ...] 
+
+                                                       }
+
+
+
+        """
+        logfile = LogFileReader(logfile)
+        data = logfile.get_data()
+        #data = parse_2D_scan_logfile (logfile)
+        #data['name'] = os.path.basename(logfile)
+        
+
+
+
         #base = os.path.basename(logfile)
-        print('vobject',vobject )
+        print('vobject', vobject )
         if 'logfile_data' in  self.systems[system_id].keys():
             if vobject.index in self.systems[system_id]['logfile_data']:
                 #self.systems[system_id]['logfile_data'][vobject.index].append([base, data])
@@ -1289,20 +1319,25 @@ class pDynamoSession:
 
         
         elif _type == 'pklfolder':
-            self.import_trajectory ( traj = data, 
+            vobject = self.import_trajectory ( traj = data, 
                                     first = first , 
                                      last = last, 
                                    stride = stride, 
                                 system_id = system_id, 
                                   vobject = vobject, 
                                      name = name)
+            if logfile:
+                self._append_logdata_to_vobject ( logfile   = logfile, 
+                                               vobject   = vobject, 
+                                               system_id = system_id)
             
+        
         elif _type == 'pklfolder2D':
             #print('vobject',vobject )
             vobject = self.import_2D_trajectory (traj = data, logfile = logfile, system_id = system_id, vobject = vobject, name = name)
         
             if logfile:
-                self._load_2D_data_to_system ( logfile   = logfile, 
+                self._append_logdata_to_vobject ( logfile   = logfile, 
                                                vobject   = vobject, 
                                                system_id = system_id)
 
@@ -1324,7 +1359,7 @@ class pDynamoSession:
         
         elif _type == 'log_file':
             if logfile:
-                self._load_2D_data_to_system ( logfile   = logfile, 
+                self._append_logdata_to_vobject ( logfile   = logfile, 
                                                vobject   = vobject, 
                                                system_id = system_id)
 
@@ -1442,7 +1477,7 @@ class pDynamoSession:
         trajectory.Close ( )
         #return frames
         self.refresh_qc_and_fixed_representations(system_id = system_id)           
-
+        return vobject
 
     #---------------------------------------------------------------------------------
     def run_simulation(self, _parametersList = None):
@@ -1477,9 +1512,10 @@ class pDynamoSession:
                 traj_type      =  _parametersList['traj_type']
                 folder         = _parametersList['folder']
                 name           = _parametersList['traj_folder_name']+'.ptGeo'
-                logfile        = os.path.join( folder, _parametersList['traj_folder_name']+'.log')
-                forder_or_file = os.path.join(folder, name)
                 
+                forder_or_file = os.path.join(folder, name)
+                logfile        = os.path.join(forder_or_file, _parametersList['traj_folder_name']+'.log')
+
                 print(_parametersList)
                 
                 self.import_data ( 

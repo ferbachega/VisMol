@@ -120,8 +120,13 @@ class ImportTrajectoryWindow:
     
     def print_test (self, widget):
         """ Function doc """
-        print(self.folder_chooser_button.folder)
-        logfile = self.folder_chooser_button.folder[:-5]+'log'
+        #print(self.folder_chooser_button.folder)
+        trajfolder  = self.folder_chooser_button.folder
+        basename  = os.path.basename(trajfolder)
+        logfile   = basename[:-5]+'log'
+        
+        logfile   = os.path.join(trajfolder, logfile)
+        
         if exists(logfile):
             self.builder.get_object('file_chooser_btn_logfile').set_filename(logfile)
         else:

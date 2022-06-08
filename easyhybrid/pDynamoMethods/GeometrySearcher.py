@@ -12,7 +12,7 @@
 import os, sys
 #importing our library functions
 import commonFunctions
-from LogFile import LogFile
+from LogFile import LogFileWriter
 # pDynamo
 from pBabel                    import *                                     
 from pCore                     import *                                     

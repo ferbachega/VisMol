@@ -553,12 +553,19 @@ class PotentialEnergyScanWindow():
         '''
         Get infotmation and run the simulation
         '''         
-        parameters = {"simulation_type":"Relaxed_Surface_Scan",
-                      "ndim":1                                ,
-                      "dialog"   :True                        ,
+        parameters = {"simulation_type":"Relaxed_Surface_Scan"                 ,
+                      "ndim":1                                                 ,
+                      "dialog"   :True                                         ,
+                      
+                      "system_name":     self.main.p_session.get_system_name() ,
+                      "initial_coordinates" : None                             , 
+                      
                       "traj_type"  :'pklfolder'               ,
                       "ATOMS_RC1":None                        ,
                       "ATOMS_RC2":None                        ,
+                      "ATOMS_RC1_NAMES":None                  ,
+                      "ATOMS_RC2_NAMES":None                  ,
+                      
                       "nsteps_RC1":0                          ,
                       "nsteps_RC2":0                          ,
                       "force_constant_1":4000.0               ,
@@ -604,27 +611,45 @@ class PotentialEnergyScanWindow():
             '''This function imports the coordinates of a vobject into the dynamo system in memory.''' 
             print('vobject:', vobject.name, len(vobject.frames) )
             self.main.p_session.get_coordinates_from_vobject_to_pDynamo_system(vobject)
-            
+        
         #----------------------------------------------------------------------------------               
+        parameters["initial_coordinates"] = vobject.name
+        #----------------------------------------------------------------------------------               
+        
         _type = self.combobox_reaction_coord1.get_active()
         print('_type', _type)
         if _type == 0:
             index1 = int( self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int( self.builder.get_object('entry_atom2_index_coord1').get_text() )
+            
+            name1 = self.builder.get_object('entry_atom1_name_coord1').get_text()
+            name2 = self.builder.get_object('entry_atom2_name_coord1').get_text()
+            
             dmin   = float( self.builder.get_object('entry_dmin_coord1').get_text( ))
-            parameters["ATOMS_RC1"]     = [ index1, index2 ] 
+            parameters["ATOMS_RC1"]       = [ index1, index2 ] 
+            parameters["ATOMS_RC1_NAMES"] = [ name1 ,  name2 ] 
             parameters["dminimum_RC1"]  = dmin 
+        
         elif _type == 1:
             index1 = int( self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int( self.builder.get_object('entry_atom2_index_coord1').get_text() )
             index3 = int( self.builder.get_object('entry_atom3_index_coord1').get_text() )
+            
+            name1 = self.builder.get_object('entry_atom1_name_coord1').get_text() 
+            name2 = self.builder.get_object('entry_atom2_name_coord1').get_text() 
+            name3 = self.builder.get_object('entry_atom3_name_coord1').get_text() 
+            
             dmin   = float( self.builder.get_object('entry_dmin_coord1').get_text( ))
-            parameters["ATOMS_RC1"]     = [ index1, index2, index3 ] 
-            parameters["dminimum_RC1"]  = dmin 
+            parameters["ATOMS_RC1"]       = [ index1, index2, index3 ] 
+            parameters["ATOMS_RC1_NAMES"] = [ name1,  name2,  name3 ] 
+            parameters["dminimum_RC1"]  = dmin  
+            
             if self.builder.get_object('mass_restraints1').get_active():
                 parameters["MC_RC1"] = True
                 parameters["sigma_pk1pk3_rc1"] = self.sigma_pk1_pk3 
                 parameters["sigma_pk3pk1_rc1"] = self.sigma_pk3_pk1 
+        
+        
         elif _type == 2:
             index1 = int( self.builder.get_object('entry_atom1_index_coord1').get_text() )
             index2 = int( self.builder.get_object('entry_atom2_index_coord1').get_text() )
@@ -654,16 +679,29 @@ class PotentialEnergyScanWindow():
             if _type == 0: # simple
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
+                
+                name1 = self.builder.get_object('entry_atom1_name_coord2').get_text() 
+                name2 = self.builder.get_object('entry_atom2_name_coord2').get_text()
+                
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
-                parameters["ATOMS_RC2"]     = [ index1, index2 ] 
+                parameters["ATOMS_RC2"]       = [ index1, index2 ]
+                parameters["ATOMS_RC2_NAMES"] = [ name1,  name2] 
+
                 parameters["dminimum_RC2"]  = dmin2 
             #------------------------------------------
             elif _type == 1: # multiple
                 index1 = int(self.builder.get_object('entry_atom1_index_coord2').get_text() )
                 index2 = int(self.builder.get_object('entry_atom2_index_coord2').get_text() )
                 index3 = int(self.builder.get_object('entry_atom3_index_coord2').get_text() )
+                
+                name1 = self.builder.get_object('entry_atom1_name_coord2').get_text() 
+                name2 = self.builder.get_object('entry_atom2_name_coord2').get_text() 
+                name3 = self.builder.get_object('entry_atom3_name_coord2').get_text() 
+                
                 dmin2  = float(self.builder.get_object('entry_dmin_coord2').get_text( ))
-                parameters["ATOMS_RC2"]     = [ index1, index2, index3 ] 
+                parameters["ATOMS_RC2"]     = [ index1, index2, index3 ]
+                parameters["ATOMS_RC2_NAMES"] = [ name1,  name2,  name3 ] 
+
                 parameters["dminimum_RC2"]  = dmin2 
                 if self.builder.get_object('mass_restraints2').get_active():
                     parameters["MC_RC1"] = True

@@ -75,6 +75,8 @@ class EasyHybridDialogEnergy(Gtk.Dialog):
 
 
 
+
+
 class EasyHybridMainWindow ( ):
     """ Class doc """
 
@@ -754,7 +756,7 @@ class GtkEasyHybridMainTreeView(Gtk.TreeView):
         
         self.treestore[path][1] = not self.treestore[path][1]
         #for i in path:
-        #print(self.treestore[path][1], path, self.treestore[path][0],self.treestore[path][-1] )
+        print(self.treestore[path][1], path, self.treestore[path][0],self.treestore[path][-1] )
 
 
         if self.treestore[path][1]:

@@ -120,15 +120,20 @@ class PotentialEnergyAnalysisWindow():
             self.vobject_liststore = Gtk.ListStore(str, int)
             names = [ ]
             for key , system in self.main.p_session.systems.items():
-                
-                for vobject_id in  system['logfile_data'].keys():
-                    print(['vobject_id:', vobject_id ,system['logfile_data'].keys()])
-                    try:
-                        _vobject = self.main.vm_session.vobjects_dic[vobject_id]
-                        print(['_vobject:', _vobject.name,_vobject.index])
-                        self.vobject_liststore.append([_vobject.name, _vobject.index])
-                    except:
-                        print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
+                #print ()
+                try:
+                    print("system data", system['logfile_data'])
+                    if system['logfile_data']:
+                        for vobject_id in  system['logfile_data'].keys():
+                            print(['vobject_id:', vobject_id ,system['logfile_data'].keys()])
+                            try:
+                                _vobject = self.main.vm_session.vobjects_dic[vobject_id]
+                                print(['_vobject:', _vobject.name,_vobject.index])
+                                self.vobject_liststore.append([_vobject.name, _vobject.index])
+                            except:
+                                print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
+                except:
+                    pass
             #self.vobject_liststore.append(['all', _vobject.index])
 
             self.coordinates_combobox = Gtk.ComboBox()
@@ -295,7 +300,7 @@ class PotentialEnergyAnalysisWindow():
                                           range(len(self.data['Z'])), 
                                           self.data['Z'], 
                                           cmap='jet',# shading='auto', 
-                                          vmin=0)
+                                          )#vmin=0)
                                           
             
             am = self.ax.contour(range(len(self.data['Z'][0])), 

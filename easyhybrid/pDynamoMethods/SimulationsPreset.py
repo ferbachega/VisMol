@@ -193,7 +193,7 @@ class Simulation:
 		Gopt.Minimization(_Optimizer)
 		Gopt.Finalize()
 	#==================================================================
-	def RelaxedSurfaceScan(self):
+	def RelaxedSurfaceScan(self, plot = True):
 		'''
 		Set up and execute one/two-dimensional relaxed surface scans 
 		By the defualt the PKLs were saved on a child folder from the base path passed in the parameters, named "ScanTraj.ptGeo"
@@ -282,26 +282,29 @@ class Simulation:
 			scan.Run2DScan(self.parameters["nsteps_RC1"], self.parameters["nsteps_RC2"] )
 		else: scan.Run1DScan(self.parameters["nsteps_RC1"])		
 		scan.Finalize()		
-		#================================================================
-		#Set plor parameters
-		cnt_lines 	= 12
-		crd1_label	= rc1.label
-		crd2_label	= ""
-		show 		= False
-		if nDims == 2: crd2_label = rc2.label
-		#check parameters for plot
-		if "contour_lines" 	in self.parameters: cnt_lines = self.parameters["contour_lines"]			
-		if "show" 			in self.parameters: show 	  = self.parameters["show"] 
-		#------------------------------------------------------------
-		if 	 nDims 	== 2: TYPE = "2D"
-		elif nDims 	== 1: TYPE = "1D"	
-		#------------------------------------------------------------		
-		EA = EnergyAnalysis(self.parameters['nsteps_RC1'],nRC2,_type=TYPE)
-		EA.ReadLog( os.path.join(scan.baseName,scan.trajFolder+".log") ) 
-		#-------------------------------------------------------------
-		if 	 nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,show)
-		elif nDims == 1: EA.Plot1D(crd1_label,show)		
-	#=================================================================
+		
+		#============================ P L O T ============================
+		if plot:
+			#Set plot parameters
+			cnt_lines 	= 12
+			crd1_label	= rc1.label
+			crd2_label	= ""
+			show 		= False
+			if nDims == 2: crd2_label = rc2.label
+			#check parameters for plot
+			if "contour_lines" 	in self.parameters: cnt_lines = self.parameters["contour_lines"]			
+			if "show" 			in self.parameters: show 	  = self.parameters["show"] 
+			#------------------------------------------------------------
+			if 	 nDims 	== 2: TYPE = "2D"
+			elif nDims 	== 1: TYPE = "1D"	
+			#------------------------------------------------------------		
+			EA = EnergyAnalysis(self.parameters['nsteps_RC1'],nRC2,_type=TYPE)
+			EA.ReadLog( os.path.join(scan.baseName,scan.trajFolder+".log") ) 
+			#-------------------------------------------------------------
+			if 	 nDims == 2: EA.Plot2D(cnt_lines,crd1_label,crd2_label,show)
+			elif nDims == 1: EA.Plot1D(crd1_label,show)		
+		#=================================================================
+	
 	def MolecularDynamics(self):
 		'''
 		Set up and execute molecular dynamics simulations.:

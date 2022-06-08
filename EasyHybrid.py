@@ -25,6 +25,10 @@
 import gi, sys
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
+
+import os
+VISMOL_HOME        = os.environ.get('VISMOL_HOME')
+
 #import os
 
 #w = Gtk.Window()
@@ -57,7 +61,43 @@ from easyhybrid.Serialization import LoadAndSaveFiles
 from vModel import VismolObject
 import pickle
 
+class EasyHybridDialogPrune:
+    """ Class doc """
 
+    def __init__ (self, num_of_atoms,  name, tag):
+        """ Class initialiser """
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_prune_dialog.glade'))
+        self.builder.connect_signals(self)
+        
+        self.dialog       = self.builder.get_object('dialog_prune')
+
+        self.builder.get_object('entry_number_of_atoms').set_text(str(num_of_atoms))
+        self.builder.get_object('entry_name').set_text(name + '_pruned')
+        self.builder.get_object('entry_tag').set_text(tag)
+        
+
+        
+        self.prune = False
+        self.name  = None
+        self.tag   = None
+        answer = self.dialog.run()
+        print ('answer', answer)
+    def on_click_button_prune (self, widget):
+        """ Function doc """
+        num_of_atoms = self.builder.get_object('entry_number_of_atoms').get_text( )
+        self.name    = self.builder.get_object('entry_name').get_text( )
+        self.tag     = self.builder.get_object('entry_tag').get_text( )
+        self.prune   = True
+
+        self.dialog.destroy()
+
+    
+
+    def on_click_button_cancel (self, widget):
+        """ Function doc """
+        self.dialog.destroy()
+        self.prune   = False
 
 class EasyHybridVismolSession(VisMolSession, LoadAndSaveFiles):
     """ Class doc """
@@ -799,11 +839,34 @@ button position in the main treeview (active column).""".format(name,self.main_s
             
             def prune_atoms (_):
                 """ Function doc """
-                fixedlist, resi_table = self.build_index_list_from_atom_selection()
-                if fixedlist:
-                    fixedlist = list(set(fixedlist))
-                    #self.main_session.p_session.define_free_or_fixed_atoms_from_iterable (fixedlist)
-                    self.main_session.p_session.prune_system (selection = fixedlist, label = 'Pruned System', summary = True)
+                
+
+                builder = Gtk.Builder()
+                builder.add_from_file(os.path.join(VISMOL_HOME,'easyhybrid/gui/easyhybrid_prune_dialog.glade'))
+                
+
+
+                atomlist, resi_table = self.build_index_list_from_atom_selection()
+                if atomlist:
+                    atomlist = list(set(atomlist))
+                    
+                    num_of_atoms = len(atomlist)
+                    name = self.main_session.p_session.systems[self.main_session.p_session.active_id]['name']
+                    tag  = self.main_session.p_session.systems[self.main_session.p_session.active_id]['tag']
+                    dialog =  EasyHybridDialogPrune(num_of_atoms, name, tag)
+                    
+       
+
+                    if dialog.prune:
+                        print ("Prune")
+                        name         = dialog.name        
+                        tag          = dialog.tag  
+                        
+                        for row in self.treestore:
+                            #row[2] = row.path == selected_path
+                            row[3] =  False
+
+                        self.main_session.p_session.prune_system (selection = atomlist, name = name, summary = True, tag = tag)
             
             def set_as_fixed_atoms (_):
                 """ Function doc """
