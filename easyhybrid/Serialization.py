@@ -89,6 +89,17 @@ class LoadAndSaveFiles:
                                            }
             
             try:
+                #if vobj.trajectory_type == 2:
+                #    vobjects_dic[vobj_id]['trajectory_type']         =  vobj.trajectory_type
+                #    vobjects_dic[vobj_id]['trajectory2D_xy_indexes'] =  vobj.trajectory2D_xy_indexes
+                #    vobjects_dic[vobj_id]['trajectory2D_f_indexes']  =  vobj.trajectory2D_f_indexes 
+                #    vobjects_dic[vobj_id]['trajectory2D_x_size']     =  vobj.trajectory2D_x_size    
+                #    vobjects_dic[vobj_id]['trajectory2D_y_size']     =  vobj.trajectory2D_y_size    
+                #
+                #else:
+                #    vobjects_dic[vobj_id]['trajectory_type']         =  vobj.trajectory_type = 1
+                #
+                
                 vobjects_dic[vobj_id]['trajectory2D_xy_indexes'] = vobj.trajectory2D_xy_indexes
             except:
                 pass
@@ -230,11 +241,32 @@ class LoadAndSaveFiles:
             vobject.dynamic_bonds        = vobject_data['dynamic_bonds']
             vobject.easyhybrid_system_id = vobject_data['easyhybrid_system_id']
             vobject.set_model_matrix(self.glwidget.vm_widget.model_mat)
+
+
+            
+            #try:
+            #    if vobjects_dic[vobj_id]['trajectory_type']  == 2:
+            #        vobject.trajectory_type         = vobjects_dic[vobj_id]['trajectory_type']              
+            #        vobject.trajectory2D_xy_indexes = vobjects_dic[vobj_id]['trajectory2D_xy_indexes']      
+            #        vobject.trajectory2D_f_indexes  = vobjects_dic[vobj_id]['trajectory2D_f_indexes']       
+            #        vobject.trajectory2D_x_size     = vobjects_dic[vobj_id]['trajectory2D_x_size']          
+            #        vobject.trajectory2D_y_size     = vobjects_dic[vobj_id]['trajectory2D_y_size']          
+            #    
+            #    else:
+            #        vobject.trajectory_type         = vobjects_dic[vobj_id]['trajectory_type']
+            #
+            #except:
+            #    try:
+            #        vobject.trajectory_type         = 2
+            #        vobject.trajectory2D_xy_indexes = vobject_data['trajectory2D_xy_indexes']
+            #    except:
+            #        print('no trajectory2D_xy_indexes  found')
+            
             try:
+                #vobject.trajectory_type         = 2
                 vobject.trajectory2D_xy_indexes = vobject_data['trajectory2D_xy_indexes']
             except:
-                print('no trajectory2D_xy_indexes  found')
-            # - - - - - - - - - R E P R E S E N T A T I O N - - - - - - - - - - - - - - - 
+                print('no trajectory2D_xy_indexes  found')# - - - - - - - - - R E P R E S E N T A T I O N - - - - - - - - - - - - - - - 
             #for rep_key in representations.keys():
                 
             self.add_vobject_to_vismol_session (pdynamo_session    = self.p_session, 

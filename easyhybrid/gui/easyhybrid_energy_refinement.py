@@ -91,6 +91,8 @@ class EnergyRefinementWindow():
             #'''--------------------------------------------------------------------------------------------------
             
             
+            
+            self.builder.get_object('combobox_coordinate_type').set_active(0)
             #'''--------------------------------------------------------------------------------------------------
             self.builder.get_object('box_reaction_coordinate').set_sensitive(False)
             self.builder.get_object('label_CPUs').set_sensitive(False)
@@ -105,131 +107,41 @@ class EnergyRefinementWindow():
             self.builder.get_object('frame_output').set_sensitive(False)
             #'''--------------------------------------------------------------------------------------------------
             
-            #self.window.set_keep_above(True)            
-            #self.window.set_default_size(700, 450)
-            #
-            #self.hbox           = self.builder.get_object('hbox_matplot_figures')
-            #self.scale_traj     = self.builder.get_object('scale_trajectory_from_PES')
-            #self.adjustment     = Gtk.Adjustment(value         = 0,
-            #                                     lower         = 0,
-            #                                     upper         = 100,
-            #                                     step_increment= 1,
-            #                                     page_increment= 1,
-            #                                     page_size     = 1)
-            #
-            #self.scale_traj.set_adjustment ( self.adjustment)
-            #self.scale_traj.set_digits(0)
-            #self.reaction_coord_label = self.builder.get_object('RC1_RC2_label')
-            #
-            #
-            #
-            #
-            #
-            #'''-------------------------------------------------------------'''
-            #self.fig = Figure(figsize=(6, 4))#,constrained_layout=True)
-            #self.canvas = FigureCanvas(self.fig)  # a Gtk.DrawingArea
-            #self.canvas.mpl_connect('button_press_event', self.on_pick)
-            #self.canvas.mpl_connect('motion_notify_event', self.on_motion_notify_event)
-            #
-            #self.hbox.pack_start(self.canvas, True, True, 0)
-            #self.ax = self.fig.add_subplot(1,1,1)
-            #'''-------------------------------------------------------------'''
-            #
-            #
-            #
-            #
-            #'''-------------------------------------------------------------'''
-            #self.fig2 = Figure(figsize=(6, 4), dpi=100)
-            #self.ax2 = self.fig2.add_subplot(1,1,1)
-            #self.ax3 = self.fig2.add_subplot(1,1,1)
-            #
-            ##self.line2, = self.ax2.plot([], [], '-o')
-            ##self.secax = self.ax2.secondary_xaxis('top', functions=(self.seconday_xaxis_function))
-            #
-            #self.canvas2 = FigureCanvas(self.fig2)  # a Gtk.DrawingArea
-            #self.hbox.pack_start(self.canvas2, True, True, 0)        
-            #'''-------------------------------------------------------------'''
-            #
-            #
-            #
-            #
-            #
-            #
-            #self.grid = self.builder.get_object('grid_setup')
-            #
-            #sys_selected = 0
-            #
-            #
-            #
-            ##'''------------------------------------------------------------------------------------
-            #self.vobject_liststore = Gtk.ListStore(str, int)
-            #names = [ ]
-            #for key , system in self.main.p_session.systems.items():
-            #    
-            #    for vobject_id in  system['logfile_data'].keys():
-            #        print(['vobject_id:', vobject_id ,system['logfile_data'].keys()])
-            #        try:
-            #            _vobject = self.main.vm_session.vobjects_dic[vobject_id]
-            #            print(['_vobject:', _vobject.name,_vobject.index])
-            #            self.vobject_liststore.append([_vobject.name, _vobject.index])
-            #        except:
-            #            print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
-            ##self.vobject_liststore.append(['all', _vobject.index])
-            #
-            #self.coordinates_combobox = Gtk.ComboBox()
-            #renderer_text = Gtk.CellRendererText()
-            #self.coordinates_combobox.pack_start(renderer_text, True)
-            #self.coordinates_combobox.add_attribute(renderer_text, "text", 0)
-            #self.coordinates_combobox.set_model(self.vobject_liststore)
-            #self.coordinates_combobox.connect('changed', self.on_coordinates_combobox_change)
-            #self.grid.attach (self.coordinates_combobox, 1, 0, 1, 1)
-            ##------------------------------------------------------------------------------------
-            #
-            #
-            #
-            #
-            #
-            ##------------------------------------------------------------------------------------
-            #self.data_combobox = Gtk.ComboBox()
-            #renderer_text = Gtk.CellRendererText()
-            #self.data_combobox.pack_start(renderer_text, True)
-            #self.data_combobox.add_attribute(renderer_text, "text", 0)
-            #self.data_combobox.set_model(self.data_liststore)
-            #self.data_combobox.connect('changed', self.on_data_combobox_change)
-            #self.grid.attach (self.data_combobox, 3, 0, 1, 1)
-            ##------------------------------------------------------------------------------------
-            #
-            #
-            #
-            ##------------------------------------------------------------------------------------
-            #if sys_selected:
-            #    self.coordinates_combobox.set_active(sys_selected)
-            #else:
-            #    self.coordinates_combobox.set_active(0)
-            ##------------------------------------------------------------------------------------'''
+            self.on_combobox_coordinate_type_changed(None)
  
             self.window.show_all()
             self.Visible  = True
     
         else:
             pass
-            #_id = self.coordinates_combobox.get_active()
-            #self.vobject_liststore = Gtk.ListStore(str, int)
-            #names = [ ]
-            #for key , system in self.main.p_session.systems.items():
-            #    
-            #    for vobject_id in  system['logfile_data'].keys():
-            #        try:
-            #            _vobject = self.main.vm_session.vobjects_dic[vobject_id]
-            #            print(['_vobject:', _vobject.name,_vobject.index])
-            #            self.vobject_liststore.append([_vobject.name, _vobject.index])
-            #        except:
-            #            print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
-            #
-            ##self.vobject_liststore.append(['all', _vobject.index])
-            #self.coordinates_combobox.set_model(self.vobject_liststore)
-            #self.coordinates_combobox.set_active(_id)
 
+    def on_combobox_coordinate_type_changed (self, widget):
+        """ Function doc """
+        if self.builder.get_object('combobox_coordinate_type').get_active() == 0:
+            
+            #self.builder.get_object('folder_chooser_box2').set_sensitive(False)
+            #self.builder.get_object('label_file_or_folder').set_sensitive(False)
+            #
+            #self.builder.get_object('combobox_starting_coordinates').set_sensitive(True)
+            #self.builder.get_object('label_coordinates').set_sensitive(True)
+            self.builder.get_object('folder_chooser_box2').hide()
+            self.builder.get_object('label_file_or_folder').hide()
+
+            self.builder.get_object('combobox_starting_coordinates').show()
+            self.builder.get_object('label_coordinates').show()
+        
+        else:
+            #self.builder.get_object('combobox_starting_coordinates').set_sensitive(False)
+            #self.builder.get_object('label_coordinates').set_sensitive(False)
+            #
+            #self.builder.get_object('folder_chooser_box2').set_sensitive(True)
+            #self.builder.get_object('label_file_or_folder').set_sensitive(True)
+            
+            self.builder.get_object('combobox_starting_coordinates').hide()
+            self.builder.get_object('label_coordinates').hide()
+            
+            self.builder.get_object('folder_chooser_box2').show()
+            self.builder.get_object('label_file_or_folder').show()
 
     def on_coordinates_combobox_change (self, widget):
         """ Function doc """
@@ -297,6 +209,9 @@ class EnergyRefinementWindow():
             self.builder.get_object('label_file_or_folder').set_sensitive(False)
             self.builder.get_object('label_input_logfile').set_sensitive(False)
             self.builder.get_object('frame_output').set_sensitive(False)
+            
+            self.builder.get_object('combobox_coordinate_type').set_active(0)
+            
         else:
             self.builder.get_object('box_reaction_coordinate').set_sensitive(True)
             self.builder.get_object('label_CPUs').set_sensitive(True)
@@ -309,7 +224,9 @@ class EnergyRefinementWindow():
             self.builder.get_object('label_file_or_folder').set_sensitive(True)
             self.builder.get_object('label_input_logfile').set_sensitive(True)
             self.builder.get_object('frame_output').set_sensitive(True)
-        
+            
+            self.on_combobox_coordinate_type_changed (None)
+
         
     def change_check_button_reaction_coordinate (self, widget):
         """ Function doc """
@@ -359,7 +276,44 @@ class EnergyRefinementWindow():
             dialog.destroy()
         #----------------------------------------------------------------------------------------------
 
+        else:
+            
+            
+            if self.builder.get_object('combobox_coordinate_type').get_active() == 0:
+                
+                #data = {
+                #   'name': "energy refinement",
+                #   'type': "plot2D",
+                #   'RC1' : RC1,
+                #   'RC2' : RC2,
+                #   'Z'   : Z
+                #   }
+                
+                
+                combobox_starting_coordinates = self.builder.get_object('combobox_starting_coordinates')
+                tree_iter = combobox_starting_coordinates.get_active_iter()
+                if tree_iter is not None:
+                    
+                    '''selecting the vismol object from the content that is in the combobox '''
+                    model = combobox_starting_coordinates.get_model()
+                    name, vobject_id = model[tree_iter][:2]
+                    vobject = self.main.vm_session.vobjects_dic[vobject_id]
+                    
+                
+                for frame_number in range(0, len(vobject.frames)):
+                    
+                    '''This function imports the coordinates of a vobject into the dynamo system in memory.''' 
+                    #print('vobject:', vobject.name, len(vobject.frames) )
+                
+                    self.main.p_session.get_coordinates_from_vobject_to_pDynamo_system(vobject = vobject, system_id =  None, frame = frame_number)
 
+                    energy = self.main.p_session.get_energy(log = True)
+                    
+                    #print(vobject.trajectory2D_xy_indexes, energy)
+                    #except:
+                    print(frame_number, energy)
+                
+                self.CloseWindow ( button =None, data  = None)
 
 
 

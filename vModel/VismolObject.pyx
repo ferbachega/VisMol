@@ -317,11 +317,13 @@ class VismolObject:
                   active                         = False,
                   name                           = 'UNK', 
                   atoms                          = []   ,
-                  vm_session                  = None , 
+                  vm_session                     = None , 
                   trajectory                     = None ,
+                  trajectory_type                = 1    ,
                   bonds_pair_of_indexes          = None , 
                   color_palette                  = None , 
-                  auto_find_bonded_and_nonbonded = True):
+                  auto_find_bonded_and_nonbonded = True  
+                  ):
         
         """ Class initialiser """
         #-----------------------------------------------------------------
@@ -358,6 +360,19 @@ class VismolObject:
         self.chains             = {}    # A dictionary that connects the character (chain id) to the chain object 
         self.atoms_by_chains    = {}    # A dictionary, access key is the chain id that connects with list of atom objects     
         self.frames             = trajectory
+        
+        if trajectory_type == 2:
+            self.trajectory_type = trajectory_type
+            
+            self.trajectory2D_xy_indexes = {}
+            self.trajectory2D_f_indexes  = {}
+            self.trajectory2D_x_size     = 0
+            self.trajectory2D_y_size     = 0
+        
+        else:
+            self.trajectory_type = 1
+            
+            
         self.cov_radiues_list   = []    # a list of covalent radius values for all  --> will be used to calculate de bonds
         self.atom_unique_id_dic = {}
 

@@ -60,8 +60,10 @@ class Atom:
         
         if symbol:
             self.symbol = symbol  #
+            print("Hey, symbol:", symbol )
         else:
             self.symbol = self.get_symbol(self.name)
+            print("Hey, symbol:",self.symbol )
         
         self.is_metal   = self.is_metal_check(self.symbol)
         
@@ -512,7 +514,7 @@ class Atom:
                 elif name[1] == 'N':
                     symbol =  'Mn'
                 
-                elif name[1] == 'o':
+                elif name[1] == 'o' or name[1] == 'O':
                     symbol =  'Mo'
                 
                 elif name[1] == 'G':

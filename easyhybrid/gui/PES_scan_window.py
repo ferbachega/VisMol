@@ -781,7 +781,7 @@ def compute_sigma_a1_a3 (vobject, index1, index3):
     print ("sigma_pk1_pk3: ",sigma_pk1_pk3)
     #
     sigma_pk3_pk1 =  mass3/(mass1+mass3)
-    sigma_pk3_pk1 = sigma_pk3_pk1 *-1
+    sigma_pk3_pk1 = sigma_pk3_pk1*-1
     #
     print ("sigma_pk3_pk1: ", sigma_pk3_pk1)
     return(sigma_pk1_pk3, sigma_pk3_pk1)

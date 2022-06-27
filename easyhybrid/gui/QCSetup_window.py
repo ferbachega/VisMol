@@ -186,17 +186,22 @@ class EasyHybridSetupQCModelWindow:
             #print("%s is not active" % (self.builder.get_object('radio_button_restricted').get_label()))
             self.restricted = False
         
+
         
         parameters = {
                     'charge'       : self.charge      ,
                     'multiplicity' : self.multiplicity,
                     'method'       : self.methods_id_dictionary[self.method_id]   ,
                     'restricted'   : self.restricted  ,
-                    
-                     
                      }
 
-        
+
+        parameters['energyTolerance'  ] = float(self.builder.get_object('entry_energyTolerance').get_text())
+        parameters['densityTolerance' ] = float(self.builder.get_object('entry_densityTolerance').get_text())
+        parameters['maximumIterations'] = int(self.builder.get_object('entry_maximumIterations').get_text())
+
+
+
         self.easyhybrid_main.p_session.define_a_new_QCModel(parameters =parameters)
         self.easyhybrid_main.update_gui_widgets ()
         self.window.destroy()

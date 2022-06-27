@@ -176,15 +176,16 @@ class PotentialEnergyAnalysisWindow():
             self.vobject_liststore = Gtk.ListStore(str, int)
             names = [ ]
             for key , system in self.main.p_session.systems.items():
-                
-                for vobject_id in  system['logfile_data'].keys():
-                    try:
-                        _vobject = self.main.vm_session.vobjects_dic[vobject_id]
-                        print(['_vobject:', _vobject.name,_vobject.index])
-                        self.vobject_liststore.append([_vobject.name, _vobject.index])
-                    except:
-                        print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
-
+                try:
+                    for vobject_id in  system['logfile_data'].keys():
+                        try:
+                            _vobject = self.main.vm_session.vobjects_dic[vobject_id]
+                            print(['_vobject:', _vobject.name,_vobject.index])
+                            self.vobject_liststore.append([_vobject.name, _vobject.index])
+                        except:
+                            print('self.vobject_liststore.append([_vobject.name, _vobject.index])', 'failed!')
+                except:
+                    pass
             #self.vobject_liststore.append(['all', _vobject.index])
             self.coordinates_combobox.set_model(self.vobject_liststore)
             self.coordinates_combobox.set_active(_id)

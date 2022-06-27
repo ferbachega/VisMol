@@ -735,9 +735,19 @@ class pDynamoSession:
         
         electronicState = ElectronicState.WithOptions ( charge = parameters['charge'], multiplicity = parameters['multiplicity'])
         self.systems[self.active_id]['system'].electronicState = electronicState
-
-        qcModel         = QCModelMNDO.WithOptions ( hamiltonian = parameters['method'])
+        '''
+        converger = DIISSCFConverger.WithOptions( energyTolerance   = 3.0e-4,
+                                                  densityTolerance  = 1.0e-8,
+                                                  maximumIterations = 2500  )
+        '''
         
+        converger = DIISSCFConverger.WithOptions( energyTolerance   = parameters['energyTolerance'] ,
+                                                  densityTolerance  = parameters['densityTolerance'] ,
+                                                  maximumIterations = parameters['maximumIterations'] )
+
+
+        qcModel         = QCModelMNDO.WithOptions ( hamiltonian = parameters['method'], converger=converger )
+        #_QCmodel = QCModelMNDO.WithOptions( hamiltonian = _method, converger=converger )
 
         
         if self.systems[self.active_id]['qc_table'] :
@@ -998,7 +1008,7 @@ class pDynamoSession:
         else:
             system_id = self.active_id
         
-        print('Loading coordinates from', vobject.name, 'frame', frame)
+        #print('Loading coordinates from', vobject.name, 'frame', frame)
         for i, atom in enumerate(vobject.atoms):
             xyz = atom.coords(frame = frame)
             self.systems[system_id]['system'].coordinates3[i][0] = xyz[0]
@@ -1059,7 +1069,10 @@ class pDynamoSession:
         at_resi      = int(resSeq)
         at_resn      = resName
         at_ch        = chainID
-        at_symbol    = ATOM_TYPES_BY_ATOMICNUMBER[atom.atomicNumber] # at.get_symbol(at_name)
+        try:
+            at_symbol    = ATOM_TYPES_BY_ATOMICNUMBER[atom.atomicNumber] # at.get_symbol(at_name)
+        except:
+            at_symbol = "O"
         at_occup     = 0.0
         at_bfactor   = 0.0
         at_charge    = 0.0
@@ -1080,7 +1093,7 @@ class pDynamoSession:
     def build_vobject_from_pDynamo_system (self                                         , 
                                                  name                     = 'a_new_vismol_obj',
                                                  system_id                = None              ,
-                                                 vobject_active     = True              ,
+                                                 vobject_active           = True              ,
                                                  autocenter               = True              ,
                                                  refresh_qc_and_fixed     = True              ,
                                                  add_vobject_to_vm_session = True              ,
@@ -1094,7 +1107,7 @@ class pDynamoSession:
             system_id = self.active_id
         
         
-        self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety, system_id = system_id)
+        #self.get_bonds_from_pDynamo_system(safety = self.pdynamo_distance_safety, system_id = system_id)
         self.get_sequence_from_pDynamo_system(system_id = system_id)
 
         atoms = []     
@@ -1120,10 +1133,10 @@ class pDynamoSession:
         vobject  = VismolObject.VismolObject(name                           = name                                          ,    
                                              atoms                          = atoms                                         ,    
                                              vm_session                     = self.vm_session                            ,    
-                                             bonds_pair_of_indexes          = self.systems[system_id]['bonds']         ,    
+                                             #bonds_pair_of_indexes          = self.systems[system_id]['bonds']         ,    
                                              trajectory                     = frames                                       ,  
                                              color_palette                  = self.systems[system_id]['color_palette'] ,
-                                             auto_find_bonded_and_nonbonded = False               )
+                                             auto_find_bonded_and_nonbonded = True               )
 
         vobject.easyhybrid_system_id = self.systems[system_id]['id']
         vobject.set_model_matrix(self.vm_session.glwidget.vm_widget.model_mat)
@@ -1242,10 +1255,10 @@ class pDynamoSession:
         #print('Total charge: ', sum(system.mmState.charges))
 
       
-    def get_energy (self):
+    def get_energy (self, log = True):
         """ Function doc """
-        self.systems[self.active_id]['system'].Summary( )
-        energy = self.systems[self.active_id]['system'].Energy( )
+        self.systems[self.active_id]['system'].Summary(log = log  )
+        energy = self.systems[self.active_id]['system'].Energy( log = log )
         return energy
 
     def _append_logdata_to_vobject (self, logfile = None, vobject = None, system_id = 0):
@@ -1295,20 +1308,22 @@ class pDynamoSession:
             frame = ImportCoordinates3 ( data )
             frame = list(frame) 
             print(list(frame))
-
+            frame = np.array(frame, dtype=np.float32)
             if vobject:
-                pass
+                vobject.frames.append(frame)
             else:
                 vobject = self.build_vobject_from_pDynamo_system (
                                                                    name                 = name  ,
                                                                    system_id            = system_id,
-                                                                   vobject_active = True        ,
+                                                                   vobject_active       = True        ,
                                                                    autocenter           = True        ,
-                                                                   refresh_qc_and_fixed = False)
-                vobject.frames = []            
+                                                                   refresh_qc_and_fixed = False       , 
+                                                                   frames               = [frame] 
+                                                                   )
+                #vobject.frames = []            
             
-            frame = np.array(frame, dtype=np.float32)
-            vobject.frames.append(frame)
+            
+            #vobject.frames.append(frame)
             self.refresh_qc_and_fixed_representations(_all = False, 
                                                  system_id = system_id,
                                                  vobject    = vobject,
@@ -1326,10 +1341,10 @@ class pDynamoSession:
                                 system_id = system_id, 
                                   vobject = vobject, 
                                      name = name)
-            if logfile:
-                self._append_logdata_to_vobject ( logfile   = logfile, 
-                                               vobject   = vobject, 
-                                               system_id = system_id)
+            #if logfile:
+            #    self._append_logdata_to_vobject ( logfile   = logfile, 
+            #                                   vobject   = vobject, 
+            #                                   system_id = system_id)
             
         
         elif _type == 'pklfolder2D':
@@ -1380,7 +1395,7 @@ class pDynamoSession:
                 vobject = self.build_vobject_from_pDynamo_system (
                                                                    name                 = name  ,
                                                                    system_id            = system_id,
-                                                                   vobject_active = True        ,
+                                                                   vobject_active       = True        ,
                                                                    autocenter           = True        ,
                                                                    refresh_qc_and_fixed = False)
                 vobject.frames = []
@@ -1448,7 +1463,8 @@ class pDynamoSession:
             frame = np.array(frame, dtype=np.float32)
             frames.append(frame)
             #vobject.frames.append(frame)
-
+        
+        #self.get_bonds_from_pDynamo_system(safety = 0.5, system_id = system_id)
 
         if vobject:
             vobject.frames = frames

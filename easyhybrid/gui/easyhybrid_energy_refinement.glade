@@ -142,11 +142,11 @@
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
+                                <property name="top_attach">1</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel">
+                              <object class="GtkLabel" id="label_coordinates">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Coordinates:</property>
@@ -154,7 +154,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
+                                <property name="top_attach">1</property>
                               </packing>
                             </child>
                             <child>
@@ -180,7 +180,7 @@
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
+                                <property name="top_attach">0</property>
                               </packing>
                             </child>
                             <child>
@@ -189,7 +189,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="hexpand">True</property>
                                 <items>
-                                  <item translatable="yes">pkl  file - pDynamo coordinates</item>
+                                  <item translatable="yes">EasyHybrid Visual Object</item>
                                   <item translatable="yes">pkl folder -  pDynamo trajectory</item>
                                   <item translatable="yes">pkl folder2d -  pDynamo 2D trajectory</item>
                                   <item translatable="yes">pdb file - Protein Data Bank files  </item>
@@ -199,12 +199,12 @@
                                   <item translatable="yes">xyz -  simple coordinate file</item>
                                   <item translatable="yes">mol2 - SYBIL coordinate file</item>
                                   <item translatable="yes">netcdf -  AMBER dinary trajectory file</item>
-                                  <item translatable="yes">logfile</item>
                                 </items>
+                                <signal name="changed" handler="on_combobox_coordinate_type_changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
+                                <property name="top_attach">0</property>
                               </packing>
                             </child>
                             <child>
@@ -247,7 +247,7 @@
                               <object class="GtkLabel" id="label_input_logfile">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">File / Folder:</property>
+                                <property name="label" translatable="yes">Log file (optional):</property>
                                 <property name="xalign">1</property>
                               </object>
                               <packing>

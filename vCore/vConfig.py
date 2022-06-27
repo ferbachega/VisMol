@@ -337,7 +337,7 @@ class VisMolConfig:
                                   'dot_type'                   : 0                    ,  # 0 - square    1 - rounded
                                   'dot_sel_size'               : 1.5                  , 
                                                                                          
-                                  'line_width'                 : 2                    ,  
+                                  'line_width'                 : 9                    ,  
                                   'line_width_selection'       : 80                   ,  
 
                                   'line_type'                  : 0                    ,  # 0 - no detail       1 - Charlitos'style
