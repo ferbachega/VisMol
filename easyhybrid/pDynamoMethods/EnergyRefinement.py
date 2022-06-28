@@ -83,15 +83,18 @@ class EnergyRefinement:
 		for i in range(len(mmCharges)): qc_charge += mmCharges[i]			
 		return( round(qc_charge) )
 	#=====================================================================================
-	def ChangeQCRegion(self,_centerAtom,_radius):
+	def ChangeQCRegion(self,_centerAtom,_radius,_crd3=None):
 		'''
 		Redefine QC selection from a given atomic coordinates with a certain radius
 		Parameters:
 			_centerAtom:
 			_radius    :
 		'''
-        #-----------------------------------------------------------------------------		
-		
+		if _crd3 not None:
+			for atom in self.molecule.coordinates3:
+				
+
+        #-----------------------------------------------------------------------------
 		sel              = Selection.FromIterable([_centerAtom])
 		newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
 		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
@@ -121,7 +124,8 @@ class EnergyRefinement:
 		NBmodel 	 	 = self.molecule.nbModel
 		converger = DIISSCFConverger.WithOptions( energyTolerance   = 1.0e-4,
                                                   densityTolerance  = 1.0e-6,
-                                                  maximumIterations = 500  )
+                                                  maximumIterations = 500   )
+		#--------------------------------------------------------------------
 		for smo in _methods:
 			if VerifyMNDOKey(smo):
 				with pymp.Parallel(_NmaxThreads) as p:
@@ -138,8 +142,7 @@ class EnergyRefinement:
 							self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
 						else:
 							self.energiesArray[ lsFrames[0] ] = self.molecule.Energy(log=None)
-							self.indexArrayX[ lsFrames[0] ] = lsFrames[0]				
-
+							self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
 				#-----------------------------------------
 				if self.ylen > 0:
 					self.SMOenergies[smo] = self.energiesArray
@@ -167,7 +170,7 @@ class EnergyRefinement:
 
 		if _functional == "hf": 
 			qcModel = QCModelDFT.WithOptions(converger=converger,functional="hf", orbitalBasis=_basis, fitBasis = "demon" )
-		else                      :
+		else                  :
 			qcModel = QCModelDFT.WithOptions(converger=converger,functional=_functional,gridIntegrator=gridIntegrator, orbitalBasis=_basis)
 
 		self.molecule.electronicState = ElectronicState.WithOptions(charge = self.charge)
@@ -221,8 +224,7 @@ class EnergyRefinement:
 					self.indexArrayY[ lsFrames[1], lsFrames[0] ] = lsFrames[1]
 				else:
 					self.energiesArray[ lsFrames[0] ] = mop.GetEnergy()
-					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]	
-				
+					self.indexArrayX[ lsFrames[0] ] = lsFrames[0]					
 			#----------------			
 			if self.ylen > 0:
 				self.SMOenergies[smo] = self.energiesArray

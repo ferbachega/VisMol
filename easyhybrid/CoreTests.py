@@ -1595,19 +1595,23 @@ def write_qm_log():
 	'''
 	'''		
 	proj = SimulationProject( os.path.join(scratch_path, "QMlog") )
+	if not os.path.exists(os.path.join(scratch_path, "QMlog") ):
+		os.makedirs( os.path.join(scratch_path, "QMlog") )
 	proj.LoadSystemFromSavedProject( balapkl )
+	Pickle(balapkl[:-4]+"crd", proj.cSystem.coordinates3)
 	qcModel = QCModelMNDO.WithOptions( hamiltonian = "am1" )
 	proj.cSystem.DefineQCModel(qcModel)
 
 	proj.cSystem.Energy()
-	test = WriteQMLog(proj.cSystem,"test.log")
+	test = WriteQMLog(proj.cSystem,os.path.join(scratch_path, "test.log") )
 	test.write()
-	'''
+	
 	_mopacKeys = ["AUX", "LARGE"]	
-	mop = MopacQCMMinput(proj.cSystem,os.path.join(scratch_path, "QMlog"),balapkl[:-4],_mopacKeys,"am1")
+	mop = MopacQCMMinput(proj.cSystem,os.path.join(scratch_path, "QMlog"),balapkl[:-4]+"crd",_mopacKeys,"am1")
 	mop.CalculateGradVectors()
 	mop.write_input(0,1)
-	'''
+	mop.Execute()
+
 #=====================================================
 if __name__ == "__main__":	
 	#------------------------------------

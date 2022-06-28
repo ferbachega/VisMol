@@ -31,7 +31,8 @@ class MopacQCMMinput:
 		self.inputFile 		= None
 		self.atomsDict		= {}
 		self.Hamiltonian    = _hamiltonian
-		if not _coordName == "single": 
+		if not _coordName == "single":
+			print(_coordName+".pkl")
 			self.molecule.coordinates3 = ImportCoordinates3(_coordName+".pkl",log=None)
 
 		self.charges = self.molecule.mmState.charges
@@ -72,22 +73,18 @@ class MopacQCMMinput:
 		'''
 		Write the input files and grad vectors file
 		'''
-		MULT = "singlet"
-		if _mult == 2:
-			MULT = "doublet"
-		elif _mult == 3: 
-			MULT = "triplet"
-		elif _mult == 4:
-			MULT = "quartet"
-		elif _mult == 5:
-			MULT = "quintet"
+		MULT        = "singlet"
+		if 	 _mult == 2: MULT = "doublet"
+		elif _mult == 3: MULT = "triplet"
+		elif _mult == 4: MULT = "quartet"
+		elif _mult == 5: MULT = "quintet"
 		
 		sequence = getattr( self.molecule, "sequence", None )
 		mol_file_name = os.path.join( os.getcwd(),"mol.in")
 		self.mop_file_name = os.path.join(self.baseName, os.path.basename(self.coordName) + "_" + self.Hamiltonian+ ".mop" )
 		mol_file  = open( mol_file_name, "w" )
 		mop_file  = open( self.mop_file_name, "w" )
-		pdb_file  = open( self.mop_file_name[:-4]+".pdb","w")
+		if sequence is not None: pdb_file  = open( self.mop_file_name[:-4]+".pdb","w")
 		molInText = "\n{} 0\n".format( len(self.QCatoms) )
 		mop_text  = self.Hamiltonian + " 1SCF charge={} {} ".format(_chg,MULT)
 		pdb_text  = ""
@@ -97,17 +94,25 @@ class MopacQCMMinput:
 		#-------------------
 		cnt = 1
 		mop_text+="\n\n\n"
+
+		a1    = ""
+		a2    = ""
+		A1res = "UKN" 
+		A2res = "UKN"
 		for i in self.QCatoms:
-			a1    = self.molecule.atoms.items[i]
-			A1res = a1.parent.label.split(".")						
-			if i in self.BAatoms:
-				a2    = self.molecule.atoms.items[ self.QCatoms[cnt+1] ]
-				A2res = a2.parent.label.split(".")				
+			if sequence is not None:
+				a1    = self.molecule.atoms.items[i]
+				A1res = a1.parent.label.split(".")
+				if i in self.BAatoms:
+					a2    = self.molecule.atoms.items[ self.QCatoms[cnt+1] ]
+					A2res = a2.parent.label.split(".")	
+					pdb_text +=  "ATOM {0:6} {1:4} {2:2} {3:<1} {4:<7} {5:7.3f} {6:7.3f} {7:7.3f} {8:>5.2f} {9:>4.2f} \n".format(cnt,"H",A2res[0],"A",A2res[1],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3],1.00,0.00)
+				else:
+					pdb_text +=  "ATOM {0:6} {1:4} {2:2} {3:<1} {4:<7} {5:7.3f} {6:7.3f} {7:7.3f} {8:>5.2f} {9:>4.2f} \n".format(cnt,a1.label,A1res[0],"A",A1res[1],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3],1.00,0.00)
+			if i in self.BAatoms:								
 				mop_text += "{} {} 1 {} 1 {} 1\n".format("H",self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3])
-				pdb_text +=  "ATOM {0:6} {1:4} {2:2} {3:<1} {4:<7} {5:7.3f} {6:7.3f} {7:7.3f} {8:>5.2f} {9:>4.2f} \n".format(cnt,"H",A2res[0],"A",A2res[1],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3],1.00,0.00)
 			else:
 				mop_text += "{} {} 1 {} 1 {} 1\n".format(self.atomsDict[i][0],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3])
-				pdb_text +=  "ATOM {0:6} {1:4} {2:2} {3:<1} {4:<7} {5:7.3f} {6:7.3f} {7:7.3f} {8:>5.2f} {9:>4.2f} \n".format(cnt,a1.label,A1res[0],"A",A1res[1],self.atomsDict[i][1],self.atomsDict[i][2],self.atomsDict[i][3],1.00,0.00)
 			cnt+=1
 		idx = 0 
 		for i in self.QCatoms:
@@ -118,8 +123,9 @@ class MopacQCMMinput:
 		mop_file.close()
 		mol_file.write(molInText)
 		mol_file.close()
-		pdb_file.write(pdb_text)
-		pdb_file.close()
+		if sequence is not None:
+			pdb_file.write(pdb_text)
+			pdb_file.close()
 	#--------------------------------------------------------
 	def Execute(self, mopac_path="/opt/mopac/MOPAC2016.exe"):
 		'''
