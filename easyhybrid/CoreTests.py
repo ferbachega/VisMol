@@ -1521,13 +1521,12 @@ def Change_QC_Region():
 	_path = os.path.join( os.path.join(scratch_path,_name,"ScanTraj.ptGeo") )
 	if not os.path.exists(_path):
 		QCMMScanMultipleDistance(1,0.1,name=_name)
-
 	parameters = { "xnbins":1			               ,
 				   "ynbins":0			               ,
-				   "source_folder":_path               ,
 				   "change_qc_region":True             ,
 				   "radius":5.0                        ,
-				   "center":atom2[0]                   , 
+				   #"center":atom2[0]                   , 
+				   "center":[41.800,36.977,23.761]     , 
 				   "folder":os.path.join(scratch_path, "changingQC_EnergyRefinement"),
 				   "charge":-3		                    ,
 				   "multiplicity":1 	                ,

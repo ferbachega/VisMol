@@ -114,9 +114,9 @@ class Simulation:
 		dimensions[0] =  self.parameters["xnbins"]
 		nmaxthreads   = 1 
 		_trajfolder   = "single"
-		if "ynbins"      in self.parameters:  dimensions[1] = self.parameters["ynbins"]
-		if "restart"     in self.parameters:  _Restart = self.parameters["restart"]
-		if "NmaxThreads" in self.parameters:  nmaxthreads = self.parameters["NmaxThreads"]
+		if "ynbins"        in self.parameters: dimensions[1] = self.parameters["ynbins"]
+		if "restart"       in self.parameters: _Restart = self.parameters["restart"]
+		if "NmaxThreads"   in self.parameters: nmaxthreads = self.parameters["NmaxThreads"]
 		if "source_folder" in self.parameters: _trajfolder = self.parameters["source_folder"] 
 		#------------------------------------------------------------------
 		ER = EnergyRefinement(self.molecule  				,

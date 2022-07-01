@@ -90,26 +90,50 @@ class EnergyRefinement:
 			_centerAtom:
 			_radius    :
 		'''
-		if _crd3 not None:
-			for atom in self.molecule.coordinates3:
-				
+		if type(_centerAtom) == list:  
+			atom_list = [] 		
+			for i in self.molecule.atoms.items:
+				x    = self.molecule.coordinates3[i.index, 0] 
+				y    = self.molecule.coordinates3[i.index, 1]
+				z    = self.molecule.coordinates3[i.index, 2]
+				xd   = (x-_centerAtom[0])**2
+				yd   = (y-_centerAtom[1])**2
+				zd   = (z-_centerAtom[2])**2
+				dist = np.sqrt( xd+yd+zd ) 
+				if dist < _radius:
+					atom_list.append(i.index)
 
-        #-----------------------------------------------------------------------------
-		sel              = Selection.FromIterable([_centerAtom])
-		newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
-		newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
-		newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )		
-		self.charge  	 = self.GetQCCharge(newSystem)
-		self.pureQCAtoms = list(newSelection)	
-		qcModel          = None
-		if self.molecule.qcModel == None:
-			qcModel = QCModelMNDO.WithOptions( hamiltonian = "am1" )
-		else: qcModel = self.molecule.qcModel
-		#-------------------------------------------------------------------------------
-		self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
-		self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
-		self.molecule.Summary()		
-        #---------------------------------------------------
+			sel              = Selection.FromIterable(atom_list)
+			newSelection 	 = AtomSelection.ByComponent(self.molecule,sel)
+			newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )		
+			self.charge  	 = self.GetQCCharge(newSystem)
+			self.pureQCAtoms = list(newSelection)	
+			qcModel          = None
+			if self.molecule.qcModel == None:
+				qcModel = QCModelMNDO.WithOptions( hamiltonian = "am1" )
+			else: qcModel = self.molecule.qcModel
+			#-------------------------------------------------------------------------------
+			self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
+			self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
+			self.molecule.Summary()			
+
+		#-------------------------------------------------------------------
+		else:
+			sel              = Selection.FromIterable([_centerAtom])
+			newSelection  	 = AtomSelection.Within(self.molecule,sel,_radius)
+			newSelection 	 = AtomSelection.ByComponent(self.molecule,newSelection)
+			newSystem    	 = PruneByAtom(self.molecule, Selection(newSelection) )		
+			self.charge  	 = self.GetQCCharge(newSystem)
+			self.pureQCAtoms = list(newSelection)	
+			qcModel          = None
+			if self.molecule.qcModel == None:
+				qcModel = QCModelMNDO.WithOptions( hamiltonian = "am1" )
+			else: qcModel = self.molecule.qcModel
+			#-------------------------------------------------------------------------------
+			self.molecule.electronicState = ElectronicState.WithOptions( charge = self.charge, multiplicity = self.multiplicity )
+			self.molecule.DefineQCModel(qcModel, qcSelection=Selection(self.pureQCAtoms) )
+			self.molecule.Summary()		
+        	#---------------------------------------------------
         
 	#=====================================================================================
 	def RunInternalSMO(self,_methods,_NmaxThreads):
@@ -211,7 +235,7 @@ class EnergyRefinement:
 		
 		for smo in _methods:
 			for i in range( len(self.fileLists) ):
-				mop = MopacQCMMinput(self.molecule,self.baseName,self.fileLists[i][:-4],_mopacKeys,smo)
+				mop = MopacQCMMinput(self.molecule,self.baseName,self.fileLists[i],_mopacKeys,smo)
 				mop.CalculateGradVectors()
 				mop.write_input(self.charge,self.multiplicity)
 				mop.Execute()				

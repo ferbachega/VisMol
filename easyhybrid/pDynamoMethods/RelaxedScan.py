@@ -79,6 +79,8 @@ class SCAN:
         Class method to alter deafult parameters
         '''
         self.parameters = _parameters
+        self.parameters["system_name"]         = self.molecule.label
+        self.parameters["initial_coordinates"] = self.molecule.coordinates3 
         #-----------------------------------------------------------
         if "traj_folder_name" in _parameters: self.trajFolder = _parameters["traj_folder_name"]
         if "rmsGradient"      in _parameters: self.GeoOptPars["rmsGradient"]   = _parameters["rmsGradient"]
@@ -92,11 +94,20 @@ class SCAN:
             self.forceC[0] = _parameters["force_constant"]
             self.forceC[1] = _parameters["force_constant"]     
         #-----------------------------------------------------------------
-        
+
+        if not "system_name"         in self.parameters: self.parameters["system_name"]     = self.molecule.label
+        if not "initial_coordinates" in self.parameters: self.parameters["system_name"]     = "internal"
+        if not "ATOMS_RC1_NAMES"     in self.parameters: self.parameters["ATOMS_RC1_NAMES"] = ""
+        if not "ATOMS_RC2_NAMES"     in self.parameters: self.parameters["ATOMS_RC2_NAMES"] = ""
+        if not "optimizer"           in self.parameters: self.parameters["optimizer"]       = self.optmizer
+        if not "rmsGradient"         in self.parameters: self.parameters["rmsGradient"]     = self.rmsGT
+        if not "maxIterations"       in self.parameters: self.parameters["maxIterations"]   = self.maxIt
+        if not "nprocs"              in self.parameters: self.parameters["nprocs"]          = self.nprocs
+
+
         if self.parameters:
             self.logfile = LogFileWriter()
             self.logfile.add_simulation_parameters_text (self.parameters)
-
 
     #===========================================================================================
     def ChangeConvergenceParameters(self,_xframe,_yframe):
@@ -188,14 +199,10 @@ class SCAN:
         else:
             if    self.multipleDistance[0]:  self.Run1DScanMultipleDistance()
             else: self.Run1DScanSimpleDistance()        
-        for i in range(_nsteps):  
-            #self.text += "{} {} {} \n".format( i, self.reactionCoordinate1[i],self.energiesMatrix[i]) 
-            
+        for i in range(_nsteps):              
             text_line =  "{0:3d} {1:15.8f} {2:15.8f}".format( i,self.reactionCoordinate1[i], self.energiesMatrix[i])
-            #self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
             self.text += text_line+ '\n'
-            self.logfile.add_text_Line("DATA  "+text_line)
-            
+            self.logfile.add_text_Line("DATA  "+text_line)            
             
     #=================================================================================================
     def Run1DScanSimpleDistance(self):
@@ -335,11 +342,9 @@ class SCAN:
         for i in range(X):
             for j in range(Y):
                 text_line =  "{0:3d} {1:3d} {2:15.8f} {3:15.8f} {4:15.8f}".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
-                #self.text += "{} {} {} {} {}\n".format( i,j,self.reactionCoordinate1[i,j], self.reactionCoordinate2[i,j], self.energiesMatrix[i,j])
                 self.text += text_line+ '\n'
-                self.logfile.add_text_Line("DATA  "+text_line)
-    
-    #=======================================================
+                self.logfile.add_text_Line("DATA  "+text_line)    
+    #=============================================================================
     def Run2DSimpleDistance(self, X, Y ):
         '''
         Run two-dimensional simple distance relaxed surface scan
@@ -721,10 +726,7 @@ class SCAN:
     def Finalize(self):
         '''
         Writing logs, making plots and saving trajectories
-        '''
-        
-        
-        
+        '''       
         if self.nDim == 1:
             #..................................................
             if not self.saveFormat == None: 

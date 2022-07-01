@@ -67,12 +67,11 @@ class LogFileWriter:
 
         #self.fileObj    = open( self.filePath,"w")
 
-    #===================================================================
-    
+    #===================================================================    
     def add_simulation_parameters_text (self, parameters):
         """ Function doc """
         if parameters['simulation_type'] ==  'Relaxed_Surface_Scan':
-            if parameters['ATOMS_RC2']:
+            if "ATOMS_RC2" in parameters:
                 simulation_type = parameters['simulation_type']+"_2D" 
             else:
                 simulation_type = parameters['simulation_type']
@@ -89,11 +88,11 @@ class LogFileWriter:
             self.text += "\n" 
             
             
-            if parameters['rc_type_1'] == 'Distance':
+            if not "rc_type_1" in parameters: parameters["rc_type_1"] = "None"
+
+            if parameters['rc_type_1'] == 'Distance':                
                 
-                
-                if len(parameters['ATOMS_RC1']) == 2:  # simple distance
-                    
+                if len(parameters['ATOMS_RC1']) == 2:  # simple distance                    
                     self.text += "\n----------------------- Coordinate 1 - Simple-Distance -------------------------"								#				
                     self.text += "\nATOM1                  =%15i  ATOM NAME1             =%15s"     % ( parameters['ATOMS_RC1'][0] , parameters['ATOMS_RC1_NAMES'][0] ) 
                     self.text += "\nATOM2                  =%15i  ATOM NAME2             =%15s"     % ( parameters['ATOMS_RC1'][1] , parameters['ATOMS_RC1_NAMES'][1] ) 
@@ -113,9 +112,9 @@ class LogFileWriter:
                 #----------------------------------------------------------------------------------------------------------------------------------#
                 self.text += "\n"                  
 
-            
-            if parameters['rc_type_2'] == 'Distance':
-                
+            if not "rc_type_2" in parameters: parameters["rc_type_2"] = "None"
+
+            if parameters['rc_type_2'] == 'Distance':                
                 if parameters['ATOMS_RC2']:
                 
                     if len(parameters['ATOMS_RC2']) == 2:  # simple distance
@@ -139,14 +138,12 @@ class LogFileWriter:
                     self.text += "\n"                  
                    
                 #----------------------------------------------------------------------------------------------------------------------------------#
-            
-
-
-            
+    #===============================================            
     def add_pdynamo_summary_text (self):
         """ Function doc """
         pass
-    
+
+    #===============================================    
     def create_header_text (self, paramters = None):
         """ Function doc """
         self.text += HEADER
@@ -204,7 +201,7 @@ class LogFileWriter:
     #    return(logObj)
   
   
-  
+#*******************************************************************************
 class LogFileReader:
     """ Class doc """
     
@@ -225,6 +222,7 @@ class LogFileReader:
         #self.get_data() 
         data.close()
     
+    #===================================================================
     def get_data (self):
         """ Function doc """
         
@@ -267,8 +265,7 @@ class LogFileReader:
                    'Z'   : Z
                    }
             print(data)
-            return data
-            
+            return data       
         
         
         elif self.type == 'Relaxed_Surface_Scan':
@@ -296,15 +293,11 @@ class LogFileReader:
                    'Z'   : Z
                    }
             print(data)
-            return data
-        
+            return data        
         else:
             pass
-    
-    
-    
-    
-    
+        
+    #==============================================================
     def get_logtype (self):
         """ Function doc """
         
@@ -312,13 +305,7 @@ class LogFileReader:
             if "Type" in line:
                 line2 = line.split()
                 self.type = line2[-1]
-       
-
-
-
-
-
-#====================================================================================================
+#==================================================================
 
 
 
